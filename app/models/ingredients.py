@@ -19,7 +19,7 @@ class Ingredient(db.Model, ItemMixin):
     last_updated_at = db.Column(db.DateTime, onupdate=db.func.current_timestamp())
 
     description = db.Column(db.Text)
-    measurement = db.Column(db.Enum("gram", "kus"), nullable=False, default="gram")
+    measurement = db.Column(db.Enum("gram", "kus", "mililtr"), nullable=False, default="gram")
 
     calorie = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))
     sugar = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))

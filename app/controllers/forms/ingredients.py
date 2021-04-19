@@ -18,7 +18,8 @@ class IngredientsForm(FlaskForm):
     description = StringField("Popis", widget=TextArea())
 
     measurement = SelectField(
-        "Měřím v", choices=[("gram", "gramech"), ("kus", "kusech")]
+        "Měřím v",
+        choices=[("gram", "gramech"), ("kus", "kusech"), ("mililitr", "mililitrech")],
     )
 
     protein = ComaFloatField(

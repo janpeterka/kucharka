@@ -1,0 +1,148 @@
+/* colors */
+@import "colors.css";
+
+/* icons */
+@import "icons.css";
+
+/* icons */
+@import "atomic.css";
+
+/* images */
+img.logo {
+  height: 3.1rem;
+  width: auto;
+  padding: 0px;
+  margin-right: 1rem;
+}
+
+img.icon {
+  height: 2rem;
+  width: 2rem;
+  /*padding: 0px;*/
+  margin-right: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* forms */
+input{
+	margin-top: 0.3rem;
+	margin-bottom: 0.3rem;
+}
+
+.form-inline > * {
+ margin: 5px 3px;
+}
+
+form ul.errors li.warning{
+  color: var(--palette-orange);
+  font-weight: bold;
+}
+
+/* Error */
+
+.error_main{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
+
+/*Flashes*/
+
+div.flashes {
+    -moz-animation: cssAnimation 0s ease-in 5s forwards;
+    /* Firefox */
+    -webkit-animation: cssAnimation 0s ease-in 5s forwards;
+    /* Safari and Chrome */
+    -o-animation: cssAnimation 0s ease-in 5s forwards;
+    /* Opera */
+    animation: cssAnimation 0s ease-in 5s forwards;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    position: relative;
+    height: 0px;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+div.flashes ul li{
+    list-style-type: none;
+    text-align: center; 
+    color: #101010;
+}
+
+div.flashes ul li.error{
+    color: var(--error);
+}
+
+div.flashes ul li.success{
+    color: var(--success);
+}
+
+div.flashes ul li.info{
+    color: var(--info);
+}
+
+div.flashes ul li.warning{
+    color: var(--warning);
+}
+
+div.flashes ul li.debug{
+    color: var(--debug);
+}
+
+/* Footer */
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: var(--info);
+    font-size: 0.7rem;
+    text-align: center;
+    opacity: 0.7;
+}
+
+/* other */
+
+.changelog{
+    margin: 10px;
+}
+
+.admin-field {
+  background-color: #FFE766;
+  margin-top: 2rem;
+  padding: 0.5rem;
+  border: solid 0.1rem red;
+}
+
+.admin-warning {
+  text-align: center;
+}
+
+a.info {
+  color: var(--color-grey);
+}
+
+a.info:hover {
+  color: var(--logo-blue);
+}
+
+.no-decoration:hover {
+  text-decoration: none;
+}
+
+
+.dev-badge {
+  margin-left: 2rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: var(--logo-light-green);
+}
+
+.navbar div.navbar-divider {
+  width: 2rem;
+}
+
+.table tr.vertically-centered td {
+  vertical-align: middle;
+}

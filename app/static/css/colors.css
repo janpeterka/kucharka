@@ -1,0 +1,106 @@
+:root{
+    /* Old colors */
+    --error: #CC0000;
+    --success: #007E33;
+    --warning: #FF8800; 
+    --info: grey;
+    --debug: pink;
+
+    --icon_remove: #8b0000;
+    --icon_disapprove: #8b0000;
+    --icon_approve: #00C851;
+
+    --inactive: grey;
+    --inactive-bg: lightgrey;
+
+    /* New colors */
+    /* From logo */
+    --logo-blue: #0177EA;
+    --logo-light-blue: #ABF2FD;
+    --logo-light-green: #D0E3D6;
+    --logo-light-grey: #F8FEFF;
+    --logo-white: #F8FEFF;
+
+    /* Added based on logo-blue*/
+    --palette-orange: #EA7401;
+    --palette-middle-blue: #2090FE;
+    --palette-purple: #0103EA;
+    --palette-cyan: #01EAE9;
+
+    /* Other */
+    --color-grey: #C1C2C4;
+}
+
+/*Colors*/
+
+.color-red{
+    color: var(--error);
+}
+
+.color-light-blue{
+    color: var(--logo-light-blue);
+}
+
+.color-blue{
+    color: var(--logo-blue);
+}
+
+.color-light-green{
+    color: var(--logo-light-green);
+}
+
+.color-orange{
+    color: var(--palette-orange);
+}
+
+.color-purple{
+    color: var(--palette-purple);
+}
+
+/*Background colors*/
+.bg-color-red{
+    background-color: var(--error);
+}
+
+.bg-color-light-blue{
+    background-color: var(--logo-light-blue);
+}
+
+.bg-color-blue{
+    background-color: var(--logo-blue);
+}
+
+.bg-color-light-green{
+    background-color: var(--logo-light-green);
+}
+
+.bg-color-orange{
+    background-color: var(--palette-orange);
+}
+
+.bg-color-purple{
+    background-color: var(--palette-purple);
+}
+
+/*Color signals*/
+.color-inactive{
+    color: var(--inactive);
+}
+
+/*Filters*/
+
+.filter-gs-25{
+    filter: grayscale(25%);
+}
+
+.filter-gs-50{
+    filter: grayscale(50%);
+}
+
+.filter-gs-75{
+    filter: grayscale(75%);
+}
+
+.filter-gs-90{
+    filter: grayscale(90%);
+}

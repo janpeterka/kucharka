@@ -1,0 +1,52 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    {# {% include '_navbar_brand.html.j2' %} #}
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_main" aria-controls="navbar_main" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar_main" class="collapse navbar-collapse">
+
+      <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link font-weight-bold " href="{{ url_for_security('login') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}">Přihlásit se</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for_security('register') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}">Zaregistrovat se</a>
+          </li>
+      </ul>
+      <div class="navbar-divider"></div>
+{#       <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('TrialRecipesView:index') }}">Ukázka</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('SimpleCalculatorView:index') }}">Jednoduchá {{ icons.calculator }}</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('CookbookView:public_index') }}">Veřejné recepty</a>
+          </li>
+
+
+      </ul> #}
+{# 
+      <ul class="nav navbar-nav navbar-right ml-auto">
+          <li class="nav-item">
+            {% include '_navbar_facebook.html.j2' %}
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link small" href="{{ url_for('SupportView:terms') }}">Podmínky použití</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link small" href="{{ url_for('SupportView:privacy') }}">Osobní data</a>
+          </li>
+      </ul> #}
+
+    </div>
+  </div>
+</nav>

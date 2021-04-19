@@ -1,0 +1,36 @@
+/* general */
+.hidden {
+  display: none;
+}
+
+/* lists */
+.no-list {
+  list-style: none
+}
+
+/* text - using Bootstrap*/
+
+/* fonts */
+.font-comfortaa {
+	font-family: 'Comfortaa';
+}
+
+.font-comfortaa-b {
+	font-family: 'Comfortaa';
+	font-weight: bold;
+}
+
+.font-comfortaa-bb {
+	font-family: 'Comfortaa';
+	font-weight: bolder;
+}
+
+/*.font-roboto {
+	font-family: 'Roboto';
+}*/
+
+.font-montserrat {
+	font-family: 'MontSerrat', serif;
+}
+
+/* margins - using Bootstap */

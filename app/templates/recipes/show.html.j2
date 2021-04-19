@@ -17,11 +17,6 @@
     {% endif %}
 {% endblock %}
 
-{% block script %}
-    {% include 'javascript/stimulus.js.html' %}
-    {# {% include 'javascript/show_recipe_controller.js.html' %} #}
-    {# {% include 'javascript/recipe_percentage_controller.js.html' %} #}
-{% endblock %}
 
 {% block navbar %}
     {% if not is_print %}
@@ -49,28 +44,22 @@
             <table id="ingredients" data-show-recipe-target="ingredientTable" class="table">
                 <tr>
                     <th>{{ texts.title }}</th>
+                    <th>{{ texts.amount_simple }}</th>
                     <th>{{ texts.energy_simple }}</th>
                     <th>{{ texts.protein_simple }}</th>
                     <th>{{ texts.fat_simple }}</th>
                     <th>{{ texts.sugar_simple }}</th>
-                    <th>{{ texts.amount_simple }}</th>
                     <th></th>
                 </tr>
 
-                {% for ingredient in recipe.ingredients: %}
-                    <tr data-id="{{ ingredient.id }}"
-                        data-name="{{ ingredient.name }}"
-                        data-calorie="{{ ingredient.calorie }}"
-                        data-protein="{{ ingredient.protein }}"
-                        data-fat="{{ ingredient.fat }}"
-                        data-sugar="{{ ingredient.sugar }}"
-                        data-amount="{{ ingredient.amount }}">
-                        <td>{{ link_to(ingredient) }}</td>
+                {% for recipe_ingredient in recipe.recipe_ingredients: %}
+                    <tr>
+                        <td>{{ link_to(recipe_ingredient.ingredient) }}</td>
+                        <td data-type="amount">{{ recipe_ingredient.amount }}</td>
                         <td data-type="calorie"></td>
                         <td data-type="protein"></td>
                         <td data-type="fat"></td>
                         <td data-type="sugar"></td>
-                        <td data-type="amount"></td>
                         <td></td>
                     </tr>
                 {% endfor %}

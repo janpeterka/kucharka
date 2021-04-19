@@ -12,6 +12,8 @@ email-validator = "*"
 PyMySQL = "*"
 flask-security-too = "*"
 gunicorn = "*"
+flask-babelex = "*"
+flask-babel = "*"
 
 [dev-packages]
 

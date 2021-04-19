@@ -10,21 +10,7 @@
 {% block content %}
     <div class="container">
         <div class="row">
-
-            {# {% include 'dashboard/_onboarding.html.j2' %} #}
-
             <div class="col-sm-12 col-md-6">
-   {#              <div class="form-inline d-block">
-                    <h5 class="text-uppercase font-comfortaa">Aktuální dieta:</h5>
-                    <form method="POST" action="{{ url_for('DashboardView:post') }}">
-                        <select name="select_diet" class="form-control col-12" onchange="this.form.submit()">
-                            {% for diet in diets: %}
-                                <option value="{{ diet.id }}" {% if selected_diet.id == diet.id %}selected="selected"{% endif %}>{{ diet.name }}</option>
-                            {% endfor %}
-                        </select>
-                    </form>
-                </div> #}
-
                 <div>
                     <h4 class="text-uppercase font-comfortaa">Seznam receptů:</h4>
                     <ul>
@@ -35,10 +21,14 @@
                 </div>
             </div>
 
-            {# <div class="col-sm-12 col-md-6"> #}
-                {# <h3 class="text-uppercase font-comfortaa">Dnešní recepty</h3> #}
-                {# {% include 'dashboard/_daily_plan.html.j2' %} #}
-            {# </div> #}
+            <div class="col-sm-12 col-md-6">
+                <h4 class="text-uppercase font-comfortaa">Seznam surovin:</h4>
+                <ul>
+                {% for ingredient in current_user.ingredients %}
+                    <li>{{ link_to(ingredient) }}</li>
+                {% endfor %}
+                </ul>
+            </div>
         </div>
     </div>
 {% endblock %}

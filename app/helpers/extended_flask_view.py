@@ -2,11 +2,11 @@ import inspect
 import re
 
 from flask import render_template as template
-from flask import request
+from flask import request, redirect, url_for, flash
 
-from flask_classful import FlaskView
+from flask_classful import FlaskView, route
 
-from app.helpers.form import create_form
+from app.helpers.form import create_form, save_form_to_session
 from app.handlers.data import DataHandler
 
 from app.models import *  # noqa: F401, F403, F406
@@ -17,16 +17,15 @@ class ExtendedFlaskView(FlaskView):
     """docstring for ExtendedFlaskView"""
 
     def before_request(self, name, id=None, *args, **kwargs):
-
         DataHandler.set_additional_request_data(item_type=self._attribute_name)
 
         # e.g. self.user = User.load(id)
         if id is not None and self._model_klass is not None:
             DataHandler.set_additional_request_data(item_type=id)
 
-            instance = (self._model_klass)().load(id)
+            self.object = (self._model_klass)().load(id)
             # e.g. self.user = user or self.user = None
-            setattr(self, self._attribute_name, instance)
+            setattr(self, self._attribute_name, self.object)
         else:
             setattr(self, self._attribute_name, None)
 
@@ -51,6 +50,18 @@ class ExtendedFlaskView(FlaskView):
 
     def edit(self, id, *args, **kwargs):
         return self.template()
+
+    @route("edit/<id>", methods=["POST"])
+    def post_edit(self, id):
+        form = self._form_klass(request.form)
+        if not form.validate_on_submit():
+            save_form_to_session(request.form)
+            return redirect(url_for(f"{self._model_name}sView:edit"))
+
+        form.populate_obj(self.object)
+        self.object.edit()
+
+        return redirect(url_for(f"{self._model_name}sView:show", id=self.object.id))
 
     def not_logged_in(self, *args, **kwargs):
         message = request.args.get(
@@ -150,26 +161,4 @@ class ExtendedFlaskView(FlaskView):
 
     #     return redirect(
     #         url_for("{}sView:show".format(self.model_name), id=class_object.id)
-    #     )
-
-    # @route("<id>/edit", methods=["POST"])
-    # def post_edit(self, id):
-    #     form = self.form_klass(request.form)
-    #     if not form.validate_on_submit():
-    #         save_form_to_session(request.form)
-    #         return redirect(url_for("{}sView:edit".format(self.model_name)))
-
-    #     form.populate_obj(self.object)
-    #     self.object.edit()
-
-    #     return redirect(
-    #         url_for("{}sView:show".format(self.model_name), id=self.object.id,)
-    #     )
-
-    # def edit(self, id):
-    #     form = create_form(self.form_klass, obj=self.object)
-    #     return template(
-    #         "{}s/edit.html.j2".format(self.attribute_name),
-    #         form=form,
-    #         id=self.object.id,
     #     )

@@ -59,13 +59,13 @@
             {% include('navbars/login.html.j2') %}
         {% endif %}
     {% endblock %}
-{# 
+
     {% block top %}
-        {% if current_user.is_admin %}
-            {% include('_admin_warning.html.j2') %}
-        {% endif %}
-        {% include('_flashing.html.j2') %}
-    {% endblock %} #}
+        {# {% if current_user.is_admin %} #}
+            {# {% include('_admin_warning.html.j2') %} #}
+        {# {% endif %} #}
+        {% include('base/_flashing.html.j2') %}
+    {% endblock %}
 
     {% if config.APP_STATE == "development" %}
         <span class="dev-badge"><strong>DEV</strong></span>

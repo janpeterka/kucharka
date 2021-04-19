@@ -1,0 +1,25 @@
+{% extends "base/base.html.j2" %}
+{% block title %}
+    Moje suroviny	
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="col-12">
+            <h1>Moje suroviny
+                <a href="{{ url_for('IngredientsView:new') }}"><button class="btn btn-secondary float-right">Přidat surovinu</button></a>
+            </h1>
+            <table id="ingredients" class="table">
+                <tr>
+                    <th>Název</th>
+                </tr>
+                {% for ingredient in ingredients: %}
+                    <tr>
+                        <td>{{ link_to(ingredient) }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div> 
+    </div>
+{% endblock %}
+

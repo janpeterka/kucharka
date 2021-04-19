@@ -1,0 +1,19 @@
+<div class="col">
+    <label for="recipes"><h3>{{ texts.recipe_list }}</h3></label>
+    <ul name="recipes">
+        {% for recipe in recipes %}
+            <li>{{ link_to(recipe) }}</li>
+        {% endfor %}
+    </ul>
+
+    {% if current_user.is_admin and all_recipes %}
+    <div class="admin-field">
+	    <label for="all_recipes"><h3>Všechny</h3></label>
+	    <ul name="all_recipes">
+	        {% for recipe in all_recipes %}
+	            <li>{{ link_to(recipe) }}</li>
+	        {% endfor %}
+	    </ul>
+    </div>
+    {% endif %}
+</div>

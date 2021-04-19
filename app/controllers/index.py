@@ -9,12 +9,9 @@ class IndexView(FlaskView):
     route_base = "/"
 
     def index(self):
-        print("index")
         if current_user.is_authenticated:
-            print("to dash")
             return redirect(url_for("DashboardView:index"))
         else:
-            print("to index")
             return template("index/index.html.j2")
 
     @route("about")

@@ -5,7 +5,7 @@ from app import db
 from app.helpers.item_mixin import ItemMixin
 
 from app.models.ingredients import Ingredient
-from app.models.recipes_has_ingredients import RecipeHasIngredients
+from app.models.recipes_have_ingredients import RecipeHasIngredient
 
 
 class Recipe(db.Model, ItemMixin):
@@ -14,20 +14,15 @@ class Recipe(db.Model, ItemMixin):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(255), nullable=False)
 
-    created_by = db.Column(db.ForeignKey(("users.id")), nullable=False, index=True)
+    created_by = db.Column(db.ForeignKey("user.id"), nullable=False, index=True)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     last_updated_at = db.Column(db.DateTime, onupdate=db.func.current_timestamp())
 
     description = db.Column(db.Text)
 
-    ingredients = db.relationship(
-        "Ingredient",
-        primaryjoin="and_(Recipe.id == remote(RecipeHasIngredients.recipes_id), foreign(Ingredient.id) == RecipeHasIngredients.ingredients_id)",
-        viewonly=True,
-        order_by="Ingredient.name",
-    )
+    ingredients = db.relationship("RecipeHasIngredient", back_populates="recipe")
 
-    author = db.relationship("User", uselist=False, back_populates="recipes")
+    author = db.relationship("User", uselist=False, backref="recipes")
 
     @staticmethod
     def load(recipe_id):
@@ -47,9 +42,18 @@ class Recipe(db.Model, ItemMixin):
         ).all()
         return recipes
 
+    @staticmethod
+    def load_by_ingredient_and_user(ingredient, user):
+        recipes = Recipe.load_by_ingredient(ingredient)
+        private_recipes = [r for r in recipes if r.author == user]
+
+        return private_recipes
+
     def create_and_save(self, recipe_ingredients):
         db.session.add(self)
         db.session.flush()
+
+        # WIP - tohle je teď asi jinak
 
         for i in recipe_ingredients:
             i.recipes_id = self.id
@@ -60,8 +64,8 @@ class Recipe(db.Model, ItemMixin):
 
     def remove(self):
         # TODO: - to improve w/ orphan cascade (80)
-        recipe_ingredients = RecipeHasIngredients.query.filter(
-            RecipeHasIngredients.recipes_id == self.id
+        recipe_ingredients = RecipeHasIngredient.query.filter(
+            RecipeHasIngredient.recipes_id == self.id
         )
         for i in recipe_ingredients:
             db.session.delete(i)

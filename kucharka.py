@@ -1,10 +1,12 @@
 import os
+
 # import re
 # import time
 
 import datetime
 
 from flask import request, redirect, url_for
+
 # from flask import g
 
 from flask_security import url_for_security
@@ -12,6 +14,7 @@ from flask_security import url_for_security
 # from flask_login import current_user
 
 from app import create_app
+
 # from app import db
 
 
@@ -19,14 +22,11 @@ env = os.environ.get("FLASK_ENV", "default")
 application = create_app(config_name=env)
 
 
-# @application.context_processor
-# def inject_globals():
-#    from app.data import template_data
-#     return dict(
-#         icons=template_data.icons,
-#         social_icons=template_data.social_icons,
-#         texts=template_data.texts,
-#     )
+@application.context_processor
+def inject_globals():
+    from app.data import template_data
+
+    return dict(icons=template_data.icons, texts=template_data.texts)
 
 
 @application.context_processor

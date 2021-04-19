@@ -5,7 +5,7 @@ from flask_login import current_user
 from app import db
 
 from app.helpers.item_mixin import ItemMixin
-from app.models.recipes_have_ingredients import RecipeHasIngredients
+from app.models.recipes_have_ingredients import RecipeHasIngredient
 
 
 class Ingredient(db.Model, ItemMixin):
@@ -14,25 +14,33 @@ class Ingredient(db.Model, ItemMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
 
-    created_by = db.Column(db.ForeignKey(("users.id")), nullable=False, index=True)
+    created_by = db.Column(db.ForeignKey("user.id"), nullable=False, index=True)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     last_updated_at = db.Column(db.DateTime, onupdate=db.func.current_timestamp())
 
     description = db.Column(db.Text)
+    measurement = db.Column(db.Enum("gram", "kus"), nullable=False, default="gram")
 
-    recipes = db.relationship(
-        "Recipe",
-        primaryjoin="and_(Ingredient.id == remote(RecipeHasIngredients.ingredients_id), foreign(Recipe.id) == RecipeHasIngredients.recipes_id)",
-        viewonly=True,
-        order_by="Recipe.name",
-    )
+    calorie = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))
+    sugar = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))
+    fat = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))
+    protein = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))
 
-    author = db.relationship("User", uselist=False, back_populates="ingredients")
+    recipes = db.relationship("RecipeHasIngredient", back_populates="ingredient")
+
+    # recipes = db.relationship(
+    #     "Recipe",
+    #     primaryjoin="and_(Ingredient.id == remote(RecipeHasIngredient.ingredients_id), foreign(Recipe.id) == RecipeHasIngredient.recipes_id)",
+    #     viewonly=True,
+    #     order_by="Recipe.name",
+    # )
+
+    author = db.relationship("User", uselist=False, backref="ingredients")
 
     # LOADERS
 
     def load_amount_by_recipe(self, recipe_id) -> float:
-        rhi = RecipeHasIngredients.query.filter_by(
+        rhi = RecipeHasIngredient.query.filter_by(
             recipes_id=recipe_id, ingredients_id=self.id
         ).first()
         return rhi.amount

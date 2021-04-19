@@ -14,6 +14,7 @@ class Config(object):
 
     SECURITY_PASSWORD_SALT = os.environ.get("SECRET_KEY")
     SECURITY_REGISTERABLE = True
+    SECURITY_CONFIRMABLE = False
 
     # SENTRY_MONITORING = True
 

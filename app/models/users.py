@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask_security import UserMixin
+from flask_security.models.fsqla_v2 import FsUserMixin as UserMixin
 from flask_security.utils import hash_password
 
 from app import db

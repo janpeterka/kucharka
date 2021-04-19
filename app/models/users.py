@@ -1,7 +1,9 @@
-from app import db
-from flask_security import UserMixin
+from datetime import datetime
 
+from flask_security import UserMixin
 from flask_security.utils import hash_password
+
+from app import db
 
 
 class User(db.Model, UserMixin):
@@ -10,9 +12,14 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(255))
     active = db.Column(db.Boolean())
     confirmed_at = db.Column(db.DateTime())
+    created_at = db.Column(db.DateTime, default=datetime.now)
+
     roles = db.relationship(
-        "Role", secondary="users_have_roles", backref=db.backref("users", lazy="dynamic")
+        "Role",
+        secondary="users_have_roles",
+        backref=db.backref("users", lazy="dynamic"),
     )
+
 
 def create(self):
     from app import user_datastore

@@ -9,6 +9,7 @@ flask-migrate = "*"
 flask-classful = "*"
 python-dotenv = "*"
 email-validator = "*"
+pymysql = "*"
 
 [dev-packages]
 

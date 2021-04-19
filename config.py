@@ -13,7 +13,7 @@ class Config(object):
     APP_STATE = os.environ.get("APP_STATE")  # production, development, debug, shutdown
 
     SECURITY_PASSWORD_SALT = os.environ.get("SECRET_KEY")
-    SECURITY_REGISTERABLE = False
+    SECURITY_REGISTERABLE = True
 
     # SENTRY_MONITORING = True
 

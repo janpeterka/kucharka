@@ -1,0 +1,17 @@
+{% extends "base/base.html.j2" %}
+
+{% block title %}
+    Fonsí kuchařka
+{% endblock %}
+
+{% block content %}
+    <div class="container font-montserrat">
+        <div class="mb-5 text-center">
+
+            <div class="color-light-blue text-uppercase text-center font-comfortaa-b mb-5">
+                <p><a href="{{ url_for_security('register') }}">Zaregistrujte se!</a>
+                <p><a href="{{ url_for_security('login') }}">Přihlašte se!</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

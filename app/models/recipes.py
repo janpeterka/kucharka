@@ -2,7 +2,7 @@ from flask_login import current_user
 
 from app import db
 
-from app.models.item_mixin import ItemMixin
+from app.helpers.item_mixin import ItemMixin
 
 from app.models.ingredients import Ingredient
 from app.models.recipes_has_ingredients import RecipeHasIngredients

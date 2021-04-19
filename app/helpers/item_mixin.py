@@ -1,7 +1,7 @@
 # from sqlalchemy import and_
 # from flask_login import current_user
 
-from app.models.base_mixin import BaseMixin
+from app.helpers.base_mixin import BaseMixin
 
 # from app.models.request_log import RequestLog
 

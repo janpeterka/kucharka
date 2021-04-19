@@ -1,16 +1,18 @@
 import os
-import re
-import time
+# import re
+# import time
 
 import datetime
 
-from flask import request, redirect, session, url_for
-from flask import g
+from flask import request, redirect, url_for
+# from flask import g
 
-from flask_login import current_user
+from flask_security import url_for_security
+
+# from flask_login import current_user
 
 from app import create_app
-from app import db
+# from app import db
 
 
 env = os.environ.get("FLASK_ENV", "default")
@@ -44,11 +46,11 @@ def utility_processor():
             if obj == "login":
                 if text is None:
                     text = "Přihlaste se"
-                return f"<a href='{url_for('LoginView:show')}'>{text}</a>"
+                return f"<a href='{url_for_security('login')}'>{text}</a>"
             elif obj == "register":
                 if text is None:
                     text = "Zaregistrujte se"
-                return f"<a href='{url_for('RegisterView:show')}'>{text}</a>"
+                return f"<a href='{url_for_security('register')}'>{text}</a>"
             else:
                 raise NotImplementedError("This string has no associated link_to")
 

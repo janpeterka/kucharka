@@ -9,8 +9,8 @@ class RecipeHasIngredient(db.Model):
 
     Variables:
         __tablename__ {str} -- [description]
-        recipes_id {int} -- [description]
-        ingredients_id {int} -- [description]
+        recipe_id {int} -- [description]
+        ingredient_id {int} -- [description]
         amount {int} -- [description]
         ingredients {relationship} -- [description]
         recipes {relationship} -- [description]
@@ -18,13 +18,13 @@ class RecipeHasIngredient(db.Model):
 
     __tablename__ = "recipes_have_ingredients"
 
-    recipes_id = db.Column(
+    recipe_id = db.Column(
         db.ForeignKey("recipes.id"), primary_key=True, nullable=False, index=True
     )
-    ingredients_id = db.Column(
+    ingredient_id = db.Column(
         db.ForeignKey("ingredients.id"), primary_key=True, nullable=False, index=True
     )
     amount = db.Column(db.Float, nullable=False)
 
-    ingredient = db.relationship("Ingredient", back_populates="recipes")
-    recipe = db.relationship("Recipe", back_populates="ingredients")
+    ingredient = db.relationship("Ingredient", back_populates="ingredient_recipes")
+    recipe = db.relationship("Recipe", back_populates="recipe_ingredients")

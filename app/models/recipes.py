@@ -20,7 +20,14 @@ class Recipe(db.Model, ItemMixin):
 
     description = db.Column(db.Text)
 
-    ingredients = db.relationship("RecipeHasIngredient", back_populates="recipe")
+    recipe_ingredients = db.relationship("RecipeHasIngredient", back_populates="recipe")
+
+    ingredients = db.relationship(
+        "Ingredient",
+        primaryjoin="and_(Recipe.id == remote(RecipeHasIngredient.recipe_id), foreign(Ingredient.id) == RecipeHasIngredient.ingredient_id)",
+        viewonly=True,
+        order_by="Ingredient.name",
+    )
 
     author = db.relationship("User", uselist=False, backref="recipes")
 
@@ -29,6 +36,8 @@ class Recipe(db.Model, ItemMixin):
         recipe = Recipe.query.filter_by(id=recipe_id).first()
         if recipe is None:
             return None
+
+        print(recipe.ingredients)
 
         for ingredient in recipe.ingredients:
             ingredient.amount = round(ingredient.load_amount_by_recipe(recipe.id), 2)
@@ -56,7 +65,7 @@ class Recipe(db.Model, ItemMixin):
         # WIP - tohle je teď asi jinak
 
         for i in recipe_ingredients:
-            i.recipes_id = self.id
+            i.recipe_id = self.id
             db.session.add(i)
 
         db.session.commit()
@@ -65,7 +74,7 @@ class Recipe(db.Model, ItemMixin):
     def remove(self):
         # TODO: - to improve w/ orphan cascade (80)
         recipe_ingredients = RecipeHasIngredient.query.filter(
-            RecipeHasIngredient.recipes_id == self.id
+            RecipeHasIngredient.recipe_id == self.id
         )
         for i in recipe_ingredients:
             db.session.delete(i)

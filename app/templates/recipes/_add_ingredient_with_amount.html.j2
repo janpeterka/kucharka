@@ -1,0 +1,22 @@
+<tr data-id="{{ ingredient.id }}"
+	data-name="{{ ingredient.name }}"
+	data-calorie="{{ ingredient.calorie }}"
+	data-protein="{{ ingredient.protein }}"
+	data-fat="{{ ingredient.fat }}"
+	data-sugar="{{ ingredient.sugar }}"
+    class="vertically-centered">
+
+    <td>{{ ingredient.name }}</td> 
+    <td>{{ ingredient.calorie }}</td> 
+    <td>{{ ingredient.protein }}</td> 
+    <td>{{ ingredient.fat }}</td>
+    <td>{{ ingredient.sugar }}</td>
+
+    <td><input data-action="input->simple-calculator#calculate_recipe" class="form-control" type="number" name="amount" value=100 placeholder="gramů" /></td>
+
+    <td>
+        <span data-action="click->simple-calculator#remove_ingredient" data-id="{{ ingredient.id }}">
+            {{ icons.ingredient_remove }} 
+        </span>
+    </td>
+</tr>

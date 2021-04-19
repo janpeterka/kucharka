@@ -17,6 +17,8 @@ class ItemMixin(BaseMixin):
             value = getattr(self, attr)
             if isinstance(value, list):
                 data[attr] = ", ".join([str(x) for x in value])
+            elif hasattr(value, "email"):
+                data[attr] = value.email
             else:
                 data[attr] = value
 

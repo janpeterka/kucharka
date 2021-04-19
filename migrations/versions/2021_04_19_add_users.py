@@ -1,4 +1,4 @@
-"""empty message
+"""Add users
 
 Revision ID: 9973a062e3ed
 Revises: 

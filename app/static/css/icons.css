@@ -1,0 +1,45 @@
+/* icons */
+
+i:not(.disabled) {
+  cursor: pointer;
+}
+
+/* font-awesome icons */
+
+i.fa-file-pdf {
+  color: red;
+  font-size: 1.5rem;
+  margin-left: 0.5rem;
+}
+
+i.fa-question-circle {
+  font-size: 1.3rem;
+  margin-top: 0.1rem;
+}
+
+/* custom */
+
+i.remove {
+  color: var(--icon_remove);
+  font-size: 1rem;
+}
+
+i.disapprove {
+  color: var(--icon_disapprove);
+  font-size: 2rem;
+}
+
+i.approve {
+  color: var(--icon_approve);
+  font-size: 2rem;
+}
+
+i.user {
+  font-size: 1.4rem;
+  margin-top: 0.1rem;
+}
+
+i.help {
+  font-size: 1.4rem;
+  margin-left: 1.7rem;
+}

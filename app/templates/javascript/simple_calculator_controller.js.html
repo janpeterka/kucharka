@@ -5,7 +5,7 @@
       static get targets() {
         return [
           "baseSelect",
-          "select", "ingredientTable", "recipeDiet", "recipeName",
+          "select", "ingredientTable", "recipeName",
           "totals"
           ]
       }
@@ -22,20 +22,18 @@
         }
       }
 
-      // _float_to_fixed(data){
-      //   return parseFloat(data).toFixed(2)
-      // }
-
       add_ingredient(e){
         e.preventDefault();
 
         if (this.selectTarget.value == false){return false;}
         else{
-          fetch("{{ url_for('BaseRecipesView:addIngredientWithAmount') }}",{
+          fetch("{{ url_for('RecipesView:addIngredientWithAmount') }}",{
             method: 'POST',
             body: JSON.stringify({'ingredient_id' : this.selectTarget.value}),
             headers: {'Content-Type': 'application/json,charset=UTF-8'}}
-          ).then((response) => { return response.json(); }
+          ).then((response) => {
+              console.log(response)
+              return response.json(); }
           ).then((response) => {
             $(this.ingredientTableTarget).append(response['template_data']);
             this._refresh_select();
@@ -106,8 +104,6 @@
             totals["calorie"] += parseFloat(ingredient["calorie"]) * parseFloat(ingredient["amount"] / 100)
             totals["amount"] += parseFloat(ingredient["amount"])
         }
-
-        totals["ratio"] = parseFloat(totals["fat"] / (totals["protein"] + totals["sugar"]))
         
         this._set_totals(totals)
       }
@@ -118,7 +114,6 @@
         method: 'POST',
         body: JSON.stringify({
           'ingredients' : this._get_currently_selected(),
-          'dietID' : this.recipeDietTarget.value,
           'name' : this.recipeNameTarget.value,
         }),
         headers: {'Content-Type': 'application/json,charset=UTF-8'},
@@ -135,9 +130,7 @@
       var fields = ["calorie", "protein", "fat", "sugar", "amount"]
       for (let i = 0, field; field = fields[i]; i++) {
         this.totalsTarget.querySelector('[data-field=' + field + ']').innerHTML = _float_to_fixed(totals[field]) 
-      }
-      
-      this.totalsTarget.querySelector('[data-field="ratio"]').innerHTML = "<em>" + _float_to_fixed(totals["ratio"]) + " : 1</em>" 
+      }      
     }
 
   });

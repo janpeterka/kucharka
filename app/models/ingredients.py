@@ -26,22 +26,23 @@ class Ingredient(db.Model, ItemMixin):
     fat = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))
     protein = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))
 
-    recipes = db.relationship("RecipeHasIngredient", back_populates="ingredient")
+    ingredient_recipes = db.relationship("RecipeHasIngredient", back_populates="ingredient")
 
-    # recipes = db.relationship(
-    #     "Recipe",
-    #     primaryjoin="and_(Ingredient.id == remote(RecipeHasIngredient.ingredients_id), foreign(Recipe.id) == RecipeHasIngredient.recipes_id)",
-    #     viewonly=True,
-    #     order_by="Recipe.name",
-    # )
+    recipes = db.relationship(
+        "Recipe",
+        primaryjoin="and_(Ingredient.id == remote(RecipeHasIngredient.ingredient_id), foreign(Recipe.id) == RecipeHasIngredient.recipe_id)",
+        viewonly=True,
+        order_by="Recipe.name",
+    )
 
     author = db.relationship("User", uselist=False, backref="ingredients")
 
     # LOADERS
 
     def load_amount_by_recipe(self, recipe_id) -> float:
+        print([r for r in self.ingredient_recipes if r.recipe_id == recipe_id][0].amount) 
         rhi = RecipeHasIngredient.query.filter_by(
-            recipes_id=recipe_id, ingredients_id=self.id
+            recipe_id=recipe_id, ingredient_id=self.id
         ).first()
         return rhi.amount
 

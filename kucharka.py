@@ -59,7 +59,17 @@ def utility_processor():
         except Exception:
             raise NotImplementedError("This object link_to is probably not implemented")
 
-    return dict(human_format_date=human_format_date, link_to=link_to)
+    def option(obj):
+        return f"<option name='{obj.name}' value='{obj.id}'>{obj.name}</option>"
+
+    def options(array):
+        html = ""
+        for item in array:
+            html += option(item) + "\n"
+
+        return html
+
+    return dict(human_format_date=human_format_date, link_to=link_to, options=options)
 
 
 @application.before_request

@@ -9,6 +9,8 @@ from app.helpers.base_mixin import BaseMixin
 
 
 class User(db.Model, BaseMixin, UserMixin):
+    __tablename__ = "users"
+
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(255), unique=True)
     password = db.Column(db.String(255))

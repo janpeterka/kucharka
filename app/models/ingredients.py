@@ -14,12 +14,12 @@ class Ingredient(db.Model, ItemMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
 
-    created_by = db.Column(db.ForeignKey("user.id"), nullable=False, index=True)
+    created_by = db.Column(db.ForeignKey("users.id"), nullable=False, index=True)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     last_updated_at = db.Column(db.DateTime, onupdate=db.func.current_timestamp())
 
     description = db.Column(db.Text)
-    measurement = db.Column(db.Enum("gram", "kus", "mililtr"), nullable=False, default="gram")
+    measurement = db.Column(db.ForeignKey("measurements.id"), nullable=False)
 
     calorie = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))
     sugar = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))
@@ -46,23 +46,12 @@ class Ingredient(db.Model, ItemMixin):
         ).first()
         return rhi.amount
 
-    # def fill_from_json(self, json_ing):
-    #     if "fixed" in json_ing:
-    #         self.fixed = json_ing["fixed"]
-    #     if "main" in json_ing:
-    #         self.main = json_ing["main"]
-
-    #     if "amount" in json_ing:
-    #         self.amount = float(json_ing["amount"]) / 100  # from grams per 100g
-
-    #     if "min" in json_ing and len(json_ing["min"]) > 0:
-    #         self.min = float(json_ing["min"])
-
-    #     if "max" in json_ing and len(json_ing["max"]) > 0:
-    #         self.max = float(json_ing["max"])
+    # PROPERTIES
 
     def is_author(self, user) -> bool:
         return self.author == user
+
+    # PERMISSIONS
 
     @hybrid_property
     def is_current_user_author(self) -> bool:

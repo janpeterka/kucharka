@@ -19,7 +19,7 @@ class Ingredient(db.Model, ItemMixin):
     last_updated_at = db.Column(db.DateTime, onupdate=db.func.current_timestamp())
 
     description = db.Column(db.Text)
-    measurement = db.Column(db.ForeignKey("measurements.id"), nullable=False)
+    measurement_id = db.Column(db.ForeignKey("measurements.id"), nullable=False)
 
     calorie = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))
     sugar = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))
@@ -36,6 +36,7 @@ class Ingredient(db.Model, ItemMixin):
     )
 
     author = db.relationship("User", uselist=False, backref="ingredients")
+    measurement = db.relationship("Measurement", uselist=False, backref="ingredients")
 
     # LOADERS
 

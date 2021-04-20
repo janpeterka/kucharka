@@ -17,10 +17,7 @@ class IngredientsForm(FlaskForm):
 
     description = StringField("Popis", widget=TextArea())
 
-    measurement = SelectField(
-        "Měřím v",
-        choices=[("gram", "gramech"), ("kus", "kusech"), ("mililitr", "mililitrech")],
-    )
+    measurement = SelectField("Měřím v", coerce=int)
 
     protein = ComaFloatField(
         "Množství bílkovin / 100 g",
@@ -45,3 +42,8 @@ class IngredientsForm(FlaskForm):
     )
     calorie = ComaFloatField("Energie (kJ) / 100 g", [validators.Optional()])
     submit = SubmitField("Přidat surovinu")
+
+    def set_measurement(form, measurements):
+        form.measurement.choices = [
+            (measurement.id, measurement.name) for measurement in measurements
+        ]

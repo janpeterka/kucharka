@@ -11,6 +11,7 @@ from app.helpers.extended_flask_view import ExtendedFlaskView
 
 from app.models.ingredients import Ingredient
 from app.models.recipes import Recipe
+from app.models.measurements import Measurement
 from app.controllers.forms.ingredients import IngredientsForm
 
 
@@ -26,6 +27,10 @@ class IngredientsView(ExtendedFlaskView):
             if not self.ingredient.can_current_user_view:
                 abort(403)
 
+    def before_new(self, *args, **kwargs):
+        super().before_new(*args, **kwargs)
+        self.form.set_measurement(Measurement.load_all())
+
     def before_edit(self, id):
         super().before_edit(id)
         self.recipes = Recipe.load_by_ingredient_and_user(self.ingredient, current_user)
@@ -40,6 +45,8 @@ class IngredientsView(ExtendedFlaskView):
 
     def post(self):
         form = IngredientsForm(request.form)
+        form.set_measurement(Measurement.load_all())
+        form.measurement.data = Measurement.load(form.measurement.data)
 
         if not form.validate_on_submit():
             save_form_to_session(request.form)

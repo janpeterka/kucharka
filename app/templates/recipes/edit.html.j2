@@ -1,0 +1,61 @@
+{% extends "base/base.html.j2" %}
+{% block title %}
+    {{ texts.recipe }}
+    blabla
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="col-12">
+            <form action="{{ url_for('RecipesView:post_edit', id=recipe.id) }}" class="form" method="post" accept-charset="utf-8">
+                <div class="row">
+                    <div class="col">
+                        <label for="name">Název</label>
+                        <input type="text" name="name" class="form-control" value="{{ recipe.name }}"><br>
+                    </div>
+                    <div class="col">
+                        <label for="description">Popis</label>
+                        <textarea name="description" class="form-control">{{ recipe.description if recipe.description }}</textarea>
+                    </div>
+                </div>
+                <input type="submit" value="{{ texts.recipe_edit }}" class="btn btn-warning">
+            </form>
+
+            <table id="ingredients" class="table">
+                <tr>
+                    <th>{{ texts.title }}</th>
+                    <th>{{ texts.amount_simple }}</th>
+                    <th>{{ texts.energy_simple }}</th>
+                    <th>{{ texts.protein_simple }}</th>
+                    <th>{{ texts.fat_simple }}</th>
+                    <th>{{ texts.sugar_simple }}</th>
+                </tr>
+
+                {% for ingredient in recipe.ingredients: %}
+                    <tr>
+                        <td>{{ link_to(ingredient) }}</td>
+                        <td>{{ ingredient.amount|round(2,'common') }}</td>
+                        <td>{{ (ingredient.calorie / 100 * ingredient.amount)|round(2,'common') }}</td>
+                        <td>{{ (ingredient.protein / 100 * ingredient.amount)|round(2,'common') }}</td>
+                        <td>{{ (ingredient.fat / 100 * ingredient.amount)|round(2,'common') }}</td>
+                        <td>{{ (ingredient.sugar / 100 * ingredient.amount)|round(2,'common') }}</td>
+                    </tr>
+                {% endfor %}
+
+                <tr class="totals">
+                    <td>Celkem</td>
+                    {# <td>{{ totals.amount|round(2,'common')  }}</td> #}
+                    {# <td>{{ totals.calorie }}</td> #}
+                    {# <td>{{ totals.protein }}</td> #}
+                    {# <td>{{ totals.fat }}</td> #}
+                    {# <td>{{ totals.sugar }}</td> #}
+                </tr>
+            </table>
+
+            <div class="row">
+                <a href="{{ url_for('RecipesView:show', id=recipe.id) }}" class="btn btn-secondary">{{ texts.edit_cancel }} {{ icons.edit }}</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

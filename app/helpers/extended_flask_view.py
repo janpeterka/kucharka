@@ -36,9 +36,10 @@ class ExtendedFlaskView(FlaskView):
 
     def before_edit(self, id, *args, **kwargs):
         # e.g. self.form = create_form(UserForm, obj=self.user)
-        self.form = create_form(
-            self._form_klass, obj=getattr(self, self._attribute_name)
-        )
+        if self._form_klass:
+            self.form = create_form(
+                self._form_klass, obj=getattr(self, self._attribute_name)
+            )
 
     def index(self, *args, **kwargs):
         return self.template()

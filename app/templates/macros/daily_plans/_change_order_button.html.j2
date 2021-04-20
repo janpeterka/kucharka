@@ -1,0 +1,39 @@
+{% macro change_order_button(order) %}
+
+{% if order == "up" %}
+	<a
+		{% if not is_first %}
+			href="{{ url_for('DailyPlansView:sort_up', daily_recipe_id=daily_recipe.id, date=dates['active']) }}"
+		{% endif %}
+	>
+		{% if not is_first %}
+            <i class="fas fa-sort-up"></i>
+        {% else %}
+            <i class="fas fa-sort-up color-inactive disabled"></i>
+        {% endif %}
+
+    </a>
+{% elif order == "down" %}
+    <a
+		{% if not is_last %}
+    		href="{{ url_for('DailyPlansView:sort_down', daily_recipe_id=daily_recipe.id, date=dates['active']) }}"
+		{% endif %}
+	>
+		{% if not is_last %}
+            <i class="fas fa-sort-down"></i>
+        {% else %}
+            <i class="fas fa-sort-down color-inactive disabled"></i>
+		{% endif %}
+                                
+    </a>
+{% endif %}
+
+{% endmacro %}
+
+{% macro change_order_buttons() %}
+	{% set is_first = (daily_recipe.order_index == 1) %}
+	{% set is_last = (daily_recipe.order_index == (daily_recipes | length)) %}
+	{% from "macros/daily_plans/_change_order_button.html.j2" import change_order_button with context %}
+	{{ change_order_button("up") }}
+	{{ change_order_button("down") }}
+{% endmacro %}

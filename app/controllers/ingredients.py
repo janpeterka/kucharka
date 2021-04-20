@@ -33,6 +33,7 @@ class IngredientsView(ExtendedFlaskView):
 
     def before_edit(self, id):
         super().before_edit(id)
+        self.form.set_measurement(Measurement.load_all())
         self.recipes = Recipe.load_by_ingredient_and_user(self.ingredient, current_user)
         self.all_recipes = Recipe.load_by_ingredient(self.ingredient)
 
@@ -60,6 +61,24 @@ class IngredientsView(ExtendedFlaskView):
         else:
             flash("Nepodařilo se vytvořit surovinu", "error")
             return redirect(url_for("IngredientsView:new"))
+
+    @route("edit/<id>", methods=["POST"])
+    def post_edit(self, id):
+        form = IngredientsForm(request.form)
+        form.set_measurement(Measurement.load_all())
+        form.measurement.data = Measurement.load(form.measurement.data)
+
+        if self.ingredient.is_used:
+            del form.measurement
+
+        if not form.validate_on_submit():
+            save_form_to_session(request.form)
+            return redirect(url_for("IngredientsView:edit", id=self.ingredient.id))
+
+        form.populate_obj(self.ingredient)
+        self.ingredient.edit()
+
+        return redirect(url_for("IngredientsView:show", id=self.ingredient.id))
 
     @route("delete/<id>", methods=["POST"])
     def delete(self, id):

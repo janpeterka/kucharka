@@ -40,18 +40,10 @@
                         <tr>
                             {# <td> #}
                             {# </td> #}
-                            <td>
-                                {{ render_field(form.calorie, has_label=False) }}
-                            </td>
-                            <td>
-                                {{ render_field(form.protein, has_label=False, disabled=ingredient.is_used) }}
-                            </td>
-                            <td>
-                                {{ render_field(form.fat, has_label=False, disabled=ingredient.is_used) }}
-                            </td>
-                            <td>
-                                {{ render_field(form.sugar, has_label=False, disabled=ingredient.is_used) }}
-                            </td>
+                            <td> {{ render_field(form.calorie, has_label=False) }} </td>
+                            <td> {{ render_field(form.protein, has_label=False) }} </td>
+                            <td> {{ render_field(form.fat, has_label=False) }} </td>
+                            <td> {{ render_field(form.sugar, has_label=False) }} </td>
                         </tr>
                     </table>
                     </details>

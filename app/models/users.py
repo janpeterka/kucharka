@@ -18,3 +18,5 @@ class User(db.Model, BaseMixin, UserMixin):
         secondary="users_have_roles",
         backref=db.backref("users", lazy="dynamic"),
     )
+
+    daily_plans = db.relationship("DailyPlan", back_populates="author")

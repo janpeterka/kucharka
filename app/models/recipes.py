@@ -90,3 +90,31 @@ class Recipe(db.Model, ItemMixin):
     @property
     def can_current_user_show(self) -> bool:
         return current_user == self.author or current_user.is_admin or self.public
+
+    @property
+    # @cache.cached(timeout=50, key_prefix="recipe_totals")
+    def totals(self):
+        import types
+        import math
+
+        totals = types.SimpleNamespace()
+        metrics = ["calorie", "sugar", "fat", "protein"]
+
+        totals.amount = 0
+
+        for ingredient in self.ingredients:
+            ingredient.amount = round(ingredient.load_amount_by_recipe(self.id), 2)
+            for metric in metrics:
+                value = getattr(totals, metric, 0)
+                ing_value = getattr(ingredient, metric)
+                setattr(totals, metric, value + (ingredient.amount * ing_value))
+
+            totals.amount += ingredient.amount
+
+        for metric in metrics:
+            value = getattr(totals, metric)
+            setattr(totals, metric, math.floor(value) / 100)
+
+        totals.amount = math.floor(totals.amount)
+
+        return totals

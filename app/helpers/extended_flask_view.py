@@ -58,7 +58,7 @@ class ExtendedFlaskView(FlaskView):
         form = self._form_klass(request.form)
         if not form.validate_on_submit():
             save_form_to_session(request.form)
-            return redirect(url_for(f"{self._model_name}sView:edit"))
+            return redirect(url_for(f"{self._model_name}sView:edit", id=self.object.id))
 
         form.populate_obj(self.object)
         self.object.edit()

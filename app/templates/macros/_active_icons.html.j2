@@ -1,0 +1,17 @@
+{% macro remove_icon(url) %}
+	<a href="{{ url }}">
+        <i class="remove fa fa-times"></i>
+    </a>
+{% endmacro %}
+
+{% macro approve_icon(url) %}
+    <a href="{{ url }}">
+    	<i class="approve fa fa-check"></i>
+    </a>
+{% endmacro %}
+
+{% macro disapprove_icon(url) %}
+    <a href="{{ url }}">
+    	<i class="disapprove fa fa-times"></i>
+    </a>
+{% endmacro %}

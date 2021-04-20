@@ -41,7 +41,6 @@ class Ingredient(db.Model, ItemMixin):
     # LOADERS
 
     def load_amount_by_recipe(self, recipe_id) -> float:
-        print([r for r in self.ingredient_recipes if r.recipe_id == recipe_id][0].amount) 
         rhi = RecipeHasIngredient.query.filter_by(
             recipe_id=recipe_id, ingredient_id=self.id
         ).first()

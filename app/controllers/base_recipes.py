@@ -29,5 +29,4 @@ class BaseRecipesView(FlaskView):
             item_type="add_ingredient_with_amount_AJAX", item_id=ingredient.id
         )
 
-        print(result)
         return jsonify(result)

@@ -37,8 +37,6 @@ class Recipe(db.Model, ItemMixin):
         if recipe is None:
             return None
 
-        print(recipe.ingredients)
-
         for ingredient in recipe.ingredients:
             ingredient.amount = round(ingredient.load_amount_by_recipe(recipe.id), 2)
 

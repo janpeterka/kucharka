@@ -26,7 +26,9 @@ class Ingredient(db.Model, ItemMixin):
     fat = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))
     protein = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))
 
-    ingredient_recipes = db.relationship("RecipeHasIngredient", back_populates="ingredient")
+    ingredient_recipes = db.relationship(
+        "RecipeHasIngredient", back_populates="ingredient"
+    )
 
     recipes = db.relationship(
         "Recipe",

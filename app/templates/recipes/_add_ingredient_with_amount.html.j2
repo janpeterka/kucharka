@@ -12,7 +12,8 @@
     <td>{{ ingredient.fat }}</td>
     <td>{{ ingredient.sugar }}</td>
 
-    <td><input data-action="input->simple-calculator#calculate_recipe" class="form-control" type="number" name="amount" value=100 placeholder="gramů" /></td>
+    <td><input data-action="input->simple-calculator#calculate_recipe" class="form-control" type="number" name="amount" placeholder="{{ ingredient.measurement.name }}" /></td>
+    <td>{{ ingredient.measurement.name }}</td>
 
     <td>
         <span data-action="click->simple-calculator#remove_ingredient" data-id="{{ ingredient.id }}">

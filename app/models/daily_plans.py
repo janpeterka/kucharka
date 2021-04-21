@@ -1,4 +1,4 @@
-import math
+# import math
 import types
 
 from flask_login import current_user
@@ -7,6 +7,11 @@ from app import db
 
 from app.helpers.base_mixin import BaseMixin
 
+from app.models.recipes import Recipe
+
+from app.models.ingredients import Ingredient
+
+# from app.models.recipes_have_ingredients import RecipeHasIngredient
 from app.models.daily_plans_have_recipes import DailyPlanHasRecipe
 
 
@@ -20,7 +25,42 @@ class DailyPlan(db.Model, BaseMixin):
     author = db.relationship("User", uselist=False, back_populates="daily_plans")
 
     daily_recipes = db.relationship("DailyPlanHasRecipe", back_populates="daily_plan")
-    # recipes = db.relationship("Recipe", secondary="daily_plan_daily_recipes")
+    recipes = db.relationship("Recipe", secondary="daily_plans_have_recipes")
+
+    @staticmethod
+    def load_ingredient_amounts_for_daily_plans(ids):
+        ids = tuple(ids)
+
+        amounts_sql = f"""
+                        SELECT
+                            I.id AS ingredient_id,
+                            CONCAT(R.id) AS recipes,
+                            SUM(RHI.amount) AS amount_sum
+                        FROM
+                            daily_plans AS DP
+                            INNER JOIN daily_plans_have_recipes AS DPHR ON
+                                DPHR.daily_plan_id = DP.id
+                            INNER JOIN recipes AS R ON
+                                R.id = DPHR.recipe_id
+                            INNER JOIN recipes_have_ingredients AS RHI ON
+                                RHI.recipe_id = R.id
+                            INNER JOIN ingredients AS I ON
+                                I.id = RHI.ingredient_id
+                        WHERE
+                            DP.id IN {ids}
+                        GROUP BY
+                            I.id
+                    """
+
+        result = db.engine.execute(amounts_sql)
+
+        ingredients = []
+        for row in result:
+            ingredient = Ingredient.load(row[0])
+            ingredient.amount = row[2]
+            ingredients.append(ingredient)
+
+        return ingredients
 
     @staticmethod
     def load_by_date(date):
@@ -29,6 +69,13 @@ class DailyPlan(db.Model, BaseMixin):
             date=date, created_by=current_user.id
         ).first()
         return date_plan
+
+    @staticmethod
+    def load_by_date_range(date_from, date_to):
+        date_plans = DailyPlan.query.filter(
+            DailyPlan.date.between(date_from, date_to)
+        ).all()
+        return date_plans
 
     @staticmethod
     def load_by_date_or_create(date):
@@ -43,9 +90,7 @@ class DailyPlan(db.Model, BaseMixin):
         order_index = len(self.daily_recipes) + 1
 
         dphr = DailyPlanHasRecipe(
-            recipe_id=recipe.id,
-            daily_plan_id=self.id,
-            order_index=order_index,
+            recipe_id=recipe.id, daily_plan_id=self.id, order_index=order_index
         )
 
         dphr.save()
@@ -84,7 +129,6 @@ class DailyPlan(db.Model, BaseMixin):
     @property
     def totals(self):
         totals = types.SimpleNamespace()
-        print(totals)
 
         metrics = ["calorie", "sugar", "fat", "protein"]
         for metric in metrics:

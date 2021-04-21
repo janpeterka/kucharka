@@ -1,0 +1,16 @@
+<script type="text/javascript">
+  application.register("set-default-dates", class extends Stimulus.Controller {
+    static get targets() {
+      return ["dateFrom", "dateTo"]
+    }
+
+  connect() {
+    console.log(this.dateFromTarget)
+    console.log(this.dateToTarget)
+    var today = new Date();
+
+    this.dateFromTarget.valueAsDate = today;
+    this.dateToTarget.valueAsDate = today;
+  }
+})
+</script>

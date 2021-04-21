@@ -1,0 +1,36 @@
+{% extends "base/base.html.j2" %}
+{% block title %}
+    Kuchařka - export
+{% endblock %}
+
+{% block script %}
+    {% include 'javascript/stimulus.js.html' %}
+    {# {% include 'javascript/set_default_dates_controller.js.html' %} #}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h2>Recepty</h2>
+        <div>
+            {% for daily_plan in daily_plans %}
+                <h4>{{ daily_plan.date }}</h4>
+                <ul>
+                    
+                {% for recipe in daily_plan.recipes %}
+                    <li>{{ link_to(recipe) }}</li>
+                {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+        <h2>Suroviny</h2>
+        <table class="table">
+            {% for ingredient in ingredients %}
+            <tr>
+                <td>{{ ingredient.name }}</td>
+                <td>{{ ingredient.amount }}</td>
+                <td>{{ ingredient.measurement.name }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

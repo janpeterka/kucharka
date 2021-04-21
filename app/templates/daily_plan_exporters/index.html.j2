@@ -1,0 +1,21 @@
+{% extends "base/base.html.j2" %}
+{% block title %}
+    Výběr dnů
+{% endblock %}
+
+{% block script %}
+    {% include 'javascript/stimulus.js.html' %}
+    {% include 'javascript/set_default_dates_controller.js.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="container" data-controller="set-default-dates">
+    	<form class="form" method="POST" action="{{ url_for('DailyPlanExporterView:post') }}">
+    		{# <div class="row"> #}
+    			<input class="form-control col" type="date" name="date_from" data-set-default-dates-target="dateFrom">
+    			<input class="form-control col" type="date" name="date_to" data-set-default-dates-target="dateTo">
+    			<button type="submit" class="btn btn-primary">Spočítat</button>
+    		{# </div> #}
+    	</form>
+    </div>
+{% endblock %}

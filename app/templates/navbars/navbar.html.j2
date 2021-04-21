@@ -21,23 +21,24 @@
             Přidat
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ url_for('IngredientsView:new') }}">surovinu</a>
-            <a class="dropdown-item" href="{{ url_for('RecipesView:new') }}">recept</a>
+            <a class="dropdown-item" href="{{ url_for('IngredientsView:new') }}"> surovinu </a>
+            <a class="dropdown-item" href="{{ url_for('RecipesView:new') }}"> recept </a>
           </div>
         </li>
 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Seznamy
+            Seznam
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ url_for('IngredientsView:index') }}">suroviny</a>
-            <a class="dropdown-item" href="{{ url_for('RecipesView:index') }}">recepty</a>
+            <a class="dropdown-item" href="{{ url_for('IngredientsView:index') }}"> surovin </a>
+            <a class="dropdown-item" href="{{ url_for('RecipesView:index') }}"> receptů </a>
           </div>
         </li>
 
         <a class="nav-link" href="{{ url_for('DailyPlansView:index') }}">{{ icons.daily }} Denní plán</a>
+        <a class="nav-link" href="{{ url_for('DailyPlanExporterView:index') }}"> Export </a>
         {# <a class="nav-link" href="{{ url_for('CookbookView:index') }}">Veřejné recepty</a> #}
 
         {# {% if current_user.is_admin %}{% include '_navbar_admin.html.j2' %}{% endif %} #}

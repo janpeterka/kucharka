@@ -47,13 +47,13 @@ class IngredientsView(ExtendedFlaskView):
     def post(self):
         form = IngredientsForm(request.form)
         form.set_measurement(Measurement.load_all())
-        form.measurement.data = Measurement.load(form.measurement.data)
 
         if not form.validate_on_submit():
             save_form_to_session(request.form)
             return redirect(url_for("IngredientsView:new"))
 
         ingredient = Ingredient(author=current_user)
+        form.measurement.data = Measurement.load(form.measurement.data)
         form.populate_obj(ingredient)
 
         if ingredient.save():
@@ -66,7 +66,6 @@ class IngredientsView(ExtendedFlaskView):
     def post_edit(self, id):
         form = IngredientsForm(request.form)
         form.set_measurement(Measurement.load_all())
-        form.measurement.data = Measurement.load(form.measurement.data)
 
         if self.ingredient.is_used:
             del form.measurement
@@ -75,6 +74,7 @@ class IngredientsView(ExtendedFlaskView):
             save_form_to_session(request.form)
             return redirect(url_for("IngredientsView:edit", id=self.ingredient.id))
 
+        form.measurement.data = Measurement.load(form.measurement.data)
         form.populate_obj(self.ingredient)
         self.ingredient.edit()
 

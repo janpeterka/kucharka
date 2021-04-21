@@ -7,11 +7,10 @@ from app import db
 
 from app.helpers.base_mixin import BaseMixin
 
-from app.models.recipes import Recipe
 
-from app.models.ingredients import Ingredient
-
+# from app.models.recipes import Recipe
 # from app.models.recipes_have_ingredients import RecipeHasIngredient
+from app.models.ingredients import Ingredient
 from app.models.daily_plans_have_recipes import DailyPlanHasRecipe
 
 

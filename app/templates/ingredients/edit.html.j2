@@ -52,7 +52,7 @@
                     <a class="btn btn-secondary" href="{{ url_for('IngredientsView:show', id=ingredient.id) }}">{{ texts.edit_cancel }} {{ icons.edit }}</a>
                     
                 </form>
-                <form
+                {# <form
                     action="{{ url_for('IngredientsView:delete', id=ingredient.id) }}"
                     onsubmit="return confirm('{{ texts.ingredient_delete_confirm }}');"
                     method="post"

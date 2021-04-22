@@ -27,7 +27,7 @@ class DailyPlan(db.Model, BaseMixin):
     recipes = db.relationship("Recipe", secondary="daily_plans_have_recipes")
 
     @staticmethod
-    def load_ingredient_amounts_for_daily_plans(ids):
+    def load_ingredient_amounts_for_daily_plans(ids, people_count):
         ids = tuple(ids)
 
         amounts_sql = f"""
@@ -58,6 +58,9 @@ class DailyPlan(db.Model, BaseMixin):
             ingredient = Ingredient.load(row[0])
             ingredient.amount = row[2]
             ingredients.append(ingredient)
+
+        for ingredient in ingredients:
+            ingredient.amount = ingredient.amount * float(people_count)
 
         return ingredients
 

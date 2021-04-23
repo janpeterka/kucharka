@@ -1,24 +1,21 @@
 {% extends "base/base.html.j2" %}
-{% block title %}
-    Kuchařka - export
-{% endblock %}
+{% block title %} Kuchařka - export {% endblock %}
 
-{% block script %}
+{# {% block script %}
     {% include 'javascript/stimulus.js.html' %}
-    {# {% include 'javascript/set_default_dates_controller.js.html' %} #}
 {% endblock %}
-
+ #}
 {% block content %}
     <div class="container">
         <h2>Recepty</h2>
         <div>
             {% for daily_plan in daily_plans %}
                 <h4>{{ daily_plan.date }}</h4>
-                <ul>
-                    
-                {% for recipe in daily_plan.recipes %}
-                    <li>{{ link_to(recipe) }}</li>
-                {% endfor %}
+                {{ list_of_links(daily_plan.recipes) }}
+                {# <ul> #}
+                {# {% for recipe in daily_plan.recipes %} #}
+                    {# <li>{{ link_to(recipe) }}</li> #}
+                {# {% endfor %} #}
                 </ul>
             {% endfor %}
         </div>

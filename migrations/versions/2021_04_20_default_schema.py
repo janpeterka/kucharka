@@ -64,6 +64,13 @@ def upgrade():
         sa.UniqueConstraint("username"),
     )
     op.create_table(
+        "measurements",
+        sa.Column("id", sa.Integer(), autoincrement=True, nullable=False),
+        sa.Column("name", sa.String(length=255), nullable=False),
+        sa.Column("description", sa.Text(), nullable=True),
+        sa.PrimaryKeyConstraint("id"),
+    )
+    op.create_table(
         "ingredients",
         sa.Column("id", sa.Integer(), nullable=False),
         sa.Column("name", sa.String(length=255), nullable=False),
@@ -133,6 +140,6 @@ def downgrade():
     op.drop_table("users_have_roles")
     op.drop_table("recipes")
     op.drop_table("ingredients")
+    op.drop_table("measurements")
     op.drop_table("users")
     op.drop_table("roles")
-    # ### end Alembic commands ###

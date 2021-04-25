@@ -28,7 +28,10 @@ class DailyPlan(db.Model, BaseMixin):
 
     @staticmethod
     def load_ingredient_amounts_for_daily_plans(ids, people_count):
-        ids.append(0)
+        # i need to always have at least two ids for tuple to not have trailing coma
+        if len(ids) < 2:
+            ids.append(0)
+
         ids = tuple(ids)
 
         amounts_sql = f"""
@@ -79,6 +82,10 @@ class DailyPlan(db.Model, BaseMixin):
             DailyPlan.date.between(date_from, date_to)
         ).all()
         return date_plans
+
+    @staticmethod
+    def create_if_not_exists(date):
+        DailyPlan.load_by_date_or_create(date)
 
     @staticmethod
     def load_by_date_or_create(date):

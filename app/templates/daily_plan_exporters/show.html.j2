@@ -9,13 +9,9 @@
     <div class="container">
         <h2>Recepty</h2>
         <div>
-            {% for daily_plan in daily_plans %}
-                <h4>{{ daily_plan.date }}</h4>
+            {% for daily_plan in daily_plans if daily_plan.recipes %}
+                <h4>{{ human_format_date(daily_plan.date) }}</h4>
                 {{ list_of_links(daily_plan.recipes) }}
-                {# <ul> #}
-                {# {% for recipe in daily_plan.recipes %} #}
-                    {# <li>{{ link_to(recipe) }}</li> #}
-                {# {% endfor %} #}
                 </ul>
             {% endfor %}
         </div>

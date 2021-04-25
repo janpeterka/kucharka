@@ -20,6 +20,7 @@ class Ingredient(db.Model, ItemMixin):
 
     description = db.Column(db.Text)
     measurement_id = db.Column(db.ForeignKey("measurements.id"), nullable=False)
+    category_id = db.Column(db.ForeignKey("ingredient_categories.id"))
 
     calorie = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))
     sugar = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))
@@ -39,6 +40,7 @@ class Ingredient(db.Model, ItemMixin):
 
     author = db.relationship("User", uselist=False, backref="ingredients")
     measurement = db.relationship("Measurement", uselist=False, backref="ingredients")
+    category = db.relationship("IngredientCategory", uselist=False, backref="ingredients")
 
     # LOADERS
 

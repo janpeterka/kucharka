@@ -18,7 +18,7 @@ from app import create_app
 # from app import db
 
 
-env = os.environ.get("FLASK_ENV", "default")
+env = os.environ.get("APP_STATE", "default")
 application = create_app(config_name=env)
 
 
@@ -31,15 +31,23 @@ def inject_globals():
 
 @application.context_processor
 def utility_processor():
-    def human_format_date(date):
-        if date == datetime.date.today():
-            return "Dnes"
-        elif date == datetime.date.today() + datetime.timedelta(days=-1):
-            return "Včera"
-        elif date == datetime.date.today() + datetime.timedelta(days=1):
-            return "Zítra"
-        else:
-            return date.strftime("%d.%m.%Y")
+    def human_format_date(date, with_relative=True):
+        formatted_date = date.strftime("%d.%m.%Y")
+
+        if with_relative:
+            if date == datetime.date.today():
+                formatted_date += " - Dnes"
+                # return "Dnes"
+            elif date == datetime.date.today() + datetime.timedelta(days=-1):
+                formatted_date += " - Včera"
+                # return "Včera"
+            elif date == datetime.date.today() + datetime.timedelta(days=1):
+                formatted_date += " - Zítra"
+                # return "Zítra"
+            # else:
+                # return date.strftime("%d.%m.%Y")
+
+        return formatted_date
 
     def link_to(obj, text=None):
         if type(obj) == str:

@@ -9,6 +9,7 @@ class Config(object):
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = os.environ.get("DB_STRING")
+    SQLALCHEMY_POOL_SIZE = 5
 
     APP_STATE = os.environ.get("APP_STATE")  # production, development, debug, shutdown
 
@@ -20,24 +21,24 @@ class Config(object):
     # SENTRY_MONITORING = True
 
 
+class LocalProdConfig(Config):
+    TEMPLATES_AUTO_RELOAD = True
+
+
 class TestConfig(Config):
     TESTING = True
     WTF_CSRF_ENABLED = False
     SQLALCHEMY_DATABASE_URI = os.environ.get("TESTING_DB_STRING")
-    APP_STATE = os.environ.get(
-        "TESTING_APP_STATE"
-    )  # production, development, debug, shutdown
+    APP_STATE = os.environ.get("TESTING_APP_STATE")
     SECRET_KEY = os.environ.get("TESTING_SECRET_KEY")
     # SENTRY_MONITORING = False
 
 
-class DevConfig(Config):
+class DevConfig(LocalProdConfig):
     TEMPLATES_AUTO_RELOAD = True
     SQLALCHEMY_DATABASE_URI = os.environ.get("LOCAL_DB_STRING")
     # SQLALCHEMY_ECHO = True
-    APP_STATE = os.environ.get(
-        "LOCAL_APP_STATE"
-    )  # production, development, debug, shutdown
+    # APP_STATE = os.environ.get("LOCAL_APP_STATE")
     # SENTRY_MONITORING = False
 
 
@@ -49,5 +50,6 @@ configs = {
     "development": DevConfig,
     "test": TestConfig,
     "production": ProdConfig,
+    "local_production": LocalProdConfig,
     "default": ProdConfig,
 }

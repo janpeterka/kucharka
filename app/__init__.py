@@ -23,8 +23,8 @@ db = SQLAlchemy(session_options={"autoflush": False, "autocommit": False})
 migrate = Migrate()
 babel = Babel()
 
-from app.models.users import User
-from app.models.roles import Role
+from app.models.users import User  # noqa: E402
+from app.models.roles import Role  # noqa: E402
 
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security()
@@ -37,6 +37,11 @@ def create_app(config_name="default"):
     from config import configs
 
     application.config.from_object(configs[config_name])
+
+    @migrate.configure
+    def configure_alembic(config):
+        # modify config object
+        return config
 
     # APPS
     db.init_app(application)

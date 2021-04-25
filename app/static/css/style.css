@@ -136,7 +136,14 @@ a.info:hover {
   margin-left: 2rem;
   padding: 1rem;
   border-radius: 0.5rem;
+}
+
+.dev-badge.dev {
   background-color: var(--logo-light-green);
+}
+
+.dev-badge.prod {
+  background-color: var(--palette-orange);
 }
 
 .navbar div.navbar-divider {

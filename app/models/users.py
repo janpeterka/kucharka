@@ -20,3 +20,10 @@ class User(db.Model, BaseMixin, UserMixin):
     )
 
     daily_plans = db.relationship("DailyPlan", back_populates="author")
+
+    @property
+    def is_admin(self):
+        if self.email == "fons@skaut.cz":
+            return True
+        else:
+            return False

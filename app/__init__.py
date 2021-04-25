@@ -8,7 +8,7 @@ from flask_security import (
     SQLAlchemyUserDatastore,
     # UserMixin,
     # RoleMixin,
-    login_required,
+    # login_required,
 )
 
 
@@ -27,6 +27,7 @@ from app.models.users import User
 from app.models.roles import Role
 
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+security = Security()
 
 
 def create_app(config_name="default"):
@@ -40,7 +41,7 @@ def create_app(config_name="default"):
     # APPS
     db.init_app(application)
     migrate.init_app(application, db)
-    security = Security(application, user_datastore)
+    security.init_app(application, user_datastore)
     babel.init_app(application)
 
     # if application.config["SENTRY_MONITORING"]:

@@ -28,6 +28,7 @@ class DailyPlan(db.Model, BaseMixin):
 
     @staticmethod
     def load_ingredient_amounts_for_daily_plans(ids, people_count):
+        ids.append(0)
         ids = tuple(ids)
 
         amounts_sql = f"""

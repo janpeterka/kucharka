@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_babel import Babel
+from turbo_flask import Turbo
 
 from flask_security import (
     Security,
@@ -22,6 +23,7 @@ from flask_security import (
 db = SQLAlchemy(session_options={"autoflush": False, "autocommit": False})
 migrate = Migrate()
 babel = Babel()
+turbo = Turbo()
 
 from app.models.users import User
 from app.models.roles import Role
@@ -43,6 +45,7 @@ def create_app(config_name="default"):
     migrate.init_app(application, db)
     security.init_app(application, user_datastore)
     babel.init_app(application)
+    turbo.init_app(application)
 
     # if application.config["SENTRY_MONITORING"]:
     #     import sentry_sdk

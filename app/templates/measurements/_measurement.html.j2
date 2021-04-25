@@ -1,0 +1,13 @@
+<turbo-frame id="measurement-{{ measurement.id }}">
+  <li>
+      <div>
+        <label>{{ measurement.name}}</label>
+      </div>
+    <label style="font-size: smaller;">{{ measurement.description if measurement.description  }}</label>
+    {% if not edit_id %}
+      <form method="GET" action="{{ url_for('MeasurementsView:edit', id=measurement.id) }}" data-turbo-frame="all">
+        <button type="submit" class="change"></button>
+      </form>
+    {% endif %}
+  </li>
+</turbo-frame>

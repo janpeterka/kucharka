@@ -15,6 +15,7 @@ gunicorn = "*"
 flask-babelex = "*"
 flask-babel = "*"
 cryptography = "*"
+turbo-flask = "*"
 
 [dev-packages]
 

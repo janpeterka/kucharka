@@ -34,6 +34,9 @@
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="{{ url_for('IngredientsView:index') }}"> surovin </a>
             <a class="dropdown-item" href="{{ url_for('RecipesView:index') }}"> receptů </a>
+            {% if current_user.is_admin %}
+              <a class="dropdown-item" href="{{ url_for('MeasurementsView:index') }}"> měr </a>
+            {% endif %}
           </div>
         </li>
 

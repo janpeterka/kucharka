@@ -1,0 +1,10 @@
+<turbo-frame id="measurement-{{ measurement.id }}">
+  <li class="editing">
+    <div>
+      <label></label>
+    </div>
+    <form method="POST" action="{{ url_for('MeasurementsView:edit', id=measurement.id) }}" data-turbo-frame="all">
+      <input type="text" name="measurement" value="{{ measurement.name }}" class="edit" autofocus>
+    </form>
+  </li>
+</turbo-frame>

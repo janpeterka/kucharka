@@ -22,33 +22,29 @@ class MeasurementsView(ExtendedFlaskView):
     @route("/show_edit/<id>", methods=["POST"])
     def show_edit(self, id):
         # Use this while edit:GET doesn't support stream (probably until WebSocket support)
-        measurement = Measurement.load(id)
+        self.measurement = Measurement.load(id)
         if request.method == "POST":
             if turbo.can_stream():
                 return turbo.stream(
                     turbo.replace(
-                        template("measurements/_edit.html.j2", measurement=measurement),
-                        target=f"measurement-{measurement.id}",
+                        self.template(template="measurements/_edit.html.j2"),
+                        target=f"measurement-{id}",
                     )
                 )
             else:
-                return self.template(
-                    template_name="/measurements/index.html.j2", edit_id=measurement.id
-                )
+                return self.template(template="/measurements/index.html.j2", edit_id=id)
 
     @route("/edit/<id>", methods=["GET", "POST"])
     def edit(self, id):
-        measurement = Measurement.load(id)
+        self.measurement = Measurement.load(id)
         if request.method == "POST":
-            measurement.name = request.form["measurement"]
-            measurement.save()
+            self.measurement.name = request.form["measurement"]
+            self.measurement.save()
             if turbo.can_stream():
                 return turbo.stream(
                     turbo.replace(
-                        template(
-                            "measurements/_measurement.html.j2", measurement=measurement
-                        ),
-                        target=f"measurement-{measurement.id}",
+                        self.template(template="measurements/_measurement.html.j2"),
+                        target=f"measurement-{id}",
                     )
                 )
             else:
@@ -65,22 +61,18 @@ class MeasurementsView(ExtendedFlaskView):
         #             )
         #         )
         else:
-            return self.template(
-                template_name="/measurements/index.html.j2", edit_id=measurement.id
-            )
+            return self.template(template="/measurements/index.html.j2", edit_id=id)
 
     @route("/create", methods=["POST"])
     def create(self):
-        measurement = Measurement(name=request.form["measurement"])
-        measurement.save()
+        self.measurement = Measurement(name=request.form["measurement"])
+        self.measurement.save()
 
         if turbo.can_stream():
             return turbo.stream(
                 [
                     turbo.append(
-                        template(
-                            "measurements/_measurement.html.j2", measurement=measurement
-                        ),
+                        self.template(template="measurements/_measurement.html.j2"),
                         target="measurements",
                     ),
                     turbo.update(
@@ -90,5 +82,5 @@ class MeasurementsView(ExtendedFlaskView):
                 ]
             )
         else:
-            self.measurements.append(measurement)
+            self.measurements.append(self.measurement)
             return self.template()

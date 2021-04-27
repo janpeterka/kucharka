@@ -71,7 +71,7 @@ class ExtendedFlaskView(FlaskView):
         )
         return template("not_logged_in.html.j2", message=message)
 
-    def template(self, template=None, **kwargs):
+    def template(self, template_name=None, **kwargs):
         # Template name is given from view and method names if not provided
         calling_method = inspect.stack()[1].function
 
@@ -80,8 +80,8 @@ class ExtendedFlaskView(FlaskView):
         else:
             template_folder = f"{self._attribute_name}s"
 
-        if template is None:
-            template = f"{template_folder}/{calling_method}.html.j2"
+        if template_name is None:
+            template_name = f"{template_folder}/{calling_method}.html.j2"
 
         # All public variables of the view are passed to template
         view_attributes = self.__dict__
@@ -92,7 +92,7 @@ class ExtendedFlaskView(FlaskView):
         # kwargs has higher priority, therefore rewrites public attributes
         merged_values = {**public_attributes, **kwargs}
 
-        return template(template, **merged_values)
+        return template(template_name, **merged_values)
 
     @property
     def _model_name(self):

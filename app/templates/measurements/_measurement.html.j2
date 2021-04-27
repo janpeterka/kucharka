@@ -1,5 +1,5 @@
 <turbo-frame id="measurement-{{ measurement.id }}">
-  <li>
+  <li class="row">
       <div>
         <label>{{ measurement.name}}</label>
       </div>
@@ -7,6 +7,9 @@
     {% if not edit_id %}
       <form method="POST" action="{{ url_for('MeasurementsView:show_edit', id=measurement.id) }}" data-turbo-frame="all">
         <button type="submit" class="change"></button>
+      </form>
+      <form method="POST" action="{{ url_for('MeasurementsView:delete', id=measurement.id) }}">
+        <button type="submit" class="destroy"></button>
       </form>
     {% endif %}
   </li>

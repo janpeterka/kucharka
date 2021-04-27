@@ -34,3 +34,7 @@
 }
 
 /* margins - using Bootstap */
+
+.smaller {
+	font-size: smaller !important;
+}

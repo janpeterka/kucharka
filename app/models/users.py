@@ -13,11 +13,7 @@ class User(db.Model, BaseMixin, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime, default=datetime.now)
 
-    roles = db.relationship(
-        "Role",
-        secondary="users_have_roles",
-        backref=db.backref("users", lazy="dynamic"),
-    )
+    roles = db.relationship("Role", secondary="users_have_roles", backref="users")
 
     daily_plans = db.relationship("DailyPlan", back_populates="author")
 

@@ -1,6 +1,7 @@
-from flask import redirect, url_for, request
+from flask import redirect, url_for, request, flash
 from flask_security import login_required
 from flask import render_template as template
+
 
 from app import turbo
 
@@ -21,8 +22,9 @@ class MeasurementsView(ExtendedFlaskView):
 
     @route("/show_edit/<id>", methods=["POST"])
     def show_edit(self, id):
+        # print(self.measurement)
         # Use this while edit:GET doesn't support stream (probably until WebSocket support)
-        self.measurement = Measurement.load(id)
+        # self.measurement = Measurement.load(id)
         if request.method == "POST":
             if turbo.can_stream():
                 return turbo.stream(
@@ -38,7 +40,7 @@ class MeasurementsView(ExtendedFlaskView):
 
     @route("/edit/<id>", methods=["GET", "POST"])
     def edit(self, id):
-        self.measurement = Measurement.load(id)
+        # self.measurement = Measurement.load(id)
         if request.method == "POST":
             self.measurement.name = request.form["measurement"]
             self.measurement.save()
@@ -61,7 +63,7 @@ class MeasurementsView(ExtendedFlaskView):
                 template_name="/measurements/index.html.j2", edit_id=id
             )
 
-    @route("/create", methods=["POST"])
+    @route("/create/", methods=["POST"])
     def create(self):
         self.measurement = Measurement(name=request.form["measurement"])
         self.measurement.save()
@@ -84,3 +86,23 @@ class MeasurementsView(ExtendedFlaskView):
         else:
             self.measurements.append(self.measurement)
             return self.template()
+
+    @route("/delete/<id>", methods=["POST"])
+    def delete(self, id):
+        if self.measurement.is_used:
+            # flash("Už je někde použité, nelze smazat!")
+            return turbo.stream(
+                turbo.prepend(
+                    template(
+                        "measurements/_error.html.j2",
+                        message="Už je někde použité, nelze smazat!",
+                    ),
+                    target=f"measurement-{id}",
+                )
+            )
+            return redirect(url_for("MeasurementsView:index"))
+
+        self.measurement.delete()
+        if turbo.can_stream():
+            return turbo.stream(turbo.remove(target=f"measurement-{id}"))
+        return redirect(url_for("MeasurementsView:index"))

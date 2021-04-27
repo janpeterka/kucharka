@@ -43,6 +43,10 @@
 	border-bottom: 1px solid #ededed;
 }
 
+.measurement-list li button {
+	background-color: transparent;
+}
+
 .measurement-list li:last-child {
 	border-bottom: none;
 }
@@ -78,7 +82,7 @@
 	opacity: 1;
 	position: absolute;
 	top: 0;
-	right: 40px;
+	right: 80px;
 	bottom: -3px;
 	width: 40px;
 	height: 40px;
@@ -101,18 +105,19 @@
 	display: block;
 }
 
-/*.measurement-list li .destroy {
-	display: none;
+.measurement-list li .destroy {
+	/*display: none;*/
 	position: absolute;
+	border: 0px;
 	top: 0;
 	right: 10px;
-	bottom: 0;
+	bottom: 1px;
 	width: 40px;
 	height: 40px;
 	margin: auto 0;
 	font-size: 30px;
 	color: #cc9a9a;
-	margin-bottom: 11px;
+	/*margin-bottom: 11px;*/
 	transition: color 0.2s ease-out;
 }
 
@@ -124,13 +129,6 @@
 	content: '×';
 }
 
-.measurement-list li:hover .destroy {
-	display: block;
-}*/
-
-.measurement-list li .edit {
-	display: none;
-}
 
 .measurement-list li.editing:last-child {
 	margin-bottom: -1px;

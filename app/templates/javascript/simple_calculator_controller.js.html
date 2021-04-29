@@ -39,7 +39,7 @@
           ).then((response) => {
             $(this.ingredientTableTarget).append(response['template_data']);
             this._refresh_select();
-            this.calculate_recipe();
+            // this.calculate_recipe();
           });
         }
       }

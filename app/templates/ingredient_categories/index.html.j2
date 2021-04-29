@@ -26,9 +26,8 @@
               {% include 'ingredient_categories/_edit.html.j2' %}
             {% endif %}
           {% endfor %}
-        </turbo-stream>
+        </turbo-frame>
       </ul>
-
 
       <form action="{{ url_for('IngredientCategoriesView:create') }}" method="POST" id="ingredient-category-create-form">
         {% include 'ingredient_categories/_add.html.j2' %}

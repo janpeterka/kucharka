@@ -106,8 +106,7 @@ class BaseMixin(object):
             return False
 
     def save(self, **kw):
-        """Saves (new) object
-        """
+        """Saves (new) object"""
         try:
             db.session.add(self)
             db.session.commit()
@@ -118,8 +117,7 @@ class BaseMixin(object):
             return False
 
     def remove(self, **kw):
-        """Deletes object
-        """
+        """Deletes object"""
         try:
             db.session.delete(self)
             db.session.commit()
@@ -133,8 +131,7 @@ class BaseMixin(object):
         return self.remove(**kw)
 
     def expire(self, **kw):
-        """Dumps database changes
-        """
+        """Dumps database changes"""
         try:
             db.session.expire(self)
             return True
@@ -175,7 +172,6 @@ class BaseMixin(object):
         else:
             return False
             # raise AttributeError("No 'is_shared' attribute.")
-
 
     # PERMISSIONS
     def can_view(self, user) -> bool:

@@ -8,10 +8,10 @@
 
     {% if current_user.is_admin and all_recipes %}
     <div class="admin-field">
-	    <label for="all_recipes"><h3>Všechny</h3></label>
-	    <ul name="all_recipes">
+	    <label><h3>Všechny recepty</h3></label>
+	    <ul>
 	        {% for recipe in all_recipes %}
-	            <li>{{ link_to(recipe) }}</li>
+	            <li>{{ link_to(recipe) }} {% if current_user != recipe.author %} ({{ recipe.author.name }}) {% elif recipe.is_public %} (veřejný) {% endif %}</li>
 	        {% endfor %}
 	    </ul>
     </div>

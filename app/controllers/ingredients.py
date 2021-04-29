@@ -46,6 +46,9 @@ class IngredientsView(ExtendedFlaskView):
     def before_index(self):
         self.ingredients = current_user.ingredients
 
+    def before_public(self):
+        self.public_ingredients = Ingredient.load_all_public()
+
     def post(self):
         form = IngredientsForm(request.form)
         form.set_measurement(Measurement.load_all())
@@ -93,5 +96,5 @@ class IngredientsView(ExtendedFlaskView):
             return redirect(url_for("IngredientsView:show", id=self.ingredient.id))
 
     @admin_required
-    def all_shared(self):
+    def public(self):
         return self.template(template_name="admin/ingredients/public.html.j2")

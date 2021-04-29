@@ -1,3 +1,7 @@
+from unidecode import unidecode
+
+
+# from sqlalchemy import and_
 from sqlalchemy.ext.hybrid import hybrid_property
 
 from flask_login import current_user
@@ -49,6 +53,14 @@ class Ingredient(db.Model, ItemMixin):
     )
 
     # LOADERS
+    @staticmethod
+    def load_all_public(ordered=True) -> list:
+        ingredients = Ingredient.query.filter(Ingredient.is_public).all()
+        # and_(Ingredient.is_public, Ingredient.is_approved)
+
+        if ordered:
+            ingredients.sort(key=lambda x: unidecode(x.name.lower()), reverse=False)
+        return ingredients
 
     def load_amount_by_recipe(self, recipe_id) -> float:
         rhi = RecipeHasIngredient.query.filter_by(

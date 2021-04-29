@@ -1,0 +1,16 @@
+<li class="nav-item dropdown">
+	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+	 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	Admin
+	</a>
+	
+	<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+		{# <a class="dropdown-item" href="{{ url_for('AdminView:index') }}">Admin dashboard</a> #}
+		<a class="dropdown-item" href="{{ url_for('IngredientsView:public') }}">Veřejné suroviny</a>
+        <a class="dropdown-item" href="{{ url_for('MeasurementsView:index') }}"> Seznam měr </a>
+		{# <a class="dropdown-item" href="{{ url_for('UsersView:show_all') }}">Uživatelé</a> #}
+		{# <a class="dropdown-item" href="{{ url_for('FilesView:index') }}">Files</a> #}
+		{# <div class="dropdown-divider"></div> #}
+	</div>
+</li>
+

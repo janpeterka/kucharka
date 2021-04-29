@@ -33,10 +33,10 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="{{ url_for('IngredientsView:index') }}"> surovin </a>
+            <a class="dropdown-item" href="{{ url_for('IngredientsView:public') }}"> veřejných surovin </a>
             <a class="dropdown-item" href="{{ url_for('RecipesView:index') }}"> receptů </a>
-            {% if current_user.is_admin %}
-              <a class="dropdown-item" href="{{ url_for('MeasurementsView:index') }}"> měr </a>
-            {% endif %}
+            <a class="dropdown-item" href="{{ url_for('RecipesView:public') }}"> veřejných receptů </a>
+
           </div>
         </li>
 
@@ -44,7 +44,7 @@
         <a class="nav-link" href="{{ url_for('DailyPlanExporterView:index') }}"> Export </a>
         {# <a class="nav-link" href="{{ url_for('CookbookView:index') }}">Veřejné recepty</a> #}
 
-        {# {% if current_user.is_admin %}{% include '_navbar_admin.html.j2' %}{% endif %} #}
+        {% if current_user.is_admin %}{% include 'navbars/_navbar_admin.html.j2' %}{% endif %}
       </ul>
 
       <ul class="nav navbar-nav navbar-right ml-auto">

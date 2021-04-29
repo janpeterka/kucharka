@@ -1,0 +1,14 @@
+<h1>Veřejné recepty</h1>
+
+<table class="table">
+<tr>
+	<th>Recept</th>
+	<th>Vytvořil*a</th>
+</tr>
+{% for recipe in public_recipes: %}
+    <tr>
+        <td>{{ link_to(recipe) }}</td>
+        <td>{{ recipe.author.name }}</td>
+    </tr>
+{% endfor %}
+</table>

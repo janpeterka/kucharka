@@ -17,8 +17,10 @@
         this.selectTarget.innerHTML = this.baseSelectTarget.innerHTML;
 
         for (let i = 0, ingredient; ingredient = this._get_currently_selected()[i]; i++) {
-          let option = this.selectTarget.querySelector("option[value='" + ingredient.id + "']");
-          option.remove();
+          let options = this.selectTarget.querySelectorAll("option[value='" + ingredient.id + "']");
+          for (let i = 0, option; option = options[i]; i++) {
+            option.remove();
+          }
         }
       }
 
@@ -51,7 +53,7 @@
             }
         }
         this._refresh_select();
-        this.calculate_recipe();
+        // this.calculate_recipe();
       }
 
       _row_to_ingredient(row){
@@ -84,29 +86,29 @@
         return ingredients;
       }
 
-      calculate_recipe(e){
-        if (e != null){e.preventDefault();}
+      // calculate_recipe(e){
+      //   if (e != null){e.preventDefault();}
 
-        var selected_ingredients = this._get_currently_selected()
+      //   var selected_ingredients = this._get_currently_selected()
 
-        var totals = {
-          "sugar": 0,
-          "protein": 0,
-          "fat": 0,
-          "calorie": 0,
-          "amount": 0
-        }
+      //   var totals = {
+      //     "sugar": 0,
+      //     "protein": 0,
+      //     "fat": 0,
+      //     "calorie": 0,
+      //     "amount": 0
+      //   }
 
-        for (let i = 0, ingredient; ingredient = selected_ingredients[i]; i++) {
-            totals["sugar"] += parseFloat(ingredient["sugar"]) * parseFloat(ingredient["amount"] / 100)
-            totals["protein"] += parseFloat(ingredient["protein"]) * parseFloat(ingredient["amount"] / 100)
-            totals["fat"] += parseFloat(ingredient["fat"]) * parseFloat(ingredient["amount"] / 100)
-            totals["calorie"] += parseFloat(ingredient["calorie"]) * parseFloat(ingredient["amount"] / 100)
-            totals["amount"] += parseFloat(ingredient["amount"])
-        }
+      //   for (let i = 0, ingredient; ingredient = selected_ingredients[i]; i++) {
+      //       totals["sugar"] += parseFloat(ingredient["sugar"]) * parseFloat(ingredient["amount"] / 100)
+      //       totals["protein"] += parseFloat(ingredient["protein"]) * parseFloat(ingredient["amount"] / 100)
+      //       totals["fat"] += parseFloat(ingredient["fat"]) * parseFloat(ingredient["amount"] / 100)
+      //       totals["calorie"] += parseFloat(ingredient["calorie"]) * parseFloat(ingredient["amount"] / 100)
+      //       totals["amount"] += parseFloat(ingredient["amount"])
+      //   }
         
-        this._set_totals(totals)
-      }
+      //   // this._set_totals(totals)
+      // }
 
     save_recipe(e){
       e.preventDefault();
@@ -126,12 +128,12 @@
       })
     }
 
-    _set_totals(totals){
-      var fields = ["calorie", "protein", "fat", "sugar", "amount"]
-      for (let i = 0, field; field = fields[i]; i++) {
-        this.totalsTarget.querySelector('[data-field=' + field + ']').innerHTML = _float_to_fixed(totals[field]) 
-      }      
-    }
+    // _set_totals(totals){
+    //   var fields = ["calorie", "protein", "fat", "sugar", "amount"]
+    //   for (let i = 0, field; field = fields[i]; i++) {
+    //     this.totalsTarget.querySelector('[data-field=' + field + ']').innerHTML = _float_to_fixed(totals[field]) 
+    //   }      
+    // }
 
   });
 </script>

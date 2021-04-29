@@ -1,0 +1,15 @@
+{% extends "base/base.html.j2" %}
+{% block title %}
+    Veřejné suroviny	
+{% endblock %}
+
+{% block style %}{% endblock %}
+
+{% block script %}{% endblock %}
+
+{% block content %}
+    {# {% if current_user.is_admin %} {% include "admin/ingredients/_ingredients_to_approve.html.j2" %} {% endif %} #}
+
+    {% include "ingredients/_public_ingredients.html.j2" %}
+{% endblock %}
+

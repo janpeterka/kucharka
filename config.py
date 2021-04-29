@@ -20,6 +20,8 @@ class Config(object):
 
     # SENTRY_MONITORING = True
 
+    INFO_USED_DB = "production db"
+
 
 class LocalProdConfig(Config):
     TEMPLATES_AUTO_RELOAD = True
@@ -33,6 +35,8 @@ class TestConfig(Config):
     SECRET_KEY = os.environ.get("TESTING_SECRET_KEY")
     # SENTRY_MONITORING = False
 
+    INFO_USED_DB = "testing db"
+
 
 class DevConfig(LocalProdConfig):
     TEMPLATES_AUTO_RELOAD = True
@@ -40,6 +44,8 @@ class DevConfig(LocalProdConfig):
     # SQLALCHEMY_ECHO = True
     # APP_STATE = os.environ.get("LOCAL_APP_STATE")
     # SENTRY_MONITORING = False
+
+    INFO_USED_DB = "local db"
 
 
 class ProdConfig(Config):

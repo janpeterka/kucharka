@@ -60,7 +60,7 @@ texts = {
     "recipe_edit": "Změnit recept",
     "recipe_print": "Vytisknout recept",
     "recipe_print_all": "Vytisknout všechny recepty",
-    "recipe_list": "Seznam receptů",
+    "recipe_list": "Seznam mých receptů",
     "recipe_save": "Uložit mezi recepty",
     "recipe_impossible": "Recept nelze vytvořit",
     "recipe_share": "Zveřejnit recept",

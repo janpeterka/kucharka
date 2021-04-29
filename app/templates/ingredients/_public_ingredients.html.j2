@@ -1,0 +1,16 @@
+<h1>Veřejné suroviny</h1>
+{# {% if current_user.is_admin %}		 #}
+	{# <a href="{{ url_for('IngredientsView:add_public') }}"><button class="btn btn-secondary float-right">Přidat veřejnou surovinu</button></a> #}
+{# {% endif %} #}
+<table id="public_ingredients" class="table">
+<tr>
+	<th>Surovina</th>
+	<th>Vytvořil*a</th>
+</tr>
+{% for ingredient in public_ingredients: %}
+    <tr>
+        <td>{{ link_to(ingredient) }}</td>
+        <td>{{ ingredient.author.name }}</td>
+    </tr>
+{% endfor %}
+</table>

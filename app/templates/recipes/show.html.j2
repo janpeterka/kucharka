@@ -25,64 +25,69 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
     <div class="row">
         <div class="col-10" data-controller="show-recipe">
-            <span {% if is_print %} class="d-print-table" {% endif %}>
-                <h2>
-                    {{ recipe.name }}
-                    {% if recipe.public and current_user != recipe.author %}
-                        <span class="font-italic font-weight-light">(vytvořil*a {{ recipe.author.first_name }} {{ recipe.author.last_name }})</span>
-                    {% elif recipe.public %}
-                        <span class="font-italic font-weight-light">(zveřejněno)</span>
-                    {% endif %}
-                </h2>
-                <span class="font-italic">{{ recipe.description if recipe.description }}</span>
-            </span>
+            <div class="mb-2">
+                <h2> {{ recipe.name }} </h2>
+                <p>{{ recipe.description if recipe.description }}</p>
+
+                {% if recipe.is_public and not recipe.is_current_user_author %}
+                    <span class="font-italic font-weight-light float-right">(vytvořil*a {{ recipe.author.name }})</span>
+                {% elif recipe.is_public %}
+                    <span class="font-italic font-weight-light float-right">zveřejněno</span>
+                {% endif %}
+
+            </div>
 
 
             <table id="ingredients" data-show-recipe-target="ingredientTable" class="table">
                 <tr>
                     <th>{{ texts.title }}</th>
                     <th>{{ texts.amount_simple }}</th>
-                    <th>{{ texts.energy_simple }}</th>
-                    <th>{{ texts.protein_simple }}</th>
-                    <th>{{ texts.fat_simple }}</th>
-                    <th>{{ texts.sugar_simple }}</th>
-                    <th></th>
+                    {# <th>{{ texts.energy_simple }}</th> #}
+                    {# <th>{{ texts.protein_simple }}</th> #}
+                    {# <th>{{ texts.fat_simple }}</th> #}
+                    {# <th>{{ texts.sugar_simple }}</th> #}
+                    {# <th></th> #}
                 </tr>
 
                 {% for recipe_ingredient in recipe.recipe_ingredients: %}
                     <tr>
                         <td>{{ link_to(recipe_ingredient.ingredient) }}</td>
                         <td data-type="amount">{{ recipe_ingredient.amount }}</td>
-                        <td data-type="calorie"></td>
-                        <td data-type="protein"></td>
-                        <td data-type="fat"></td>
-                        <td data-type="sugar"></td>
+                        {# <td data-type="calorie"></td> #}
+                        {# <td data-type="protein"></td> #}
+                        {# <td data-type="fat"></td> #}
+                        {# <td data-type="sugar"></td> #}
                         <td></td>
                     </tr>
                 {% endfor %}
 
-                <tr class="totals" data-show-recipe-target="totals">
+ {#                <tr class="totals" data-show-recipe-target="totals">
                     <td>Celkem</td>
                     <td data-field="calorie"></td>
                     <td data-field="protein"></td>
                     <td data-field="fat"></td>
                     <td data-field="sugar"></td>
                     <td data-field="amount"></td>
-                    <td data-field="ratio"></td>
-                </tr>
+                </tr> #}
             </table>
 
 
             {% if not is_print and recipe.can_current_user_edit %}
 
             <div>
-                <form action="{{ url_for('RecipesView:delete', id=recipe.id) }}" method="post" class="form-inline"  accept-charset="utf-8" onsubmit="return confirm('{{ texts.recipe_delete_confirm }}');">
+                <form action="{{ url_for('RecipesView:delete', id=recipe.id) }}" method="post" class="form-inline" onsubmit="return confirm('{{ texts.recipe_delete_confirm }}');">
                     <a class="btn btn-warning" href="{{ url_for('RecipesView:edit', id=recipe.id) }}">{{ texts.edit }} {{ icons.edit }}</a>
                     {# <a class="btn btn-secondary" href="{{ url_for('RecipesView:print', id=recipe.id) }}" target="_blank" rel="noopener noreferrer">{{ texts.print }} {{ icons.print }}</a> #}
                     <button type="submit" class="btn btn-danger">{{ texts.recipe_delete }} {{ icons.delete }}</button>
+                </form>
+                <form action="{{ url_for('RecipesView:toggle_shared', id=recipe.id) }}" method="post" class="form-inline">
+                    {% if recipe.is_shared == True %}
+                        <button type="submit" class="btn btn-secondary">{{ texts.recipe_unshare }} {{ icons.unarchive }}</button>
+                    {% else %}
+                        <button type="submit" class="btn btn-secondary">{{ texts.recipe_share }} {{ icons.archive }}</button>
+                    {% endif %}
                 </form>
             </div>
             {% endif %}
@@ -115,7 +120,6 @@
         </div>
         {% endif %}
  #}
-    </div>
     </div>
 {% endblock %}
 

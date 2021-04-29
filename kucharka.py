@@ -5,7 +5,7 @@ import os
 
 import datetime
 
-from flask import request, redirect, url_for
+from flask import request, redirect
 
 # from flask import g
 
@@ -45,7 +45,7 @@ def utility_processor():
                 formatted_date += " - Zítra"
                 # return "Zítra"
             # else:
-                # return date.strftime("%d.%m.%Y")
+            # return date.strftime("%d.%m.%Y")
 
         return formatted_date
 
@@ -89,6 +89,7 @@ def utility_processor():
     return dict(
         human_format_date=human_format_date,
         link_to=link_to,
+        option=option,
         options=options,
         list_of_links=list_of_links,
     )

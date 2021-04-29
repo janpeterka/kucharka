@@ -23,3 +23,7 @@ class User(db.Model, BaseMixin, UserMixin):
             return True
         else:
             return False
+
+    @property
+    def name(self):
+        return self.email

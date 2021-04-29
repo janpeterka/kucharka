@@ -1,3 +1,7 @@
+from unidecode import unidecode
+
+
+# from sqlalchemy import and_
 from sqlalchemy.ext.hybrid import hybrid_property
 
 from flask_login import current_user
@@ -27,6 +31,10 @@ class Ingredient(db.Model, ItemMixin):
     fat = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))
     protein = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))
 
+    is_public = db.Column(db.Boolean, default=False)
+    # is_approved = db.Column(db.Boolean, default=False)
+    source = db.Column(db.String(255), default="user")
+
     ingredient_recipes = db.relationship(
         "RecipeHasIngredient", back_populates="ingredient"
     )
@@ -40,9 +48,19 @@ class Ingredient(db.Model, ItemMixin):
 
     author = db.relationship("User", uselist=False, backref="ingredients")
     measurement = db.relationship("Measurement", uselist=False, backref="ingredients")
-    category = db.relationship("IngredientCategory", uselist=False, backref="ingredients")
+    category = db.relationship(
+        "IngredientCategory", uselist=False, backref="ingredients"
+    )
 
     # LOADERS
+    @staticmethod
+    def load_all_public(ordered=True) -> list:
+        ingredients = Ingredient.query.filter(Ingredient.is_public).all()
+        # and_(Ingredient.is_public, Ingredient.is_approved)
+
+        if ordered:
+            ingredients.sort(key=lambda x: unidecode(x.name.lower()), reverse=False)
+        return ingredients
 
     def load_amount_by_recipe(self, recipe_id) -> float:
         rhi = RecipeHasIngredient.query.filter_by(
@@ -55,19 +73,19 @@ class Ingredient(db.Model, ItemMixin):
     def is_author(self, user) -> bool:
         return self.author == user
 
-    # PERMISSIONS
-
     @hybrid_property
     def is_current_user_author(self) -> bool:
         return self.is_author(current_user)
 
+    @property
+    def is_used(self) -> bool:
+        return True if self.recipes else False
+
+    # PERMISSIONS
+
     def can_add(self, user) -> bool:
-        return self.is_author(user)
+        return self.is_author(user) or self.is_public
 
     @property
     def can_current_user_add(self) -> bool:
         return self.can_add(current_user)
-
-    @property
-    def is_used(self) -> bool:
-        return True if self.recipes else False

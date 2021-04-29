@@ -21,7 +21,7 @@ class User(db.Model, BaseMixin, UserMixin):
 
     @property
     def is_admin(self):
-        if self.email == "fons@skaut.cz":
+        if self.email == "admin":
             return True
         else:
             return False

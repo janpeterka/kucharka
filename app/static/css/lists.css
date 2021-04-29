@@ -1,4 +1,4 @@
-.new-measurement,
+.new-item,
 .edit {
 	position: relative;
 	margin: 0;
@@ -17,7 +17,7 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.new-measurement {
+.new-item {
 	padding: 16px 16px 16px 60px;
 	border: none;
 	background: rgba(0, 0, 0, 0.003);
@@ -31,44 +31,44 @@
 }
 
 
-.measurement-list {
+ul.list {
 	margin: 0;
 	padding: 0;
 	list-style: none;
 }
 
-.measurement-list li {
+.list li {
 	position: relative;
 	font-size: 24px;
 	border-bottom: 1px solid #ededed;
 }
 
-.measurement-list li button {
+.list li button {
 	background-color: transparent;
 }
 
-.measurement-list li:last-child {
+.list li:last-child {
 	border-bottom: none;
 }
 
-.measurement-list li.editing {
+.list li.editing {
 	border-bottom: none;
 	padding: 0;
 }
 
-.measurement-list li.editing .edit {
+.list li.editing .edit {
 	display: block;
 	width: 506px;
 	padding: 12px 16px;
 	margin: 0 0 0 43px;
 }
 
-.measurement-list li.editing .view {
+.list li.editing .view {
 	display: none;
 }
 
 
-.measurement-list li label {
+.list li label {
 	word-break: break-all;
 	padding: 15px 15px 15px 60px;
 	display: block;
@@ -76,7 +76,7 @@
 	transition: color 0.4s;
 }
 
-.measurement-list li .change {
+.list li .change {
 	/*display: none;*/
 	border: 0px;
 	opacity: 1;
@@ -93,19 +93,19 @@
 	transition: color 0.2s ease-out;
 }
 
-.measurement-list li .change:hover {
+.list li .change:hover {
 	color: #af5b5e;
 }
 
-.measurement-list li .change:after {
+.list li .change:after {
 	content: '✎';
 }
 
-.measurement-list li:hover .change {
+.list li:hover .change {
 	display: block;
 }
 
-.measurement-list li .destroy {
+.list li .destroy {
 	/*display: none;*/
 	position: absolute;
 	border: 0px;
@@ -121,36 +121,15 @@
 	transition: color 0.2s ease-out;
 }
 
-.measurement-list li .destroy:hover {
+.list li .destroy:hover {
 	color: #af5b5e;
 }
 
-.measurement-list li .destroy:after {
+.list li .destroy:after {
 	content: '×';
 }
 
 
-.measurement-list li.editing:last-child {
+.list li.editing:last-child {
 	margin-bottom: -1px;
-}
-
-/*General*/
-.destroy:after {
-	content: '×';
-}
-
-.destroy {
-	/*display: none;*/
-	position: absolute;
-	border: 0px;
-	top: 0;
-	right: 10px;
-	bottom: 1px;
-	width: 40px;
-	height: 40px;
-	margin: auto 0;
-	font-size: 30px;
-	color: #cc9a9a;
-	/*margin-bottom: 11px;*/
-	transition: color 0.2s ease-out;
 }

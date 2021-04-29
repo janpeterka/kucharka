@@ -1,0 +1,39 @@
+{% extends "base/base.html.j2" %}
+{% block links %}
+    {{ super() }}
+    {{ turbo() }}
+{% endblock %}
+
+{% block flashing %}
+    {% include('base/_turbo_flashing.html.j2') %}
+{% endblock %}
+
+{% block title %}
+    Ingredient categories
+{% endblock %}
+
+{% block content %}
+<div class="col-12 text-center">
+    <h1>Typy surovin</h1>
+    <span>pro lepší řazení při nákupu</span>
+
+      <ul class="list">
+        <turbo-frame id="ingredient-categories">
+          {% for category in ingredient_categories %}
+            {% if category.id != edit_id %}
+              {% include 'ingredient_categories/_ingredient_category.html.j2' %}
+            {% else %}
+              {% include 'ingredient_categories/_edit.html.j2' %}
+            {% endif %}
+          {% endfor %}
+        </turbo-stream>
+      </ul>
+
+
+      <form action="{{ url_for('IngredientCategoriesView:create') }}" method="POST" id="ingredient-category-create-form">
+        {% include 'ingredient_categories/_add.html.j2' %}
+      </form>
+
+</div> 
+{% endblock %}
+

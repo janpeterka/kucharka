@@ -1,0 +1,10 @@
+<turbo-frame id="ingredient-category-{{ category.id }}">
+  <li class="editing">
+    <div>
+      <label></label>
+    </div>
+    <form method="POST" action="{{ url_for('IngredientCategoriesView:edit', id=category.id) }}" data-turbo-frame="all">
+      <input type="text" name="ingredient-category" value="{{ category.name }}" class="edit" autofocus>
+    </form>
+  </li>
+</turbo-frame>

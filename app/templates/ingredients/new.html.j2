@@ -1,11 +1,6 @@
 {% extends "base/base.html.j2" %}
-{% block title %}
-    Nová surovina
-{% endblock %}
 
-{% block style %}{% endblock %}
-
-{% block script %}{% endblock %}
+{% block title %} Nová surovina {% endblock %}
 
 {% block content %}
     <div class="container">
@@ -16,6 +11,7 @@
             {{ render_field(form.name) }}
             {{ render_field(form.description) }}
             {{ render_field(form.measurement) }}
+            {{ render_field(form.category) }}
 
             <details>
             <summary>Nutriční hodnoty</summary>

@@ -17,7 +17,8 @@ class IngredientsForm(FlaskForm):
 
     description = StringField("Popis", widget=TextArea())
 
-    measurement = SelectField("Měřím v", coerce=int)
+    measurement = SelectField("Počítané v", coerce=int)
+    category = SelectField("Kategorie", coerce=int)
 
     protein = ComaFloatField(
         "Množství bílkovin / 100 g",
@@ -43,7 +44,19 @@ class IngredientsForm(FlaskForm):
     calorie = ComaFloatField("Energie (kJ) / 100 g", [validators.Optional()])
     submit = SubmitField("Přidat surovinu")
 
-    def set_measurement(form, measurements):
-        form.measurement.choices = [
+    def set_measurement(self, measurements):
+        self.measurement.choices = [
             (measurement.id, measurement.name) for measurement in measurements
         ]
+
+    def set_category(self, categories):
+        self.category.choices = [
+            (category.id, category.name) for category in categories
+        ]
+
+    def set_all(self, **kwargs):
+        if "measurements" in kwargs:
+            self.set_measurement(kwargs["measurements"])
+
+        if "categories" in kwargs:
+            self.set_category(kwargs["categories"])

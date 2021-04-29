@@ -8,6 +8,8 @@ from app.helpers.base_mixin import BaseMixin
 
 
 class User(db.Model, BaseMixin, UserMixin):
+    from app.models.users_have_roles import users_have_roles
+
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)

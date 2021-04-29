@@ -9,7 +9,8 @@
                 <div>                
                     <h2>{{ ingredient.name }}</h2>
                     <p>{{ ingredient.description if ingredient.description }}</p>
-                    <span class="font-italic"> Míra: {{ ingredient.measurement.name }} </span>
+                    <span class="font-italic"> Míra: {{ ingredient.measurement.name }} </span><br>
+                    <span class="font-italic"> Kategorie: {{ ingredient.category.name }} </span>
                     {% if ingredient.is_public %}
                         <span class="font-italic font-weight-light float-right" >Veřejná surovina (zdroj: {{ ingredient.source }})</span>
                     {% endif %}

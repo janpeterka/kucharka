@@ -7,7 +7,6 @@ from flask_login import login_required, current_user
 
 from app.helpers.form import save_form_to_session
 from app.helpers.extended_flask_view import ExtendedFlaskView
-from app.helpers.auth import admin_required
 
 # from app.handlers.data import DataHandler
 
@@ -95,6 +94,5 @@ class IngredientsView(ExtendedFlaskView):
             flash("Tato surovina je použita, nelze smazat", "error")
             return redirect(url_for("IngredientsView:show", id=self.ingredient.id))
 
-    @admin_required
     def public(self):
-        return self.template(template_name="admin/ingredients/public.html.j2")
+        return self.template(template_name="ingredients/public.html.j2")

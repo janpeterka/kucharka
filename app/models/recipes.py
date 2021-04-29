@@ -1,3 +1,5 @@
+from unidecode import unidecode
+
 from flask_login import current_user
 
 from app import db
@@ -20,6 +22,9 @@ class Recipe(db.Model, ItemMixin):
 
     description = db.Column(db.Text)
 
+    is_public = db.Column(db.Boolean, default=False)
+    is_shared = db.Column(db.Boolean, default=False)
+
     recipe_ingredients = db.relationship("RecipeHasIngredient", back_populates="recipe")
 
     ingredients = db.relationship(
@@ -30,6 +35,17 @@ class Recipe(db.Model, ItemMixin):
     )
 
     author = db.relationship("User", uselist=False, backref="recipes")
+
+    # LOADERS
+    @staticmethod
+    def load_all_public(ordered=True) -> list:
+        recipes = Recipe.query.filter(Recipe.is_shared).all()
+        print(recipes)
+        # and_(Ingredient.is_shared, Ingredient.is_approved)
+
+        if ordered:
+            recipes.sort(key=lambda x: unidecode(x.name.lower()), reverse=False)
+        return recipes
 
     @staticmethod
     def load(recipe_id):
@@ -56,6 +72,8 @@ class Recipe(db.Model, ItemMixin):
 
         return private_recipes
 
+    # Operations
+
     def create_and_save(self, recipe_ingredients):
         db.session.add(self)
         db.session.flush()
@@ -81,15 +99,22 @@ class Recipe(db.Model, ItemMixin):
         db.session.commit()
         return True
 
-    @property
-    def concat_ingredients(self) -> str:
-        return ", ".join([o.name for o in self.ingredients])
+    def toggle_shared(self):
+        self.is_shared = not self.is_shared
+        self.edit()
+        return self.is_shared
 
     # PERMISSIONS
 
     @property
     def can_current_user_show(self) -> bool:
         return current_user == self.author or current_user.is_admin or self.public
+
+    # PROPERTIES
+
+    @property
+    def concat_ingredients(self) -> str:
+        return ", ".join([o.name for o in self.ingredients])
 
     @property
     # @cache.cached(timeout=50, key_prefix="recipe_totals")

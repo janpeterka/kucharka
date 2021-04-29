@@ -11,7 +11,7 @@
                     <p>{{ ingredient.description if ingredient.description }}</p>
                     <span class="font-italic"> Míra: {{ ingredient.measurement.name }} </span>
                     {% if ingredient.is_public %}
-                        <span class="font-italic float-right" >Veřejná surovina (zdroj: {{ ingredient.source }})</span>
+                        <span class="font-italic font-weight-light float-right" >Veřejná surovina (zdroj: {{ ingredient.source }})</span>
                     {% endif %}
                 </div>
 

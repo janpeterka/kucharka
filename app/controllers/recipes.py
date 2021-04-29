@@ -31,8 +31,11 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
             if not self.recipe.can_current_user_show:
                 abort(403)
 
-    # def index(self):
-    # return self.template()
+    def before_public(self):
+        self.public_recipes = Recipe.load_all_public()
+
+    def public(self):
+        return self.template()
 
     def new(self):
         self.public_ingredients = Ingredient.load_all_public()
@@ -89,3 +92,13 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
 
         last_id = recipe.create_and_save(recipe_ingredients)
         return url_for("RecipesView:show", id=last_id)
+
+    @route("/toggle_shared/<id>", methods=["POST"])
+    def toggle_shared(self, id):
+        toggled = self.recipe.toggle_shared()
+        print(self.recipe.is_shared)
+        if toggled is True:
+            flash("Recept byl zveřejněn.", "success")
+        else:
+            flash("Recept byl skryt před veřejností.", "success")
+        return redirect(url_for("RecipesView:show", id=self.recipe.id))

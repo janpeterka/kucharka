@@ -8,6 +8,7 @@
     {# {% include 'javascript/daily_plan_controller.js.html' %} #}
 {# {% endblock %} #}
 
+
 {% block content %}
     <div class="container" data-controller="daily-plan">
         <div class="text-center">
@@ -83,8 +84,9 @@
         <div class="row float-right mt-5">
             <form class="form" action="{{ url_for('DailyPlansView:add_recipe') }}" method="post">
                 <div class="form-group form-inline">
-                    <select name="recipe_id" class="form-control">
-                        {{ options(current_user.recipes) }}
+                    <select name="recipe_id" id="recipe_select" class="form-control">
+                        {% include "daily_plans/_add_recipe_form_options.html.j2" %}
+                        {# {{ options(current_user.recipes) }} #}
                     </select>
                 </div>
 
@@ -106,4 +108,10 @@
         </div>
 
     </div>
+{% endblock %}
+
+{% block scripts_after %}
+<script type="text/javascript">
+    $(document).ready(function() {$('#recipe_select').select2();});
+</script>
 {% endblock %}

@@ -13,31 +13,26 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="col-12">
-            <h1>V čem se dá počítat?</h1>
+<div class="col-12 text-center">
+    <h1>V čem se dá počítat?</h1>
 
-            {# <turbo-frame id="all"> #}
-              <ul class="list">
-                <turbo-frame id="measurements">
-                  {% for measurement in measurements %}
-                    {% if measurement.id != edit_id %}
-                      {% include 'measurements/_measurement.html.j2' %}
-                    {% else %}
-                      {% include 'measurements/_edit.html.j2' %}
-                    {% endif %}
-                  {% endfor %}
-                </turbo-stream>
-              </ul>
+      <ul class="list">
+        <turbo-frame id="measurements">
+          {% for measurement in measurements %}
+            {% if measurement.id != edit_id %}
+              {% include 'measurements/_measurement.html.j2' %}
+            {% else %}
+              {% include 'measurements/_edit.html.j2' %}
+            {% endif %}
+          {% endfor %}
+        </turbo-stream>
+      </ul>
 
 
-              <form action="{{ url_for('MeasurementsView:create') }}" method="POST" id="measurement-create-form">
-                {% include 'measurements/_add.html.j2' %}
-              </form>
+      <form action="{{ url_for('MeasurementsView:create') }}" method="POST" id="measurement-create-form">
+        {% include 'measurements/_add.html.j2' %}
+      </form>
 
-            {# </turbo-frame> #}
-
-        </div> 
-    </div>
+</div> 
 {% endblock %}
 

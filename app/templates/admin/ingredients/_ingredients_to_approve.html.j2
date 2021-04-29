@@ -1,0 +1,25 @@
+<h1>Sdílené suroviny ke schválení ({{ unapproved_ingredients|length }})</h1>
+<table id="unapproved_ingredients" class="table">
+<tr>
+    <th>{{ texts.title }}</th>
+    <th>{{ texts.energy_100 }}</th>
+    <th>{{ texts.protein_100 }}</th>
+    <th>{{ texts.fat_100 }}</th>       
+    <th>{{ texts.sugar_100 }}</th>
+    <th>Schválit</th>
+</tr>
+{% for ingredient in unapproved_ingredients: %}
+    <tr>
+        <td>{{ link_to(ingredient) }}</td>
+        <td>{{ ingredient.calorie }}</td>
+        <td>{{ ingredient.protein }}</td>
+        <td>{{ ingredient.fat }}</td>
+        <td>{{ ingredient.sugar }}</td>
+        <td>
+            {% from "macros/_active_icons.html.j2" import approve_icon, disapprove_icon %}
+            {{ approve_icon(url=url_for('IngredientsView:approve', id=ingredient.id)) }}
+            {{ disapprove_icon(url=url_for('IngredientsView:disapprove', id=ingredient.id)) }}
+        </td>
+    </tr>
+{% endfor %}
+</table>

@@ -40,10 +40,12 @@ def create_app(config_name="default"):
 
     application.config.from_object(configs[config_name])
 
-    @migrate.configure
-    def configure_alembic(config):
-        # modify config object
-        return config
+    print(f"DB INFO: using {application.config['INFO_USED_DB']}")
+
+    # @migrate.configure
+    # def configure_alembic(config):
+    #     # modify config object
+    #     return config
 
     # APPS
     db.init_app(application)

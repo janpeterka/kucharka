@@ -16,6 +16,7 @@ flask-babelex = "*"
 flask-babel = "*"
 cryptography = "*"
 turbo-flask = "*"
+unidecode = "*"
 
 [dev-packages]
 

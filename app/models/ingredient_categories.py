@@ -1,3 +1,5 @@
+from unidecode import unidecode
+
 from app import db
 
 from app.helpers.base_mixin import BaseMixin
@@ -9,6 +11,16 @@ class IngredientCategory(db.Model, BaseMixin):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(80), unique=True)
     description = db.Column(db.String(255))
+
+    # LOADERS
+    @staticmethod
+    def load_all(ordered=True):
+        measurements = IngredientCategory.query.all()
+
+        if ordered:
+            measurements.sort(key=lambda x: unidecode(x.name.lower()))
+
+        return measurements
 
     # PROPERTIES
 

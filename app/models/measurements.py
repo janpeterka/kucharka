@@ -22,6 +22,8 @@ class Measurement(db.Model, BaseMixin):
 
         return measurements
 
+    # PROPERTIES
+
     @property
     def is_used(self) -> bool:
         return True if self.ingredients else False

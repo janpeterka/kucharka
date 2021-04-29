@@ -1,0 +1,11 @@
+<tr id="ingredient-{{ingredient.id}}">
+    <td>{{ link_to(ingredient) }}</td>
+    <td>
+        <form action="{{ url_for('RecipesView:change_ingredient_amount', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" class="form" method="post">
+            <input type="number" class="form-control" name="amount" value="{{ ingredient.amount|round(2,'common') }}"> </td>
+        </form>
+    {# <td>{{ (ingredient.calorie / 100 * ingredient.amount)|round(2,'common') }}</td> #}
+    {# <td>{{ (ingredient.protein / 100 * ingredient.amount)|round(2,'common') }}</td> #}
+    {# <td>{{ (ingredient.fat / 100 * ingredient.amount)|round(2,'common') }}</td> #}
+    {# <td>{{ (ingredient.sugar / 100 * ingredient.amount)|round(2,'common') }}</td> #}
+</tr>

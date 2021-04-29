@@ -110,7 +110,8 @@ class BaseMixin(object):
         try:
             db.session.add(self)
             db.session.commit()
-            return self.id is not None
+            if hasattr(self, "id"):
+                return self.id is not None
         except DatabaseError as e:
             db.session.rollback()
             application.logger.error("Save error: {}".format(e))

@@ -20,11 +20,15 @@ from app.models.measurements import Measurement
 from app.controllers.forms.ingredients import IngredientsForm
 
 
-def set_form(form):
+def set_form(form, ingredient=None):
     measurements = Measurement.load_all()
     # measurements.sort(key=lambda x: unidecode(x.name.lower()))
     categories = IngredientCategory.load_all()
     categories.sort(key=lambda x: unidecode(x.name.lower()))
+
+    if ingredient:
+        form.measurement.data = ingredient.measurement.id
+        form.category.data = ingredient.category.id
 
     form.set_all(measurements=measurements, categories=categories)
 
@@ -47,7 +51,8 @@ class IngredientsView(ExtendedFlaskView):
 
     def before_edit(self, id):
         super().before_edit(id)
-        set_form(self.form)
+        set_form(self.form, self.ingredient)
+
         self.recipes = Recipe.load_by_ingredient_and_user(self.ingredient, current_user)
         self.all_recipes = Recipe.load_by_ingredient(self.ingredient)
 
@@ -83,7 +88,7 @@ class IngredientsView(ExtendedFlaskView):
     @route("edit/<id>", methods=["POST"])
     def post_edit(self, id):
         form = IngredientsForm(request.form)
-        set_form(self.form)
+        set_form(form)
 
         if self.ingredient.is_used:
             del form.measurement
@@ -92,7 +97,8 @@ class IngredientsView(ExtendedFlaskView):
             save_form_to_session(request.form)
             return redirect(url_for("IngredientsView:edit", id=self.ingredient.id))
 
-        form.measurement.data = Measurement.load(form.measurement.data)
+        if not self.ingredient.is_used:
+            form.measurement.data = Measurement.load(form.measurement.data)
         form.category.data = IngredientCategory.load(form.category.data)
         form.populate_obj(self.ingredient)
         self.ingredient.edit()

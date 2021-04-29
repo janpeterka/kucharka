@@ -1,7 +1,9 @@
 from app import db
 
+from app.helpers.base_mixin import BaseMixin
 
-class RecipeHasIngredient(db.Model):
+
+class RecipeHasIngredient(db.Model, BaseMixin):
     """Recipe-Ingredient connection class
 
     Extends:
@@ -28,3 +30,10 @@ class RecipeHasIngredient(db.Model):
 
     ingredient = db.relationship("Ingredient", back_populates="ingredient_recipes")
     recipe = db.relationship("Recipe", back_populates="recipe_ingredients")
+
+    @staticmethod
+    def load_by_recipe_and_ingredient(recipe, ingredient):
+        rhi = RecipeHasIngredient.query.filter_by(
+            recipe_id=recipe.id, ingredient_id=ingredient.id
+        ).first()
+        return rhi

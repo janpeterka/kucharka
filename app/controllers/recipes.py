@@ -5,6 +5,8 @@ from flask_login import login_required, current_user
 
 from flask_classful import route
 
+# from app import turbo
+
 from app.helpers.extended_flask_view import ExtendedFlaskView
 from app.models.recipes import Recipe
 
@@ -102,3 +104,21 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
         else:
             flash("Recept byl skryt před veřejností.", "success")
         return redirect(url_for("RecipesView:show", id=self.recipe.id))
+
+    @route("/change_ingredient_amount/<recipe_id>/<ingredient_id>", methods=["POST"])
+    def change_ingredient_amount(self, recipe_id, ingredient_id):
+        if request.method == "POST":
+            rhi = RecipeHasIngredient.load_by_recipe_and_ingredient(
+                Recipe.load(recipe_id), Ingredient.load(ingredient_id)
+            )
+            rhi.amount = request.form["amount"]
+            print(rhi.amount)
+            rhi.save()
+
+            return redirect(url_for("RecipesView:show", id=recipe_id))
+            # return turbo.stream(
+            #     turbo.replace(
+            #         self.template(template_name="recipes/_edit_ingredient.html.j2"),
+            #         target=f"ingredient-{ingredient_id}",
+            #     )
+            # )

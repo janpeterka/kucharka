@@ -2,7 +2,9 @@
     <label for="recipes"><h3>{{ texts.recipe_list }}</h3></label>
     <ul name="recipes">
         {% for recipe in recipes %}
-            <li>{{ link_to(recipe) }}</li>
+            <li>{{ link_to(recipe) }}
+                {% if recipe.is_shared %} (veřejný) {% endif %}
+            </li>
         {% endfor %}
     </ul>
 

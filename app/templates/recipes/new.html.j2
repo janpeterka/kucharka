@@ -6,25 +6,13 @@
 {% block script %}
     {% include 'javascript/stimulus.js.html' %}
     {% include 'javascript/simple_calculator_controller.js.html' %}
-
-    <!-- Google Charts -->
-    {# <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> #}
-
-    <!-- Bootstrap slider -->
-    {# <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.2/css/bootstrap-slider.min.css" rel="stylesheet" /> #}
-    {# <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.2/bootstrap-slider.min.js"></script> #}
 {% endblock %}
 
 {% block content %}
     <div class="container" data-controller="simple-calculator">
         <div class="hidden">
             <select data-simple-calculator-target="baseSelect">
-                <optgroup label="Moje suroviny">
-                    {{ options(current_user.ingredients) }}
-                </optgroup>
-                <optgroup label="Veřejné suroviny">
-                    {{ options(public_ingredients) }}
-                </optgroup>
+                {% include "recipes/_add_ingredient_form_options.html.j2" %}
             </select>
         </div>
 
@@ -32,12 +20,7 @@
             <div>
                 <form class="form-inline" data-action="submit->simple-calculator#add_ingredient">
                     <select class="form-control" id="ingredient_select" data-simple-calculator-target="select">
-                        <optgroup label="Moje suroviny">
-                            {{ options(current_user.ingredients) }}
-                        </optgroup>
-                        <optgroup label="Veřejné suroviny">
-                            {{ options(public_ingredients) }}
-                        </optgroup>
+                        {% include "recipes/_add_ingredient_form_options.html.j2" %}
                     </select>
 
                     <input type="submit" class="btn btn-primary" value="Přidat surovinu" />

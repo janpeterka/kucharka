@@ -89,17 +89,22 @@ class MeasurementsView(ExtendedFlaskView):
 
     @route("/delete/<id>", methods=["POST"])
     def delete(self, id):
+        from app.helpers.turbo_flash import turbo_flash
         if self.measurement.is_used:
+            if turbo.can_stream():
+                return turbo_flash("Už je někde použité, nelze smazat!")
+
             # flash("Už je někde použité, nelze smazat!")
-            return turbo.stream(
-                turbo.prepend(
-                    template(
-                        "measurements/_error.html.j2",
-                        message="Už je někde použité, nelze smazat!",
-                    ),
-                    target=f"measurement-{id}",
-                )
-            )
+            # return turbo.stream(
+            #     turbo.prepend(
+            #         template(
+            #             "measurements/_error.html.j2",
+            #             message="Už je někde použité, nelze smazat!",
+            #         ),
+            #         target=f"measurement-{id}",
+            #     )
+            # )
+
             return redirect(url_for("MeasurementsView:index"))
 
         self.measurement.delete()

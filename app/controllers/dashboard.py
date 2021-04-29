@@ -8,7 +8,6 @@ class DashboardView(ExtendedFlaskView):
     decorators = [login_required]
 
     def index(self):
-        flash("Welcome on dashboard!")
         return self.template("dashboard/dashboard.html.j2")
 
     def show(self, **kwargs):

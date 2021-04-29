@@ -3,6 +3,11 @@
     {{ super() }}
     {{ turbo() }}
 {% endblock %}
+
+{% block flashing %}
+    {% include('base/_turbo_flashing.html.j2') %}
+{% endblock %}
+
 {% block title %}
     Measurements
 {% endblock %}

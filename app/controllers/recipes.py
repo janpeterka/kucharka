@@ -1,4 +1,4 @@
-from flask import render_template as template
+# from flask import render_template as template
 from flask import request, redirect, url_for, flash, abort, g
 
 from flask_login import login_required, current_user
@@ -35,16 +35,9 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
     # return self.template()
 
     def new(self):
-        # ingredients = Ingredient.load_all_by_author(current_user)
-        # shared_ingredients = Ingredient.load_all_shared(renamed=True)
+        self.public_ingredients = Ingredient.load_all_public()
 
-        # TODO - this causes duplication for admin. shouldn't be problem for users.
-        # all_ingredients = ingredients + shared_ingredients
-        return template(
-            "recipes/new.html.j2",
-            # ingredients=current_,
-            # preset_ingredients=request.args.get("preset_ingredient_ids", []),
-        )
+        return self.template("recipes/new.html.j2")
 
     def post(self):
         # TODO: implemented with ajax now, will change
@@ -75,6 +68,7 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
     # def edit(self, id):
     # return template("recipes/edit.html.j2", recipe=self.recipe)
 
+    @route("<id>/delete", methods=["POST"])
     def delete(self, id):
         self.recipe.remove()
         flash("Recept byl smazán.", "success")

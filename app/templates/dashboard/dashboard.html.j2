@@ -12,21 +12,13 @@
     <div class="col-sm-12 col-md-6">
         <div>
             <h4 class="text-uppercase font-comfortaa">Seznam receptů:</h4>
-            <ul>
-            {% for recipe in current_user.recipes %}
-                <li>{{ link_to(recipe) }}</li>
-            {% endfor %}
-            </ul>
+            {{ list_of_links(current_user.recipes) }}
         </div>
     </div>
 
     <div class="col-sm-12 col-md-6">
         <h4 class="text-uppercase font-comfortaa">Seznam surovin:</h4>
-        <ul>
-        {% for ingredient in current_user.ingredients %}
-            <li>{{ link_to(ingredient) }}</li>
-        {% endfor %}
-        </ul>
+        {{ list_of_links(current_user.ingredients) }}
     </div>
 </div>
 {% endblock %}

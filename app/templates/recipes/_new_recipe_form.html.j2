@@ -1,0 +1,9 @@
+<form class="form-inline" data-action="submit->simple-calculator#save_recipe">
+	<label> Název receptu </label>
+	<input type="text" class="form-control" data-simple-calculator-target="recipeName" required />
+	<label> Kategorie </label>
+	<select class="form-control">
+		{{ options(categories) }}
+	</select>
+	<input type="submit" class="btn btn-primary" value="{{ texts.recipe_save }}" />
+</form>

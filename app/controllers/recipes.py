@@ -1,3 +1,5 @@
+from unidecode import unidecode
+
 # from flask import render_template as template
 from flask import request, redirect, url_for, flash, abort, g
 
@@ -8,14 +10,28 @@ from flask_classful import route
 # from app import turbo
 
 from app.helpers.extended_flask_view import ExtendedFlaskView
-from app.models.recipes import Recipe
+from app.helpers.form import save_form_to_session
 
 # from app.models.users import User
+from app.models.recipes import Recipe
 from app.models.ingredients import Ingredient
-
 from app.models.recipes_have_ingredients import RecipeHasIngredient
+from app.models.recipe_categories import RecipeCategory
 
 from app.controllers.base_recipes import BaseRecipesView
+
+from app.controllers.forms.recipes import RecipesForm
+
+
+def set_form(form, recipe=None):
+    categories = RecipeCategory.load_all()
+    categories.sort(key=lambda x: unidecode(x.name.lower()))
+
+    if recipe:
+        if recipe.category:
+            form.category.data = recipe.category.id
+
+    form.set_all(categories=categories)
 
 
 class RecipesView(BaseRecipesView, ExtendedFlaskView):
@@ -36,10 +52,16 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
     def before_public(self):
         self.public_recipes = Recipe.load_all_public()
 
+    def before_edit(self, id):
+        super().before_edit(id)
+        self.categories = RecipeCategory.load_all()
+        set_form(self.form, self.recipe)
+
     def public(self):
         return self.template()
 
     def new(self):
+        self.categories = RecipeCategory.load_all()
         self.public_ingredients = Ingredient.load_all_public()
 
         return self.template("recipes/new.html.j2")
@@ -50,11 +72,21 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
 
     @route("<id>/edit", methods=["POST"])
     def post_edit(self, id):
-        self.recipe.name = request.form["name"]
-        self.recipe.description = request.form["description"]
+        form = RecipesForm(request.form)
+        set_form(form)
+
+        print(form.category.choices)
+        print(form.category.data)
+
+        if not form.validate_on_submit():
+            print(form.errors)
+            save_form_to_session(request.form)
+            return redirect(url_for("RecipesView:edit", id=self.recipe.id))
+
+        form.category.data = RecipeCategory.load(form.category.data)
+        form.populate_obj(self.recipe)
         self.recipe.edit()
-        self.recipe.refresh()
-        flash("Recept byl upraven.", "success")
+
         return redirect(url_for("RecipesView:show", id=self.recipe.id))
 
     # def show(self, id):

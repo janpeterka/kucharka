@@ -26,6 +26,8 @@ class Recipe(db.Model, ItemMixin):
     is_public = db.Column(db.Boolean, default=False)
     is_shared = db.Column(db.Boolean, default=False)
 
+    category_id = db.Column(db.ForeignKey("recipe_categories.id"))
+
     recipe_ingredients = db.relationship("RecipeHasIngredient", back_populates="recipe")
 
     ingredients = db.relationship(
@@ -36,6 +38,8 @@ class Recipe(db.Model, ItemMixin):
     )
 
     author = db.relationship("User", uselist=False, backref="recipes")
+
+    category = db.relationship("RecipeCategory", uselist=False, backref="recipes")
 
     # LOADERS
     @staticmethod

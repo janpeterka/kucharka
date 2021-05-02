@@ -30,15 +30,14 @@
             <div class="mb-2">
                 <h2> {{ recipe.name }} </h2>
                 <p>{{ recipe.description if recipe.description }}</p>
+                <span class="font-italic"> Kategorie: {{ recipe.category.name }} </span>
 
                 {% if recipe.is_public and not recipe.is_current_user_author %}
                     <span class="font-italic font-weight-light float-right">(vytvořil*a {{ recipe.author.name }})</span>
                 {% elif recipe.is_public %}
                     <span class="font-italic font-weight-light float-right">zveřejněno</span>
                 {% endif %}
-
             </div>
-
 
             <table id="ingredients" data-show-recipe-target="ingredientTable" class="table">
                 <tr>

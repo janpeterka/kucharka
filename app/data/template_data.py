@@ -77,6 +77,7 @@ texts = {
     "diet_name": "Název diety",
     "diet_recipes_count": "Receptů:",
     # Ingredient
+    "ingredient": "Surovina",
     "ingredient_add": "Přidat surovinu",
     "ingredient_add_shared": "Přidat sdílenou surovinu",
     "ingredient_new": "Nová surovina",

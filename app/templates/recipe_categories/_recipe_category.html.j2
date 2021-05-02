@@ -1,0 +1,16 @@
+<turbo-frame id="recipe-category-{{ category.id }}">
+  <li class="row">
+      <div>
+        <label>{{ category.name}}</label>
+      </div>
+    <label style="font-size: smaller;">{{ category.description if category.description  }}</label>
+    {% if not edit_id %}
+      <form method="POST" action="{{ url_for('RecipeCategoriesView:show_edit', id=category.id) }}" data-turbo-frame="all">
+        <button type="submit" class="change"></button>
+      </form>
+      <form method="POST" action="{{ url_for('RecipeCategoriesView:delete', id=category.id) }}">
+        <button type="submit" class="destroy"></button>
+      </form>
+    {% endif %}
+  </li>
+</turbo-frame>

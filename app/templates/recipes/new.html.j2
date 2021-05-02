@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container" data-controller="simple-calculator">
+    <div data-controller="simple-calculator">
         <div class="hidden">
             <select data-simple-calculator-target="baseSelect">
                 {% include "recipes/_add_ingredient_form_options.html.j2" %}
@@ -59,12 +59,7 @@
                 </table> #}
 
                 <div class="col-12">
-                    <form class="form-inline" data-action="submit->simple-calculator#save_recipe">
-
-                        <label>Název receptu</label>
-                        <input type="text" class="form-control" data-simple-calculator-target="recipeName" required />
-                        <input type="submit" class="btn btn-primary" value="{{ texts.recipe_save }}" />
-                    </form>
+                    {% include "recipes/_new_recipe_form.html.j2" %}
                 </div>
 
             </div>

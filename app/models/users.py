@@ -14,6 +14,7 @@ class User(db.Model, BaseMixin, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime, default=datetime.now)
+    full_name = db.Column(db.String(255))
 
     roles = db.relationship("Role", secondary="users_have_roles", backref="users")
 
@@ -21,11 +22,8 @@ class User(db.Model, BaseMixin, UserMixin):
 
     @property
     def is_admin(self):
-        if self.email == "admin":
-            return True
-        else:
-            return False
+        return self.has_role("superadmin")
 
     @property
     def name(self):
-        return self.email
+        return self.full_name

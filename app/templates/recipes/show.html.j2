@@ -75,7 +75,6 @@
 
 
             {% if not is_print and recipe.can_current_user_edit %}
-
             <div>
                 <form action="{{ url_for('RecipesView:delete', id=recipe.id) }}" method="post" class="form-inline" onsubmit="return confirm('{{ texts.recipe_delete_confirm }}');">
                     <a class="btn btn-warning" href="{{ url_for('RecipesView:edit', id=recipe.id) }}">{{ texts.edit }} {{ icons.edit }}</a>

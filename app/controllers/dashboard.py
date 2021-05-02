@@ -1,5 +1,5 @@
-from flask import request, redirect, url_for, flash
-from flask_login import current_user, login_required
+from flask import request, redirect, url_for
+from flask_login import login_required
 
 from app.helpers.extended_flask_view import ExtendedFlaskView
 

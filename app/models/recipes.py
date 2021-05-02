@@ -8,6 +8,7 @@ from app.helpers.item_mixin import ItemMixin
 
 from app.models.ingredients import Ingredient
 from app.models.recipes_have_ingredients import RecipeHasIngredient
+from app.models.users_have_recipes_reaction import UserHasRecipeReaction
 
 
 class Recipe(db.Model, ItemMixin):
@@ -40,8 +41,6 @@ class Recipe(db.Model, ItemMixin):
     @staticmethod
     def load_all_public(ordered=True) -> list:
         recipes = Recipe.query.filter(Recipe.is_shared).all()
-        print(recipes)
-        # and_(Ingredient.is_shared, Ingredient.is_approved)
 
         if ordered:
             recipes.sort(key=lambda x: unidecode(x.name.lower()), reverse=False)
@@ -103,6 +102,25 @@ class Recipe(db.Model, ItemMixin):
         self.is_shared = not self.is_shared
         self.edit()
         return self.is_shared
+
+    def toggle_reaction(self, user=None):
+        user = current_user if user is None else user
+
+        if self.has_reaction is True:
+            self.remove_reaction(user)
+        else:
+            self.add_reaction(user)
+
+    def add_reaction(self, user):
+        UserHasRecipeReaction(recipe=self, user=user).save()
+
+    def remove_reaction(self, user):
+        UserHasRecipeReaction.load_by_recipe_and_current_user(recipe=self).remove()
+
+    @property
+    def has_reaction(self):
+        reactions = UserHasRecipeReaction.load_by_recipe_and_current_user(self)
+        return bool(reactions)
 
     # PERMISSIONS
 

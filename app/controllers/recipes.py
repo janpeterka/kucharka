@@ -1,5 +1,5 @@
 # from flask import render_template as template
-from flask import request, redirect, url_for, flash, abort, g, jsonify
+from flask import request, redirect, url_for, flash, abort, g
 
 from flask_login import login_required, current_user
 
@@ -122,9 +122,3 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
             #         target=f"ingredient-{ingredient_id}",
             #     )
             # )
-
-    @route("/toggleReactionAJAX", methods=["POST"])
-    def toggle_reaction_AJAX(self):
-        recipe = Recipe.load(request.json["recipe_id"])
-        recipe.toggle_reaction()
-        return jsonify(recipe.has_reaction)

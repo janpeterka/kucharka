@@ -1,4 +1,10 @@
 {% extends "base/base.html.j2" %}
+
+{% block links %}
+    {{ super() }}
+    {{ turbo() }}
+{% endblock %}
+
 {% block title %} {{ texts.recipe_all }} {% endblock %}
 
 
@@ -7,52 +13,25 @@
 {% endblock %}
 
 {% block script %}
-	{% include 'javascript/stimulus.js.html' %}
-  {% include 'javascript/recipe_reactions_controller.js.html' %}
 	<script src="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.js"></script>
 {% endblock %}
 
 {% block content %}
-    <div class="container" data-controller="recipe-reactions">
+  <form action="{{ url_for('PublicRecipesView:filter') }}" method="post" class="form-inline form-control" accept-charset="UTF-8">
+  	{{ form.csrf_token }}
+  		<div>
+  			<div>
+  				{{ render_field(form.with_reaction, has_label=False, class="ml-3") }}
+  			</div>
+  			<div class="row mt-2">
+  				{{ form.ingredient_name.label(class_="ml-2") }}
+  				{{ render_field(form.ingredient_name, has_label=False, class="ml-3") }}
+  		{{ form.submit(class_='btn btn-primary ml-3') }}
+  			</div>
+  		</div>
+  </form>
 
-    	<form action="{{ url_for('PublicRecipesView:index') }}" method="post" class="form-inline form-control" accept-charset="UTF-8">
-    		{{ form.csrf_token }}
-   			{% from "macros/render_field.html.j2" import render_field %}
-   			<div>
-   				<div>
-   					{{ render_field(form.with_reaction, has_label=False, class="ml-3") }}
-   				</div>
-   				<div class="row mt-2">
-   					{{ form.ingredient_name.label(class_="ml-2") }}
-   					{{ render_field(form.ingredient_name, has_label=False, class="ml-3") }}
-					{{ form.submit(class_='btn btn-primary ml-3') }}
-   				</div>
-   			</div>
-    	</form>
+  {% include "public_recipes/_recipes_table.html.j2"%}
 
-    	<table id="table" class="table" data-filter-control="true" data-toggle="table" data-search="true"  data-pagination="true" data-sort-name="reaction_count" data-sort-order="desc">
-		    <thead>
-		    	<th data-field="recipe">recept</th>
-		    	<th data-field="ingredients" data-sortable="true">seznam surovin</th>
-		    	<th data-field="author" data-sortable="true">autor*ka</th>
-		    	<th data-field="reactions" {% if current_user.is_authenticated %}data-sortable="true"{% endif %}>{{ icons.heart_full }}</th>
-          <th data-field="reaction_count" data-sortable="true">{{ icons.heart_empty }}</th>
-		    </thead>
-		    <tbody data-recipe-reactions-target="recipes" data-public="{{ not current_user.is_authenticated }}">
-		    {% for recipe in recipes: %}
-		    	<tr style="height: 5rem;"
-		    		data-recipe-id="{{ recipe.id }}"
-		    		data-reaction="{{ recipe.has_reaction | lower }}"
-		    		data-reaction-count="{{ recipe.reactions | length }}">
-	        	<td>{{ link_to(recipe) }}</td>
-		        <td>{{ recipe.concat_ingredients }}</td>
-		        <td>{{ recipe.author.name }}</td>
-            <td></td>
-		        <td><span class="ml-1">{{ recipe.reactions | length }}</span></td>
-			    </tr>
-		    {% endfor %}
-		    </tbody>
-    	</table>
-    </div>
 {% endblock %}
 

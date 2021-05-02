@@ -1,0 +1,22 @@
+<tr id = "recipe-{{ recipe.id }}" class="h-5">
+
+	<td>{{ link_to(recipe) }}</td>
+    <td>{{ recipe.concat_ingredients }}</td>
+    <td>{{ recipe.author.name }}</td>
+	<td>
+		<form method="post" action="{{ url_for('PublicRecipesView:toggle_reaction', recipe_id=recipe.id) }}">
+			<button type="submit" class="invisible-button">
+					{% if recipe.has_reaction %}
+						<i>{{ icons.heart_full }}</i>
+					{% else %}
+						<i>{{ icons.heart_empty }}</i>
+					{% endif %}
+      			<i class="fa fa-square-o fa-lg"></i>
+			</button>
+		</form>
+	</td>
+
+    <td>
+    	<span class="ml-1">{{ recipe.reactions | length }}</span>
+    </td>
+</tr>

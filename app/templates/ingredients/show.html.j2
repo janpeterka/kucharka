@@ -1,47 +1,45 @@
 {% extends "base/base.html.j2" %}
-{% block title %}
-    Surovina
-{% endblock %}
+{% block title %} Surovina {% endblock %}
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-sm-12" style="margin-bottom: 2rem;">
-                <div>                
-                    <h2>{{ ingredient.name }}</h2>
-                    <p>{{ ingredient.description if ingredient.description }}</p>
-                    <span class="font-italic"> Míra: {{ ingredient.measurement.name }} </span><br>
-                    <span class="font-italic"> Kategorie: {{ ingredient.category.name }} </span>
-                    {% if ingredient.is_public %}
-                        <span class="font-italic font-weight-light float-right" >Veřejná surovina (zdroj: {{ ingredient.source }})</span>
-                    {% endif %}
-                </div>
 
-                <hr>
-
-                <details class="mb-3" open>
-                <summary>Nutriční hodnoty</summary>
-                    <table class="table">
-                    <tr>
-                        <th>{{ texts.energy_100 }}</th>
-                        <th>{{ texts.protein_100 }}</th>
-                        <th>{{ texts.fat_100 }}</th>
-                        <th>{{ texts.sugar_100 }}</th>
-                    </tr>
-                    <tr>
-                        <td>{{ ingredient.calorie }}</td>
-                        <td>{{ ingredient.protein }}</td>
-                        <td>{{ ingredient.fat }}</td>
-                        <td>{{ ingredient.sugar }}</td>
-                    </tr>
-                    </table>
-                </details>
-
-                {% if ingredient.can_current_user_edit %}
-                    {% include "ingredients/_edit_or_delete.html.j2"%}
-                {% endif %}
-            </div>
-
-            {% include ('recipes/_recipe_list.html.j2') %}
+<div class="row">
+    <div class="col-md-8 col-sm-12" style="margin-bottom: 2rem;">
+        <div>                
+            <h2>{{ ingredient.name }}</h2>
+            <p>{{ ingredient.description if ingredient.description }}</p>
+            <span class="font-italic"> Míra: {{ ingredient.measurement.name }} </span><br>
+            <span class="font-italic"> Kategorie: {{ ingredient.category.name }} </span>
+            {% if ingredient.is_public %}
+                <span class="font-italic font-weight-light float-right" >Veřejná surovina (zdroj: {{ ingredient.source }})</span>
+            {% endif %}
         </div>
+
+        <hr>
+
+        <details class="mb-3" open>
+        <summary>Nutriční hodnoty</summary>
+            <table class="table">
+            <tr>
+                <th>{{ texts.energy_100 }}</th>
+                <th>{{ texts.protein_100 }}</th>
+                <th>{{ texts.fat_100 }}</th>
+                <th>{{ texts.sugar_100 }}</th>
+            </tr>
+            <tr>
+                <td>{{ ingredient.calorie }}</td>
+                <td>{{ ingredient.protein }}</td>
+                <td>{{ ingredient.fat }}</td>
+                <td>{{ ingredient.sugar }}</td>
+            </tr>
+            </table>
+        </details>
+
+        {% if ingredient.can_current_user_edit %}
+            {% include "ingredients/_edit_or_delete.html.j2"%}
+        {% endif %}
     </div>
+
+    {% include ('recipes/_recipe_list.html.j2') %}
+</div>
+
 {% endblock %}

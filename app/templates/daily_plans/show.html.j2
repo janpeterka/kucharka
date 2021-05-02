@@ -1,103 +1,97 @@
 {% extends "base/base.html.j2" %}
-{% block title %}
-    Denní přehled
-{% endblock %}
-
-{# {% block script %} #}
-    {# {% include 'javascript/stimulus.js.html' %} #}
-    {# {% include 'javascript/daily_plan_controller.js.html' %} #}
-{# {% endblock %} #}
-
+{% block title %} Denní přehled {% endblock %}
 
 {% block content %}
-    <div class="container" data-controller="daily-plan">
-        <div class="text-center">
-            <span class="float-left" style="margin-left: 10rem">
-                <a href="{{ url_for('DailyPlansView:show', date=dates['previous']) }}">
-                {{ human_format_date(dates["previous"]) }}
-                </a>
-            </span>
-            <span style="font-size: 2rem">
-                {{ human_format_date(dates["active"]) }}
-            </span>
-            <span class="float-right" style="margin-right: 10rem">
-                <a href="{{ url_for('DailyPlansView:show', date=dates['next']) }}">
-                {{ human_format_date(dates["next"]) }}
-                </a>
-            </span>
-        </div>
 
-        <div class="row">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>{{ texts.title }}</th>
-                        {# <th>{{ texts.amount_simple }}</th> #}
-                        {# <th>{{ texts.energy_simple }}</th> #}
-                        {# <th>{{ texts.protein_simple }}</th> #}
-                        {# <th>{{ texts.fat_simple }}</th> #}
-                        {# <th>{{ texts.sugar_simple }}</th> #}
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
+<div data-controller="daily-plan">
+    <div class="text-center">
+        <span class="float-left" style="margin-left: 10rem">
+            <a href="{{ url_for('DailyPlansView:show', date=dates['previous']) }}">
+            {{ human_format_date(dates["previous"]) }}
+            </a>
+        </span>
+        <span style="font-size: 2rem">
+            {{ human_format_date(dates["active"]) }}
+        </span>
+        <span class="float-right" style="margin-right: 10rem">
+            <a href="{{ url_for('DailyPlansView:show', date=dates['next']) }}">
+            {{ human_format_date(dates["next"]) }}
+            </a>
+        </span>
+    </div>
 
-                {% for daily_recipe in daily_recipes %}
-                    <tr data-id="{{ daily_recipe.id }}">
-                        <td>{{ link_to(daily_recipe.recipe) }}</td>
-                        {# <td>{{ daily_recipe.recipe.totals.amount }}</td> #}
-                        {# <td>{{ daily_recipe.recipe.totals.calorie | round(1) }}</td> #}
-                        {# <td>{{ daily_recipe.recipe.totals.protein | round(1) }}</td> #}
-                        {# <td>{{ daily_recipe.recipe.totals.fat | round(1) }}</td> #}
-                        {# <td>{{ daily_recipe.recipe.totals.sugar | round(1) }}</td> #}
-                        <td>
-                            {% from "macros/daily_plans/_change_order_button.html.j2" import change_order_buttons with context %}
-                            {{ change_order_buttons() }}
-                        </td>
-                        <td>
-                            {% from "macros/_active_icons.html.j2" import remove_icon %}
-                            {{ remove_icon(url=url_for('DailyPlansView:remove_daily_recipe', daily_recipe_id=daily_recipe.id, date=dates['active']))}}
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-                {# <tr> #}
-                    {# <th></th> #}
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>{{ texts.title }}</th>
                     {# <th>{{ texts.amount_simple }}</th> #}
                     {# <th>{{ texts.energy_simple }}</th> #}
                     {# <th>{{ texts.protein_simple }}</th> #}
                     {# <th>{{ texts.fat_simple }}</th> #}
-                    {# <th>{{ texts.sugar_simple }}</th>  #}
-                {# </tr> #}
-                {# <tr data-daily-plan-target="totals"> #}
-                    {# <th>Celkem:</th> #}
-                    {# <td>{{ daily_plan.totals.amount | round(1) }}</td> #}
-                    {# <td>{{ daily_plan.totals.calorie | round(1) }}</td> #}
-                    {# <td>{{ daily_plan.totals.protein | round(1) }}</td> #}
-                    {# <td>{{ daily_plan.totals.fat | round(1) }}</td> #}
-                    {# <td>{{ daily_plan.totals.sugar | round(1) }}</td> #}
-                {# </tr> #}
-            </table>
+                    {# <th>{{ texts.sugar_simple }}</th> #}
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
 
-        </div>
-        <div class="row float-right mt-5">
-            <form class="form" action="{{ url_for('DailyPlansView:add_recipe') }}" method="post">
-                <div class="form-group form-inline">
-                    <select name="recipe_id" id="recipe_select" class="form-control">
-                        {% include "daily_plans/_add_recipe_form_options.html.j2" %}
-                        {# {{ options(current_user.recipes) }} #}
-                    </select>
-                </div>
-
-                {# Hidden #}
-                <input type="hidden" name="date" value="{{ dates['active'] }}">
-                {# Submit #}
-                <input type="submit" data-load-recipes-for-diet-target="submit" class="form-control btn btn-primary" value="Přidat recept">
-            </form>
-        </div>
+            {% for daily_recipe in daily_recipes %}
+                <tr data-id="{{ daily_recipe.id }}">
+                    <td>{{ link_to(daily_recipe.recipe) }}</td>
+                    {# <td>{{ daily_recipe.recipe.totals.amount }}</td> #}
+                    {# <td>{{ daily_recipe.recipe.totals.calorie | round(1) }}</td> #}
+                    {# <td>{{ daily_recipe.recipe.totals.protein | round(1) }}</td> #}
+                    {# <td>{{ daily_recipe.recipe.totals.fat | round(1) }}</td> #}
+                    {# <td>{{ daily_recipe.recipe.totals.sugar | round(1) }}</td> #}
+                    <td>
+                        {% from "macros/daily_plans/_change_order_button.html.j2" import change_order_buttons with context %}
+                        {{ change_order_buttons() }}
+                    </td>
+                    <td>
+                        {% from "macros/_active_icons.html.j2" import remove_icon %}
+                        {{ remove_icon(url=url_for('DailyPlansView:remove_daily_recipe', daily_recipe_id=daily_recipe.id, date=dates['active']))}}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            {# <tr> #}
+                {# <th></th> #}
+                {# <th>{{ texts.amount_simple }}</th> #}
+                {# <th>{{ texts.energy_simple }}</th> #}
+                {# <th>{{ texts.protein_simple }}</th> #}
+                {# <th>{{ texts.fat_simple }}</th> #}
+                {# <th>{{ texts.sugar_simple }}</th>  #}
+            {# </tr> #}
+            {# <tr data-daily-plan-target="totals"> #}
+                {# <th>Celkem:</th> #}
+                {# <td>{{ daily_plan.totals.amount | round(1) }}</td> #}
+                {# <td>{{ daily_plan.totals.calorie | round(1) }}</td> #}
+                {# <td>{{ daily_plan.totals.protein | round(1) }}</td> #}
+                {# <td>{{ daily_plan.totals.fat | round(1) }}</td> #}
+                {# <td>{{ daily_plan.totals.sugar | round(1) }}</td> #}
+            {# </tr> #}
+        </table>
 
     </div>
+    <div class="row float-right mt-5">
+        <form class="form" action="{{ url_for('DailyPlansView:add_recipe') }}" method="post">
+            <div class="form-group form-inline">
+                <select name="recipe_id" id="recipe_select" class="form-control">
+                    {% include "daily_plans/_add_recipe_form_options.html.j2" %}
+                    {# {{ options(current_user.recipes) }} #}
+                </select>
+            </div>
+
+            {# Hidden #}
+            <input type="hidden" name="date" value="{{ dates['active'] }}">
+            {# Submit #}
+            <input type="submit" data-load-recipes-for-diet-target="submit" class="form-control btn btn-primary" value="Přidat recept">
+        </form>
+    </div>
+
+</div>
+
 {% endblock %}
 
 {% block scripts_after %}

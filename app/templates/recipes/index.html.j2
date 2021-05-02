@@ -4,26 +4,18 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h1>Moje recepty
-            <a href="{{ url_for('RecipesView:new') }}"><button class="btn btn-secondary float-right">{{ texts.recipe_new }}</button></a>
-        </h1>
-    
-        <hr>
-        
-        <table class="table">
-            {% for recipe in current_user.recipes: %}
-            <tr>
-                <td>{{ link_to(recipe) }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+<h1>Moje recepty
+    <a href="{{ url_for('RecipesView:new') }}"><button class="btn btn-secondary float-right">{{ texts.recipe_new }}</button></a>
+</h1>
 
-        <hr>
 
-        <div>
-            <a href="{{ url_for('RecipesView:new') }}" target="_blank" class="btn btn-secondary">{{ texts.recipe_new }}</a>
-        </div>
-    </div>
+<table class="table">
+    {% for recipe in current_user.recipes: %}
+    <tr>
+        <td>{{ link_to(recipe) }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
 {% endblock %}
 

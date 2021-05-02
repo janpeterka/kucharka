@@ -3,26 +3,25 @@
 {% block title %} Nová surovina {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <form method="post" action="{{ url_for('IngredientsView:post') }}" class="form-group col-6" accept-charset="UTF-8">
-            {# {% from "macros/render_field.html.j2" import render_field %} #}
-            {{ form.csrf_token }}
 
-            {{ render_field(form.name) }}
-            {{ render_field(form.description) }}
-            {{ render_field(form.measurement) }}
-            {{ render_field(form.category) }}
+<form method="post" action="{{ url_for('IngredientsView:post') }}" class="form-group col-6" accept-charset="UTF-8">
+    {{ form.csrf_token }}
 
-            <details>
-            <summary>Nutriční hodnoty</summary>
-            {{ render_field(form.protein) }}
-            {{ render_field(form.fat) }}
-            {{ render_field(form.sugar) }}
-            {{ render_field(form.calorie) }}
-            </details>
+    {{ render_field(form.name) }}
+    {{ render_field(form.description) }}
+    {{ render_field(form.measurement) }}
+    {{ render_field(form.category) }}
 
-            {{ render_field(form.submit) }}
-        </form>
-    </div>
+    <details>
+    <summary>Nutriční hodnoty</summary>
+    {{ render_field(form.protein) }}
+    {{ render_field(form.fat) }}
+    {{ render_field(form.sugar) }}
+    {{ render_field(form.calorie) }}
+    </details>
+
+    {{ render_field(form.submit) }}
+</form>
+
 {% endblock %}
 

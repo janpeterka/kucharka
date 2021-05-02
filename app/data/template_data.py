@@ -18,6 +18,10 @@ icons = {
     "recipe_shared": '<i class="fas fa-user-friends"></i>',
 }
 
+toolbox_icons = {
+    "recipe_shared": '<abbr title="zveřejněno"> <i class="fas fa-user-friends"></i> </abbr>'
+}
+
 social_icons = {
     "facebook_small": '<a target="_blank" title="sledujte na facebooku" href="/support/facebook"><img alt="follow me on facebook" src="https://c866088.ssl.cf3.rackcdn.com/assets/facebook30x30.png" style="width: 1.5rem; height: auto; margin-top: 0.3rem" border=0></a>',
     "facebook": '<a target="_blank" title="sledujte na facebooku" href="/support/facebook"><img alt="follow me on facebook" src="https://c866088.ssl.cf3.rackcdn.com/assets/facebook40x40.png" border=0></a>',

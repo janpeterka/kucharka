@@ -3,7 +3,7 @@
     <ul name="recipes">
         {% for recipe in recipes %}
             <li>{{ link_to(recipe) }}
-                {% if recipe.is_shared %} (veřejný) {% endif %}
+                {% if recipe.is_shared %} {{ toolbox_icons.recipe_shared }} {% endif %}
             </li>
         {% endfor %}
     </ul>
@@ -14,7 +14,7 @@
 	    <ul>
 	        {% for recipe in all_recipes %}
 	            <li>{{ link_to(recipe) }}
-                    {% if not recipe.is_current_user_author %} ({{ recipe.author.name }}) {% elif recipe.is_shared %} (veřejný) {% endif %}
+                    {% if not recipe.is_current_user_author %} ({{ recipe.author.name }}) {% elif recipe.is_shared %} {{ toolbox_icons.recipe_shared }} {% endif %}
                 </li>
 	        {% endfor %}
 	    </ul>

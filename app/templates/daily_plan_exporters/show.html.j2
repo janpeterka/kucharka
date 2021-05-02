@@ -1,29 +1,25 @@
 {% extends "base/base.html.j2" %}
 {% block title %} Kuchařka - export {% endblock %}
 
-{# {% block script %}
-    {% include 'javascript/stimulus.js.html' %}
-{% endblock %}
- #}
 {% block content %}
-    <div class="container">
-        <h2>Recepty</h2>
-        <div>
-            {% for daily_plan in daily_plans if daily_plan.recipes %}
-                <h4>{{ human_format_date(daily_plan.date) }}</h4>
-                {{ list_of_links(daily_plan.recipes) }}
-                </ul>
-            {% endfor %}
-        </div>
-        <h2>Suroviny (pro {{ people_count }} lidí)</h2>
-        <table class="table">
-            {% for ingredient in ingredients %}
-            <tr>
-                <td>{{ ingredient.name }}</td>
-                <td>{{ ingredient.amount }}</td>
-                <td>{{ ingredient.measurement.name }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
+
+<h2>Recepty</h2>
+<div>
+    {% for daily_plan in daily_plans if daily_plan.recipes %}
+        <h4>{{ human_format_date(daily_plan.date) }}</h4>
+        {{ list_of_links(daily_plan.recipes) }}
+        </ul>
+    {% endfor %}
+</div>
+<h2>Suroviny (pro {{ people_count }} lidí)</h2>
+<table class="table">
+    {% for ingredient in ingredients %}
+    <tr>
+        <td>{{ ingredient.name }}</td>
+        <td>{{ ingredient.amount }}</td>
+        <td>{{ ingredient.measurement.name }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
 {% endblock %}

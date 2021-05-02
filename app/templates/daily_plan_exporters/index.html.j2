@@ -1,7 +1,5 @@
 {% extends "base/base.html.j2" %}
-{% block title %}
-    Výběr dnů
-{% endblock %}
+{% block title %} Výběr dnů {% endblock %}
 
 {% block script %}
     {% include 'javascript/stimulus.js.html' %}
@@ -9,15 +7,17 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container" data-controller="set-default-dates">
-    	<form class="form" method="POST" action="{{ url_for('DailyPlanExporterView:post') }}">
-                <label for="date_from">Od*</label>
-    			<input class="form-control col" type="date" name="date_from" required data-set-default-dates-target="dateFrom">
-                <label for="date_to">Do*</label>
-    			<input class="form-control col" type="date" name="date_to" required data-set-default-dates-target="dateTo">
-                <label for="people_count">Počet jedlíků*</label>
-                <input class="form-control col" type="number" name="people_count" placeholder="počet jedlíků" required>
-    			<button type="submit" class="btn btn-primary">Spočítat</button>
-    	</form>
-    </div>
+
+<div data-controller="set-default-dates">
+	<form class="form" method="POST" action="{{ url_for('DailyPlanExporterView:post') }}">
+            <label for="date_from">Od*</label>
+			<input class="form-control col" type="date" name="date_from" required data-set-default-dates-target="dateFrom">
+            <label for="date_to">Do*</label>
+			<input class="form-control col" type="date" name="date_to" required data-set-default-dates-target="dateTo">
+            <label for="people_count">Počet jedlíků*</label>
+            <input class="form-control col" type="number" name="people_count" placeholder="počet jedlíků" required>
+			<button type="submit" class="btn btn-primary">Spočítat</button>
+	</form>
+</div>
+
 {% endblock %}

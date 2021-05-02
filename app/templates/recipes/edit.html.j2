@@ -22,30 +22,29 @@
     <a class="btn btn-secondary ml-2" href="{{ url_for('RecipesView:show', id=recipe.id) }}">{{ texts.edit_cancel }} {{ icons.edit }}</a>
 </form>
 
-    <table id="ingredients" class="table">
-        <tr>
-            <th>{{ texts.title }}</th>
-            <th>{{ texts.amount_simple }}</th>
-            {# <th>{{ texts.energy_simple }}</th> #}
-            {# <th>{{ texts.protein_simple }}</th> #}
-            {# <th>{{ texts.fat_simple }}</th> #}
-            {# <th>{{ texts.sugar_simple }}</th> #}
-        </tr>
+<table id="ingredients" class="table">
+    <tr>
+        <th>{{ texts.title }}</th>
+        <th>{{ texts.amount_simple }}</th>
+        {# <th>{{ texts.energy_simple }}</th> #}
+        {# <th>{{ texts.protein_simple }}</th> #}
+        {# <th>{{ texts.fat_simple }}</th> #}
+        {# <th>{{ texts.sugar_simple }}</th> #}
+    </tr>
 
-        {% for ingredient in recipe.ingredients: %}
-            {% include "recipes/_edit_ingredient.html.j2" %}
-        {% endfor %}
+    {% for ingredient in recipe.ingredients: %}
+        {% include "recipes/_edit_ingredient.html.j2" %}
+    {% endfor %}
 
-        {# <tr class="totals"> #}
-            {# <td>Celkem</td> #}
-            {# <td>{{ totals.amount|round(2,'common')  }}</td> #}
-            {# <td>{{ totals.calorie }}</td> #}
-            {# <td>{{ totals.protein }}</td> #}
-            {# <td>{{ totals.fat }}</td> #}
-            {# <td>{{ totals.sugar }}</td> #}
-        {# </tr> #}
-    </table>
-
+    {# <tr class="totals"> #}
+        {# <td>Celkem</td> #}
+        {# <td>{{ totals.amount|round(2,'common')  }}</td> #}
+        {# <td>{{ totals.calorie }}</td> #}
+        {# <td>{{ totals.protein }}</td> #}
+        {# <td>{{ totals.fat }}</td> #}
+        {# <td>{{ totals.sugar }}</td> #}
+    {# </tr> #}
+</table>
 
 {% endblock %}
 

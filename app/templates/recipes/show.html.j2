@@ -25,19 +25,17 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-10">
+    {# <div class="row"> #}
+        {# <div class="col-10"> #}
             <div class="mb-2"> 
                 <h2> {{ recipe.name }} </h2> 
                 <p>{{ recipe.description if recipe.description }}</p>
                 <span class="font-italic"> Kategorie: {{ recipe.category.name }} </span>
 
                 {% if recipe.is_shared and not recipe.is_current_user_author %}
-                    <span class="font-italic font-weight-light float-right">(vytvořil*a {{ recipe.author.name }})</span>
+                    <span class="font-italic font-weight-light float-right"> (vytvořil*a {{ recipe.author.name }}) </span>
                 {% elif recipe.is_shared %}
-                    <span class="font-italic font-weight-light float-right">
-                        <abbr title="zveřejněno">{{ icons.recipe_shared }}</abbr>
-                    </span>
+                    <span class="font-italic font-weight-light float-right"> {{ toolbox_icons.recipe_shared }} </span>
                 {% endif %}
             </div>
 
@@ -79,7 +77,7 @@
                 </a>
             </div> #}
 
-        </div>
+        {# </div> #}
 {#         
         {% if not is_print %}
         <div class="col-2">
@@ -101,6 +99,6 @@
         </div>
         {% endif %}
  #}
-    </div>
+    {# </div> #}
 {% endblock %}
 

@@ -29,7 +29,7 @@ class PublicRecipesView(ExtendedFlaskView):
             self.ingredient_names.extend(list(set(ingredient_names)))
             self.ingredient_names.sort()
 
-        self.form = PublicRecipeFilterForm(ingredient_names=self.ingredient_names)
+            self.form = PublicRecipeFilterForm(ingredient_names=self.ingredient_names)
 
     def before_filter(self):
         self.form = PublicRecipeFilterForm(

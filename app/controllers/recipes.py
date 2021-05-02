@@ -144,10 +144,9 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
                 Recipe.load(recipe_id), Ingredient.load(ingredient_id)
             )
             rhi.amount = request.form["amount"]
-            print(rhi.amount)
             rhi.save()
 
-            return redirect(url_for("RecipesView:show", id=recipe_id))
+            return redirect(url_for("RecipesView:edit", id=recipe_id))
             # return turbo.stream(
             #     turbo.replace(
             #         self.template(template_name="recipes/_edit_ingredient.html.j2"),

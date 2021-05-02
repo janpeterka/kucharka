@@ -26,50 +26,33 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-10" data-controller="show-recipe">
-            <div class="mb-2">
-                <h2> {{ recipe.name }} </h2>
+        <div class="col-10">
+            <div class="mb-2"> 
+                <h2> {{ recipe.name }} </h2> 
                 <p>{{ recipe.description if recipe.description }}</p>
                 <span class="font-italic"> Kategorie: {{ recipe.category.name }} </span>
 
-                {% if recipe.is_public and not recipe.is_current_user_author %}
+                {% if recipe.is_shared and not recipe.is_current_user_author %}
                     <span class="font-italic font-weight-light float-right">(vytvořil*a {{ recipe.author.name }})</span>
-                {% elif recipe.is_public %}
-                    <span class="font-italic font-weight-light float-right">zveřejněno</span>
+                {% elif recipe.is_shared %}
+                    <span class="font-italic font-weight-light float-right">
+                        <abbr title="zveřejněno">{{ icons.recipe_shared }}</abbr>
+                    </span>
                 {% endif %}
             </div>
 
-            <table id="ingredients" data-show-recipe-target="ingredientTable" class="table">
+            <table id="ingredients" class="table">
                 <tr>
                     <th>{{ texts.title }}</th>
                     <th>{{ texts.amount_simple }}</th>
-                    {# <th>{{ texts.energy_simple }}</th> #}
-                    {# <th>{{ texts.protein_simple }}</th> #}
-                    {# <th>{{ texts.fat_simple }}</th> #}
-                    {# <th>{{ texts.sugar_simple }}</th> #}
-                    {# <th></th> #}
                 </tr>
 
-                {% for recipe_ingredient in recipe.recipe_ingredients: %}
+                {% for ingredient in recipe.ingredients: %}
                     <tr>
-                        <td>{{ link_to(recipe_ingredient.ingredient) }}</td>
-                        <td data-type="amount">{{ recipe_ingredient.amount }}</td>
-                        {# <td data-type="calorie"></td> #}
-                        {# <td data-type="protein"></td> #}
-                        {# <td data-type="fat"></td> #}
-                        {# <td data-type="sugar"></td> #}
-                        <td></td>
+                        <td>{{ link_to(ingredient) }}</td>
+                        <td>{{ ingredient.amount }}</td>
                     </tr>
                 {% endfor %}
-
- {#                <tr class="totals" data-show-recipe-target="totals">
-                    <td>Celkem</td>
-                    <td data-field="calorie"></td>
-                    <td data-field="protein"></td>
-                    <td data-field="fat"></td>
-                    <td data-field="sugar"></td>
-                    <td data-field="amount"></td>
-                </tr> #}
             </table>
 
 

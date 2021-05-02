@@ -1,9 +1,6 @@
 {% extends "base/base.html.j2" %}
-{% block title %}
-    {{ texts.ingredient }}
-{% endblock %}
-{% block style %}{% endblock %}
-{% block script %}{% endblock %}
+{% block title %} {{ texts.ingredient }} {% endblock %}
+
 {% block content %}
 <div class="row">
     <div class="col-md-8 col-sm-12" style="margin-bottom:2rem">
@@ -23,7 +20,7 @@
             </div>
 
             <div class="w-100 mt-2">
-            {{ render_field(form.category, has_label=False) }}                            
+            {{ render_field(form.category, has_label=False) }}              
             </div>
 
             <hr>

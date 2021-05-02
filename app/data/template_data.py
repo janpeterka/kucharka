@@ -15,6 +15,7 @@ icons = {
     "photo": '<i class="far fa-image"></i>',
     "heart_empty": '<i class="far fa-heart color-red"></i>',
     "heart_full": '<i class="fas fa-heart color-red"></i>',
+    "recipe_shared": '<i class="fas fa-user-friends"></i>',
 }
 
 social_icons = {
@@ -94,7 +95,7 @@ texts = {
     # },
     # Daily plan
     "daily_plan": {
-        "not_logged_in": "Denní plány jsou přístupné pouze pro přihlášené uživatele.",
+        "not_logged_in": "Denní plány jsou přístupné pouze pro přihlášené uživatele."
     },
     # User
     "user": {

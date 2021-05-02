@@ -10,7 +10,7 @@
             <div class="col-md-8 col-sm-12" style="margin-bottom:2rem">
                 <form action="{{ url_for('IngredientsView:post_edit', id=ingredient.id) }}" class="form-group" method="post" accept-charset="utf-8">
                     {{ form.csrf_token }}
-                    {% from "macros/render_field.html.j2" import render_field %}
+                    {# {% from "macros/render_field.html.j2" import render_field %} #}
                     <div class="row">
                         <div style="width: 100%">
                         {{ render_field(form.name, has_label=False, class="col-6") }}

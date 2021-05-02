@@ -38,3 +38,8 @@
 .smaller {
 	font-size: smaller !important;
 }
+
+/* Height */
+.h-5 {
+	height: 5rem
+}

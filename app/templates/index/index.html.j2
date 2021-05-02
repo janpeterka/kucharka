@@ -7,6 +7,8 @@
     <div class="mb-5 text-center">
         <p class="mb-2">
             <h2 class="mt-2 text-uppercase color-blue font-comfortaa-bb">Vítejte na stránkách vznikající skautské kuchařky.</h2>
+            Kuchařka má pomoci kuchařům zejména na skautských táborech a kurzech.<br>
+            Umožňuje generování nákupních seznamů, správu a sdílení receptů nebo výpočty nutričních hodnot jídel.<br>
         </p>
         <p>
             <h2 class="mt-5 text-uppercase color-blue font-comfortaa-bb">Co umí skautská kuchařka?</h2>
@@ -27,6 +29,8 @@
 	        Můžete sdílet své recepty s ostatními a zároveň se jejich recepty <a href="{{ url_for('PublicRecipesView:index') }}">inspirovat</a>.<br>
 	        <h4 class="color-blue text-uppercase font-comfortaa-b mt-2">Jídelníček</h4>
 	        Poskládejte si <a href="{{ url_for('DailyPlansView:index') }}">jídelníček</a>.<br>
+            <h4 class="color-blue text-uppercase font-comfortaa-b mt-2">Export jídelníčku</h4>
+            Z vytvořeného jídelníčku si pak můžete vyexportovat seznam receptů a nákupní seznam s množstvím jednotlivých surovin (podle zadaného počtu strávníků).
 	    </div>
 	</div>
 	

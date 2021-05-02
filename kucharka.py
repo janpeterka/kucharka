@@ -80,21 +80,9 @@ def utility_processor():
 
         return html
 
-    def option(obj):
-        return f"<option name='{obj.name}' value='{obj.id}'>{obj.name}</option>"
-
-    def options(array):
-        html = ""
-        for item in array:
-            html += option(item) + "\n"
-
-        return html
-
     return dict(
         human_format_date=human_format_date,
         link_to=link_to,
-        option=option,
-        options=options,
         list_of_links=list_of_links,
     )
 

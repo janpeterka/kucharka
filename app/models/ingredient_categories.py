@@ -15,12 +15,12 @@ class IngredientCategory(db.Model, BaseMixin):
     # LOADERS
     @staticmethod
     def load_all(ordered=True):
-        measurements = IngredientCategory.query.all()
+        categories = IngredientCategory.query.all()
 
         if ordered:
-            measurements.sort(key=lambda x: unidecode(x.name.lower()))
+            categories.sort(key=lambda x: unidecode(x.name.lower()))
 
-        return measurements
+        return categories
 
     # PROPERTIES
 

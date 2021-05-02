@@ -90,16 +90,6 @@
                     </select>
                 </div>
 
-                {# Amount #}
-{#                 <div class="form-group form-inline">
-                    <label>Podíl z celé diety</label>
-                    {% from "macros/_multiplier_button.html.j2" import multiplier_button %}
-                    {% for multiplier in [1, 10, 24, 36, 50] %}
-                        {{ multiplier_button(multiplier, controller="daily-plan", action="set_amount") }}
-                    {% endfor %}
-                    <input type="number" step="0.1" min="1" max="100" data-daily-plan-target="multiplier" name="recipe_multiplier" class="form-control" required>
-                </div> #}
-
                 {# Hidden #}
                 <input type="hidden" name="date" value="{{ dates['active'] }}">
                 {# Submit #}

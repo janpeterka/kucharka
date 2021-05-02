@@ -27,8 +27,10 @@ def set_form(form, ingredient=None):
     categories.sort(key=lambda x: unidecode(x.name.lower()))
 
     if ingredient:
-        form.measurement.data = ingredient.measurement.id
-        form.category.data = ingredient.category.id
+        if ingredient.measurement:
+            form.measurement.data = ingredient.measurement.id
+        if ingredient.category:
+            form.category.data = ingredient.category.id
 
     form.set_all(measurements=measurements, categories=categories)
 

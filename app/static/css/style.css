@@ -30,20 +30,6 @@ img.icon {
   margin-top: 0.5rem;
 }
 
-/* forms */
-input{
-	margin-top: 0.3rem;
-	margin-bottom: 0.3rem;
-}
-
-.form-inline > * {
- margin: 5px 3px;
-}
-
-form ul.errors li.warning{
-  color: var(--palette-orange);
-  font-weight: bold;
-}
 
 /* Error */
 

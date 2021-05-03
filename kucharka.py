@@ -28,7 +28,7 @@ def inject_globals():
 
     return dict(
         icons=template_data.icons,
-        toolbox_icons=template_data.toolbox_icons,
+        tooltip_icons=template_data.tooltip_icons,
         texts=template_data.texts,
     )
 

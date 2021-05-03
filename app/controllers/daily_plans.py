@@ -2,11 +2,9 @@ import datetime
 
 from flask import redirect, url_for, request
 from flask_classful import route
-from flask_login import current_user, login_required
+from flask_login import login_required
 
 from app.helpers.formaters import parse_date
-
-from app.data.texts import texts
 
 from app.models.daily_plans import DailyPlan
 from app.models.recipes import Recipe
@@ -17,11 +15,6 @@ from app.helpers.extended_flask_view import ExtendedFlaskView
 class DailyPlansView(ExtendedFlaskView):
     decorators = [login_required]
 
-    def before_index(self):
-        if not current_user.is_authenticated:
-            message = texts.daily_plan.not_logged_in
-            return redirect(url_for("DailyPlansView:not_logged_in", message=message))
-
     def before_request(self, name, id=None, *args, **kwargs):
         super().before_request(name, id, *args, **kwargs)
 
@@ -30,6 +23,9 @@ class DailyPlansView(ExtendedFlaskView):
             if not isinstance(self.date, datetime.date):
                 self.date = parse_date(self.date)
             self.daily_plan = DailyPlan.load_by_date_or_create(self.date)
+
+    def before_show(self, date):
+        self.public_recipes = Recipe.load_all_public(exclude_mine=True)
 
     def index(self):
         return redirect(url_for("DailyPlansView:show", date=datetime.date.today()))

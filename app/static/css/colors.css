@@ -87,6 +87,11 @@
     color: var(--inactive);
 }
 
+.color-grey{
+    color: var(--inactive);
+}
+
+
 /*Filters*/
 
 .filter-gs-25{

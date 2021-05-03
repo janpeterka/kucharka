@@ -43,3 +43,8 @@
 .h-5 {
 	height: 5rem
 }
+
+/* Cursors */
+.cursor-default {
+	cursor: default;
+}

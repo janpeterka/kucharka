@@ -54,9 +54,12 @@ class Ingredient(db.Model, ItemMixin):
 
     # LOADERS
     @staticmethod
-    def load_all_public(ordered=True) -> list:
+    def load_all_public(ordered=True, exclude_mine=False) -> list:
         ingredients = Ingredient.query.filter(Ingredient.is_public).all()
         # and_(Ingredient.is_public, Ingredient.is_approved)
+
+        if exclude_mine:
+            ingredients = [r for r in ingredients if r.author != current_user]
 
         if ordered:
             ingredients.sort(key=lambda x: unidecode(x.name.lower()), reverse=False)

@@ -43,8 +43,11 @@ class Recipe(db.Model, ItemMixin):
 
     # LOADERS
     @staticmethod
-    def load_all_public(ordered=True) -> list:
+    def load_all_public(ordered=True, exclude_mine=False) -> list:
         recipes = Recipe.query.filter(Recipe.is_shared).all()
+
+        if exclude_mine:
+            recipes = [r for r in recipes if r.author != current_user]
 
         if ordered:
             recipes.sort(key=lambda x: unidecode(x.name.lower()), reverse=False)
@@ -130,7 +133,7 @@ class Recipe(db.Model, ItemMixin):
 
     @property
     def can_current_user_show(self) -> bool:
-        return current_user == self.author or current_user.is_admin or self.public
+        return current_user == self.author or current_user.is_admin or self.is_shared
 
     # PROPERTIES
 

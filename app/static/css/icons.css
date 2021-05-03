@@ -4,6 +4,10 @@ i:not(.disabled) {
   cursor: pointer;
 }
 
+i.cursor-default {
+  cursor: default;
+}
+
 /* font-awesome icons */
 
 i.fa-file-pdf {

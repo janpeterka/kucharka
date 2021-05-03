@@ -35,7 +35,7 @@
                 {% if recipe.is_shared and not recipe.is_current_user_author %}
                     <span class="font-italic font-weight-light float-right"> (vytvořil*a {{ recipe.author.name }}) </span>
                 {% elif recipe.is_shared %}
-                    <span class="font-italic font-weight-light float-right"> {{ toolbox_icons.recipe_shared }} </span>
+                    <span class="font-italic font-weight-light float-right"> {{ tooltip_icons.recipe_shared }} </span>
                 {% endif %}
             </div>
 
@@ -47,7 +47,9 @@
 
                 {% for ingredient in recipe.ingredients: %}
                     <tr>
-                        <td>{{ link_to(ingredient) }}</td>
+                        <td>{{ link_to(ingredient) }}
+                            {% if not ingredient.author == recipe.author %} {{ tooltip_icons.recipe_public }} {% endif %}
+                        </td>
                         <td>{{ ingredient.amount }}</td>
                     </tr>
                 {% endfor %}

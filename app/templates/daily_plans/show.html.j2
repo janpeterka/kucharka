@@ -25,11 +25,6 @@
             <thead>
                 <tr>
                     <th>{{ texts.title }}</th>
-                    {# <th>{{ texts.amount_simple }}</th> #}
-                    {# <th>{{ texts.energy_simple }}</th> #}
-                    {# <th>{{ texts.protein_simple }}</th> #}
-                    {# <th>{{ texts.fat_simple }}</th> #}
-                    {# <th>{{ texts.sugar_simple }}</th> #}
                     <th></th>
                     <th></th>
                 </tr>
@@ -37,55 +32,21 @@
             <tbody>
 
             {% for daily_recipe in daily_recipes %}
-                <tr data-id="{{ daily_recipe.id }}">
-                    <td>{{ link_to(daily_recipe.recipe) }}</td>
-                    {# <td>{{ daily_recipe.recipe.totals.amount }}</td> #}
-                    {# <td>{{ daily_recipe.recipe.totals.calorie | round(1) }}</td> #}
-                    {# <td>{{ daily_recipe.recipe.totals.protein | round(1) }}</td> #}
-                    {# <td>{{ daily_recipe.recipe.totals.fat | round(1) }}</td> #}
-                    {# <td>{{ daily_recipe.recipe.totals.sugar | round(1) }}</td> #}
-                    <td>
-                        {% from "macros/daily_plans/_change_order_button.html.j2" import change_order_buttons with context %}
-                        {{ change_order_buttons() }}
-                    </td>
-                    <td>
-                        {% from "macros/_active_icons.html.j2" import remove_icon %}
-                        {{ remove_icon(url=url_for('DailyPlansView:remove_daily_recipe', daily_recipe_id=daily_recipe.id, date=dates['active']))}}
-                    </td>
-                </tr>
+                {% include "daily_plans/_recipe_row.html.j2"%}
             {% endfor %}
             </tbody>
-            {# <tr> #}
-                {# <th></th> #}
-                {# <th>{{ texts.amount_simple }}</th> #}
-                {# <th>{{ texts.energy_simple }}</th> #}
-                {# <th>{{ texts.protein_simple }}</th> #}
-                {# <th>{{ texts.fat_simple }}</th> #}
-                {# <th>{{ texts.sugar_simple }}</th>  #}
-            {# </tr> #}
-            {# <tr data-daily-plan-target="totals"> #}
-                {# <th>Celkem:</th> #}
-                {# <td>{{ daily_plan.totals.amount | round(1) }}</td> #}
-                {# <td>{{ daily_plan.totals.calorie | round(1) }}</td> #}
-                {# <td>{{ daily_plan.totals.protein | round(1) }}</td> #}
-                {# <td>{{ daily_plan.totals.fat | round(1) }}</td> #}
-                {# <td>{{ daily_plan.totals.sugar | round(1) }}</td> #}
-            {# </tr> #}
         </table>
-
     </div>
+
     <div class="row float-right mt-5">
         <form class="form" action="{{ url_for('DailyPlansView:add_recipe') }}" method="post">
+            <input type="hidden" name="date" value="{{ dates['active'] }}">
             <div class="form-group form-inline">
                 <select name="recipe_id" id="recipe_select" class="form-control">
                     {% include "daily_plans/_add_recipe_form_options.html.j2" %}
-                    {# {{ options(current_user.recipes) }} #}
                 </select>
             </div>
 
-            {# Hidden #}
-            <input type="hidden" name="date" value="{{ dates['active'] }}">
-            {# Submit #}
             <input type="submit" data-load-recipes-for-diet-target="submit" class="form-control btn btn-primary" value="Přidat recept">
         </form>
     </div>
@@ -95,7 +56,5 @@
 {% endblock %}
 
 {% block scripts_after %}
-<script type="text/javascript">
-    $(document).ready(function() {$('#recipe_select').select2();});
-</script>
+<script type="text/javascript"> $(document).ready(function() {$('#recipe_select').select2();}); </script>
 {% endblock %}

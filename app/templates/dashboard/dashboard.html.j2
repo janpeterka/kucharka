@@ -13,7 +13,7 @@
 
         {% if current_user.draft_recipes %}              
         <details>
-            <summary class="text-uppercase font-comfortaa">Dokončit rozdělané recepty</summary>
+            <summary class="text-uppercase font-comfortaa">Dokončit rozdělané recepty ({{ current_user.draft_recipes | length }})</summary>
             <form method="post" action="{{ url_for('RecipesView:delete_drafts')}}" class="float-right">
                     <button type="submit" class="btn btn-warning">Smazat návrhy</button>
             </form>
@@ -29,19 +29,19 @@
     <div class="col-sm-12 col-md-6">
         <h4 class="text-uppercase font-comfortaa">Moje</h4>
         <details open>
-            <summary class="text-uppercase font-comfortaa">Recepty</summary>
+            <summary class="text-uppercase font-comfortaa"> Recepty </summary>
             {{ list_of_links(current_user.visible_recipes) }}
         </details>
             
         {% if current_user.draft_recipes %}              
         <details>
-            <summary class="text-uppercase font-comfortaa">Rozdělané recepty</summary>
+            <summary class="text-uppercase font-comfortaa"> Rozdělané recepty </summary>
             {{ list_of_links(current_user.draft_recipes) }}
         </details>
         {% endif %}
 
         <details>
-            <summary class="text-uppercase font-comfortaa">Suroviny</summary>
+            <summary class="text-uppercase font-comfortaa"> Suroviny </summary>
             {{ list_of_links(current_user.ingredients) }}
         </details>
     </div>

@@ -29,6 +29,21 @@ class BaseRecipesView(FlaskView):
 
         recipe.add_ingredient(ingredient)
 
+        return turbo.stream(
+            [
+                turbo.append(
+                    template(
+                        "recipes/_edit_ingredient.html.j2",
+                        ingredient=ingredient,
+                        recipe=recipe,
+                    ),
+                    target="ingredients",
+                )
+            ]
+            + self.update_usable_ingredients(recipe)
+        )
+
+    def update_usable_ingredients(self, recipe):
         unused_ingredients = [
             i for i in current_user.ingredients if i not in recipe.ingredients
         ]
@@ -37,28 +52,22 @@ class BaseRecipesView(FlaskView):
             i for i in Ingredient.load_all_public() if i not in recipe.ingredients
         ]
 
-        return turbo.stream(
-            [
-                turbo.append(
-                    template("recipes/new/_ingredient.html.j2", ingredient=ingredient),
-                    target="ingredients",
+        return [
+            turbo.replace(
+                template(
+                    "recipes/new/_add_ingredient_form.html.j2",
+                    personal_ingredients=unused_ingredients,
+                    public_ingredients=unused_public_ingredients,
+                    recipe=recipe,
                 ),
-                turbo.replace(
-                    template(
-                        "recipes/new/_add_ingredient_form.html.j2",
-                        personal_ingredients=unused_ingredients,
-                        public_ingredients=unused_public_ingredients,
-                        recipe=recipe,
-                    ),
-                    target="add_ingredient_form",
+                target="add_ingredient_form",
+            ),
+            turbo.replace(
+                template(
+                    "recipes/new/_new_recipe_form.html.j2",
+                    categories=RecipeCategory.load_all(),
+                    recipe=recipe,
                 ),
-                turbo.replace(
-                    template(
-                        "recipes/new/_new_recipe_form.html.j2",
-                        categories=RecipeCategory.load_all(),
-                        recipe=recipe,
-                    ),
-                    target="save_recipe_form",
-                ),
-            ]
-        )
+                target="save_recipe_form",
+            ),
+        ]

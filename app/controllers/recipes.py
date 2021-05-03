@@ -7,7 +7,7 @@ from flask_security import login_required, current_user
 
 from flask_classful import route
 
-# from app import turbo
+from app import turbo
 
 from app.helpers.extended_flask_view import ExtendedFlaskView
 from app.helpers.form import save_form_to_session
@@ -114,7 +114,7 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
         recipe.author = current_user
 
         recipe.save()
-        return redirect(url_for("RecipesView:show", id=self.recipe.id))
+        return redirect(url_for("RecipesView:show", id=recipe.id))
 
     @route("/toggle_shared/<id>", methods=["POST"])
     def toggle_shared(self, id):
@@ -125,18 +125,36 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
             flash("Recept byl skryt před veřejností.", "success")
         return redirect(url_for("RecipesView:show", id=self.recipe.id))
 
-    @route("/change_ingredient_amount/<recipe_id>/<ingredient_id>", methods=["POST"])
-    def change_ingredient_amount(self, recipe_id, ingredient_id):
+    @route("/delete_drafts", methods=["POST"])
+    def delete_drafts(self):
+        for draft in current_user.draft_recipes:
+            draft.delete()
+
+        return redirect(url_for("DashboardView:show"))
+
+    @route("/remove_ingredient/<recipe_id>/<ingredient_id>", methods=["POST"])
+    def remove_ingredient(self, recipe_id, ingredient_id):
         recipe = Recipe.load(recipe_id)
         ingredient = Ingredient.load(ingredient_id)
+
+        recipe.remove_ingredient(ingredient)
+        return turbo.stream(
+            [turbo.remove(target=f"ingredient-{ingredient_id}")]
+            + BaseRecipesView().update_usable_ingredients(recipe)
+        )
+
+    @route("/change_ingredient_amount/<recipe_id>/<ingredient_id>", methods=["POST"])
+    def change_ingredient_amount(self, recipe_id, ingredient_id):
+        self.recipe = Recipe.load(recipe_id)
+        self.ingredient = Ingredient.load(ingredient_id)
         amount = request.form["amount"]
 
-        recipe.change_ingredient_amount(ingredient, amount)
+        self.recipe.change_ingredient_amount(self.ingredient, amount)
+        self.ingredient.amount = amount
 
-        return redirect(url_for("RecipesView:edit", id=recipe_id))
-        # return turbo.stream(
-        #     turbo.replace(
-        #         self.template(template_name="recipes/_edit_ingredient.html.j2"),
-        #         target=f"ingredient-{ingredient_id}",
-        #     )
-        # )
+        return turbo.stream(
+            turbo.replace(
+                self.template(template_name="recipes/_edit_ingredient.html.j2"),
+                target=f"ingredient-{self.ingredient.id}",
+            )
+        )

@@ -1,5 +1,4 @@
-<turbo-frame id="save_recipe_form">
-<form class="form-inline" method="post" action="{{ url_for('RecipesView:save') }}">
+<form class="form-inline" method="post" action="{{ url_for('RecipesView:save') }}" id="save_recipe_form">
 	<input type="hidden" name="recipe_id" value="{% if recipe %}{{ recipe.id }}{% endif %}">
 	<label> Název receptu </label>
 	<input type="text" class="form-control" name="name" required />
@@ -10,4 +9,3 @@
 	</select>
 	<input type="submit" class="btn btn-primary" value="{{ texts.recipe_save }}" />
 </form>
-</turbo-frame>

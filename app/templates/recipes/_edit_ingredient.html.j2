@@ -1,9 +1,19 @@
 <tr id="ingredient-{{ingredient.id}}">
+
     <td class="align-middle">{{ link_to(ingredient) }}</td>
+    
     <td>
         <form action="{{ url_for('RecipesView:change_ingredient_amount', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" class="form form-inline" method="post">
-            <input type="number" class="form-control" name="amount" value="{{ ingredient.amount|round(2,'common') }}">
-            <input type="submit" class="form-control btn btn-warning" value="Změnit">
+            <input type="number" class="form-control" name="amount" value="{{ ingredient.amount }}">
+            <span class="ml-2">{{ ingredient.measurement.name }}</span>
+            <input type="submit" class="form-control btn btn-warning ml-4" value="Změnit">
+        </form>
+    </td>
+    <td></td>
+
+    <td>
+        <form method="POST" action="{{ url_for('RecipesView:remove_ingredient', ingredient_id=ingredient.id, recipe_id=recipe.id) }}">
+            <button type="submit" class="destroy icon mt-2">&#10005;</button>
         </form>
     </td>
 </tr>

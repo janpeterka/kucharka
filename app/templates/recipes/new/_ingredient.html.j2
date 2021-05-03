@@ -1,24 +1,13 @@
-<tr data-id="{{ ingredient.id }}"
-	data-name="{{ ingredient.name }}"
-	data-calorie="{{ ingredient.calorie }}"
-	data-protein="{{ ingredient.protein }}"
-	data-fat="{{ ingredient.fat }}"
-	data-sugar="{{ ingredient.sugar }}"
-    class="vertically-centered">
+<tr id="ingredient-{{ ingredient.id }}">
 
     <td>{{ link_to(ingredient) }}</td> 
-    {# <td>{{ ingredient.calorie }}</td>  #}
-    {# <td>{{ ingredient.protein }}</td>  #}
-    {# <td>{{ ingredient.fat }}</td> #}
-    {# <td>{{ ingredient.sugar }}</td> #}
 
-    {# <td><input data-action="input->simple-calculator#calculate_recipe" class="form-control" type="number" name="amount" placeholder="{{ ingredient.measurement.name }}" /></td> #}
     <td><input class="form-control" type="number" name="amount" placeholder="{{ ingredient.measurement.name }}" /></td>
     <td>{{ ingredient.measurement.name }}</td>
 
-{#     <td>
-        <span data-action="click->simple-calculator#remove_ingredient" data-id="{{ ingredient.id }}">
-            {{ icons.ingredient_remove }} 
-        </span>
-    </td> #}
+    <td>
+        <form method="POST" action="{{ url_for('RecipesView:remove_ingredient', ingredient_id=ingredient.id, recipe_id=recipe.id) }}">
+            <button type="submit" class="destroy icon">&#10005;</button>
+        </form>
+    </td>
 </tr>

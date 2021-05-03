@@ -150,6 +150,16 @@ class Recipe(db.Model, ItemMixin):
 
         self.recipe_ingredients.append(rhi)
         self.save()
+
+    def remove_ingredient(self, ingredient):
+        rhi = RecipeHasIngredient.load_by_recipe_and_ingredient(self, ingredient)
+        rhi.delete()
+
+    def change_ingredient_amount(self, ingredient, amount):
+        rhi = RecipeHasIngredient.load_by_recipe_and_ingredient(self, ingredient)
+        rhi.amount = amount
+        rhi.save()
+
     # PERMISSIONS
 
     @property

@@ -63,7 +63,9 @@ class IngredientsView(ExtendedFlaskView):
         self.all_recipes = Recipe.load_by_ingredient(self.ingredient)
 
     def before_index(self):
-        self.ingredients = current_user.ingredients
+        self.ingredients = [
+            i for i in current_user.ingredients if i not in Ingredient.load_all_public()
+        ]
 
     def before_public(self):
         self.public_ingredients = Ingredient.load_all_public()

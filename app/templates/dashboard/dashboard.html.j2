@@ -1,29 +1,50 @@
 {% extends "base/base.html.j2" %}
-
-{% block title %}
-    Vítejte {{ current_user.email }}
-{% endblock %}
-
-{% block script %}
-{% endblock %}
+{% block title %} Vítejte {{ current_user.email }} {% endblock %}
 
 {% block content %}
+
 <div class="row">
     <div class="col-sm-12 col-md-6">
-        <div>
-            <h4 class="text-uppercase font-comfortaa">Seznam receptů:</h4>
-            {{ list_of_links(current_user.visible_recipes) }}
-            {% if current_user.draft_recipes %}              
-                <h4 class="text-uppercase font-comfortaa">Seznam rozdělaných receptů:</h4>
-                <form method="post" action="{{ url_for('RecipesView:delete_drafts')}}"> <button type="submit" class="btn btn-warning">Smazat návrhy</button> </form>
-                {{ list_of_links(current_user.draft_recipes) }}
-            {% endif %}
-        </div>
+        <h4 class="text-uppercase font-comfortaa">Rychlé akce</h4>
+        
+        <hr>
+        
+        <div class="mb-3"><a href="{{url_for('RecipesView:new')}}" class="text-uppercase font-comfortaa">Přidat nový recept</a></div>
+
+        {% if current_user.draft_recipes %}              
+        <details>
+            <summary class="text-uppercase font-comfortaa">Dokončit rozdělané recepty</summary>
+            <form method="post" action="{{ url_for('RecipesView:delete_drafts')}}" class="float-right">
+                    <button type="submit" class="btn btn-warning">Smazat návrhy</button>
+            </form>
+            <ul>
+            {% for recipe in current_user.draft_recipes %}
+                <li>{{ link_to(recipe) }} <span class="color-grey">({{recipe.ingredients | length}} zadaných surovin)</span></li>
+            {% endfor %}
+            </ul>
+        </details>
+        {% endif %}
     </div>
 
     <div class="col-sm-12 col-md-6">
-        <h4 class="text-uppercase font-comfortaa">Seznam surovin:</h4>
-        {{ list_of_links(current_user.ingredients) }}
+        <h4 class="text-uppercase font-comfortaa">Moje</h4>
+        <details open>
+            <summary class="text-uppercase font-comfortaa">Recepty</summary>
+            {{ list_of_links(current_user.visible_recipes) }}
+        </details>
+            
+        {% if current_user.draft_recipes %}              
+        <details>
+            <summary class="text-uppercase font-comfortaa">Rozdělané recepty</summary>
+            {{ list_of_links(current_user.draft_recipes) }}
+        </details>
+        {% endif %}
+
+        <details>
+            <summary class="text-uppercase font-comfortaa">Suroviny</summary>
+            {{ list_of_links(current_user.ingredients) }}
+        </details>
     </div>
 </div>
+
 {% endblock %}

@@ -1,0 +1,13 @@
+<turbo-frame id="save_recipe_form">
+<form class="form-inline" method="post" action="{{ url_for('RecipesView:save') }}">
+	<input type="hidden" name="recipe_id" value="{% if recipe %}{{ recipe.id }}{% endif %}">
+	<label> Název receptu </label>
+	<input type="text" class="form-control" name="name" required />
+	<label> Kategorie </label>
+	<select class="form-control" name="category_id">
+		{% from "macros/general.html.j2" import option, options %}
+		{{ options(categories) }}
+	</select>
+	<input type="submit" class="btn btn-primary" value="{{ texts.recipe_save }}" />
+</form>
+</turbo-frame>

@@ -1,32 +1,64 @@
-import json
-
-from flask import jsonify, request, abort
+from flask import request
 from flask import render_template as template
 
 from flask_classful import FlaskView, route
 
-from app.handlers.data import DataHandler
+from flask_security import current_user
+
+from app import turbo
+
+# from app.handlers.data import DataHandler
 
 # from app.models.diets import Diet
 from app.models.ingredients import Ingredient
+from app.models.recipes import Recipe
+from app.models.recipe_categories import RecipeCategory
 
 
 class BaseRecipesView(FlaskView):
-    @route("/addIngredientWithAmount", methods=["POST"])
-    def addIngredientWithAmount(self):
-        ingredient = Ingredient.load(request.json["ingredient_id"])
+    @route("/addIngredient/", methods=["POST"])
+    def addIngredient(self):
+        # new_recipe_created = False
+        ingredient = Ingredient.load(request.form["ingredient_option"])
+        if "recipe_id" in request.form and request.form["recipe_id"]:
+            recipe = Recipe.load(request.form["recipe_id"])
+        else:
+            recipe = Recipe(name="---", created_by=current_user.id, is_draft=True)
+            recipe.save()
+            # new_recipe_created = True
 
-        if not ingredient:
-            abort(404)
-        if not ingredient.can_current_user_add:
-            abort(403)
+        recipe.add_ingredient(ingredient)
 
-        template_data = template(
-            "recipes/_add_ingredient_with_amount.html.j2", ingredient=ingredient
+        unused_ingredients = [
+            i for i in current_user.ingredients if i not in recipe.ingredients
+        ]
+
+        unused_public_ingredients = [
+            i for i in Ingredient.load_all_public() if i not in recipe.ingredients
+        ]
+
+        return turbo.stream(
+            [
+                turbo.append(
+                    template("recipes/new/_ingredient.html.j2", ingredient=ingredient),
+                    target="ingredients",
+                ),
+                turbo.replace(
+                    template(
+                        "recipes/new/_add_ingredient_form.html.j2",
+                        personal_ingredients=unused_ingredients,
+                        public_ingredients=unused_public_ingredients,
+                        recipe=recipe,
+                    ),
+                    target="add_ingredient_form",
+                ),
+                turbo.replace(
+                    template(
+                        "recipes/new/_new_recipe_form.html.j2",
+                        categories=RecipeCategory.load_all(),
+                        recipe=recipe,
+                    ),
+                    target="save_recipe_form",
+                ),
+            ]
         )
-        result = {"ingredient": ingredient.json, "template_data": template_data}
-        DataHandler.set_additional_request_data(
-            item_type="add_ingredient_with_amount_AJAX", item_id=ingredient.id
-        )
-
-        return jsonify(result)

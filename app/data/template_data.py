@@ -47,7 +47,7 @@ texts = {
     "fat_short": "Tuk",
     "fat_simple": "Tuk (g)",
     "fat_100": "Tuk (g/100g)",
-    "amount_simple": "Množství (g)",
+    "amount_simple": "Množství (na porci)",
     "ratio": "Poměr",
     "ratio_full": "Poměr (tuky: bílkoviny + cukry)",
     "edit": "Upravit",
@@ -96,16 +96,6 @@ texts = {
     "ingredient_delete": "Smazat surovinu",
     "ingredient_delete_confirm": "Opravdu chcete smazat surovinu?",
     "image": {"upload": "Nahrát foto", "delete": "Smazat foto"},
-    # Calc
-    "calc_amount": "Spočítat množství!",
-    # Cookbook
-    # "cookbook": {
-    #     "not_logged_in": "Sdílené recepty jsou přístupné pouze pro přihlášené uživatele.",
-    # },
-    # Daily plan
-    "daily_plan": {
-        "not_logged_in": "Denní plány jsou přístupné pouze pro přihlášené uživatele."
-    },
     # User
     "user": {
         "username": "Přihlašovací jméno",
@@ -124,5 +114,5 @@ texts = {
     "register_google": "Registrovat pomocí Google",
     "forgotten_password": "Zapomněli jste heslo?",
     # Misc
-    "copyright": '&copy; Copyright since 2017 by <a href="mailto:ketocalc.jmp@gmail.com">Jan Peterka</a>',
+    # "copyright": '&copy; Copyright since 2017 by <a href="mailto:ketocalc.jmp@gmail.com">Jan Peterka</a>',
 }

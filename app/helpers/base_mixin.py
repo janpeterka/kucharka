@@ -27,7 +27,7 @@ class BaseMixin(object):
 
     @classmethod
     def load_all(cls):
-        return cls.query.all()
+        return cls.query.filter_by(is_visible=True).all()
 
     @classmethod
     def load_last(cls):
@@ -173,6 +173,13 @@ class BaseMixin(object):
         else:
             return False
             # raise AttributeError("No 'is_shared' attribute.")
+
+    @hybrid_property
+    def is_visible(self) -> bool:
+        if hasattr(self, "is_visible"):
+            return self.is_visible
+        else:
+            return True
 
     # PERMISSIONS
     def can_view(self, user) -> bool:

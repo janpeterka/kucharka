@@ -27,3 +27,11 @@ class User(db.Model, BaseMixin, UserMixin):
     @property
     def name(self):
         return self.full_name
+
+    @property
+    def visible_recipes(self):
+        return [r for r in self.recipes if r.is_visible]
+
+    @property
+    def draft_recipes(self):
+        return [r for r in self.recipes if r.is_draft]

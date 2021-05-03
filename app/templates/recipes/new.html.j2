@@ -3,28 +3,27 @@
     Vytvořit recept
 {% endblock %}
 
-{% block script %}
-    {% include 'javascript/stimulus.js.html' %}
-    {% include 'javascript/simple_calculator_controller.js.html' %}
+ {% block links %}
+    {{ super() }}
+    {{ turbo() }}
 {% endblock %}
+
+{# {% block script %} #}
+    {# {% include 'javascript/stimulus.js.html' %} #}
+    {# {% include 'javascript/simple_calculator_controller.js.html' %} #}
+{# {% endblock %} #}
 
 {% block content %}
 <div data-controller="simple-calculator">
-    <div class="hidden">
-        <select data-simple-calculator-target="baseSelect">
-            {% include "recipes/_add_ingredient_form_options.html.j2" %}
+{#     <div class="hidden">
+        <select data-simple-calculator-target="baseSelect" id="hidden">
+            {% include "recipes/new/_add_ingredient_form_options.html.j2" %}
         </select>
     </div>
-
+ #}
     <div class="col">
         <div>
-            <form class="form-inline" data-action="submit->simple-calculator#add_ingredient">
-                <select class="form-control" id="ingredient_select" data-simple-calculator-target="select">
-                    {% include "recipes/_add_ingredient_form_options.html.j2" %}
-                </select>
-
-                <input type="submit" class="btn btn-primary" value="Přidat surovinu" />
-            </form>
+            {% include "recipes/new/_add_ingredient_form.html.j2" %}
         </div>
 
         <div>
@@ -37,12 +36,12 @@
                     {# <th>{{ texts.sugar_100}}</th> #}
                     <th> Množství</th>
                 </thead>
-                <tbody data-simple-calculator-target="ingredientTable">
+                <tbody data-simple-calculator-target="ingredientTable" id="ingredients">
                 </tbody>
             </table>
 
             <div class="col-12">
-                {% include "recipes/_new_recipe_form.html.j2" %}
+                {% include "recipes/new/_new_recipe_form.html.j2" %}
             </div>
 
         </div>

@@ -10,13 +10,14 @@ Flask-Classful = "*"
 python-dotenv = "*"
 email-validator = "*"
 PyMySQL = "*"
-flask-security-too = "*"
+Flask-Security-Too = "*"
 gunicorn = "*"
-flask-babelex = "*"
-flask-babel = "*"
+Flask-BabelEx = "*"
+Flask-Babel = "*"
 cryptography = "*"
+Turbo-Flask = "*"
+Unidecode = "*"
 turbo-flask = "*"
-unidecode = "*"
 
 [dev-packages]
 

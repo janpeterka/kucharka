@@ -21,8 +21,8 @@
             Přidat
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ url_for('IngredientsView:new') }}"> surovinu </a>
             <a class="dropdown-item" href="{{ url_for('RecipesView:new') }}"> recept </a>
+            <a class="dropdown-item" href="{{ url_for('IngredientsView:new') }}"> surovinu </a>
           </div>
         </li>
 
@@ -32,9 +32,9 @@
             Seznam
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ url_for('RecipesView:index') }}"> receptů </a>
             <a class="dropdown-item" href="{{ url_for('IngredientsView:index') }}"> surovin </a>
             <a class="dropdown-item" href="{{ url_for('IngredientsView:public') }}"> veřejných surovin </a>
-            <a class="dropdown-item" href="{{ url_for('RecipesView:index') }}"> receptů </a>
           </div>
         </li>
 

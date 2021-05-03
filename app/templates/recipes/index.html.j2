@@ -10,7 +10,18 @@
 
 
 <table class="table">
-    {% for recipe in current_user.recipes: %}
+    {% for recipe in current_user.visible_recipes: %}
+    <tr>
+        <td>{{ link_to(recipe) }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<hr>
+
+<h1> Koncepty </h1>
+<table class="table">
+    {% for recipe in current_user.draft_recipes: %}
     <tr>
         <td>{{ link_to(recipe) }}</td>
     </tr>

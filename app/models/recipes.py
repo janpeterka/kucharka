@@ -1,6 +1,6 @@
 from unidecode import unidecode
 
-from flask_login import current_user
+from flask_security import current_user
 
 from app import db
 
@@ -42,6 +42,12 @@ class Recipe(db.Model, ItemMixin):
         primaryjoin="and_(Recipe.id == remote(RecipeHasIngredient.recipe_id), foreign(Ingredient.id) == RecipeHasIngredient.ingredient_id)",
         viewonly=True,
         order_by="Ingredient.name",
+    )
+
+    daily_plans = db.relationship(
+        "DailyPlan",
+        primaryjoin="and_(Recipe.id == remote(DailyPlanHasRecipe.recipe_id), foreign(DailyPlan.id) == DailyPlanHasRecipe.daily_plan_id)",
+        viewonly=True,
     )
 
     author = db.relationship("User", uselist=False, backref="recipes")
@@ -136,6 +142,14 @@ class Recipe(db.Model, ItemMixin):
         reactions = UserHasRecipeReaction.load_by_recipe_and_current_user(self)
         return bool(reactions)
 
+    def add_ingredient(self, ingredient, amount=None):
+        rhi = RecipeHasIngredient()
+        rhi.ingredient = ingredient
+        if amount:
+            rhi.amount = amount
+
+        self.recipe_ingredients.append(rhi)
+        self.save()
     # PERMISSIONS
 
     @property
@@ -143,6 +157,14 @@ class Recipe(db.Model, ItemMixin):
         return current_user == self.author or current_user.is_admin or self.is_shared
 
     # PROPERTIES
+
+    @property
+    def is_used(self):
+        return True if self.daily_plans else False
+
+    @property
+    def is_visible(self):
+        return not self.is_draft
 
     @property
     def concat_ingredients(self) -> str:

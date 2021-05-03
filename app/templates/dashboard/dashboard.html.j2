@@ -12,7 +12,11 @@
     <div class="col-sm-12 col-md-6">
         <div>
             <h4 class="text-uppercase font-comfortaa">Seznam receptů:</h4>
-            {{ list_of_links(current_user.recipes) }}
+            {{ list_of_links(current_user.visible_recipes) }}
+            {% if current_user.draft_recipes %}              
+                <h4 class="text-uppercase font-comfortaa">Seznam rozdělaných receptů:</h4>
+                {{ list_of_links(current_user.draft_recipes) }}
+            {% endif %}
         </div>
     </div>
 

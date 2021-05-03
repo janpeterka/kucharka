@@ -23,8 +23,15 @@ class Recipe(db.Model, ItemMixin):
 
     description = db.Column(db.Text)
 
-    is_public = db.Column(db.Boolean, default=False)
+    # recipe is not yet saved
+    is_draft = db.Column(db.Boolean, default=False)
+
+    # recipe is from database of approved recipes
+    # is_public = db.Column(db.Boolean, default=False)
+    # recipes is personal, but shared publicly. can change or disappear
     is_shared = db.Column(db.Boolean, default=False)
+    # recipe is hidden from personal and public lists
+    is_hidden = db.Column(db.Boolean, default=False)
 
     category_id = db.Column(db.ForeignKey("recipe_categories.id"))
 

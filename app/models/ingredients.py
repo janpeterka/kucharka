@@ -23,13 +23,18 @@ class Ingredient(db.Model, ItemMixin):
     last_updated_at = db.Column(db.DateTime, onupdate=db.func.current_timestamp())
 
     description = db.Column(db.Text)
-    measurement_id = db.Column(db.ForeignKey("measurements.id"), nullable=False)
+    measurement_id = db.Column(db.ForeignKey("measurements.id"))
     category_id = db.Column(db.ForeignKey("ingredient_categories.id"))
 
     calorie = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))
     sugar = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))
     fat = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))
     protein = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))
+
+    is_vegetarian = db.Column(db.Boolean, default=False)
+    is_vegan = db.Column(db.Boolean, default=False)
+    lactose_free = db.Column(db.Boolean, default=False)
+    gluten_free = db.Column(db.Boolean, default=False)
 
     is_public = db.Column(db.Boolean, default=False)
     # is_approved = db.Column(db.Boolean, default=False)

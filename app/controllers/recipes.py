@@ -74,6 +74,7 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
 
         form.category.data = RecipeCategory.load(form.category.data)
         form.populate_obj(self.recipe)
+        self.recipe.is_draft = False
         self.recipe.edit()
 
         return redirect(url_for("RecipesView:show", id=self.recipe.id))

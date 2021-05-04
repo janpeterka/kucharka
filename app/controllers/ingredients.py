@@ -120,4 +120,4 @@ class IngredientsView(ExtendedFlaskView):
             return redirect(url_for("IngredientsView:show", id=self.ingredient.id))
 
     def public(self):
-        return self.template(template_name="ingredients/public.html.j2")
+        return self.template()

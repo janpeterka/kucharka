@@ -29,6 +29,7 @@
 
     /* Other */
     --color-grey: #C1C2C4;
+    --color-green: #2FAC03;
 }
 
 /*Colors*/
@@ -90,6 +91,15 @@
 .color-grey{
     color: var(--inactive);
 }
+
+.color-green{
+    color: var(--color-green);
+}
+
+.color-wheat {
+    color: #f5deb3;
+}
+
 
 
 /*Filters*/

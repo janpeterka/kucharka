@@ -26,10 +26,10 @@ class Ingredient(db.Model, ItemMixin):
     measurement_id = db.Column(db.ForeignKey("measurements.id"))
     category_id = db.Column(db.ForeignKey("ingredient_categories.id"))
 
-    calorie = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))
-    sugar = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))
-    fat = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))
-    protein = db.Column(db.Float, nullable=False, server_default=db.text("'0'"))
+    calorie = db.Column(db.Float, server_default=db.text("'0'"))
+    sugar = db.Column(db.Float, server_default=db.text("'0'"))
+    fat = db.Column(db.Float, server_default=db.text("'0'"))
+    protein = db.Column(db.Float, server_default=db.text("'0'"))
 
     is_vegetarian = db.Column(db.Boolean, default=False)
     is_vegan = db.Column(db.Boolean, default=False)

@@ -150,4 +150,5 @@ a.info:hover {
 
 abbr {
   cursor: default !important;
+  text-decoration: none !important;
 }

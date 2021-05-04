@@ -28,7 +28,7 @@
   {% if field.type == 'BooleanField' %}
     <div class="form-check">
       {{ field(class_=class_ + ' form-check-input', **kwargs) }}
-      <label class="form-check-label" for="{{ field.id }}">{{ field.label.text|safe }}</label>
+      <label class="form-check-label" for="{{ field.id }}">{{ label|safe }}</label>
     </div>
   {% else %}
     {% if field.type in ('TextField', 'TextAreaField', 'PasswordField',

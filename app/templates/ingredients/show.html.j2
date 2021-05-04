@@ -3,20 +3,42 @@
 {% block content %}
 
 <div class="row">
-    <div class="col-md-8 col-sm-12" style="margin-bottom: 2rem;">
-        <div>                
-            <h2>{{ ingredient.name }}</h2>
-            <p>{{ ingredient.description if ingredient.description }}</p>
-            <span class="font-italic"> Míra: {{ ingredient.measurement.name }} </span><br>
-            <span class="font-italic"> Kategorie: {{ ingredient.category.name }} </span>
-            {% if ingredient.is_public %}
-                <span class="font-italic font-weight-light float-right" >Veřejná surovina (zdroj: {{ ingredient.source }})</span>
-            {% endif %}
+    <div class="col-md-8 col-sm-12">
+        <div class="mb-2">
+            <div>
+                <h2>{{ ingredient.name }}</h2>
+                <p>{{ ingredient.description if ingredient.description }}</p>
+            </div>
+
+            <div>   
+                <span class="font-italic"> Míra: {{ ingredient.measurement.name }} </span><br>
+                {% if ingredient.is_public %}
+                    <span class="font-italic font-weight-light float-right" >Veřejná surovina (zdroj: {{ ingredient.source }})</span>
+                {% endif %}
+            </div>
+            
+            <div>
+                <span class="font-italic"> Kategorie: {{ ingredient.category.name }} </span>
+                <span class="float-right">
+                {% if ingredient.is_vegetarian %}
+                    {{ icon("vegetarian")}}
+                {% endif %}
+                {% if ingredient.is_vegan %}
+                    {{ icon("vegan")}}
+                {% endif %}
+                {% if ingredient.lactose_free %}
+                    {{ icon("lactose_free")}}
+                {% endif %}
+                {% if ingredient.gluten_free %}
+                    {{ icon("gluten_free")}}
+                {% endif %}
+                </span>
+            </div>
         </div>
 
         <hr>
 
-        <details class="mb-3" open>
+        <details class="mb-3 mt-2" open>
         <summary>Nutriční hodnoty</summary>
             <table class="table">
             <tr>

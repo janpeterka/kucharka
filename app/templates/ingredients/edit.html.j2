@@ -24,6 +24,15 @@
             </div>
 
             <hr>
+            
+            <details open>
+            <summary>Potravinová omezení</summary>
+            {{ render_field(form.is_vegetarian) }}
+            {{ render_field(form.is_vegan) }}
+            {{ render_field(form.lactose_free) }}
+            {{ render_field(form.gluten_free) }}
+            </details>
+
 
             <details class="mb-3" open>
             <summary>Nutriční hodnoty</summary>

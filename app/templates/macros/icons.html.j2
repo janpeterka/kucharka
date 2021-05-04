@@ -1,0 +1,73 @@
+{% macro icon(name) %}
+
+    {% set tooltip = kwargs.pop('tooltip', None) %}
+    {% set value = kwargs.pop('value', None) %}
+    {% set class_ = kwargs.pop('class', '') %}
+    {% set class_ = class_ + " cursor-default" %}
+
+    {% if name=="user" %}
+    	{% set fa_class_ = 'material-icons user' %}
+
+    {# Food types #}
+    {% elif name=="vegan" %}
+        {% set fa_class_ = 'fas fa-seedling color-green' %}
+        {% if not tooltip %} {% set tooltip="veganské" %} {% endif %}
+        {% set with_tooltip = True %}
+    {% elif name=="vegetarian" %}
+        {% set fa_class_ = 'fas fa-leaf color-green' %}
+        {% if not tooltip %} {% set tooltip="vegetariánské" %} {% endif %}
+        {% set with_tooltip = True %}
+    {% elif name=="lactose_free" %}
+        {% set fa_class_ = 'fas fa-ban color-light-blue' %}
+        {% if not tooltip %} {% set tooltip="bez laktózy" %} {% endif %}
+        {% set with_tooltip = True %}
+    {% elif name=="gluten_free" %}
+        {% set fa_class_ = 'fas fa-ban color-wheat' %}
+        {% if not tooltip %} {% set tooltip="bez lepku" %} {% endif %}
+        {% set with_tooltip = True %}
+
+    {% else %}
+        {% set fa_class_ = '' %}
+    {% endif %}
+
+    {% set with_tooltip = kwargs.pop('with_tooltip', with_tooltip) %}
+
+    {% if with_tooltip %}
+        <abbr title="{{ tooltip }}">
+    {% endif %}
+
+    <i class="{{ fa_class_ + class_ }}">{% if value %}{{ value }}{% endif %}</i>
+
+
+
+
+
+    {% if with_tooltip %}
+        </abbr>
+    {% endif %}
+	
+{% endmacro %}
+
+
+{# 
+icons = {
+    "user": '<i class="material-icons user">account_circle</i>',
+    "edit": '<i class="fas fa-pencil-alt"></i>',
+    "delete": '<i class="fas fa-trash"></i>',
+    "print": '<i class="fas fa-print"></i>',
+    "archive": '<i class="fas fa-archive"></i>',
+    "unarchive": '<i class="fas fa-archive"></i>',
+    "google": '<i class="fab fa-google"></i>',
+    "daily": '<i class="fas fa-calendar-alt"></i>',
+    "calculator": '<i class="fas fa-calculator"></i>',
+    "list": '<i class="fas fa-list-ul"></i>',
+    "photo": '<i class="far fa-image"></i>',
+    "heart_empty": '<i class="far fa-heart color-red"></i>',
+    "heart_full": '<i class="fas fa-heart color-red"></i>',
+    "recipe_shared": '<i class="fas fa-user-friends"></i>',
+}
+
+tooltip_icons = {
+    "recipe_shared": '<abbr title="zveřejněno"> <i class="fas fa-user-friends cursor-default"></i> </abbr>',
+    "recipe_public": '<abbr title="z veřejných"> <i class="fas fa-user-friends cursor-default color-grey ml-1"></i> </abbr>',
+} #}

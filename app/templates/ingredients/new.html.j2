@@ -11,6 +11,14 @@
     {{ render_field(form.description) }}
     {{ render_field(form.measurement) }}
     {{ render_field(form.category) }}
+    
+    <details open>
+    <summary>Potravinová omezení</summary>
+    {{ render_field(form.is_vegetarian) }}
+    {{ render_field(form.is_vegan) }}
+    {{ render_field(form.lactose_free) }}
+    {{ render_field(form.gluten_free) }}
+    </details>
 
     <details>
     <summary>Nutriční hodnoty</summary>

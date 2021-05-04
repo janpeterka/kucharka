@@ -1,4 +1,4 @@
-from wtforms import StringField, SubmitField, SelectField
+from wtforms import StringField, SubmitField, SelectField, BooleanField
 from wtforms import validators
 
 from flask_wtf import FlaskForm
@@ -19,6 +19,11 @@ class IngredientsForm(FlaskForm):
 
     measurement = SelectField("Počítané v", coerce=int)
     category = SelectField("Kategorie", coerce=int)
+
+    is_vegetarian = BooleanField("vegetariánské")
+    is_vegan = BooleanField("veganské")
+    lactose_free = BooleanField("bez laktózy")
+    gluten_free = BooleanField("bez lepku")
 
     protein = ComaFloatField(
         "Množství bílkovin / 100 g",

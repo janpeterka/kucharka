@@ -181,6 +181,22 @@ class Recipe(db.Model, ItemMixin):
         return ", ".join([o.name for o in self.ingredients])
 
     @property
+    def is_vegetarian(self):
+        return [i for i in self.ingredients if i.is_vegetarian] == self.ingredients
+
+    @property
+    def is_vegan(self):
+        return [i for i in self.ingredients if i.is_vegan] == self.ingredients
+
+    @property
+    def lactose_free(self):
+        return [i for i in self.ingredients if i.lactose_free] == self.ingredients
+
+    @property
+    def gluten_free(self):
+        return [i for i in self.ingredients if i.gluten_free] == self.ingredients
+
+    @property
     # @cache.cached(timeout=50, key_prefix="recipe_totals")
     def totals(self):
         import types

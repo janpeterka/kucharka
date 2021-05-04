@@ -21,10 +21,6 @@ icons = {
 tooltip_icons = {
     "recipe_shared": '<abbr title="zveřejněno"> <i class="fas fa-user-friends cursor-default"></i> </abbr>',
     "recipe_public": '<abbr title="z veřejných"> <i class="fas fa-user-friends cursor-default color-grey ml-1"></i> </abbr>',
-    "vegetarian": '<abbr title="vegetariánské"> <i class="fas fa-leaf color-green cursor-default"></i> </abbr>',
-    "vegan": '<abbr title="veganské"> <i class="fas fa-seedling"></i> </abbr>',
-    # "lactose_free": '<abbr title="bez laktózy"> <i class="fas fa-leaf"></i> </abbr>',
-    # "gluten_free": '<abbr title="bez lepku"> <i class="fas fa-leaf"></i> </abbr>',
 }
 
 social_icons = {

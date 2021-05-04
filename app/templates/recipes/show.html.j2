@@ -27,17 +27,41 @@
 {% block content %}
     {# <div class="row"> #}
         {# <div class="col-10"> #}
-            <div class="mb-2"> 
-                <h2> {{ recipe.name }} </h2> 
-                <p>{{ recipe.description if recipe.description }}</p>
-                <span class="font-italic"> Kategorie: {{ recipe.category.name }} </span>
+            <div class="mb-2">
+                <div> 
+                    <h2> {{ recipe.name }} </h2> 
+                    <p>{{ recipe.description if recipe.description }}</p>
+                </div>
+                
+                <div>
+                    <span class="font-italic"> Kategorie: {{ recipe.category.name }} </span>
 
-                {% if recipe.is_shared and not recipe.is_current_user_author %}
-                    <span class="font-italic font-weight-light float-right"> (vytvořil*a {{ recipe.author.name }}) </span>
-                {% elif recipe.is_shared %}
-                    <span class="font-italic font-weight-light float-right"> {{ tooltip_icons.recipe_shared }} </span>
-                {% endif %}
+                    {% if recipe.is_shared and not recipe.is_current_user_author %}
+                        <span class="font-italic font-weight-light float-right"> (vytvořil*a {{ recipe.author.name }}) </span>
+                    {% elif recipe.is_shared %}
+                        <span class="font-italic font-weight-light float-right"> {{ tooltip_icons.recipe_shared }} </span>
+                    {% endif %}
+                </div>
+                <div>
+                    <span class="font-italic font-weight-light float-right">
+                    {% if recipe.is_vegetarian %}
+                        {{ icon("vegetarian")}}
+                    {% endif %}
+                    {% if recipe.is_vegan %}
+                        {{ icon("vegan")}}
+                    {% endif %}
+                    {% if recipe.lactose_free %}
+                        {{ icon("lactose_free")}}
+                    {% endif %}
+                    {% if recipe.gluten_free %}
+                        {{ icon("gluten_free")}}
+                    {% endif %}
+
+                    </span>
+                    
+                </div>
             </div>
+
 
             <table id="ingredients" class="table">
                 <tr>

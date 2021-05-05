@@ -5,8 +5,39 @@
     {% set class_ = kwargs.pop('class', '') %}
     {% set class_ = class_ + " cursor-default" %}
 
+    {# Pages #}
     {% if name=="user" %}
     	{% set fa_class_ = 'material-icons user' %}
+    {% elif name=="daily" %}
+        {% set fa_class_ = 'fas fa-calendar-alt' %}
+{#     {% elif name=="calculator" %}
+        {% set fa_class_ = 'fas fa-calculator' %} #}
+
+
+    {# Operations #}
+    {% elif name=="edit" %}
+        {% set fa_class_ = 'fas fa-pencil-alt' %}
+    {% elif name=="delete" %}
+        {% set fa_class_ = 'fas fa-trash' %}
+
+
+    {# Sharing, publishing,... #}
+    {% elif name=="shared" %}
+        {% set fa_class_ = 'fas fa-user-friends' %}
+        {% if not tooltip %} {% set tooltip="zveřejněno" %} {% endif %}
+        {% set with_tooltip = True %}
+    {% elif name=="share" %}
+        {% set fa_class_ = 'fas fa-user-friends' %}
+    {% elif name=="unshare" %}
+        {% set fa_class_ = 'fas fa-ban' %}
+    {% elif name=="public" %}
+        {% set fa_class_ = 'fas fa-user-friends' %}
+        {% if not tooltip %} {% set tooltip="z veřejných" %} {% endif %}
+        {% set with_tooltip = True %}
+    {% elif name=="heart_empty" %}
+        {% set fa_class_ = 'far fa-heart color-red' %}
+    {% elif name=="heart_full" %}
+        {% set fa_class_ = 'fas fa-heart color-red' %}
 
     {# Food types #}
     {% elif name=="vegan" %}
@@ -26,6 +57,20 @@
         {% if not tooltip %} {% set tooltip="bez lepku" %} {% endif %}
         {% set with_tooltip = True %}
 
+    {# Other, currently unused #}
+    {#
+    "print": '<i class="fas fa-print"></i>',
+    "archive": '<i class="fas fa-archive"></i>',
+    "unarchive": '<i class="fas fa-archive"></i>',
+ 
+    "google": '<i class="fab fa-google"></i>',
+    "list": '<i class="fas fa-list-ul"></i>',
+    "photo": '<i class="far fa-image"></i>',
+    
+    "facebook_small": '<a target="_blank" title="sledujte na facebooku" href="/support/facebook"><img alt="follow me on facebook" src="https://c866088.ssl.cf3.rackcdn.com/assets/facebook30x30.png" style="width: 1.5rem; height: auto; margin-top: 0.3rem" border=0></a>',
+    "facebook": '<a target="_blank" title="sledujte na facebooku" href="/support/facebook"><img alt="follow me on facebook" src="https://c866088.ssl.cf3.rackcdn.com/assets/facebook40x40.png" border=0></a>',
+    #}
+
     {% else %}
         {% set fa_class_ = '' %}
     {% endif %}
@@ -39,35 +84,8 @@
     <i class="{{ fa_class_ + class_ }}">{% if value %}{{ value }}{% endif %}</i>
 
 
-
-
-
     {% if with_tooltip %}
         </abbr>
     {% endif %}
 	
 {% endmacro %}
-
-
-{# 
-icons = {
-    "user": '<i class="material-icons user">account_circle</i>',
-    "edit": '<i class="fas fa-pencil-alt"></i>',
-    "delete": '<i class="fas fa-trash"></i>',
-    "print": '<i class="fas fa-print"></i>',
-    "archive": '<i class="fas fa-archive"></i>',
-    "unarchive": '<i class="fas fa-archive"></i>',
-    "google": '<i class="fab fa-google"></i>',
-    "daily": '<i class="fas fa-calendar-alt"></i>',
-    "calculator": '<i class="fas fa-calculator"></i>',
-    "list": '<i class="fas fa-list-ul"></i>',
-    "photo": '<i class="far fa-image"></i>',
-    "heart_empty": '<i class="far fa-heart color-red"></i>',
-    "heart_full": '<i class="fas fa-heart color-red"></i>',
-    "recipe_shared": '<i class="fas fa-user-friends"></i>',
-}
-
-tooltip_icons = {
-    "recipe_shared": '<abbr title="zveřejněno"> <i class="fas fa-user-friends cursor-default"></i> </abbr>',
-    "recipe_public": '<abbr title="z veřejných"> <i class="fas fa-user-friends cursor-default color-grey ml-1"></i> </abbr>',
-} #}

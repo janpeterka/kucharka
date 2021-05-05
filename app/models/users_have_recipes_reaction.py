@@ -1,6 +1,6 @@
 from app import db
 
-from flask_login import current_user
+from flask_security import current_user
 
 from app.helpers.base_mixin import BaseMixin
 

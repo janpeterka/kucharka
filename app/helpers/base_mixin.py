@@ -2,7 +2,7 @@ import datetime
 
 from flask import current_app as application
 
-from flask_login import current_user
+from flask_security import current_user
 
 from sqlalchemy.sql import func
 

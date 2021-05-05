@@ -52,8 +52,8 @@
             </table>
             </details>
             
-            <button type="submit" class="btn btn-warning">{{ texts.edit_confirm }} {{ icons.edit }}</button>
-            <a class="btn btn-secondary" href="{{ url_for('IngredientsView:show', id=ingredient.id) }}">{{ texts.edit_cancel }} {{ icons.edit }}</a>
+            <button type="submit" class="btn btn-warning">{{ texts.edit_confirm }} {{ icon("edit") }}</button>
+            <a class="btn btn-secondary" href="{{ url_for('IngredientsView:show', id=ingredient.id) }}">{{ texts.edit_cancel }} {{ icon("edit") }}</a>
             
         </form>
         {# <form
@@ -63,9 +63,9 @@
             accept-charset="utf-8"
             >
             {% if ingredient.is_used == False %}
-                <button type="submit" class="btn btn-danger">{{ texts.ingredient_delete }} {{ icons.delete }}</button>
+                <button type="submit" class="btn btn-danger">{{ texts.ingredient_delete }} {{ icon("delete") }}</button>
             {% else %}
-                <button type="submit" class="btn btn-danger" disabled>{{ texts.delete_error }} {{ icons.delete }}</button>
+                <button type="submit" class="btn btn-danger" disabled>{{ texts.delete_error }} {{ icon("delete") }}</button>
             {% endif %}
         </form> #}
     </div>

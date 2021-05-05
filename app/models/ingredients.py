@@ -1,10 +1,8 @@
 from unidecode import unidecode
 
-
-# from sqlalchemy import and_
 from sqlalchemy.ext.hybrid import hybrid_property
 
-from flask_login import current_user
+from flask_security import current_user
 
 from app import db
 

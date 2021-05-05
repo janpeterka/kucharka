@@ -1,6 +1,6 @@
 <tr data-id="{{ daily_recipe.id }}">
     <td>{{ link_to(daily_recipe.recipe) }}
-    	{% if not daily_recipe.recipe.is_current_user_author %} {{ tooltip_icons.recipe_public }} {% endif %}
+    	{% if not daily_recipe.recipe.is_current_user_author %} {{ icon("public") }} {% endif %}
 	</td>
     <td>
         {% from "macros/daily_plans/_change_order_button.html.j2" import change_order_buttons with context %}

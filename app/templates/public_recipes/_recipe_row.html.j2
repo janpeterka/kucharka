@@ -1,15 +1,33 @@
-<tr id = "recipe-{{ recipe.id }}" class="h-5">
+{% from "macros/icons.html.j2" import icon %}
 
+<tr id = "recipe-{{ recipe.id }}" class="h-5">
 	<td>{{ link_to(recipe) }}</td>
     <td>{{ recipe.concat_ingredients }}</td>
+    <td>{{ recipe.category.name }}</td>
+    <td>
+        <span>
+        {% if recipe.is_vegetarian %}
+            {{ icon("vegetarian")}}
+        {% endif %}
+        {% if recipe.is_vegan %}
+            {{ icon("vegan")}}
+        {% endif %}
+        {% if recipe.lactose_free %}
+            {{ icon("lactose_free")}}
+        {% endif %}
+        {% if recipe.gluten_free %}
+            {{ icon("gluten_free")}}
+        {% endif %}
+        </span>
+    </td>
     <td>{{ recipe.author.name }}</td>
 	<td>
 		<form method="post" action="{{ url_for('PublicRecipesView:toggle_reaction', recipe_id=recipe.id) }}">
 			<button type="submit" class="invisible-button">
 					{% if recipe.has_reaction %}
-						<i>{{ icons.heart_full }}</i>
+						<i>{{ icon("heart_full") }}</i>
 					{% else %}
-						<i>{{ icons.heart_empty }}</i>
+						<i>{{ icon("heart_empty") }}</i>
 					{% endif %}
 			</button>
 		</form>

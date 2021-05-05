@@ -5,7 +5,7 @@ from flask import abort, flash, request, redirect, url_for
 # from flask import render_template as template
 
 from flask_classful import route
-from flask_login import login_required, current_user
+from flask_security import login_required, current_user
 
 from app.helpers.form import save_form_to_session
 from app.helpers.extended_flask_view import ExtendedFlaskView

@@ -1,5 +1,5 @@
 # from sqlalchemy import and_
-# from flask_login import current_user
+# from flask_security import current_user
 
 from app.helpers.base_mixin import BaseMixin
 
@@ -20,7 +20,7 @@ class ItemMixin(BaseMixin):
             elif hasattr(value, "email"):
                 data[attr] = value.email
             # elif hasattr[value, "measurement"]:
-                # data[attr] = value.name
+            # data[attr] = value.name
             else:
                 data[attr] = str(value)
 

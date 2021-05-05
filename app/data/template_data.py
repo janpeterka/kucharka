@@ -1,33 +1,3 @@
-icons = {
-    "user": '<i class="material-icons user">account_circle</i>',
-    "edit": '<i class="fas fa-pencil-alt"></i>',
-    "delete": '<i class="fas fa-trash"></i>',
-    "print": '<i class="fas fa-print"></i>',
-    "archive": '<i class="fas fa-archive"></i>',
-    "unarchive": '<i class="fas fa-archive"></i>',
-    "ingredient_main": '<i class="set_main fas fa-hospital-symbol"></i>',
-    "ingredient_remove": '<i class="remove fa fa-times"></i>',
-    "ingredient_fixed": '<i class="set_fixed fas fa-thumbtack"></i>',
-    "google": '<i class="fab fa-google"></i>',
-    "daily": '<i class="fas fa-calendar-alt"></i>',
-    "calculator": '<i class="fas fa-calculator"></i>',
-    "list": '<i class="fas fa-list-ul"></i>',
-    "photo": '<i class="far fa-image"></i>',
-    "heart_empty": '<i class="far fa-heart color-red"></i>',
-    "heart_full": '<i class="fas fa-heart color-red"></i>',
-    "recipe_shared": '<i class="fas fa-user-friends"></i>',
-}
-
-tooltip_icons = {
-    "recipe_shared": '<abbr title="zveřejněno"> <i class="fas fa-user-friends cursor-default"></i> </abbr>',
-    "recipe_public": '<abbr title="z veřejných"> <i class="fas fa-user-friends cursor-default color-grey ml-1"></i> </abbr>',
-}
-
-social_icons = {
-    "facebook_small": '<a target="_blank" title="sledujte na facebooku" href="/support/facebook"><img alt="follow me on facebook" src="https://c866088.ssl.cf3.rackcdn.com/assets/facebook30x30.png" style="width: 1.5rem; height: auto; margin-top: 0.3rem" border=0></a>',
-    "facebook": '<a target="_blank" title="sledujte na facebooku" href="/support/facebook"><img alt="follow me on facebook" src="https://c866088.ssl.cf3.rackcdn.com/assets/facebook40x40.png" border=0></a>',
-}
-
 texts = {
     "title": "Název",
     "total": "Celkem",

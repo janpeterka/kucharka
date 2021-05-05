@@ -1,7 +1,7 @@
 # import math
 import types
 
-from flask_login import current_user
+from flask_security import current_user
 
 from app import db
 
@@ -24,7 +24,9 @@ class DailyPlan(db.Model, BaseMixin):
     author = db.relationship("User", uselist=False, back_populates="daily_plans")
 
     daily_recipes = db.relationship("DailyPlanHasRecipe", back_populates="daily_plan")
-    recipes = db.relationship("Recipe", secondary="daily_plans_have_recipes", viewonly=True)
+    recipes = db.relationship(
+        "Recipe", secondary="daily_plans_have_recipes", viewonly=True
+    )
 
     @staticmethod
     def load_ingredient_amounts_for_daily_plans(ids, people_count):

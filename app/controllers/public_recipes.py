@@ -9,6 +9,8 @@ from flask_classful import route
 from flask_security import login_required
 
 from app.helpers.extended_flask_view import ExtendedFlaskView
+
+from app.models.recipe_categories import RecipeCategory
 from app.controllers.forms.public_recipes import PublicRecipeFilterForm
 
 
@@ -25,20 +27,26 @@ class PublicRecipesView(ExtendedFlaskView):
             ingredients = [x.ingredients for x in self.recipes]
             flatten_ingredients = [y for x in ingredients for y in x]
             ingredient_names = [x.name for x in flatten_ingredients]
-            self.ingredient_names = ["--všechny--"]
+            self.ingredient_names = ["---"]
             self.ingredient_names.extend(list(set(ingredient_names)))
             self.ingredient_names.sort()
 
-            self.form = PublicRecipeFilterForm(ingredient_names=self.ingredient_names)
+            self.categories = RecipeCategory.load_all()
+
+            self.form = PublicRecipeFilterForm(
+                ingredient_names=self.ingredient_names, categories=self.categories
+            )
 
     def before_filter(self):
         self.form = PublicRecipeFilterForm(
-            request.form, ingredient_names=self.ingredient_names
+            request.form,
+            ingredient_names=self.ingredient_names,
+            categories=self.categories,
         )
 
-    @route("/", methods=["GET", "POST"])
-    def index(self):
-        return self.template()
+    # @route("/", methods=["GET", "POST"])
+    # def index(self):
+    # return self.template()
 
     @route("/toggleReaction/<recipe_id>", methods=["POST"])
     def toggle_reaction(self, recipe_id):
@@ -57,12 +65,20 @@ class PublicRecipesView(ExtendedFlaskView):
 
         # Get filters from request
         ingredient_name = None
+        category = None
         with_reaction = None
 
-        if not self.form.ingredient_name.data == "--všechny--":
+        is_vegetarian = self.form.is_vegetarian.data
+        is_vegan = self.form.is_vegan.data
+        without_lactose = self.form.without_lactose.data
+        without_gluten = self.form.without_gluten.data
+
+        if not self.form.ingredient_name.data == "---":
             ingredient_name = self.form.ingredient_name.data
 
         with_reaction = self.form.with_reaction.data
+
+        category = RecipeCategory.load(self.form.category.data)
 
         # Filter recipes
         if ingredient_name:
@@ -72,6 +88,21 @@ class PublicRecipesView(ExtendedFlaskView):
 
         if with_reaction:
             self.recipes = [x for x in self.recipes if x.has_reaction]
+
+        if category.name != "---":
+            self.recipes = [x for x in self.recipes if x.category == category]
+
+        if is_vegetarian:
+            self.recipes = [x for x in self.recipes if x.is_vegetarian]
+
+        if is_vegan:
+            self.recipes = [x for x in self.recipes if x.is_vegan]
+
+        if without_lactose:
+            self.recipes = [x for x in self.recipes if x.without_lactose]
+
+        if without_gluten:
+            self.recipes = [x for x in self.recipes if x.without_gluten]
 
         return turbo.stream(
             turbo.replace(

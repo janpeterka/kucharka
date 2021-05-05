@@ -11,7 +11,7 @@ from flask import request, redirect
 
 from flask_security import url_for_security
 
-# from flask_login import current_user
+# from flask_security import current_user
 
 from app import create_app
 
@@ -27,8 +27,6 @@ def inject_globals():
     from app.data import template_data
 
     return dict(
-        icons=template_data.icons,
-        tooltip_icons=template_data.tooltip_icons,
         texts=template_data.texts,
     )
 

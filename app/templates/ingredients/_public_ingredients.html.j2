@@ -5,11 +5,28 @@
 <table id="public_ingredients" class="table">
 <tr>
 	<th>Surovina</th>
+	<th>Specifika</th>
 	<th>Vytvořil*a</th>
 </tr>
 {% for ingredient in public_ingredients: %}
     <tr>
         <td>{{ link_to(ingredient) }}</td>
+        <td>
+        	<span>
+            {% if ingredient.is_vegetarian %}
+                {{ icon("vegetarian")}}
+            {% endif %}
+            {% if ingredient.is_vegan %}
+                {{ icon("vegan")}}
+            {% endif %}
+            {% if ingredient.lactose_free %}
+                {{ icon("lactose_free")}}
+            {% endif %}
+            {% if ingredient.gluten_free %}
+                {{ icon("gluten_free")}}
+            {% endif %}
+            </span>
+        </td>
         <td>{{ ingredient.author.name }}</td>
     </tr>
 {% endfor %}

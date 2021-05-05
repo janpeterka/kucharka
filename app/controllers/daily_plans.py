@@ -2,7 +2,7 @@ import datetime
 
 from flask import redirect, url_for, request
 from flask_classful import route
-from flask_login import login_required
+from flask_security import login_required
 
 from app.helpers.formaters import parse_date
 

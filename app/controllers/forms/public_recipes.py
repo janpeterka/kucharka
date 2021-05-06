@@ -10,8 +10,8 @@ class PublicRecipeFilterForm(FlaskForm):
 
     is_vegetarian = BooleanField("Vegetariánské")
     is_vegan = BooleanField("Veganské")
-    without_lactose = BooleanField("Bez laktózy")
-    without_gluten = BooleanField("Bez lepku")
+    lactose_free = BooleanField("Bez laktózy")
+    gluten_free = BooleanField("Bez lepku")
 
     submit = SubmitField("Filtrovat")
 

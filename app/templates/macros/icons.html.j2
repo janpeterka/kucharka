@@ -48,11 +48,11 @@
         {% set fa_class_ = 'fas fa-leaf color-green' %}
         {% if not tooltip %} {% set tooltip="vegetariánské" %} {% endif %}
         {% set with_tooltip = True %}
-    {% elif name=="lactose_free" %}
+    {% elif name=="lactose_free" or name=="without_lactose" %}
         {% set fa_class_ = 'fas fa-ban color-light-blue' %}
         {% if not tooltip %} {% set tooltip="bez laktózy" %} {% endif %}
         {% set with_tooltip = True %}
-    {% elif name=="gluten_free" %}
+    {% elif name=="gluten_free" or name=="gluten_free"%}
         {% set fa_class_ = 'fas fa-ban color-wheat' %}
         {% if not tooltip %} {% set tooltip="bez lepku" %} {% endif %}
         {% set with_tooltip = True %}

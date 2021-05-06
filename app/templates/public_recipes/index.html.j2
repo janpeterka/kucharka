@@ -19,26 +19,28 @@
 {% block content %}
   <form action="{{ url_for('PublicRecipesView:filter') }}" method="post" class="form-inline form-control" accept-charset="UTF-8">
   	{{ form.csrf_token }}
-  		<div>
-  			<div class="row mt-2">
+  		<div class="col-12">
+  			<div class="mt-2 row">
   				{{ form.ingredient_name.label(class_="ml-2") }}
   				{{ render_field(form.ingredient_name, has_label=False, class="ml-3") }}
           {{ form.category.label(class_="ml-2") }}
           {{ render_field(form.category, has_label=False, class="ml-3") }}
+				  {{ render_field(form.with_reaction, class="ml-5", label="moje" + icon("heart_full", with_tooltip=True, tooltip="moje oblíbené")) }}
   			</div>
-        <div class="row">
-          <details open>
-            <summary>Dietní omezení</summary>
-            {{ render_field(form.is_vegetarian) }}
-            {{ render_field(form.is_vegan) }}
-            {{ render_field(form.without_gluten) }}
-            {{ render_field(form.without_lactose) }}
-          </details>
+        <div class="mt-2 ml-1 row">
+          {# <details open> #}
+            {# <summary>Dietní omezení</summary> #}
+            {{ render_field(form.is_vegetarian, div_class="form-check-inline", label="musí být " + icon("vegetarian")) }}
+            {{ render_field(form.is_vegan, div_class="form-check-inline", label="musí být " + icon("vegan")) }}
+            {{ render_field(form.gluten_free, div_class="form-check-inline", label="musí být " + icon("gluten_free")) }}
+            {{ render_field(form.lactose_free, div_class="form-check-inline", label="musí být " + icon("lactose_free")) }}
+          {# </details> #}
         </div>
-        <div class="row">
-  				{{ render_field(form.with_reaction, has_label=False, class="ml-3") }}
-  		    {{ form.submit(class_='btn btn-primary ml-3') }}
+        <div class="text-right">
+          {{ form.submit(class_='btn btn-primary ml-3') }}
         </div>
+        {# <div class="row"> #}
+        {# </div> #}
   		</div>
   </form>
 

@@ -44,10 +44,6 @@ class PublicRecipesView(ExtendedFlaskView):
             categories=self.categories,
         )
 
-    # @route("/", methods=["GET", "POST"])
-    # def index(self):
-    # return self.template()
-
     @route("/toggleReaction/<recipe_id>", methods=["POST"])
     def toggle_reaction(self, recipe_id):
         recipe = Recipe.load(recipe_id)
@@ -70,8 +66,8 @@ class PublicRecipesView(ExtendedFlaskView):
 
         is_vegetarian = self.form.is_vegetarian.data
         is_vegan = self.form.is_vegan.data
-        without_lactose = self.form.without_lactose.data
-        without_gluten = self.form.without_gluten.data
+        lactose_free = self.form.lactose_free.data
+        gluten_free = self.form.gluten_free.data
 
         if not self.form.ingredient_name.data == "---":
             ingredient_name = self.form.ingredient_name.data
@@ -98,11 +94,11 @@ class PublicRecipesView(ExtendedFlaskView):
         if is_vegan:
             self.recipes = [x for x in self.recipes if x.is_vegan]
 
-        if without_lactose:
-            self.recipes = [x for x in self.recipes if x.without_lactose]
+        if lactose_free:
+            self.recipes = [x for x in self.recipes if x.lactose_free]
 
-        if without_gluten:
-            self.recipes = [x for x in self.recipes if x.without_gluten]
+        if gluten_free:
+            self.recipes = [x for x in self.recipes if x.gluten_free]
 
         return turbo.stream(
             turbo.replace(

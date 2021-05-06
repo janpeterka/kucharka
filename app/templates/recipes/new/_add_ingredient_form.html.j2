@@ -1,7 +1,7 @@
 <turbo-frame id="add_ingredient_form">	
 <form class="form-inline" method="post" action="{{ url_for('RecipesView:addIngredient') }}" >
 	<input type="hidden" name="recipe_id" value="{% if recipe %}{{ recipe.id }}{% endif %}">
-    <select class="form-control" name="ingredient_option">
+    <select class="form-control" name="ingredient_option" id="ingredient_select">
         {% include "recipes/new/_add_ingredient_form_options.html.j2" %}
     </select>
 

@@ -5,6 +5,7 @@
   {% set label = kwargs.pop('label', field.label.text) %}
   {% set placeholder = kwargs.pop('placeholder', label) %}
   {% set class_ = kwargs.pop('class', '') %}
+  {% set div_class = kwargs.pop('div_class', '') %}
 
   {% if field.flags.required %}
     {% set class_ = class_ + ' required' %}
@@ -26,7 +27,7 @@
   {% endif %}
 
   {% if field.type == 'BooleanField' %}
-    <div class="form-check">
+    <div class="form-check {{div_class}}">
       {{ field(class_=class_ + ' form-check-input', **kwargs) }}
       <label class="form-check-label" for="{{ field.id }}">{{ label|safe }}</label>
     </div>

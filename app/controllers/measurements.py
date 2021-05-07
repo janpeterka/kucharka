@@ -76,16 +76,5 @@ class MeasurementsView(ExtendedFlaskView):
         if self.measurement.is_used:
             return turbo_flash("Už je někde použité, nelze smazat!")
 
-            # flash("Už je někde použité, nelze smazat!")
-            # return turbo.stream(
-            #     turbo.prepend(
-            #         template(
-            #             "measurements/_error.html.j2",
-            #             message="Už je někde použité, nelze smazat!",
-            #         ),
-            #         target=f"measurement-{id}",
-            #     )
-            # )
-
         self.measurement.delete()
         return turbo.stream(turbo.remove(target=f"measurement-{id}"))

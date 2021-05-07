@@ -18,6 +18,7 @@ cryptography = "*"
 Turbo-Flask = "*"
 Unidecode = "*"
 turbo-flask = "*"
+wtforms-sqlalchemy = "*"
 
 [dev-packages]
 

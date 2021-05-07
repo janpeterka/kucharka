@@ -26,9 +26,7 @@ application = create_app(config_name=env)
 def inject_globals():
     from app.data import template_data
 
-    return dict(
-        texts=template_data.texts,
-    )
+    return dict(texts=template_data.texts)
 
 
 @application.context_processor

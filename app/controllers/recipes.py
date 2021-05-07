@@ -153,6 +153,8 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
         self.recipe.change_ingredient_amount(self.ingredient, amount)
         self.ingredient.amount = amount
 
+        flash("Množství změněno")
+
         return turbo.stream(
             turbo.replace(
                 self.template(template_name="recipes/_edit_ingredient.html.j2"),

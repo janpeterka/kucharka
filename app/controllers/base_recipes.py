@@ -29,6 +29,10 @@ class BaseRecipesView(FlaskView):
 
         recipe.add_ingredient(ingredient)
 
+        from flask import flash
+
+        flash("Added ingredient")
+
         return turbo.stream(
             [
                 turbo.append(

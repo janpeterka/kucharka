@@ -1,4 +1,5 @@
 import os
+from flask import get_flashed_messages
 
 # import re
 # import time
@@ -96,6 +97,54 @@ def session_management():
         return redirect("/shutdown")
     elif request.path == "/shutdown" and application.config["APP_STATE"] != "shutdown":
         return redirect("/")
+
+
+@application.after_request
+def flash_if_turbo(response):
+    from app import turbo
+    from flask import render_template as template
+    from flask import session
+
+    # try:
+    #     print(type(response.response))
+    #     print(response.response)
+    # except:
+    #     pass
+
+    # if turbo
+    if response.headers["Content-Type"] == "text/vnd.turbo-stream.html; charset=utf-8":
+        print("turbo")
+        messages = get_flashed_messages(with_categories=True)
+        print(messages)
+
+        session.pop("_flashes", None)
+        print(get_flashed_messages())
+
+        flash_turbo_response_empty = turbo.replace(
+            template("base/_flashing.html.j2", messages=None), target="flashing"
+        )
+
+        print(flash_turbo_response_empty)
+
+        response.response.append(flash_turbo_response_empty)
+
+        # append turbo.replace(target="flashing")
+        # if messages:
+        #     flash_turbo_response = turbo.replace(
+        #         template("base/_flashing.html.j2", messages=messages), target="flashing"
+        #     )
+        #     response.response.append(flash_turbo_response)
+        # and empty flashing messages
+
+    # try:
+    #     print(type(response.response))
+    #     print(response.response)
+    # except:
+    #     pass
+
+    print(response.response)
+
+    return response
 
 
 # @application.before_request

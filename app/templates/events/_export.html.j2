@@ -1,4 +1,5 @@
 <div class="row mt-2">
 	<a class="btn btn-secondary mr-3" href="{{ url_for('EventExporterView:show', event_id=event.id) }}"> Export - přehled </a>
 	<a class="btn btn-secondary mr-3" href="{{ url_for('EventExporterView:show_shopping_list', event_id=event.id) }}"> Export - nákupní seznam </a>
+	<a class="btn btn-secondary mr-3" href="{{ url_for('EventExporterView:show_recipe_list', event_id=event.id) }}"> Export - jídelníček </a>
 </div>

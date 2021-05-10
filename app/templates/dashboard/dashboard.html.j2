@@ -15,7 +15,7 @@
         <details>
             <summary class="text-uppercase font-comfortaa">Dokončit rozdělané recepty ({{ current_user.draft_recipes | length }})</summary>
             <form method="post" action="{{ url_for('RecipesView:delete_drafts')}}" class="float-right">
-                    <button type="submit" class="btn btn-warning">Smazat návrhy</button>
+                <button type="submit" class="btn btn-warning">Smazat návrhy</button>
             </form>
             <ul>
             {% for recipe in current_user.draft_recipes %}

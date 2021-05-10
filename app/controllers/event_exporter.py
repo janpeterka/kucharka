@@ -25,3 +25,9 @@ class EventExporterView(ExtendedFlaskView):
 
     def show_shopping_list(self, event_id):
         return self.template(template_name="shopping_list")
+
+    def show_recipe_list(self, event_id):
+        return self.template(template_name="recipe_list")
+
+    def show_cookbook(self, event_id):
+        return self.template(template_name="cookbook")

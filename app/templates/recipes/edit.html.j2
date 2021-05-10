@@ -3,6 +3,11 @@
     {{ texts.recipe }}
 {% endblock %}
 
+ {% block links %}
+    {{ super() }}
+    {{ turbo() }}
+{% endblock %}
+
 {% block content %}
 <form action="{{ url_for('RecipesView:post_edit', id=recipe.id) }}" class="form" method="post" accept-charset="utf-8">
     {{ form.csrf_token }}

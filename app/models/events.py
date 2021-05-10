@@ -1,0 +1,21 @@
+# import types
+
+# from flask_security import current_user
+
+from app import db
+
+from app.helpers.base_mixin import BaseMixin
+
+
+# from app.models.recipes_have_ingredients import RecipeHasIngredient
+# from app.models.ingredients import Ingredient
+# from app.models.daily_plans_have_recipes import DailyPlanHasRecipe
+
+
+class Event(db.Model, BaseMixin):
+    __tablename__ = "events"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    created_by = db.Column(db.ForeignKey(("users.id")), nullable=False, index=True)
+    author = db.relationship("User", uselist=False, backref="events")

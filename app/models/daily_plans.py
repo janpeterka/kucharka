@@ -28,6 +28,9 @@ class DailyPlan(db.Model, BaseMixin):
         "Recipe", secondary="daily_plans_have_recipes", viewonly=True
     )
 
+    event_id = db.Column(db.ForeignKey(("events.id")))
+    event = db.relationship("Event", backref="daily_plans")
+
     @staticmethod
     def load_ingredient_amounts_for_daily_plans(ids, people_count):
         # i need to always have at least two ids for tuple to not have trailing coma

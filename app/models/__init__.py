@@ -11,3 +11,4 @@ from app.models.ingredient_categories import IngredientCategory  # noqa: F401
 from .ingredients import Ingredient  # noqa: F401
 from .recipes import Recipe  # noqa: F401
 from .users import User  # noqa: F401
+from .events import Event  # noqa: F401

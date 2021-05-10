@@ -1,6 +1,7 @@
 from .dashboard import DashboardView
 from .daily_plans import DailyPlansView
 from .daily_plan_exporter import DailyPlanExporterView
+from .events import EventsView
 from .index import IndexView
 from .ingredients import IngredientsView
 from .ingredient_categories import IngredientCategoriesView
@@ -13,6 +14,7 @@ __all__ = [
     "DashboardView",
     "DailyPlansView",
     "DailyPlanExporterView",
+    "EventsView",
     "IndexView",
     "IngredientsView",
     "IngredientCategoriesView",
@@ -30,6 +32,7 @@ def register_all_controllers(application):
     DailyPlansView.register(application)
     DailyPlanExporterView.register(application)
     DashboardView.register(application)
+    EventsView.register(application)
     # ErrorsView.register(application)
     # FilesView.register(application)
     IndexView.register(application)

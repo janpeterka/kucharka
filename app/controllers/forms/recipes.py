@@ -1,4 +1,4 @@
-from wtforms import StringField, SubmitField, SelectField
+from wtforms import StringField, SubmitField, SelectField, IntegerField
 from wtforms import validators
 
 from flask_wtf import FlaskForm
@@ -8,12 +8,13 @@ from wtforms.widgets import TextArea
 
 class RecipesForm(FlaskForm):
     name = StringField(
-        "Název suroviny", [validators.InputRequired("Název musí být vyplněn")]
+        "Název receptu", [validators.InputRequired("Název musí být vyplněn")]
     )
 
     description = StringField("Popis", widget=TextArea())
 
     category = SelectField("Kategorie", coerce=int)
+    portion_count = IntegerField("Počet porcí")
 
     submit = SubmitField("Přidat recept")
 

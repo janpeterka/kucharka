@@ -4,15 +4,16 @@
     
     <td>
         <form action="{{ url_for('RecipesView:change_ingredient_amount', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" class="form form-inline" method="post">
-            <input type="number" class="form-control" name="amount" value="{{ ingredient.amount|int * recipe.portion_count|int }}">
+            <input type="number" class="form-control" name="amount"
+                   value="{% if ingredient.amount %}{{ (ingredient.amount|float * recipe.portion_count|float) | int }}{% endif %}">
             <span class="ml-2">{{ ingredient.measurement.name }}</span>
             <input type="submit" class="form-control btn btn-warning ml-4" value="Změnit">
             {% if ingredient.amount %}
                 <span class="font-italic font-weight-light ml-4"> {{ ingredient.amount|int | round(1) }} na porci </span>
             {% endif %}
         </form>
-
     </td>
+
     <td></td>
 
     <td>

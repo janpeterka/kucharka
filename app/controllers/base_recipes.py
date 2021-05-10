@@ -13,25 +13,14 @@ from app import turbo
 from app.models.ingredients import Ingredient
 from app.models.recipes import Recipe
 
-from app.models.recipe_categories import RecipeCategory
+# from app.models.recipe_categories import RecipeCategory
 
 
 class BaseRecipesView(FlaskView):
-    @route("/addIngredient/", methods=["POST"])
-    def addIngredient(self):
-        # new_recipe_created = False
+    @route("recipes/edit/add_ingredient/<recipe_id>", methods=["POST"])
+    def add_ingredient(self, recipe_id):
         ingredient = Ingredient.load(request.form["ingredient_option"])
-        if "recipe_id" in request.form and request.form["recipe_id"]:
-            recipe = Recipe.load(request.form["recipe_id"])
-        else:
-            recipe = Recipe(
-                name="---",
-                created_by=current_user.id,
-                is_draft=True,
-                portion_count=request.form["portion_count"],
-            )
-            recipe.save()
-            # new_recipe_created = True
+        recipe = Recipe.load(recipe_id)
 
         recipe.add_ingredient(ingredient)
 
@@ -49,7 +38,7 @@ class BaseRecipesView(FlaskView):
             + self.update_usable_ingredients(recipe)
         )
 
-    @route("recipes/new/refresh_usable_ingredients/<recipe_id>", methods=["POST"])
+    @route("recipes/edit/refresh_usable_ingredients/<recipe_id>", methods=["POST"])
     def refresh_usable_ingredients(self, recipe_id):
         recipe = Recipe.load(recipe_id)
         response = self.update_usable_ingredients(recipe)
@@ -73,13 +62,5 @@ class BaseRecipesView(FlaskView):
                     recipe=recipe,
                 ),
                 target="add_ingredient_form",
-            ),
-            turbo.replace(
-                template(
-                    "recipes/new/_new_recipe_form.html.j2",
-                    categories=RecipeCategory.load_all(),
-                    recipe=recipe,
-                ),
-                target="save_recipe_form",
-            ),
+            )
         ]

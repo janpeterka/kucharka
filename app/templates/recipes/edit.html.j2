@@ -12,15 +12,14 @@
 {% endblock %}
 
 {% block content %}
+
+<details open class="form-control mb-5">
+<summary> Upravit název a kategorii </summary>
 <form action="{{ url_for('RecipesView:post_edit', id=recipe.id) }}" class="form" method="post" accept-charset="utf-8">
     {{ form.csrf_token }}
     <div class="w-100">
     {{ render_field(form.name, has_label=False, class="col-6") }}
     </div>
-
-    {# <div class="w-100"> #}
-    {# {{ render_field(form.description, has_label=False, class="col") }}                             #}
-    {# </div> #}
 
     <div class="w-100 mt-2 mb-2">
     {{ render_field(form.category, has_label=False, class="col") }}                            
@@ -29,6 +28,13 @@
     <input type="submit" value="{{ texts.recipe_edit }}" class="btn btn-warning">
     <a class="btn btn-secondary ml-2" href="{{ url_for('RecipesView:show', id=recipe.id) }}">{{ texts.edit_cancel }} {{ icon("edit") }}</a>
 </form>
+</details>
+
+<details open class="form-control mb-5">
+<summary> Upravit suroviny </summary>
+<div>
+    {% include "recipes/new/_add_ingredient_form.html.j2" %}
+</div>
 
 <table id="ingredients" class="table">
     <tr>
@@ -40,7 +46,11 @@
         {% include "recipes/_edit_ingredient.html.j2" %}
     {% endfor %}
 </table>
+</details>
 
+
+<details class="form-control mb-5">
+<summary> Upravit návod </summary>
 <div>
     <form action="{{ url_for('RecipesView:post_edit_description', id=recipe.id) }}" class="form" method="post" accept-charset="utf-8">
         <textarea id="summernote" name="description" class='form-control'>
@@ -49,11 +59,13 @@
         <button type="submit" class="btn btn-warning">Uložit návod</button>
     </form>
 </div>
+</details>
 
 {% endblock %}
 
 {% block scripts_after %}
 <script type="text/javascript">
     $(document).ready(function() {$('#summernote').summernote();});
+    $(document).ready(function() {$('#ingredient_select').select2();});
 </script>
 {% endblock %}

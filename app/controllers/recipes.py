@@ -54,12 +54,26 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
     def before_edit(self, id):
         super().before_edit(id)
         self.categories = RecipeCategory.load_all()
+
+        unused_ingredients = [
+            i for i in current_user.ingredients if i not in self.recipe.ingredients
+        ]
+
+        unused_public_ingredients = [
+            i for i in Ingredient.load_all_public() if i not in self.recipe.ingredients
+        ]
+
+        self.public_ingredients = unused_public_ingredients
+        self.personal_ingredients = unused_ingredients
+
         set_form(self.form, self.recipe)
 
     def before_new(self):
+        super().before_new()
         self.categories = RecipeCategory.load_all()
         self.public_ingredients = Ingredient.load_all_public()
         self.personal_ingredients = current_user.ingredients
+        set_form(self.form)
 
     def public(self):
         return self.template()
@@ -89,16 +103,6 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
 
         return redirect(url_for("RecipesView:show", id=self.recipe.id))
 
-    # def show(self, id):
-    #     # from .forms.files import PhotoForm
-
-    #     return template(
-    #         "recipes/show.html.j2",
-    #         recipe=self.recipe,
-    #         # is_print=False,
-    #         # photo_form=PhotoForm(),
-    #     )
-
     @route("<id>/delete", methods=["POST"])
     def delete(self, id):
         if self.recipe.is_used:
@@ -109,17 +113,17 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
         flash("Recept byl smazán.", "success")
         return redirect(url_for("DashboardView:show"))
 
-    @route("/save", methods=["POST"])
-    def save(self):
-        if "recipe_id" in request.form and request.form["recipe_id"]:
-            recipe = Recipe.load(request.form["recipe_id"])
-        else:
-            recipe = Recipe()
+    def post(self):
+        form = RecipesForm(request.form)
+        set_form(form)
 
-        recipe.name = request.form["name"]
-        recipe.category = RecipeCategory.load(request.form["category_id"])
-        recipe.is_draft = False
-        recipe.author = current_user
+        if not form.validate_on_submit():
+            save_form_to_session(request.form)
+            return redirect(url_for("RecipesView:new"))
+
+        recipe = Recipe(author=current_user)
+        form.category.data = RecipeCategory.load(form.category.data)
+        form.populate_obj(recipe)
 
         recipe.save()
         return redirect(url_for("RecipesView:show", id=recipe.id))

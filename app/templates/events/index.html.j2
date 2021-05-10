@@ -8,7 +8,7 @@
 </h1>
 
 <table class="table">
-    {% for recipe in current_user.events: %}
+    {% for event in current_user.events: %}
     <tr>
         <td>{{ link_to(event) }}</td>
     </tr>

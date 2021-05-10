@@ -4,15 +4,14 @@
 
 from app import db
 
-from app.helpers.base_mixin import BaseMixin
-
+from app.helpers.item_mixin import ItemMixin
 
 # from app.models.recipes_have_ingredients import RecipeHasIngredient
 # from app.models.ingredients import Ingredient
 # from app.models.daily_plans_have_recipes import DailyPlanHasRecipe
 
 
-class Event(db.Model, BaseMixin):
+class Event(db.Model, ItemMixin):
     __tablename__ = "events"
 
     id = db.Column(db.Integer, primary_key=True)

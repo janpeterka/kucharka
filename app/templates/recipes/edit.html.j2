@@ -6,6 +6,9 @@
  {% block links %}
     {{ super() }}
     {{ turbo() }}
+    <!-- include summernote css/js-->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -15,9 +18,9 @@
     {{ render_field(form.name, has_label=False, class="col-6") }}
     </div>
 
-    <div class="w-100">
-    {{ render_field(form.description, has_label=False, class="col") }}                            
-    </div>
+    {# <div class="w-100"> #}
+    {# {{ render_field(form.description, has_label=False, class="col") }}                             #}
+    {# </div> #}
 
     <div class="w-100 mt-2 mb-2">
     {{ render_field(form.category, has_label=False, class="col") }}                            
@@ -31,25 +34,24 @@
     <tr>
         <th>{{ texts.title }}</th>
         <th>{{ texts.amount_simple }}</th>
-        {# <th>{{ texts.energy_simple }}</th> #}
-        {# <th>{{ texts.protein_simple }}</th> #}
-        {# <th>{{ texts.fat_simple }}</th> #}
-        {# <th>{{ texts.sugar_simple }}</th> #}
     </tr>
 
     {% for ingredient in recipe.ingredients: %}
         {% include "recipes/_edit_ingredient.html.j2" %}
     {% endfor %}
-
-    {# <tr class="totals"> #}
-        {# <td>Celkem</td> #}
-        {# <td>{{ totals.amount|round(2,'common')  }}</td> #}
-        {# <td>{{ totals.calorie }}</td> #}
-        {# <td>{{ totals.protein }}</td> #}
-        {# <td>{{ totals.fat }}</td> #}
-        {# <td>{{ totals.sugar }}</td> #}
-    {# </tr> #}
 </table>
+
+<div>
+    <form action="{{ url_for('RecipesView:post_edit_description', id=recipe.id) }}" class="form" method="post" accept-charset="utf-8">
+        <textarea id="summernote" name="description" class='form-control'>{{ recipe.description }}</textarea>
+        <button type="submit" class="btn btn-warning">Uložit návod</button>
+    </form>
+</div>
 
 {% endblock %}
 
+{% block scripts_after %}
+<script type="text/javascript">
+    $(document).ready(function() {$('#summernote').summernote();});
+</script>
+{% endblock %}

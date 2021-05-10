@@ -1,0 +1,19 @@
+{% extends "base/base.html.j2" %}
+{% block title %} Kuchařka {% endblock %}
+
+{% block content %}
+
+{# <h2>Recepty</h2> #}
+<div>
+    {% for daily_plan in daily_plans if daily_plan.recipes %}
+    	{% for recipe in daily_plan.recipes %}
+    	<h1>{{ link_to(recipe) }}</h1>
+    	<div>
+    		{{ recipe.description }}
+    	</div>	
+	    {% endfor %}
+    {% endfor %}
+</div>
+
+
+{% endblock %}

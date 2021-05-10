@@ -64,7 +64,7 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
     def public(self):
         return self.template()
 
-    @route("<id>/edit", methods=["POST"])
+    @route("recipes/edit/<id>", methods=["POST"])
     def post_edit(self, id):
         form = RecipesForm(request.form)
         set_form(form)
@@ -76,6 +76,15 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
         form.category.data = RecipeCategory.load(form.category.data)
         form.populate_obj(self.recipe)
         self.recipe.is_draft = False
+        self.recipe.edit()
+
+        return redirect(url_for("RecipesView:show", id=self.recipe.id))
+
+    @route("recipes/<id>/edit_description", methods=["POST"])
+    def post_edit_description(self, id):
+        description = request.form["description"]
+
+        self.recipe.description = description
         self.recipe.edit()
 
         return redirect(url_for("RecipesView:show", id=self.recipe.id))

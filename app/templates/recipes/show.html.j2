@@ -11,7 +11,7 @@
                 </div>
                 
                 <div>
-                    <span class="font-italic"> Kategorie: {{ recipe.category.name }} </span>
+                    <span class="font-italic"> Kategorie: {{ recipe.category.name }} </span><br>
 
                     {% if recipe.is_shared and not recipe.is_current_user_author %}
                         <span class="font-italic font-weight-light float-right"> (vytvořil*a {{ recipe.author.name }}) </span>
@@ -41,6 +41,7 @@
             <table id="ingredients" class="table">
                 <tr>
                     <th>{{ texts.title }}</th>
+                    <th>Množství (na {{recipe.portion_count}} porcí)</th>
                     <th>{{ texts.amount_simple }}</th>
                 </tr>
 
@@ -49,7 +50,8 @@
                         <td>{{ link_to(ingredient) }}
                             {% if not ingredient.author == recipe.author %} {{ icon("public") }} {% endif %}
                         </td>
-                        <td>{{ ingredient.amount }}</td>
+                        <td>{{ (ingredient.amount * recipe.portion_count) | round(1) }}</td>
+                        <td>{{ ingredient.amount  }}</td>
                     </tr>
                 {% endfor %}
             </table>

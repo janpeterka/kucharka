@@ -33,7 +33,7 @@
 <table id="ingredients" class="table">
     <tr>
         <th>{{ texts.title }}</th>
-        <th>{{ texts.amount_simple }}</th>
+        <th>Množství (na {{ recipe.portion_count }} porcí) </th>
     </tr>
 
     {% for ingredient in recipe.ingredients: %}
@@ -43,7 +43,9 @@
 
 <div>
     <form action="{{ url_for('RecipesView:post_edit_description', id=recipe.id) }}" class="form" method="post" accept-charset="utf-8">
-        <textarea id="summernote" name="description" class='form-control'>{{ recipe.description }}</textarea>
+        <textarea id="summernote" name="description" class='form-control'>
+            {% if recipe.description %}{{ recipe.description }}{% endif %}
+        </textarea>
         <button type="submit" class="btn btn-warning">Uložit návod</button>
     </form>
 </div>

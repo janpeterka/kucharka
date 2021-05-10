@@ -157,8 +157,10 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
         self.ingredient = Ingredient.load(ingredient_id)
         amount = request.form["amount"]
 
-        self.recipe.change_ingredient_amount(self.ingredient, amount)
-        self.ingredient.amount = amount
+        amount_for_portion = int(amount) / float(self.recipe.portion_count)
+
+        self.recipe.change_ingredient_amount(self.ingredient, amount_for_portion)
+        self.ingredient.amount = amount_for_portion
 
         return turbo.stream(
             turbo.replace(

@@ -1,10 +1,24 @@
 <turbo-frame id="add_ingredient_form">	
-<form class="form-inline" method="post" action="{{ url_for('RecipesView:addIngredient') }}" >
+<form class="form" method="post" action="{{ url_for('RecipesView:addIngredient') }}" >
 	<input type="hidden" name="recipe_id" value="{% if recipe %}{{ recipe.id }}{% endif %}">
+	<div class="form-group form-inline">
+		
     <select class="form-control" name="ingredient_option" id="ingredient_select">
         {% include "recipes/new/_add_ingredient_form_options.html.j2" %}
     </select>
-
-    <input type="submit" class="btn btn-primary" value="Přidat surovinu" />
+    <input type="submit" class="btn btn-primary" value="Přidat do receptu" />
+	</div>
+    
+    
+    <div class="form-group form-inline">
+    	
+    <label>Počet porcí</label>
+	<input class="form-control col-2" name="portion_count" {% if recipe %} readonly {% endif %} value="{% if recipe %}{{ recipe.portion_count }}{% else %}5{% endif %}">
+    </div>
 </form>
+{% if recipe %}
+<form method="POST" action="{{ url_for('RecipesView:refresh_usable_ingredients', recipe_id=recipe.id) }}">
+    <button type="submit" class="icon mt-2">&#8635;</button>
+</form>
+{%endif%}
 </turbo-frame>

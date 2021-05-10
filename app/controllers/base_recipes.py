@@ -12,6 +12,7 @@ from app import turbo
 # from app.models.diets import Diet
 from app.models.ingredients import Ingredient
 from app.models.recipes import Recipe
+
 from app.models.recipe_categories import RecipeCategory
 
 
@@ -23,7 +24,12 @@ class BaseRecipesView(FlaskView):
         if "recipe_id" in request.form and request.form["recipe_id"]:
             recipe = Recipe.load(request.form["recipe_id"])
         else:
-            recipe = Recipe(name="---", created_by=current_user.id, is_draft=True)
+            recipe = Recipe(
+                name="---",
+                created_by=current_user.id,
+                is_draft=True,
+                portion_count=request.form["portion_count"],
+            )
             recipe.save()
             # new_recipe_created = True
 
@@ -42,6 +48,12 @@ class BaseRecipesView(FlaskView):
             ]
             + self.update_usable_ingredients(recipe)
         )
+
+    @route("recipes/new/refresh_usable_ingredients/<recipe_id>", methods=["POST"])
+    def refresh_usable_ingredients(self, recipe_id):
+        recipe = Recipe.load(recipe_id)
+        response = self.update_usable_ingredients(recipe)
+        return turbo.stream(response)
 
     def update_usable_ingredients(self, recipe):
         unused_ingredients = [

@@ -23,6 +23,8 @@ class Recipe(db.Model, ItemMixin):
 
     description = db.Column(db.Text)
 
+    portion_count = db.Column(db.Integer)
+
     # recipe is not yet saved
     is_draft = db.Column(db.Boolean, default=False)
 

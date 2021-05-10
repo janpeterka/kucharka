@@ -1,6 +1,6 @@
 import datetime
 
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, IntegerField
 from wtforms import validators
 
 from flask_wtf import FlaskForm
@@ -20,5 +20,7 @@ class EventsForm(FlaskForm):
     date_to = DateField(
         "Do", default=datetime.date.today() + datetime.timedelta(days=14)
     )
+
+    people_count = IntegerField("Počet lidí")
 
     submit = SubmitField("Přidat akci")

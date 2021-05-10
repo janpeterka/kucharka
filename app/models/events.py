@@ -16,6 +16,8 @@ class Event(db.Model, ItemMixin):
     date_from = db.Column(db.Date)
     date_to = db.Column(db.Date)
 
+    people_count = db.Column(db.Integer)
+
     created_by = db.Column(db.ForeignKey(("users.id")), nullable=False, index=True)
     author = db.relationship("User", uselist=False, backref="events")
 

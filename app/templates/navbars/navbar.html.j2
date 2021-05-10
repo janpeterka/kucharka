@@ -37,9 +37,10 @@
             <a class="dropdown-item" href="{{ url_for('IngredientsView:public') }}"> veřejných surovin </a>
           </div>
         </li>
+        <a class="nav-link" href="{{ url_for('EventsView:index') }}">{{ icon("daily") }} Akce </a>
 
-        <a class="nav-link" href="{{ url_for('DailyPlansView:index') }}">{{ icon("daily") }} Denní plán</a>
-        <a class="nav-link" href="{{ url_for('DailyPlanExporterView:index') }}"> Export </a>
+        {# <a class="nav-link" href="{{ url_for('DailyPlansView:index') }}">{{ icon("daily") }} Denní plán</a> #}
+        {# <a class="nav-link" href="{{ url_for('DailyPlanExporterView:index') }}"> Export </a> #}
         <a class="nav-link" href="{{ url_for('PublicRecipesView:index') }}"> Veřejné recepty </a>
 
         {% if current_user.is_admin %}{% include 'navbars/_navbar_admin.html.j2' %}{% endif %}

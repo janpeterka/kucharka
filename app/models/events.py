@@ -17,5 +17,9 @@ class Event(db.Model, BaseMixin):
 
     id = db.Column(db.Integer, primary_key=True)
 
+    name = db.Column(db.String(80))
+    date_from = db.Column(db.Date)
+    date_to = db.Column(db.Date)
+
     created_by = db.Column(db.ForeignKey(("users.id")), nullable=False, index=True)
     author = db.relationship("User", uselist=False, backref="events")

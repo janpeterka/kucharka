@@ -89,9 +89,6 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
     #         # photo_form=PhotoForm(),
     #     )
 
-    # def print(self, id):
-    #     return template("recipes/show.html.j2", recipe=self.recipe, is_print=True,)
-
     @route("<id>/delete", methods=["POST"])
     def delete(self, id):
         if self.recipe.is_used:

@@ -1,0 +1,7 @@
+{% extends "base/base.html.j2" %}
+{% block title %} Akce {% endblock %}
+{% block content %}
+<h1> {{ event.name }} </h1>
+<span> Od {{ human_format_date(event.date_from) }} do {{ human_format_date(event.date_to) }}</span>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base/base.html.j2" %}
+{% block title %} Nová akce {% endblock %}
+
+{% block content %}
+
+<form method="post" action="{{ url_for('EventsView:post') }}" class="form-group col-6" accept-charset="UTF-8">
+    {{ form.csrf_token }}
+
+    {{ render_field(form.name) }}
+    {{ render_field(form.description) }}
+    {{ render_field(form.date_from) }}
+    {{ render_field(form.date_to) }}
+    
+    {{ render_field(form.submit) }}
+</form>
+
+{% endblock %}
+

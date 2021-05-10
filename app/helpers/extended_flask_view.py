@@ -53,6 +53,22 @@ class ExtendedFlaskView(FlaskView):
     def edit(self, id, *args, **kwargs):
         return self.template()
 
+    @route("post", methods=["POST"])
+    def post(self):
+        from flask_security import current_user
+
+        form = self._form_klass(request.form)
+        if not form.validate_on_submit():
+            save_form_to_session(request.form)
+            return redirect(url_for(f"{self._model_name}sView:new"))
+
+        self.object = self._model_klass()
+        self.object.author = current_user
+        form.populate_obj(self.object)
+        self.object.save()
+
+        return redirect(url_for(f"{self._model_name}sView:show", id=self.object.id))
+
     @route("edit/<id>", methods=["POST"])
     def post_edit(self, id):
         form = self._form_klass(request.form)
@@ -145,23 +161,3 @@ class ExtendedFlaskView(FlaskView):
             return self.template_folder
         else:
             self.template_folder = self._attribute_name + "s"
-
-    # def new(self):
-    #     self.form = create_form(self.form_klass)
-    #     return self.template()
-
-    # def post(self):
-    #     form = self.form_klass(request.form)
-    #     if not form.validate_on_submit():
-    #         save_form_to_session(request.form)
-    #         return redirect(url_for("{}sView:new".format(self.model_name)))
-
-    #     class_object = self.model_klass()
-    #     form.populate_obj(class_object)
-    #     if not class_object.save():
-    #         # if save fails
-    #         abort(500)
-
-    #     return redirect(
-    #         url_for("{}sView:show".format(self.model_name), id=class_object.id)
-    #     )

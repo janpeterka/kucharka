@@ -1,14 +1,10 @@
-# import types
+from datetime import timedelta
 
 # from flask_security import current_user
 
 from app import db
 
 from app.helpers.item_mixin import ItemMixin
-
-# from app.models.recipes_have_ingredients import RecipeHasIngredient
-# from app.models.ingredients import Ingredient
-# from app.models.daily_plans_have_recipes import DailyPlanHasRecipe
 
 
 class Event(db.Model, ItemMixin):
@@ -22,3 +18,14 @@ class Event(db.Model, ItemMixin):
 
     created_by = db.Column(db.ForeignKey(("users.id")), nullable=False, index=True)
     author = db.relationship("User", uselist=False, backref="events")
+
+    @property
+    def duration(self):
+        return (self.date_to - self.date_from).days
+
+    @property
+    def days(self):
+        return [
+            self.date_from + timedelta(days=x)
+            for x in range((self.date_to - self.date_from).days + 1)
+        ]

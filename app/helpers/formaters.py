@@ -21,3 +21,9 @@ def string_to_list(string):
     array = string.split(",")
     array = [x.strip() for x in array]
     return array
+
+
+def week_day(date):
+    weekdays = ("pondělí", "úterý", "středa", "čtvrtek", "pátek", "sobota", "neděle")
+
+    return weekdays[date.weekday()]

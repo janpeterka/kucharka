@@ -5,7 +5,7 @@ from flask_security import current_user
 
 from app import db
 
-from app.helpers.base_mixin import BaseMixin
+from app.helpers.item_mixin import ItemMixin
 
 
 # from app.models.recipes import Recipe
@@ -14,7 +14,7 @@ from app.models.ingredients import Ingredient
 from app.models.daily_plans_have_recipes import DailyPlanHasRecipe
 
 
-class DailyPlan(db.Model, BaseMixin):
+class DailyPlan(db.Model, ItemMixin):
     __tablename__ = "daily_plans"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -23,13 +23,17 @@ class DailyPlan(db.Model, BaseMixin):
     created_by = db.Column(db.ForeignKey(("users.id")), nullable=False, index=True)
     author = db.relationship("User", uselist=False, back_populates="daily_plans")
 
-    daily_recipes = db.relationship("DailyPlanHasRecipe", back_populates="daily_plan")
+    daily_recipes = db.relationship(
+        "DailyPlanHasRecipe", back_populates="daily_plan", cascade="all,delete"
+    )
     recipes = db.relationship(
         "Recipe", secondary="daily_plans_have_recipes", viewonly=True
     )
 
     event_id = db.Column(db.ForeignKey(("events.id")))
-    event = db.relationship("Event", backref="daily_plans")
+    event = db.relationship(
+        "Event", backref=db.backref("daily_plans", cascade="all,delete")
+    )
 
     @staticmethod
     def load_ingredient_amounts_for_daily_plans(ids, people_count):
@@ -166,3 +170,13 @@ class DailyPlan(db.Model, BaseMixin):
     @property
     def is_active(self):
         return len(self.daily_recipes) > 0
+
+    @property
+    def weekday(self):
+        from app.helpers.formaters import week_day
+
+        return week_day(self.date)
+
+    @property
+    def name(self):
+        return self.weekday

@@ -30,8 +30,13 @@
         <h4 class="text-uppercase font-comfortaa">Moje</h4>
 
         <hr>
-        
+
         <details open>
+            <summary class="text-uppercase font-comfortaa"> Akce </summary>
+            {{ list_of_links(current_user.events) }}
+        </details>
+        
+        <details>
             <summary class="text-uppercase font-comfortaa"> Recepty </summary>
             {{ list_of_links(current_user.visible_recipes) }}
         </details>

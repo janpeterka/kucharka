@@ -31,8 +31,13 @@ def inject_globals():
 
 @application.context_processor
 def utility_processor():
-    def human_format_date(date, with_relative=True):
+    def human_format_date(date, with_weekday=True, with_relative=True):
         formatted_date = date.strftime("%d.%m.%Y")
+
+        from app.helpers.formaters import week_day
+
+        if with_weekday:
+            formatted_date += f" ({week_day(date)})"
 
         if with_relative:
             if date == datetime.date.today():

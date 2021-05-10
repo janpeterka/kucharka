@@ -9,13 +9,9 @@
 
 <table class="table">
     {% for event in current_user.events: %}
-    <tr>
-        <td>{{ link_to(event) }}</td>
-    </tr>
+    <tr><td>{{ link_to(event) }}</td></tr>
     {% endfor %}
 </table>
-
-<hr>
 
 {% endblock %}
 

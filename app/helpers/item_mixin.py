@@ -42,5 +42,5 @@ class ItemMixin(BaseMixin):
     def link_to(self):
         from flask import url_for
 
-        self_view_name = f"{type(self).__name__.capitalize()}sView:show"
+        self_view_name = f"{type(self).__name__}sView:show"
         return f"<a href='{url_for(self_view_name, id=self.id)}'>{self.name}</a>"

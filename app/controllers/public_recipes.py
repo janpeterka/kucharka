@@ -16,7 +16,6 @@ from app.controllers.forms.public_recipes import PublicRecipeFilterForm
 
 class PublicRecipesView(ExtendedFlaskView):
     decorators = [login_required]
-
     template_folder = "public_recipes"
 
     def before_request(self, name, *args, **kwargs):
@@ -102,9 +101,6 @@ class PublicRecipesView(ExtendedFlaskView):
 
         return turbo.stream(
             turbo.replace(
-                self.template(
-                    template_name="public_recipes/_recipes_table_body.html.j2"
-                ),
-                target="recipes",
+                self.template(template_name="_recipes_table_body"), target="recipes"
             )
         )

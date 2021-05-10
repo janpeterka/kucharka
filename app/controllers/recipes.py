@@ -34,6 +34,7 @@ def set_form(form, recipe=None):
 
 class RecipesView(BaseRecipesView, ExtendedFlaskView):
     decorators = [login_required]
+    template_folder = "recipes"
 
     @login_required
     def before_request(self, name, id=None, **kwargs):
@@ -152,7 +153,7 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
 
         return turbo.stream(
             turbo.replace(
-                self.template(template_name="recipes/_edit_ingredient.html.j2"),
+                self.template(template_name="_edit_ingredient"),
                 target=f"ingredient-{self.ingredient.id}",
             )
         )

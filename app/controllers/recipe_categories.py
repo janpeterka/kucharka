@@ -1,6 +1,5 @@
 from flask import request
 from flask_security import login_required
-from flask import render_template as template
 
 from app import turbo
 
@@ -27,8 +26,7 @@ class RecipeCategoriesView(ExtendedFlaskView):
         # Use this while edit:GET doesn't support stream (probably until WebSocket support)
         return turbo.stream(
             turbo.replace(
-                self.template(template_name="recipe_categories/_edit.html.j2"),
-                target=f"recipe-category-{id}",
+                self.template(template_name="_edit"), target=f"recipe-category-{id}"
             )
         )
 
@@ -39,9 +37,7 @@ class RecipeCategoriesView(ExtendedFlaskView):
             self.category.save()
             return turbo.stream(
                 turbo.replace(
-                    self.template(
-                        template_name="recipe_categories/_recipe_category.html.j2"
-                    ),
+                    self.template(template_name="_recipe_category"),
                     target=f"recipe-category-{id}",
                 )
             )
@@ -49,9 +45,7 @@ class RecipeCategoriesView(ExtendedFlaskView):
         # WIP - move show_edit for "GET" when support for WebSocket
 
         else:
-            return self.template(
-                template_name="/recipe_categories/index.html.j2", edit_id=id
-            )
+            return self.template(template_name="index", edit_id=id)
 
     @route("/create/", methods=["POST"])
     def create(self):
@@ -61,13 +55,11 @@ class RecipeCategoriesView(ExtendedFlaskView):
         return turbo.stream(
             [
                 turbo.append(
-                    self.template(
-                        template_name="recipe_categories/_recipe_category.html.j2"
-                    ),
+                    self.template(template_name="_recipe_category"),
                     target="recipe-categories",
                 ),
                 turbo.update(
-                    template("recipe_categories/_add.html.j2"),
+                    self.template(template_name="_add"),
                     target="recipe-category-create-form",
                 ),
             ]

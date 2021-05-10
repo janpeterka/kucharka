@@ -98,6 +98,8 @@ class ExtendedFlaskView(FlaskView):
 
         if template_name is None:
             template_name = f"{template_folder}/{calling_method}.html.j2"
+        elif template_name is not None and hasattr(self, "template_folder"):
+            template_name = f"{template_folder}/{template_name}.html.j2"
 
         # All public variables of the view are passed to template
         view_attributes = self.__dict__

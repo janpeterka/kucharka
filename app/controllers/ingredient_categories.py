@@ -14,6 +14,7 @@ from app.helpers.extended_flask_view import ExtendedFlaskView
 
 class IngredientCategoriesView(ExtendedFlaskView):
     decorators = [login_required, admin_required]
+    template_folder = "ingredient_categories"
 
     def before_request(self, name, id=None, *args, **kwargs):
         super().before_request(name, id, *args, **kwargs)
@@ -27,8 +28,7 @@ class IngredientCategoriesView(ExtendedFlaskView):
         # Use this while edit:GET doesn't support stream (probably until WebSocket support)
         return turbo.stream(
             turbo.replace(
-                self.template(template_name="ingredient_categories/_edit.html.j2"),
-                target=f"ingredient-category-{id}",
+                self.template(template_name="_edit"), target=f"ingredient-category-{id}"
             )
         )
 
@@ -39,9 +39,7 @@ class IngredientCategoriesView(ExtendedFlaskView):
             self.category.save()
             return turbo.stream(
                 turbo.replace(
-                    self.template(
-                        template_name="ingredient_categories/_ingredient_category.html.j2"
-                    ),
+                    self.template(template_name="_ingredient_category"),
                     target=f"ingredient-category-{id}",
                 )
             )
@@ -49,9 +47,7 @@ class IngredientCategoriesView(ExtendedFlaskView):
         # WIP - move show_edit for "GET" when support for WebSocket
 
         else:
-            return self.template(
-                template_name="/ingredient_categories/index.html.j2", edit_id=id
-            )
+            return self.template(template_name="index", edit_id=id)
 
     @route("/create/", methods=["POST"])
     def create(self):
@@ -61,14 +57,11 @@ class IngredientCategoriesView(ExtendedFlaskView):
         return turbo.stream(
             [
                 turbo.append(
-                    self.template(
-                        template_name="ingredient_categories/_ingredient_category.html.j2"
-                    ),
+                    self.template(template_name="_ingredient_category"),
                     target="ingredient-categories",
                 ),
                 turbo.update(
-                    template("ingredient_categories/_add.html.j2"),
-                    target="ingredient-category-create-form",
+                    template("_add"), target="ingredient-category-create-form"
                 ),
             ]
         )

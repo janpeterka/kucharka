@@ -15,6 +15,7 @@ from app.helpers.extended_flask_view import ExtendedFlaskView
 
 class MeasurementsView(ExtendedFlaskView):
     decorators = [login_required, admin_required]
+    template_folder = "measurements"
 
     def before_request(self, name, id=None, *args, **kwargs):
         super().before_request(name, id, *args, **kwargs)
@@ -27,8 +28,7 @@ class MeasurementsView(ExtendedFlaskView):
         if request.method == "POST":
             return turbo.stream(
                 turbo.replace(
-                    self.template(template_name="measurements/_edit.html.j2"),
-                    target=f"measurement-{id}",
+                    self.template(template_name="_edit"), target=f"measurement-{id}"
                 )
             )
 
@@ -39,7 +39,7 @@ class MeasurementsView(ExtendedFlaskView):
             self.measurement.save()
             return turbo.stream(
                 turbo.replace(
-                    self.template(template_name="measurements/_measurement.html.j2"),
+                    self.template(template_name="_measurement"),
                     target=f"measurement-{id}",
                 )
             )
@@ -47,9 +47,7 @@ class MeasurementsView(ExtendedFlaskView):
         # WIP - move show_edit for "GET" when support for WebSocket
 
         else:
-            return self.template(
-                template_name="/measurements/index.html.j2", edit_id=id
-            )
+            return self.template(template_name="index", edit_id=id)
 
     @route("/create/", methods=["POST"])
     def create(self):
@@ -59,13 +57,9 @@ class MeasurementsView(ExtendedFlaskView):
         return turbo.stream(
             [
                 turbo.append(
-                    self.template(template_name="measurements/_measurement.html.j2"),
-                    target="measurements",
+                    self.template(template_name="_measurement"), target="measurements"
                 ),
-                turbo.update(
-                    template("measurements/_add.html.j2"),
-                    target="measurement-create-form",
-                ),
+                turbo.update(template("_add"), target="measurement-create-form"),
             ]
         )
 

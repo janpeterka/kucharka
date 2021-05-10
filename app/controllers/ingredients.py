@@ -37,6 +37,7 @@ def set_form(form, ingredient=None):
 
 class IngredientsView(ExtendedFlaskView):
     decorators = [login_required]
+    template_folder = "ingredients"
 
     def before_request(self, name, id=None, *args, **kwargs):
         super().before_request(name, id, *args, **kwargs)

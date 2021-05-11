@@ -68,7 +68,13 @@ class Ingredient(db.Model, ItemMixin):
             ingredients.sort(key=lambda x: unidecode(x.name.lower()), reverse=False)
         return ingredients
 
-    def load_amount_by_recipe(self, recipe_id) -> float:
+    def load_amount_by_recipe(self, recipe) -> float:
+        rhi = RecipeHasIngredient.query.filter_by(
+            recipe_id=recipe.id, ingredient_id=self.id
+        ).first()
+        return rhi.amount
+
+    def load_amount_by_recipe_id(self, recipe_id) -> float:
         rhi = RecipeHasIngredient.query.filter_by(
             recipe_id=recipe_id, ingredient_id=self.id
         ).first()

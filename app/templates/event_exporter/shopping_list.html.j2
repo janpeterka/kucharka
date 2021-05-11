@@ -8,7 +8,7 @@
     {% for ingredient in ingredients %}
     <tr>
         <td>{{ ingredient.name }}</td>
-        <td>{{ ingredient.amount }}</td>
+        <td>{{ ingredient.amount | int }}</td>
         <td>{{ ingredient.measurement.name }}</td>
     </tr>
     {% endfor %}

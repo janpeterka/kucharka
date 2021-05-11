@@ -1,25 +1,19 @@
-{% macro option(object) %}
+{% macro option(object, selected=False) %}
 
-	<option name='{{object.name}}' value='{{object.id}}'>{{object.name}}</option>"
+	<option name='{{object.name}}' value='{{object.id}}' {% if selected %} selected {% endif %}>{{object.name}}</option>"
 
 {% endmacro %}
 
 
 
-{% macro options(list) %}
+{% macro options(list, selected_item=None) %}
 
 	{% for item in list %}
-		{{ option(item) }}\n
+	{% if item == selected_item %}
+		{{ option(item, selected=True) }}
+	{% else %}
+		{{ option(item) }}
+	{% endif %}
 	{% endfor %}
 
 {% endmacro %}
-
-{# {% macro list_of_links(list) %}
-
-    <ul>
-    	{% for item in list %}
-    		<li>{{ link_to(item) }}</li>
-    	{% endfor %}
-    </ul>
-
-{% endmacro %} #}

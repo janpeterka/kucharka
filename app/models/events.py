@@ -31,3 +31,10 @@ class Event(db.Model, ItemMixin):
             self.date_from + timedelta(days=x)
             for x in range((self.date_to - self.date_from).days + 1)
         ]
+
+    @property
+    def recipes(self):
+        recipes = []
+        for daily_plan in self.daily_plans:
+            recipes = recipes + daily_plan.recipes
+        return recipes

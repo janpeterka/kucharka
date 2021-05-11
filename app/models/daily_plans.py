@@ -9,6 +9,7 @@ from app.helpers.item_mixin import ItemMixin
 
 
 # from app.models.recipes import Recipe
+
 # from app.models.recipes_have_ingredients import RecipeHasIngredient
 from app.models.ingredients import Ingredient
 from app.models.daily_plans_have_recipes import DailyPlanHasRecipe
@@ -46,8 +47,8 @@ class DailyPlan(db.Model, ItemMixin):
         amounts_sql = f"""
                         SELECT
                             I.id AS ingredient_id,
-                            CONCAT(R.id) AS recipes,
-                            SUM(RHI.amount) AS amount_sum
+                            CONCAT(R.id) AS recipe_ids,
+                            SUM(RHI.amount) * {people_count} AS amount_sum
                         FROM
                             daily_plans AS DP
                             INNER JOIN daily_plans_have_recipes AS DPHR ON
@@ -69,11 +70,19 @@ class DailyPlan(db.Model, ItemMixin):
         ingredients = []
         for row in result:
             ingredient = Ingredient.load(row[0])
+            # ingredient.recipe_ids = row[1]
             ingredient.amount = row[2]
             ingredients.append(ingredient)
 
-        for ingredient in ingredients:
-            ingredient.amount = ingredient.amount * float(people_count)
+        # for ingredient in ingredients:
+        #     ingredient.event_recipes = []
+        #     for recipe_id in ingredient.recipe_ids:
+        #         ingredient.event_recipes.append(Recipe.load(recipe_id))
+
+        # print(ingredient.event_recipes)
+
+        # for ingredient in ingredients:
+        # ingredient.amount = ingredient.amount * float(people_count)
 
         return ingredients
 

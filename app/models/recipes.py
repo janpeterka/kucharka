@@ -21,7 +21,7 @@ class Recipe(db.Model, ItemMixin):
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     last_updated_at = db.Column(db.DateTime, onupdate=db.func.current_timestamp())
 
-    description = db.Column(db.Text)
+    description = db.Column(db.String())
 
     portion_count = db.Column(db.Integer)
 
@@ -75,7 +75,7 @@ class Recipe(db.Model, ItemMixin):
             return None
 
         for ingredient in recipe.ingredients:
-            ingredient.amount = round(ingredient.load_amount_by_recipe(recipe.id), 2)
+            ingredient.amount = round(ingredient.load_amount_by_recipe_id(recipe.id), 2)
 
         return recipe
 
@@ -210,7 +210,7 @@ class Recipe(db.Model, ItemMixin):
         totals.amount = 0
 
         for ingredient in self.ingredients:
-            ingredient.amount = round(ingredient.load_amount_by_recipe(self.id), 2)
+            ingredient.amount = round(ingredient.load_amount_by_recipe_id(self.id), 2)
             for metric in metrics:
                 value = getattr(totals, metric, 0)
                 ing_value = getattr(ingredient, metric)

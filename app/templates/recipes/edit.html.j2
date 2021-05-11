@@ -26,7 +26,6 @@
     </div>
 
     <input type="submit" value="{{ texts.recipe_edit }}" class="btn btn-warning">
-    <a class="btn btn-secondary ml-2" href="{{ url_for('RecipesView:show', id=recipe.id) }}">{{ texts.edit_cancel }} {{ icon("edit") }}</a>
 </form>
 </details>
 
@@ -60,6 +59,8 @@
     </form>
 </div>
 </details>
+
+<a class="btn btn-secondary ml-2" href="{{ url_for('RecipesView:show', id=recipe.id) }}">{{ texts.edit_cancel }} {{ icon("edit") }}</a>
 
 {% endblock %}
 

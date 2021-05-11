@@ -82,6 +82,7 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
     def post_edit(self, id):
         form = RecipesForm(request.form)
         set_form(form)
+        del form.portion_count
 
         if not form.validate_on_submit():
             save_form_to_session(request.form)
@@ -89,7 +90,6 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
 
         form.category.data = RecipeCategory.load(form.category.data)
         form.populate_obj(self.recipe)
-        self.recipe.is_draft = False
         self.recipe.edit()
 
         return redirect(url_for("RecipesView:show", id=self.recipe.id))

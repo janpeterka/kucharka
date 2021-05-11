@@ -9,7 +9,7 @@
             <span class="ml-2">{{ ingredient.measurement.name }}</span>
             <input type="submit" class="form-control btn btn-warning ml-4" value="Změnit">
             {% if ingredient.amount %}
-                <span class="font-italic font-weight-light ml-4"> {{ ingredient.amount|int | round(1) }} na porci </span>
+                <span class="font-italic font-weight-light ml-4"> {{ ingredient.amount | round(1) }} na porci </span>
             {% endif %}
         </form>
     </td>

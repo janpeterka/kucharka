@@ -1,0 +1,39 @@
+{% from "macros/icons.html.j2" import icon %}
+
+<turbo-frame id="ingredient-{{ ingredient.id }}">
+  <li class="row">
+      {# <div> #}
+        <span class="col-4" data-turbo="false">{{ link_to(ingredient) }}</span>
+        <span class="col-2">
+            {% if ingredient.is_vegetarian %}
+                {{ icon("vegetarian") }}
+            {% endif %}
+            {% if ingredient.is_vegan %}
+                {{ icon("vegan") }}
+            {% endif %}
+            {% if ingredient.lactose_free %}
+                {{ icon("lactose_free") }}
+            {% endif %}
+            {% if ingredient.gluten_free %}
+                {{ icon("gluten_free") }}
+            {% endif %}
+        </span>
+        <span class="col-2">{{ ingredient.measurement.name }}</span>
+        <span class="col-3">{{ ingredient.category.name }}</span>
+        {# <span class="col"></span> #}
+        
+        {# <td>{{ ingredient.author.name }}</td> #}
+        {# <td>{{ ingredient.measurement.name }}</td> #}
+        {# <td>{{ ingredient.category.name }}</td> #}
+      {# </div> #}
+    {# <label style="font-size: smaller;">{{ ingredient.description if ingredient.description  }}</label> #}
+    {% if current_user.is_admin %}
+      <form method="POST" class="col" action="{{ url_for('IngredientsView:show_edit', ingredient_id=ingredient.id) }}" data-turbo-frame="all">
+        <button type="submit" class="change" style="margin-top: 0.1rem"></button>
+      </form>
+      {# <form method="POST" action="{{ url_for('IngredientsView:delete', id=ingredient.id) }}"> #}
+        {# <button type="submit" class="destroy"></button> #}
+      {# </form> #}
+    {% endif %}
+  </li>
+</turbo-frame>

@@ -4,8 +4,11 @@ from flask import abort, flash, request, redirect, url_for
 
 # from flask import render_template as template
 
+
 from flask_classful import route
 from flask_security import login_required, current_user
+
+from app import turbo
 
 from app.helpers.form import save_form_to_session
 from app.helpers.extended_flask_view import ExtendedFlaskView
@@ -71,6 +74,22 @@ class IngredientsView(ExtendedFlaskView):
     def before_public(self):
         self.public_ingredients = Ingredient.load_all_public()
 
+    @route("/ingredients/show_edit/<ingredient_id>", methods=["POST"])
+    def show_edit(self, ingredient_id):
+        self.ingredient = Ingredient.load(ingredient_id)
+
+        self.measurements = Measurement.load_all()
+        # measurements.sort(key=lambda x: unidecode(x.name.lower()))
+        self.categories = IngredientCategory.load_all()
+        self.categories.sort(key=lambda x: unidecode(x.name.lower()))
+
+        return turbo.stream(
+            turbo.replace(
+                self.template(template_name="_edit"),
+                target=f"ingredient-{ingredient_id}",
+            )
+        )
+
     def post(self):
         form = IngredientsForm(request.form)
         set_form(form)
@@ -89,6 +108,20 @@ class IngredientsView(ExtendedFlaskView):
         else:
             flash("Nepodařilo se vytvořit surovinu", "error")
             return redirect(url_for("IngredientsView:new"))
+
+    @route("ingredients/edit/<id>", methods=["POST"])
+    def list_edit(self, id):
+
+        self.ingredient.category = IngredientCategory.load(request.form["category_id"])
+        self.ingredient.measurement = Measurement.load(request.form["measurement_id"])
+
+        self.ingredient.save()
+        return turbo.stream(
+            turbo.replace(
+                self.template(template_name="_ingredient"),
+                target=f"ingredient-{self.ingredient.id}",
+            )
+        )
 
     @route("edit/<id>", methods=["POST"])
     def post_edit(self, id):

@@ -1,13 +1,13 @@
-<tr data-id="{{ daily_recipe.id }}">
-    <td>{{ link_to(daily_recipe.recipe) }}
+{% from "macros/icons.html.j2" import icon %}
+
+<tr id="daily-recipe-{{ daily_recipe.id }}">
+    <td>
+        {{ link_to(daily_recipe.recipe) }}
     	{% if not daily_recipe.recipe.is_current_user_author %} {{ icon("public") }} {% endif %}
 	</td>
-{#     <td>
-        {% from "macros/daily_plans/_change_order_button.html.j2" import change_order_buttons with context %}
-        {{ change_order_buttons() }}
-    </td> #}
     <td>
-        {% from "macros/_active_icons.html.j2" import remove_icon %}
-        {{ remove_icon(url=url_for('DailyPlansView:remove_daily_recipe', daily_recipe_id=daily_recipe.id, daily_plan_id=daily_recipe.daily_plan.id))}}
+        <form method="POST" class="text-right mr-3" action="{{ url_for('DailyPlansView:remove_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
+            <button type="submit" class="destroy icon"> {{ icon("remove") }} </button>
+        </form>
     </td>
 </tr>

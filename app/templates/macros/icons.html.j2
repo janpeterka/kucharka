@@ -4,6 +4,7 @@
     {% set value = kwargs.pop('value', None) %}
     {% set class_ = kwargs.pop('class', '') %}
     {% set class_ = class_ + " cursor-default" %}
+    {% set fa_class_ = "" %}
 
     {# Pages #}
     {% if name=="user" %}
@@ -20,6 +21,8 @@
     {% elif name=="delete" %}
         {% set fa_class_ = 'fas fa-trash' %}
 
+    {% elif name=="remove" %}
+        {% set value = '×' %}
 
     {# Sharing, publishing,... #}
     {% elif name=="shared" %}
@@ -39,8 +42,19 @@
     {% elif name=="heart_full" %}
         {% set fa_class_ = 'fas fa-heart color-red' %}
 
+    {# Misc #}
     {% elif name=="recipe_database" %}
         {% set fa_class_ = 'fas fa-book-open' %}
+    {% elif name=="cookbook" %}
+        {% set fa_class_ = 'fas fa-book' %}
+    {% elif name=="food" %}
+        {% set fa_class_ = 'fas fa-utensils' %}
+    {% elif name=="shopping" %}
+        {% set fa_class_ = 'fas fa-shopping-basket' %}
+    {% elif name=="info" %}
+        {% set fa_class_ = 'fas fa-info' %}
+    {% elif name=="list" %}
+        {% set fa_class_ = 'fas fa-list-ul' %}
 
 
 

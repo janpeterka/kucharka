@@ -117,15 +117,17 @@ class DailyPlan(db.Model, ItemMixin):
     def add_recipe(self, recipe):
         order_index = len(self.daily_recipes) + 1
 
-        dphr = DailyPlanHasRecipe(
+        daily_recipe = DailyPlanHasRecipe(
             recipe_id=recipe.id, daily_plan_id=self.id, order_index=order_index
         )
 
-        dphr.save()
+        daily_recipe.save()
+        return daily_recipe
 
     def remove_daily_recipe_by_id(self, daily_recipe_id):
-        # TODO - jenom pokud je fakt v tomhle daily_planu
         selected_daily_recipe = DailyPlanHasRecipe.load(daily_recipe_id)
+        if not self.can_current_user_edit:
+            return False
 
         if selected_daily_recipe in self.daily_recipes:
             for daily_recipe in self.daily_recipes:

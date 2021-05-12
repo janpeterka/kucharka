@@ -1,6 +1,11 @@
 {% extends "base/base.html.j2" %}
 {% block title %} Denní přehled {% endblock %}
 
+{% block links %}
+    {{ super() }}
+    {{ turbo() }}
+{% endblock %}
+
 {% block content %}
 
 <div data-controller="daily-plan">
@@ -33,7 +38,7 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="daily_recipes">
 
             {% for daily_recipe in daily_recipes %}
                 {% include "daily_plans/_recipe_row.html.j2"%}

@@ -1,16 +1,23 @@
+{% from "macros/icons.html.j2" import icon %}
+
 <div class="col">
     <label for="recipes"><h3>{{ texts.recipe_list }}</h3></label>
-    <ul name="recipes">
-        {% for recipe in recipes %}
-            <li>{{ link_to(recipe) }}
-                {% if recipe.is_shared %} {{ icon("shared") }} {% endif %}
-            </li>
-        {% endfor %}
+
+    <turbo-frame id="recipes">
+    <ul>
+    {% for recipe in recipes %}
+        <li>{{ link_to(recipe) }}
+            {% if recipe.is_shared %} {{ icon("shared") }} {% endif %}
+        </li>
+    {% endfor %}
     </ul>
+    </turbo-frame>
 
     {% if current_user.is_admin and all_recipes %}
     <div class="admin-field">
 	    <label><h3>Všechny recepty</h3></label>
+
+        <turbo-frame id="all-recipes">
 	    <ul>
 	        {% for recipe in all_recipes %}
 	            <li>{{ link_to(recipe) }}
@@ -18,6 +25,8 @@
                 </li>
 	        {% endfor %}
 	    </ul>
+        </turbo-frame>
+
     </div>
     {% endif %}
 </div>

@@ -46,24 +46,22 @@
 
         <details open>
             <summary class="text-uppercase font-comfortaa"> Akce </summary>
-            {{ list_of_links(current_user.events) }}
+            <turbo-frame id="events" src="{{ url_for('UsersView:events') }}">
+            </turbo-frame>
         </details>
         
         <details>
             <summary class="text-uppercase font-comfortaa"> Recepty </summary>
-            {{ list_of_links(current_user.visible_recipes) }}
+            <turbo-frame id="recipes" src="{{ url_for('UsersView:recipes') }}">
+            </turbo-frame>
+            {# {{ list_of_links(current_user.visible_recipes) }} #}
         </details>
-            
-        {% if current_user.draft_recipes %}              
-        <details>
-            <summary class="text-uppercase font-comfortaa"> Rozdělané recepty </summary>
-            {{ list_of_links(current_user.draft_recipes) }}
-        </details>
-        {% endif %}
 
         <details>
             <summary class="text-uppercase font-comfortaa"> Suroviny </summary>
-            {{ list_of_links(ingredients) }}
+            <turbo-frame id="ingredients" src="{{ url_for('UsersView:ingredients') }}">
+            </turbo-frame>
+            {# {{ list_of_links(ingredients) }} #}
         </details>
     </div>
 </div>

@@ -45,9 +45,20 @@ class UsersView(ExtendedFlaskView):
         recipes = [i for i in self.user.recipes if i.without_category]
         print(recipes)
         return self.template(
-            template_name="recipes/_recipes_without_category.html.j2",
-            recipes=recipes,
+            template_name="recipes/_recipes_without_category.html.j2", recipes=recipes
         )
+
+    def events(self):
+        return self.template(template_name="events/_list.html.j2")
+
+    def recipes(self):
+        return self.template(
+            template_name="recipes/_recipe_list.html.j2",
+            recipes=self.user.visible_recipes,
+        )
+
+    def ingredients(self):
+        return self.template(template_name="ingredients/_list.html.j2")
 
     # def show(self, **kwargs):
     #     # super().show() needed id.

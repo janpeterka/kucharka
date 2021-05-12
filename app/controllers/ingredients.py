@@ -111,7 +111,6 @@ class IngredientsView(ExtendedFlaskView):
 
     @route("ingredients/edit/<id>", methods=["POST"])
     def list_edit(self, id):
-
         self.ingredient.category = IngredientCategory.load(request.form["category_id"])
         self.ingredient.measurement = Measurement.load(request.form["measurement_id"])
 

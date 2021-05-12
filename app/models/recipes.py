@@ -199,6 +199,10 @@ class Recipe(db.Model, ItemMixin):
         return [i for i in self.ingredients if i.gluten_free] == self.ingredients
 
     @property
+    def without_category(self):
+        return self.category is None or self.category.name == "---"
+
+    @property
     # @cache.cached(timeout=50, key_prefix="recipe_totals")
     def totals(self):
         import types

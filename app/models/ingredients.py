@@ -93,6 +93,14 @@ class Ingredient(db.Model, ItemMixin):
     def is_used(self) -> bool:
         return True if self.recipes else False
 
+    @property
+    def without_category(self):
+        return self.category is None or self.category.name == "---"
+
+    @property
+    def without_measurement(self):
+        return self.measurement is None or self.measurement.name == "---"
+
     # PERMISSIONS
 
     def can_add(self, user) -> bool:

@@ -43,4 +43,4 @@ class ItemMixin(BaseMixin):
         from flask import url_for
 
         self_view_name = f"{type(self).__name__}sView:show"
-        return f"<a href='{url_for(self_view_name, id=self.id)}'>{self.name}</a>"
+        return f"<a data-turbo='false' href='{url_for(self_view_name, id=self.id)}'>{self.name}</a>"

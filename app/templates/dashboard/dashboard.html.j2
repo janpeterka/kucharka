@@ -1,6 +1,11 @@
 {% extends "base/base.html.j2" %}
 {% block title %} Vítejte {{ current_user.email }} {% endblock %}
 
+{% block links %}
+    {{ super() }}
+    {{ turbo() }}
+{% endblock %}
+
 {% block content %}
 
 <div class="row">
@@ -11,19 +16,27 @@
         
         <div class="mb-3"><a href="{{url_for('RecipesView:new')}}" class="text-uppercase font-comfortaa">Přidat nový recept</a></div>
 
-        {% if current_user.draft_recipes %}              
+        <hr>
+
         <details>
-            <summary class="text-uppercase font-comfortaa">Dokončit rozdělané recepty ({{ current_user.draft_recipes | length }})</summary>
-            <form method="post" action="{{ url_for('RecipesView:delete_drafts')}}" class="float-right">
-                <button type="submit" class="btn btn-warning">Smazat návrhy</button>
-            </form>
-            <ul>
-            {% for recipe in current_user.draft_recipes %}
-                <li>{{ link_to(recipe) }} <span class="color-grey">({{recipe.ingredients | length}} zadaných surovin)</span></li>
-            {% endfor %}
-            </ul>
+            <summary class="text-uppercase font-comfortaa">Další rychlé akce</summary>
+            <div class="ml-4">
+                
+            <turbo-frame id="draft-recipes" src="{{ url_for('UsersView:draft_recipes') }}">
+            </turbo-frame>
+
+            <turbo-frame id="ingredients-without-category" src="{{ url_for('UsersView:ingredients_without_category') }}">
+            </turbo-frame>
+            
+            <turbo-frame id="ingredients-without-measurement" src="{{ url_for('UsersView:ingredients_without_measurement') }}">
+            </turbo-frame>
+            
+            <turbo-frame id="recipes-without-category" src="{{ url_for('UsersView:recipes_without_category') }}">
+            </turbo-frame>
+            </div>
         </details>
-        {% endif %}
+
+
     </div>
 
     <div class="col-sm-12 col-md-6">

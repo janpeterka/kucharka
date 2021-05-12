@@ -2,6 +2,10 @@
 {% from "macros/general.html.j2" import option, options %}
 {% from "macros/icons.html.j2" import icon %}
 
+{% if not user %}
+    {% set user = current_user %}
+{% endif %}
+
 <!DOCTYPE html>
 <html lang="cs">
 <head>

@@ -1,0 +1,15 @@
+{% if recipes %}
+
+<turbo-frame id="recipes-without-category">
+<details>
+    <summary class="text-uppercase font-comfortaa">Přidat kategorie receptům ({{ recipes | length }})</summary>
+
+    <ul>
+    {% for recipe in recipes %}
+        <li>{{ link_to(recipe) }}</li>
+    {% endfor %}
+    </ul>
+</details>
+</turbo-frame>
+
+{% endif %}

@@ -9,6 +9,7 @@ from .recipe_categories import RecipeCategoriesView
 from .measurements import MeasurementsView
 from .recipes import RecipesView
 from .public_recipes import PublicRecipesView
+from .users import UsersView
 
 __all__ = [
     "DashboardView",
@@ -22,7 +23,7 @@ __all__ = [
     "RecipeCategoriesView",
     "RecipesView",
     "PublicRecipesView",
-    # "UsersView",
+    "UsersView",
 ]
 
 
@@ -43,7 +44,7 @@ def register_all_controllers(application):
     RecipesView.register(application)
     PublicRecipesView.register(application)
     # SupportView.register(application)
-    # UsersView.register(application)
+    UsersView.register(application)
 
 
 # def register_error_handlers(application):

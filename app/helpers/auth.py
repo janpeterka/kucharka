@@ -12,3 +12,14 @@ def admin_required(f):
             abort(403)
 
     return decorated_function
+
+
+def app_manager_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if current_user.is_authenticated and (current_user.has_role("app manager")):
+            return f(*args, **kwargs)
+        else:
+            abort(403)
+
+    return decorated_function

@@ -7,12 +7,12 @@ from flask_classful import route
 
 from app.models.recipe_categories import RecipeCategory
 
-from app.helpers.auth import admin_required
+from app.helpers.auth import app_manager_required
 from app.helpers.extended_flask_view import ExtendedFlaskView
 
 
 class RecipeCategoriesView(ExtendedFlaskView):
-    decorators = [login_required, admin_required]
+    decorators = [login_required, app_manager_required]
 
     def before_request(self, name, id=None, *args, **kwargs):
         super().before_request(name, id, *args, **kwargs)

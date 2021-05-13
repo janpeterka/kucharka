@@ -9,12 +9,12 @@ from flask_classful import route
 
 from app.models.measurements import Measurement
 
-from app.helpers.auth import admin_required
+from app.helpers.auth import app_manager_required
 from app.helpers.extended_flask_view import ExtendedFlaskView
 
 
 class MeasurementsView(ExtendedFlaskView):
-    decorators = [login_required, admin_required]
+    decorators = [login_required, app_manager_required]
     template_folder = "measurements"
 
     def before_request(self, name, id=None, *args, **kwargs):

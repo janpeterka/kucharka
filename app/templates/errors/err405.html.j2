@@ -1,0 +1,10 @@
+{% extends "base/base.html.j2" %}
+{% block title %} Tady nemáte co pohledávat {% endblock %}
+
+{% block content %}
+    <div class="container text-center font-montserrat">
+        <h1 class="mt-2 text-uppercase color-blue font-comfortaa-bb">Na této stránce byste neměli být</h1>
+        Radši se vraťte na <a href="{{ url_for('IndexView:index') }}">hlavní stránku</a>
+    </div>
+{% endblock %}
+

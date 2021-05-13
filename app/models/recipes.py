@@ -26,7 +26,7 @@ class Recipe(db.Model, ItemMixin):
     portion_count = db.Column(db.Integer)
 
     # recipe is not yet saved
-    is_draft = db.Column(db.Boolean, default=False)
+    # is_draft = db.Column(db.Boolean, default=False)
 
     # recipe is from database of approved recipes
     # is_public = db.Column(db.Boolean, default=False)

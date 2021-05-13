@@ -11,6 +11,11 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 {% endblock %}
 
+{% block script %}
+    {% include 'javascript/stimulus.js.html' %}
+    {% include 'javascript/enable_select2_controller.js.html' %}
+{% endblock %}
+
 {% block content %}
 
 <details open class="form-control mb-5">
@@ -37,7 +42,7 @@
 </form>
 </details>
 
-<details open class="form-control mb-5">
+<details open class="form-control mb-5" data-controller="enable-select2">
 <summary> Upravit suroviny </summary>
 <div>
     {% include "recipes/new/_add_ingredient_form.html.j2" %}
@@ -75,6 +80,5 @@
 {% block scripts_after %}
 <script type="text/javascript">
     $(document).ready(function() {$('#summernote').summernote();});
-    $(document).ready(function() {$('#ingredient_select').select2();});
 </script>
 {% endblock %}

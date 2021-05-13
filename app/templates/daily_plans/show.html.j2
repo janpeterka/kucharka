@@ -6,9 +6,15 @@
     {{ turbo() }}
 {% endblock %}
 
+{% block script %}
+    {% include 'javascript/stimulus.js.html' %}
+    {% include 'javascript/enable_select2_controller.js.html' %}
+{% endblock %}
+
+
 {% block content %}
 
-<div data-controller="daily-plan">
+<div>
     <div class="text-center">
 {#         <span class="float-left" style="margin-left: 10rem">
             <a href="{{ url_for('DailyPlansView:show_by_date', date=dates['previous']) }}">
@@ -47,22 +53,18 @@
         </table>
     </div>
 
-    <div class="row float-right mt-5">
+    <div class="row float-right mt-5" data-controller="enable-select2">
         <form class="form" action="{{ url_for('DailyPlansView:add_recipe', daily_plan_id=daily_plan.id) }}" method="post">
             <div class="form-group form-inline">
-                <select name="recipe_id" id="recipe_select" class="form-control">
+                <select name="recipe_id" id="recipe_select" class="form-control" data-enable-select2-target="select">
                     {% include "daily_plans/_add_recipe_form_options.html.j2" %}
                 </select>
             </div>
 
-            <input type="submit" data-load-recipes-for-diet-target="submit" class="form-control btn btn-primary" value="Přidat recept">
+            <input type="submit" class="form-control btn btn-primary" value="Přidat recept">
         </form>
     </div>
 
 </div>
 
-{% endblock %}
-
-{% block scripts_after %}
-<script type="text/javascript"> $(document).ready(function() {$('#recipe_select').select2();}); </script>
 {% endblock %}

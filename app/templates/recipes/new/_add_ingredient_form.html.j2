@@ -1,17 +1,19 @@
 <turbo-frame id="add_ingredient_form">	
-<form class="form" method="post" action="{{ url_for('RecipesView:add_ingredient', recipe_id=recipe.id) }}" >
+
+<form class="form" method="post" action="{{ url_for('RecipesView:add_ingredient', recipe_id=recipe.id) }}" data-controller="enable-select2">
 	<div class="form-group form-inline">
 		
-    <select class="form-control" name="ingredient_option" id="ingredient_select">
+    <select class="form-control" name="ingredient_option" id="ingredient_select" data-enable-select2-target="select">
         {% include "recipes/new/_add_ingredient_form_options.html.j2" %}
     </select>
     <input type="submit" class="btn btn-primary" value="Přidat do receptu" />
 	</div>
-    
 </form>
-{% if recipe %}
+
+{# {% if recipe %}
 <form method="POST" action="{{ url_for('RecipesView:refresh_usable_ingredients', recipe_id=recipe.id) }}">
     <button type="submit" class="icon mt-2">&#8635;</button>
 </form>
-{%endif%}
+{%endif%} #}
+
 </turbo-frame>

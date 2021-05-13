@@ -62,12 +62,10 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
             i for i in Ingredient.load_all_public() if i not in self.recipe.ingredients
         ]
 
-        self.public_ingredients = unused_public_ingredients.sort(
-            key=lambda x: unidecode(x.name.lower())
-        )
-        self.personal_ingredients = unused_ingredients.sort(
-            key=lambda x: unidecode(x.name.lower())
-        )
+        self.public_ingredients = unused_public_ingredients
+        self.public_ingredients.sort(key=lambda x: unidecode(x.name.lower()))
+        self.personal_ingredients = unused_ingredients
+        self.personal_ingredients.sort(key=lambda x: unidecode(x.name.lower()))
 
         set_form(self.form, self.recipe)
 
@@ -85,7 +83,6 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
     def post_edit(self, id):
         form = RecipesForm(request.form)
         set_form(form)
-        del form.portion_count
 
         if not form.validate_on_submit():
             save_form_to_session(request.form)

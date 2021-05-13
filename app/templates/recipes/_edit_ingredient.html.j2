@@ -4,9 +4,11 @@
     
     <td>
         <form action="{{ url_for('RecipesView:change_ingredient_amount', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" class="form form-inline" method="post">
-            <input type="number" class="form-control" name="amount" step="0.01" min="0"
-                   value="{% if ingredient.amount %}{{ (ingredient.amount|float * recipe.portion_count|float) | int }}{% endif %}">
-            <span class="ml-2">{{ ingredient.measurement.name }}</span>
+            <div class="col-9">
+                <input type="number" class="form-control" name="amount" step="0.01" min="0"
+                       value="{% if ingredient.amount %}{{ (ingredient.amount|float * recipe.portion_count|float) | int }}{% endif %}">
+                <span class="ml-2">{{ ingredient.measurement.name }}</span>
+            </div>
             <input type="submit" class="form-control btn btn-warning ml-4" value="Změnit">
             {% if ingredient.amount %}
                 <span class="font-italic font-weight-light ml-4"> {{ ingredient.amount | round(1) }} na porci </span>

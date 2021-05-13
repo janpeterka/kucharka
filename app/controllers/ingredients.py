@@ -20,6 +20,8 @@ from app.models.ingredient_categories import IngredientCategory
 from app.models.recipes import Recipe
 from app.models.measurements import Measurement
 
+from app.controllers.base_recipes import BaseRecipesView
+
 from app.controllers.forms.ingredients import IngredientsForm
 
 
@@ -53,6 +55,10 @@ class IngredientsView(ExtendedFlaskView):
 
     def before_new(self, *args, **kwargs):
         super().before_new(*args, **kwargs)
+        set_form(self.form)
+
+    def before_new_simple(self, **kwargs):
+        super().before_new()
         set_form(self.form)
 
     def before_edit(self, id):
@@ -158,3 +164,28 @@ class IngredientsView(ExtendedFlaskView):
 
     def public(self):
         return self.template()
+
+    def new_simple(self, recipe_id):
+        return turbo.stream(
+            turbo.replace(
+                self.template(
+                    template_name="_new_simple", recipe=Recipe.load(recipe_id)
+                ),
+                target="add-ingredient-simple",
+            )
+        )
+
+    @route("ingredients/post_simple/<recipe_id>", methods=["POST"])
+    def post_simple(self, recipe_id):
+        form = IngredientsForm(request.form)
+        set_form(form)
+
+        ingredient = Ingredient()
+        form.measurement.data = Measurement.load(form.measurement.data)
+        form.populate_obj(ingredient)
+        ingredient.save()
+
+        return turbo.stream(
+            [turbo.remove(target="add-ingredient-simple")]
+            + BaseRecipesView().update_usable_ingredients(Recipe.load(recipe_id))
+        )

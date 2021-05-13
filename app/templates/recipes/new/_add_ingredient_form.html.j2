@@ -7,8 +7,11 @@
         {% include "recipes/new/_add_ingredient_form_options.html.j2" %}
     </select>
     <input type="submit" class="btn btn-primary" value="Přidat do receptu" />
+	<a class="ml-5" href="{{ url_for('IngredientsView:new_simple', recipe_id=recipe.id) }}">Přidat chybějící surovinu</a>
 	</div>
 </form>
+
+<turbo-frame id="add-ingredient-simple"></turbo-frame>
 
 {# {% if recipe %}
 <form method="POST" action="{{ url_for('RecipesView:refresh_usable_ingredients', recipe_id=recipe.id) }}">

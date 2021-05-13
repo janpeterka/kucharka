@@ -55,6 +55,10 @@ class Ingredient(db.Model, ItemMixin):
         "IngredientCategory", uselist=False, backref="ingredients"
     )
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        super().set_defaults()
+
     # LOADERS
     @staticmethod
     def load_all_public(ordered=True, exclude_mine=False) -> list:

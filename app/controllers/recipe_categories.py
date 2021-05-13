@@ -13,6 +13,7 @@ from app.helpers.extended_flask_view import ExtendedFlaskView
 
 class RecipeCategoriesView(ExtendedFlaskView):
     decorators = [login_required, app_manager_required]
+    template_folder = "recipe_categories"
 
     def before_request(self, name, id=None, *args, **kwargs):
         super().before_request(name, id, *args, **kwargs)

@@ -9,6 +9,7 @@ from app.models.ingredients import Ingredient
 class DashboardView(ExtendedFlaskView):
     decorators = [login_required]
 
+    @login_required
     def before_index(self):
         self.ingredients = [
             i for i in current_user.ingredients if i not in Ingredient.load_all_public()

@@ -18,6 +18,7 @@ texts = {
     "ratio_full": "Poměr (tuky: bílkoviny + cukry)",
     "edit": "Upravit",
     "edit_cancel": "Zrušit úpravy",
+    "edit_finish": "Zavřít úpravy",
     "edit_confirm": "Uložit změnu",
     "print": "Tisk",
     "delete": "Smazat",

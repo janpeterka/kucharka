@@ -16,7 +16,7 @@
 
 
             <div class="w-100">
-            {{ render_field(form.measurement, disabled=ingredient.is_used) }}                            
+            {{ render_field(form.measurement, disabled=not ingredient.can_edit_measurement) }}                            
             </div>
 
             <div class="w-100 mt-2">

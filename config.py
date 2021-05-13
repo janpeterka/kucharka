@@ -19,11 +19,11 @@ class Config(object):
     SECURITY_CONFIRMABLE = False
 
     # SENTRY_MONITORING = True
-
     INFO_USED_DB = "production db"
 
 
 class LocalProdConfig(Config):
+    INFO_USED_DB = "production db"
     TEMPLATES_AUTO_RELOAD = True
 
 
@@ -49,7 +49,7 @@ class DevConfig(LocalProdConfig):
 
 
 class ProdConfig(Config):
-    pass
+    INFO_USED_DB = "production db"
 
 
 configs = {

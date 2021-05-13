@@ -127,14 +127,14 @@ class IngredientsView(ExtendedFlaskView):
         form = IngredientsForm(request.form)
         set_form(form)
 
-        if self.ingredient.is_used:
+        if not self.ingredient.can_edit_measurement:
             del form.measurement
 
         if not form.validate_on_submit():
             save_form_to_session(request.form)
             return redirect(url_for("IngredientsView:edit", id=self.ingredient.id))
 
-        if not self.ingredient.is_used:
+        if self.ingredient.can_edit_measurement:
             form.measurement.data = Measurement.load(form.measurement.data)
         form.category.data = IngredientCategory.load(form.category.data)
         form.populate_obj(self.ingredient)

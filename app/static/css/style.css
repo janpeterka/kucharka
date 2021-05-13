@@ -152,3 +152,16 @@ abbr {
   cursor: default !important;
   text-decoration: none !important;
 }
+
+div.warning {
+  background-color: var(--warning);
+  border-radius: 0.5rem;
+}
+
+div.warning li {
+  list-style-type: none; 
+}
+
+div.warning li:before {
+  content: "!";
+}

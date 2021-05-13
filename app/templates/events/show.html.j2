@@ -1,6 +1,12 @@
 {% extends "base/base.html.j2" %}
 {% block title %} Akce {% endblock %}
+{% block links %}
+    {{ super() }}
+    {{ turbo() }}
+{% endblock %}
+
 {% block content %}
+
 <div class="mb-3">
 	<h1> {{ event.name }} </h1>		
 	<span> Od {{ human_format_date(event.date_from) }} do {{ human_format_date(event.date_to) }} ({{ event.duration }} dnů)<br></span>
@@ -8,6 +14,7 @@
 </div>
 
 <hr>
+
 <div>
 <ul>
     {% for day in event.daily_plans %}
@@ -22,5 +29,8 @@
 
 {% include "events/_delete_or_edit.html.j2" %}
 {% include "events/_export.html.j2" %}
+
+<turbo-frame id="event-warnings" src="{{ url_for('EventsView:warnings', id=event.id) }}">
+</turbo-frame>
 
 {% endblock %}

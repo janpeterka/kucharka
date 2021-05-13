@@ -199,6 +199,10 @@ class Recipe(db.Model, ItemMixin):
         return False
 
     @property
+    def without_category(self):
+        return self.category is None or self.category.name == "---"
+
+    @property
     def concat_ingredients(self) -> str:
         return ", ".join([o.name for o in self.ingredients])
 
@@ -217,10 +221,6 @@ class Recipe(db.Model, ItemMixin):
     @property
     def gluten_free(self):
         return [i for i in self.ingredients if i.gluten_free] == self.ingredients
-
-    @property
-    def without_category(self):
-        return self.category is None or self.category.name == "---"
 
     @property
     # @cache.cached(timeout=50, key_prefix="recipe_totals")

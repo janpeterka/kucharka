@@ -1,0 +1,31 @@
+<turbo-frame id="event-warnings">
+	{% if event.zero_amount_ingredient_recipes or event.empty_recipes or event.no_measurement_ingredient_recipes or event.recipes_without_category%}
+		
+	<div class="warning m-3 p-2">
+		<h3>Upozornění</h3>
+	{% if event.zero_amount_ingredient_recipes %}
+		{% for recipe in event.zero_amount_ingredient_recipes %}
+			<li> {{ link_to(recipe) }} má surovinu s nulovou hodnotou </li>
+		{% endfor %}
+	{% endif %}
+
+	{% if event.empty_recipes %}
+		{% for recipe in event.empty_recipes %}
+			<li> {{ link_to(recipe) }} nemá suroviny </li>
+		{% endfor %}
+	{% endif %}
+
+	{% if event.no_measurement_ingredient_recipes %}
+		{% for recipe in event.no_measurement_ingredient_recipes %}
+			<li> {{ link_to(recipe) }} má surovinu s bez metrik </li>
+		{% endfor %}
+	{% endif %}
+
+	{% if event.recipes_without_category %}
+		{% for recipe in event.recipes_without_category %}
+			<li> {{ link_to(recipe) }} nemá kategorii </li>
+		{% endfor %}
+	{% endif %}
+	</div>
+	{% endif %}
+</turbo-frame>

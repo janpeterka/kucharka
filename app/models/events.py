@@ -43,3 +43,19 @@ class Event(db.Model, ItemMixin):
         for daily_plan in self.daily_plans:
             recipes = recipes + daily_plan.recipes
         return recipes
+
+    @property
+    def zero_amount_ingredient_recipes(self):
+        return [r for r in self.recipes if r.has_zero_amount_ingredient]
+
+    @property
+    def no_measurement_ingredient_recipes(self):
+        return [r for r in self.recipes if r.has_no_measurement_ingredient]
+
+    @property
+    def recipes_without_category(self):
+        return [r for r in self.recipes if r.without_category]
+
+    @property
+    def empty_recipes(self):
+        return [r for r in self.recipes if r.is_draft]

@@ -13,6 +13,7 @@ from app.models.events import Event
 
 class EventsView(ExtendedFlaskView):
     decorators = [login_required]
+    template_folder = "events"
 
     def post(self):
         form = EventsForm(request.form)
@@ -35,3 +36,6 @@ class EventsView(ExtendedFlaskView):
     def delete(self, id):
         self.event.remove()
         return redirect(url_for("DashboardView:show"))
+
+    def warnings(self, id):
+        return self.template(template_name="_warnings")

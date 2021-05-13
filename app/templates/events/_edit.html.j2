@@ -1,0 +1,19 @@
+{% from "macros/render_field.html.j2" import render_field %}
+
+<div id="event-info">
+<form method="POST" action="{{ url_for('EventsView:post_edit', id=event.id) }}">
+    {{ form.csrf_token }}
+
+    {{ render_field(form.name) }}
+	
+	<div class="mt-2 mb-2"> Od {{ human_format_date(event.date_from) }} do {{ human_format_date(event.date_to) }} ({{ event.duration }} dnů) </div>
+    
+	<span> Počet lidí</span>
+	{{ render_field(form.people_count, has_label=False) }}
+
+	{# <input type="submit" name="Uložit změny"> #}
+
+    {{ render_field(form.submit, value="Uložit změny") }}
+
+</form>
+</div>

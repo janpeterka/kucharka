@@ -7,10 +7,10 @@
 
 {% block content %}
 
+{% include "events/_info.html.j2" %}
+
 <div class="mb-3">
-	<h1> {{ event.name }} </h1>		
-	<span> Od {{ human_format_date(event.date_from) }} do {{ human_format_date(event.date_to) }} ({{ event.duration }} dnů)<br></span>
-	<span> Pro {{ event.people_count }} lidí</span>
+
 </div>
 
 <hr>

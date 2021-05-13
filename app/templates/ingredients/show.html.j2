@@ -58,8 +58,17 @@
 
         {% if ingredient.can_current_user_edit %}
             {% include "ingredients/_edit_or_delete.html.j2"%}
+            {% if from_new %}
+            <div class="row">
+                <a href="{{ url_for('IngredientsView:new') }}"><button class="btn btn-primary mt-3 ml-0">Přidat další surovinu</button></a>
+            </div>
+            {% endif %}
         {% endif %}
+        <div>
+        
+        </div>
     </div>
+
 
     {% include ('recipes/_recipe_list.html.j2') %}
 </div>

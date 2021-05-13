@@ -63,6 +63,8 @@ class IngredientsView(ExtendedFlaskView):
         self.all_recipes = Recipe.load_by_ingredient(self.ingredient)
 
     def before_show(self, id):
+        self.from_new = request.args.get("from_new", False)
+
         self.recipes = Recipe.load_by_ingredient_and_user(self.ingredient, current_user)
         self.all_recipes = Recipe.load_by_ingredient(self.ingredient)
 
@@ -104,7 +106,9 @@ class IngredientsView(ExtendedFlaskView):
         form.populate_obj(ingredient)
 
         if ingredient.save():
-            return redirect(url_for("IngredientsView:show", id=ingredient.id))
+            return redirect(
+                url_for("IngredientsView:show", id=ingredient.id, from_new=True)
+            )
         else:
             flash("Nepodařilo se vytvořit surovinu", "error")
             return redirect(url_for("IngredientsView:new"))

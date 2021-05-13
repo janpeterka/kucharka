@@ -62,8 +62,12 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
             i for i in Ingredient.load_all_public() if i not in self.recipe.ingredients
         ]
 
-        self.public_ingredients = unused_public_ingredients
-        self.personal_ingredients = unused_ingredients
+        self.public_ingredients = unused_public_ingredients.sort(
+            key=lambda x: unidecode(x.name.lower())
+        )
+        self.personal_ingredients = unused_ingredients.sort(
+            key=lambda x: unidecode(x.name.lower())
+        )
 
         set_form(self.form, self.recipe)
 

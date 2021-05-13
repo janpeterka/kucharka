@@ -20,6 +20,8 @@ class User(db.Model, BaseMixin, UserMixin):
 
     daily_plans = db.relationship("DailyPlan", back_populates="author")
 
+    # PROPERTIES
+
     @property
     def is_admin(self):
         return self.has_role("superadmin")

@@ -15,7 +15,7 @@ class EventExporterView(ExtendedFlaskView):
     template_folder = "event_exporter"
 
     def before_request(self, name, event_id=None, *args, **kwargs):
-        super().before_request(name, id=event_id, *args, **kwargs)
+        # super().before_request(name, id=event_id, *args, **kwargs)
         self.event = Event.load(event_id)
         self.daily_plans = self.event.daily_plans
         self.ingredients = DailyPlan.load_ingredient_amounts_for_daily_plans(

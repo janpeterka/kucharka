@@ -18,10 +18,12 @@ class ErrorsView(FlaskView):
     def err404(self):
         return template("errors/err404.html.j2")
 
+    # only for testing
     @admin_required
     def err405(self):
         return template("errors/err405.html.j2")
 
+    # only for testing
     @admin_required
     def err500(self):
         return template("errors/err500.html.j2")

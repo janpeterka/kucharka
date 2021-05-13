@@ -21,6 +21,8 @@ class EventsForm(FlaskForm):
         "Do", default=datetime.date.today() + datetime.timedelta(days=14)
     )
 
-    people_count = IntegerField("Počet lidí")
+    people_count = IntegerField(
+        "Počet lidí", [validators.required("Počet lidí musí být vyplněn")]
+    )
 
     submit = SubmitField("Přidat akci")

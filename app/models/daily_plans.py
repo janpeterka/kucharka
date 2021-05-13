@@ -36,6 +36,11 @@ class DailyPlan(db.Model, ItemMixin):
         "Event", backref=db.backref("daily_plans", cascade="all,delete")
     )
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        super().set_defaults()
+        # self.created_by = current_user.id
+
     @staticmethod
     def load_ingredient_amounts_for_daily_plans(ids, people_count):
         # i need to always have at least two ids for tuple to not have trailing coma
@@ -78,8 +83,6 @@ class DailyPlan(db.Model, ItemMixin):
         #     ingredient.event_recipes = []
         #     for recipe_id in ingredient.recipe_ids:
         #         ingredient.event_recipes.append(Recipe.load(recipe_id))
-
-        # print(ingredient.event_recipes)
 
         # for ingredient in ingredients:
         # ingredient.amount = ingredient.amount * float(people_count)

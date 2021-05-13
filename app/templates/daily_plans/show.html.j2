@@ -16,7 +16,7 @@
             </a>
         </span> #}
         <span style="font-size: 2rem">
-            {{ human_format_date(dates["active"], with_relative=False) }}
+            {{ human_format_date(daily_plan.date, with_relative=False) }}
         </span>
 {#         <span class="float-right" style="margin-right: 10rem">
             <a href="{{ url_for('DailyPlansView:show_by_date', date=dates['next']) }}">

@@ -21,6 +21,11 @@ class Event(db.Model, ItemMixin):
     created_by = db.Column(db.ForeignKey(("users.id")), nullable=False, index=True)
     author = db.relationship("User", uselist=False, backref="events")
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        super().set_defaults()
+        # self.created_by = current_user.id
+
     @property
     def duration(self):
         return (self.date_to - self.date_from).days

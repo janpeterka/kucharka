@@ -36,7 +36,6 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
     decorators = [login_required]
     template_folder = "recipes"
 
-    @login_required
     def before_request(self, name, id=None, **kwargs):
         g.request_item_type = "recipe"
         if id is not None:

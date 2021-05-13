@@ -4,18 +4,10 @@ from flask_migrate import Migrate
 from flask_babel import Babel
 from turbo_flask import Turbo
 
-from flask_security import (
-    Security,
-    SQLAlchemyUserDatastore,
-    # UserMixin,
-    # RoleMixin,
-    # login_required,
-)
+from flask_security import Security, SQLAlchemyUserDatastore
 
 
 # import pymysql
-# import numpy as np
-
 # pymysql.converters.encoders[np.float64] = pymysql.converters.escape_float
 # pymysql.converters.conversions = pymysql.converters.encoders.copy()
 # pymysql.converters.conversions.update(pymysql.converters.decoders)
@@ -41,11 +33,6 @@ def create_app(config_name="default"):
     application.config.from_object(configs[config_name])
 
     print(f"DB INFO: using {application.config['INFO_USED_DB']}")
-
-    # @migrate.configure
-    # def configure_alembic(config):
-    #     # modify config object
-    #     return config
 
     # APPS
     db.init_app(application)

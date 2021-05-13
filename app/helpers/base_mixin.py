@@ -14,9 +14,8 @@ from app import db
 
 # Custom methods for all my classes
 class BaseMixin(object):
-    def __init__(self, **kwargs):
-        for kwarg in kwargs:
-            setattr(self, kwarg.key, kwarg.value)
+    def set_defaults(self, **kwargs):
+        self.created_by = current_user.id
 
     # LOADERS
 
@@ -184,7 +183,10 @@ class BaseMixin(object):
     # PERMISSIONS
     def can_view(self, user) -> bool:
         return (
-            self.is_public or self.is_author(user) or getattr(user, "is_admin", False)
+            self == user  # for User
+            or self.is_public
+            or self.is_author(user)
+            or getattr(user, "is_admin", False)
         )
 
     @property

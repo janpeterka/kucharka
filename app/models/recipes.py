@@ -179,6 +179,26 @@ class Recipe(db.Model, ItemMixin):
         return not self.is_draft
 
     @property
+    def is_draft(self):
+        return len(self.ingredients) == 0
+
+    @property
+    def has_zero_amount_ingredient(self):
+        for ingredient in self.recipe_ingredients:
+            if ingredient.amount == 0:
+                return True
+
+        return False
+
+    @property
+    def has_no_measurement_ingredient(self):
+        for ingredient in self.ingredient:
+            if ingredient.without_measurement:
+                return True
+
+        return False
+
+    @property
     def concat_ingredients(self) -> str:
         return ", ".join([o.name for o in self.ingredients])
 

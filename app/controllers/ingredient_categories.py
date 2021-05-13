@@ -1,6 +1,5 @@
 from flask import request
 from flask_security import login_required
-from flask import render_template as template
 
 from app import turbo
 
@@ -61,7 +60,7 @@ class IngredientCategoriesView(ExtendedFlaskView):
                     target="ingredient-categories",
                 ),
                 turbo.update(
-                    template("_add"), target="ingredient-category-create-form"
+                    self.template("_add"), target="ingredient-category-create-form"
                 ),
             ]
         )

@@ -1,4 +1,4 @@
-import datetime
+# import datetime
 
 from flask import request
 from flask_classful import route
@@ -16,20 +16,6 @@ from app.helpers.extended_flask_view import ExtendedFlaskView
 class DailyPlansView(ExtendedFlaskView):
     decorators = [login_required]
     template_folder = "daily_plans"
-
-    def before_request(self, name, id=None, *args, **kwargs):
-        super().before_request(name, id, *args, **kwargs)
-
-        if id is not None:
-            self.daily_plan = DailyPlan.load(id)
-
-            date_before = self.daily_plan.date + datetime.timedelta(days=-1)
-            date_after = self.daily_plan.date + datetime.timedelta(days=1)
-            self.dates = {
-                "active": self.daily_plan.date,
-                "previous": date_before,
-                "next": date_after,
-            }
 
     def before_show(self, id):
         self.public_recipes = Recipe.load_all_public(exclude_mine=True)
@@ -70,3 +56,9 @@ class DailyPlansView(ExtendedFlaskView):
     # def sort_down(self, daily_recipe_id, date):
     #     self.daily_plan.change_order(daily_recipe_id, order_type="down")
     #     return redirect(url_for("DailyPlansView:show_by_date", date=date))
+
+    # def next_day(self, id):
+    #     pass
+
+    # def previous_day(self, id):
+    #     pass

@@ -18,7 +18,7 @@ from app.models.recipe_categories import RecipeCategory
 
 from app.controllers.base_recipes import BaseRecipesView
 
-from app.controllers.forms.recipes import RecipesForm
+from app.controllers.forms.recipes import RecipesForm, RecipeFilterForm
 
 
 def set_form(form, recipe=None):
@@ -46,6 +46,28 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
                 abort(404)
             if not self.recipe.can_current_user_show:
                 abort(403)
+
+        if name in ["index", "filter"]:
+            self.recipes = current_user.recipes
+            ingredients = [x.ingredients for x in self.recipes]
+            flatten_ingredients = [y for x in ingredients for y in x]
+            ingredient_names = [x.name for x in flatten_ingredients]
+            self.ingredient_names = ["---"]
+            self.ingredient_names.extend(list(set(ingredient_names)))
+            self.ingredient_names.sort()
+
+            self.categories = RecipeCategory.load_all()
+
+            self.form = RecipeFilterForm(
+                ingredient_names=self.ingredient_names, categories=self.categories
+            )
+
+    def before_filter(self):
+        self.form = RecipeFilterForm(
+            request.form,
+            ingredient_names=self.ingredient_names,
+            categories=self.categories,
+        )
 
     def before_public(self):
         self.public_recipes = Recipe.load_all_public()
@@ -171,4 +193,47 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
                 self.template(template_name="_edit_ingredient"),
                 target=f"ingredient-{self.ingredient.id}",
             )
+        )
+
+    @route("filter", methods=["POST"])
+    def filter(self):
+        self.recipes = current_user.recipes
+
+        # Get filters from request
+        ingredient_name = None
+        category = None
+
+        is_vegetarian = self.form.is_vegetarian.data
+        is_vegan = self.form.is_vegan.data
+        lactose_free = self.form.lactose_free.data
+        gluten_free = self.form.gluten_free.data
+
+        if not self.form.ingredient_name.data == "---":
+            ingredient_name = self.form.ingredient_name.data
+
+        category = RecipeCategory.load(self.form.category.data)
+
+        # Filter recipes
+        if ingredient_name:
+            self.recipes = [
+                x for x in self.recipes if ingredient_name in x.concat_ingredients
+            ]
+
+        if category.name != "---":
+            self.recipes = [x for x in self.recipes if x.category == category]
+
+        if is_vegetarian:
+            self.recipes = [x for x in self.recipes if x.is_vegetarian]
+
+        if is_vegan:
+            self.recipes = [x for x in self.recipes if x.is_vegan]
+
+        if lactose_free:
+            self.recipes = [x for x in self.recipes if x.lactose_free]
+
+        if gluten_free:
+            self.recipes = [x for x in self.recipes if x.gluten_free]
+
+        return turbo.stream(
+            turbo.replace(self.template(template_name="_recipes"), target="recipes")
         )

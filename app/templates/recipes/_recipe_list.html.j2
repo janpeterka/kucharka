@@ -3,15 +3,7 @@
 <div class="col">
     <label for="recipes"><h3>{{ texts.recipe_list }}</h3></label>
 
-    <turbo-frame id="recipes">
-    <ul>
-    {% for recipe in recipes %}
-        <li>{{ link_to(recipe) }}
-            {% if recipe.is_shared %} {{ icon("shared") }} {% endif %}
-        </li>
-    {% endfor %}
-    </ul>
-    </turbo-frame>
+    {% include "recipes/_recipes.html.j2" %}
 
     {% if current_user.is_admin and all_recipes %}
     <div class="admin-field">

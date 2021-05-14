@@ -5,7 +5,7 @@
 	<span> Od {{ human_format_date(event.date_from) }} do {{ human_format_date(event.date_to) }} ({{ event.duration }} dnů)<br></span>
 	<span> Pro {{ event.people_count }} lidí</span>
 
-	<form method="POST" action="{{ url_for('EventsView:show_edit', id=event.id) }}">
+	<form method="POST" action="{{ url_for('EditEventView:show', event_id=event.id) }}">
 		<button type="submit" class="btn btn-warning"> Upravit {{ icon("edit") }} </button>
 	</form>
 

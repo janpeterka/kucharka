@@ -1,7 +1,7 @@
 from unidecode import unidecode
 
 # from flask import render_template as template
-from flask import request, redirect, url_for, flash, abort, g
+from flask import request, redirect, url_for, flash, abort
 
 from flask_security import login_required, current_user
 
@@ -32,14 +32,13 @@ def set_form(form, recipe=None):
     form.set_all(categories=categories)
 
 
-class RecipesView(BaseRecipesView, ExtendedFlaskView):
+class RecipesView(ExtendedFlaskView, BaseRecipesView):
     decorators = [login_required]
     template_folder = "recipes"
 
     def before_request(self, name, id=None, **kwargs):
-        g.request_item_type = "recipe"
+        super().before_request(name, id, **kwargs)
         if id is not None:
-            g.request_item_id = id
             self.recipe = Recipe.load(id)
 
             if self.recipe is None:

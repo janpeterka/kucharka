@@ -3,7 +3,7 @@
 
 from app.helpers.base_mixin import BaseMixin
 
-# from app.models.request_log import RequestLog
+# from app.models.request_logs import RequestLog
 
 
 # Custom methods for all my classes

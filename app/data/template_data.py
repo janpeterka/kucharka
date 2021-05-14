@@ -34,7 +34,7 @@ texts = {
     "recipe_new": "Nový recept",
     "recipe_delete": "Smazat recept",
     "recipe_delete_confirm": "Opravdu chcete smazat recept?",
-    "recipe_edit": "Změnit recept",
+    "recipe_edit": "Upravit recept",
     "recipe_print": "Vytisknout recept",
     "recipe_print_all": "Vytisknout všechny recepty",
     "recipe_list": "Seznam mých receptů",

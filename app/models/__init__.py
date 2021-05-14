@@ -5,6 +5,7 @@
 from app.models.users_have_roles import users_have_roles  # noqa: F401
 from app.models.measurements import Measurement  # noqa: F401
 from app.models.ingredient_categories import IngredientCategory  # noqa: F401
+from app.models.request_logs import RequestLog  # noqa: F401
 
 
 # This is needed for ExtendedFlaskView to automatically import all Model classes

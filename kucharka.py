@@ -1,21 +1,21 @@
 import os
 
-# import re
-# import time
+import re
+import time
 
 import datetime
 
 from flask import request, redirect
 
-# from flask import g
+from flask import g
 
 from flask_security import url_for_security
 
-# from flask_security import current_user
+from flask_security import current_user
 
 from app import create_app
 
-# from app import db
+from app import db
 
 
 env = os.environ.get("APP_STATE", "default")
@@ -101,36 +101,33 @@ def session_management():
         return redirect("/")
 
 
-# @application.before_request
-# def log_request_start():
-#     g.log_request_start_time = time.time()
+@application.before_request
+def log_request_start():
+    g.log_request_start_time = time.time()
 
 
-# @application.teardown_request
-# def log_request(exception=None):
-#     from app.handlers.data import DataHandler
-#     from app.models.request_log import RequestLog
+@application.teardown_request
+def log_request(exception=None):
+    from app.handlers.data import DataHandler
+    from app.models.request_logs import RequestLog
 
-#     if application.config["APP_STATE"] == "development":
-#         return
+    db.session.expire_all()
+    pattern = re.compile("/static/")
+    if not pattern.search(request.path):
+        user_id = getattr(current_user, "id", None)
 
-#     db.session.expire_all()
-#     pattern = re.compile("/static/")
-#     if not pattern.search(request.path):
-#         user_id = getattr(current_user, "id", None)
+        item_type = DataHandler.get_additional_request_data("item_type")
+        item_id = DataHandler.get_additional_request_data("item_id")
 
-#         item_type = DataHandler.get_additional_request_data("item_type")
-#         item_id = DataHandler.get_additional_request_data("item_id")
-
-#         log = RequestLog(
-#             url=request.path,
-#             user_id=user_id,
-#             remote_addr=request.environ["REMOTE_ADDR"],
-#             item_type=item_type,
-#             item_id=item_id,
-#             duration=time.time() - g.log_request_start_time,
-#         )
-#         log.save()
+        log = RequestLog(
+            url=request.path,
+            user_id=user_id,
+            remote_addr=request.environ["REMOTE_ADDR"],
+            item_type=item_type,
+            item_id=item_id,
+            duration=time.time() - g.log_request_start_time,
+        )
+        log.save()
 
 
 # @application.shell_context_processor

@@ -21,7 +21,7 @@ class ExtendedFlaskView(FlaskView):
 
         # e.g. self.user = User.load(id)
         if id is not None and self._model_klass is not None:
-            DataHandler.set_additional_request_data(item_type=id)
+            DataHandler.set_additional_request_data(item_id=id)
 
             self.object = (self._model_klass)().load(id)
             # e.g. self.user = user or self.user = None

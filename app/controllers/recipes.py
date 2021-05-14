@@ -16,8 +16,6 @@ from app.models.recipes import Recipe
 from app.models.ingredients import Ingredient
 from app.models.recipe_categories import RecipeCategory
 
-from app.controllers.edit_recipes import EditRecipeView
-
 from app.controllers.forms.recipes import RecipesForm, RecipeFilterForm
 
 
@@ -115,15 +113,6 @@ class RecipesView(ExtendedFlaskView):
 
         return redirect(url_for("RecipesView:show", id=self.recipe.id))
 
-    @route("recipes/<id>/edit_description", methods=["POST"])
-    def post_edit_description(self, id):
-        description = request.form["description"]
-
-        self.recipe.description = description
-        self.recipe.edit()
-
-        return redirect(url_for("RecipesView:show", id=self.recipe.id))
-
     @route("<id>/delete", methods=["POST"])
     def delete(self, id):
         if self.recipe.is_used:
@@ -164,35 +153,6 @@ class RecipesView(ExtendedFlaskView):
             draft.delete()
 
         return redirect(url_for("DashboardView:show"))
-
-    @route("/remove_ingredient/<recipe_id>/<ingredient_id>", methods=["POST"])
-    def remove_ingredient(self, recipe_id, ingredient_id):
-        recipe = Recipe.load(recipe_id)
-        ingredient = Ingredient.load(ingredient_id)
-
-        recipe.remove_ingredient(ingredient)
-        return turbo.stream(
-            [turbo.remove(target=f"ingredient-{ingredient_id}")]
-            + EditRecipeView().update_usable_ingredients(recipe)
-        )
-
-    @route("/change_ingredient_amount/<recipe_id>/<ingredient_id>", methods=["POST"])
-    def change_ingredient_amount(self, recipe_id, ingredient_id):
-        self.recipe = Recipe.load(recipe_id)
-        self.ingredient = Ingredient.load(ingredient_id)
-        amount = request.form["amount"]
-
-        amount_for_portion = float(amount) / float(self.recipe.portion_count)
-
-        self.recipe.change_ingredient_amount(self.ingredient, amount_for_portion)
-        self.ingredient.amount = amount_for_portion
-
-        return turbo.stream(
-            turbo.replace(
-                self.template(template_name="_edit_ingredient"),
-                target=f"ingredient-{self.ingredient.id}",
-            )
-        )
 
     @route("filter", methods=["POST"])
     def filter(self):

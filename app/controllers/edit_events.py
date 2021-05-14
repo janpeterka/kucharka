@@ -6,14 +6,14 @@ from flask_security import login_required
 from app import turbo
 
 from app.helpers.form import save_form_to_session
-from app.helpers.extended_flask_view import ExtendedFlaskView
+from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models.events import Event
 
 from app.controllers.forms.events import EventsForm
 
 
-class EditEventView(ExtendedFlaskView):
+class EditEventView(HelperFlaskView):
     decorators = [login_required]
     template_folder = "events"
 

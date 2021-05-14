@@ -3,7 +3,7 @@
     <td class="align-middle">{{ link_to(ingredient) }}</td>
     
     <td>
-        <form action="{{ url_for('RecipesView:change_ingredient_amount', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" class="form form-inline" method="post">
+        <form action="{{ url_for('EditRecipeView:change_ingredient_amount', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" class="form form-inline" method="post">
             <div class="col-8">
                 <input type="number" class="form-control" name="amount" step="0.01" min="0"
                        value="{% if ingredient.amount %}{{ (ingredient.amount|float * recipe.portion_count|float) | round(1) }}{% endif %}">
@@ -19,7 +19,7 @@
     <td></td>
 
     <td>
-        <form method="POST" action="{{ url_for('RecipesView:remove_ingredient', ingredient_id=ingredient.id, recipe_id=recipe.id) }}">
+        <form method="POST" action="{{ url_for('EditRecipeView:remove_ingredient', ingredient_id=ingredient.id, recipe_id=recipe.id) }}">
             <button type="submit" class="destroy icon mt-2">&#10005;</button>
         </form>
     </td>

@@ -137,7 +137,7 @@ class DailyPlan(db.Model, ItemMixin):
                 if daily_recipe.order_index > selected_daily_recipe.order_index:
                     daily_recipe.order_index -= 1
                     daily_recipe.edit()
-            selected_daily_recipe.remove()
+            selected_daily_recipe.delete()
             return True
         else:
             return False

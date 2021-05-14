@@ -137,7 +137,7 @@ class Recipe(db.Model, ItemMixin):
         UserHasRecipeReaction(recipe=self, user=user).save()
 
     def remove_reaction(self, user):
-        UserHasRecipeReaction.load_by_recipe_and_current_user(recipe=self).remove()
+        UserHasRecipeReaction.load_by_recipe_and_current_user(recipe=self).delete()
 
     @property
     def has_reaction(self):

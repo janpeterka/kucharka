@@ -145,9 +145,9 @@ class IngredientsView(ExtendedFlaskView):
     @route("delete/<id>", methods=["POST"])
     def delete(self, id):
         if not self.ingredient.is_used:
-            self.ingredient.remove()
+            self.ingredient.delete()
             flash("Surovina byla smazána", "success")
-            return redirect(url_for("DashboardView:show"))
+            return redirect(url_for("DashboardView:index"))
         else:
             flash("Tato surovina je použita, nelze smazat", "error")
             return redirect(url_for("IngredientsView:show", id=self.ingredient.id))

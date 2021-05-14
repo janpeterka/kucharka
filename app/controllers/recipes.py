@@ -1,7 +1,7 @@
 from unidecode import unidecode
 
 # from flask import render_template as template
-from flask import request, redirect, url_for, flash, abort
+from flask import request, redirect, url_for, flash
 
 from flask_security import login_required, current_user
 
@@ -9,7 +9,8 @@ from flask_classful import route
 
 from app import turbo
 
-from app.helpers.extended_flask_view import ExtendedFlaskView
+# from app.helpers.extended_flask_view import ExtendedFlaskView
+from app.helpers.helper_flask_view import HelperFlaskView
 from app.helpers.form import save_form_to_session
 
 from app.models.recipes import Recipe
@@ -30,19 +31,13 @@ def set_form(form, recipe=None):
     form.set_all(categories=categories)
 
 
-class RecipesView(ExtendedFlaskView):
+class RecipesView(HelperFlaskView):
     decorators = [login_required]
-    template_folder = "recipes"
 
     def before_request(self, name, id=None, **kwargs):
-        super().before_request(name, id, **kwargs)
-        if id is not None:
-            self.recipe = Recipe.load(id)
-
-            if self.recipe is None:
-                abort(404)
-            if not self.recipe.can_current_user_show:
-                abort(403)
+        # super().before_request(name, id, **kwargs)
+        self.recipe = Recipe.load(id)
+        self.validate_operation(id, self.recipe)
 
         if name in ["index", "filter"]:
             self.recipes = current_user.recipes
@@ -66,11 +61,8 @@ class RecipesView(ExtendedFlaskView):
             categories=self.categories,
         )
 
-    def before_public(self):
-        self.public_recipes = Recipe.load_all_public()
-
     def before_edit(self, id):
-        super().before_edit(id)
+        self.form = RecipesForm(obj=self.recipe)
         self.categories = RecipeCategory.load_all()
 
         unused_ingredients = [
@@ -89,39 +81,33 @@ class RecipesView(ExtendedFlaskView):
         set_form(self.form, self.recipe)
 
     def before_new(self):
-        super().before_new()
+        self.form = RecipesForm()
         self.categories = RecipeCategory.load_all()
         self.public_ingredients = Ingredient.load_all_public()
         self.personal_ingredients = current_user.ingredients
         set_form(self.form)
 
-    def public(self):
+    def index(self):
         return self.template()
 
-    @route("recipes/edit/<id>", methods=["POST"])
-    def post_edit(self, id):
-        form = RecipesForm(request.form)
-        set_form(form)
+    def show(self, id):
+        return self.template()
 
-        if not form.validate_on_submit():
-            save_form_to_session(request.form)
-            return redirect(url_for("RecipesView:edit", id=self.recipe.id))
+    def edit(self, id):
+        return self.template()
 
-        form.category.data = RecipeCategory.load(form.category.data)
-        form.populate_obj(self.recipe)
-        self.recipe.edit()
+    def new(self):
+        return self.template()
 
-        return redirect(url_for("RecipesView:show", id=self.recipe.id))
-
-    @route("<id>/delete", methods=["POST"])
+    @route("recipe/delete/<id>/", methods=["POST"])
     def delete(self, id):
         if self.recipe.is_used:
             flash("Recept je použit, nelze smazat.", "error")
             return redirect(url_for("RecipesView:show", id=id))
 
-        self.recipe.remove()
+        self.recipe.delete()
         flash("Recept byl smazán.", "success")
-        return redirect(url_for("DashboardView:show"))
+        return redirect(url_for("DashboardView:index"))
 
     def post(self):
         form = RecipesForm(request.form)
@@ -138,7 +124,7 @@ class RecipesView(ExtendedFlaskView):
         recipe.save()
         return redirect(url_for("RecipesView:show", id=recipe.id))
 
-    @route("/toggle_shared/<id>", methods=["POST"])
+    @route("recipes/toggle_shared/<id>", methods=["POST"])
     def toggle_shared(self, id):
         toggled = self.recipe.toggle_shared()
         if toggled is True:
@@ -147,12 +133,12 @@ class RecipesView(ExtendedFlaskView):
             flash("Recept byl skryt před veřejností.", "success")
         return redirect(url_for("RecipesView:show", id=self.recipe.id))
 
-    @route("/delete_drafts", methods=["POST"])
+    @route("recipes/delete_drafts", methods=["POST"])
     def delete_drafts(self):
         for draft in current_user.draft_recipes:
             draft.delete()
 
-        return redirect(url_for("DashboardView:show"))
+        return redirect(url_for("DashboardView:index"))
 
     @route("filter", methods=["POST"])
     def filter(self):

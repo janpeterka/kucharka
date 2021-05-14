@@ -10,12 +10,19 @@ from app.models.daily_plans import DailyPlan
 from app.models.daily_plans_have_recipes import DailyPlanHasRecipe
 from app.models.recipes import Recipe
 
-from app.helpers.extended_flask_view import ExtendedFlaskView
+from app.helpers.helper_flask_view import HelperFlaskView
 
 
-class DailyPlansView(ExtendedFlaskView):
+class DailyPlansView(HelperFlaskView):
     decorators = [login_required]
     template_folder = "daily_plans"
+
+    def before_request(self, name, id=None, daily_plan_id=None, *args, **kwargs):
+        if not daily_plan_id:
+            daily_plan_id = id
+
+        self.daily_plan = DailyPlan.load(daily_plan_id)
+        self.validate_operation(daily_plan_id, self.daily_plan)
 
     def before_show(self, id):
         self.public_recipes = Recipe.load_all_public(exclude_mine=True)
@@ -40,8 +47,7 @@ class DailyPlansView(ExtendedFlaskView):
     def add_recipe(self, daily_plan_id):
         recipe = Recipe.load(request.form["recipe_id"])
 
-        daily_plan = DailyPlan.load(daily_plan_id)
-        self.daily_recipe = daily_plan.add_recipe(recipe)
+        self.daily_recipe = self.daily_plan.add_recipe(recipe)
 
         return turbo.stream(
             turbo.append(

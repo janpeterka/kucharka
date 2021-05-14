@@ -20,7 +20,7 @@
 
 <details open class="form-control mb-5">
 <summary> Upravit recept </summary>
-<form action="{{ url_for('RecipesView:post_edit', id=recipe.id) }}" class="form" method="post" accept-charset="utf-8">
+<form action="{{ url_for('EditRecipeView:post', recipe_id=recipe.id) }}" class="form" method="post" accept-charset="utf-8">
     {{ form.csrf_token }}
 
     <div class="w-100 mt-2 mb-2 row">

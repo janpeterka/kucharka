@@ -1,13 +1,13 @@
-from flask import request, redirect, url_for
 from flask_security import login_required, current_user
 
-from app.helpers.extended_flask_view import ExtendedFlaskView
+from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models.ingredients import Ingredient
 
 
-class DashboardView(ExtendedFlaskView):
+class DashboardView(HelperFlaskView):
     decorators = [login_required]
+    template_folder = "dashboard"
 
     @login_required
     def before_index(self):
@@ -16,12 +16,4 @@ class DashboardView(ExtendedFlaskView):
         ]
 
     def index(self):
-        return self.template("dashboard/dashboard.html.j2")
-
-    def show(self, **kwargs):
-        return redirect(url_for("DashboardView:index"))
-
-    def post(self):
-        return redirect(
-            url_for("DashboardView:index", selected_diet_id=request.form["select_diet"])
-        )
+        return self.template()

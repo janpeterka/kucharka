@@ -9,18 +9,32 @@ from flask_security import current_user
 
 from app import turbo
 
+from app.helpers.form import save_form_to_session
 from app.helpers.helper_flask_view import HelperFlaskView
+
+from app.controllers.forms.recipes import RecipesForm
 
 from app.models.ingredients import Ingredient
 from app.models.recipes import Recipe
+from app.models.recipe_categories import RecipeCategory
+
+
+def set_form(form, recipe=None):
+    categories = RecipeCategory.load_all()
+    categories.sort(key=lambda x: unidecode(x.name.lower()))
+
+    if recipe and recipe.category:
+        form.category.data = recipe.category.id
+
+    form.set_all(categories=categories)
 
 
 class EditRecipeView(HelperFlaskView):
     template_folder = "recipes/edit"
 
-    def before_request(self, name, recipe_id=None, **kwargs):
-        if recipe_id:
-            self.recipe = Recipe.load(recipe_id)
+    def before_request(self, name, recipe_id, **kwargs):
+        self.recipe = Recipe.load(recipe_id)
+        self.validate_operation(recipe_id, self.recipe)
 
         if recipe_id is not None:
             if self.recipe is None:
@@ -71,6 +85,21 @@ class EditRecipeView(HelperFlaskView):
             [turbo.remove(target=f"ingredient-{ingredient_id}")]
             + self.update_usable_ingredients(self.recipe)
         )
+
+    @route("recipes/edit/info/<recipe_id>", methods=["POST"])
+    def post(self, recipe_id):
+        form = RecipesForm(request.form)
+        set_form(form)
+
+        if not form.validate_on_submit():
+            save_form_to_session(request.form)
+            return redirect(url_for("RecipesView:edit", id=self.recipe.id))
+
+        form.category.data = RecipeCategory.load(form.category.data)
+        form.populate_obj(self.recipe)
+        self.recipe.edit()
+
+        return redirect(url_for("RecipesView:show", id=self.recipe.id))
 
     @route("recipes/edit/description/<recipe_id>/", methods=["POST"])
     def post_description(self, recipe_id):

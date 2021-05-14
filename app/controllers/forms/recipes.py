@@ -13,7 +13,7 @@ class RecipesForm(FlaskForm):
     description = StringField("Popis", widget=TextArea())
 
     category = SelectField("Kategorie", coerce=int)
-    portion_count = IntegerField("Počet porcí")
+    portion_count = IntegerField("Počet porcí", [validators.NumberRange(min=1)])
 
     submit = SubmitField("Přidat recept")
 

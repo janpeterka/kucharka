@@ -2,19 +2,18 @@ from app.models.recipes import Recipe
 
 from app import turbo
 
-from flask import request
 from flask import render_template as template
 
 from flask_classful import route
 from flask_security import login_required
 
-from app.helpers.extended_flask_view import ExtendedFlaskView
+from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models.recipe_categories import RecipeCategory
 from app.controllers.forms.public_recipes import PublicRecipeFilterForm
 
 
-class PublicRecipesView(ExtendedFlaskView):
+class PublicRecipesView(HelperFlaskView):
     decorators = [login_required]
     template_folder = "public_recipes"
 
@@ -36,12 +35,8 @@ class PublicRecipesView(ExtendedFlaskView):
                 ingredient_names=self.ingredient_names, categories=self.categories
             )
 
-    def before_filter(self):
-        self.form = PublicRecipeFilterForm(
-            request.form,
-            ingredient_names=self.ingredient_names,
-            categories=self.categories,
-        )
+    def index(self):
+        return self.template()
 
     @route("/toggleReaction/<recipe_id>", methods=["POST"])
     def toggle_reaction(self, recipe_id):

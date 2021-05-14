@@ -1,6 +1,7 @@
 import inspect
 import re
 
+from flask import abort
 from flask import render_template as template
 
 from flask_classful import FlaskView
@@ -12,19 +13,22 @@ from app.controllers.forms import *  # noqa: F401, F403, F406
 class HelperFlaskView(FlaskView):
     """docstring for ExtendedFlaskView"""
 
-    def template(self, template_name=None, **kwargs):
+    def validate_operation(self, object_id, instance):
+        if object_id is not None:
+            if instance is None:
+                abort(404)
+            if not instance.can_current_user_view:
+                abort(403)
+
+    def template(self, template_name=None, *args, **kwargs):
         # Template name is given from view and method names if not provided
         calling_method = inspect.stack()[1].function
 
-        if hasattr(self, "template_folder"):
-            template_folder = self.template_folder
-        else:
-            template_folder = f"{self._attribute_name}s"
-
         if template_name is None:
-            template_name = f"{template_folder}/{calling_method}.html.j2"
-        elif template_name is not None and hasattr(self, "template_folder"):
-            template_name = f"{template_folder}/{template_name}.html.j2"
+            template_name = f"{self._template_folder}/{calling_method}.html.j2"
+        # TODO - what if i want to force location?
+        else:
+            template_name = f"{self._template_folder}/{template_name}.html.j2"
 
         # All public variables of the view are passed to template
         view_attributes = self.__dict__
@@ -87,4 +91,4 @@ class HelperFlaskView(FlaskView):
         if hasattr(self, "template_folder"):
             return self.template_folder
         else:
-            self.template_folder = self._attribute_name + "s"
+            return f"{self._attribute_name}s"

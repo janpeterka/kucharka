@@ -1,9 +1,9 @@
-from flask import redirect, url_for, request, abort
+from flask import redirect, url_for, request
 from flask_classful import route
 from flask_security import login_required
 
 from app.helpers.form import save_form_to_session
-from app.helpers.extended_flask_view import ExtendedFlaskView
+from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.controllers.forms.events import EventsForm
 
@@ -11,19 +11,26 @@ from app.models.daily_plans import DailyPlan
 from app.models.events import Event
 
 
-class EventsView(ExtendedFlaskView):
+class EventsView(HelperFlaskView):
     decorators = [login_required]
-    template_folder = "events"
 
     def before_request(self, name, id=None):
-        if id is not None:
-            self.event = Event.load(id)
+        event_id = id
+        self.event = Event.load(id)
 
-        if id is not None:
-            if self.event is None:
-                abort(404)
-            if not self.event.can_current_user_view:
-                abort(403)
+        self.validate_operation(event_id, self.event)
+
+    def before_new(self):
+        self.form = EventsForm()
+
+    def index(self):
+        return self.template()
+
+    def new(self):
+        return self.template()
+
+    def show(self, id):
+        return self.template()
 
     def post(self):
         form = EventsForm(request.form)
@@ -44,8 +51,8 @@ class EventsView(ExtendedFlaskView):
 
     @route("events/delete/<id>", methods=["POST"])
     def delete(self, id):
-        self.event.remove()
-        return redirect(url_for("DashboardView:show"))
+        self.event.delete()
+        return redirect(url_for("EventsView:index"))
 
     def warnings(self, id):
         return self.template(template_name="_warnings")

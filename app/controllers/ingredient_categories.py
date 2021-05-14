@@ -7,7 +7,7 @@ from flask_classful import route
 
 from app.models.ingredient_categories import IngredientCategory
 
-from app.helpers.auth import admin_required, app_manager_required
+from app.helpers.auth import app_manager_required
 from app.helpers.extended_flask_view import ExtendedFlaskView
 
 

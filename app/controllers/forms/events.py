@@ -22,7 +22,11 @@ class EventsForm(FlaskForm):
     )
 
     people_count = IntegerField(
-        "Počet lidí", [validators.required("Počet lidí musí být vyplněn")]
+        "Počet lidí",
+        [
+            validators.InputRequired("Počet lidí musí být vyplněn"),
+            validators.NumberRange(min=1),
+        ],
     )
 
     submit = SubmitField("Přidat akci")

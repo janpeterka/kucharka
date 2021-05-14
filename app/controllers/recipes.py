@@ -99,7 +99,7 @@ class RecipesView(HelperFlaskView):
     def new(self):
         return self.template()
 
-    @route("recipe/delete/<id>/", methods=["POST"])
+    @route("delete/<id>/", methods=["POST"])
     def delete(self, id):
         if self.recipe.is_used:
             flash("Recept je použit, nelze smazat.", "error")
@@ -124,7 +124,11 @@ class RecipesView(HelperFlaskView):
         recipe.save()
         return redirect(url_for("RecipesView:show", id=recipe.id))
 
-    @route("recipes/toggle_shared/<id>", methods=["POST"])
+    def duplicate(self, id):
+        new_recipe = self.recipe.duplicate()
+        return redirect(url_for("RecipesView:show", id=new_recipe.id))
+
+    @route("toggle_shared/<id>", methods=["POST"])
     def toggle_shared(self, id):
         toggled = self.recipe.toggle_shared()
         if toggled is True:
@@ -133,7 +137,7 @@ class RecipesView(HelperFlaskView):
             flash("Recept byl skryt před veřejností.", "success")
         return redirect(url_for("RecipesView:show", id=self.recipe.id))
 
-    @route("recipes/delete_drafts", methods=["POST"])
+    @route("delete_drafts", methods=["POST"])
     def delete_drafts(self):
         for draft in current_user.draft_recipes:
             draft.delete()

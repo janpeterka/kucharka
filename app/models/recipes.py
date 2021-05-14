@@ -120,6 +120,20 @@ class Recipe(db.Model, ItemMixin):
         db.session.commit()
         return True
 
+    def duplicate(self):
+        new = Recipe()
+
+        new.name = self.name
+        new.author = current_user
+        new.description = self.description
+        new.portion_count = self.portion_count
+        new.ingredients = []
+        for rhi in self.recipe_ingredients:
+            new.add_ingredient(rhi.ingredient, amount=rhi.amount)
+
+        new.save()
+        return new
+
     def toggle_shared(self):
         self.is_shared = not self.is_shared
         self.edit()

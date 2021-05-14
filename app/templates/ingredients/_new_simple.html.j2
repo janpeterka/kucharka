@@ -1,7 +1,7 @@
 {% from "macros/render_field.html.j2" import render_field %} 
 
 <turbo-frame id="add-ingredient-simple">
-<form method="post" action="{{ url_for('IngredientsView:post_simple', recipe_id=recipe.id) }}" class="form-control form-inline" accept-charset="UTF-8">
+<form method="post" action="{{ url_for('FastAddIngredientsView:post', recipe_id=recipe.id) }}" class="form-control form-inline" accept-charset="UTF-8">
     {{ form.csrf_token }}
 
     {{ render_field(form.name, has_label=False) }}

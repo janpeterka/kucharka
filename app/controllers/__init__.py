@@ -7,12 +7,18 @@ from .edit_events import EditEventView
 
 from .errors import ErrorsView
 from .index import IndexView
+
 from .ingredients import IngredientsView
+from .fast_add_ingredients import FastAddIngredientsView
+
 from .ingredient_categories import IngredientCategoriesView
 from .recipe_categories import RecipeCategoriesView
 from .measurements import MeasurementsView
+
 from .recipes import RecipesView
+from .edit_recipes import EditRecipeView
 from .public_recipes import PublicRecipesView
+
 from .users import UsersView
 
 __all__ = [
@@ -24,34 +30,44 @@ __all__ = [
     "ErrorsView",
     "IndexView",
     "IngredientsView",
+    "FastAddIngredientsView",
     "IngredientCategoriesView",
     "MeasurementsView",
     "RecipeCategoriesView",
     "RecipesView",
+    "EditRecipeView",
     "PublicRecipesView",
     "UsersView",
 ]
 
 
 def register_all_controllers(application):
-    # AdminView.register(application)
     DailyPlansView.register(application)
-    EventExporterView.register(application)
+
     DashboardView.register(application)
 
     EventsView.register(application)
     EditEventView.register(application)
 
+    EventExporterView.register(application)
+
     ErrorsView.register(application)
-    # FilesView.register(application)
+
     IndexView.register(application)
+
     IngredientsView.register(application)
+    FastAddIngredientsView.register(application)
+
     IngredientCategoriesView.register(application)
+
     MeasurementsView.register(application)
+
     RecipeCategoriesView.register(application)
+
     RecipesView.register(application)
+    EditRecipeView.register(application)
     PublicRecipesView.register(application)
-    # SupportView.register(application)
+
     UsersView.register(application)
 
 

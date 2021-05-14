@@ -16,7 +16,7 @@ from app.models.recipes import Recipe
 from app.models.ingredients import Ingredient
 from app.models.recipe_categories import RecipeCategory
 
-from app.controllers.base_recipes import BaseRecipesView
+from app.controllers.edit_recipes import EditRecipeView
 
 from app.controllers.forms.recipes import RecipesForm, RecipeFilterForm
 
@@ -32,7 +32,7 @@ def set_form(form, recipe=None):
     form.set_all(categories=categories)
 
 
-class RecipesView(ExtendedFlaskView, BaseRecipesView):
+class RecipesView(ExtendedFlaskView):
     decorators = [login_required]
     template_folder = "recipes"
 
@@ -173,7 +173,7 @@ class RecipesView(ExtendedFlaskView, BaseRecipesView):
         recipe.remove_ingredient(ingredient)
         return turbo.stream(
             [turbo.remove(target=f"ingredient-{ingredient_id}")]
-            + BaseRecipesView().update_usable_ingredients(recipe)
+            + EditRecipeView().update_usable_ingredients(recipe)
         )
 
     @route("/change_ingredient_amount/<recipe_id>/<ingredient_id>", methods=["POST"])

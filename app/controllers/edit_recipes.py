@@ -1,3 +1,5 @@
+from unidecode import unidecode
+
 from flask import request
 from flask import render_template as template
 
@@ -16,7 +18,7 @@ from app.models.recipes import Recipe
 # from app.models.recipe_categories import RecipeCategory
 
 
-class BaseRecipesView(FlaskView):
+class EditRecipeView(FlaskView):
     @route("recipes/edit/add_ingredient/<recipe_id>", methods=["POST"])
     def add_ingredient(self, recipe_id):
         ingredient = Ingredient.load(request.form["ingredient_option"])
@@ -45,7 +47,7 @@ class BaseRecipesView(FlaskView):
         return turbo.stream(response)
 
     def update_usable_ingredients(self, recipe):
-        unused_ingredients = [
+        unused_personal_ingredients = [
             i for i in current_user.ingredients if i not in recipe.ingredients
         ]
 
@@ -53,11 +55,14 @@ class BaseRecipesView(FlaskView):
             i for i in Ingredient.load_all_public() if i not in recipe.ingredients
         ]
 
+        unused_personal_ingredients.sort(key=lambda x: unidecode(x.name.lower()))
+        unused_public_ingredients.sort(key=lambda x: unidecode(x.name.lower()))
+
         return [
             turbo.replace(
                 template(
-                    "recipes/new/_add_ingredient_form.html.j2",
-                    personal_ingredients=unused_ingredients,
+                    "recipes/edit/_add_ingredient_form.html.j2",
+                    personal_ingredients=unused_personal_ingredients,
                     public_ingredients=unused_public_ingredients,
                     recipe=recipe,
                 ),

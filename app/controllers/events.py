@@ -1,4 +1,4 @@
-from flask import redirect, url_for, request
+from flask import redirect, url_for, request, abort
 from flask_classful import route
 from flask_security import login_required
 
@@ -15,8 +15,15 @@ class EventsView(ExtendedFlaskView):
     decorators = [login_required]
     template_folder = "events"
 
-    def before_request(self, name, id):
-        self.event = Event.load(id)
+    def before_request(self, name, id=None):
+        if id is not None:
+            self.event = Event.load(id)
+
+        if id is not None:
+            if self.event is None:
+                abort(404)
+            if not self.event.can_current_user_view:
+                abort(403)
 
     def post(self):
         form = EventsForm(request.form)

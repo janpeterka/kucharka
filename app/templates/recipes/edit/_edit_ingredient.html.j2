@@ -10,13 +10,15 @@
                 <span class="ml-2">{{ ingredient.measurement.name }}</span>
             </div>
             <input type="submit" class="form-control btn btn-warning ml-4" value="Změnit">
-            {% if ingredient.amount %}
-                <span class="font-italic font-weight-light ml-4"> {{ ingredient.amount | round(1) }} na porci </span>
-            {% endif %}
+
         </form>
     </td>
 
-    <td></td>
+    <td class="align-middle">
+        {% if ingredient.amount %}
+            <span class="font-italic font-weight-light"> {{ ingredient.amount | round(1) }} na porci </span>
+        {% endif %}
+    </td>
 
     <td>
         <form method="POST" action="{{ url_for('EditRecipeView:remove_ingredient', ingredient_id=ingredient.id, recipe_id=recipe.id) }}">

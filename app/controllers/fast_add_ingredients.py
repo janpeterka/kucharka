@@ -64,7 +64,10 @@ class FastAddIngredientsView(ExtendedFlaskView):
         form.populate_obj(ingredient)
         ingredient.save()
 
+        recipe = Recipe.load(recipe_id)
+
         return turbo.stream(
             [turbo.remove(target="add-ingredient-simple")]
-            + EditRecipeView().update_usable_ingredients(Recipe.load(recipe_id))
+            + EditRecipeView().add_ingredient_to_recipe(recipe, ingredient)
+            + EditRecipeView().update_usable_ingredients(recipe)
         )

@@ -68,7 +68,11 @@
 <div>
     <form action="{{ url_for('RecipesView:delete', id=recipe.id) }}" method="post" class="form-inline" onsubmit="return confirm('{{ texts.recipe_delete_confirm }}');">
         <a class="btn btn-warning" href="{{ url_for('RecipesView:edit', id=recipe.id) }}">{{ texts.edit }} {{ icon("edit") }}</a>
-        <button type="submit" class="btn btn-danger">{{ texts.recipe_delete }} {{ icon("delete") }}</button>
+        {% if recipe.is_used %}
+            <button type="submit" class="btn btn-danger" disabled="">Nelze smazat, je použit {{ icon("delete") }}</button>
+        {% else %}
+            <button type="submit" class="btn btn-danger">{{ texts.recipe_delete }} {{ icon("delete") }}</button>
+        {% endif %}
     </form>
     <form action="{{ url_for('RecipesView:toggle_shared', id=recipe.id) }}" method="post" class="form-inline">
         {% if recipe.is_shared == True %}

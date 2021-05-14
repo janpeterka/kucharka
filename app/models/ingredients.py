@@ -1,7 +1,5 @@
 from unidecode import unidecode
 
-from sqlalchemy.ext.hybrid import hybrid_property
-
 from flask_security import current_user
 
 from app import db
@@ -85,13 +83,6 @@ class Ingredient(db.Model, ItemMixin):
         return rhi.amount
 
     # PROPERTIES
-
-    def is_author(self, user) -> bool:
-        return self.author == user
-
-    @hybrid_property
-    def is_current_user_author(self) -> bool:
-        return self.is_author(current_user)
 
     @property
     def is_used(self) -> bool:

@@ -58,6 +58,19 @@ class EditRecipeView(HelperFlaskView):
             + self.update_usable_ingredients(self.recipe)
         )
 
+    def add_ingredient_to_recipe(self, recipe, ingredient):
+        recipe.add_ingredient(ingredient)
+        return [
+            turbo.append(
+                self.template(
+                    template_name="_edit_ingredient",
+                    ingredient=ingredient,
+                    recipe=recipe,
+                ),
+                target="ingredients",
+            )
+        ]
+
     @route("recipes/change_ingredient/<recipe_id>/<ingredient_id>", methods=["POST"])
     def change_ingredient_amount(self, recipe_id, ingredient_id):
         self.ingredient = Ingredient.load(ingredient_id)

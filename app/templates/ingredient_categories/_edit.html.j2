@@ -3,7 +3,7 @@
     <div>
       <label></label>
     </div>
-    <form method="POST" action="{{ url_for('IngredientCategoriesView:post_edit', id=category.id) }}" data-turbo-frame="all">
+    <form method="PUT" action="{{ url_for('IngredientCategoriesView:put', id=category.id) }}" data-turbo-frame="all">
       <input type="text" name="ingredient-category" value="{{ category.name }}" class="edit" autofocus>
     </form>
   </li>

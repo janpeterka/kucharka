@@ -16,7 +16,6 @@ class IngredientCategoriesView(HelperFlaskView):
     template_folder = "ingredient_categories"
 
     def before_request(self, name, id=None, *args, **kwargs):
-        self.ingredient_categories = IngredientCategory.load_all()
         self.category = IngredientCategory.load(id)
 
     def before_index(self):
@@ -33,8 +32,7 @@ class IngredientCategoriesView(HelperFlaskView):
             )
         )
 
-    @route("/put/<id>", methods=["POST"])
-    def post_edit(self, id):
+    def put(self, id):
         self.category.name = request.form["ingredient-category"]
         self.category.save()
         return turbo.stream(
@@ -44,8 +42,7 @@ class IngredientCategoriesView(HelperFlaskView):
             )
         )
 
-    @route("/create/", methods=["POST"])
-    def create(self):
+    def post(self):
         self.category = IngredientCategory(name=request.form["ingredient-category"])
         self.category.save()
 
@@ -61,7 +58,6 @@ class IngredientCategoriesView(HelperFlaskView):
             ]
         )
 
-    @route("/delete/<id>", methods=["POST"])
     def delete(self, id):
         from app.helpers.turbo_flash import turbo_flash
 

@@ -1,6 +1,6 @@
 from unidecode import unidecode
 
-from flask import request, redirect, url_for, abort
+from flask import request, redirect, url_for
 from flask import render_template as template
 
 from flask_classful import route
@@ -22,11 +22,10 @@ from app.models.recipe_categories import RecipeCategory
 def set_form(form, recipe=None):
     categories = RecipeCategory.load_all()
     categories.sort(key=lambda x: unidecode(x.name.lower()))
+    form.set_all(categories=categories)
 
     if recipe and recipe.category:
         form.category.data = recipe.category.id
-
-    form.set_all(categories=categories)
 
 
 class EditRecipeView(HelperFlaskView):
@@ -36,12 +35,6 @@ class EditRecipeView(HelperFlaskView):
     def before_request(self, name, recipe_id, **kwargs):
         self.recipe = Recipe.load(recipe_id)
         self.validate_operation(recipe_id, self.recipe)
-
-        if recipe_id is not None:
-            if self.recipe is None:
-                abort(404)
-            if not self.recipe.can_current_user_view:
-                abort(403)
 
     @route("recipes/add_ingredient/<recipe_id>", methods=["POST"])
     def add_ingredient(self, recipe_id):
@@ -113,7 +106,14 @@ class EditRecipeView(HelperFlaskView):
         form.populate_obj(self.recipe)
         self.recipe.edit()
 
-        return redirect(url_for("RecipesView:show", id=self.recipe.id))
+        set_form(form, recipe=self.recipe)
+
+        return turbo.stream(
+            turbo.replace(
+                self.template("_info", message="Upraveno", form=form),
+                target="recipe-info",
+            )
+        )
 
     @route("recipes/edit/description/<recipe_id>/", methods=["POST"])
     def post_description(self, recipe_id):
@@ -122,7 +122,12 @@ class EditRecipeView(HelperFlaskView):
         self.recipe.description = description
         self.recipe.edit()
 
-        return redirect(url_for("RecipesView:show", id=self.recipe.id))
+        return turbo.stream(
+            turbo.replace(
+                self.template("_description", message="Upraveno"),
+                target="recipe-description",
+            )
+        )
 
     @route("recipes/edit/refresh_usable_ingredients/<recipe_id>", methods=["POST"])
     def refresh_usable_ingredients(self, recipe_id):

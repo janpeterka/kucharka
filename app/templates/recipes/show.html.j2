@@ -57,10 +57,11 @@
 <hr>
 
 {% if recipe.description %}
-<div class="mt-3 mb-3" id="recipe-description">
+{# <div class="mt-3 mb-3" id="recipe-description">
     <h3>Návod k přípravě</h3>
     {{ recipe.description }}
-</div>
+</div> #}
+    {% include "recipes/_description.html.j2" %}
 {% endif %}
 
 

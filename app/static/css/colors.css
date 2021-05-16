@@ -92,6 +92,10 @@
     color: var(--inactive);
 }
 
+.color-success {
+    color: var(--success);
+}
+
 .color-green{
     color: var(--color-green);
 }

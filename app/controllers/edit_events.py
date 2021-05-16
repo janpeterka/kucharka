@@ -20,15 +20,14 @@ class EditEventView(HelperFlaskView):
         self.event = Event.load(event_id)
         self.validate_operation(event_id, self.event)
 
-    @route("events/show_edit/<event_id>", methods=["POST"])
-    def show(self, event_id):
+    @route("/edit/<event_id>", methods=["POST"])
+    def edit(self, event_id):
         self.form = EventsForm(obj=self.event)
         return turbo.stream(
             turbo.replace(self.template(template_name="_edit"), target="event-info")
         )
 
-    @route("events/post_edit/<event_id>", methods=["POST"])
-    def post(self, event_id):
+    def put(self, event_id):
         self.form = EventsForm(request.form)
         if not self.form.validate_on_submit():
             return turbo.stream(

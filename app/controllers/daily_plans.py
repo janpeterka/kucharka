@@ -17,21 +17,17 @@ class DailyPlansView(HelperFlaskView):
     decorators = [login_required]
     template_folder = "daily_plans"
 
-    def before_request(self, name, id=None, daily_plan_id=None, *args, **kwargs):
-        if not daily_plan_id:
-            daily_plan_id = id
-
+    def before_request(self, name, daily_plan_id=None, *args, **kwargs):
         self.daily_plan = DailyPlan.load(daily_plan_id)
         self.validate_operation(daily_plan_id, self.daily_plan)
 
     def before_show(self, id):
-        self.public_recipes = Recipe.load_all_public(exclude_mine=True)
-
-    def show(self, id):
         self.daily_plan = DailyPlan.load(id)
+        self.public_recipes = Recipe.load_all_public(exclude_mine=True)
         self.daily_recipes = self.daily_plan.daily_recipes
         self.daily_recipes.sort(key=lambda x: x.order_index)
 
+    def show(self, id):
         return self.template()
 
     @route("daily_plans/remove_recipe/<daily_recipe_id>", methods=["POST"])
@@ -57,11 +53,11 @@ class DailyPlansView(HelperFlaskView):
 
     # def sort_up(self, daily_recipe_id, date):
     #     self.daily_plan.change_order(daily_recipe_id, order_type="up")
-    #     return redirect(url_for("DailyPlansView:show_by_date", date=date))
+    #     return redirect(url_for("DailyPlansView:show", daily_plan_id=self.daily_plan.id))
 
     # def sort_down(self, daily_recipe_id, date):
     #     self.daily_plan.change_order(daily_recipe_id, order_type="down")
-    #     return redirect(url_for("DailyPlansView:show_by_date", date=date))
+    #     return redirect(url_for("DailyPlansView:show", daily_plan_id=self.daily_plan.id))
 
     # def next_day(self, id):
     #     pass

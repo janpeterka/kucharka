@@ -7,15 +7,14 @@ from app.models.events import Event
 
 # from app.models.ingredients import Ingredient
 
-from app.helpers.extended_flask_view import ExtendedFlaskView
+from app.helpers.helper_flask_view import HelperFlaskView
 
 
-class EventExporterView(ExtendedFlaskView):
+class EventExporterView(HelperFlaskView):
     decorators = [login_required]
     template_folder = "event_exporter"
 
     def before_request(self, name, event_id=None, *args, **kwargs):
-        # super().before_request(name, id=event_id, *args, **kwargs)
         self.event = Event.load(event_id)
         self.daily_plans = self.event.daily_plans
         self.ingredients = DailyPlan.load_ingredient_amounts_for_daily_plans(
@@ -35,10 +34,10 @@ class EventExporterView(ExtendedFlaskView):
         return self.template(template_name="cookbook")
 
     def show_ingredient_list(self, event_id):
-        usable_recipes = self.event.recipes
+        used_recipes = self.event.recipes
         for ingredient in self.ingredients:
             ingredient.event_recipes = [
-                i for i in ingredient.recipes if i in usable_recipes
+                r for r in ingredient.recipes if r in used_recipes
             ]
 
         recipe_ingredient_amounts = {}

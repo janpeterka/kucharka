@@ -12,8 +12,8 @@
 </tr>
 </table> #}
 <ul class="list">
-    {% for ingredient in public_ingredients: %}
-    {% include "ingredients/_ingredient.html.j2"%}
-{% endfor %}
+    {% for ingredient in public_ingredients %}
+    	{% include "ingredients/public/_ingredient.html.j2"%}
+	{% endfor %}
 </ul>
 {# </table> #}

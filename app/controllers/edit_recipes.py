@@ -31,6 +31,7 @@ def set_form(form, recipe=None):
 
 class EditRecipeView(HelperFlaskView):
     template_folder = "recipes/edit"
+    excluded_methods = ["add_ingredient_to_recipe", "update_usable_ingredients"]
 
     def before_request(self, name, recipe_id, **kwargs):
         self.recipe = Recipe.load(recipe_id)

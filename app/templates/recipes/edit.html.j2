@@ -20,6 +20,7 @@
 
 <details open class="form-control mb-5">
 <summary> Upravit recept </summary>
+<div id="recipe-info">
 <form action="{{ url_for('EditRecipeView:post', recipe_id=recipe.id) }}" class="form" method="post" accept-charset="utf-8">
     {{ form.csrf_token }}
 
@@ -40,6 +41,7 @@
 
     <input type="submit" value="{{ texts.recipe_edit }}" class="btn btn-warning">
 </form>
+</div>
 </details>
 
 <details open class="form-control mb-5" data-controller="enable-select2">
@@ -64,7 +66,7 @@
 
 <details class="form-control mb-5">
 <summary> Upravit návod </summary>
-<div>
+<div id="recipe-description">
     <form action="{{ url_for('EditRecipeView:post_description', recipe_id=recipe.id) }}" class="form" method="post" accept-charset="utf-8">
         <textarea id="summernote" name="description" class='form-control'>
             {% if recipe.description %}{{ recipe.description }}{% endif %}

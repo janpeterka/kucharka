@@ -7,12 +7,12 @@ from flask_classful import route
 
 from app.models.ingredient_categories import IngredientCategory
 
-from app.helpers.auth import app_manager_required
+from app.helpers.auth import app_manager_or_higher_required
 from app.helpers.extended_flask_view import ExtendedFlaskView
 
 
 class IngredientCategoriesView(ExtendedFlaskView):
-    decorators = [login_required, app_manager_required]
+    decorators = [login_required, app_manager_or_higher_required]
     template_folder = "ingredient_categories"
 
     def before_request(self, name, id=None, *args, **kwargs):

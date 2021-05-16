@@ -52,7 +52,7 @@ class DailyPlan(db.Model, ItemMixin):
         amounts_sql = f"""
                         SELECT
                             I.id AS ingredient_id,
-                            CONCAT(R.id) AS recipe_ids,
+                            -- CONCAT(R.id) AS recipe_ids,
                             SUM(RHI.amount) * {people_count} AS amount_sum
                         FROM
                             daily_plans AS DP
@@ -76,7 +76,7 @@ class DailyPlan(db.Model, ItemMixin):
         for row in result:
             ingredient = Ingredient.load(row[0])
             # ingredient.recipe_ids = row[1]
-            ingredient.amount = row[2]
+            ingredient.amount = row[1]
             ingredients.append(ingredient)
 
         # for ingredient in ingredients:

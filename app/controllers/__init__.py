@@ -18,8 +18,11 @@ from .measurements import MeasurementsView
 from .recipes import RecipesView
 from .edit_recipes import EditRecipeView
 from .public_recipes import PublicRecipesView
+from .public_ingredients import PublicIngredientsView
 
 from .users import UsersView
+
+from app.helpers.helper_flask_view import HelperFlaskView
 
 __all__ = [
     "DashboardView",
@@ -37,26 +40,28 @@ __all__ = [
     "RecipesView",
     "EditRecipeView",
     "PublicRecipesView",
+    "PublicIngredientsView",
     "UsersView",
 ]
 
 
 def register_all_controllers(application):
-    DailyPlansView.register(application)
+    DailyPlansView.register(application, base_class=HelperFlaskView)
 
-    DashboardView.register(application)
+    DashboardView.register(application, base_class=HelperFlaskView)
 
-    EventsView.register(application)
-    EditEventView.register(application)
+    EventsView.register(application, base_class=HelperFlaskView)
+    EditEventView.register(application, base_class=HelperFlaskView)
 
-    EventExporterView.register(application)
+    EventExporterView.register(application, base_class=HelperFlaskView)
 
     ErrorsView.register(application)
 
     IndexView.register(application)
 
-    IngredientsView.register(application)
+    IngredientsView.register(application, base_class=HelperFlaskView)
     FastAddIngredientsView.register(application)
+    PublicIngredientsView.register(application, base_class=HelperFlaskView)
 
     IngredientCategoriesView.register(application)
 

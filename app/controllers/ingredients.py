@@ -1,15 +1,13 @@
 from unidecode import unidecode
 
-from flask import abort, flash, request, redirect, url_for
+from flask import flash, request, redirect, url_for
 
 
 from flask_classful import route
 from flask_security import login_required, current_user
 
-from app import turbo
-
 from app.helpers.form import save_form_to_session
-from app.helpers.extended_flask_view import ExtendedFlaskView
+from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models.ingredients import Ingredient
 from app.models.ingredient_categories import IngredientCategory
@@ -34,25 +32,20 @@ def set_form(form, ingredient=None):
     form.set_all(measurements=measurements, categories=categories)
 
 
-class IngredientsView(ExtendedFlaskView):
+class IngredientsView(HelperFlaskView):
     decorators = [login_required]
     template_folder = "ingredients"
 
     def before_request(self, name, id=None, *args, **kwargs):
-        super().before_request(name, id, *args, **kwargs)
-
-        if id is not None:
-            if self.ingredient is None:
-                abort(404)
-            if not self.ingredient.can_current_user_view:
-                abort(403)
+        self.ingredient = Ingredient.load(id)
+        self.validate_operation()
 
     def before_new(self, *args, **kwargs):
-        super().before_new(*args, **kwargs)
+        self.form = IngredientsForm()
         set_form(self.form)
 
     def before_edit(self, id):
-        super().before_edit(id)
+        self.form = IngredientsForm(obj=self.ingredient)
         set_form(self.form, self.ingredient)
 
         self.recipes = Recipe.load_by_ingredient_and_user(self.ingredient, current_user)
@@ -69,24 +62,17 @@ class IngredientsView(ExtendedFlaskView):
             i for i in current_user.ingredients if i not in Ingredient.load_all_public()
         ]
 
-    def before_public(self):
-        self.public_ingredients = Ingredient.load_all_public()
+    def new(self):
+        return self.template()
 
-    @route("/ingredients/show_edit/<ingredient_id>", methods=["POST"])
-    def show_edit(self, ingredient_id):
-        self.ingredient = Ingredient.load(ingredient_id)
+    def show(self, id):
+        return self.template()
 
-        self.measurements = Measurement.load_all()
-        # measurements.sort(key=lambda x: unidecode(x.name.lower()))
-        self.categories = IngredientCategory.load_all()
-        self.categories.sort(key=lambda x: unidecode(x.name.lower()))
+    def index(self):
+        return self.template()
 
-        return turbo.stream(
-            turbo.replace(
-                self.template(template_name="_edit"),
-                target=f"ingredient-{ingredient_id}",
-            )
-        )
+    def edit(self, id):
+        return self.template()
 
     def post(self):
         form = IngredientsForm(request.form)
@@ -108,19 +94,6 @@ class IngredientsView(ExtendedFlaskView):
         else:
             flash("Nepodařilo se vytvořit surovinu", "error")
             return redirect(url_for("IngredientsView:new"))
-
-    @route("ingredients/edit/<id>", methods=["POST"])
-    def list_edit(self, id):
-        self.ingredient.category = IngredientCategory.load(request.form["category_id"])
-        self.ingredient.measurement = Measurement.load(request.form["measurement_id"])
-
-        self.ingredient.save()
-        return turbo.stream(
-            turbo.replace(
-                self.template(template_name="_ingredient"),
-                target=f"ingredient-{self.ingredient.id}",
-            )
-        )
 
     @route("edit/<id>", methods=["POST"])
     def post_edit(self, id):
@@ -151,6 +124,3 @@ class IngredientsView(ExtendedFlaskView):
         else:
             flash("Tato surovina je použita, nelze smazat", "error")
             return redirect(url_for("IngredientsView:show", id=self.ingredient.id))
-
-    def public(self):
-        return self.template()

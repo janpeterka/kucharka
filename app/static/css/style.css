@@ -1,86 +1,20 @@
-/* colors */
 @import "colors.css";
 
-/* icons */
 @import "icons.css";
 
-/* icons */
 @import "atomic.css";
+
+/*@import "texts.css";*/
 
 @import "lists.css";
 @import "forms.css";
+
+@import "flash.css"
 @import "turboflash.css";
 
+@import "admin.css";
+
 /*@import "tables.css";*/
-
-
-/* images */
-img.logo {
-  height: 3.1rem;
-  width: auto;
-  padding: 0px;
-  margin-right: 1rem;
-}
-
-img.icon {
-  height: 2rem;
-  width: 2rem;
-  /*padding: 0px;*/
-  margin-right: 1rem;
-  margin-top: 0.5rem;
-}
-
-
-/* Error */
-
-.error_main{
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 20px;
-}
-
-/*Flashes*/
-
-div.flashes {
-    -moz-animation: cssAnimation 0s ease-in 5s forwards;
-    /* Firefox */
-    -webkit-animation: cssAnimation 0s ease-in 5s forwards;
-    /* Safari and Chrome */
-    -o-animation: cssAnimation 0s ease-in 5s forwards;
-    /* Opera */
-    animation: cssAnimation 0s ease-in 5s forwards;
-    -webkit-animation-fill-mode: forwards;
-    animation-fill-mode: forwards;
-    position: relative;
-    height: 0px;
-    background-color: rgba(0, 0, 0, 0);
-}
-
-div.flashes ul li{
-    list-style-type: none;
-    text-align: center; 
-    color: #101010;
-}
-
-div.flashes ul li.error{
-    color: var(--error);
-}
-
-div.flashes ul li.success{
-    color: var(--success);
-}
-
-div.flashes ul li.info{
-    color: var(--info);
-}
-
-div.flashes ul li.warning{
-    color: var(--warning);
-}
-
-div.flashes ul li.debug{
-    color: var(--debug);
-}
 
 /* Footer */
 
@@ -97,20 +31,6 @@ div.flashes ul li.debug{
 
 /* other */
 
-.changelog{
-    margin: 10px;
-}
-
-.admin-field {
-  background-color: #FFE766;
-  margin-top: 2rem;
-  padding: 0.5rem;
-  border: solid 0.1rem red;
-}
-
-.admin-warning {
-  text-align: center;
-}
 
 a.info {
   color: var(--color-grey);
@@ -118,26 +38,6 @@ a.info {
 
 a.info:hover {
   color: var(--logo-blue);
-}
-
-.no-decoration:hover {
-  text-decoration: none;
-}
-
-
-.dev-badge {
-  margin-left: 2rem;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  box-shadow: 0.5rem 0.5rem 0.7rem black;
-}
-
-.dev-badge.dev {
-  background-color: var(--logo-light-green);
-}
-
-.dev-badge.prod {
-  background-color: var(--palette-orange);
 }
 
 .navbar div.navbar-divider {

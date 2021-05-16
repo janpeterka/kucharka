@@ -1,0 +1,25 @@
+.admin-field {
+  background-color: #FFE766;
+  margin-top: 2rem;
+  padding: 0.5rem;
+  border: solid 0.1rem red;
+}
+
+.admin-warning {
+  text-align: center;
+}
+
+.dev-badge {
+  margin-left: 2rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0.5rem 0.5rem 0.7rem black;
+}
+
+.dev-badge.dev {
+  background-color: var(--logo-light-green);
+}
+
+.dev-badge.prod {
+  background-color: var(--palette-orange);
+}

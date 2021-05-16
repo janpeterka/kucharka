@@ -8,6 +8,15 @@
   list-style: none
 }
 
+/*.no-decoration {
+  text-decoration: none;
+}
+
+.no-decoration:hover {
+  text-decoration: none;
+}
+*/
+
 /* text - using Bootstrap*/
 
 /* fonts */
@@ -33,7 +42,6 @@
 	font-family: 'MontSerrat', serif;
 }
 
-/* margins - using Bootstap */
 
 .smaller {
 	font-size: smaller !important;

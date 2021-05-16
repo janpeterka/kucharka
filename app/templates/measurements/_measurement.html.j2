@@ -5,7 +5,7 @@
       </div>
     <label style="font-size: smaller;">{{ measurement.description if measurement.description  }}</label>
     {% if not edit_id %}
-      <form method="POST" action="{{ url_for('MeasurementsView:show_edit', id=measurement.id) }}" data-turbo-frame="all">
+      <form method="POST" action="{{ url_for('MeasurementsView:edit', id=measurement.id) }}" data-turbo-frame="all">
         <button type="submit" class="change"></button>
       </form>
       <form method="POST" action="{{ url_for('MeasurementsView:delete', id=measurement.id) }}">

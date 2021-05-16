@@ -11,8 +11,6 @@ from app.controllers.forms import *  # noqa: F401, F403, F406
 
 
 class HelperFlaskView(FlaskView):
-    """docstring for ExtendedFlaskView"""
-
     def validate_operation(self, object_id, instance):
         if object_id is not None:
             if instance is None:

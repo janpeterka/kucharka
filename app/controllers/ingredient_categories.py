@@ -8,45 +8,41 @@ from flask_classful import route
 from app.models.ingredient_categories import IngredientCategory
 
 from app.helpers.auth import app_manager_or_higher_required
-from app.helpers.extended_flask_view import ExtendedFlaskView
+from app.helpers.helper_flask_view import HelperFlaskView
 
 
-class IngredientCategoriesView(ExtendedFlaskView):
+class IngredientCategoriesView(HelperFlaskView):
     decorators = [login_required, app_manager_or_higher_required]
     template_folder = "ingredient_categories"
 
     def before_request(self, name, id=None, *args, **kwargs):
-        super().before_request(name, id, *args, **kwargs)
+        self.ingredient_categories = IngredientCategory.load_all()
+        self.category = IngredientCategory.load(id)
+
+    def before_index(self):
         self.ingredient_categories = IngredientCategory.load_all()
 
-        if id:
-            self.category = IngredientCategory.load(id)
+    def index(self):
+        return self.template()
 
-    @route("/show_edit/<id>", methods=["POST"])
-    def show_edit(self, id):
-        # Use this while edit:GET doesn't support stream (probably until WebSocket support)
+    @route("/edit/<id>", methods=["POST"])
+    def edit(self, id):
         return turbo.stream(
             turbo.replace(
                 self.template(template_name="_edit"), target=f"ingredient-category-{id}"
             )
         )
 
-    @route("/edit/<id>", methods=["GET", "POST"])
-    def edit(self, id):
-        if request.method == "POST":
-            self.category.name = request.form["ingredient-category"]
-            self.category.save()
-            return turbo.stream(
-                turbo.replace(
-                    self.template(template_name="_ingredient_category"),
-                    target=f"ingredient-category-{id}",
-                )
+    @route("/put/<id>", methods=["POST"])
+    def post_edit(self, id):
+        self.category.name = request.form["ingredient-category"]
+        self.category.save()
+        return turbo.stream(
+            turbo.replace(
+                self.template(template_name="_ingredient_category"),
+                target=f"ingredient-category-{id}",
             )
-
-        # WIP - move show_edit for "GET" when support for WebSocket
-
-        else:
-            return self.template(template_name="index", edit_id=id)
+        )
 
     @route("/create/", methods=["POST"])
     def create(self):

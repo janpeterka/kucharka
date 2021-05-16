@@ -8,19 +8,20 @@ from flask_classful import route
 from app.models.recipe_categories import RecipeCategory
 
 from app.helpers.auth import app_manager_or_higher_required
-from app.helpers.extended_flask_view import ExtendedFlaskView
+from app.helpers.helper_flask_view import HelperFlaskView
 
 
-class RecipeCategoriesView(ExtendedFlaskView):
+class RecipeCategoriesView(HelperFlaskView):
     decorators = [login_required, app_manager_or_higher_required]
     template_folder = "recipe_categories"
 
     def before_request(self, name, id=None, *args, **kwargs):
         super().before_request(name, id, *args, **kwargs)
         self.recipe_categories = RecipeCategory.load_all()
+        self.category = RecipeCategory.load(id)
 
-        if id:
-            self.category = RecipeCategory.load(id)
+    def index(self):
+        return self.template()
 
     @route("/show_edit/<id>", methods=["POST"])
     def show_edit(self, id):

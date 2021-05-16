@@ -9,7 +9,6 @@ from flask_classful import route
 
 from app import turbo
 
-# from app.helpers.extended_flask_view import ExtendedFlaskView
 from app.helpers.helper_flask_view import HelperFlaskView
 from app.helpers.form import save_form_to_session
 

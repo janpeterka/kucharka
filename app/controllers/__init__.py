@@ -63,15 +63,15 @@ def register_all_controllers(application):
     FastAddIngredientsView.register(application)
     PublicIngredientsView.register(application, base_class=HelperFlaskView)
 
-    IngredientCategoriesView.register(application)
+    IngredientCategoriesView.register(application, base_class=HelperFlaskView)
 
-    MeasurementsView.register(application)
+    MeasurementsView.register(application, base_class=HelperFlaskView)
 
-    RecipeCategoriesView.register(application)
+    RecipeCategoriesView.register(application, base_class=HelperFlaskView)
 
-    RecipesView.register(application)
-    EditRecipeView.register(application)
-    PublicRecipesView.register(application)
+    RecipesView.register(application, base_class=HelperFlaskView)
+    EditRecipeView.register(application, base_class=HelperFlaskView)
+    PublicRecipesView.register(application, base_class=HelperFlaskView)
 
     UsersView.register(application)
 

@@ -8,7 +8,7 @@
       <form method="POST" action="{{ url_for('MeasurementsView:edit', id=measurement.id) }}" data-turbo-frame="all">
         <button type="submit" class="change"></button>
       </form>
-      <form method="POST" action="{{ url_for('MeasurementsView:delete', id=measurement.id) }}">
+      <form method="DELETE" action="{{ url_for('MeasurementsView:delete', id=measurement.id) }}">
         <button type="submit" class="destroy"></button>
       </form>
     {% endif %}

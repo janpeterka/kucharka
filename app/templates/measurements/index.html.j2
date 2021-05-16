@@ -30,7 +30,7 @@
       </ul>
 
 
-      <form action="{{ url_for('MeasurementsView:create') }}" method="POST" id="measurement-create-form">
+      <form action="{{ url_for('MeasurementsView:post') }}" method="POST" id="measurement-create-form">
         {% include 'measurements/_add.html.j2' %}
       </form>
 

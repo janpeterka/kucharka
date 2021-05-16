@@ -13,13 +13,13 @@ from app.helpers.helper_flask_view import HelperFlaskView
 
 class MeasurementsView(HelperFlaskView):
     decorators = [login_required, app_manager_or_higher_required]
-    # template_folder = "measurements"
 
     def before_request(self, name, id=None, *args, **kwargs):
-        self.measurements = Measurement.load_all()
         self.measurement = Measurement.load(id)
-
         self.validate_operation(id, self.measurement)
+
+    def before_index(self):
+        self.measurements = Measurement.load_all()
 
     def index(self):
         return self.template()
@@ -28,25 +28,23 @@ class MeasurementsView(HelperFlaskView):
     def edit(self, id):
         # Use this while edit:GET doesn't support stream (probably until WebSocket support)
         # self.measurement = Measurement.load(id)
-        if request.method == "POST":
-            return turbo.stream(
-                turbo.replace(
-                    self.template(template_name="_edit"), target=f"measurement-{id}"
-                )
+        return turbo.stream(
+            turbo.replace(
+                self.template(template_name="_edit"), target=f"measurement-{id}"
             )
+        )
 
-    @route("/put/<id>", methods=["POST"])
-    def post_edit(self, id):
+    def put(self, id):
         self.measurement.name = request.form["measurement"]
         self.measurement.save()
+
         return turbo.stream(
             turbo.replace(
                 self.template(template_name="_measurement"), target=f"measurement-{id}"
             )
         )
 
-    @route("/create/", methods=["POST"])
-    def create(self):
+    def post(self):
         self.measurement = Measurement(name=request.form["measurement"])
         self.measurement.save()
 
@@ -62,7 +60,6 @@ class MeasurementsView(HelperFlaskView):
             ]
         )
 
-    @route("/delete/<id>", methods=["POST"])
     def delete(self, id):
         from app.helpers.turbo_flash import turbo_flash
 
@@ -70,4 +67,5 @@ class MeasurementsView(HelperFlaskView):
             return turbo_flash("Už je někde použité, nelze smazat!")
 
         self.measurement.delete()
+
         return turbo.stream(turbo.remove(target=f"measurement-{id}"))

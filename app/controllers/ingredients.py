@@ -23,13 +23,13 @@ def set_form(form, ingredient=None):
     categories = IngredientCategory.load_all()
     categories.sort(key=lambda x: unidecode(x.name.lower()))
 
+    form.set_all(measurements=measurements, categories=categories)
+
     if ingredient:
         if ingredient.measurement:
             form.measurement.data = ingredient.measurement.id
         if ingredient.category:
             form.category.data = ingredient.category.id
-
-    form.set_all(measurements=measurements, categories=categories)
 
 
 class IngredientsView(HelperFlaskView):
@@ -38,7 +38,7 @@ class IngredientsView(HelperFlaskView):
 
     def before_request(self, name, id=None, *args, **kwargs):
         self.ingredient = Ingredient.load(id)
-        self.validate_operation()
+        self.validate_operation(id, self.ingredient)
 
     def before_new(self, *args, **kwargs):
         self.form = IngredientsForm()

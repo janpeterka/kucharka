@@ -21,13 +21,13 @@ def set_form(form, ingredient=None):
     categories = IngredientCategory.load_all()
     categories.sort(key=lambda x: unidecode(x.name.lower()))
 
+    form.set_all(measurements=measurements, categories=categories)
+
     if ingredient:
         if ingredient.measurement:
             form.measurement.data = ingredient.measurement.id
         if ingredient.category:
             form.category.data = ingredient.category.id
-
-    form.set_all(measurements=measurements, categories=categories)
 
 
 class PublicIngredientsView(HelperFlaskView):

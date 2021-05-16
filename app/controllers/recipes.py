@@ -23,11 +23,10 @@ def set_form(form, recipe=None):
     categories = RecipeCategory.load_all()
     categories.sort(key=lambda x: unidecode(x.name.lower()))
 
-    if recipe:
-        if recipe.category:
-            form.category.data = recipe.category.id
-
     form.set_all(categories=categories)
+
+    if recipe and recipe.category:
+        form.category.data = recipe.category.id
 
 
 class RecipesView(HelperFlaskView):

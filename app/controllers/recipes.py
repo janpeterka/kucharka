@@ -181,6 +181,9 @@ class RecipesView(HelperFlaskView):
         if gluten_free:
             self.recipes = [x for x in self.recipes if x.gluten_free]
 
-        return turbo.stream(
-            turbo.replace(self.template(template_name="_recipes"), target="recipes")
-        )
+        if turbo.can_stream():
+            return turbo.stream(
+                turbo.replace(self.template(template_name="_recipes"), target="recipes")
+            )
+        else:
+            return self.template("index")

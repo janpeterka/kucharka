@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, redirect, url_for
 
 from flask_classful import route
 from flask_security import login_required
@@ -23,11 +23,16 @@ class EditEventView(HelperFlaskView):
     @route("/edit/<event_id>", methods=["POST"])
     def edit(self, event_id):
         self.form = EventsForm(obj=self.event)
-        return turbo.stream(
-            turbo.replace(self.template(template_name="_edit"), target="event-info")
-        )
+        if turbo.can_stream():
+            return turbo.stream(
+                turbo.replace(
+                    self.template(template_name="edit/_info"), target="event-info"
+                )
+            )
+        else:
+            return redirect(url_for("EventsView:edit", id=self.event.id))
 
-    def put(self, event_id):
+    def post(self, event_id):
         self.form = EventsForm(request.form)
         if not self.form.validate_on_submit():
             return turbo.stream(
@@ -37,6 +42,9 @@ class EditEventView(HelperFlaskView):
         self.form.populate_obj(self.event)
         self.event.edit()
 
-        return turbo.stream(
-            turbo.replace(self.template(template_name="_info"), target="event-info")
-        )
+        if turbo.can_stream():
+            return turbo.stream(
+                turbo.replace(self.template(template_name="_info"), target="event-info")
+            )
+        else:
+            return redirect(url_for("EventsView:show", id=self.event.id))

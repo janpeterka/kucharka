@@ -3,6 +3,7 @@ from app.models.recipes import Recipe
 from app import turbo
 
 from flask import render_template as template
+from flask import redirect, url_for
 
 from flask_classful import route
 from flask_security import login_required
@@ -42,12 +43,16 @@ class PublicRecipesView(HelperFlaskView):
     def toggle_reaction(self, recipe_id):
         recipe = Recipe.load(recipe_id)
         recipe.toggle_reaction()
-        return turbo.stream(
-            turbo.replace(
-                template("public_recipes/_recipe_row.html.j2", recipe=recipe),
-                target=f"recipe-{recipe_id}",
+        if turbo.can_stream():
+            return turbo.stream(
+                turbo.replace(
+                    template("public_recipes/_recipe_row.html.j2", recipe=recipe),
+                    target=f"recipe-{recipe_id}",
+                )
             )
-        )
+        else:
+            # TODO: Tohle úplně zruší filtry!
+            return redirect(url_for("PublicRecipesView:index"))
 
     @route("filter", methods=["POST"])
     def filter(self):
@@ -94,8 +99,11 @@ class PublicRecipesView(HelperFlaskView):
         if gluten_free:
             self.recipes = [x for x in self.recipes if x.gluten_free]
 
-        return turbo.stream(
-            turbo.replace(
-                self.template(template_name="_recipes_table_body"), target="recipes"
+        if turbo.can_stream():
+            return turbo.stream(
+                turbo.replace(
+                    self.template(template_name="_recipes_table_body"), target="recipes"
+                )
             )
-        )
+        else:
+            return self.template("index")

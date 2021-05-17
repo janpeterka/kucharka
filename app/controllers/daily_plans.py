@@ -1,6 +1,6 @@
 # import datetime
 
-from flask import request
+from flask import request, redirect, url_for
 from flask_classful import route
 from flask_security import login_required
 
@@ -37,7 +37,10 @@ class DailyPlansView(HelperFlaskView):
 
         daily_plan.remove_daily_recipe_by_id(daily_recipe_id)
 
-        return turbo.stream(turbo.remove(target=f"daily-recipe-{daily_recipe_id}"))
+        if turbo.can_stream():
+            return turbo.stream(turbo.remove(target=f"daily-recipe-{daily_recipe_id}"))
+        else:
+            return redirect(url_for("DailyPlansView:show", id=daily_plan.id))
 
     @route("daily_plans/add_recipe/<daily_plan_id>", methods=["POST"])
     def add_recipe(self, daily_plan_id):
@@ -45,11 +48,14 @@ class DailyPlansView(HelperFlaskView):
 
         self.daily_recipe = self.daily_plan.add_recipe(recipe)
 
-        return turbo.stream(
-            turbo.append(
-                self.template(template_name="_recipe_row"), target="daily_recipes"
+        if turbo.can_stream():
+            return turbo.stream(
+                turbo.append(
+                    self.template(template_name="_recipe_row"), target="daily_recipes"
+                )
             )
-        )
+        else:
+            return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
 
     # def sort_up(self, daily_recipe_id, date):
     #     self.daily_plan.change_order(daily_recipe_id, order_type="up")

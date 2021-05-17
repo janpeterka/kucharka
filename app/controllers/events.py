@@ -23,10 +23,16 @@ class EventsView(HelperFlaskView):
     def before_new(self):
         self.form = EventsForm()
 
+    def before_edit(self, id):
+        self.form = EventsForm(obj=self.event)
+
     def index(self):
         return self.template()
 
     def new(self):
+        return self.template()
+
+    def edit(self, id):
         return self.template()
 
     def show(self, id):
@@ -52,6 +58,7 @@ class EventsView(HelperFlaskView):
     @route("events/delete/<id>", methods=["POST"])
     def delete(self, id):
         self.event.delete()
+
         return redirect(url_for("EventsView:index"))
 
     def warnings(self, id):

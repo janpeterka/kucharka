@@ -36,21 +36,24 @@ class EditRecipeView(HelperFlaskView):
         self.recipe = Recipe.load(recipe_id)
         self.validate_operation(recipe_id, self.recipe)
 
-    @route("recipes/add_ingredient/<recipe_id>", methods=["POST"])
+    @route("add_ingredient/<recipe_id>", methods=["POST"])
     def add_ingredient(self, recipe_id):
         self.ingredient = Ingredient.load(request.form["ingredient_option"])
 
         self.recipe.add_ingredient(self.ingredient)
 
-        return turbo.stream(
-            [
-                turbo.append(
-                    self.template(template_name="_edit_ingredient"),
-                    target="ingredients",
-                )
-            ]
-            + self.update_usable_ingredients(self.recipe)
-        )
+        if turbo.can_stream():
+            return turbo.stream(
+                [
+                    turbo.append(
+                        self.template(template_name="_edit_ingredient"),
+                        target="ingredients",
+                    )
+                ]
+                + self.update_usable_ingredients(self.recipe)
+            )
+        else:
+            return redirect(url_for("RecipesView:edit", id=self.recipe.id))
 
     def add_ingredient_to_recipe(self, recipe, ingredient):
         recipe.add_ingredient(ingredient)
@@ -65,7 +68,7 @@ class EditRecipeView(HelperFlaskView):
             )
         ]
 
-    @route("recipes/change_ingredient/<recipe_id>/<ingredient_id>", methods=["POST"])
+    @route("change_ingredient/<recipe_id>/<ingredient_id>", methods=["POST"])
     def change_ingredient_amount(self, recipe_id, ingredient_id):
         self.ingredient = Ingredient.load(ingredient_id)
         amount = request.form["amount"]
@@ -75,25 +78,31 @@ class EditRecipeView(HelperFlaskView):
         self.recipe.change_ingredient_amount(self.ingredient, amount_for_portion)
         self.ingredient.amount = amount_for_portion
 
-        return turbo.stream(
-            turbo.replace(
-                self.template(template_name="_edit_ingredient"),
-                target=f"ingredient-{self.ingredient.id}",
+        if turbo.can_stream():
+            return turbo.stream(
+                turbo.replace(
+                    self.template(template_name="_edit_ingredient"),
+                    target=f"ingredient-{self.ingredient.id}",
+                )
             )
-        )
+        else:
+            return redirect(url_for("RecipesView:edit", id=self.recipe.id))
 
-    @route("recipes/remove_ingredient/<recipe_id>/<ingredient_id>", methods=["POST"])
+    @route("remove_ingredient/<recipe_id>/<ingredient_id>", methods=["POST"])
     def remove_ingredient(self, recipe_id, ingredient_id):
         ingredient = Ingredient.load(ingredient_id)
 
         self.recipe.remove_ingredient(ingredient)
 
-        return turbo.stream(
-            [turbo.remove(target=f"ingredient-{ingredient_id}")]
-            + self.update_usable_ingredients(self.recipe)
-        )
+        if turbo.can_stream():
+            return turbo.stream(
+                [turbo.remove(target=f"ingredient-{ingredient_id}")]
+                + self.update_usable_ingredients(self.recipe)
+            )
+        else:
+            return redirect(url_for("RecipesView:edit", id=self.recipe.id))
 
-    @route("recipes/edit/info/<recipe_id>", methods=["POST"])
+    @route("info/<recipe_id>", methods=["POST"])
     def post(self, recipe_id):
         form = RecipesForm(request.form)
         set_form(form)
@@ -108,31 +117,41 @@ class EditRecipeView(HelperFlaskView):
 
         set_form(form, recipe=self.recipe)
 
-        return turbo.stream(
-            turbo.replace(
-                self.template("_info", message="Upraveno", form=form),
-                target="recipe-info",
+        if turbo.can_stream():
+            return turbo.stream(
+                turbo.replace(
+                    self.template("_info", message="Upraveno", form=form),
+                    target="recipe-info",
+                )
             )
-        )
+        else:
+            return redirect(url_for("RecipesView:edit", id=self.recipe.id))
 
-    @route("recipes/edit/description/<recipe_id>/", methods=["POST"])
+    @route("description/<recipe_id>/", methods=["POST"])
     def post_description(self, recipe_id):
         description = request.form["description"]
 
         self.recipe.description = description
         self.recipe.edit()
 
-        return turbo.stream(
-            turbo.replace(
-                self.template("_description", message="Upraveno"),
-                target="recipe-description",
+        if turbo.can_stream():
+            return turbo.stream(
+                turbo.replace(
+                    self.template("_description", message="Upraveno"),
+                    target="recipe-description",
+                )
             )
-        )
+        else:
+            return redirect(url_for("RecipesView:edit", id=self.recipe.id))
 
-    @route("recipes/edit/refresh_usable_ingredients/<recipe_id>", methods=["POST"])
+    @route("refresh_usable_ingredients/<recipe_id>", methods=["POST"])
     def refresh_usable_ingredients(self, recipe_id):
         response = self.update_usable_ingredients(self.recipe)
-        return turbo.stream(response)
+
+        if turbo.can_stream():
+            return turbo.stream(response)
+        else:
+            return redirect(url_for("RecipesView:edit", id=self.recipe.id))
 
     def update_usable_ingredients(self, recipe):
         unused_personal_ingredients = [

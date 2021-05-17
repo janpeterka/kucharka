@@ -1,6 +1,6 @@
 from unidecode import unidecode
 
-from flask import request
+from flask import request, redirect, url_for
 
 from flask_classful import route
 from flask_security import login_required
@@ -38,13 +38,12 @@ class FastAddIngredientsView(ExtendedFlaskView):
     decorators = [login_required]
     template_folder = "ingredients"
 
-    def before_request(self, name, **kwargs):
-        self.form = IngredientsForm()
-
     def before_new(self, **kwargs):
+        self.form = IngredientsForm()
         set_form(self.form)
 
     def new(self, recipe_id):
+        # TODO - co s tímhle?
         return turbo.stream(
             turbo.replace(
                 self.template(
@@ -66,8 +65,11 @@ class FastAddIngredientsView(ExtendedFlaskView):
 
         recipe = Recipe.load(recipe_id)
 
-        return turbo.stream(
-            [turbo.remove(target="add-ingredient-simple")]
-            + EditRecipeView().add_ingredient_to_recipe(recipe, ingredient)
-            + EditRecipeView().update_usable_ingredients(recipe)
-        )
+        if turbo.can_stream():
+            return turbo.stream(
+                [turbo.remove(target="add-ingredient-simple")]
+                + EditRecipeView().add_ingredient_to_recipe(recipe, ingredient)
+                + EditRecipeView().update_usable_ingredients(recipe)
+            )
+        else:
+            return redirect(url_for("RecipesView:edit", id=recipe_id))

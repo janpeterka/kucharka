@@ -1,7 +1,7 @@
 {% from "macros/render_field.html.j2" import render_field %}
 
 <div id="event-info">
-<form method="PUT" action="{{ url_for('EditEventView:put', event_id=event.id) }}">
+<form method="POST" action="{{ url_for('EditEventView:post', event_id=event.id) }}">
     {{ form.csrf_token }}
 
     {{ render_field(form.name) }}

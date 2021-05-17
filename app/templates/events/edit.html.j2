@@ -1,0 +1,36 @@
+{% extends "base/base.html.j2" %}
+{% block title %} Akce {% endblock %}
+{% block links %}
+    {{ super() }}
+    {{ turbo() }}
+{% endblock %}
+
+{% block content %}
+
+{% include "events/edit/_info.html.j2" %}
+
+<div class="mb-3">
+
+</div>
+
+<hr>
+
+<div>
+<ul>
+    {% for day in event.daily_plans %}
+        <li>{{ link_to(day) }}
+            {% if day.daily_recipes %}
+                ({{ day.daily_recipes | length }})
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+</div>
+
+{% include "events/_delete_or_edit.html.j2" %}
+{% include "events/_export.html.j2" %}
+
+<turbo-frame id="event-warnings" src="{{ url_for('EventsView:warnings', id=event.id) }}">
+</turbo-frame>
+
+{% endblock %}

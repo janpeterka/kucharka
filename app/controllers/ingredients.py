@@ -40,7 +40,7 @@ class IngredientsView(HelperFlaskView):
         self.ingredient = Ingredient.load(id)
         self.validate_operation(id, self.ingredient)
 
-    def before_new(self, *args, **kwargs):
+    def before_new(self):
         self.form = IngredientsForm()
         set_form(self.form)
 

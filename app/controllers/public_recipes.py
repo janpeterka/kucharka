@@ -43,6 +43,7 @@ class PublicRecipesView(HelperFlaskView):
     def toggle_reaction(self, recipe_id):
         recipe = Recipe.load(recipe_id)
         recipe.toggle_reaction()
+
         if turbo.can_stream():
             return turbo.stream(
                 turbo.replace(

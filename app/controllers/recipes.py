@@ -33,7 +33,6 @@ class RecipesView(HelperFlaskView):
     decorators = [login_required]
 
     def before_request(self, name, id=None, **kwargs):
-        # super().before_request(name, id, **kwargs)
         self.recipe = Recipe.load(id)
         self.validate_operation(id, self.recipe)
 
@@ -81,8 +80,6 @@ class RecipesView(HelperFlaskView):
     def before_new(self):
         self.form = RecipesForm()
         self.categories = RecipeCategory.load_all()
-        self.public_ingredients = Ingredient.load_all_public()
-        self.personal_ingredients = current_user.ingredients
         set_form(self.form)
 
     def index(self):

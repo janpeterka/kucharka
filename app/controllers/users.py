@@ -12,7 +12,7 @@ from flask_security import login_required, current_user
 
 from app.helpers.form import create_form, save_form_to_session
 
-# from app.models.users import User
+from app.models.users import User
 
 from app.controllers.forms.users import UsersForm, PasswordForm
 
@@ -22,8 +22,9 @@ from app.helpers.extended_flask_view import ExtendedFlaskView
 class UsersView(ExtendedFlaskView):
     decorators = [login_required]
 
-    def before_request(self, name, *args, **kwargs):
-        super().before_request(name, *args, **kwargs)
+    def before_request(self, name, id=None, *args, **kwargs):
+        # super().before_request(name, *args, **kwargs)
+        self.user = User.load(id)
         self.user = current_user if self.user is None else self.user
         if not self.user.can_current_user_view:
             return abort(403)

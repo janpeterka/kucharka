@@ -18,7 +18,7 @@ class Config(object):
     SECURITY_SEND_REGISTER_EMAIL = False
     SECURITY_CONFIRMABLE = False
 
-    # SENTRY_MONITORING = True
+    SENTRY_MONITORING = True
     INFO_USED_DB = "production db"
 
 
@@ -33,7 +33,7 @@ class TestConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get("TESTING_DB_STRING")
     APP_STATE = os.environ.get("TESTING_APP_STATE")
     SECRET_KEY = os.environ.get("TESTING_SECRET_KEY")
-    # SENTRY_MONITORING = False
+    SENTRY_MONITORING = False
 
     INFO_USED_DB = "testing db"
 
@@ -41,11 +41,10 @@ class TestConfig(Config):
 class DevConfig(LocalProdConfig):
     TEMPLATES_AUTO_RELOAD = True
     SQLALCHEMY_DATABASE_URI = os.environ.get("LOCAL_DB_STRING")
-    # SQLALCHEMY_ECHO = True
-    # APP_STATE = os.environ.get("LOCAL_APP_STATE")
-    # SENTRY_MONITORING = False
+    SENTRY_MONITORING = False
 
     INFO_USED_DB = "local db"
+    # SQLALCHEMY_ECHO = True
 
 
 class ProdConfig(Config):

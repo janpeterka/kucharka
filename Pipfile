@@ -24,3 +24,6 @@ wtforms-sqlalchemy = "*"
 
 [requires]
 python_version = "3.8"
+
+[packages.sentry-sdk]
+extras = [ "sqlalchemy",]

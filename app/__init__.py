@@ -41,18 +41,18 @@ def create_app(config_name="default"):
     babel.init_app(application)
     turbo.init_app(application)
 
-    # if application.config["SENTRY_MONITORING"]:
-    #     import sentry_sdk
-    #     from sentry_sdk.integrations.flask import FlaskIntegration
-    #     from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
+    if application.config["SENTRY_MONITORING"]:
+        import sentry_sdk
+        from sentry_sdk.integrations.flask import FlaskIntegration
+        from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
-    #     sentry_sdk.init(
-    #         dsn="https://cf0294c7f1784ba2acbe5c9ed2409bef@o457759.ingest.sentry.io/5454190",
-    #         integrations=[FlaskIntegration(), SqlalchemyIntegration()],
-    #         traces_sample_rate=0.2,
-    #     )
-    # else:
-    #     print("No Sentry monitoring.")
+        sentry_sdk.init(
+            dsn="https://e50dbd5c633a43dda2d9d4d0ae2475ad@o457759.ingest.sentry.io/5776351",
+            integrations=[FlaskIntegration(), SqlalchemyIntegration()],
+            traces_sample_rate=0.2,
+        )
+    else:
+        print("No Sentry monitoring.")
 
     # LOGGING
     # from .config.config_logging import db_handler, gunicorn_logger

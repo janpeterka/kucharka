@@ -16,7 +16,6 @@ class RecipeCategoriesView(HelperFlaskView):
     template_folder = "recipe_categories"
 
     def before_request(self, name, id=None, *args, **kwargs):
-        super().before_request(name, id, *args, **kwargs)
         self.recipe_categories = RecipeCategory.load_all()
         self.category = RecipeCategory.load(id)
 

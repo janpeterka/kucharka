@@ -26,8 +26,6 @@ class MeasurementsView(HelperFlaskView):
 
     @route("/edit/<id>", methods=["POST"])
     def edit(self, id):
-        # Use this while edit:GET doesn't support stream (probably until WebSocket support)
-        # self.measurement = Measurement.load(id)
         return turbo.stream(
             turbo.replace(
                 self.template(template_name="_edit"), target=f"measurement-{id}"

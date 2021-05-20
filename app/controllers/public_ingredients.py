@@ -1,7 +1,6 @@
 from unidecode import unidecode
 
-from flask import request
-
+from flask import request, redirect, url_for
 
 from flask_classful import route
 from flask_security import login_required
@@ -53,6 +52,7 @@ class PublicIngredientsView(HelperFlaskView):
         self.categories = IngredientCategory.load_all()
         self.categories.sort(key=lambda x: unidecode(x.name.lower()))
 
+        # WIP - tohle teď index neumí
         return turbo.stream(
             turbo.replace(
                 self.template(template_name="_edit"),
@@ -66,9 +66,13 @@ class PublicIngredientsView(HelperFlaskView):
         self.ingredient.measurement = Measurement.load(request.form["measurement_id"])
 
         self.ingredient.save()
-        return turbo.stream(
-            turbo.replace(
-                self.template(template_name="_ingredient"),
-                target=f"ingredient-{self.ingredient.id}",
+
+        if turbo.can_stream():
+            return turbo.stream(
+                turbo.replace(
+                    self.template(template_name="_ingredient"),
+                    target=f"ingredient-{self.ingredient.id}",
+                )
             )
-        )
+        else:
+            return redirect(url_for("PublicIngredientsView:index"))

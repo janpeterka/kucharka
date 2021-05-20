@@ -17,18 +17,16 @@
       <ul class="list">
         <turbo-frame id="recipe-categories">
           {% for category in recipe_categories %}
-            {% if category.id != edit_id %}
-              {% include 'recipe_categories/_recipe_category.html.j2' %}
-            {% else %}
+            {% if category.id | int  == edit_id | int %}
               {% include 'recipe_categories/_edit.html.j2' %}
+            {% else %}
+              {% include 'recipe_categories/_recipe_category.html.j2' %}
             {% endif %}
           {% endfor %}
         </turbo-frame>
       </ul>
 
-      <form action="{{ url_for('RecipeCategoriesView:create') }}" method="POST" id="recipe-category-create-form">
-        {% include 'recipe_categories/_add.html.j2' %}
-      </form>
+      {% include 'recipe_categories/_add.html.j2' %}
 
 </div> 
 {% endblock %}

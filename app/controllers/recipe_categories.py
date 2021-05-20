@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, redirect, url_for
 from flask_security import login_required
 
 from app import turbo
@@ -19,23 +19,27 @@ class RecipeCategoriesView(HelperFlaskView):
         self.recipe_categories = RecipeCategory.load_all()
         self.category = RecipeCategory.load(id)
 
-    def index(self):
+    def index(self, edit_id=None):
+        self.edit_id = request.args.get("edit_id", None)
         return self.template()
 
     @route("/show_edit/<id>", methods=["POST"])
     def show_edit(self, id):
-        # Use this while edit:GET doesn't support stream (probably until WebSocket support)
-        return turbo.stream(
-            turbo.replace(
-                self.template(template_name="_edit"), target=f"recipe-category-{id}"
+        if turbo.can_stream():
+            return turbo.stream(
+                turbo.replace(
+                    self.template(template_name="_edit"), target=f"recipe-category-{id}"
+                )
             )
-        )
+        else:
+            return redirect(url_for("RecipeCategoriesView:index", edit_id=id))
 
-    @route("/edit/<id>", methods=["GET", "POST"])
+    @route("/edit/<id>", methods=["POST"])
     def edit(self, id):
-        if request.method == "POST":
-            self.category.name = request.form["recipe-category"]
-            self.category.save()
+        self.category.name = request.form["recipe-category"]
+        self.category.save()
+
+        if turbo.can_stream():
             return turbo.stream(
                 turbo.replace(
                     self.template(template_name="_recipe_category"),
@@ -43,35 +47,45 @@ class RecipeCategoriesView(HelperFlaskView):
                 )
             )
 
-        # WIP - move show_edit for "GET" when support for WebSocket
-
         else:
-            return self.template(template_name="index", edit_id=id)
+            return redirect(url_for("RecipeCategoriesView:index"))
 
-    @route("/create/", methods=["POST"])
-    def create(self):
+    def post(self):
         self.category = RecipeCategory(name=request.form["recipe-category"])
         self.category.save()
 
-        return turbo.stream(
-            [
-                turbo.append(
-                    self.template(template_name="_recipe_category"),
-                    target="recipe-categories",
-                ),
-                turbo.update(
-                    self.template(template_name="_add"),
-                    target="recipe-category-create-form",
-                ),
-            ]
-        )
+        if turbo.can_stream():
+            return turbo.stream(
+                [
+                    turbo.append(
+                        self.template(template_name="_recipe_category"),
+                        target="recipe-categories",
+                    ),
+                    turbo.update(
+                        self.template(template_name="_add"),
+                        target="recipe-category-create-form",
+                    ),
+                ]
+            )
+        else:
+            return redirect(url_for("RecipeCategoriesView:index"))
 
     @route("/delete/<id>", methods=["POST"])
     def delete(self, id):
+        from flask import flash
         from app.helpers.turbo_flash import turbo_flash
 
         if self.category.is_used:
-            return turbo_flash("Už je někde použité, nelze smazat!")
+            if turbo.can_stream():
+                return turbo_flash("Už je někde použité, nelze smazat!")
+            else:
+                flash("Už je někde použité, nelze smazat!")
+                return redirect(url_for("RecipeCategoriesView:index"))
 
-        self.category.delete()
-        return turbo.stream(turbo.remove(target=f"recipe-category-{id}"))
+        else:
+            self.category.delete()
+
+            if turbo.can_stream():
+                return turbo.stream(turbo.remove(target=f"recipe-category-{id}"))
+            else:
+                return redirect(url_for("RecipeCategoriesView:index"))

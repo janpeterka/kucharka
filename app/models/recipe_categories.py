@@ -26,4 +26,4 @@ class RecipeCategory(db.Model, BaseMixin):
 
     @property
     def is_used(self) -> bool:
-        return True if self.ingredients else False
+        return True if self.recipes else False

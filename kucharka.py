@@ -99,6 +99,26 @@ def session_management():
         return redirect("/")
 
 
+# @application.after_request
+# def flash_if_turbo(response):
+#     from app import turbo
+#     from flask import render_template as template
+#     from flask import session, get_flashed_messages
+
+#     # if turbo
+#     if response.headers["Content-Type"] == "text/vnd.turbo-stream.html; charset=utf-8":
+#         messages = get_flashed_messages(with_categories=True)
+#         session.pop("_flashes", None)
+
+#         if messages:
+#             flash_turbo_response = turbo.replace(
+#                 template("base/_flashing.html.j2", messages=messages), target="flashing"
+#             )
+#             response.response.append(flash_turbo_response)
+
+#     return response
+
+
 @application.after_request
 def flash_if_turbo(response):
     from app import turbo

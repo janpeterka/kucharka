@@ -6,7 +6,7 @@ from flask import abort
 def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if current_user.is_authenticated and (current_user.has_role("superadmin")):
+        if current_user.is_authenticated and current_user.has_role("superadmin"):
             return f(*args, **kwargs)
         else:
             abort(403)
@@ -17,7 +17,7 @@ def admin_required(f):
 def app_manager_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if current_user.is_authenticated and (current_user.has_role("app manager")):
+        if current_user.is_authenticated and current_user.has_role("app manager"):
             return f(*args, **kwargs)
         else:
             abort(403)

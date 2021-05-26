@@ -5,5 +5,13 @@ from .events import EventsForm  # noqa: F401
 from .recipes import RecipesForm  # noqa: F401
 from .users import UsersForm  # noqa: F401
 from .users import PasswordForm  # noqa: F401
+from .public_recipes import PublicRecipeFilterForm  # noqa: F401
 
-__all__ = ["IngredientsForm", "EventsForm", "RecipesForm", "UsersForm", "PasswordForm"]
+__all__ = [
+    "IngredientsForm",
+    "EventsForm",
+    "RecipesForm",
+    "UsersForm",
+    "PasswordForm",
+    "PublicRecipeFilterForm",
+]

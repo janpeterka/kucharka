@@ -1,7 +1,7 @@
 from flask import request, url_for, redirect, flash
 
 # from flask import current_app as application
-from flask import abort
+# from flask import abort
 
 from flask_classful import route
 from flask_security import login_required, current_user
@@ -16,24 +16,24 @@ from app.models.users import User
 
 from app.controllers.forms.users import UsersForm, PasswordForm
 
-from app.helpers.extended_flask_view import ExtendedFlaskView
+from app.helpers.helper_flask_view import HelperFlaskView
 
 
-class UsersView(ExtendedFlaskView):
+class UsersView(HelperFlaskView):
     decorators = [login_required]
 
     def before_request(self, name, id=None, *args, **kwargs):
-        # super().before_request(name, *args, **kwargs)
         self.user = User.load(id)
         self.user = current_user if self.user is None else self.user
-        if not self.user.can_current_user_view:
-            return abort(403)
+
+        self.validate_operation(id, self.user)
 
     def draft_recipes(self):
         return self.template(template_name="recipes/_draft_recipes.html.j2")
 
     def ingredients_without_category(self):
         ingredients = [i for i in self.user.ingredients if i.without_category]
+
         return self.template(
             template_name="ingredients/_ingredients_without_category.html.j2",
             ingredients=ingredients,
@@ -41,6 +41,7 @@ class UsersView(ExtendedFlaskView):
 
     def ingredients_without_measurement(self):
         ingredients = [i for i in self.user.ingredients if i.without_measurement]
+
         return self.template(
             template_name="ingredients/_ingredients_without_measurement.html.j2",
             ingredients=ingredients,
@@ -48,6 +49,7 @@ class UsersView(ExtendedFlaskView):
 
     def recipes_without_category(self):
         recipes = [i for i in self.user.recipes if i.without_category]
+
         return self.template(
             template_name="recipes/_recipes_without_category.html.j2", recipes=recipes
         )
@@ -65,16 +67,12 @@ class UsersView(ExtendedFlaskView):
         return self.template(template_name="ingredients/_list.html.j2")
 
     def show(self, **kwargs):
-        # super().show() needed id.
         return self.template()
-
-    def before_edit(self):
-        # super().before_edit() needed id. For now it's not wanted.
-        pass
 
     def edit(self):
         self.user_form = create_form(UsersForm, obj=self.user)
         self.password_form = create_form(PasswordForm)
+
         return self.template()
 
     def post_edit(self, page_type=None):

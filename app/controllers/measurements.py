@@ -51,7 +51,7 @@ class MeasurementsView(HelperFlaskView):
                 turbo.append(
                     self.template(template_name="_measurement"), target="measurements"
                 ),
-                turbo.update(
+                turbo.replace(
                     self.template(template_name="_add"),
                     target="measurement-create-form",
                 ),

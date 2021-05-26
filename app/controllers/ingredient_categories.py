@@ -52,7 +52,7 @@ class IngredientCategoriesView(HelperFlaskView):
                     self.template(template_name="_ingredient_category"),
                     target="ingredient-categories",
                 ),
-                turbo.update(
+                turbo.replace(
                     self.template("_add"), target="ingredient-category-create-form"
                 ),
             ]

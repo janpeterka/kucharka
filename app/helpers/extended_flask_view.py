@@ -1,21 +1,17 @@
-import inspect
-import re
-
-from flask import render_template as template
 from flask import request, redirect, url_for
 
-from flask_classful import FlaskView, route
+from flask_classful import route
 
+from app.helpers.helper_flask_view import HelperFlaskView
 from app.helpers.form import create_form, save_form_to_session
 from app.handlers.data import DataHandler
+
 
 from app.models import *  # noqa: F401, F403, F406
 from app.controllers.forms import *  # noqa: F401, F403, F406
 
 
-class ExtendedFlaskView(FlaskView):
-    """docstring for ExtendedFlaskView"""
-
+class ExtendedFlaskView(HelperFlaskView):
     def before_request(self, name, id=None, *args, **kwargs):
         DataHandler.set_additional_request_data(item_type=self._attribute_name)
 
@@ -80,86 +76,3 @@ class ExtendedFlaskView(FlaskView):
         self.object.edit()
 
         return redirect(url_for(f"{self._model_name}sView:show", id=self.object.id))
-
-    def not_logged_in(self, *args, **kwargs):
-        message = request.args.get(
-            "message", "Tato funkce je přístupná pouze pro přihlášené uživatele."
-        )
-        return template("not_logged_in.html.j2", message=message)
-
-    def template(self, template_name=None, **kwargs):
-        # Template name is given from view and method names if not provided
-        calling_method = inspect.stack()[1].function
-
-        if hasattr(self, "template_folder"):
-            template_folder = self.template_folder
-        else:
-            template_folder = f"{self._attribute_name}s"
-
-        if template_name is None:
-            template_name = f"{template_folder}/{calling_method}.html.j2"
-        elif template_name is not None and hasattr(self, "template_folder"):
-            template_name = f"{template_folder}/{template_name}.html.j2"
-
-        # All public variables of the view are passed to template
-        view_attributes = self.__dict__
-        public_attributes = {
-            k: view_attributes[k] for k in view_attributes if not k.startswith("_")
-        }
-
-        # kwargs has higher priority, therefore rewrites public attributes
-        merged_values = {**public_attributes, **kwargs}
-
-        return template(template_name, **merged_values)
-
-    @property
-    def _model_name(self):
-        # e.g. User
-        if type(self).__name__.endswith("sView"):
-            model_name = type(self).__name__.replace("sView", "")
-        elif type(self).__name__.endswith("View"):
-            model_name = type(self).__name__.replace("View", "")
-        else:
-            raise AttributeError("Controller name not ending with 'View'")
-
-        return model_name
-
-    @property
-    def _model_klass(self):
-        # e.g. class <User>
-        try:
-            model_klass = globals()[self._model_name]
-        except KeyError:
-            model_klass = None
-
-        return model_klass
-
-    @property
-    def _form_klass(self):
-        # e.g. class <UsersForm>
-        try:
-            form_klass = globals()[self._form_name]
-        except KeyError:
-            form_klass = None
-
-        return form_klass
-
-    @property
-    def _attribute_name(self):
-        # e.g. user
-        model_name = self._model_name
-        snake_model_name = re.sub("(?!^)([A-Z]+)", r"_\1", model_name).lower()
-        return snake_model_name
-
-    @property
-    def _form_name(self):
-        # e.g. UsersForm
-        form_name = f"{self._model_name}sForm"
-        return form_name
-
-    @property
-    def _template_folder(self):
-        if hasattr(self, "template_folder"):
-            return self.template_folder
-        else:
-            self.template_folder = self._attribute_name + "s"

@@ -61,7 +61,7 @@ class RecipeCategoriesView(HelperFlaskView):
                         self.template(template_name="_recipe_category"),
                         target="recipe-categories",
                     ),
-                    turbo.update(
+                    turbo.replace(
                         self.template(template_name="_add"),
                         target="recipe-category-create-form",
                     ),

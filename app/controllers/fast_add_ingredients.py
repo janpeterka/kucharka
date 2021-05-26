@@ -7,7 +7,7 @@ from flask_security import login_required
 
 from app import turbo
 
-from app.helpers.extended_flask_view import ExtendedFlaskView
+from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models.ingredients import Ingredient
 from app.models.ingredient_categories import IngredientCategory
@@ -34,7 +34,7 @@ def set_form(form, ingredient=None):
             form.category.data = ingredient.category.id
 
 
-class FastAddIngredientsView(ExtendedFlaskView):
+class FastAddIngredientsView(HelperFlaskView):
     decorators = [login_required]
     template_folder = "ingredients"
 

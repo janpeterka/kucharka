@@ -60,15 +60,8 @@ class BaseMixin(object):
     def created_at_date(cls, date):
         if hasattr(cls, "created_at"):
             attr = "created_at"
-        elif hasattr(cls, "created"):
-            attr = "created"
-        elif hasattr(cls, "date"):
-            # DailyPlan
-            attr = "date"
         else:
-            raise AttributeError(
-                'No "created_at", "created" or "date" for created_recently'
-            )
+            raise AttributeError('No "created_at" for created_recently')
 
         return cls.query.filter(func.DATE(getattr(cls, attr)) == date).all()
 
@@ -77,15 +70,8 @@ class BaseMixin(object):
         date_from = datetime.date.today() - datetime.timedelta(days=days)
         if hasattr(cls, "created_at"):
             attr = "created_at"
-        elif hasattr(cls, "created"):
-            attr = "created"
-        elif hasattr(cls, "date"):
-            # DailyPlan
-            attr = "date"
         else:
-            raise AttributeError(
-                'No "created_at", "created" or "date" for created_recently'
-            )
+            raise AttributeError('No "created_at" for created_recently')
 
         return cls.query.filter(getattr(cls, attr) > date_from).all()
 
@@ -149,29 +135,26 @@ class BaseMixin(object):
             application.logger.error("Refresh error: {}".format(e))
             return False
 
-    # OTHER METHODS
+    # PROPERTIES
 
     def is_author(self, user) -> bool:
         if hasattr(self, "author"):
             return self.author == user
         else:
             return False
-            # raise AttributeError("No 'author' attribute.")
 
     @property
     def is_current_user_author(self) -> bool:
         return self.is_author(current_user)
 
-    # PROPERTIES
-
     @hybrid_property
     def is_public(self) -> bool:
-        """alias for is_shared"""
         if hasattr(self, "is_shared"):
             return self.is_shared
+        elif hasattr(self, "is_public"):
+            return self.is_public
         else:
             return False
-            # raise AttributeError("No 'is_shared' attribute.")
 
     @hybrid_property
     def is_visible(self) -> bool:
@@ -194,7 +177,7 @@ class BaseMixin(object):
         return self.can_view(user=current_user)
 
     def can_edit(self, user) -> bool:
-        return self.is_author(user) or getattr(user, "is_admin", False)
+        return self == user or self.is_author(user) or getattr(user, "is_admin", False)
 
     @property
     def can_current_user_edit(self) -> bool:

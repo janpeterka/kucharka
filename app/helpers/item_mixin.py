@@ -1,9 +1,4 @@
-# from sqlalchemy import and_
-# from flask_security import current_user
-
 from app.helpers.base_mixin import BaseMixin
-
-# from app.models.request_logs import RequestLog
 
 
 # Custom methods for all my classes
@@ -25,17 +20,6 @@ class ItemMixin(BaseMixin):
                 data[attr] = str(value)
 
         return data
-
-    # @property
-    # def view_count(self) -> int:
-    #     log_count = RequestLog.query.filter(
-    #         and_(
-    #             RequestLog.item_id == self.id,
-    #             RequestLog.item_type == self.__class__.__name__.lower(),
-    #             RequestLog.user_id == getattr(current_user, "id", None),
-    #         )
-    #     ).count()
-    #     return log_count
 
     # CONTEXT PROCESSOR UTILITIES
     @property

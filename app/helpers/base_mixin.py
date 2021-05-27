@@ -151,8 +151,6 @@ class BaseMixin(object):
     def is_public(self) -> bool:
         if hasattr(self, "is_shared"):
             return self.is_shared
-        elif hasattr(self, "is_public"):
-            return self.is_public
         else:
             return False
 

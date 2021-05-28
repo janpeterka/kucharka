@@ -12,11 +12,13 @@
 
 {% block script %}
 	<script src="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.js"></script>
+  {% include 'javascript/stimulus.js.html' %}
+  {% include 'javascript/recipe_reaction_controller.js.html' %}
 {% endblock %}
 
 {% block content %}
 
-<form action="{{ url_for('PublicRecipesView:filter') }}" method="post" class="form-inline form-control" accept-charset="UTF-8">
+<form action="{{ url_for('PublicRecipesView:index') }}" method="post" class="form-inline form-control" accept-charset="UTF-8">
 	{{ form.csrf_token }}
 		<div class="col-12">
 			<div class="mt-2 row">

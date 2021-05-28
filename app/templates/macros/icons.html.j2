@@ -5,6 +5,8 @@
     {% set class_ = kwargs.pop('class', '') %}
     {% set class_ = class_ + " cursor-default" %}
     {% set fa_class_ = "" %}
+    
+    {% set action = kwargs.pop('action', None) %}
 
     {# Pages #}
     {% if name=="user" %}
@@ -100,7 +102,9 @@
         <abbr title="{{ tooltip }}">
     {% endif %}
 
-    <i class="{{ fa_class_ + class_ }}">{% if value %}{{ value }}{% endif %}</i>
+    <i class="{{ fa_class_ + class_ }}" {% if action %}data-action="{{ action }}"{% endif %}>
+        {% if value %}{{ value }}{% endif %}
+    </i>
 
 
     {% if with_tooltip %}

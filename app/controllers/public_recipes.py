@@ -3,7 +3,8 @@ from app.models.recipes import Recipe
 from app import turbo
 
 from flask import render_template as template
-from flask import redirect, url_for
+
+# from flask import redirect, url_for
 
 from flask_classful import route
 from flask_security import login_required
@@ -20,27 +21,29 @@ class PublicRecipesView(HelperFlaskView):
 
     def before_request(self, name, *args, **kwargs):
         self.recipes = Recipe.load_all_public()
+
+    def before_index(self):
         # Get values for filters
         # TODO - tohle mi nepřijde úplně šťastný
-        if name in ["index", "filter"]:
-            ingredients = [x.ingredients for x in self.recipes]
-            flatten_ingredients = [y for x in ingredients for y in x]
-            ingredient_names = [x.name for x in flatten_ingredients]
-            self.ingredient_names = ["---"]
-            self.ingredient_names.extend(list(set(ingredient_names)))
-            self.ingredient_names.sort()
+        # TODO - načítání by mohlo být přes /src
+        ingredients = [x.ingredients for x in self.recipes]
+        flatten_ingredients = [y for x in ingredients for y in x]
+        ingredient_names = [x.name for x in flatten_ingredients]
 
-            self.categories = RecipeCategory.load_all()
+        self.ingredient_names = ["---"]
+        self.ingredient_names.extend(list(set(ingredient_names)))
+        self.ingredient_names.sort()
 
-            self.form = PublicRecipeFilterForm(
-                ingredient_names=self.ingredient_names, categories=self.categories
-            )
+        self.categories = RecipeCategory.load_all()
 
-    def index(self):
-        return self.template()
+        self.form = PublicRecipeFilterForm(
+            ingredient_names=self.ingredient_names, categories=self.categories
+        )
 
     @route("/toggleReaction/<recipe_id>", methods=["POST"])
     def toggle_reaction(self, recipe_id):
+        from flask import flash
+
         recipe = Recipe.load(recipe_id)
         recipe.toggle_reaction()
 
@@ -52,11 +55,12 @@ class PublicRecipesView(HelperFlaskView):
                 )
             )
         else:
-            # TODO: Tohle úplně zruší filtry!
-            return redirect(url_for("PublicRecipesView:index"))
+            flash("Reakce byla zaznamenána.")
+            return "", 204
 
-    @route("filter", methods=["POST"])
-    def filter(self):
+    # @route("filter", methods=["POST"])
+    @route("/", methods=["GET", "POST"])
+    def index(self):
         self.recipes = Recipe.load_all_public()
 
         # Get filters from request
@@ -85,7 +89,7 @@ class PublicRecipesView(HelperFlaskView):
         if with_reaction:
             self.recipes = [x for x in self.recipes if x.has_reaction]
 
-        if category.name != "---":
+        if category and category.name != "---":
             self.recipes = [x for x in self.recipes if x.category == category]
 
         if is_vegetarian:
@@ -107,4 +111,4 @@ class PublicRecipesView(HelperFlaskView):
                 )
             )
         else:
-            return self.template("index")
+            return self.template()

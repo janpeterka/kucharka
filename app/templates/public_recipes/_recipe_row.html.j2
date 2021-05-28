@@ -1,6 +1,6 @@
 {% from "macros/icons.html.j2" import icon %}
 
-<tr id = "recipe-{{ recipe.id }}" class="h-5">
+<tr id = "recipe-{{ recipe.id }}" class="h-5" data-controller="recipe-reactions">
 	<td>{{ link_to(recipe) }}</td>
     <td>{{ recipe.concat_ingredients }}</td>
     <td>{{ recipe.category.name }}</td>
@@ -24,11 +24,11 @@
 	<td>
 		<form method="post" action="{{ url_for('PublicRecipesView:toggle_reaction', recipe_id=recipe.id) }}">
 			<button type="submit" class="invisible-button">
-					{% if recipe.has_reaction %}
-						<i>{{ icon("heart_full") }}</i>
-					{% else %}
-						<i>{{ icon("heart_empty") }}</i>
-					{% endif %}
+				{% if recipe.has_reaction %}
+					<span>{{ icon("heart_full", action="click->recipe-reactions#empty") }}</span>
+				{% else %}
+					<span>{{ icon("heart_empty", action="click->recipe-reactions#fill") }}</span>
+				{% endif %}
 			</button>
 		</form>
 	</td>

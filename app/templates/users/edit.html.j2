@@ -1,9 +1,11 @@
 {% extends "base/base.html.j2" %}
 {% block title %}
-    Uživatel
+    {% if current_user.is_admin and user != current_user %}
+        Profil [{{ user.id }} | {{ user.username }}]   
+    {% else %}
+        Profil
+    {% endif %}
 {% endblock %}
-
-{% block style %}{% endblock %}
 
 {% block script %}
     {% include 'javascript/stimulus.js.html' %}
@@ -11,53 +13,39 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="col-12">
-            <form action="{{ url_for('UsersView:post_edit') }}" class="form-group" method="post" accept-charset="utf-8">
-                {{ user_form.csrf_token }}
-                {# {% from "macros/_form_element.html.j2" import render_field %} #}
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>{{ texts.user.username }}</th>
-                            <th>{{ texts.user.firstname }}</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                {{ user.name }}
-                            </td>
-                            <td>
-                                {{ render_field(user_form.full_name, has_label=False) }}
-                            </td>
-                            <td>
-                                {{ render_field(user_form.submit, class="btn btn-warning", has_label=False, value=texts.edit_confirm) }}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
 
-            <form action="{{ url_for('UsersView:post_password_edit') }}" method="post">
-                {{ password_form.csrf_token }}
-                <table class="table">
+<div class="col-12">
+    <form action="{{ url_for('UsersView:post') }}" class="form-group" method="post" accept-charset="utf-8">
+        {{ user_form.csrf_token }}
+        {# {% from "macros/_form_element.html.j2" import render_field %} #}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>{{ texts.user.username }}</th>
+                    <th>{{ texts.user.name }}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
                     <td>
-                        <div class="form-group" data-controller="see-password" data-see-password-target="passwordDiv">
-                            {{ render_field(password_form.password, has_label=False) }}
-                        </div>
+                        {{ user.email }}
                     </td>
                     <td>
-                        {{ render_field(password_form.submit, class="btn btn-warning float-right", value=texts.password_change) }}
+                        {{ render_field(user_form.full_name, has_label=False) }}
                     </td>
-                </table>
-            </form>
-        </div>
+                    <td>
+                        {{ render_field(user_form.submit, class="btn btn-warning", has_label=False, value=texts.edit_confirm) }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
 
-        <div>
-            <a href="{{ url_for('UsersView:show') }}" class="btn btn-secondary">{{ texts.edit_cancel }} {{ icon("edit") }}</a>
-        </div>
-    </div>
+<div>
+    <a href="{{ url_for('UsersView:show') }}" class="btn btn-secondary">{{ texts.edit_cancel }} {{ icon("edit") }}</a>
+</div>
+
 {% endblock %}
 

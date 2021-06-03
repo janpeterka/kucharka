@@ -1,8 +1,9 @@
 .admin-field {
   background-color: #FFE766;
-  margin-top: 2rem;
   padding: 0.5rem;
-  border: solid 0.1rem red;
+  /*border: solid 0.1rem red;*/
+  border-radius: 0.3rem;
+  box-shadow: 0.2rem 0.2rem 0.4rem black;
 }
 
 .admin-warning {

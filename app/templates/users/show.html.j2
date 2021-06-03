@@ -23,7 +23,7 @@
 </div>
 
 {% if current_user.is_admin %}
-    <div class="admin-field">
+    <div class="admin-field mb-2">
         <h3>Role</h3>
         <ul>
         {% for role in user.roles %}
@@ -40,7 +40,6 @@
 </div>
 
 {# {% if current_user.is_admin %}
-    {% include "admin/users/_info.html.j2"%}
     {% from "macros/_admin_field.html.j2" import admin_field_class with context %}
     <div class="admin-field">
         <a href="{{ url_for('RecipesView:make_all_public_for_user', user_id=user.id) }}" class="btn btn-secondary">Zveřejnit všechny recepty uživatele</a>

@@ -1,5 +1,5 @@
 from flask import request, redirect, url_for
-from flask_security import login_required
+from flask_security import login_required, roles_accepted
 
 from app import turbo
 
@@ -7,12 +7,11 @@ from flask_classful import route
 
 from app.models.recipe_categories import RecipeCategory
 
-from app.helpers.auth import app_manager_or_higher_required
 from app.helpers.helper_flask_view import HelperFlaskView
 
 
 class RecipeCategoriesView(HelperFlaskView):
-    decorators = [login_required, app_manager_or_higher_required]
+    decorators = [login_required, roles_accepted("admin", "application_manager")]
     template_folder = "recipe_categories"
 
     def before_request(self, name, id=None, *args, **kwargs):

@@ -1,9 +1,8 @@
 from flask import abort, make_response
 from flask import render_template as template
 
+from flask_security import roles_required
 from flask_classful import FlaskView
-
-from app.helpers.auth import admin_required
 
 
 class ErrorsView(FlaskView):
@@ -14,17 +13,17 @@ class ErrorsView(FlaskView):
         return template("errors/shutdown.html.j2")
 
     # only for testing
-    @admin_required
+    @roles_required("admin")
     def err404(self):
         return template("errors/err404.html.j2")
 
     # only for testing
-    @admin_required
+    @roles_required("admin")
     def err405(self):
         return template("errors/err405.html.j2")
 
     # only for testing
-    @admin_required
+    @roles_required("admin")
     def err500(self):
         return template("errors/err500.html.j2")
 

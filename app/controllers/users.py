@@ -27,7 +27,6 @@ class UsersView(HelperFlaskView):
 
     def edit(self):
         self.user_form = create_form(UsersForm, obj=self.user)
-        # self.password_form = create_form(ChangePasswordForm)
 
         return self.template()
 
@@ -48,12 +47,12 @@ class UsersView(HelperFlaskView):
 
         return redirect(url_for("UsersView:show"))
 
-    # @admin_required
+    # @roles_required("admin")
     # def show_all(self):
     #     users = User.load_all()
     #     return self.template("admin/users/all.html.j2", users=users)
 
-    # @admin_required
+    # @roles_required("admin")
     # def login_as(self, user_id, back=False):
     #     if "back" in request.args:
     #         back = request.args["back"]

@@ -24,7 +24,7 @@ class User(db.Model, BaseMixin, UserMixin):
 
     @property
     def is_admin(self):
-        return self.has_role("superadmin")
+        return self.has_role("admin")
 
     @property
     def is_app_manager(self):

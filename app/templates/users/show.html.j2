@@ -22,6 +22,18 @@
      </table>
 </div>
 
+{% if current_user.is_admin %}
+    <div class="admin-field">
+        <h3>Role</h3>
+        <ul>
+        {% for role in user.roles %}
+            <li> {{ role.name }} </li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+
 <div>
     <a href="{{ url_for('UsersView:edit') }}" class="btn btn-secondary">{{ texts.edit }} {{ icon("edit") }}</a>
     <a href="{{ url_for_security('change_password') }}" class="btn btn-secondary"> Změnit heslo {{ icon("edit") }}</a>

@@ -21,6 +21,7 @@ from .public_recipes import PublicRecipesView
 from .public_ingredients import PublicIngredientsView
 
 from .users import UsersView
+from .user_statistics import UserStatisticsView
 
 from app.helpers.helper_flask_view import HelperFlaskView
 
@@ -42,6 +43,7 @@ __all__ = [
     "PublicRecipesView",
     "PublicIngredientsView",
     "UsersView",
+    "UserStatisticsView",
 ]
 
 
@@ -73,7 +75,8 @@ def register_all_controllers(application):
     EditRecipeView.register(application, base_class=HelperFlaskView)
     PublicRecipesView.register(application, base_class=HelperFlaskView)
 
-    UsersView.register(application)
+    UsersView.register(application, base_class=HelperFlaskView)
+    UserStatisticsView.register(application, base_class=HelperFlaskView)
 
 
 def register_error_handlers(application):

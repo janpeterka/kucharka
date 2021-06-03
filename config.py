@@ -31,7 +31,7 @@ class TestConfig(Config):
     TESTING = True
     WTF_CSRF_ENABLED = False
     SQLALCHEMY_DATABASE_URI = os.environ.get("TESTING_DB_STRING")
-    APP_STATE = os.environ.get("TESTING_APP_STATE")
+    # APP_STATE = os.environ.get("TESTING_APP_STATE")
     SECRET_KEY = os.environ.get("TESTING_SECRET_KEY")
     SENTRY_MONITORING = False
 

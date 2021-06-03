@@ -22,16 +22,16 @@
             <summary class="text-uppercase font-comfortaa">Další rychlé akce</summary>
             <div class="ml-4">
                 
-            <turbo-frame id="draft-recipes" src="{{ url_for('UsersView:draft_recipes') }}">
+            <turbo-frame id="draft-recipes" src="{{ url_for('UserStatisticsView:draft_recipes') }}">
             </turbo-frame>
 
-            <turbo-frame id="ingredients-without-category" src="{{ url_for('UsersView:ingredients_without_category') }}">
+            <turbo-frame id="ingredients-without-category" src="{{ url_for('UserStatisticsView:ingredients_without_category') }}">
             </turbo-frame>
             
-            <turbo-frame id="ingredients-without-measurement" src="{{ url_for('UsersView:ingredients_without_measurement') }}">
+            <turbo-frame id="ingredients-without-measurement" src="{{ url_for('UserStatisticsView:ingredients_without_measurement') }}">
             </turbo-frame>
             
-            <turbo-frame id="recipes-without-category" src="{{ url_for('UsersView:recipes_without_category') }}">
+            <turbo-frame id="recipes-without-category" src="{{ url_for('UserStatisticsView:recipes_without_category') }}">
             </turbo-frame>
             </div>
         </details>
@@ -46,20 +46,20 @@
 
         <details open>
             <summary class="text-uppercase font-comfortaa"> Akce </summary>
-            <turbo-frame id="events" src="{{ url_for('UsersView:events') }}">
+            <turbo-frame id="events" src="{{ url_for('UserStatisticsView:events') }}">
             </turbo-frame>
         </details>
         
         <details>
             <summary class="text-uppercase font-comfortaa"> Recepty </summary>
-            <turbo-frame id="recipes" src="{{ url_for('UsersView:recipes') }}">
+            <turbo-frame id="recipes" src="{{ url_for('UserStatisticsView:recipes') }}">
             </turbo-frame>
             {# {{ list_of_links(current_user.visible_recipes) }} #}
         </details>
 
         <details>
             <summary class="text-uppercase font-comfortaa"> Suroviny </summary>
-            <turbo-frame id="ingredients" src="{{ url_for('UsersView:ingredients') }}">
+            <turbo-frame id="ingredients" src="{{ url_for('UserStatisticsView:ingredients') }}">
             </turbo-frame>
             {# {{ list_of_links(ingredients) }} #}
         </details>

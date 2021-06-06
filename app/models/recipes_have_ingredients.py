@@ -27,6 +27,7 @@ class RecipeHasIngredient(db.Model, BaseMixin):
         db.ForeignKey("ingredients.id"), primary_key=True, nullable=False, index=True
     )
     amount = db.Column(db.Float, nullable=False, default=0)
+    comment = db.Column(db.String(255))
 
     ingredient = db.relationship("Ingredient", back_populates="ingredient_recipes")
     recipe = db.relationship("Recipe", back_populates="recipe_ingredients")

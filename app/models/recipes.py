@@ -76,6 +76,7 @@ class Recipe(db.Model, ItemMixin):
 
         for ingredient in recipe.ingredients:
             ingredient.amount = round(ingredient.load_amount_by_recipe_id(recipe.id), 2)
+            ingredient.comment = ingredient.load_comment_by_recipe(recipe)
 
         return recipe
 
@@ -174,6 +175,11 @@ class Recipe(db.Model, ItemMixin):
     def change_ingredient_amount(self, ingredient, amount):
         rhi = RecipeHasIngredient.load_by_recipe_and_ingredient(self, ingredient)
         rhi.amount = amount
+        rhi.save()
+
+    def change_ingredient_comment(self, ingredient, comment):
+        rhi = RecipeHasIngredient.load_by_recipe_and_ingredient(self, ingredient)
+        rhi.comment = comment
         rhi.save()
 
     # PERMISSIONS

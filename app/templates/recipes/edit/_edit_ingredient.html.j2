@@ -10,8 +10,21 @@
                 <span class="ml-2">{{ ingredient.measurement.name }}</span>
             </div>
             <input type="submit" class="form-control btn btn-warning ml-4" value="Změnit">
-
         </form>
+        {% if ingredient.comment %}
+        <details open>
+        {% else %}
+        <details>
+        {% endif %}
+            <summary>Komentář</summary>
+              <form action="{{ url_for('EditRecipeView:change_ingredient_comment', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" class="form form-inline" method="post">
+            <div class="col-8">
+                <input type="text" class="form-control" name="comment"
+                       value="{% if ingredient.comment %}{{ ingredient.comment }}{% endif %}">
+            </div>
+            <input type="submit" class="form-control btn btn-warning ml-4" value="Změnit komentář">
+        </form>
+        </details>
     </td>
 
     <td class="align-middle">

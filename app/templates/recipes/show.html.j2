@@ -41,6 +41,7 @@
         <th>{{ texts.title }}</th>
         <th>Množství (na {{recipe.portion_count}} porcí)</th>
         <th>{{ texts.amount_simple }}</th>
+        <th></th>
     </tr>
 
     {% for ingredient in recipe.ingredients: %}
@@ -50,6 +51,7 @@
             </td>
             <td>{{ (ingredient.amount * recipe.portion_count) | round(1) }} {{ ingredient.measurement.name}}</td>
             <td>{{ ingredient.amount  }}</td>
+            <td><em>{{ ingredient.comment|default("", True) }}</em></td>
         </tr>
     {% endfor %}
 </table>

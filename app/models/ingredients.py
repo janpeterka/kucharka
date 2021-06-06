@@ -82,6 +82,12 @@ class Ingredient(db.Model, ItemMixin):
         ).first()
         return rhi.amount
 
+    def load_comment_by_recipe(self, recipe):
+        rhi = RecipeHasIngredient.query.filter_by(
+            recipe_id=recipe.id, ingredient_id=self.id
+        ).first()
+        return rhi.comment
+
     # PROPERTIES
 
     @property

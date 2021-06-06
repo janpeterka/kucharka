@@ -22,6 +22,8 @@ class Config(object):
     SECURITY_CHANGEABLE = True
     SECURITY_SEND_PASSWORD_CHANGE_EMAIL = False
 
+    TURBO_WEBSOCKET_ROUTE = None
+
     SENTRY_MONITORING = True
     INFO_USED_DB = "production db"
 

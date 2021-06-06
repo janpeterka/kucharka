@@ -11,11 +11,7 @@
             </div>
             <input type="submit" class="form-control btn btn-warning ml-4" value="Změnit">
         </form>
-        {% if ingredient.comment %}
-        <details open>
-        {% else %}
         <details>
-        {% endif %}
             <summary>Komentář</summary>
               <form action="{{ url_for('EditRecipeView:change_ingredient_comment', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" class="form form-inline" method="post">
             <div class="col-8">
@@ -30,6 +26,12 @@
     <td class="align-middle">
         {% if ingredient.amount %}
             <span class="font-italic font-weight-light"> {{ ingredient.amount | round(1) }} na porci </span>
+        {% endif %}
+    </td>
+
+    <td class="align-middle">
+        {% if ingredient.comment %}
+            <span class="font-italic font-weight-light"> {{ ingredient.comment }} </span>
         {% endif %}
     </td>
 

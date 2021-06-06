@@ -96,9 +96,10 @@ class Ingredient(db.Model, ItemMixin):
     def without_measurement(self):
         return self.measurement is None or self.measurement.name == "---"
 
-    @property
+    # @property
     def can_edit_measurement(self):
-        return not self.is_used or self.without_measurement
+        return True
+        # return not self.is_used or self.without_measurement
 
     # PERMISSIONS
 

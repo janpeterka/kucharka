@@ -27,7 +27,7 @@
         {# <td>{{ ingredient.category.name }}</td> #}
       {# </div> #}
     {# <label style="font-size: smaller;">{{ ingredient.description if ingredient.description  }}</label> #}
-    {% if current_user.is_app_manager or current_user.is_admin %}
+    {% if current_user.is_application_manager or current_user.is_admin %}
       <form method="POST" class="col" action="{{ url_for('PublicIngredientsView:edit', ingredient_id=ingredient.id) }}" data-turbo-frame="all">
         <button type="submit" class="change" style="margin-top: 0.1rem"></button>
       </form>

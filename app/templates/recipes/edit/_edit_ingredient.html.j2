@@ -6,7 +6,7 @@
         <form action="{{ url_for('EditRecipeView:change_ingredient_amount', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" class="form form-inline" method="post">
             <div class="col-8">
                 <input type="number" class="form-control" name="amount" step="0.01" min="0"
-                       value="{% if ingredient.amount %}{{ (ingredient.amount|float * recipe.portion_count|float) | round(1) }}{% endif %}">
+                       value="{% if ingredient.amount %}{{ (ingredient.amount|float * recipe.portion_count|float) | int }}{% endif %}">
                 <span class="ml-2">{{ ingredient.measurement.name }}</span>
             </div>
             <input type="submit" class="form-control btn btn-warning ml-4" value="Změnit">

@@ -211,7 +211,7 @@ class Recipe(db.Model, ItemMixin):
     @property
     def has_zero_amount_ingredient(self):
         for ingredient in self.recipe_ingredients:
-            if ingredient.amount == 0:
+            if ingredient.amount == 0 and ingredient.is_measured:
                 return True
 
         return False
@@ -219,7 +219,7 @@ class Recipe(db.Model, ItemMixin):
     @property
     def has_no_measurement_ingredient(self):
         for ingredient in self.ingredient:
-            if ingredient.without_measurement:
+            if ingredient.without_measurement and ingredient.is_measured:
                 return True
 
         return False

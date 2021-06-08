@@ -48,7 +48,7 @@ class EventExporterView(HelperFlaskView):
                 "recipes": {},
             }
             for event_recipe in ingredient.event_recipes:
-                amount = ingredient.load_amount_by_recipe_id(event_recipe.id) * float(
+                amount = ingredient.load_amount_by_recipe(event_recipe) * float(
                     self.event.people_count
                 )
                 recipe_ingredient_amounts[ingredient.id]["recipes"][event_recipe.id] = {

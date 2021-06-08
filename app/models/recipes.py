@@ -248,30 +248,30 @@ class Recipe(db.Model, ItemMixin):
     def gluten_free(self):
         return [i for i in self.ingredients if i.gluten_free] == self.ingredients
 
-    @property
-    # @cache.cached(timeout=50, key_prefix="recipe_totals")
-    def totals(self):
-        import types
-        import math
+    # @property
+    # # @cache.cached(timeout=50, key_prefix="recipe_totals")
+    # def totals(self):
+    #     import types
+    #     import math
 
-        totals = types.SimpleNamespace()
-        metrics = ["calorie", "sugar", "fat", "protein"]
+    #     totals = types.SimpleNamespace()
+    #     metrics = ["calorie", "sugar", "fat", "protein"]
 
-        totals.amount = 0
+    #     totals.amount = 0
 
-        for ingredient in self.ingredients:
-            ingredient.amount = round(ingredient.load_amount_by_recipe_id(self.id), 2)
-            for metric in metrics:
-                value = getattr(totals, metric, 0)
-                ing_value = getattr(ingredient, metric)
-                setattr(totals, metric, value + (ingredient.amount * ing_value))
+    #     for ingredient in self.ingredients:
+    #         ingredient.amount = round(ingredient.load_amount_by_recipe_id(self.id), 2)
+    #         for metric in metrics:
+    #             value = getattr(totals, metric, 0)
+    #             ing_value = getattr(ingredient, metric)
+    #             setattr(totals, metric, value + (ingredient.amount * ing_value))
 
-            totals.amount += ingredient.amount
+    #         totals.amount += ingredient.amount
 
-        for metric in metrics:
-            value = getattr(totals, metric)
-            setattr(totals, metric, math.floor(value) / 100)
+    #     for metric in metrics:
+    #         value = getattr(totals, metric)
+    #         setattr(totals, metric, math.floor(value) / 100)
 
-        totals.amount = math.floor(totals.amount)
+    #     totals.amount = math.floor(totals.amount)
 
-        return totals
+    #     return totals

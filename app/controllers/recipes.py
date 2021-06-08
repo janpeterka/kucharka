@@ -117,7 +117,7 @@ class RecipesView(HelperFlaskView):
         form.populate_obj(recipe)
 
         recipe.save()
-        return redirect(url_for("RecipesView:show", id=recipe.id))
+        return redirect(url_for("RecipesView:edit", id=recipe.id))
 
     def duplicate(self, id):
         new_recipe = self.recipe.duplicate()

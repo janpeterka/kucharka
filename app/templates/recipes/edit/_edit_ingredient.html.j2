@@ -1,8 +1,11 @@
+{% from "macros/turbo.html.j2" import button_to %}
+
 <tr id="ingredient-{{ingredient.id}}">
 
     <td class="align-middle">{{ link_to(ingredient) }}</td>
     
     <td>
+        {% if ingredient.is_measured or ingredient.is_measured is none %}
         <form action="{{ url_for('EditRecipeView:change_ingredient_amount', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" class="form form-inline" method="post">
             <div class="col-8">
                 <input type="number" class="form-control" name="amount" step="0.01" min="0"
@@ -11,6 +14,7 @@
             </div>
             <input type="submit" class="form-control btn btn-warning ml-4" value="Změnit">
         </form>
+        {% endif %}
         <details>
             <summary>Komentář</summary>
               <form action="{{ url_for('EditRecipeView:change_ingredient_comment', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" class="form form-inline" method="post">
@@ -21,6 +25,14 @@
             <input type="submit" class="form-control btn btn-warning ml-4" value="Změnit komentář">
         </form>
         </details>
+    </td>
+    
+    <td>
+        {% if ingredient.is_measured is false %}
+            {{ button_to(action=url_for('EditRecipeView:change_ingredient_measured', recipe_id=recipe.id, ingredient_id=ingredient.id, measured=True), class="measurement", icon=True, value="⚖️") }}
+        {% else %}
+            {{ button_to(action=url_for('EditRecipeView:change_ingredient_measured', recipe_id=recipe.id, ingredient_id=ingredient.id, measured=False), class="no-measurement", icon=True, value="⚖️") }}
+        {% endif %}
     </td>
 
     <td class="align-middle">

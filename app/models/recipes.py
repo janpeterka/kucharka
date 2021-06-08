@@ -75,8 +75,7 @@ class Recipe(db.Model, ItemMixin):
             return None
 
         for ingredient in recipe.ingredients:
-            ingredient.amount = round(ingredient.load_amount_by_recipe_id(recipe.id), 2)
-            ingredient.comment = ingredient.load_comment_by_recipe(recipe)
+            ingredient.set_additional_info(recipe)
 
         return recipe
 
@@ -182,6 +181,13 @@ class Recipe(db.Model, ItemMixin):
         rhi.comment = comment
         rhi.save()
 
+    def change_ingredient_measured(self, ingredient, measured):
+        rhi = RecipeHasIngredient.load_by_recipe_and_ingredient(self, ingredient)
+        rhi.is_measured = measured
+        if not rhi.is_measured and rhi.amount:
+            rhi.amount = 0
+        rhi.save()
+
     # PERMISSIONS
 
     @property
@@ -205,7 +211,7 @@ class Recipe(db.Model, ItemMixin):
     @property
     def has_zero_amount_ingredient(self):
         for ingredient in self.recipe_ingredients:
-            if ingredient.amount == 0:
+            if ingredient.amount == 0 and ingredient.is_measured:
                 return True
 
         return False
@@ -213,7 +219,7 @@ class Recipe(db.Model, ItemMixin):
     @property
     def has_no_measurement_ingredient(self):
         for ingredient in self.ingredient:
-            if ingredient.without_measurement:
+            if ingredient.without_measurement and ingredient.is_measured:
                 return True
 
         return False
@@ -242,30 +248,30 @@ class Recipe(db.Model, ItemMixin):
     def gluten_free(self):
         return [i for i in self.ingredients if i.gluten_free] == self.ingredients
 
-    @property
-    # @cache.cached(timeout=50, key_prefix="recipe_totals")
-    def totals(self):
-        import types
-        import math
+    # @property
+    # # @cache.cached(timeout=50, key_prefix="recipe_totals")
+    # def totals(self):
+    #     import types
+    #     import math
 
-        totals = types.SimpleNamespace()
-        metrics = ["calorie", "sugar", "fat", "protein"]
+    #     totals = types.SimpleNamespace()
+    #     metrics = ["calorie", "sugar", "fat", "protein"]
 
-        totals.amount = 0
+    #     totals.amount = 0
 
-        for ingredient in self.ingredients:
-            ingredient.amount = round(ingredient.load_amount_by_recipe_id(self.id), 2)
-            for metric in metrics:
-                value = getattr(totals, metric, 0)
-                ing_value = getattr(ingredient, metric)
-                setattr(totals, metric, value + (ingredient.amount * ing_value))
+    #     for ingredient in self.ingredients:
+    #         ingredient.amount = round(ingredient.load_amount_by_recipe_id(self.id), 2)
+    #         for metric in metrics:
+    #             value = getattr(totals, metric, 0)
+    #             ing_value = getattr(ingredient, metric)
+    #             setattr(totals, metric, value + (ingredient.amount * ing_value))
 
-            totals.amount += ingredient.amount
+    #         totals.amount += ingredient.amount
 
-        for metric in metrics:
-            value = getattr(totals, metric)
-            setattr(totals, metric, math.floor(value) / 100)
+    #     for metric in metrics:
+    #         value = getattr(totals, metric)
+    #         setattr(totals, metric, math.floor(value) / 100)
 
-        totals.amount = math.floor(totals.amount)
+    #     totals.amount = math.floor(totals.amount)
 
-        return totals
+    #     return totals

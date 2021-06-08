@@ -24,6 +24,9 @@ form ul.errors li.warning{
 form button.icon {
 	background-color: transparent;
 	border: none;
+	/*opacity: 1;*/
+
+	transition: color 0.2s ease-out;
 }
 
 form button.icon i {
@@ -33,24 +36,15 @@ form button.icon i {
 
 form button.destroy {
 	color: red;
-	/*position: absolute;*/
 	border: 0px;
-	/*top: 2rem;*/
-	/*right: 10px;*/
-	/*bottom: 1px;*/
-	/*width: 40px;*/
-	/*height: 40px;*/
-	/*margin: auto 0;*/
 	font-size: 30px;
-	/*color: #cc9a9a;*/
-	/*background-color: transparent;*/
 	transition: color 0.2s ease-out;
 }
 
 form button.destroy:hover {
 	color: #af5b5e;
 }
-/*
-form button.destroy:after {
-	content: '×';
-}*/
+
+form button.measurement:hover  {
+	display: block;
+}

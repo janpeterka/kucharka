@@ -106,6 +106,28 @@ class EditRecipeView(HelperFlaskView):
         else:
             return redirect(url_for("RecipesView:edit", id=self.recipe.id))
 
+    @route(
+        "change_ingredient_measured/<recipe_id>/<ingredient_id>/<measured>",
+        methods=["POST"],
+    )
+    def change_ingredient_measured(self, recipe_id, ingredient_id, measured):
+        self.ingredient = Ingredient.load(ingredient_id)
+        measured = measured == "True"
+
+        self.recipe.change_ingredient_measured(self.ingredient, measured)
+        self.ingredient.is_measured = measured
+        self.ingredient.amount = self.ingredient.load_amount_by_recipe(self.recipe)
+
+        if turbo.can_stream():
+            return turbo.stream(
+                turbo.replace(
+                    self.template(template_name="_edit_ingredient"),
+                    target=f"ingredient-{self.ingredient.id}",
+                )
+            )
+        else:
+            return redirect(url_for("RecipesView:edit", id=self.recipe.id))
+
     @route("remove_ingredient/<recipe_id>/<ingredient_id>", methods=["POST"])
     def remove_ingredient(self, recipe_id, ingredient_id):
         ingredient = Ingredient.load(ingredient_id)

@@ -57,6 +57,11 @@ class Ingredient(db.Model, ItemMixin):
         super().__init__(**kwargs)
         super().set_defaults()
 
+    def set_additional_info(self, recipe):
+        self.amount = self.load_amount_by_recipe(recipe)
+        self.comment = self.load_comment_by_recipe(recipe)
+        self.is_measured = self.load_measured_by_recipe(recipe)
+
     # LOADERS
     @staticmethod
     def load_all_public(ordered=True, exclude_mine=False) -> list:
@@ -76,17 +81,23 @@ class Ingredient(db.Model, ItemMixin):
         ).first()
         return rhi.amount
 
-    def load_amount_by_recipe_id(self, recipe_id) -> float:
-        rhi = RecipeHasIngredient.query.filter_by(
-            recipe_id=recipe_id, ingredient_id=self.id
-        ).first()
-        return rhi.amount
+    # def load_amount_by_recipe_id(self, recipe_id) -> float:
+    #     rhi = RecipeHasIngredient.query.filter_by(
+    #         recipe_id=recipe_id, ingredient_id=self.id
+    #     ).first()
+    #     return rhi.amount
 
     def load_comment_by_recipe(self, recipe):
         rhi = RecipeHasIngredient.query.filter_by(
             recipe_id=recipe.id, ingredient_id=self.id
         ).first()
         return rhi.comment
+
+    def load_measured_by_recipe(self, recipe):
+        rhi = RecipeHasIngredient.query.filter_by(
+            recipe_id=recipe.id, ingredient_id=self.id
+        ).first()
+        return rhi.is_measured
 
     # PROPERTIES
 

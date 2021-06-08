@@ -49,8 +49,8 @@
             <td>{{ link_to(ingredient) }}
                 {% if not ingredient.author == recipe.author %} {{ icon("public") }} {% endif %}
             </td>
-            <td>{{ (ingredient.amount * recipe.portion_count) | int }} {{ ingredient.measurement.name}}</td>
-            <td>{{ ingredient.amount  }}</td>
+            <td>{% if ingredient.is_measured %}{{ (ingredient.amount * recipe.portion_count) | int }} {{ ingredient.measurement.name}}{% endif %}</td>
+            <td>{% if ingredient.is_measured %}{{ ingredient.amount }}{% endif %}</td>
             <td><em>{{ ingredient.comment|default("", True) }}</em></td>
         </tr>
     {% endfor %}

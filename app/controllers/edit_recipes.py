@@ -46,7 +46,7 @@ class EditRecipeView(HelperFlaskView):
         if turbo.can_stream():
             return turbo.stream(
                 [
-                    turbo.append(
+                    turbo.prepend(
                         self.template(template_name="_edit_ingredient"),
                         target="ingredients",
                     )

@@ -19,6 +19,18 @@ class DailyPlanHasRecipe(db.Model, BaseMixin):
         db.DateTime, nullable=True, default=db.func.current_timestamp()
     )
 
+    meal_type = db.Column(
+        db.Enum(
+            "snídaně",
+            "dopolední svačina",
+            "oběd",
+            "odpolední svačina",
+            "večeře",
+            "programové",
+            "jiné",
+        )
+    )
+
     daily_plan = db.relationship("DailyPlan")
     recipe = db.relationship("Recipe")
 

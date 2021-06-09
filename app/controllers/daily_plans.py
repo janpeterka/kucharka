@@ -30,6 +30,21 @@ class DailyPlansView(HelperFlaskView):
     def show(self, id):
         return self.template()
 
+    @route("daily_plans/add_recipe/<daily_plan_id>", methods=["POST"])
+    def add_recipe(self, daily_plan_id):
+        recipe = Recipe.load(request.form["recipe_id"])
+
+        self.daily_recipe = self.daily_plan.add_recipe(recipe)
+
+        if turbo.can_stream():
+            return turbo.stream(
+                turbo.append(
+                    self.template(template_name="_recipe_row"), target="daily_recipes"
+                )
+            )
+        else:
+            return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
+
     @route("daily_plans/remove_recipe/<daily_recipe_id>", methods=["POST"])
     def remove_daily_recipe(self, daily_recipe_id):
         daily_recipe = DailyPlanHasRecipe.load(daily_recipe_id)
@@ -42,16 +57,17 @@ class DailyPlansView(HelperFlaskView):
         else:
             return redirect(url_for("DailyPlansView:show", id=daily_plan.id))
 
-    @route("daily_plans/add_recipe/<daily_plan_id>", methods=["POST"])
-    def add_recipe(self, daily_plan_id):
-        recipe = Recipe.load(request.form["recipe_id"])
-
-        self.daily_recipe = self.daily_plan.add_recipe(recipe)
+    @route("change_meal_type/<daily_recipe_id>", methods=["POST"])
+    def change_meal_type(self, daily_recipe_id):
+        self.daily_recipe = DailyPlanHasRecipe.load(daily_recipe_id)
+        self.daily_recipe.meal_type = request.form["meal-type"]
+        self.daily_recipe.save()
 
         if turbo.can_stream():
             return turbo.stream(
-                turbo.append(
-                    self.template(template_name="_recipe_row"), target="daily_recipes"
+                turbo.replace(
+                    self.template(template_name="_recipe_row"),
+                    target=f"daily-recipe-{self.daily_recipe.id}",
                 )
             )
         else:

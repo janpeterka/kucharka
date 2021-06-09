@@ -8,8 +8,13 @@
     {% for ingredient in ingredients %}
     <tr>
         <td>{{ ingredient.name }}</td>
-        <td>{{ ingredient.amount | round | int }}</td>
-        <td>{{ ingredient.measurement.name }}</td>
+        {% if ingredient.measurement.thousand_fold and ingredient.amount % 1000 != ingredient.amount %}
+            <td>{{ ingredient.amount/1000 | round(1) }}</td>
+            <td>{{ ingredient.measurement.thousand_fold }}</td>
+        {% else %}
+            <td>{{ ingredient.amount | round | int }}</td>
+            <td>{{ ingredient.measurement.name }}</td>
+        {% endif %}
     </tr>
     {% endfor %}
 </table>

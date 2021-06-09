@@ -40,7 +40,7 @@ class EventExporterView(HelperFlaskView):
                 r for r in ingredient.recipes if r in used_recipes
             ]
             for r in ingredient.event_recipes:
-                r.occurences = len(r.daily_plans)
+                r.occurences = len([p for p in r.daily_plans if p.event == self.event])
 
         recipe_ingredient_amounts = {}
 

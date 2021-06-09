@@ -32,16 +32,18 @@
     {% include "recipes/edit/_add_ingredient_form.html.j2" %}
 </div>
 
-<table id="ingredients" class="table">
+<table class="table">
     <tr>
         <th>{{ texts.title }}</th>
         <th>Množství (na {{ recipe.portion_count }} porcí) </th>
         <th colspan="2"></th>
     </tr>
+    <tbody id="ingredients">
 
     {% for ingredient in recipe.ingredients: %}
         {% include "recipes/edit/_edit_ingredient.html.j2" %}
     {% endfor %}
+    </tbody>
 </table>
 </details>
 

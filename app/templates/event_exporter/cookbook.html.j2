@@ -3,7 +3,7 @@
 
 {% block content %}
 
-{# <h2>Recepty</h2> #}
+<h2 class="text-uppercase font-comfortaa">Kuchařka - {{ event.name }}</h2>
 <div>
     {% for daily_plan in daily_plans if daily_plan.recipes %}
     	{% for recipe in daily_plan.recipes %}

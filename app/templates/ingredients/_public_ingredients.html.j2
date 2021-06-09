@@ -1,4 +1,7 @@
-<h1>Veřejné suroviny</h1>
+<div class="mb-5">
+	<div class="text-center">
+  	<h1 class="text-uppercase font-comfortaa">Veřejné suroviny</h1>
+	</div>
 {# {% if current_user.is_admin %}		 #}
 	{# <a href="{{ url_for('IngredientsView:add_public') }}"><button class="btn btn-secondary float-right">Přidat veřejnou surovinu</button></a> #}
 {# {% endif %} #}
@@ -16,4 +19,5 @@
     	{% include "ingredients/public/_ingredient.html.j2"%}
 	{% endfor %}
 </ul>
+</div>
 {# </table> #}

@@ -1,3 +1,5 @@
+{% from "macros/turbo.html.j2" import button_to %}
+
 {% extends "base/base.html.j2" %}
 {% block title %} Surovina {% endblock %}
 {% block content %}
@@ -58,11 +60,27 @@
 
         {% if ingredient.can_current_user_edit %}
             {% include "ingredients/_edit_or_delete.html.j2"%}
+
             {% if from_new %}
             <div class="row">
                 <a href="{{ url_for('IngredientsView:new') }}"><button class="btn btn-primary mt-3 ml-0">Přidat další surovinu</button></a>
             </div>
             {% endif %}
+
+                <div class="mt-4 row">
+                    {% if not ingredient.is_public and (current_user.is_application_manager or current_user.is_admin)  %}
+                    <span class="admin-field">
+                        {{ button_to(action=url_for('IngredientsView:publish', id=ingredient.id), class="btn btn-danger", value="Zařadit mezi veřejné") }}
+                    {% endif %}
+                    </span>
+                    
+                    {% if ingredient.is_public and current_user.is_admin %}
+                    <span class="admin-field">
+                        {{ button_to(action=url_for('IngredientsView:unpublish', id=ingredient.id), class="btn btn-danger", value="Vyřadit z veřejných") }}
+                    </span>
+                    {% endif %}
+                </div>
+
         {% endif %}
         <div>
         

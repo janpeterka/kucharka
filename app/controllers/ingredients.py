@@ -4,7 +4,7 @@ from flask import flash, request, redirect, url_for
 
 
 from flask_classful import route
-from flask_security import login_required, current_user
+from flask_security import login_required, current_user, roles_accepted, roles_required
 
 from app.helpers.form import save_form_to_session
 from app.helpers.helper_flask_view import HelperFlaskView
@@ -59,8 +59,11 @@ class IngredientsView(HelperFlaskView):
 
     def before_index(self):
         self.ingredients = [
-            i for i in current_user.ingredients if i not in Ingredient.load_all_public()
+            i
+            for i in current_user.personal_ingredients
+            if i not in Ingredient.load_all_public()
         ]
+        self.ingredients.sort(key=lambda x: unidecode(x.name.lower()))
 
     def new(self):
         return self.template()
@@ -120,7 +123,19 @@ class IngredientsView(HelperFlaskView):
         if not self.ingredient.is_used:
             self.ingredient.delete()
             flash("Surovina byla smazána", "success")
-            return redirect(url_for("DashboardView:index"))
+            return redirect(url_for("IngredientsView:index"))
         else:
             flash("Tato surovina je použita, nelze smazat", "error")
             return redirect(url_for("IngredientsView:show", id=self.ingredient.id))
+
+    @roles_accepted("admin", "application_manager")
+    @route("publish/<id>", methods=["POST"])
+    def publish(self, id):
+        self.ingredient.publish()
+        return redirect(url_for("IngredientsView:show", id=self.ingredient.id))
+
+    @roles_required("admin")
+    @route("unpublish/<id>", methods=["POST"])
+    def unpublish(self, id):
+        self.ingredient.unpublish()
+        return redirect(url_for("IngredientsView:show", id=self.ingredient.id))

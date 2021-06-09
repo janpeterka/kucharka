@@ -16,19 +16,26 @@
 
 <div>
     <div class="text-center">
-{#         <span class="float-left" style="margin-left: 10rem">
-            <a href="{{ url_for('DailyPlansView:show_by_date', date=dates['previous']) }}">
-            {{ human_format_date(dates["previous"]) }}
+
+        {% if daily_plan.has_previous %}
+        <span class="float-left" style="margin-left: 10rem">
+            <a href="{{ url_for('DailyPlansView:previous', daily_plan_id=daily_plan.id) }}">
+            {{ human_format_date(daily_plan.previous.date) }}
             </a>
-        </span> #}
+        </span>
+        {% endif %}
+
         <span style="font-size: 2rem">
             {{ human_format_date(daily_plan.date, with_relative=False) }}
         </span>
-{#         <span class="float-right" style="margin-right: 10rem">
-            <a href="{{ url_for('DailyPlansView:show_by_date', date=dates['next']) }}">
-            {{ human_format_date(dates["next"]) }}
+
+        {% if daily_plan.has_next %}
+        <span class="float-right" style="margin-left: 10rem">
+            <a href="{{ url_for('DailyPlansView:next', daily_plan_id=daily_plan.id) }}">
+            {{ human_format_date(daily_plan.next.date) }}
             </a>
-        </span> #}
+        </span>
+        {% endif %}
 
     {% if daily_plan.event %}
         <h2>{{ link_to(daily_plan.event) }}</h2>
@@ -40,7 +47,9 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>{{ texts.title }}</th>
+                    <th style="width: 60%">{{ texts.title }}</th>
+                    <th>Typ jídla</th>
+                    <th></th>
                     <th></th>
                 </tr>
             </thead>

@@ -37,7 +37,9 @@ class RecipesView(HelperFlaskView):
         self.validate_operation(id, self.recipe)
 
         if name in ["index", "filter"]:
-            self.recipes = current_user.recipes
+            self.recipes = sorted(
+                current_user.visible_recipes, key=lambda x: unidecode(x.name.lower())
+            )
             ingredients = [x.ingredients for x in self.recipes]
             flatten_ingredients = [y for x in ingredients for y in x]
             ingredient_names = [x.name for x in flatten_ingredients]
@@ -63,17 +65,20 @@ class RecipesView(HelperFlaskView):
         self.categories = RecipeCategory.load_all()
 
         unused_ingredients = [
-            i for i in current_user.ingredients if i not in self.recipe.ingredients
+            i
+            for i in current_user.personal_ingredients
+            if i not in self.recipe.ingredients
         ]
+        self.personal_ingredients = sorted(
+            unused_ingredients, key=lambda x: unidecode(x.name.lower())
+        )
 
         unused_public_ingredients = [
             i for i in Ingredient.load_all_public() if i not in self.recipe.ingredients
         ]
-
-        self.public_ingredients = unused_public_ingredients
-        self.public_ingredients.sort(key=lambda x: unidecode(x.name.lower()))
-        self.personal_ingredients = unused_ingredients
-        self.personal_ingredients.sort(key=lambda x: unidecode(x.name.lower()))
+        self.public_ingredients = sorted(
+            unused_public_ingredients, key=lambda x: unidecode(x.name.lower())
+        )
 
         set_form(self.form, self.recipe)
 
@@ -141,7 +146,7 @@ class RecipesView(HelperFlaskView):
 
     @route("filter", methods=["POST"])
     def filter(self):
-        self.recipes = current_user.recipes
+        self.recipes = current_user.visible_recipes
 
         # Get filters from request
         ingredient_name = None
@@ -177,6 +182,8 @@ class RecipesView(HelperFlaskView):
 
         if gluten_free:
             self.recipes = [x for x in self.recipes if x.gluten_free]
+
+        self.recipes.sort(key=lambda x: unidecode(x.name.lower()))
 
         if turbo.can_stream():
             return turbo.stream(

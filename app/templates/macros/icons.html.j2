@@ -58,6 +58,10 @@
     {% elif name=="list" %}
         {% set fa_class_ = 'fas fa-list-ul' %}
 
+    {% elif name=="up" %}
+        {% set fa_class_ = 'fas fa-sort-up' %}
+    {% elif name=="down" %}
+        {% set fa_class_ = 'fas fa-sort-down' %}
 
 
     {# Food types #}
@@ -102,7 +106,7 @@
         <abbr title="{{ tooltip }}">
     {% endif %}
 
-    <i class="{{ fa_class_ + class_ }}" {% if action %}data-action="{{ action }}"{% endif %}>
+    <i class="{{ fa_class_ + ' ' + class_ }}" {% if action %}data-action="{{ action }}"{% endif %}>
         {% if value %}{{ value }}{% endif %}
     </i>
 

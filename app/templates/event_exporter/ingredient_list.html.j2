@@ -1,9 +1,8 @@
 {% extends "base/base.html.j2" %}
-{% block title %} Seznam surovin {% endblock %}
 
 {% block content %}
 
-<h2>Suroviny (pro {{ event.people_count }} lidí)</h2>
+<h2 class="text-uppercase font-comfortaa">Suroviny (pro {{ event.people_count }} lidí)</h2>
 <ul>
     {% for ingredient in ingredients %}
     	<li>
@@ -16,8 +15,8 @@
 
 		    	{% for recipe in ingredient.event_recipes %}
                     <li class="row"> 
-                        <span class="col"> {{ link_to(recipe) }} </span>
-                        <span class="col"> {{ amounts[ingredient.id]["recipes"][recipe.id]["amount"] | int }} </span>
+                        <span class="col"> {{ link_to(recipe) }} {% if recipe.occurences > 1 %}({{ recipe.occurences }}x){% endif %}</span>
+                        <span class="col"> {{ amounts[ingredient.id]["recipes"][recipe.id]["amount"] | int }} {% if recipe.occurences > 1 %}(x{{ recipe.occurences }}){% endif %} </span>
                         <span class="col"> {{ ingredient.measurement.name }} </span>
                     </li>
 		    	{% endfor %}
@@ -26,20 +25,4 @@
     {% endfor %}
 </ul>
 
-{# <table class="table">
-    {% for ingredient in ingredients %}
-    <tr>
-        <td>{{ ingredient.name }}</td>
-        <td>{{ ingredient.amount | int }}</td>
-        <td>{{ ingredient.measurement.name }}</td>
-        <td>
-        	
-    	{% for recipe in ingredient.event_recipes %}
-			{{ link_to(recipe) }}
-    	{% endfor %}
-        </td>
-    </tr>
-    {% endfor %}
-</table>
- #}
 {% endblock %}

@@ -58,6 +58,12 @@
         </details>
 
         <details>
+            <summary class="text-uppercase font-comfortaa"> Rozdělané recepty </summary>
+            <turbo-frame id="draft-recipes-simple" src="{{ url_for('UserStatisticsView:draft_recipes') }}">
+            </turbo-frame>
+        </details>
+
+        <details>
             <summary class="text-uppercase font-comfortaa"> Suroviny </summary>
             <turbo-frame id="ingredients" src="{{ url_for('UserStatisticsView:ingredients') }}">
             </turbo-frame>

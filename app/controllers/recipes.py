@@ -37,7 +37,9 @@ class RecipesView(HelperFlaskView):
         self.validate_operation(id, self.recipe)
 
         if name in ["index", "filter"]:
-            self.recipes = current_user.recipes
+            self.recipes = sorted(
+                current_user.visible_recipes, key=lambda x: unidecode(x.name.lower())
+            )
             ingredients = [x.ingredients for x in self.recipes]
             flatten_ingredients = [y for x in ingredients for y in x]
             ingredient_names = [x.name for x in flatten_ingredients]
@@ -144,7 +146,7 @@ class RecipesView(HelperFlaskView):
 
     @route("filter", methods=["POST"])
     def filter(self):
-        self.recipes = current_user.recipes
+        self.recipes = current_user.visible_recipes
 
         # Get filters from request
         ingredient_name = None
@@ -180,6 +182,8 @@ class RecipesView(HelperFlaskView):
 
         if gluten_free:
             self.recipes = [x for x in self.recipes if x.gluten_free]
+
+        self.recipes.sort(key=lambda x: unidecode(x.name.lower()))
 
         if turbo.can_stream():
             return turbo.stream(

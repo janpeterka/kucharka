@@ -1,3 +1,5 @@
+from unidecode import unidecode
+
 from flask_security import login_required, current_user
 
 from app.helpers.helper_flask_view import HelperFlaskView
@@ -42,10 +44,13 @@ class UserStatisticsView(HelperFlaskView):
         return self.template(template_name="events/_list.html.j2")
 
     def recipes(self):
-        return self.template(
-            template_name="recipes/_recipe_list.html.j2",
-            recipes=self.user.visible_recipes,
+        self.recipes = sorted(
+            self.user.visible_recipes, key=lambda x: unidecode(x.name.lower())
         )
+        return self.template(template_name="recipes/_recipe_list.html.j2")
 
     def ingredients(self):
+        self.ingredients = sorted(
+            self.user.personal_ingredients, key=lambda x: unidecode(x.name.lower())
+        )
         return self.template(template_name="ingredients/_list.html.j2")

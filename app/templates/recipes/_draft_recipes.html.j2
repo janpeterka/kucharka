@@ -15,4 +15,12 @@
 </details>
 </turbo-frame>
 
+<turbo-frame id="draft-recipes-simple">
+    <ul>
+    {% for recipe in user.draft_recipes %}
+        <li>{{ link_to(recipe) }} <span class="color-grey">({{recipe.ingredients | length}} zadaných surovin)</span></li>
+    {% endfor %}
+    </ul>
+</turbo-frame>
+
 {% endif %}

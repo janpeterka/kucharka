@@ -63,6 +63,7 @@ class IngredientsView(HelperFlaskView):
             for i in current_user.personal_ingredients
             if i not in Ingredient.load_all_public()
         ]
+        self.ingredients.sort(key=lambda x: unidecode(x.name.lower()))
 
     def new(self):
         return self.template()

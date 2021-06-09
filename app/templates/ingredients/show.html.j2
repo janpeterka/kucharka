@@ -67,11 +67,19 @@
             </div>
             {% endif %}
 
-            {% if not ingredient.is_public and (current_user.is_application_manager or current_user.is_admin)  %}
-                <div class="mt-4 row admin-field">
-                    {{ button_to(action=url_for('IngredientsView:publish', id=ingredient.id), class="btn btn-danger", value="Zařadit mezi veřejné") }}
+                <div class="mt-4 row">
+                    {% if not ingredient.is_public and (current_user.is_application_manager or current_user.is_admin)  %}
+                    <span class="admin-field">
+                        {{ button_to(action=url_for('IngredientsView:publish', id=ingredient.id), class="btn btn-danger", value="Zařadit mezi veřejné") }}
+                    {% endif %}
+                    </span>
+                    
+                    {% if ingredient.is_public and current_user.is_admin %}
+                    <span class="admin-field">
+                        {{ button_to(action=url_for('IngredientsView:unpublish', id=ingredient.id), class="btn btn-danger", value="Vyřadit z veřejných") }}
+                    </span>
+                    {% endif %}
                 </div>
-            {% endif %}
 
         {% endif %}
         <div>

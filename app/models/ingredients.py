@@ -104,6 +104,11 @@ class Ingredient(db.Model, ItemMixin):
         self.edit()
         return self.is_public
 
+    def unpublish(self):
+        self.is_public = False
+        self.edit()
+        return self.is_public
+
     # PROPERTIES
 
     @property

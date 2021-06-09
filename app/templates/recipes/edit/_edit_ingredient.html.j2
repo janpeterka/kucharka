@@ -4,15 +4,16 @@
 
     <td class="align-middle">{{ link_to(ingredient) }}</td>
     
-    <td>
-        {% if ingredient.is_measured or ingredient.is_measured is none %}
+    <td> 
+        {% if ingredient.is_measured %}
         <form action="{{ url_for('EditRecipeView:change_ingredient_amount', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" class="form form-inline" method="post">
             <div class="col-8">
                 <input type="number" class="form-control" name="amount" step="0.01" min="0"
-                       value="{% if ingredient.amount %}{{ (ingredient.amount|float * recipe.portion_count|float) | int }}{% endif %}">
+                       value="{% if ingredient.amount %}{{ (ingredient.amount|float * recipe.portion_count|float) | int }}{% endif %}"
+                       onblur="this.form.submit()">
                 <span class="ml-2">{{ ingredient.measurement.name }}</span>
             </div>
-            <input type="submit" class="form-control btn btn-warning ml-4" value="Změnit">
+            {# <input type="submit" class="form-control btn btn-warning ml-4" value="Změnit"> #}
         </form>
         {% endif %}
         <details>
@@ -20,9 +21,10 @@
               <form action="{{ url_for('EditRecipeView:change_ingredient_comment', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" class="form form-inline" method="post">
             <div class="col-8">
                 <input type="text" class="form-control" name="comment"
-                       value="{% if ingredient.comment %}{{ ingredient.comment }}{% endif %}">
+                       value="{% if ingredient.comment %}{{ ingredient.comment }}{% endif %}"
+                       onblur="this.form.submit()">
             </div>
-            <input type="submit" class="form-control btn btn-warning ml-4" value="Změnit komentář">
+            {# <input type="submit" class="form-control btn btn-warning ml-4" value="Změnit komentář"> #}
         </form>
         </details>
     </td>

@@ -39,6 +39,7 @@ class EditRecipeView(HelperFlaskView):
     @route("add_ingredient/<recipe_id>", methods=["POST"])
     def add_ingredient(self, recipe_id):
         self.ingredient = Ingredient.load(request.form["ingredient_option"])
+        self.ingredient.is_measured = True
 
         self.recipe.add_ingredient(self.ingredient)
 
@@ -72,6 +73,8 @@ class EditRecipeView(HelperFlaskView):
     def change_ingredient_amount(self, recipe_id, ingredient_id):
         self.ingredient = Ingredient.load(ingredient_id)
         amount = request.form["amount"]
+        if not amount:
+            amount = 0
 
         amount_for_portion = float(amount) / float(self.recipe.portion_count)
 

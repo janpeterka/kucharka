@@ -20,13 +20,7 @@
         </span>
         <span class="col-2">{{ ingredient.measurement.name }}</span>
         <span class="col-3">{{ ingredient.category.name }}</span>
-        {# <span class="col"></span> #}
-        
-        {# <td>{{ ingredient.author.name }}</td> #}
-        {# <td>{{ ingredient.measurement.name }}</td> #}
-        {# <td>{{ ingredient.category.name }}</td> #}
-      {# </div> #}
-    {# <label style="font-size: smaller;">{{ ingredient.description if ingredient.description  }}</label> #}
+
     {% if current_user.is_application_manager or current_user.is_admin %}
       <form method="POST" class="col" action="{{ url_for('PublicIngredientsView:edit', ingredient_id=ingredient.id) }}" data-turbo-frame="all">
         <button type="submit" class="change" style="margin-top: 0.1rem"></button>

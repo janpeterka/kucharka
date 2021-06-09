@@ -40,7 +40,7 @@
     <tr>
         <th>{{ texts.title }}</th>
         <th>Množství (na {{recipe.portion_count}} porcí)</th>
-        <th>{{ texts.amount_simple }}</th>
+        {# <th>{{ texts.amount_simple }}</th> #}
         <th></th>
     </tr>
 
@@ -50,7 +50,7 @@
                 {% if ingredient.is_public %} {{ icon("public", class="text-secondary") }} {% endif %}
             </td>
             <td>{% if ingredient.is_measured %}{{ (ingredient.amount * recipe.portion_count) | round | int }} {{ ingredient.measurement.name}}{% endif %}</td>
-            <td>{% if ingredient.is_measured %}{{ ingredient.amount|round(1) }}{% endif %}</td>
+            {# <td>{% if ingredient.is_measured %}{{ ingredient.amount|round(1) }}{% endif %}</td> #}
             <td><em>{{ ingredient.comment|default("", True) }}</em></td>
         </tr>
     {% endfor %}

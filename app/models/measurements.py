@@ -13,12 +13,7 @@ class Measurement(db.Model, BaseMixin):
     description = db.Column(db.String(255))
     suffix = db.Column(db.String(20))
 
-    parent_measurement_id = db.Column(db.ForeignKey("measurements.id"))
-    parent_measurement_factor = db.Column(db.Float())
-
-    parent_measurement = db.relationship(
-        "User", uselist=False, backref="child_measurements"
-    )
+    thousand_fold = db.Column(db.String(20))
 
     # LOADERS
     @staticmethod

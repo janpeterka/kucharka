@@ -106,7 +106,7 @@
         <abbr title="{{ tooltip }}">
     {% endif %}
 
-    <i class="{{ fa_class_ + class_ }}" {% if action %}data-action="{{ action }}"{% endif %}>
+    <i class="{{ fa_class_ + ' ' + class_ }}" {% if action %}data-action="{{ action }}"{% endif %}>
         {% if value %}{{ value }}{% endif %}
     </i>
 

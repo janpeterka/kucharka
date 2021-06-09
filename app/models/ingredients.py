@@ -99,6 +99,11 @@ class Ingredient(db.Model, ItemMixin):
         ).first()
         return rhi.is_measured
 
+    def publish(self):
+        self.is_public = True
+        self.edit()
+        return self.is_public
+
     # PROPERTIES
 
     @property

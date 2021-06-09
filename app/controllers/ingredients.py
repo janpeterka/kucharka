@@ -124,3 +124,8 @@ class IngredientsView(HelperFlaskView):
         else:
             flash("Tato surovina je použita, nelze smazat", "error")
             return redirect(url_for("IngredientsView:show", id=self.ingredient.id))
+
+    @route("publish/<id>", methods=["POST"])
+    def publish(self, id):
+        self.ingredient.publish()
+        return redirect(url_for("IngredientsView:show", id=self.ingredient.id))

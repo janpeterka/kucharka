@@ -1,10 +1,33 @@
 {% from "macros/icons.html.j2" import icon %}
+{% from "macros/turbo.html.j2" import button_to %}
 
 <tr id="daily-recipe-{{ daily_recipe.id }}">
     <td>
         {{ link_to(daily_recipe.recipe) }}
     	{% if not daily_recipe.recipe.is_current_user_author %} {{ icon("public") }} {% endif %}
 	</td>
+    <td>
+        {{ daily_recipe.meal_type | default("", True) }}
+        <details>
+            <summary><em>upravit typ jídla</em></summary>
+        <form method="POST" class="form form-inline text-right mr-3" action="{{ url_for('DailyPlansView:change_meal_type', daily_recipe_id=daily_recipe.id) }}">
+            <select name="meal-type" id="meal-type" class="form-control">
+                <option name='snídaně' value='snídaně'>Snídaně</option>
+                <option name='dopolední svačina' value='dopolední svačina'>Dopolední svačina</option>
+                <option name='oběd' value='oběd'>Oběd</option>
+                <option name='odpolední svačina' value='odpolední svačina'>Odpolední svačina</option>
+                <option name='večeře' value='večeře'>Večeře</option>
+                <option name='program' value='program'>Program</option>
+                <option name='jiné' value='jiné'>Jiné</option>
+            </select>
+            <button type="submit" class="btn btn-secondary"> Vybrat</button>
+        </form>
+        </details>
+    </td>
+    <td>
+        {{ button_to(action=url_for('DailyPlansView:sort_up', daily_recipe_id=daily_recipe.id), class="icon float-left", value='<i class="fas fa-sort-up"></i>') }}
+        {{ button_to(action=url_for('DailyPlansView:sort_down', daily_recipe_id=daily_recipe.id), class="icon float-right", value='<i class="fas fa-sort-down"></i>') }}
+    </td>
     <td>
         <form method="POST" class="text-right mr-3" action="{{ url_for('DailyPlansView:remove_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
             <button type="submit" class="destroy icon"> {{ icon("remove") }} </button>

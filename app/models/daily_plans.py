@@ -142,23 +142,6 @@ class DailyPlan(db.Model, ItemMixin):
         else:
             return False
 
-    def change_order(self, daily_recipe_id, order_type):
-        # WIP - WTF is this?
-        coef = 1 if order_type == "up" else -1
-
-        selected_daily_recipe = DailyPlanHasRecipe.load(daily_recipe_id)
-
-        for daily_recipe in self.daily_recipes:
-            if daily_recipe.order_index == selected_daily_recipe.order_index - (
-                1 * coef
-            ):
-                daily_recipe.order_index += 1 * coef
-                daily_recipe.edit()
-
-                selected_daily_recipe.order_index -= 1 * coef
-                selected_daily_recipe.edit()
-                return
-
     @property
     def totals(self):
         totals = types.SimpleNamespace()
@@ -194,3 +177,27 @@ class DailyPlan(db.Model, ItemMixin):
     @property
     def name(self):
         return self.weekday
+
+    @property
+    def next(self):
+        daily_plans = self.event.daily_plans
+        for plan in daily_plans:
+            if plan.id == self.id + 1:
+                return plan
+        return None
+
+    @property
+    def has_next(self):
+        return self.next is not None
+
+    @property
+    def previous(self):
+        daily_plans = self.event.daily_plans
+        for plan in daily_plans:
+            if plan.id == self.id - 1:
+                return plan
+        return None
+
+    @property
+    def has_previous(self):
+        return self.previous is not None

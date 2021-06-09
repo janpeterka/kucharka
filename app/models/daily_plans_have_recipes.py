@@ -13,7 +13,6 @@ class DailyPlanHasRecipe(db.Model, BaseMixin):
         db.ForeignKey("daily_plans.id"), nullable=False, index=True
     )
 
-    # amount = db.Column(db.Float, nullable=False)
     order_index = db.Column(db.Integer)
     created_at = db.Column(
         db.DateTime, nullable=True, default=db.func.current_timestamp()
@@ -33,6 +32,19 @@ class DailyPlanHasRecipe(db.Model, BaseMixin):
 
     daily_plan = db.relationship("DailyPlan")
     recipe = db.relationship("Recipe")
+
+    def change_order(self, order_type):
+        # WIP - WTF is this?
+        coef = 1 if order_type == "up" else -1
+
+        for daily_recipe in self.daily_plan.daily_recipes:
+            if daily_recipe.order_index == self.order_index - (1 * coef):
+                daily_recipe.order_index += 1 * coef
+                daily_recipe.edit()
+
+                self.order_index -= 1 * coef
+                self.edit()
+                return
 
     # @property
     # def values(self):

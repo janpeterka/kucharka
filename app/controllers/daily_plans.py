@@ -73,13 +73,21 @@ class DailyPlansView(HelperFlaskView):
         else:
             return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
 
-    # def sort_up(self, daily_recipe_id, date):
-    #     self.daily_plan.change_order(daily_recipe_id, order_type="up")
-    #     return redirect(url_for("DailyPlansView:show", daily_plan_id=self.daily_plan.id))
+    @route("sort/up/<daily_recipe_id>", methods=["POST"])
+    def sort_up(self, daily_recipe_id):
+        self.daily_recipe = DailyPlanHasRecipe.load(daily_recipe_id)
+        self.daily_recipe.change_order(order_type="up")
+        return redirect(
+            url_for("DailyPlansView:show", id=self.daily_recipe.daily_plan.id)
+        )
 
-    # def sort_down(self, daily_recipe_id, date):
-    #     self.daily_plan.change_order(daily_recipe_id, order_type="down")
-    #     return redirect(url_for("DailyPlansView:show", daily_plan_id=self.daily_plan.id))
+    @route("sort/down/<daily_recipe_id>", methods=["POST"])
+    def sort_down(self, daily_recipe_id):
+        self.daily_recipe = DailyPlanHasRecipe.load(daily_recipe_id)
+        self.daily_recipe.change_order(order_type="down")
+        return redirect(
+            url_for("DailyPlansView:show", id=self.daily_recipe.daily_plan.id)
+        )
 
     # def next_day(self, id):
     #     pass

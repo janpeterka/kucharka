@@ -123,7 +123,7 @@ class IngredientsView(HelperFlaskView):
         if not self.ingredient.is_used:
             self.ingredient.delete()
             flash("Surovina byla smazána", "success")
-            return redirect(url_for("DashboardView:index"))
+            return redirect(url_for("IngredientsView:index"))
         else:
             flash("Tato surovina je použita, nelze smazat", "error")
             return redirect(url_for("IngredientsView:show", id=self.ingredient.id))

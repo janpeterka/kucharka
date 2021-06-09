@@ -39,6 +39,8 @@ class EventExporterView(HelperFlaskView):
             ingredient.event_recipes = [
                 r for r in ingredient.recipes if r in used_recipes
             ]
+            for r in ingredient.event_recipes:
+                r.occurences = len(r.daily_plans)
 
         recipe_ingredient_amounts = {}
 
@@ -54,6 +56,7 @@ class EventExporterView(HelperFlaskView):
                 recipe_ingredient_amounts[ingredient.id]["recipes"][event_recipe.id] = {
                     "name": event_recipe.name,
                     "amount": amount,
+                    "occurences": event_recipe.occurences,
                 }
 
         return self.template(

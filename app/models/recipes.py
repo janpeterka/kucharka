@@ -77,6 +77,10 @@ class Recipe(db.Model, ItemMixin):
         for ingredient in recipe.ingredients:
             ingredient.set_additional_info(recipe)
 
+        recipe.ingredients.sort(
+            key=lambda x: (not x.is_measured, unidecode(x.name.lower()))
+        )
+
         return recipe
 
     @staticmethod

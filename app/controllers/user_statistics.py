@@ -16,29 +16,34 @@ class UserStatisticsView(HelperFlaskView):
         return self.template(template_name="recipes/_draft_recipes.html.j2")
 
     def ingredients_without_category(self):
-        ingredients = [i for i in self.user.personal_ingredients if i.without_category]
+        self.ingredients = [
+            i for i in self.user.personal_ingredients if i.without_category
+        ]
 
         return self.template(
-            template_name="ingredients/_ingredients_without_category.html.j2",
-            ingredients=ingredients,
+            template_name="ingredients/_ingredients_without_category.html.j2"
+        )
+
+    def recipes_with_zero_amount_ingredient(self):
+        self.recipes = [r for r in self.user.recipes if r.has_zero_amount_ingredient]
+
+        return self.template(
+            template_name="ingredients/_recipes_with_zero_amount_ingredient.html.j2"
         )
 
     def ingredients_without_measurement(self):
-        ingredients = [
+        self.ingredients = [
             i for i in self.user.personal_ingredients if i.without_measurement
         ]
 
         return self.template(
-            template_name="ingredients/_ingredients_without_measurement.html.j2",
-            ingredients=ingredients,
+            template_name="ingredients/_ingredients_without_measurement.html.j2"
         )
 
     def recipes_without_category(self):
-        recipes = [i for i in self.user.recipes if i.without_category]
+        self.recipes = [i for i in self.user.recipes if i.without_category]
 
-        return self.template(
-            template_name="recipes/_recipes_without_category.html.j2", recipes=recipes
-        )
+        return self.template(template_name="recipes/_recipes_without_category.html.j2")
 
     def events(self):
         return self.template(template_name="events/_list.html.j2")

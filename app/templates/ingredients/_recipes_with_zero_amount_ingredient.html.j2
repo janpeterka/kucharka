@@ -1,0 +1,15 @@
+{% if recipes %}
+
+<turbo-frame id="recipes-with-zero-amount-ingredient">
+<details>
+    <summary class="text-uppercase font-comfortaa">Přidat množství nějakým surovinám v receptech ({{ recipes | length }})</summary>
+
+    <ul>
+    {% for recipe in recipes %}
+        <li>{{ link_to(recipe) }}</li>
+    {% endfor %}
+    </ul>
+</details>
+</turbo-frame>
+
+{% endif %}

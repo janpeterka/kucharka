@@ -177,3 +177,27 @@ class DailyPlan(db.Model, ItemMixin):
     @property
     def name(self):
         return self.weekday
+
+    @property
+    def next(self):
+        daily_plans = self.event.daily_plans
+        for plan in daily_plans:
+            if plan.id == self.id + 1:
+                return plan
+        return None
+
+    @property
+    def has_next(self):
+        return self.next is not None
+
+    @property
+    def previous(self):
+        daily_plans = self.event.daily_plans
+        for plan in daily_plans:
+            if plan.id == self.id - 1:
+                return plan
+        return None
+
+    @property
+    def has_previous(self):
+        return self.previous is not None

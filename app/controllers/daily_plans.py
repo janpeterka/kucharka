@@ -89,8 +89,10 @@ class DailyPlansView(HelperFlaskView):
             url_for("DailyPlansView:show", id=self.daily_recipe.daily_plan.id)
         )
 
-    # def next_day(self, id):
-    #     pass
+    def next(self, daily_plan_id):
+        daily_plan = DailyPlan.load(daily_plan_id)
+        return redirect(url_for("DailyPlansView:show", id=daily_plan.next.id))
 
-    # def previous_day(self, id):
-    #     pass
+    def previous(self, daily_plan_id):
+        daily_plan = DailyPlan.load(daily_plan_id)
+        return redirect(url_for("DailyPlansView:show", id=daily_plan.previous.id))

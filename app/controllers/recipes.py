@@ -63,17 +63,20 @@ class RecipesView(HelperFlaskView):
         self.categories = RecipeCategory.load_all()
 
         unused_ingredients = [
-            i for i in current_user.ingredients if i not in self.recipe.ingredients
+            i
+            for i in current_user.personal_ingredients
+            if i not in self.recipe.ingredients
         ]
+        self.personal_ingredients = sorted(
+            unused_ingredients, key=lambda x: unidecode(x.name.lower())
+        )
 
         unused_public_ingredients = [
             i for i in Ingredient.load_all_public() if i not in self.recipe.ingredients
         ]
-
-        self.public_ingredients = unused_public_ingredients
-        self.public_ingredients.sort(key=lambda x: unidecode(x.name.lower()))
-        self.personal_ingredients = unused_ingredients
-        self.personal_ingredients.sort(key=lambda x: unidecode(x.name.lower()))
+        self.public_ingredients = sorted(
+            unused_public_ingredients, key=lambda x: unidecode(x.name.lower())
+        )
 
         set_form(self.form, self.recipe)
 

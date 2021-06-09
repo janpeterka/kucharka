@@ -8,5 +8,5 @@ class DashboardView(HelperFlaskView):
     template_folder = "dashboard"
 
     def index(self):
-        self.ingredients = current_user.ingredients
+        self.ingredients = current_user.personal_ingredients
         return self.template()

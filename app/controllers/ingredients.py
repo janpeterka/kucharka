@@ -59,7 +59,9 @@ class IngredientsView(HelperFlaskView):
 
     def before_index(self):
         self.ingredients = [
-            i for i in current_user.ingredients if i not in Ingredient.load_all_public()
+            i
+            for i in current_user.personal_ingredients
+            if i not in Ingredient.load_all_public()
         ]
 
     def new(self):

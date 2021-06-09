@@ -41,3 +41,7 @@ class User(db.Model, BaseMixin, UserMixin):
     @property
     def draft_recipes(self):
         return [r for r in self.recipes if r.is_draft]
+
+    @property
+    def personal_ingredients(self):
+        return [i for i in self.ingredients if not i.is_public]

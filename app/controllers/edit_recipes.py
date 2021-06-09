@@ -198,7 +198,7 @@ class EditRecipeView(HelperFlaskView):
 
     def update_usable_ingredients(self, recipe):
         unused_personal_ingredients = [
-            i for i in current_user.ingredients if i not in recipe.ingredients
+            i for i in current_user.personal_ingredients if i not in recipe.ingredients
         ]
 
         unused_public_ingredients = [

@@ -209,6 +209,10 @@ class Recipe(db.Model, ItemMixin):
     # PROPERTIES
 
     @property
+    def is_shopping(self):
+        return True if self.author.is_admin and self.name == "Nákup" else False
+
+    @property
     def is_used(self):
         return True if self.daily_plans else False
 
@@ -218,6 +222,9 @@ class Recipe(db.Model, ItemMixin):
 
     @property
     def is_draft(self):
+        if self.is_shopping:
+            return False
+
         return len(self.ingredients) == 0
 
     @property
@@ -238,6 +245,9 @@ class Recipe(db.Model, ItemMixin):
 
     @property
     def without_category(self):
+        if self.is_shopping:
+            return False
+
         return self.category is None or self.category.name == "---"
 
     @property

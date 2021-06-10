@@ -1,3 +1,5 @@
+{% from "macros/turbo.html.j2" import button_to %}
+
 {% extends "base/base.html.j2" %}
 {% block title %} Denní přehled {% endblock %}
 
@@ -74,6 +76,9 @@
         </form>
     </div>
 
+    <div class="row mt-5">
+        {{ button_to(action=url_for('DailyPlansView:add_shopping', daily_plan_id=daily_plan.id), class="btn btn-secondary", value="Přidat nákup") }}
+    </div>
 </div>
 
 {% endblock %}

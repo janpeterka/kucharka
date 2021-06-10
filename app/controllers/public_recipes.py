@@ -20,7 +20,7 @@ class PublicRecipesView(HelperFlaskView):
     template_folder = "public_recipes"
 
     def before_request(self, name, *args, **kwargs):
-        self.recipes = Recipe.load_all_public(exclude_shopping=True)
+        self.recipes = Recipe.load_all_public()
 
     def before_index(self):
         # Get values for filters
@@ -61,7 +61,7 @@ class PublicRecipesView(HelperFlaskView):
     # @route("filter", methods=["POST"])
     @route("/", methods=["GET", "POST"])
     def index(self):
-        self.recipes = Recipe.load_all_public(exclude_shopping=True)
+        self.recipes = Recipe.load_all_public()
 
         # Get filters from request
         ingredient_name = None

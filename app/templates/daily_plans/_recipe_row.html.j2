@@ -7,6 +7,8 @@
     	{% if not daily_recipe.recipe.is_current_user_author %} {{ icon("public") }} {% endif %}
 	</td>
     <td>
+        {% if not daily_recipe.is_shopping %}
+            
         {{ daily_recipe.meal_type | default("", True) }}
         <details>
             <summary><em>upravit typ jídla</em></summary>
@@ -24,6 +26,7 @@
             <button type="submit" class="btn btn-secondary"> Vybrat</button>
         </form>
         </details>
+        {% endif %}
     </td>
     <td>
         {{ button_to(action=url_for('DailyPlansView:sort_up', daily_recipe_id=daily_recipe.id), class="icon float-left", value='<i class="fas fa-sort-up"></i>') }}

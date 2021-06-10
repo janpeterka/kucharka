@@ -27,8 +27,6 @@ class DailyPlansView(HelperFlaskView):
     def before_show(self, id):
         self.daily_plan = DailyPlan.load(id)
         self.public_recipes = Recipe.load_all_public(exclude_mine=True)
-        # if current_user.is_admin:
-        #     self.public_recipes.append(Recipe.load_by_name("Nákup"))
         self.daily_recipes = self.daily_plan.daily_recipes
         self.daily_recipes.sort(key=lambda x: x.order_index)
 
@@ -40,6 +38,22 @@ class DailyPlansView(HelperFlaskView):
         recipe = Recipe.load(request.form["recipe_id"])
 
         self.daily_recipe = self.daily_plan.add_recipe(recipe)
+
+        if turbo.can_stream():
+            return turbo.stream(
+                turbo.append(
+                    self.template(template_name="_recipe_row"), target="daily_recipes"
+                )
+            )
+        else:
+            return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
+
+    @route("daily_plans/add_shopping/<daily_plan_id>", methods=["POST"])
+    def add_shopping(self, daily_plan_id):
+        recipe = Recipe.load_by_name("Nákup")
+        self.daily_recipe = self.daily_plan.add_recipe(recipe)
+        self.daily_recipe.meal_type = "nákup"
+        self.daily_recipe.save()
 
         if turbo.can_stream():
             return turbo.stream(

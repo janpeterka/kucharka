@@ -45,12 +45,23 @@
     </tr>
 
     {% for ingredient in recipe.ingredients: %}
+    {% set ingredient_amount = ingredient.amount * recipe.portion_count %}
         <tr>
             <td>{{ link_to(ingredient) }}
                 {% if ingredient.is_public %} {{ icon("public", class="text-secondary") }} {% endif %}
             </td>
-            <td>{% if ingredient.is_measured %}{{ (ingredient.amount * recipe.portion_count) | round | int }} {{ ingredient.measurement.name}}{% endif %}</td>
-            {# <td>{% if ingredient.is_measured %}{{ ingredient.amount|round(1) }}{% endif %}</td> #}
+
+            <td>
+                
+            {% if ingredient.is_measured %}
+            {% if ingredient.measurement.thousand_fold and ingredient_amount % 1000 != ingredient_amount %}
+                {{ ingredient_amount/1000 | round(1) }} {{ ingredient.measurement.thousand_fold }}
+            {% else %}
+                {{ ingredient_amount | round | int }} {{ ingredient.measurement.name }}
+            {% endif %}
+            {% endif %}
+            </td>
+
             <td><em>{{ ingredient.comment|default("", True) }}</em></td>
         </tr>
     {% endfor %}

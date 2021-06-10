@@ -7,7 +7,7 @@
 
 
 <h3>Trvanlivé</h3>
-{% with ingredients=lasting_ingredients %}
+{% with ingredients=lasting_ingredients, amounts=lasting_ingredients_shopping.recipe_ingredient_amounts %}
     {% if show_type == "list" %}
         {% include 'event_exporter/_ingredient_list.html.j2' %}
     {% else %}
@@ -21,7 +21,7 @@
     {% else %}
         <h3>Před {{ human_format_date(shopping.date) }}</h3>
     {% endif %}
-    {% with ingredients=shopping.shopping_list %}
+    {% with ingredients=shopping.shopping_list, amounts=shopping.recipe_ingredient_amounts %}
     {% if show_type == "list" %}
         {% include 'event_exporter/_ingredient_list.html.j2' %}
     {% else %}

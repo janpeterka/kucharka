@@ -28,11 +28,18 @@ class EventExporterView(HelperFlaskView):
 
     def show_list(self, event_id, show_type):
         self._set_shoppings()
-        recipe_ingredient_amounts = self._get_amounts_for_shopping(self)
+
+        self.lasting_ingredients_shopping.recipe_ingredient_amounts = (
+            self._get_amounts_for_shopping(self.lasting_ingredients_shopping)
+        )
+
+        for shopping in self.shoppings:
+            shopping.recipe_ingredient_amounts = self._get_amounts_for_shopping(
+                shopping
+            )
 
         return self.template(
             template_name="shopping_list",
-            amounts=recipe_ingredient_amounts,
             show_type=show_type,
         )
 
@@ -42,6 +49,11 @@ class EventExporterView(HelperFlaskView):
         self.lasting_ingredients.sort(
             key=lambda x: (x.category.name, unidecode(x.name.lower()))
         )
+
+        # Tohle je pro rozpadnutí
+        self.lasting_ingredients_shopping = Shopping()
+        self.lasting_ingredients_shopping.shopping_list = self.lasting_ingredients
+        self.lasting_ingredients_shopping.daily_recipes = self.event.daily_recipes
 
         # a pak pro každý mezinákupový období
         self.shoppings = []
@@ -55,6 +67,7 @@ class EventExporterView(HelperFlaskView):
             shopping_list = DailyPlan.load_ingredient_amounts_for_daily_recipes(
                 section_ids, self.event.people_count
             )
+
             shopping_list = [i for i in shopping_list if not i.is_lasting]
             shopping_list.sort(
                 key=lambda x: (
@@ -66,9 +79,9 @@ class EventExporterView(HelperFlaskView):
             self.shoppings.append(shopping)
 
     def _get_amounts_for_shopping(self, shopping=None):
-        used_recipes = self.event.recipes
+        used_recipes = [r.recipe for r in shopping.daily_recipes]
 
-        for ingredient in self.ingredients:
+        for ingredient in shopping.shopping_list:
             ingredient.event_recipes = [
                 r for r in ingredient.recipes if r in used_recipes
             ]
@@ -77,7 +90,7 @@ class EventExporterView(HelperFlaskView):
 
         recipe_ingredient_amounts = {}
 
-        for ingredient in self.ingredients:
+        for ingredient in shopping.shopping_list:
             recipe_ingredient_amounts[ingredient.id] = {
                 "name": ingredient.name,
                 "recipes": {},

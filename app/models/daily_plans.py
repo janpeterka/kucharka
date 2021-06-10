@@ -25,7 +25,10 @@ class DailyPlan(db.Model, ItemMixin):
     author = db.relationship("User", uselist=False, back_populates="daily_plans")
 
     daily_recipes = db.relationship(
-        "DailyPlanHasRecipe", back_populates="daily_plan", cascade="all,delete"
+        "DailyPlanHasRecipe",
+        back_populates="daily_plan",
+        cascade="all,delete",
+        order_by=DailyPlanHasRecipe.order_index,
     )
     recipes = db.relationship(
         "Recipe", secondary="daily_plans_have_recipes", viewonly=True

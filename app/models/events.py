@@ -42,6 +42,7 @@ class Event(db.Model, ItemMixin):
         recipes = []
         for daily_plan in self.daily_plans:
             recipes = recipes + daily_plan.recipes
+
         return recipes
 
     @property
@@ -49,6 +50,7 @@ class Event(db.Model, ItemMixin):
         daily_recipes = []
         for daily_plan in self.daily_plans:
             daily_recipes = daily_recipes + daily_plan.daily_recipes
+
         return daily_recipes
 
     @property

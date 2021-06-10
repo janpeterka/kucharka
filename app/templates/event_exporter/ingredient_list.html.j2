@@ -3,38 +3,6 @@
 {% block content %}
 
 <h2 class="text-uppercase font-comfortaa">Suroviny (pro {{ event.people_count }} lidí)</h2>
-<ul>
-    {% for ingredient in ingredients %}
-    	<li>
-    		<details>
-    			<summary class="row">
-        			<span class="col font-weight-bold">{{ ingredient.name }}</span>
-                        {% if ingredient.measurement.thousand_fold and ingredient.amount % 1000 != ingredient.amount %}
-                            <span class="col font-weight-bold">{{ ingredient.amount/1000 | round(1) }}</span>
-                            <span class="col font-weight-bold">{{ ingredient.measurement.thousand_fold }}</span>
-                        {% else %}
-                            <span class="col font-weight-bold">{{ ingredient.amount | round | int }}</span>
-                            <span class="col font-weight-bold">{{ ingredient.measurement.name }}</span>
-                        {% endif %}
-    			</summary>
-
-		    	{% for recipe in ingredient.event_recipes %}
-                    {% set amount = amounts[ingredient.id]["recipes"][recipe.id]["amount"] %}
-
-                    <li class="row"> 
-                        <span class="col"> {{ link_to(recipe) }} {% if recipe.occurences > 1 %}({{ recipe.occurences }}x){% endif %}</span>
-                        {% if ingredient.measurement.thousand_fold and ingredient.amount % 1000 != ingredient.amount %}
-                            <span class="col"> {{ amount/1000 | round(1) }} {% if recipe.occurences > 1 %}(x{{ recipe.occurences }}){% endif %} </span>
-                            <span class="col"> {{ ingredient.measurement.thousand_fold }} </span>
-                        {% else %}
-                            <span class="col"> {{ amount | round | int }} {% if recipe.occurences > 1 %}(x{{ recipe.occurences }}){% endif %} </span>
-                            <span class="col"> {{ ingredient.measurement.name }} </span>
-                        {% endif %}
-                    </li>
-		    	{% endfor %}
-    		</details>
-    	</li>
-    {% endfor %}
-</ul>
+{% include 'event_exporter/_ingredient_list.html.j2' %}
 
 {% endblock %}

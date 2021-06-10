@@ -1,3 +1,6 @@
+from unidecode import unidecode
+
+from flask import redirect, url_for
 from flask_security import login_required
 
 from app.helpers.helper_flask_view import HelperFlaskView
@@ -23,42 +26,62 @@ class EventExporterView(HelperFlaskView):
     def show(self, event_id):
         return self.template()
 
-    def show_shopping_list(self, event_id):
-        # Nejdřív nákup před akcí -. lasting
+    def show_list(self, event_id, show_type):
+        self._set_shoppings()
+
+        self.lasting_ingredients_shopping.recipe_ingredient_amounts = (
+            self._get_amounts_for_shopping(self.lasting_ingredients_shopping)
+        )
+
+        for shopping in self.shoppings:
+            shopping.recipe_ingredient_amounts = self._get_amounts_for_shopping(
+                shopping
+            )
+
+        return self.template(
+            template_name="shopping_list",
+            show_type=show_type,
+        )
+
+    def _set_shoppings(self):
+        # Nejdřív nákup před akcí - trvanlivé suroviny
         self.lasting_ingredients = [i for i in self.ingredients if i.is_lasting]
+        self.lasting_ingredients.sort(
+            key=lambda x: (x.category.name, unidecode(x.name.lower()))
+        )
+
+        # Tohle je pro rozpadnutí
+        self.lasting_ingredients_shopping = Shopping()
+        self.lasting_ingredients_shopping.shopping_list = self.lasting_ingredients
+        self.lasting_ingredients_shopping.daily_recipes = self.event.daily_recipes
 
         # a pak pro každý mezinákupový období
         self.shoppings = []
         for section in self.split_recipes:
             section_ids = [dr.id for dr in section]
             shopping = Shopping()
+            shopping.daily_recipes = [dr for dr in section]
             shopping.date = section[0].daily_plan.date
-            if section[0].is_shopping:
-                shopping.is_shopping = True
-            else:
-                shopping.is_shopping = False
+            shopping.is_shopping = True if section[0].is_shopping else False
 
-            shopping.shopping_list = (
-                DailyPlan.load_ingredient_amounts_for_daily_recipes(
-                    section_ids, self.event.people_count
+            shopping_list = DailyPlan.load_ingredient_amounts_for_daily_recipes(
+                section_ids, self.event.people_count
+            )
+
+            shopping_list = [i for i in shopping_list if not i.is_lasting]
+            shopping_list.sort(
+                key=lambda x: (
+                    getattr(x.category, "name", "ZZZ"),
+                    unidecode(x.name.lower()),
                 )
             )
-            shopping.shopping_list = [
-                i for i in shopping.shopping_list if not i.is_lasting
-            ]
+            shopping.shopping_list = shopping_list
             self.shoppings.append(shopping)
 
-        return self.template(template_name="shopping_list")
+    def _get_amounts_for_shopping(self, shopping=None):
+        used_recipes = [r.recipe for r in shopping.daily_recipes]
 
-    def show_recipe_list(self, event_id):
-        return self.template(template_name="recipe_list")
-
-    def show_cookbook(self, event_id):
-        return self.template(template_name="cookbook")
-
-    def show_ingredient_list(self, event_id):
-        used_recipes = self.event.recipes
-        for ingredient in self.ingredients:
+        for ingredient in shopping.shopping_list:
             ingredient.event_recipes = [
                 r for r in ingredient.recipes if r in used_recipes
             ]
@@ -67,7 +90,7 @@ class EventExporterView(HelperFlaskView):
 
         recipe_ingredient_amounts = {}
 
-        for ingredient in self.ingredients:
+        for ingredient in shopping.shopping_list:
             recipe_ingredient_amounts[ingredient.id] = {
                 "name": ingredient.name,
                 "recipes": {},
@@ -82,6 +105,20 @@ class EventExporterView(HelperFlaskView):
                     "occurences": event_recipe.occurences,
                 }
 
-        return self.template(
-            template_name="ingredient_list", amounts=recipe_ingredient_amounts
+        return recipe_ingredient_amounts
+
+    def show_shopping_list(self, event_id):
+        return redirect(
+            url_for("EventExporterView:show_list", event_id=event_id, show_type="table")
         )
+
+    def show_ingredient_list(self, event_id):
+        return redirect(
+            url_for("EventExporterView:show_list", event_id=event_id, show_type="list")
+        )
+
+    def show_recipe_list(self, event_id):
+        return self.template(template_name="recipe_list")
+
+    def show_cookbook(self, event_id):
+        return self.template(template_name="cookbook")

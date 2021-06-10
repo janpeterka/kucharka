@@ -153,3 +153,19 @@ class Ingredient(db.Model, ItemMixin):
 
     def can_current_user_edit(self) -> bool:
         return self.can_edit(current_user)
+
+
+class IngredientCopy:
+    def __init__(self, ingredient):
+        self.id = ingredient.id
+        self.name = ingredient.name
+        self.is_lasting = ingredient.is_lasting
+        self.measurement = ingredient.measurement
+        self.category = ingredient.category
+        self.recipes = ingredient.recipes
+
+    def load_amount_by_recipe(self, recipe) -> float:
+        rhi = RecipeHasIngredient.query.filter_by(
+            recipe_id=recipe.id, ingredient_id=self.id
+        ).first()
+        return rhi.amount

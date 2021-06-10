@@ -71,8 +71,10 @@ class DailyPlan(db.Model, ItemMixin):
         result = db.engine.execute(amounts_sql)
 
         ingredients = []
+        from app.models.ingredients import IngredientCopy
+
         for row in result:
-            ingredient = Ingredient.load(row[0])
+            ingredient = IngredientCopy(Ingredient.load(row[0]))
             # ingredient.recipe_ids = row[1]
             ingredient.amount = row[1]
             ingredients.append(ingredient)

@@ -1,13 +1,10 @@
-# from flask import redirect, url_for, request
 from flask_security import login_required
 
+from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models.daily_plans import DailyPlan
 from app.models.events import Event
-
-# from app.models.ingredients import Ingredient
-
-from app.helpers.helper_flask_view import HelperFlaskView
+from app.models.shopping import Shopping
 
 
 class EventExporterView(HelperFlaskView):
@@ -17,6 +14,8 @@ class EventExporterView(HelperFlaskView):
     def before_request(self, name, event_id=None, *args, **kwargs):
         self.event = Event.load(event_id)
         self.daily_plans = self.event.daily_plans
+        self.split_recipes = self.event.daily_recipes_split_by_shopping
+
         self.ingredients = DailyPlan.load_ingredient_amounts_for_daily_plans(
             [dp.id for dp in self.daily_plans], self.event.people_count
         )
@@ -25,6 +24,30 @@ class EventExporterView(HelperFlaskView):
         return self.template()
 
     def show_shopping_list(self, event_id):
+        # Nejdřív nákup před akcí -. lasting
+        self.lasting_ingredients = [i for i in self.ingredients if i.is_lasting]
+
+        # a pak pro každý mezinákupový období
+        self.shoppings = []
+        for section in self.split_recipes:
+            section_ids = [dr.id for dr in section]
+            shopping = Shopping()
+            shopping.date = section[0].daily_plan.date
+            if section[0].is_shopping:
+                shopping.is_shopping = True
+            else:
+                shopping.is_shopping = False
+
+            shopping.shopping_list = (
+                DailyPlan.load_ingredient_amounts_for_daily_recipes(
+                    section_ids, self.event.people_count
+                )
+            )
+            shopping.shopping_list = [
+                i for i in shopping.shopping_list if not i.is_lasting
+            ]
+            self.shoppings.append(shopping)
+
         return self.template(template_name="shopping_list")
 
     def show_recipe_list(self, event_id):

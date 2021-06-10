@@ -112,6 +112,13 @@ class Ingredient(db.Model, ItemMixin):
     # PROPERTIES
 
     @property
+    def is_lasting(self) -> bool:
+        if self.category is None:
+            return False
+        else:
+            return self.category.is_lasting
+
+    @property
     def is_used(self) -> bool:
         return True if self.recipes else False
 

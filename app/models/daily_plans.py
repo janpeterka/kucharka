@@ -42,6 +42,44 @@ class DailyPlan(db.Model, ItemMixin):
         # self.created_by = current_user.id
 
     @staticmethod
+    def load_ingredient_amounts_for_daily_recipes(ids, people_count):
+        # i need to always have at least two ids for tuple to not have trailing coma
+        if len(ids) < 2:
+            ids.append(0)
+
+        ids = tuple(ids)
+
+        amounts_sql = f"""
+                        SELECT
+                            I.id AS ingredient_id,
+                            -- CONCAT(R.id) AS recipe_ids,
+                            SUM(RHI.amount) * {people_count} AS amount_sum
+                        FROM
+                            daily_plans_have_recipes AS DPHR
+                            INNER JOIN recipes AS R ON
+                                R.id = DPHR.recipe_id
+                            INNER JOIN recipes_have_ingredients AS RHI ON
+                                RHI.recipe_id = R.id
+                            INNER JOIN ingredients AS I ON
+                                I.id = RHI.ingredient_id
+                        WHERE
+                            DPHR.id IN {ids}
+                        GROUP BY
+                            I.id
+                    """
+
+        result = db.engine.execute(amounts_sql)
+
+        ingredients = []
+        for row in result:
+            ingredient = Ingredient.load(row[0])
+            # ingredient.recipe_ids = row[1]
+            ingredient.amount = row[1]
+            ingredients.append(ingredient)
+
+        return ingredients
+
+    @staticmethod
     def load_ingredient_amounts_for_daily_plans(ids, people_count):
         # i need to always have at least two ids for tuple to not have trailing coma
         if len(ids) < 2:
@@ -78,14 +116,6 @@ class DailyPlan(db.Model, ItemMixin):
             # ingredient.recipe_ids = row[1]
             ingredient.amount = row[1]
             ingredients.append(ingredient)
-
-        # for ingredient in ingredients:
-        #     ingredient.event_recipes = []
-        #     for recipe_id in ingredient.recipe_ids:
-        #         ingredient.event_recipes.append(Recipe.load(recipe_id))
-
-        # for ingredient in ingredients:
-        # ingredient.amount = ingredient.amount * float(people_count)
 
         return ingredients
 

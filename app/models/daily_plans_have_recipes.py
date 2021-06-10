@@ -27,6 +27,7 @@ class DailyPlanHasRecipe(db.Model, BaseMixin):
             "večeře",
             "programové",
             "jiné",
+            "nákup",
         )
     )
 
@@ -45,6 +46,10 @@ class DailyPlanHasRecipe(db.Model, BaseMixin):
                 self.order_index -= 1 * coef
                 self.edit()
                 return
+
+    @property
+    def is_shopping(self):
+        return self.recipe.name == "Nákup" or self.meal_type == "nákup"
 
     # @property
     # def values(self):

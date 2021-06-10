@@ -30,6 +30,7 @@ def upgrade():
                 "večeře",
                 "programové",
                 "jiné",
+                "nákup",
             ),
             nullable=True,
         ),

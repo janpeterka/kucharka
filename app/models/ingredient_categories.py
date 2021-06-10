@@ -12,6 +12,8 @@ class IngredientCategory(db.Model, BaseMixin):
     name = db.Column(db.String(80), unique=True)
     description = db.Column(db.String(255))
 
+    is_lasting = db.Column(db.Boolean, default=False)
+
     # LOADERS
     @staticmethod
     def load_all(ordered=True):

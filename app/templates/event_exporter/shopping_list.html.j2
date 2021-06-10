@@ -4,19 +4,22 @@
 {% block content %}
 
 <h2 class="text-uppercase font-comfortaa">Suroviny (pro {{ event.people_count }} lidí)</h2>
-<table class="table">
-    {% for ingredient in ingredients %}
-    <tr>
-        <td>{{ ingredient.name }}</td>
-        {% if ingredient.measurement.thousand_fold and ingredient.amount % 1000 != ingredient.amount %}
-            <td>{{ ingredient.amount/1000 | round(1) }}</td>
-            <td>{{ ingredient.measurement.thousand_fold }}</td>
-        {% else %}
-            <td>{{ ingredient.amount | round | int }}</td>
-            <td>{{ ingredient.measurement.name }}</td>
-        {% endif %}
-    </tr>
-    {% endfor %}
-</table>
+
+
+<h3>Trvanlivé</h3>
+{% with ingredients=lasting_ingredients %}
+    {% include 'event_exporter/_ingredient_table.html.j2' %}
+{% endwith %}
+
+{% for shopping in shoppings %}
+    {% if shopping.is_shopping %}
+        <h3>{{ human_format_date(shopping.date) }}</h3>
+    {% else %}
+        <h3>Před {{ human_format_date(shopping.date) }}</h3>
+    {% endif %}
+    {% with ingredients=shopping.shopping_list %}
+        {% include 'event_exporter/_ingredient_table.html.j2' %}
+    {% endwith %}
+{% endfor %}
 
 {% endblock %}

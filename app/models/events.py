@@ -45,6 +45,33 @@ class Event(db.Model, ItemMixin):
         return recipes
 
     @property
+    def daily_recipes(self):
+        daily_recipes = []
+        for daily_plan in self.daily_plans:
+            daily_recipes = daily_recipes + daily_plan.daily_recipes
+        return daily_recipes
+
+    @property
+    def daily_recipes_split_by_shopping(self):
+        daily_recipes = self.daily_recipes
+        split_recipes = []
+
+        shopping_indexes = [0]
+        for i, recipe in enumerate(daily_recipes):
+            if recipe.is_shopping:
+                shopping_indexes.append(i)
+
+        shopping_indexes.append(len(daily_recipes))
+
+        for i in range(len(shopping_indexes) - 1):
+            i_from = shopping_indexes[i]
+            i_to = shopping_indexes[i + 1]
+
+            split_recipes.append(daily_recipes[i_from:i_to])
+
+        return split_recipes
+
+    @property
     def zero_amount_ingredient_recipes(self):
         return [r for r in self.recipes if r.has_zero_amount_ingredient]
 

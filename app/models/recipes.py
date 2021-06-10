@@ -66,6 +66,7 @@ class Recipe(db.Model, ItemMixin):
 
         if ordered:
             recipes.sort(key=lambda x: unidecode(x.name.lower()), reverse=False)
+
         return recipes
 
     @staticmethod

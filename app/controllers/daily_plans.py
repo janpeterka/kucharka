@@ -2,7 +2,7 @@
 
 from flask import request, redirect, url_for
 from flask_classful import route
-from flask_security import login_required
+from flask_security import login_required, current_user
 
 from app import turbo
 
@@ -24,6 +24,8 @@ class DailyPlansView(HelperFlaskView):
     def before_show(self, id):
         self.daily_plan = DailyPlan.load(id)
         self.public_recipes = Recipe.load_all_public(exclude_mine=True)
+        if current_user.is_admin:
+            self.public_recipes.append(Recipe.load_by_name("Nákup"))
         self.daily_recipes = self.daily_plan.daily_recipes
         self.daily_recipes.sort(key=lambda x: x.order_index)
 

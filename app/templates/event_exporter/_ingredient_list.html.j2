@@ -3,7 +3,7 @@
     	<li>
     		<details>
     			<summary class="row">
-        			<span class="col font-weight-bold">{{ ingredient.name }}</span>
+        			<span class="col font-weight-bold"><a href="{{ url_for('IngredientsView:show', id=ingredient.id) }}">{{ ingredient.name }}</a></span>
                         {% if ingredient.measurement.thousand_fold and ingredient.amount % 1000 != ingredient.amount %}
                             <span class="col font-weight-bold">{{ ingredient.amount/1000 | round(1) }}</span>
                             <span class="col font-weight-bold">{{ ingredient.measurement.thousand_fold }}</span>

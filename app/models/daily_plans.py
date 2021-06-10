@@ -236,3 +236,7 @@ class DailyPlan(db.Model, ItemMixin):
     @property
     def has_previous(self):
         return self.previous is not None
+
+    @property
+    def real_recipes(self):
+        return [r for r in self.recipes if not r.is_shopping]

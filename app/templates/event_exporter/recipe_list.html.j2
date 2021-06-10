@@ -2,12 +2,13 @@
 {% block title %} Jídelníček {% endblock %}
 
 {% block content %}
-
+<h1 class="text-uppercase font-comfortaa text-center mb-3" >{{ link_to(event) }}</h1>
 <h2 class="text-uppercase font-comfortaa">Recepty</h2>
+
 <div>
-    {% for daily_plan in daily_plans if daily_plan.recipes %}
+    {% for daily_plan in daily_plans if daily_plan.real_recipes %}
         <h4>{{ human_format_date(daily_plan.date) }}</h4>
-        {{ list_of_links(daily_plan.recipes) }}
+        {{ list_of_links(daily_plan.real_recipes) }}
         </ul>
     {% endfor %}
 </div>

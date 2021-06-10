@@ -1,3 +1,5 @@
+from unidecode import unidecode
+
 from flask_security import login_required
 
 from app.helpers.helper_flask_view import HelperFlaskView
@@ -26,6 +28,9 @@ class EventExporterView(HelperFlaskView):
     def show_shopping_list(self, event_id):
         # Nejdřív nákup před akcí -. lasting
         self.lasting_ingredients = [i for i in self.ingredients if i.is_lasting]
+        self.lasting_ingredients.sort(
+            key=lambda x: (x.category.name, unidecode(x.name.lower()))
+        )
 
         # a pak pro každý mezinákupový období
         self.shoppings = []
@@ -38,14 +43,17 @@ class EventExporterView(HelperFlaskView):
             else:
                 shopping.is_shopping = False
 
-            shopping.shopping_list = (
-                DailyPlan.load_ingredient_amounts_for_daily_recipes(
-                    section_ids, self.event.people_count
+            shopping_list = DailyPlan.load_ingredient_amounts_for_daily_recipes(
+                section_ids, self.event.people_count
+            )
+            shopping_list = [i for i in shopping_list if not i.is_lasting]
+            shopping_list.sort(
+                key=lambda x: (
+                    getattr(x.category, "name", "ZZZ"),
+                    unidecode(x.name.lower()),
                 )
             )
-            shopping.shopping_list = [
-                i for i in shopping.shopping_list if not i.is_lasting
-            ]
+            shopping.shopping_list = shopping_list
             self.shoppings.append(shopping)
 
         return self.template(template_name="shopping_list")

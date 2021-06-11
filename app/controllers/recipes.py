@@ -10,7 +10,7 @@ from flask_classful import route
 from app import turbo
 
 from app.helpers.helper_flask_view import HelperFlaskView
-from app.helpers.form import save_form_to_session
+from app.helpers.form import save_form_to_session, create_form
 
 from app.models.recipes import Recipe
 from app.models.ingredients import Ingredient
@@ -27,6 +27,10 @@ def set_form(form, recipe=None):
 
     if recipe and recipe.category:
         form.category.data = recipe.category.id
+
+    # this solves false error for category
+    if form.errors:
+        form.validate()
 
 
 class RecipesView(HelperFlaskView):
@@ -61,8 +65,9 @@ class RecipesView(HelperFlaskView):
         )
 
     def before_edit(self, id):
-        self.form = RecipesForm(obj=self.recipe)
+        self.form = create_form(RecipesForm, obj=self.recipe)
         self.categories = RecipeCategory.load_all()
+        set_form(self.form, self.recipe)
 
         unused_ingredients = [
             i
@@ -80,10 +85,8 @@ class RecipesView(HelperFlaskView):
             unused_public_ingredients, key=lambda x: unidecode(x.name.lower())
         )
 
-        set_form(self.form, self.recipe)
-
     def before_new(self):
-        self.form = RecipesForm()
+        self.form = create_form(RecipesForm)
         self.categories = RecipeCategory.load_all()
         set_form(self.form)
 

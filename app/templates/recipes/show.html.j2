@@ -106,7 +106,7 @@
 </div>
 {% endif %}
 
-<details open>
+<details>
     <summary>Další možnosti</summary>
     <a class="btn color-white bg-color-blue" href="{{ url_for('RecipesView:show', id=recipe.id, portion_count=1) }}">Jedna porce</a>
     <a class="btn color-white bg-color-purple" href="{{ url_for('RecipesView:show', id=recipe.id, portion_count=13) }}">Třináct porcí</a>

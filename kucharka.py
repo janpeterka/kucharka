@@ -81,10 +81,28 @@ def utility_processor():
 
         return html
 
+    def formatted_amount(amount):
+        import math
+
+        if math.floor(amount) == 0:
+            digits = 0
+        else:
+            digits = int(math.log10(math.floor(amount))) + 1
+
+        if digits == 0:
+            return round(amount, 1)
+        elif digits == 1:
+            return round(amount, 1)
+        elif digits in (2, 3):
+            return int(amount)
+
+        return int(amount)
+
     return dict(
         human_format_date=human_format_date,
         link_to=link_to,
         list_of_links=list_of_links,
+        formatted_amount=formatted_amount,
     )
 
 

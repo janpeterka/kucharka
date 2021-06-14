@@ -1,9 +1,9 @@
-{% macro button_to(method="POST", action="") %}
+{% macro button_to(action="") %}
   {% set class_ = kwargs.pop('class', "") %}
   {% set data = kwargs.pop('data', None) %}
   {% set icon = kwargs.pop('icon', None) %}
   {% set value = kwargs.pop('value', None) %}
-
+  {% set method = kwargs.pop('method', "POST") %}
 
 
 <form method="{{ method | upper }}" action="{{ action }}" {% if data %} data-turbo-frame="{{ data }}" {% endif %}>

@@ -90,11 +90,22 @@ class RecipesView(HelperFlaskView):
         self.categories = RecipeCategory.load_all()
         set_form(self.form)
 
+    def before_show(self, id):
+        # if "portion_count" in request.args:
+        self.recipe.portion_count = int(
+            request.args.get("portion_count", self.recipe.portion_count)
+        )
+
     def index(self):
         return self.template()
 
     def show(self, id):
         return self.template()
+
+    @route("show_with_portion_count/<id>/", methods=["POST"])
+    def show_with_portion_count(self, id):
+        portion_count = request.form["portion_count"]
+        return redirect(url_for("RecipesView:show", id=id, portion_count=portion_count))
 
     def edit(self, id):
         return self.template()

@@ -4,6 +4,9 @@
 {% block content %}
 
 <h1 class="text-uppercase font-comfortaa text-center mb-3" >{{ link_to(event) }}</h1>
+{% if show_type == "list" %}
+    <span data-controller="toggle-details" data-turbo="false" data-toggle-details-target="buttons" class="float-right"></span>
+{% endif %}
 <h2 class="text-uppercase font-comfortaa">Suroviny (pro {{ event.people_count }} lidí)</h2>
 
 <h3>Trvanlivé</h3>
@@ -21,6 +24,7 @@
     {% else %}
         <h3>Před {{ human_format_date(shopping.date) }}</h3>
     {% endif %}
+
     {% with ingredients=shopping.shopping_list, amounts=shopping.recipe_ingredient_amounts %}
     {% if show_type == "list" %}
         {% include 'event_exporter/_ingredient_list.html.j2' %}
@@ -30,4 +34,10 @@
     {% endwith %}
 {% endfor %}
 
+{% endblock %}
+
+
+{% block scripts_after %}
+    {% include 'javascript/stimulus.js.html' %}
+    {% include 'javascript/toggle_details_controller.js.html' %}
 {% endblock %}

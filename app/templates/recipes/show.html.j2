@@ -58,6 +58,13 @@
                 {% else %}
                     {{ formatted_amount(ingredient_amount) }} {{ ingredient.measurement.name }}
                 {% endif %}
+
+                {% if ingredient.alternative_measurement %}
+                    <abbr title="~= {{ formatted_amount(ingredient_amount/ingredient.alternative_measurement.amount_from * ingredient.alternative_measurement.amount_to) }} {{ingredient.alternative_measurement.to_measurement.name}}">
+                         {{ icon("info-circle", class="ml-1") }}
+                    </abbr>   
+                {% endif %}
+
             {% endif %}
             </td>
 

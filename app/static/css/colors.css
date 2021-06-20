@@ -30,6 +30,12 @@
     /* Other */
     --color-grey: #C1C2C4;
     --color-green: #2FAC03;
+
+    /* CSS HEX */
+    --hunter-green: #386641ff;
+    --lapis-lazuli: #1c5d99ff;
+    --pale-spring-bud: #dde0bdff;
+    --pale-spring-bud-2: #d0d1acff;
 }
 
 /*Colors*/
@@ -81,6 +87,10 @@
 
 .bg-color-purple{
     background-color: var(--palette-purple);
+}
+
+.bg-color-dark-green {
+    background-color: var(--hunter-green);
 }
 
 /*Color signals*/

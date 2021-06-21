@@ -13,7 +13,7 @@
                        {# onblur="this.form.submit()"> #}
                 <span class="ml-2">{{ ingredient.measurement.name }}</span>
             </div>
-            <input type="submit" class="form-control btn btn-warning ml-4" value="Změnit">
+            <input type="submit" class="form-control btn btn-warning ml-4" value="Uložit">
         </form>
         {% endif %}
         <details>
@@ -24,7 +24,7 @@
                        value="{% if ingredient.comment %}{{ ingredient.comment }}{% endif %}">
                        {# onblur="this.form.submit()"> #}
             </div>
-            <input type="submit" class="form-control btn btn-warning ml-4" value="Změnit komentář">
+            <input type="submit" class="form-control btn btn-warning ml-4" value="Uložit komentář">
         </form>
         </details>
     </td>

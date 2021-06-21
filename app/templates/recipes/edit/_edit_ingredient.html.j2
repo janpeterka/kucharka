@@ -8,9 +8,8 @@
         {% if ingredient.is_measured %}
         <form action="{{ url_for('EditRecipeView:change_ingredient_amount', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" class="form form-inline" method="post">
             <div class="col-8">
-                <input type="number" class="form-control" name="amount" step="0.01" min="0"
-                       value="{% if ingredient.amount %}{{ (ingredient.amount|float * recipe.portion_count|float) | int }}{% endif %}">
-                       {# onblur="this.form.submit()"> #}
+                <input type="number" class="form-control" name="amount" step="1" min="0"
+                       value="{% if ingredient.amount %}{{ (ingredient.amount|float * recipe.portion_count|float) | round | int }}{% endif %}">
                 <span class="ml-2">{{ ingredient.measurement.name }}</span>
             </div>
             <input type="submit" class="form-control btn btn-warning ml-4" value="Uložit">
@@ -22,7 +21,6 @@
             <div class="col-8">
                 <input type="text" class="form-control" name="comment"
                        value="{% if ingredient.comment %}{{ ingredient.comment }}{% endif %}">
-                       {# onblur="this.form.submit()"> #}
             </div>
             <input type="submit" class="form-control btn btn-warning ml-4" value="Uložit komentář">
         </form>
@@ -31,15 +29,18 @@
     
     <td>
         {% if ingredient.is_measured is false %}
+        <abbr title="Uvádět množství">
             {{ button_to(action=url_for('EditRecipeView:change_ingredient_measured', recipe_id=recipe.id, ingredient_id=ingredient.id, measured=True), class="measurement", icon=True, value="⚖️") }}
         {% else %}
+        <abbr title="Neuvádět množství">
             {{ button_to(action=url_for('EditRecipeView:change_ingredient_measured', recipe_id=recipe.id, ingredient_id=ingredient.id, measured=False), class="no-measurement", icon=True, value="⚖️") }}
+        </abbr>
         {% endif %}
     </td>
 
     <td class="align-middle">
         {% if ingredient.amount %}
-            <span class="font-italic font-weight-light"> {{ ingredient.amount | round(1) }} na porci </span>
+            <span class="font-italic font-weight-light"> {{ formatted_amount(ingredient.amount) }} na porci </span>
         {% endif %}
     </td>
 

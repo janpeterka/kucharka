@@ -91,10 +91,13 @@ class RecipesView(HelperFlaskView):
         set_form(self.form)
 
     def before_show(self, id):
-        # if "portion_count" in request.args:
-        self.recipe.portion_count = int(
-            request.args.get("portion_count", self.recipe.portion_count)
-        )
+
+        if "portion_count" in request.args:
+            request_portion_count = request.args.get("portion_count", "1")
+            if not request_portion_count:
+                request_portion_count = 1
+
+            self.recipe.portion_count = int(request_portion_count)
 
     def index(self):
         return self.template()

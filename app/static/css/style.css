@@ -49,7 +49,7 @@ a.info:hover {
 }
 
 abbr {
-  cursor: default !important;
+  /*cursor: default !important;*/
   text-decoration: none !important;
 }
 

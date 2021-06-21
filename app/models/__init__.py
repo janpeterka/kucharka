@@ -3,13 +3,8 @@
 # this file imports automatically (because it's __init__.py file)
 
 from app.models.users_have_roles import users_have_roles  # noqa: F401
-from app.models.measurements import Measurement  # noqa: F401
-from app.models.ingredient_categories import IngredientCategory  # noqa: F401
 from app.models.request_logs import RequestLog  # noqa: F401
 
-
-# This is needed for ExtendedFlaskView to automatically import all Model classes
-from .ingredients import Ingredient  # noqa: F401
-from .recipes import Recipe  # noqa: F401
-from .users import User  # noqa: F401
-from .events import Event  # noqa: F401
+from app.models.measurements_to_measurements import (
+    MeasurementToMeasurement,
+)  # noqa: F401

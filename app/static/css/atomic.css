@@ -56,3 +56,7 @@
 .cursor-default {
 	cursor: default;
 }
+
+.cursor-clickable {
+	cursor: pointer;
+}

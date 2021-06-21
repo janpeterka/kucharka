@@ -1,5 +1,5 @@
 .admin-field {
-  background-color: #FFE766;
+  background-color: var(--admin-yellow);
   padding: 0.5rem;
   /*border: solid 0.1rem red;*/
   border-radius: 0.3rem;
@@ -23,4 +23,13 @@
 
 .dev-badge.prod {
   background-color: var(--palette-orange);
+}
+
+.color-admin {
+  color: var(--admin-yellow) !important;
+}
+
+.bg-color-admin {
+  background-color: var(--admin-yellow) !important;
+
 }

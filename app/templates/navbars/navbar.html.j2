@@ -15,6 +15,10 @@
           <a class="nav-link" href="{{ url_for('DashboardView:index') }}"> Domů | </a>
         </li>
 
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('UsersView:show') }}">{{ icon("user", cursor_class="cursor-clickable") }}</a>
+        </li>
+
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -47,15 +51,12 @@
       </ul>
 
       <ul class="nav navbar-nav navbar-right ml-auto">
-        <li class="nav-item dropdown">
+{#         <li class="nav-item dropdown">
           <a class="nav-link" href="#" id="navbarDropdown" role="button"
              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
              <i class="fa fa-question-circle"></i>
           </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ url_for('UsersView:index') }}">Uživatel</a>
-          </div>
-        </li>
+        </li> #}
 
         <li class="nav-item">
           <a class="nav-link" href="/logout">Odhlásit se</a>

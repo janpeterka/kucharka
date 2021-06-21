@@ -3,14 +3,15 @@
     {% set tooltip = kwargs.pop('tooltip', None) %}
     {% set value = kwargs.pop('value', None) %}
     {% set class_ = kwargs.pop('class', '') %}
-    {% set class_ = class_ + " cursor-default" %}
+    {% set cursor_class = kwargs.pop('cursor_class', "cursor-default") %}
+    {% set class_ = class_ + " " + cursor_class %}
     {% set fa_class_ = "" %}
     
     {% set action = kwargs.pop('action', None) %}
 
     {# Pages #}
     {% if name=="user" %}
-    	{% set fa_class_ = 'material-icons user' %}
+    	{% set fa_class_ = 'fas fa-user' %}
     {% elif name=="daily" %}
         {% set fa_class_ = 'fas fa-calendar-alt' %}
 {#     {% elif name=="calculator" %}

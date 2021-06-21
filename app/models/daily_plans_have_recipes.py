@@ -32,7 +32,7 @@ class DailyPlanHasRecipe(db.Model, BaseMixin):
     )
 
     daily_plan = db.relationship("DailyPlan")
-    recipe = db.relationship("Recipe")
+    recipe = db.relationship("Recipe", backref="daily_plan_recipes")
 
     def change_order(self, order_type):
         # WIP - WTF is this?

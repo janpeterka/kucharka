@@ -38,10 +38,7 @@ class EventExporterView(HelperFlaskView):
                 shopping
             )
 
-        return self.template(
-            template_name="shopping_list",
-            show_type=show_type,
-        )
+        return self.template(template_name="shopping_list", show_type=show_type)
 
     def _set_shoppings(self):
         # Nejdřív nákup před akcí - trvanlivé suroviny
@@ -80,22 +77,29 @@ class EventExporterView(HelperFlaskView):
 
     def _get_amounts_for_shopping(self, shopping=None):
         used_recipes = [r.recipe for r in shopping.daily_recipes]
-
-        for ingredient in shopping.shopping_list:
-            ingredient.event_recipes = [
-                r for r in ingredient.recipes if r in used_recipes
-            ]
-            for r in ingredient.event_recipes:
-                r.occurences = len([p for p in r.daily_plans if p.event == self.event])
-
         recipe_ingredient_amounts = {}
 
         for ingredient in shopping.shopping_list:
+
             recipe_ingredient_amounts[ingredient.id] = {
                 "name": ingredient.name,
                 "recipes": {},
             }
+
+            # Get list of recipes relevant for this shopping
+            ingredient.event_recipes = [
+                r for r in ingredient.recipes if r in used_recipes
+            ]
+
             for event_recipe in ingredient.event_recipes:
+                event_recipe.occurences = len(
+                    [
+                        dr
+                        for dr in event_recipe.daily_plan_recipes
+                        if dr in shopping.daily_recipes
+                    ]
+                )
+
                 amount = ingredient.load_amount_by_recipe(event_recipe) * float(
                     self.event.people_count
                 )

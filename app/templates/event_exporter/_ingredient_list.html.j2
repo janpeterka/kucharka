@@ -15,14 +15,15 @@
 
 		    	{% for recipe in ingredient.event_recipes %}
                     {% set amount = amounts[ingredient.id]["recipes"][recipe.id]["amount"] %}
+                    {% set occurences = amounts[ingredient.id]["recipes"][recipe.id]["occurences"] %}
 
                     <li class="row"> 
-                        <span class="col"> {{ link_to(recipe) }} {% if recipe.occurences > 1 %}({{ recipe.occurences }}x){% endif %}</span>
+                        <span class="col"> {{ link_to(recipe) }} {% if occurences > 1 %}({{ occurences }}x){% endif %}</span>
                         {% if ingredient.measurement.thousand_fold and amount % 1000 != amount %}
-                            <span class="col"> {{ formatted_amount(amount/1000) }} {% if recipe.occurences > 1 %}(x{{ recipe.occurences }}){% endif %} </span>
+                            <span class="col"> {{ formatted_amount(amount/1000) }} {% if occurences > 1 %}(x{{ occurences }}){% endif %} </span>
                             <span class="col"> {{ ingredient.measurement.thousand_fold }} </span>
                         {% else %}
-                            <span class="col"> {{ formatted_amount(amount) }} {% if recipe.occurences > 1 %}(x{{ recipe.occurences }}){% endif %} </span>
+                            <span class="col"> {{ formatted_amount(amount) }} {% if occurences > 1 %}(x{{ occurences }}){% endif %} </span>
                             <span class="col"> {{ ingredient.measurement.name }} </span>
                         {% endif %}
                     </li>

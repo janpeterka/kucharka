@@ -4,7 +4,7 @@
     		<details>
     			<summary class="row">
         			<span class="col font-weight-bold"><a href="{{ url_for('IngredientsView:show', id=ingredient.id) }}">{{ ingredient.name }}</a></span>
-                        {% if ingredient.is_in_thousands %}
+                        {% if ingredient.measurement.thousand_fold and ingredient.amount % 1000 != ingredient.amount %}
                             <span class="col font-weight-bold">{{ formatted_amount(ingredient.amount/1000) }}</span>
                             <span class="col font-weight-bold">{{ ingredient.measurement.thousand_fold }}</span>
                         {% else %}
@@ -18,7 +18,7 @@
 
                     <li class="row"> 
                         <span class="col"> {{ link_to(recipe) }} {% if recipe.occurences > 1 %}({{ recipe.occurences }}x){% endif %}</span>
-                        {% if ingredient.is_in_thousands %}
+                        {% if ingredient.measurement.thousand_fold and amount % 1000 != amount %}
                             <span class="col"> {{ formatted_amount(amount/1000) }} {% if recipe.occurences > 1 %}(x{{ recipe.occurences }}){% endif %} </span>
                             <span class="col"> {{ ingredient.measurement.thousand_fold }} </span>
                         {% else %}

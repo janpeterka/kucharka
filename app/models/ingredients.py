@@ -142,9 +142,9 @@ class Ingredient(db.Model, ItemMixin):
         else:
             return None
 
-    @property
-    def is_in_thousands(self):
-        return self.measurement.thousand_fold and self.amount % 1000 != self.amount
+    # @property
+    # def is_in_thousands(self):
+    #     return self.measurement.thousand_fold and self.amount % 1000 != self.amount
 
     # PERMISSIONS
 

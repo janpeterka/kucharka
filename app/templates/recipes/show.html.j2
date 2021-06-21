@@ -112,6 +112,7 @@
     <summary>Zobrazit pro daný počet porcí</summary>
     <a class="btn color-white bg-color-blue" href="{{ url_for('RecipesView:show', id=recipe.id, portion_count=1) }}">Jedna porce</a>
     <a class="btn color-white bg-color-purple ml-1" href="{{ url_for('RecipesView:show', id=recipe.id, portion_count=13) }}">Třináct porcí</a>
+    <a class="btn color-white bg-color-purple ml-1" href="{{ url_for('RecipesView:show', id=recipe.id) }}">Původní</a>
     <form method="POST" action="{{ url_for('RecipesView:show_with_portion_count', id=recipe.id) }}" class="form form-inline">
         <input type="number" name="portion_count" min="1" class="form-control" value=1>
         <button type="submit" class="btn btn-primary">Zobrazit pro daný počet porcí</button>

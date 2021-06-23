@@ -55,6 +55,9 @@ class EventExporterView(HelperFlaskView):
         # a pak pro každý mezinákupový období
         self.shoppings = []
         for section in self.split_recipes:
+            # If first event day begins with Shopping
+            if not section:
+                continue
             section_ids = [dr.id for dr in section]
             shopping = Shopping()
             shopping.daily_recipes = [dr for dr in section]

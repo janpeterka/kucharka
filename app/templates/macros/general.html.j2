@@ -5,7 +5,6 @@
 {% endmacro %}
 
 
-
 {% macro options(list, selected_item=None) %}
 
 	{% for item in list %}
@@ -16,4 +15,22 @@
 	{% endif %}
 	{% endfor %}
 
+{% endmacro %}
+
+{% macro link_or_name(object) %}
+
+	{% if not print %}
+		{{ link_to(object) }}
+	{% else %}
+		{{ object.name }}
+	{% endif %}
+	
+{% endmacro %}
+
+{% macro list_of_links(items) %}
+    <ul>
+    {% for item in items %}
+        <li>{{ link_or_name(item)}} </li>
+    {% endfor %}
+    </ul>	
 {% endmacro %}

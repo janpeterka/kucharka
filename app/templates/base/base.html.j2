@@ -1,5 +1,5 @@
 {% from "macros/render_field.html.j2" import render_field %}
-{% from "macros/general.html.j2" import option, options %}
+{% from "macros/general.html.j2" import option, options, link_or_name, list_of_links with context %}
 {% from "macros/icons.html.j2" import icon %}
 {% from "macros/turbo.html.j2" import button_to %}
 
@@ -52,6 +52,9 @@
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
         <!-- custom fonts -->
         <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' type='text/css'>
+        {% if print %}
+            <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/print.css') }}">
+        {% endif %}
     {% endblock %}
 
     {% block style %}{% endblock %}
@@ -61,7 +64,9 @@
 {% endblock head %}
 </head>
 <body>
-    {% block navbar %}
+    {% if not print %}
+        
+    {% block navbar %}            
         {% if current_user.is_authenticated %}
             {% include('navbars/navbar.html.j2') %}
         {% else %}
@@ -76,22 +81,29 @@
         {% include('base/_flashing.html.j2') %}
     {% endblock %}
 
+
+    {% block dev %}
     {% if config.APP_STATE == "development" %}
         <span class="dev-badge dev"><strong>DEV</strong></span>
     {% elif config.APP_STATE == "local_production" %}
         <span class="dev-badge prod"><strong>PROD</strong></span>
+    {% endif %}
+    {% endblock %}
+
     {% endif %}
 
     <div id="content" class="container mb-5">
         {% block content %}{% endblock %}
     </div>
     
+    {% if not print %}
     <div class="footer">
         {% block footer %}
             s radostí vyrobil <a href="mailto:obr+kucharka@skaut.cz">Obr</a><br>
             2021 - teď
         {% endblock %}
     </div>
+    {% endif %}
 </body>
 {% block scripts_after %}{% endblock %}
 </html>

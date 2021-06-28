@@ -18,20 +18,22 @@
         {% endif %}
     </div>
     <div>
-        <span class="float-right">
-        {% if recipe.is_vegetarian %}
-            {{ icon("vegetarian")}}
+        {% if not print %}
+            <span class="float-right">
+            {% if recipe.is_vegetarian %}
+                {{ icon("vegetarian")}}
+            {% endif %}
+            {% if recipe.is_vegan %}
+                {{ icon("vegan")}}
+            {% endif %}
+            {% if recipe.lactose_free %}
+                {{ icon("lactose_free")}}
+            {% endif %}
+            {% if recipe.gluten_free %}
+                {{ icon("gluten_free")}}
+            {% endif %}
+            </span>
         {% endif %}
-        {% if recipe.is_vegan %}
-            {{ icon("vegan")}}
-        {% endif %}
-        {% if recipe.lactose_free %}
-            {{ icon("lactose_free")}}
-        {% endif %}
-        {% if recipe.gluten_free %}
-            {{ icon("gluten_free")}}
-        {% endif %}
-        </span>
     </div>
 </div>
 
@@ -47,9 +49,14 @@
     {% for ingredient in recipe.ingredients: %}
     {% set ingredient_amount = ingredient.amount * recipe.portion_count %}
         <tr>
+            {% if not print %}
+                
             <td>{{ link_to(ingredient) }}
                 {% if ingredient.is_public %} {{ icon("public", class="text-secondary") }} {% endif %}
             </td>
+            {% else %}
+                <td>{{ ingredient.name }}</td>
+            {% endif %}
 
             <td>
             {% if ingredient.is_measured %}
@@ -78,6 +85,9 @@
 {% if recipe.description %}
     {% include "recipes/_description.html.j2" %}
 {% endif %}
+
+{% if not print %}
+    
 
 
 {% if recipe.can_current_user_edit %}
@@ -110,14 +120,26 @@
 
 <details>
     <summary>Zobrazit pro daný počet porcí</summary>
-    <a class="btn color-white bg-color-blue" href="{{ url_for('RecipesView:show', id=recipe.id, portion_count=1) }}">Jedna porce</a>
-    <a class="btn color-white bg-color-purple ml-1" href="{{ url_for('RecipesView:show', id=recipe.id, portion_count=13) }}">Třináct porcí</a>
-    <a class="btn color-white bg-color-purple ml-1" href="{{ url_for('RecipesView:show', id=recipe.id) }}">Původní</a>
-    <form method="POST" action="{{ url_for('RecipesView:show_with_portion_count', id=recipe.id) }}" class="form form-inline">
-        <input type="number" name="portion_count" min="1" class="form-control" value=1>
-        <button type="submit" class="btn btn-primary">Zobrazit pro daný počet porcí</button>
-    </form>
+    <div class="ml-2">
+        
+        <a class="btn color-white bg-color-blue" href="{{ url_for('RecipesView:show', id=recipe.id, portion_count=1) }}">Jedna porce</a>
+        <a class="btn color-white bg-color-purple ml-1" href="{{ url_for('RecipesView:show', id=recipe.id, portion_count=13) }}">Třináct porcí</a>
+        <a class="btn color-white bg-color-purple ml-1" href="{{ url_for('RecipesView:show', id=recipe.id) }}">Původní</a>
+
+        <form method="POST" action="{{ url_for('RecipesView:show_with_portion_count', id=recipe.id) }}" class="form form-inline">
+            <input type="number" name="portion_count" min="1" class="form-control" value=1>
+            <button type="submit" class="btn btn-primary">Zobrazit pro daný počet porcí</button>
+        </form>
+    
+    </div>
 </details>
+
+<details >
+    <summary>Další možnosti</summary>
+    <a class="btn color-white bg-color-red ml-2" href="{{ url_for('RecipesView:pdf', id=recipe.id, portion_count=recipe.portion_count) }}" target="_blank">Zobrazit PDF</a>
+</details>
+
+{% endif %}
 
 {% endblock %}
 

@@ -180,3 +180,10 @@ class IngredientCopy:
             recipe_id=recipe.id, ingredient_id=self.id
         ).first()
         return rhi.amount
+
+    # CONTEXT PROCESSOR UTILITIES
+    @property
+    def link_to(self):
+        from flask import url_for
+
+        return f"<a data-turbo='false' href='{url_for('IngredientsView:show', id=self.id)}'>{self.name}</a>"

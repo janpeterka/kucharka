@@ -57,6 +57,14 @@ class RecipesView(HelperFlaskView):
                 ingredient_names=self.ingredient_names, categories=self.categories
             )
 
+        if name in ["show", "pdf", "show_pdf"]:
+            if "portion_count" in request.args:
+                request_portion_count = request.args.get("portion_count", "1")
+                if not request_portion_count:
+                    request_portion_count = 1
+
+                self.recipe.portion_count = int(request_portion_count)
+
     def before_filter(self):
         self.form = RecipeFilterForm(
             request.form,
@@ -90,20 +98,19 @@ class RecipesView(HelperFlaskView):
         self.categories = RecipeCategory.load_all()
         set_form(self.form)
 
-    def before_show(self, id):
-
-        if "portion_count" in request.args:
-            request_portion_count = request.args.get("portion_count", "1")
-            if not request_portion_count:
-                request_portion_count = 1
-
-            self.recipe.portion_count = int(request_portion_count)
-
     def index(self):
         return self.template()
 
     def show(self, id):
         return self.template()
+
+    def show_pdf(self, id):
+        return self.template(template_name="show", print=True)
+
+    def pdf(self, id):
+        from flask_weasyprint import render_pdf, HTML
+
+        return render_pdf(HTML(string=self.template(template_name="show", print=True)))
 
     @route("show_with_portion_count/<id>/", methods=["POST"])
     def show_with_portion_count(self, id):

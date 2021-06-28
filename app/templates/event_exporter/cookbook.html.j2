@@ -2,13 +2,13 @@
 {% block title %} Kuchařka {% endblock %}
 
 {% block content %}
-<h1 class="text-uppercase font-comfortaa text-center mb-3" >{{ link_to(event) }}</h1>
+<h1 class="text-uppercase font-comfortaa text-center mb-3" >{{ link_or_name(event) }}</h1>
 <h2 class="text-uppercase font-comfortaa">Kuchařka - {{ event.name }}</h2>
 
 <div>
     {% for daily_plan in daily_plans if daily_plan.real_recipes %}
     	{% for recipe in daily_plan.real_recipes %}
-        	<h3>{{ link_to(recipe) }}</h3>
+        	<h3>{{ link_or_name(recipe) }}</h3>
         	<div>{{ recipe.description }}</div>	        
 	    {% endfor %}
     {% endfor %}

@@ -1,0 +1,13 @@
+body {
+	font-family: "Open Sans", Calibri, Candara, Arial, sans-serif;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+/*@page { size: A4; margin: 1cm }*/
+@media print {
+    nav { display: none }
+}

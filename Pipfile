@@ -19,6 +19,7 @@ Turbo-Flask = "*"
 Unidecode = "*"
 turbo-flask = "*"
 wtforms-sqlalchemy = "*"
+flask-weasyprint = "*"
 
 [dev-packages]
 

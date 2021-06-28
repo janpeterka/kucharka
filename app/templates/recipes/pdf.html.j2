@@ -1,0 +1,81 @@
+{% extends "base/print.html.j2" %}
+
+{% block content %}
+
+<div class="mb-2" id="recipe-info">
+    <div> 
+        <h2> {{ recipe.name }} </h2> 
+    </div>
+    
+    <div>
+        <span class="font-italic"> Kategorie: {{ recipe.category.name }} </span><br>
+
+        {% if recipe.is_shared and not recipe.is_current_user_author %}
+            <span class="font-italic font-weight-light float-right"> (vytvořil*a {{ recipe.author.name }}) </span>
+        {% elif recipe.is_shared %}
+            <span class="font-italic font-weight-light float-right"> {{ icon("shared") }} </span>
+        {% endif %}
+    </div>
+{#     <div>
+        <span class="float-right">
+        {% if recipe.is_vegetarian %}
+            {{ icon("vegetarian")}}
+        {% endif %}
+        {% if recipe.is_vegan %}
+            {{ icon("vegan")}}
+        {% endif %}
+        {% if recipe.lactose_free %}
+            {{ icon("lactose_free")}}
+        {% endif %}
+        {% if recipe.gluten_free %}
+            {{ icon("gluten_free")}}
+        {% endif %}
+        </span>
+    </div> #}
+</div>
+
+
+<table id="ingredients" class="table">
+    <tr>
+        <th>{{ texts.title }}</th>
+        <th>Množství (na {{recipe.portion_count}} porcí)</th>
+        {# <th>{{ texts.amount_simple }}</th> #}
+        <th></th>
+    </tr>
+
+    {% for ingredient in recipe.ingredients: %}
+    {% set ingredient_amount = ingredient.amount * recipe.portion_count %}
+        <tr>
+            <td>{{ ingredient.name }}</td>
+
+            <td>
+            {% if ingredient.is_measured %}
+                {% if ingredient.measurement.thousand_fold and ingredient_amount % 1000 != ingredient_amount %}
+                    {{ formatted_amount(ingredient_amount/1000) }} {{ ingredient.measurement.thousand_fold }}
+                {% else %}
+                    {{ formatted_amount(ingredient_amount) }} {{ ingredient.measurement.name }}
+                {% endif %}
+
+{#                 {% if ingredient.alternative_measurement %}
+                    <abbr title="~= {{ formatted_amount(ingredient_amount/ingredient.alternative_measurement.amount_from * ingredient.alternative_measurement.amount_to) }} {{ingredient.alternative_measurement.to_measurement.name}}">
+                         {{ icon("info-circle", class="ml-1") }}
+                    </abbr>   
+                {% endif %} #}
+
+            {% endif %}
+            </td>
+
+            <td><em>{{ ingredient.comment|default("", True) }}</em></td>
+        </tr>
+    {% endfor %}
+</table>
+
+<hr>
+
+{% if recipe.description %}
+    {% include "recipes/_description.html.j2" %}
+{% endif %}
+
+
+{% endblock %}
+

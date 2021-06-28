@@ -76,11 +76,14 @@
         {% include('base/_flashing.html.j2') %}
     {% endblock %}
 
+
+    {% block dev %}
     {% if config.APP_STATE == "development" %}
         <span class="dev-badge dev"><strong>DEV</strong></span>
     {% elif config.APP_STATE == "local_production" %}
         <span class="dev-badge prod"><strong>PROD</strong></span>
     {% endif %}
+    {% endblock %}
 
     <div id="content" class="container mb-5">
         {% block content %}{% endblock %}

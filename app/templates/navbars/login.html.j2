@@ -23,19 +23,23 @@
           </li>
       </ul>
       <div class="navbar-divider"></div>
-{# 
+
       <ul class="nav navbar-nav navbar-right ml-auto">
-          <li class="nav-item">
+{#           <li class="nav-item">
             {% include '_navbar_facebook.html.j2' %}
-          </li>
+          </li> #}
 
           <li class="nav-item">
+            <a class="nav-link small" href="https://github.com/janmpeterka/kucharka" target="_blank">{{ icon("github") }}</a>
+          </li>
+
+{#           <li class="nav-item">
             <a class="nav-link small" href="{{ url_for('SupportView:terms') }}">Podmínky použití</a>
           </li>
           <li class="nav-item">
             <a class="nav-link small" href="{{ url_for('SupportView:privacy') }}">Osobní data</a>
-          </li>
-      </ul> #}
+          </li> #}
+      </ul>
 
     </div>
   </div>

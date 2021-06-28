@@ -89,7 +89,10 @@
     {# Brands #}
     {% elif name=="github" %}
         {% set fa_class_ = 'fab fa-github' %}
-
+    {% elif name=="pdf" %}
+        {% set fa_class_ = 'fas fa-file-pdf color-red' %}
+        {% if not tooltip %} {% set tooltip="pdf" %} {% endif %}
+        {% set with_tooltip = True %}
 
     {# Other, currently unused #}
     {#

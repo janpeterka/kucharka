@@ -3,13 +3,15 @@
     	<li>
     		<details>
     			<summary class="row">
-        			<span class="col font-weight-bold"><a href="{{ url_for('IngredientsView:show', id=ingredient.id) }}">{{ ingredient.name }}</a></span>
+        			<span class="col font-weight-bold">
+                        {{ link_or_name(ingredient) }}
+                    </span>
                         {% if ingredient.measurement.thousand_fold and ingredient.amount % 1000 != ingredient.amount %}
-                            <span class="col font-weight-bold">{{ formatted_amount(ingredient.amount/1000) }}</span>
-                            <span class="col font-weight-bold">{{ ingredient.measurement.thousand_fold }}</span>
+                            <span class="col font-weight-bold"> {{ formatted_amount(ingredient.amount/1000) }} </span>
+                            <span class="col font-weight-bold"> {{ ingredient.measurement.thousand_fold }} </span>
                         {% else %}
-                            <span class="col font-weight-bold">{{ formatted_amount(ingredient.amount) }}</span>
-                            <span class="col font-weight-bold">{{ ingredient.measurement.name }}</span>
+                            <span class="col font-weight-bold"> {{ formatted_amount(ingredient.amount) }} </span>
+                            <span class="col font-weight-bold"> {{ ingredient.measurement.name }} </span>
                         {% endif %}
     			</summary>
 
@@ -18,7 +20,7 @@
                     {% set occurences = amounts[ingredient.id]["recipes"][recipe.id]["occurences"] %}
 
                     <li class="row"> 
-                        <span class="col"> {{ link_to(recipe) }} {% if occurences > 1 %}({{ occurences }}x){% endif %}</span>
+                        <span class="col"> {{ link_or_name(recipe) }} {% if occurences > 1 %}({{ occurences }}x){% endif %} </span>
                         {% if ingredient.measurement.thousand_fold and amount % 1000 != amount %}
                             <span class="col"> {{ formatted_amount(amount/1000) }} {% if occurences > 1 %}(x{{ occurences }}){% endif %} </span>
                             <span class="col"> {{ ingredient.measurement.thousand_fold }} </span>

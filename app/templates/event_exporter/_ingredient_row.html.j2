@@ -1,5 +1,7 @@
 <tr>
-    <td><a href="{{ url_for('IngredientsView:show', id=ingredient.id) }}">{{ ingredient.name }}</a></td>
+    <td>
+        {{ link_or_name(ingredient) }}
+    </td>
     {% if ingredient.measurement.thousand_fold and ingredient.amount % 1000 != ingredient.amount %}
         <td>{{ formatted_amount(ingredient.amount/1000) }}</td>
         <td>{{ ingredient.measurement.thousand_fold }}</td>

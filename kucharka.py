@@ -72,15 +72,6 @@ def utility_processor():
         except Exception:
             raise NotImplementedError("This object link_to is probably not implemented")
 
-    def list_of_links(array):
-        html = "<ul>"
-        for item in array:
-            link_to_item = link_to(item)
-            html += f"<li>{link_to_item}</li>"
-        html += "</ul>"
-
-        return html
-
     def formatted_amount(amount):
         import math
 
@@ -101,7 +92,6 @@ def utility_processor():
     return dict(
         human_format_date=human_format_date,
         link_to=link_to,
-        list_of_links=list_of_links,
         formatted_amount=formatted_amount,
     )
 

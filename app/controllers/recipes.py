@@ -105,12 +105,12 @@ class RecipesView(HelperFlaskView):
         return self.template()
 
     def show_pdf(self, id):
-        return self.template(template_name="pdf")
+        return self.template(template_name="show", print=True)
 
     def pdf(self, id):
         from flask_weasyprint import render_pdf, HTML
 
-        return render_pdf(HTML(string=self.template()))
+        return render_pdf(HTML(string=self.template(template_name="show", print=True)))
 
     @route("show_with_portion_count/<id>/", methods=["POST"])
     def show_with_portion_count(self, id):

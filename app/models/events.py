@@ -1,7 +1,5 @@
 from datetime import timedelta
 
-# from flask_security import current_user
-
 from app import db
 
 from app.helpers.item_mixin import ItemMixin
@@ -24,7 +22,6 @@ class Event(db.Model, ItemMixin):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         super().set_defaults()
-        # self.created_by = current_user.id
 
     @property
     def duration(self):

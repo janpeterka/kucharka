@@ -6,13 +6,14 @@ from app import db
 
 from app.helpers.item_mixin import ItemMixin
 
-from app.models.mixins.recipes.recipe_reactions import RecipeReactionMixin
-
 from app.models.ingredients import Ingredient
 from app.models.recipes_have_ingredients import RecipeHasIngredient
 
+from app.models.mixins.recipes.recipe_reactions import RecipeReactionMixin
+from app.models.mixins.recipes.recipe_ingredients import RecipeIngredientMixin
 
-class Recipe(db.Model, ItemMixin, RecipeReactionMixin):
+
+class Recipe(db.Model, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
     __tablename__ = "recipes"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -147,36 +148,6 @@ class Recipe(db.Model, ItemMixin, RecipeReactionMixin):
         self.is_shared = not self.is_shared
         self.edit()
         return self.is_shared
-
-    def add_ingredient(self, ingredient, amount=None):
-        rhi = RecipeHasIngredient()
-        rhi.ingredient = ingredient
-        if amount:
-            rhi.amount = amount
-
-        self.recipe_ingredients.append(rhi)
-        self.save()
-
-    def remove_ingredient(self, ingredient):
-        rhi = RecipeHasIngredient.load_by_recipe_and_ingredient(self, ingredient)
-        rhi.delete()
-
-    def change_ingredient_amount(self, ingredient, amount):
-        rhi = RecipeHasIngredient.load_by_recipe_and_ingredient(self, ingredient)
-        rhi.amount = amount
-        rhi.save()
-
-    def change_ingredient_comment(self, ingredient, comment):
-        rhi = RecipeHasIngredient.load_by_recipe_and_ingredient(self, ingredient)
-        rhi.comment = comment
-        rhi.save()
-
-    def change_ingredient_measured(self, ingredient, measured):
-        rhi = RecipeHasIngredient.load_by_recipe_and_ingredient(self, ingredient)
-        rhi.is_measured = measured
-        if not rhi.is_measured and rhi.amount:
-            rhi.amount = 0
-        rhi.save()
 
     # PERMISSIONS
 

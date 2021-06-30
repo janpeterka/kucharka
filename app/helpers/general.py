@@ -3,3 +3,7 @@ def empty_object():
 
     obj = types.SimpleNamespace()
     return obj
+
+
+def list_without_duplicated(array):
+    return list(dict.fromkeys(array))

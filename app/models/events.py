@@ -41,9 +41,15 @@ class Event(db.Model, ItemMixin):
     def recipes(self):
         recipes = []
         for daily_plan in self.daily_plans:
-            recipes = recipes + daily_plan.recipes
+            recipes = recipes + daily_plan.real_recipes
 
         return recipes
+
+    @property
+    def recipes_without_duplicated(self):
+        from app.helpers.general import list_without_duplicated
+
+        return list_without_duplicated(self.recipes)
 
     @property
     def daily_recipes(self):

@@ -168,7 +168,9 @@ class EventExporterView(HelperFlaskView):
         )
 
     def show_cookbook(self, event_id):
-        return self.template(template_name="cookbook")
+        return self.template(
+            template_name="cookbook", recipes=self.event.recipes_without_duplicated
+        )
 
     def show_cookbook_pdf(self, event_id):
         return render_pdf(

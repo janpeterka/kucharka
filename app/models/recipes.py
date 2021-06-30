@@ -6,12 +6,13 @@ from app import db
 
 from app.helpers.item_mixin import ItemMixin
 
+from app.models.mixins.recipes.recipe_reactions import RecipeReactionMixin
+
 from app.models.ingredients import Ingredient
 from app.models.recipes_have_ingredients import RecipeHasIngredient
-from app.models.users_have_recipes_reaction import UserHasRecipeReaction
 
 
-class Recipe(db.Model, ItemMixin):
+class Recipe(db.Model, ItemMixin, RecipeReactionMixin):
     __tablename__ = "recipes"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -147,25 +148,6 @@ class Recipe(db.Model, ItemMixin):
         self.edit()
         return self.is_shared
 
-    def toggle_reaction(self, user=None):
-        user = current_user if user is None else user
-
-        if self.has_reaction is True:
-            self.remove_reaction(user)
-        else:
-            self.add_reaction(user)
-
-    def add_reaction(self, user):
-        UserHasRecipeReaction(recipe=self, user=user).save()
-
-    def remove_reaction(self, user):
-        UserHasRecipeReaction.load_by_recipe_and_current_user(recipe=self).delete()
-
-    @property
-    def has_reaction(self):
-        reactions = UserHasRecipeReaction.load_by_recipe_and_current_user(self)
-        return bool(reactions)
-
     def add_ingredient(self, ingredient, amount=None):
         rhi = RecipeHasIngredient()
         rhi.ingredient = ingredient
@@ -205,26 +187,26 @@ class Recipe(db.Model, ItemMixin):
     # PROPERTIES
 
     @property
-    def is_shopping(self):
+    def is_shopping(self) -> bool:
         return True if self.author.is_admin and self.name == "Nákup" else False
 
     @property
-    def is_used(self):
+    def is_used(self) -> bool:
         return True if self.daily_plans else False
 
     @property
-    def is_visible(self):
+    def is_visible(self) -> bool:
         return not self.is_draft
 
     @property
-    def is_draft(self):
+    def is_draft(self) -> bool:
         if self.is_shopping:
             return False
 
         return len(self.ingredients) == 0
 
     @property
-    def has_zero_amount_ingredient(self):
+    def has_zero_amount_ingredient(self) -> bool:
         for ingredient in self.recipe_ingredients:
             if ingredient.amount == 0 and ingredient.is_measured:
                 return True
@@ -232,7 +214,7 @@ class Recipe(db.Model, ItemMixin):
         return False
 
     @property
-    def has_no_measurement_ingredient(self):
+    def has_no_measurement_ingredient(self) -> bool:
         for ingredient in self.ingredient:
             if ingredient.without_measurement and ingredient.is_measured:
                 return True
@@ -240,7 +222,7 @@ class Recipe(db.Model, ItemMixin):
         return False
 
     @property
-    def without_category(self):
+    def without_category(self) -> bool:
         if self.is_shopping:
             return False
 
@@ -251,45 +233,17 @@ class Recipe(db.Model, ItemMixin):
         return ", ".join([o.name for o in self.ingredients])
 
     @property
-    def is_vegetarian(self):
+    def is_vegetarian(self) -> bool:
         return [i for i in self.ingredients if i.is_vegetarian] == self.ingredients
 
     @property
-    def is_vegan(self):
+    def is_vegan(self) -> bool:
         return [i for i in self.ingredients if i.is_vegan] == self.ingredients
 
     @property
-    def lactose_free(self):
+    def lactose_free(self) -> bool:
         return [i for i in self.ingredients if i.lactose_free] == self.ingredients
 
     @property
-    def gluten_free(self):
+    def gluten_free(self) -> bool:
         return [i for i in self.ingredients if i.gluten_free] == self.ingredients
-
-    # @property
-    # # @cache.cached(timeout=50, key_prefix="recipe_totals")
-    # def totals(self):
-    #     import types
-    #     import math
-
-    #     totals = types.SimpleNamespace()
-    #     metrics = ["calorie", "sugar", "fat", "protein"]
-
-    #     totals.amount = 0
-
-    #     for ingredient in self.ingredients:
-    #         ingredient.amount = round(ingredient.load_amount_by_recipe_id(self.id), 2)
-    #         for metric in metrics:
-    #             value = getattr(totals, metric, 0)
-    #             ing_value = getattr(ingredient, metric)
-    #             setattr(totals, metric, value + (ingredient.amount * ing_value))
-
-    #         totals.amount += ingredient.amount
-
-    #     for metric in metrics:
-    #         value = getattr(totals, metric)
-    #         setattr(totals, metric, math.floor(value) / 100)
-
-    #     totals.amount = math.floor(totals.amount)
-
-    #     return totals

@@ -23,14 +23,6 @@ class User(db.Model, BaseMixin, UserMixin):
     # PROPERTIES
 
     @property
-    def is_admin(self):
-        return self.has_role("admin")
-
-    @property
-    def is_application_manager(self):
-        return self.has_role("application_manager")
-
-    @property
     def name(self):
         return self.full_name
 
@@ -45,3 +37,12 @@ class User(db.Model, BaseMixin, UserMixin):
     @property
     def personal_ingredients(self):
         return [i for i in self.ingredients if not i.is_public]
+
+    # ROLES
+    @property
+    def is_admin(self):
+        return self.has_role("admin")
+
+    @property
+    def is_application_manager(self):
+        return self.has_role("application_manager")

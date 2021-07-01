@@ -6,10 +6,10 @@ class DailyPlanLoaderMixin:
     def load_by_date(date):
         from app.models.daily_plans import DailyPlan
 
-        # date_plan = DailyPlan.load_first_by_attribute("date", date)
         date_plan = DailyPlan.query.filter_by(
             date=date, created_by=current_user.id
         ).first()
+
         return date_plan
 
     @staticmethod
@@ -19,6 +19,7 @@ class DailyPlanLoaderMixin:
         date_plans = DailyPlan.query.filter(
             DailyPlan.date.between(date_from, date_to)
         ).all()
+
         return date_plans
 
     @staticmethod

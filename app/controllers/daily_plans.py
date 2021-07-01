@@ -1,6 +1,6 @@
 # import datetime
 
-from flask import request, redirect, url_for
+from flask import request, redirect, url_for, flash
 from flask_classful import route
 from flask_security import login_required
 
@@ -69,11 +69,16 @@ class DailyPlansView(HelperFlaskView):
         daily_recipe = DailyPlanHasRecipe.load(daily_recipe_id)
         daily_plan = DailyPlan.load(daily_recipe.daily_plan.id)
 
-        daily_plan.remove_daily_recipe_by_id(daily_recipe_id)
+        if daily_plan.remove_daily_recipe_by_id(daily_recipe_id):
 
-        if turbo.can_stream():
-            return turbo.stream(turbo.remove(target=f"daily-recipe-{daily_recipe_id}"))
+            if turbo.can_stream():
+                return turbo.stream(
+                    turbo.remove(target=f"daily-recipe-{daily_recipe_id}")
+                )
+            else:
+                return redirect(url_for("DailyPlansView:show", id=daily_plan.id))
         else:
+            flash("Tento recept nemůžete odebrat.")
             return redirect(url_for("DailyPlansView:show", id=daily_plan.id))
 
     @route("change_meal_type/<daily_recipe_id>", methods=["POST"])

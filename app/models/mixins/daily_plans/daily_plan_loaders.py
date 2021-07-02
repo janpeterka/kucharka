@@ -12,28 +12,6 @@ class DailyPlanLoaderMixin:
 
         return date_plan
 
-    # @staticmethod
-    # def load_by_date_range(date_from, date_to):
-    #     from app.models.daily_plans import DailyPlan
-
-    #     date_plans = DailyPlan.query.filter(
-    #         DailyPlan.date.between(date_from, date_to)
-    #     ).all()
-
-    #     return date_plans
-
-    # @staticmethod
-    # def load_by_date_or_create(date):
-    #     from app.models.daily_plans import DailyPlan
-
-    #     daily_plan = DailyPlan.load_by_date(date)
-
-    #     if daily_plan is None:
-    #         daily_plan = DailyPlan(date=date)
-    #         daily_plan.save()
-
-    #     return daily_plan
-
     @staticmethod
     def load_ingredient_amounts_for_daily_recipes(ids, people_count):
         from app import db
@@ -118,3 +96,25 @@ class DailyPlanLoaderMixin:
             ingredients.append(ingredient)
 
         return ingredients
+
+    # @staticmethod
+    # def load_by_date_range(date_from, date_to):
+    #     from app.models.daily_plans import DailyPlan
+
+    #     date_plans = DailyPlan.query.filter(
+    #         DailyPlan.date.between(date_from, date_to)
+    #     ).all()
+
+    #     return date_plans
+
+    # @staticmethod
+    # def load_by_date_or_create(date):
+    #     from app.models.daily_plans import DailyPlan
+
+    #     daily_plan = DailyPlan.load_by_date(date)
+
+    #     if daily_plan is None:
+    #         daily_plan = DailyPlan(date=date)
+    #         daily_plan.save()
+
+    #     return daily_plan

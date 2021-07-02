@@ -21,7 +21,7 @@ class EventExporterView(HelperFlaskView):
         self.split_recipes = self.event.daily_recipes_split_by_shopping
 
         self.ingredients = DailyPlan.load_ingredient_amounts_for_daily_plans(
-            [dp.id for dp in self.daily_plans], self.event.people_count
+            [dp.id for dp in self.daily_plans]
         )
 
     def show(self, event_id):
@@ -86,7 +86,7 @@ class EventExporterView(HelperFlaskView):
             shopping.is_shopping = True if section[0].is_shopping else False
 
             shopping_list = DailyPlan.load_ingredient_amounts_for_daily_recipes(
-                section_ids, self.event.people_count
+                section_ids
             )
 
             shopping_list = [i for i in shopping_list if not i.is_lasting]
@@ -116,21 +116,23 @@ class EventExporterView(HelperFlaskView):
             ]
 
             for event_recipe in ingredient.event_recipes:
-                event_recipe.occurences = len(
-                    [
-                        dr
-                        for dr in event_recipe.daily_plan_recipes
-                        if dr in shopping.daily_recipes
-                    ]
-                )
 
-                amount = ingredient.load_amount_by_recipe(event_recipe) * float(
-                    self.event.people_count
-                )
+                event_recipe.daily_plan_daily_recipes = [
+                    dr
+                    for dr in event_recipe.daily_plan_recipes
+                    if dr in shopping.daily_recipes
+                ]
+
+                amount = 0
+                for dr in event_recipe.daily_plan_daily_recipes:
+                    amount += ingredient.load_amount_by_recipe(event_recipe) * float(
+                        dr.portion_count
+                    )
+
                 recipe_ingredient_amounts[ingredient.id]["recipes"][event_recipe.id] = {
                     "name": event_recipe.name,
                     "amount": amount,
-                    "occurences": event_recipe.occurences,
+                    "occurences": len(event_recipe.daily_plan_daily_recipes),
                 }
 
         return recipe_ingredient_amounts

@@ -13,7 +13,7 @@ class DailyPlanLoaderMixin:
         return date_plan
 
     @staticmethod
-    def load_ingredient_amounts_for_daily_recipes(ids, people_count):
+    def load_ingredient_amounts_for_daily_recipes(ids):
         from app import db
         from app.models.ingredients import Ingredient, IngredientCopy
 
@@ -27,7 +27,7 @@ class DailyPlanLoaderMixin:
                         SELECT
                             I.id AS ingredient_id,
                             -- CONCAT(R.id) AS recipe_ids,
-                            SUM(RHI.amount) * {people_count} AS amount_sum
+                            SUM(RHI.amount * DPHR.portion_count) AS amount_sum
                         FROM
                             daily_plans_have_recipes AS DPHR
                             INNER JOIN recipes AS R ON
@@ -55,7 +55,7 @@ class DailyPlanLoaderMixin:
         return ingredients
 
     @staticmethod
-    def load_ingredient_amounts_for_daily_plans(ids, people_count):
+    def load_ingredient_amounts_for_daily_plans(ids):
         from app import db
         from app.models.ingredients import Ingredient
 
@@ -69,7 +69,7 @@ class DailyPlanLoaderMixin:
                         SELECT
                             I.id AS ingredient_id,
                             -- CONCAT(R.id) AS recipe_ids,
-                            SUM(RHI.amount) * {people_count} AS amount_sum
+                            SUM(RHI.amount * DPHR.portion_count) AS amount_sum
                         FROM
                             daily_plans AS DP
                             INNER JOIN daily_plans_have_recipes AS DPHR ON

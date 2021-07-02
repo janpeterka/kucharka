@@ -123,11 +123,13 @@ class EventExporterView(HelperFlaskView):
                     if dr in shopping.daily_recipes
                 ]
 
-                amount = 0
-                for dr in event_recipe.daily_plan_daily_recipes:
-                    amount += ingredient.load_amount_by_recipe(event_recipe) * float(
-                        dr.portion_count
+                amount = sum(
+                    (
+                        ingredient.load_amount_by_recipe(event_recipe)
+                        * float(dr.portion_count)
                     )
+                    for dr in event_recipe.daily_plan_daily_recipes
+                )
 
                 recipe_ingredient_amounts[ingredient.id]["recipes"][event_recipe.id] = {
                     "name": event_recipe.name,

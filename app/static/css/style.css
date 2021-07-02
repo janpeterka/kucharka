@@ -1,35 +1,25 @@
+/* Base */
 @import "colors.css";
-
-@import "icons.css";
-
 @import "atomic.css";
 
 /*@import "texts.css";*/
 
+/* Elements  */
 @import "lists.css";
 @import "forms.css";
 @import "details.css";
+@import "footer.css";
+/*@import "tables.css";*/
 
+/* Functions */
+@import "icons.css";
 @import "flash.css";
 @import "turboflash.css";
 
+/* Other */
 @import "admin.css";
 
-/*@import "tables.css";*/
 
-/* Footer */
-
-.footer {
-    position: fixed;
-    left: 0;
-    bottom: 0.5rem;
-    width: 100%;
-    color: var(--info);
-    font-size: 0.7rem;
-    text-align: center;
-    opacity: 0.7;
-    z-index: -1;
-}
 
 /* other */
 

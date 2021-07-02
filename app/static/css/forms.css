@@ -1,4 +1,4 @@
-.invisible-button {
+button.invisible-button {
   background: none;
   padding: 0px;
   border: none;
@@ -24,15 +24,12 @@ form ul.errors li.warning{
 form button.icon {
 	background-color: transparent;
 	border: none;
-	/*opacity: 1;*/
-
 	transition: color 0.2s ease-out;
 }
 
 form button.icon i {
 	font-style: normal;
 }
-
 
 form button.destroy {
 	color: red;

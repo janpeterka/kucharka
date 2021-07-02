@@ -3,10 +3,13 @@ from app.models.daily_plans_have_recipes import DailyPlanHasRecipe
 
 class DailyPlanRecipeMixin:
     def add_recipe(self, recipe):
-        order_index = self.daily_recipes[-1].order_index + 1
+        order_index = len(self.daily_recipes) + 1
 
         daily_recipe = DailyPlanHasRecipe(
-            recipe_id=recipe.id, daily_plan_id=self.id, order_index=order_index
+            recipe_id=recipe.id,
+            daily_plan_id=self.id,
+            order_index=order_index,
+            portion_count=self.event.people_count,
         )
 
         daily_recipe.save()
@@ -14,7 +17,6 @@ class DailyPlanRecipeMixin:
         return daily_recipe
 
     def remove_daily_recipe(self, daily_recipe):
-
         if not self.can_current_user_edit:
             return False
         if daily_recipe not in self.daily_recipes:

@@ -11,20 +11,31 @@
             
         {{ daily_recipe.meal_type | default("", True) }}
         <details>
-            <summary><em> upravit typ jídla </em></summary>
-        <form method="POST" class="form form-inline text-right mr-3" action="{{ url_for('DailyPlansView:change_meal_type', daily_recipe_id=daily_recipe.id) }}">
-            <select name="meal-type" id="meal-type" class="form-control">
-                <option name='snídaně' value='snídaně'>Snídaně</option>
-                <option name='dopolední svačina' value='dopolední svačina'>Dopolední svačina</option>
-                <option name='oběd' value='oběd'>Oběd</option>
-                <option name='odpolední svačina' value='odpolední svačina'>Odpolední svačina</option>
-                <option name='večeře' value='večeře'>Večeře</option>
-                <option name='program' value='program'>Program</option>
-                <option name='jiné' value='jiné'>Jiné</option>
-                <option name='nákup' value='nákup'>Nákup</option>
-            </select>
-            <button type="submit" class="btn btn-secondary"> Vybrat</button>
-        </form>
+        <summary><em> upravit typ jídla </em></summary>
+            <form method="POST" class="form form-inline text-right mr-3" action="{{ url_for('DailyPlansView:change_meal_type', daily_recipe_id=daily_recipe.id) }}">
+                <select name="meal-type" id="meal-type" class="form-control">
+                    <option name='snídaně' value='snídaně'>Snídaně</option>
+                    <option name='dopolední svačina' value='dopolední svačina'>Dopolední svačina</option>
+                    <option name='oběd' value='oběd'>Oběd</option>
+                    <option name='odpolední svačina' value='odpolední svačina'>Odpolední svačina</option>
+                    <option name='večeře' value='večeře'>Večeře</option>
+                    <option name='program' value='program'>Program</option>
+                    <option name='jiné' value='jiné'>Jiné</option>
+                    <option name='nákup' value='nákup'>Nákup</option>
+                </select>
+                <button type="submit" class="btn btn-secondary"> Změnit </button>
+            </form>
+        </details>
+        {% endif %}
+    </td>
+    <td>
+        {% if not daily_recipe.is_shopping %}
+        <details>
+        <summary><em> počet porcí: {{ daily_recipe.portion_count }} </em></summary>    
+            <form method="POST" action="{{ url_for('DailyPlansView:change_portion_count', daily_recipe_id=daily_recipe.id) }}" class="form form-inline">
+                <input type="number" class="form-control" name="portion-count" value="{{ daily_recipe.portion_count}}">
+                <button type="submit" class="btn btn-secondary"> Změnit </button>               
+            </form>
         </details>
         {% endif %}
     </td>

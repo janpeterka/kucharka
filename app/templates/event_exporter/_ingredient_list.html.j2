@@ -22,10 +22,10 @@
                     <li class="row"> 
                         <span class="col"> {{ link_or_name(recipe) }} {% if occurences > 1 %}({{ occurences }}x){% endif %} </span>
                         {% if ingredient.measurement.thousand_fold and amount % 1000 != amount %}
-                            <span class="col"> {{ formatted_amount(amount/1000) }} {% if occurences > 1 %}(x{{ occurences }}){% endif %} </span>
+                            <span class="col"> {{ formatted_amount(amount/1000) }} </span>
                             <span class="col"> {{ ingredient.measurement.thousand_fold }} </span>
                         {% else %}
-                            <span class="col"> {{ formatted_amount(amount) }} {% if occurences > 1 %}(x{{ occurences }}){% endif %} </span>
+                            <span class="col"> {{ formatted_amount(amount) }} </span>
                             <span class="col"> {{ ingredient.measurement.name }} </span>
                         {% endif %}
                     </li>

@@ -12,30 +12,8 @@ class DailyPlanLoaderMixin:
 
         return date_plan
 
-    # @staticmethod
-    # def load_by_date_range(date_from, date_to):
-    #     from app.models.daily_plans import DailyPlan
-
-    #     date_plans = DailyPlan.query.filter(
-    #         DailyPlan.date.between(date_from, date_to)
-    #     ).all()
-
-    #     return date_plans
-
-    # @staticmethod
-    # def load_by_date_or_create(date):
-    #     from app.models.daily_plans import DailyPlan
-
-    #     daily_plan = DailyPlan.load_by_date(date)
-
-    #     if daily_plan is None:
-    #         daily_plan = DailyPlan(date=date)
-    #         daily_plan.save()
-
-    #     return daily_plan
-
     @staticmethod
-    def load_ingredient_amounts_for_daily_recipes(ids, people_count):
+    def load_ingredient_amounts_for_daily_recipes(ids):
         from app import db
         from app.models.ingredients import Ingredient, IngredientCopy
 
@@ -49,7 +27,7 @@ class DailyPlanLoaderMixin:
                         SELECT
                             I.id AS ingredient_id,
                             -- CONCAT(R.id) AS recipe_ids,
-                            SUM(RHI.amount) * {people_count} AS amount_sum
+                            SUM(RHI.amount * DPHR.portion_count) AS amount_sum
                         FROM
                             daily_plans_have_recipes AS DPHR
                             INNER JOIN recipes AS R ON
@@ -77,7 +55,7 @@ class DailyPlanLoaderMixin:
         return ingredients
 
     @staticmethod
-    def load_ingredient_amounts_for_daily_plans(ids, people_count):
+    def load_ingredient_amounts_for_daily_plans(ids):
         from app import db
         from app.models.ingredients import Ingredient
 
@@ -91,7 +69,7 @@ class DailyPlanLoaderMixin:
                         SELECT
                             I.id AS ingredient_id,
                             -- CONCAT(R.id) AS recipe_ids,
-                            SUM(RHI.amount) * {people_count} AS amount_sum
+                            SUM(RHI.amount * DPHR.portion_count) AS amount_sum
                         FROM
                             daily_plans AS DP
                             INNER JOIN daily_plans_have_recipes AS DPHR ON
@@ -118,3 +96,25 @@ class DailyPlanLoaderMixin:
             ingredients.append(ingredient)
 
         return ingredients
+
+    # @staticmethod
+    # def load_by_date_range(date_from, date_to):
+    #     from app.models.daily_plans import DailyPlan
+
+    #     date_plans = DailyPlan.query.filter(
+    #         DailyPlan.date.between(date_from, date_to)
+    #     ).all()
+
+    #     return date_plans
+
+    # @staticmethod
+    # def load_by_date_or_create(date):
+    #     from app.models.daily_plans import DailyPlan
+
+    #     daily_plan = DailyPlan.load_by_date(date)
+
+    #     if daily_plan is None:
+    #         daily_plan = DailyPlan(date=date)
+    #         daily_plan.save()
+
+    #     return daily_plan

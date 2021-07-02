@@ -122,12 +122,12 @@
 <details class="colored">
     <summary>Zobrazit pro daný počet porcí</summary>
     <div>
-        <div class="row ml-1">
-            
-        {{ button_to("{{ url_for('RecipesView:show', id=recipe.id, portion_count=1) }}", value="Jedna porce", class="btn color-white color-hover-black bg-color-blue", form_class="form-inline") }}
-        {{ button_to("{{ url_for('RecipesView:show', id=recipe.id, portion_count=13) }}", value="Třináct porcí", class="btn color-white color-hover-black bg-color-purple", form_class="form-inline") }}
-        {{ button_to("{{ url_for('RecipesView:show', id=recipe.id) }}", value="Původní", class="btn color-white color-hover-black bg-color-purple", form_class="form-inline") }}
+        <div class="ml-2">
         
+        <a class="btn color-white color-hover-black bg-color-blue" href="{{ url_for('RecipesView:show', id=recipe.id, portion_count=1) }}">Jedna porce</a>
+        <a class="btn color-white color-hover-black bg-color-purple ml-1" href="{{ url_for('RecipesView:show', id=recipe.id, portion_count=13) }}">Třináct porcí</a>
+        <a class="btn color-white color-hover-black bg-color-purple ml-1" href="{{ url_for('RecipesView:show', id=recipe.id) }}">Původní</a>
+    
         </div>
         
         <form method="POST" action="{{ url_for('RecipesView:show_with_portion_count', id=recipe.id) }}" class="form form-inline">
@@ -142,9 +142,9 @@
     <summary>Další možnosti</summary>
     <div>
     
-        <a class="btn color-white bg-color-red d-none d-md-inline-block" href="{{ url_for('RecipesView:pdf', id=recipe.id, portion_count=recipe.portion_count) }}" target="_blank">Zobrazit jako PDF </a>
+        <a class="btn color-white color-hover-black bg-color-red d-none d-md-inline-block" href="{{ url_for('RecipesView:pdf', id=recipe.id, portion_count=recipe.portion_count) }}" target="_blank">Zobrazit jako PDF </a>
 
-        <a class="btn color-white bg-color-red d-md-none" href="{{ url_for('RecipesView:pdf_download', id=recipe.id, portion_count=recipe.portion_count) }}" target="_blank">Stáhnout PDF </a>
+        <a class="btn color-white color-hover-black bg-color-red d-md-none" href="{{ url_for('RecipesView:pdf_download', id=recipe.id, portion_count=recipe.portion_count) }}" target="_blank">Stáhnout PDF </a>
     
         {% if recipe.is_current_user_author %}
             <a class="btn btn-info" href="{{ url_for('RecipesView:duplicate', id=recipe.id) }}">

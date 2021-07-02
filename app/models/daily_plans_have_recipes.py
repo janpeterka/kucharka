@@ -3,6 +3,8 @@ from app import db
 
 from app.helpers.base_mixin import BaseMixin
 
+# from sqlalchemy.ext.hybrid import hybrid_property
+
 
 class DailyPlanHasRecipe(db.Model, BaseMixin):
     __tablename__ = "daily_plans_have_recipes"
@@ -17,6 +19,8 @@ class DailyPlanHasRecipe(db.Model, BaseMixin):
     created_at = db.Column(
         db.DateTime, nullable=True, default=db.func.current_timestamp()
     )
+
+    portion_count = db.Column(db.Integer, nullable=False, default=0)
 
     meal_type = db.Column(
         db.Enum(

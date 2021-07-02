@@ -97,6 +97,22 @@ class DailyPlansView(HelperFlaskView):
         else:
             return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
 
+    @route("change_portion_count/<daily_recipe_id>", methods=["POST"])
+    def change_portion_count(self, daily_recipe_id):
+        self.daily_recipe = DailyPlanHasRecipe.load(daily_recipe_id)
+        self.daily_recipe.portion_count = request.form["portion-count"]
+        self.daily_recipe.save()
+
+        if turbo.can_stream():
+            return turbo.stream(
+                turbo.replace(
+                    self.template(template_name="_recipe_row"),
+                    target=f"daily-recipe-{self.daily_recipe.id}",
+                )
+            )
+        else:
+            return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
+
     @route("sort/up/<daily_recipe_id>", methods=["POST"])
     def sort_up(self, daily_recipe_id):
         self.daily_recipe = DailyPlanHasRecipe.load(daily_recipe_id)

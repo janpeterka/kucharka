@@ -32,6 +32,11 @@ a.info:hover {
   color: var(--logo-blue);
 }
 
+a.color-hover-black:hover {
+  color: black;
+}
+
+
 .navbar div.navbar-divider {
   width: 2rem;
 }

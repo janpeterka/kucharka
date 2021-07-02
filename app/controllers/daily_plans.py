@@ -69,7 +69,7 @@ class DailyPlansView(HelperFlaskView):
         daily_recipe = DailyPlanHasRecipe.load(daily_recipe_id)
         daily_plan = DailyPlan.load(daily_recipe.daily_plan.id)
 
-        if daily_plan.remove_daily_recipe_by_id(daily_recipe_id):
+        if daily_plan.remove_daily_recipe(daily_recipe):
 
             if turbo.can_stream():
                 return turbo.stream(

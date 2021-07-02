@@ -88,14 +88,12 @@
 
 {% if not print %}
     
-
-
 {% if recipe.can_current_user_edit %}
 <div class="mb-5">
     <form action="{{ url_for('RecipesView:delete', id=recipe.id) }}" method="post" class="form-inline" onsubmit="return confirm('{{ texts.recipe_delete_confirm }}');">
         <a class="btn btn-warning" href="{{ url_for('RecipesView:edit', id=recipe.id) }}">{{ texts.edit }} {{ icon("edit") }}</a>
         {% if recipe.is_used %}
-            <button type="submit" class="btn btn-danger" disabled="">Nelze smazat, je použit {{ icon("delete") }}</button>
+            <button type="submit" class="btn btn-danger" disabled="">Nelze smazat, je použit</button>
         {% else %}
             <button type="submit" class="btn btn-danger">{{ texts.recipe_delete }} {{ icon("delete") }}</button>
         {% endif %}
@@ -134,9 +132,21 @@
     </div>
 </details>
 
-<details >
+<details>
     <summary>Další možnosti</summary>
-    <a class="btn color-white bg-color-red ml-2" href="{{ url_for('RecipesView:pdf', id=recipe.id, portion_count=recipe.portion_count) }}" target="_blank">Zobrazit PDF</a>
+    <div class="ml-2">
+    
+        <a class="btn color-white bg-color-red d-none d-md-inline-block" href="{{ url_for('RecipesView:pdf', id=recipe.id, portion_count=recipe.portion_count) }}" target="_blank">Zobrazit jako PDF </a>
+
+        <a class="btn color-white bg-color-red d-md-none" href="{{ url_for('RecipesView:pdf_download', id=recipe.id, portion_count=recipe.portion_count) }}" target="_blank">Stáhnout PDF </a>
+    
+        {% if recipe.is_current_user_author %}
+            <a class="btn btn-info" href="{{ url_for('RecipesView:duplicate', id=recipe.id) }}">
+                Vytvořit kopii receptu
+            </a>
+        {% endif %}
+    
+    </div>
 </details>
 
 {% endif %}

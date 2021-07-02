@@ -13,20 +13,19 @@ class DailyPlanRecipeMixin:
 
         return daily_recipe
 
-    def remove_daily_recipe_by_id(self, daily_recipe_id):
-        selected_daily_recipe = DailyPlanHasRecipe.load(daily_recipe_id)
+    def remove_daily_recipe(self, daily_recipe):
 
         if not self.can_current_user_edit:
             return False
-        if selected_daily_recipe not in self.daily_recipes:
+        if daily_recipe not in self.daily_recipes:
             return False
 
-        selected_daily_recipe.delete()
-        self.reorder()
+        daily_recipe.delete()
+        self.reorder_recipes()
 
         return True
 
-    def reorder(self):
+    def reorder_recipes(self):
         for i, recipe in enumerate(self.daily_recipes):
             recipe.order_index = i + 1
 

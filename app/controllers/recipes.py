@@ -112,6 +112,17 @@ class RecipesView(HelperFlaskView):
 
         return render_pdf(HTML(string=self.template(template_name="show", print=True)))
 
+    def pdf_download(self, id):
+        from flask_weasyprint import render_pdf, HTML
+        from app.helpers.general import slugify
+
+        filename = slugify(self.recipe.name)
+
+        return render_pdf(
+            HTML(string=self.template(template_name="show", print=True)),
+            download_filename=f"{filename}.pdf",
+        )
+
     @route("show_with_portion_count/<id>/", methods=["POST"])
     def show_with_portion_count(self, id):
         portion_count = request.form["portion_count"]

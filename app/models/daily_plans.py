@@ -36,9 +36,9 @@ class DailyPlan(db.Model, ItemMixin, DailyPlanLoaderMixin, DailyPlanRecipeMixin)
         super().__init__(**kwargs)
         super().set_defaults()
 
-    @staticmethod
-    def create_if_not_exists(date):
-        DailyPlan.load_by_date_or_create(date)
+    # @staticmethod
+    # def create_if_not_exists(date):
+    #     DailyPlan.load_by_date_or_create(date)
 
     # PROPERTIES
 

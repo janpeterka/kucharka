@@ -69,7 +69,7 @@ class EditRecipeView(HelperFlaskView):
             )
         ]
 
-    @route("change_ingredient/<recipe_id>/<ingredient_id>", methods=["POST"])
+    @route("change_amount/<recipe_id>/<ingredient_id>", methods=["POST"])
     def change_ingredient_amount(self, recipe_id, ingredient_id):
         self.ingredient = Ingredient.load(ingredient_id)
         amount = request.form["amount"]
@@ -91,7 +91,7 @@ class EditRecipeView(HelperFlaskView):
         else:
             return redirect(url_for("RecipesView:edit", id=self.recipe.id))
 
-    @route("change_ingredient_comment/<recipe_id>/<ingredient_id>", methods=["POST"])
+    @route("change_comment/<recipe_id>/<ingredient_id>", methods=["POST"])
     def change_ingredient_comment(self, recipe_id, ingredient_id):
         self.ingredient = Ingredient.load(ingredient_id)
         comment = request.form["comment"]
@@ -109,10 +109,7 @@ class EditRecipeView(HelperFlaskView):
         else:
             return redirect(url_for("RecipesView:edit", id=self.recipe.id))
 
-    @route(
-        "change_ingredient_measured/<recipe_id>/<ingredient_id>/<measured>",
-        methods=["POST"],
-    )
+    @route("change_measured/<recipe_id>/<ingredient_id>/<measured>", methods=["POST"])
     def change_ingredient_measured(self, recipe_id, ingredient_id, measured):
         self.ingredient = Ingredient.load(ingredient_id)
         measured = measured == "True"

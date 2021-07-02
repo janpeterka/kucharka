@@ -3,7 +3,7 @@ from app.models.daily_plans_have_recipes import DailyPlanHasRecipe
 
 class DailyPlanRecipeMixin:
     def add_recipe(self, recipe):
-        order_index = self.daily_recipes[-1].order_index + 1
+        order_index = len(self.daily_recipes) + 1
 
         daily_recipe = DailyPlanHasRecipe(
             recipe_id=recipe.id, daily_plan_id=self.id, order_index=order_index

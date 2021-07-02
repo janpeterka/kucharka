@@ -5,7 +5,7 @@ from wtforms import validators
 
 from flask_wtf import FlaskForm
 
-from wtforms.widgets import TextArea
+# from wtforms.widgets import TextArea
 from wtforms.fields.html5 import DateField
 
 
@@ -13,8 +13,6 @@ class EventsForm(FlaskForm):
     name = StringField(
         "Název akce", [validators.InputRequired("Název musí být vyplněn")]
     )
-
-    description = StringField("Popis", widget=TextArea())
 
     date_from = DateField("Od", default=datetime.date.today())
     date_to = DateField(

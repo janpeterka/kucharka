@@ -21,6 +21,21 @@ def upgrade():
         "daily_plans_have_recipes",
         sa.Column("portion_count", sa.Integer(), nullable=False),
     )
+    op.execute(
+        """
+        UPDATE
+            daily_plans_have_recipes AS DPHR
+            INNER JOIN daily_plans AS DP ON
+                DP.id = DPHR.daily_plan_id
+            INNER JOIN events AS E ON
+                E.id = DP.event_id
+        SET
+            DPHR.portion_count = E.people_count
+        WHERE
+            DPHR.portion_count IS NULL
+            OR DPHR.portion_count = 0;
+        """
+    )
 
 
 def downgrade():

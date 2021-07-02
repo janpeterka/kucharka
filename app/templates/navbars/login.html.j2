@@ -22,7 +22,7 @@
             <a class="nav-link" href="{{ url_for_security('register') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}">Zaregistrovat se</a>
           </li>
       </ul>
-      <div class="navbar-divider"></div>
+      {# <div class="navbar-divider"></div> #}
 
       <ul class="nav navbar-nav navbar-right ml-auto">
 {#           <li class="nav-item">

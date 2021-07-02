@@ -109,6 +109,10 @@
     background-color: var(--hunter-green);
 }
 
+.bg-color-grey {
+    background-color: var(--color-grey);
+}
+
 /*Color signals*/
 .color-inactive{
     color: var(--inactive);
@@ -141,3 +145,7 @@
     filter: grayscale(90%);
 }
 */
+
+.opacity-50 {
+    opacity: 0.7;
+}

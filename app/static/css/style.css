@@ -36,12 +36,12 @@ a.color-hover-black:hover {
   color: black;
 }
 
-
-.navbar div.navbar-divider {
+/*.navbar div.navbar-divider {
   width: 2rem;
 }
+*/
 
-.table tr.vertically-centered td {
+table.table > tbody > tr > td {
   vertical-align: middle;
 }
 

@@ -1,10 +1,19 @@
 {% from "macros/icons.html.j2" import icon %}
 {% from "macros/turbo.html.j2" import button_to %}
 
-<tr id="daily-recipe-{{ daily_recipe.id }}">
+<tr id="daily-recipe-{{ daily_recipe.id }}" {% if daily_recipe.is_shopping %} class="bg-color-grey opacity-50" {% endif %} class="align-middle">
     <td>
-        {{ link_to(daily_recipe.recipe) }}
-    	{% if not daily_recipe.recipe.is_current_user_author %} {{ icon("public") }} {% endif %}
+        {% if not daily_recipe.is_shopping %}
+            {{ link_to(daily_recipe.recipe) }}
+        {% else %}
+            {{ daily_recipe.recipe.name }}
+        {% endif %}
+
+        {% if daily_recipe.is_shopping %}
+            {{ icon("shopping") }}
+        {% else %}
+    	    {% if not daily_recipe.recipe.is_current_user_author %} {{ icon("public") }} {% endif %}
+        {% endif %}
 	</td>
     <td>
         {% if not daily_recipe.is_shopping %}

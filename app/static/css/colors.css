@@ -1,4 +1,4 @@
-:root{
+:root {
     /* Old colors */
     --error: #CC0000;
     --success: #007E33;
@@ -42,52 +42,66 @@
 
 /*Colors*/
 
-.color-red{
+.color-white {
+    color: white;
+}
+
+.color-red {
     color: var(--error);
 }
 
-.color-light-blue{
+.color-light-blue {
     color: var(--logo-light-blue);
 }
 
-.color-blue{
+.color-blue {
     color: var(--logo-blue);
 }
 
-.color-light-green{
+.color-light-green {
     color: var(--logo-light-green);
 }
 
-.color-orange{
+.color-orange {
     color: var(--palette-orange);
 }
 
-.color-purple{
+.color-purple {
     color: var(--palette-purple);
 }
 
+.color-green {
+    color: var(--color-green);
+}
+
+.color-wheat {
+    color: #f5deb3;
+}
+
+
+
 /*Background colors*/
-.bg-color-red{
+.bg-color-red {
     background-color: var(--error);
 }
 
-.bg-color-light-blue{
+.bg-color-light-blue {
     background-color: var(--logo-light-blue);
 }
 
-.bg-color-blue{
+.bg-color-blue {
     background-color: var(--logo-blue);
 }
 
-.bg-color-light-green{
+.bg-color-light-green {
     background-color: var(--logo-light-green);
 }
 
-.bg-color-orange {
+.bg-color-orange  {
     background-color: var(--palette-orange);
 }
 
-.bg-color-purple{
+.bg-color-purple {
     background-color: var(--palette-purple);
 }
 
@@ -108,22 +122,9 @@
     color: var(--success);
 }
 
-.color-green{
-    color: var(--color-green);
-}
-
-.color-wheat {
-    color: #f5deb3;
-}
-
-.color-white {
-    color: white;
-}
-
-
-
 /*Filters*/
 
+/*
 .filter-gs-25{
     filter: grayscale(25%);
 }
@@ -139,3 +140,4 @@
 .filter-gs-90{
     filter: grayscale(90%);
 }
+*/

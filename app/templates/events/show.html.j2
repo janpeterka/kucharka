@@ -7,11 +7,11 @@
 
 {% block content %}
 
-{% include "events/_info.html.j2" %}
-
 <div class="mb-3">
-
+{% include "events/_info.html.j2" %}
 </div>
+
+
 
 <hr>
 
@@ -28,6 +28,7 @@
 </div>
 
 {% include "events/_delete_or_edit.html.j2" %}
+
 {% include "events/_export.html.j2" %}
 
 <turbo-frame id="event-warnings" src="{{ url_for('EventsView:warnings', id=event.id) }}">

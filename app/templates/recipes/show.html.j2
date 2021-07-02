@@ -116,14 +116,17 @@
 </div>
 {% endif %}
 
-<details>
+<details class="colored" open>
     <summary>Zobrazit pro daný počet porcí</summary>
-    <div class="ml-2">
+    <div>
+        <div class="row ml-1">
+            
+        {{ button_to("{{ url_for('RecipesView:show', id=recipe.id, portion_count=1) }}", value="Jedna porce", class="btn color-white color-hover-black bg-color-blue", form_class="form-inline") }}
+        {{ button_to("{{ url_for('RecipesView:show', id=recipe.id, portion_count=13) }}", value="Třináct porcí", class="btn color-white color-hover-black bg-color-purple", form_class="form-inline") }}
+        {{ button_to("{{ url_for('RecipesView:show', id=recipe.id) }}", value="Původní", class="btn color-white color-hover-black bg-color-purple", form_class="form-inline") }}
         
-        <a class="btn color-white bg-color-blue" href="{{ url_for('RecipesView:show', id=recipe.id, portion_count=1) }}">Jedna porce</a>
-        <a class="btn color-white bg-color-purple ml-1" href="{{ url_for('RecipesView:show', id=recipe.id, portion_count=13) }}">Třináct porcí</a>
-        <a class="btn color-white bg-color-purple ml-1" href="{{ url_for('RecipesView:show', id=recipe.id) }}">Původní</a>
-
+        </div>
+        
         <form method="POST" action="{{ url_for('RecipesView:show_with_portion_count', id=recipe.id) }}" class="form form-inline">
             <input type="number" name="portion_count" min="1" class="form-control" value=1>
             <button type="submit" class="btn btn-primary">Zobrazit pro daný počet porcí</button>
@@ -132,9 +135,9 @@
     </div>
 </details>
 
-<details>
+<details class="colored">
     <summary>Další možnosti</summary>
-    <div class="ml-2">
+    <div>
     
         <a class="btn color-white bg-color-red d-none d-md-inline-block" href="{{ url_for('RecipesView:pdf', id=recipe.id, portion_count=recipe.portion_count) }}" target="_blank">Zobrazit jako PDF </a>
 

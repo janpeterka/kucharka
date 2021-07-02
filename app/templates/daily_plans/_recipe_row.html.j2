@@ -11,7 +11,7 @@
             
         {{ daily_recipe.meal_type | default("", True) }}
         <details>
-            <summary><em>upravit typ jídla</em></summary>
+            <summary><em> upravit typ jídla </em></summary>
         <form method="POST" class="form form-inline text-right mr-3" action="{{ url_for('DailyPlansView:change_meal_type', daily_recipe_id=daily_recipe.id) }}">
             <select name="meal-type" id="meal-type" class="form-control">
                 <option name='snídaně' value='snídaně'>Snídaně</option>

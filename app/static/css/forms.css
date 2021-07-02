@@ -48,3 +48,7 @@ form button.destroy:hover {
 form button.measurement:hover  {
 	display: block;
 }
+
+form button.color-hover-black:hover {
+	color: black;
+}

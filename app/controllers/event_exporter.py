@@ -132,7 +132,7 @@ class EventExporterView(HelperFlaskView):
                 )
 
                 recipe_ingredient_amounts[ingredient.id]["recipes"][event_recipe.id] = {
-                    "name": event_recipe.name,
+                    # "name": event_recipe.name,
                     "amount": amount,
                     "occurences": len(event_recipe.daily_plan_daily_recipes),
                 }

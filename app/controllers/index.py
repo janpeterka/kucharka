@@ -16,5 +16,13 @@ class IndexView(FlaskView):
 
     @route("about")
     @route("about/")
+    @route("o-kalkulacce")
     def about(self):
         return template("index/index.html.j2")
+
+    @route("databaze")
+    @route("databaze/")
+    @route("recepty")
+    @route("recepty/")
+    def public_recipes(self):
+        return redirect(url_for("PublicRecipesView:index"))

@@ -56,8 +56,12 @@
              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
              <i class="fa fa-question-circle"></i>
           </a>
+
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="https://github.com/janmpeterka/kucharka" target="_blank">{{ icon("github") }}</a>
+            <a class="dropdown-item" href="{{ url_for('SupportView:terms') }}"> Podmínky použití </a>
+            <a class="dropdown-item" href="{{ url_for('SupportView:privacy') }}"> Osobní data </a>
+            <a class="dropdown-item" href="https://github.com/janmpeterka/kucharka" target="_blank"> {{ icon("github") }} </a>
+            <a class="dropdown-item" href="{{ url_for('SupportView:facebook_redirect') }}" target="_blank" > {{ icon("facebook") }} </a>
           </div>
         </li>
 

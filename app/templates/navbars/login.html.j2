@@ -25,20 +25,20 @@
       {# <div class="navbar-divider"></div> #}
 
       <ul class="nav navbar-nav navbar-right ml-auto">
-{#           <li class="nav-item">
-            {% include '_navbar_facebook.html.j2' %}
-          </li> #}
-
           <li class="nav-item">
-            <a class="nav-link small" href="https://github.com/janmpeterka/kucharka" target="_blank">{{ icon("github") }}</a>
+            <a class="nav-link" target="_blank" title="sledujte na facebooku" href="{{ url_for('SupportView:facebook_redirect') }}"> {{ icon("facebook") }} </a>
           </li>
 
-{#           <li class="nav-item">
-            <a class="nav-link small" href="{{ url_for('SupportView:terms') }}">Podmínky použití</a>
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/janmpeterka/kucharka" target="_blank"> {{ icon("github") }} </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link small" href="{{ url_for('SupportView:terms') }}"> Podmínky použití </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link small" href="{{ url_for('SupportView:privacy') }}">Osobní data</a>
-          </li> #}
+            <a class="nav-link small" href="{{ url_for('SupportView:privacy') }}"> Osobní data </a>
+          </li>
       </ul>
 
     </div>

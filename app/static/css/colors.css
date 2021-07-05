@@ -42,6 +42,10 @@
 
 /*Colors*/
 
+.color-dark-green {
+    color: var(--hunter-green);
+}
+
 .color-white {
     color: white;
 }

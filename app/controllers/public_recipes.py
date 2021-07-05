@@ -19,6 +19,7 @@ class PublicRecipesView(HelperFlaskView):
     decorators = [login_required]
     template_folder = "public_recipes"
 
+    @login_required
     def before_request(self, name, *args, **kwargs):
         self.recipes = Recipe.load_all_public()
 

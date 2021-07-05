@@ -13,6 +13,7 @@ from app.controllers.forms.users import UsersForm
 class UsersView(HelperFlaskView):
     decorators = [login_required]
 
+    @login_required
     def before_request(self, name, id=None, *args, **kwargs):
         self.user = User.load(id)
         self.user = current_user if self.user is None else self.user

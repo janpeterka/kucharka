@@ -5,7 +5,7 @@ from flask import render_template as template
 
 from flask_classful import route
 
-from flask_security import current_user
+from flask_security import current_user, login_required
 
 from app import turbo
 
@@ -29,9 +29,11 @@ def set_form(form, recipe=None):
 
 
 class EditRecipeView(HelperFlaskView):
+    decorators = [login_required]
     template_folder = "recipes/edit"
     excluded_methods = ["add_ingredient_to_recipe", "update_usable_ingredients"]
 
+    @login_required
     def before_request(self, name, recipe_id, **kwargs):
         self.recipe = Recipe.load(recipe_id)
         self.validate_operation(recipe_id, self.recipe)

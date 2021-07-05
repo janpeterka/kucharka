@@ -36,6 +36,7 @@ class IngredientsView(HelperFlaskView):
     decorators = [login_required]
     template_folder = "ingredients"
 
+    @login_required
     def before_request(self, name, id=None, *args, **kwargs):
         self.ingredient = Ingredient.load(id)
         self.validate_operation(id, self.ingredient)

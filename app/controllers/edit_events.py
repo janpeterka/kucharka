@@ -16,6 +16,7 @@ class EditEventView(HelperFlaskView):
     decorators = [login_required]
     template_folder = "events/edit"
 
+    @login_required
     def before_request(self, name, event_id):
         self.event = Event.load(event_id)
         self.validate_operation(event_id, self.event)

@@ -20,6 +20,7 @@ class DailyPlansView(HelperFlaskView):
     decorators = [login_required]
     template_folder = "daily_plans"
 
+    @login_required
     def before_request(self, name, daily_plan_id=None, *args, **kwargs):
         self.daily_plan = DailyPlan.load(daily_plan_id)
         self.validate_operation(daily_plan_id, self.daily_plan)

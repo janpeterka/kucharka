@@ -8,6 +8,7 @@ from app.helpers.helper_flask_view import HelperFlaskView
 class UserStatisticsView(HelperFlaskView):
     decorators = [login_required]
 
+    @login_required
     def before_request(self, name, *args, **kwargs):
         self.user = current_user
         self.validate_operation(id, self.user)

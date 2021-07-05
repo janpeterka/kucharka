@@ -36,6 +36,7 @@ def set_form(form, recipe=None):
 class RecipesView(HelperFlaskView):
     decorators = [login_required]
 
+    @login_required
     def before_request(self, name, id=None, **kwargs):
         self.recipe = Recipe.load(id)
         self.validate_operation(id, self.recipe)

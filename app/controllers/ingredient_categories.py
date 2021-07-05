@@ -14,6 +14,7 @@ class IngredientCategoriesView(HelperFlaskView):
     decorators = [login_required, roles_accepted("admin", "application_manager")]
     template_folder = "ingredient_categories"
 
+    @login_required
     def before_request(self, name, id=None, *args, **kwargs):
         self.category = IngredientCategory.load(id)
 

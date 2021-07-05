@@ -14,6 +14,7 @@ from app.models.events import Event
 class EventsView(HelperFlaskView):
     decorators = [login_required]
 
+    @login_required
     def before_request(self, name, id=None):
         event_id = id
         self.event = Event.load(id)

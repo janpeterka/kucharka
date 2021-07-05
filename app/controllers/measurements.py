@@ -13,6 +13,7 @@ from app.helpers.helper_flask_view import HelperFlaskView
 class MeasurementsView(HelperFlaskView):
     decorators = [login_required, roles_accepted("admin", "application_manager")]
 
+    @login_required
     def before_request(self, name, id=None, *args, **kwargs):
         self.measurement = Measurement.load(id)
         self.validate_operation(id, self.measurement)

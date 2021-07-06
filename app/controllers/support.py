@@ -27,7 +27,8 @@ class SupportView(FlaskView):
 
     @route("tips")
     def tips(self):
-        return template("support/tips.html.j2")
+        tips = Tip.approved_tips()
+        return template("support/tips.html.j2", tips=tips)
 
     @route("add-tip", methods=["POST"])
     def add_tip(self):

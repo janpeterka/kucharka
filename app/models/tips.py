@@ -18,3 +18,8 @@ class Tip(db.Model, BaseMixin):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         super().set_defaults()
+
+    @staticmethod
+    def approved_tips():
+        tips = Tip.query.filter(Tip.is_approved).all()
+        return tips

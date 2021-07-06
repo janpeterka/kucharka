@@ -38,6 +38,14 @@
         <li>Přesolená zelenina: do přesolené zeleniny přidáme žloutek rozšlehaný ve smetaně nebo mléce.</li>
     </ul>
 
+    <h3 class="text-uppercase color-blue font-comfortaa-bb"> Tipy od vás </h3>
+    <ul>
+        {% for tip in tips %}
+            <li>{{tip.description}} <em>(přidal*a {{ tip.author.full_name }})</em></li>
+        {% endfor %}
+    </ul>
+
+
     {% if current_user.is_authenticated %}
     <div class="mt-4">
         

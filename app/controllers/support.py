@@ -1,4 +1,4 @@
-from flask import redirect
+from flask import redirect, request, url_for, flash
 from flask import render_template as template
 
 from flask_classful import FlaskView, route
@@ -8,6 +8,8 @@ from flask_classful import FlaskView, route
 # from app.handlers.mail import MailSender
 
 # from app.controllers.forms.support import FeedbackForm
+
+from app.models.tips import Tip
 
 
 class SupportView(FlaskView):
@@ -26,6 +28,18 @@ class SupportView(FlaskView):
     @route("tips")
     def tips(self):
         return template("support/tips.html.j2")
+
+    @route("add-tip", methods=["POST"])
+    def add_tip(self):
+        tip = Tip()
+        tip.description = request.form["description"]
+
+        if tip.save():
+            flash("Tip byl přidán ke schválení, děkujeme!", "success")
+        else:
+            flash("Něco se nepovedlo.", "error")
+
+        return redirect(url_for("SupportView:tips"))
 
     # @route("/feedback", methods=["GET", "POST"])
     # @login_required

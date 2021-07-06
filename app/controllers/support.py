@@ -23,8 +23,8 @@ class SupportView(FlaskView):
     def facebook_redirect(self):
         return redirect("https://www.facebook.com/skautskakucharka")
 
-    @route("tips-and-trics")
-    def tips_and_trics(self):
+    @route("tips")
+    def tips(self):
         return template("support/tips.html.j2")
 
     # @route("/feedback", methods=["GET", "POST"])

@@ -7,6 +7,7 @@ from .edit_events import EditEventView
 
 from .errors import ErrorsView
 from .index import IndexView
+from .support import SupportView
 
 from .ingredients import IngredientsView
 from .fast_add_ingredients import FastAddIngredientsView
@@ -33,6 +34,7 @@ __all__ = [
     "EditEventView",
     "ErrorsView",
     "IndexView",
+    "SupportView",
     "IngredientsView",
     "FastAddIngredientsView",
     "IngredientCategoriesView",
@@ -58,6 +60,7 @@ def register_all_controllers(application):
     EventExporterView.register(application, base_class=HelperFlaskView)
 
     ErrorsView.register(application)
+    SupportView.register(application)
 
     IndexView.register(application)
 

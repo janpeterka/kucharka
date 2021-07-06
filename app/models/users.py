@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from flask_security.models.fsqla_v2 import FsUserMixin as UserMixin
 
 from app import db
@@ -13,7 +11,7 @@ class User(db.Model, BaseMixin, UserMixin):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
-    created_at = db.Column(db.DateTime, default=datetime.now)
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     full_name = db.Column(db.String(255))
 
     roles = db.relationship("Role", secondary="users_have_roles", backref="users")

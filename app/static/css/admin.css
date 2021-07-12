@@ -33,3 +33,11 @@
   background-color: var(--admin-yellow) !important;
 
 }
+
+.admin-notification-count {
+  border-radius: 0.5rem;
+  padding-left: 0.3rem;
+  padding-right: 0.2rem;
+  color: white;
+  background-color: red;
+}

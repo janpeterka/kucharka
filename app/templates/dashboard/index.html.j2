@@ -9,12 +9,19 @@
 {% block content %}
 
 <div class="row">
-    <div class="col-sm-12 col-md-6">
+    <div class="col-sm-12 col-md-6 mb-4 mb-md-0">
         <h4 class="text-uppercase font-comfortaa">Rychlé akce</h4>
+        
+        {% if not current_user.full_name %}
+            <hr>
+            <a href="{{ url_for('UsersView:edit') }}" class="text-uppercase font-comfortaa"> Přidat uživatelské jméno</a>
+        {% endif %}
         
         <hr>
         
-        <div class="mb-3"><a href="{{url_for('RecipesView:new')}}" class="text-uppercase font-comfortaa">Přidat nový recept</a></div>
+        <div class="mb-3">
+            <a href="{{url_for('RecipesView:new')}}" class="text-uppercase font-comfortaa">Přidat nový recept</a>
+        </div>
 
         <hr>
 

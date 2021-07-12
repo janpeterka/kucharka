@@ -128,3 +128,25 @@ ul.list {
 }
 
 
+.list li .approve {
+	/*display: none;*/
+	position: absolute;
+	border: 0px;
+	top: 10px;
+	right: 50px;
+	bottom: 1px;
+	width: 40px;
+	height: 40px;
+	margin: auto 0;
+	font-size: 30px;
+	/*margin-bottom: 11px;*/
+	transition: color 0.2s ease-out;
+}
+
+.list li button.approve  {
+	font-size: 1rem;
+}
+
+.list li .approve:after {
+	content: '✔️';
+} .

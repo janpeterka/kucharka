@@ -15,6 +15,7 @@ from .fast_add_ingredients import FastAddIngredientsView
 from .ingredient_categories import IngredientCategoriesView
 from .recipe_categories import RecipeCategoriesView
 from .measurements import MeasurementsView
+from .tips import TipsView
 
 from .recipes import RecipesView
 from .edit_recipes import EditRecipeView
@@ -38,8 +39,9 @@ __all__ = [
     "IngredientsView",
     "FastAddIngredientsView",
     "IngredientCategoriesView",
-    "MeasurementsView",
     "RecipeCategoriesView",
+    "MeasurementsView",
+    "TipsView",
     "RecipesView",
     "EditRecipeView",
     "PublicRecipesView",
@@ -71,6 +73,7 @@ def register_all_controllers(application):
     IngredientCategoriesView.register(application, base_class=HelperFlaskView)
 
     MeasurementsView.register(application, base_class=HelperFlaskView)
+    TipsView.register(application, base_class=HelperFlaskView)
 
     RecipeCategoriesView.register(application, base_class=HelperFlaskView)
 

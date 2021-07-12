@@ -32,6 +32,10 @@ class User(db.Model, BaseMixin, UserMixin):
         return [e for e in self.events if e.is_active]
 
     @property
+    def archived_events(self):
+        return [e for e in self.events if e.is_archived]
+
+    @property
     def visible_recipes(self):
         return [r for r in self.recipes if r.is_visible]
 

@@ -16,12 +16,22 @@ class Event(db.Model, ItemMixin):
 
     people_count = db.Column(db.Integer)
 
+    is_archived = db.Column(db.Boolean)
+
     created_by = db.Column(db.ForeignKey(("users.id")), nullable=False, index=True)
     author = db.relationship("User", uselist=False, backref="events")
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         super().set_defaults()
+
+    def toggle_archived(self):
+        self.is_archived = not self.is_archived
+        self.save()
+
+    @property
+    def is_active(self):
+        return not self.is_archived
 
     @property
     def duration(self):

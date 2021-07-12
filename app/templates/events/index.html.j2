@@ -9,9 +9,22 @@
 
 <table class="table">
     {% for event in current_user.events: %}
-    <tr><td>{{ link_to(event) }}</td></tr>
+        {% if event.is_active %}
+        <tr><td>{{ link_to(event) }}</td></tr>    
+        {% endif %}
     {% endfor %}
 </table>
+
+<details>
+    <summary>Archivované akce</summary>
+    <table class="table">
+    {% for event in current_user.events: %}
+        {% if event.is_archived %}
+        <tr><td>{{ link_to(event) }}</td></tr>    
+        {% endif %}
+    {% endfor %}
+</table>
+</details>
 
 {% endblock %}
 

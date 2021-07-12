@@ -15,6 +15,7 @@
     {% endfor %}
 </table>
 
+{% if current_user.archived_events %}
 <details>
     <summary>Archivované akce</summary>
     <table class="table">
@@ -25,6 +26,7 @@
     {% endfor %}
 </table>
 </details>
+{% endif %}
 
 {% endblock %}
 

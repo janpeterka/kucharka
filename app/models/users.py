@@ -22,7 +22,10 @@ class User(db.Model, BaseMixin, UserMixin):
 
     @property
     def name(self):
-        return self.full_name
+        if self.full_name:
+            return self.full_name
+        else:
+            return ""
 
     @property
     def visible_recipes(self):

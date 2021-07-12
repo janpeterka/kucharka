@@ -1,5 +1,5 @@
 {% from "macros/general.html.j2" import list_of_links with context %}
 
 <turbo-frame id="events">
-{{ list_of_links(user.events) }}
+{{ list_of_links(user.active_events) }}
 </turbo-frame>

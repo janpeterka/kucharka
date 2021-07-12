@@ -22,3 +22,9 @@ details.colored > div {
   border-radius: 0 0 0.4rem 0.4rem;
   padding: 1rem;
 }
+
+/*
+details summary > * { 
+  display: inline;
+}
+*/

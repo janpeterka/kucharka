@@ -62,5 +62,11 @@ class EventsView(HelperFlaskView):
 
         return redirect(url_for("EventsView:index"))
 
+    @route("events/toggle_archived/<id>", methods=["POST"])
+    def toggle_archived(self, id):
+        self.event.toggle_archived()
+
+        return redirect(url_for("EventsView:show", id=self.event.id))
+
     def warnings(self, id):
         return self.template(template_name="_warnings")

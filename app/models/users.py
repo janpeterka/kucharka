@@ -28,6 +28,10 @@ class User(db.Model, BaseMixin, UserMixin):
             return ""
 
     @property
+    def active_events(self):
+        return [e for e in self.events if e.is_active]
+
+    @property
     def visible_recipes(self):
         return [r for r in self.recipes if r.is_visible]
 

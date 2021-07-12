@@ -12,6 +12,7 @@ class Tip(db.Model, BaseMixin):
     description = db.Column(db.Text, nullable=False)
 
     is_approved = db.Column(db.Boolean(), default=False, nullable=False)
+    is_hidden = db.Column(db.Boolean(), default=False, nullable=False)
 
     author = db.relationship("User", uselist=False, backref="tips")
 
@@ -23,3 +24,23 @@ class Tip(db.Model, BaseMixin):
     def approved_tips():
         tips = Tip.query.filter(Tip.is_approved).all()
         return tips
+
+    @staticmethod
+    def disapproved_tips():
+        tips = Tip.query.filter(Tip.is_hidden).all()
+        return tips
+
+    @staticmethod
+    def unapproved_tips():
+        tips = Tip.query.filter_by(is_approved=False, is_hidden=False).all()
+        return tips
+
+    def approve(self):
+        self.is_approved = True
+        self.is_hidden = False
+        self.save()
+
+    def disapprove(self):
+        self.is_approved = False
+        self.is_hidden = True
+        self.save()

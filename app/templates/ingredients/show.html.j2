@@ -64,6 +64,15 @@
             </table>
         </details>
 
+        {% if ingredient.alternative_measurements %}
+        <details class="mb-3 mt-2">
+        <summary> Konverze mezi druhy měření </summary>
+        {% for conversion in ingredient.alternative_measurements %}
+            <li>{{ conversion.amount_from }} {{ conversion.ingredient.measurement.name }} → {{ conversion.amount_to }} {{ conversion.to_measurement.name }}</li>
+        {% endfor %}
+        </details>
+        {% endif %}
+
         {% if ingredient.can_current_user_edit %}
             {% include "ingredients/_edit_or_delete.html.j2"%}
 
@@ -88,9 +97,13 @@
                 </div>
 
         {% endif %}
-        <div>
-        
+        {% if current_user.is_admin %}
+        <div class="admin-field mt-3">
+            <h4> Přidat alternativní měření </h4>
+            {% include ('conversions/_add.html.j2') %}
         </div>
+        {% endif %}
+        
     </div>
 
 

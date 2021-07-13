@@ -136,8 +136,3 @@ def log_request(exception=None):
             duration=time.time() - g.log_request_start_time,
         )
         log.save()
-
-
-# @application.shell_context_processor
-# def make_shell_context():
-#     return {"db": db, "User": User}

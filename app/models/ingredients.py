@@ -138,6 +138,12 @@ class Ingredient(db.Model, ItemMixin):
         else:
             return None
 
+    @property
+    def used_measurements(self):
+        return [m.to_measurement for m in self.alternative_measurements] + [
+            self.measurement
+        ]
+
     # @property
     # def is_in_thousands(self):
     #     return self.measurement.thousand_fold and self.amount % 1000 != self.amount

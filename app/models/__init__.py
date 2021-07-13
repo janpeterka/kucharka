@@ -5,6 +5,4 @@
 from app.models.users_have_roles import users_have_roles  # noqa: F401
 from app.models.request_logs import RequestLog  # noqa: F401
 
-from app.models.measurements_to_measurements import (
-    MeasurementToMeasurement,
-)  # noqa: F401
+from app.models.conversions import Conversion  # noqa: F401

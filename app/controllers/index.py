@@ -25,7 +25,7 @@ class IndexView(FlaskView):
     @route("recepty")
     @route("recepty/")
     def public_recipes(self):
-        return redirect(url_for("PublicRecipesView:index"))
+        return redirect(url_for("PublicRecipesView:public_index"))
 
     @route("tips")
     def tips(self):

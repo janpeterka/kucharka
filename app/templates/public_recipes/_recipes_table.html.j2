@@ -6,7 +6,9 @@
     	<th data-field="category" data-sortable="true"> kategorie </th>
         <th data-field="dietary" > specifika </th>
     	<th data-field="author" data-sortable="true"> autor*ka </th>
+        {% if current_user.is_authenticated %}
     	<th data-field="reactions" data-sortable="true"> {{ icon("heart_full") }} </th>
+        {% endif %}
   		<th data-field="reaction_count" data-sortable="true"> {{ icon("heart_empty") }} </th>
     </thead>
     

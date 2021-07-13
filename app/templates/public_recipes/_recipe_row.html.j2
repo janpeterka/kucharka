@@ -21,6 +21,8 @@
         </span>
     </td>
     <td>{{ recipe.author.name }}</td>
+    {% if current_user.is_authenticated %}
+        
 	<td>
 		<form method="post" action="{{ url_for('PublicRecipesView:toggle_reaction', recipe_id=recipe.id) }}">
 			<button type="submit" class="invisible-button">
@@ -32,6 +34,7 @@
 			</button>
 		</form>
 	</td>
+    {% endif %}
 
     <td>
     	<span class="ml-1">{{ recipe.reactions | length }}</span>

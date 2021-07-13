@@ -1,0 +1,18 @@
+{% extends "base/base.html.j2" %}
+{% block title %} Databáze receptů - pro nepřihlášené {% endblock %}
+
+{% block style %}
+	<link href="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block script %}
+	<script src="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.js"></script>
+  {% include 'javascript/stimulus.js.html' %}
+{% endblock %}
+
+{% block content %}
+
+{% include "public_recipes/_recipes_table.html.j2"%}
+
+{% endblock %}
+

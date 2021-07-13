@@ -4,10 +4,10 @@ from app import turbo
 
 from flask import render_template as template
 
-# from flask import redirect, url_for
+from flask import redirect, url_for
 
 from flask_classful import route
-from flask_security import login_required
+from flask_security import login_required, current_user
 
 from app.helpers.helper_flask_view import HelperFlaskView
 
@@ -16,13 +16,13 @@ from app.controllers.forms.public_recipes import PublicRecipeFilterForm
 
 
 class PublicRecipesView(HelperFlaskView):
-    decorators = [login_required]
+    # decorators = [login_required]
     template_folder = "public_recipes"
 
-    @login_required
     def before_request(self, name, *args, **kwargs):
         self.recipes = Recipe.load_all_public()
 
+    @login_required
     def before_index(self):
         # Get values for filters
         # TODO - tohle mi nepřijde úplně šťastný
@@ -41,6 +41,7 @@ class PublicRecipesView(HelperFlaskView):
             ingredient_names=self.ingredient_names, categories=self.categories
         )
 
+    @login_required
     @route("/toggleReaction/<recipe_id>", methods=["POST"])
     def toggle_reaction(self, recipe_id):
         from flask import flash
@@ -59,7 +60,7 @@ class PublicRecipesView(HelperFlaskView):
             flash("Reakce byla zaznamenána.")
             return "", 204
 
-    # @route("filter", methods=["POST"])
+    @login_required
     @route("/", methods=["GET", "POST"])
     def index(self):
         self.recipes = Recipe.load_all_public()
@@ -113,3 +114,9 @@ class PublicRecipesView(HelperFlaskView):
             )
         else:
             return self.template()
+
+    def public_index(self):
+        if current_user.is_authenticated:
+            return redirect(url_for("PublicRecipesView:index"))
+
+        return self.template(template_name="public_index")

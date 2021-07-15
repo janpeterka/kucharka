@@ -58,6 +58,12 @@ class IngredientsView(HelperFlaskView):
         self.recipes = Recipe.load_by_ingredient_and_user(self.ingredient, current_user)
         self.all_recipes = Recipe.load_by_ingredient(self.ingredient)
 
+        self.possible_alternative_measurements = [
+            m
+            for m in Measurement.load_all()
+            if m not in self.ingredient.used_measurements
+        ]
+
     def before_index(self):
         self.ingredients = [
             i

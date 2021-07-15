@@ -3,9 +3,11 @@ from app import db
 from app.helpers.base_mixin import BaseMixin
 
 
-class MeasurementToMeasurement(db.Model, BaseMixin):
+class Conversion(db.Model, BaseMixin):
 
     __tablename__ = "measurements_to_measurements"
+
+    # id = db.Column(db.Integer, primary_key=True)
 
     ingredient_id = db.Column(
         db.ForeignKey("ingredients.id"), primary_key=True, nullable=False

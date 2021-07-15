@@ -1,0 +1,28 @@
+{% extends "base/base.html.j2" %}
+{% block title %} Konverze {% endblock %}
+{# 
+{% block links %}
+    {{ super() }}
+    {{ turbo() }}
+{% endblock %}
+
+{% block flashing %}
+    {% include('base/_turbo_flashing.html.j2') %}
+{% endblock %} #}
+
+{% block content %}
+
+<div class="text-center">
+  <h1 class="text-uppercase font-comfortaa">Přepočty</h1>
+
+    <ul class="list">
+      <turbo-frame id="conversions">
+        {% for conversion in conversions %}
+            {% include 'conversions/_conversion.html.j2' %}
+        {% endfor %}
+      </turbo-stream>
+    </ul>
+ </div> 
+
+{% endblock %}
+

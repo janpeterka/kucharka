@@ -64,7 +64,6 @@
             <summary class="text-uppercase font-comfortaa"> Recepty </summary>
             <turbo-frame id="recipes" src="{{ url_for('UserStatisticsView:recipes') }}">
             </turbo-frame>
-            {# {{ list_of_links(current_user.visible_recipes) }} #}
         </details>
 
         <details>
@@ -77,21 +76,8 @@
             <summary class="text-uppercase font-comfortaa"> Suroviny </summary>
             <turbo-frame id="ingredients" src="{{ url_for('UserStatisticsView:ingredients') }}">
             </turbo-frame>
-            {# {{ list_of_links(ingredients) }} #}
         </details>
     </div>
 </div>
-
-{% if current_user.is_admin %}
-<div class="admin-field row mt-5">
-    <iframe
-        src="http://jmp-analysis.herokuapp.com/public/dashboard/8f73536b-01f0-4212-85cb-9cca5ca77fcc"
-        frameborder="0"
-        width="1600"
-        height="600"
-        allowtransparency
-    ></iframe>
-</div>
-{% endif %}
 
 {% endblock %}

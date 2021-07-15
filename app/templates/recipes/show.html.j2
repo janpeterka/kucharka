@@ -70,7 +70,13 @@
                 {% endif %}
 
                 {% if ingredient.alternative_measurement %}
-                    <abbr title="~= {{ formatted_amount(ingredient_amount/ingredient.alternative_measurement.amount_from * ingredient.alternative_measurement.amount_to) }} {{ingredient.alternative_measurement.to_measurement.name}}">
+                    {% set ns = namespace(title="") %}      
+                    {% for conversion in ingredient.alternative_measurements %}
+                        {% set ns.title = ns.title + formatted_amount(ingredient_amount/conversion.amount_from * conversion.amount_to) | string + " " + conversion.to_measurement.name %}
+
+                        {% set ns.title = ns.title + "\n" %}
+                    {% endfor %}
+                    <abbr title="{{ ns.title }}">
                          {{ icon("info-circle", class="ml-1") }}
                     </abbr>   
                 {% endif %}

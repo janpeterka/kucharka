@@ -70,7 +70,7 @@
                 {% endif %}
 
                 {% if ingredient.alternative_measurement %}
-                    {% set ns = namespace(title="") %}      
+                    {% set ns = namespace(title="přibližně\n") %}      
                     {% for conversion in ingredient.alternative_measurements %}
                         {% set ns.title = ns.title + formatted_amount(ingredient_amount/conversion.amount_from * conversion.amount_to) | string + " " + conversion.to_measurement.name %}
 

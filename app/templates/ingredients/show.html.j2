@@ -11,7 +11,7 @@
 {% block content %}
 
 <div class="row">
-    <div class="col-md-8 col-sm-12">
+    <div class="col-md-8 col-sm-12 mb-4">
         <div class="mb-2">
             <div>
                 <h2>{{ ingredient.name }}</h2>
@@ -70,6 +70,12 @@
         {% for conversion in ingredient.alternative_measurements %}
             <li>{{ conversion.amount_from }} {{ conversion.ingredient.measurement.name }} → {{ conversion.amount_to }} {{ conversion.to_measurement.name }}</li>
         {% endfor %}
+        {% if current_user.is_admin %}
+        <div class="admin-field mt-3">
+            <h4> Přidat alternativní měření </h4>
+            {% include ('conversions/_add.html.j2') %}
+        </div>
+        {% endif %}
         </details>
         {% endif %}
 
@@ -96,12 +102,6 @@
                     {% endif %}
                 </div>
 
-        {% endif %}
-        {% if current_user.is_admin %}
-        <div class="admin-field mt-3">
-            <h4> Přidat alternativní měření </h4>
-            {% include ('conversions/_add.html.j2') %}
-        </div>
         {% endif %}
         
     </div>

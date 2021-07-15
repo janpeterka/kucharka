@@ -33,7 +33,4 @@ class ConversionsView(HelperFlaskView):
         )
         conversion.save()
 
-        if "next" in request.args:
-            return redirect(request.args["next"])
-
-        return redirect(url_for("ConversionsView:index"))
+        return redirect(url_for("IngredientsView:show", id=ingredient_id))

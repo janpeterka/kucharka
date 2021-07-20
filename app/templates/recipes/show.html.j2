@@ -98,7 +98,7 @@
 {% if not print %}
     
 {% if recipe.can_current_user_edit %}
-<div class="mb-5">
+<div class="mb-5 {{ admin_field_class(in_class=True, obj=recipe) }}">
     <form action="{{ url_for('RecipesView:delete', id=recipe.id) }}" method="post" class="form-inline" onsubmit="return confirm('{{ texts.recipe_delete_confirm }}');">
         <a class="btn btn-warning" href="{{ url_for('RecipesView:edit', id=recipe.id) }}">{{ texts.edit }} {{ icon("edit") }}</a>
         {% if recipe.is_used %}

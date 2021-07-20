@@ -1,0 +1,17 @@
+{% macro admin_field_class() %}
+
+	{% set in_class = kwargs.pop('in_class', False) %}
+	{% set object = kwargs.pop('obj', None) %}
+
+	{# Only show if this wouldn't be visible to current user if they weren't admin #}
+	{# object.author != current_user.username is added because of old and wrong usage of author in Ingredient. #}
+	{{ current_user.is_admin }}
+	{% if current_user.is_admin and not object.is_current_user_author %}
+		{% if in_class %}
+			admin-field
+		{% else %}
+			class="admin-field"
+		{% endif %}
+	{% endif %}
+
+{% endmacro %}

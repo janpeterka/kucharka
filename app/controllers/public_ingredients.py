@@ -1,7 +1,7 @@
 from flask import request, redirect, url_for
 
 from flask_classful import route
-from flask_security import login_required
+from flask_security import login_required, roles_accepted
 
 from app import turbo
 
@@ -26,7 +26,7 @@ def set_form(form, ingredient=None):
 
 
 class PublicIngredientsView(HelperFlaskView):
-    decorators = [login_required]
+    decorators = [login_required, roles_accepted("admin", "application_manager")]
     template_folder = "ingredients/public"
 
     def before_request(self, name, id=None, *args, **kwargs):
@@ -46,7 +46,7 @@ class PublicIngredientsView(HelperFlaskView):
         self.measurements = Measurement.load_all()
         self.categories = IngredientCategory.load_all()
 
-        # WIP - tohle teď index neumí
+        # WIP - tohle teď index neumí bez turba
         return turbo.stream(
             turbo.replace(
                 self.template(template_name="_edit"),

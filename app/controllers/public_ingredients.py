@@ -1,5 +1,3 @@
-from unidecode import unidecode
-
 from flask import request, redirect, url_for
 
 from flask_classful import route
@@ -16,9 +14,7 @@ from app.models.measurements import Measurement
 
 def set_form(form, ingredient=None):
     measurements = Measurement.load_all()
-    # measurements.sort(key=lambda x: unidecode(x.name.lower()))
     categories = IngredientCategory.load_all()
-    categories.sort(key=lambda x: unidecode(x.name.lower()))
 
     form.set_all(measurements=measurements, categories=categories)
 
@@ -48,9 +44,7 @@ class PublicIngredientsView(HelperFlaskView):
         self.ingredient = Ingredient.load(ingredient_id)
 
         self.measurements = Measurement.load_all()
-        # measurements.sort(key=lambda x: unidecode(x.name.lower()))
         self.categories = IngredientCategory.load_all()
-        self.categories.sort(key=lambda x: unidecode(x.name.lower()))
 
         # WIP - tohle teď index neumí
         return turbo.stream(

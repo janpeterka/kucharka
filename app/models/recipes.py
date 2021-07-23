@@ -54,7 +54,7 @@ class Recipe(db.Model, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         viewonly=True,
     )
 
-    author = db.relationship("User", uselist=False, backref="recipes")
+    author = db.relationship("User", uselist=False, back_populates="recipes")
 
     category = db.relationship("RecipeCategory", uselist=False, backref="recipes")
 

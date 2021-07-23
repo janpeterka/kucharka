@@ -21,7 +21,6 @@ from app.controllers.forms.recipes import RecipesForm, RecipeFilterForm
 
 def set_form(form, recipe=None):
     categories = RecipeCategory.load_all()
-    categories.sort(key=lambda x: unidecode(x.name.lower()))
 
     form.set_all(categories=categories)
 
@@ -218,8 +217,6 @@ class RecipesView(HelperFlaskView):
 
         if gluten_free:
             self.recipes = [x for x in self.recipes if x.gluten_free]
-
-        self.recipes.sort(key=lambda x: unidecode(x.name.lower()))
 
         if turbo.can_stream():
             return turbo.stream(

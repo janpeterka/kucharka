@@ -1,5 +1,3 @@
-from unidecode import unidecode
-
 from app import db
 
 from app.helpers.base_mixin import BaseMixin
@@ -13,16 +11,6 @@ class IngredientCategory(db.Model, BaseMixin):
     description = db.Column(db.String(255))
 
     is_lasting = db.Column(db.Boolean, default=False)
-
-    # LOADERS
-    @staticmethod
-    def load_all(ordered=True):
-        categories = IngredientCategory.query.all()
-
-        if ordered:
-            categories.sort(key=lambda x: unidecode(x.name.lower()))
-
-        return categories
 
     # PROPERTIES
 

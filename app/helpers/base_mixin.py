@@ -25,8 +25,15 @@ class BaseMixin(object):
         return cls.query.filter_by(id=object_id).first()
 
     @classmethod
-    def load_all(cls):
-        return cls.query.all()
+    def load_all(cls, ordered_by_name=True):
+        from unidecode import unidecode
+
+        objects = cls.query.all()
+
+        if ordered_by_name and hasattr(cls, "name"):
+            objects.sort(key=lambda x: unidecode(x.name.lower()))
+
+        return objects
 
     @classmethod
     def load_last(cls):

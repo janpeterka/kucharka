@@ -1,5 +1,3 @@
-from unidecode import unidecode
-
 from app import db
 
 from app.helpers.base_mixin import BaseMixin
@@ -14,16 +12,6 @@ class Measurement(db.Model, BaseMixin):
     suffix = db.Column(db.String(20))
 
     thousand_fold = db.Column(db.String(20))
-
-    # LOADERS
-    @staticmethod
-    def load_all(ordered=True):
-        measurements = Measurement.query.all()
-
-        if ordered:
-            measurements.sort(key=lambda x: unidecode(x.name.lower()))
-
-        return measurements
 
     # PROPERTIES
 

@@ -1,5 +1,3 @@
-from unidecode import unidecode
-
 from flask import request, redirect, url_for
 
 from flask_classful import route
@@ -21,9 +19,7 @@ from app.controllers.forms.ingredients import IngredientsForm
 
 def set_form(form, ingredient=None):
     measurements = Measurement.load_all()
-
     categories = IngredientCategory.load_all()
-    categories.sort(key=lambda x: unidecode(x.name.lower()))
 
     form.set_all(measurements=measurements, categories=categories)
 

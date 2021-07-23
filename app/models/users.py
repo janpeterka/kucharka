@@ -18,6 +18,8 @@ class User(db.Model, BaseMixin, UserMixin):
 
     daily_plans = db.relationship("DailyPlan", back_populates="author")
 
+    recipes = db.relationship("Recipe", order_by="Recipe.name", back_populates="author")
+
     # PROPERTIES
 
     @property

@@ -71,7 +71,7 @@ class Ingredient(db.Model, ItemMixin):
             ingredients = [r for r in ingredients if r.author != current_user]
 
         if ordered:
-            ingredients.sort(key=lambda x: unidecode(x.name.lower()), reverse=False)
+            ingredients.sort(key=lambda x: unidecode(x.name.lower()))
 
         return ingredients
 

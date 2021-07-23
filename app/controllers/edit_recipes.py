@@ -1,5 +1,3 @@
-from unidecode import unidecode
-
 from flask import request, redirect, url_for
 from flask import render_template as template
 
@@ -20,9 +18,7 @@ from app.models.recipe_categories import RecipeCategory
 
 
 def set_form(form, recipe=None):
-    categories = RecipeCategory.load_all()
-    categories.sort(key=lambda x: unidecode(x.name.lower()))
-    form.set_all(categories=categories)
+    form.set_all(categories=RecipeCategory.load_all())
 
     if recipe and recipe.category:
         form.category.data = recipe.category.id
@@ -203,9 +199,6 @@ class EditRecipeView(HelperFlaskView):
         unused_public_ingredients = [
             i for i in Ingredient.load_all_public() if i not in recipe.ingredients
         ]
-
-        unused_personal_ingredients.sort(key=lambda x: unidecode(x.name.lower()))
-        unused_public_ingredients.sort(key=lambda x: unidecode(x.name.lower()))
 
         return [
             turbo.replace(

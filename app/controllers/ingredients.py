@@ -1,5 +1,3 @@
-from unidecode import unidecode
-
 from flask import flash, request, redirect, url_for
 
 
@@ -19,9 +17,7 @@ from app.controllers.forms.ingredients import IngredientsForm
 
 def set_form(form, ingredient=None):
     measurements = Measurement.load_all()
-    # measurements.sort(key=lambda x: unidecode(x.name.lower()))
     categories = IngredientCategory.load_all()
-    categories.sort(key=lambda x: unidecode(x.name.lower()))
 
     form.set_all(measurements=measurements, categories=categories)
 
@@ -70,7 +66,6 @@ class IngredientsView(HelperFlaskView):
             for i in current_user.personal_ingredients
             if i not in Ingredient.load_all_public()
         ]
-        self.ingredients.sort(key=lambda x: unidecode(x.name.lower()))
 
     def new(self):
         return self.template()

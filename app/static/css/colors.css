@@ -18,7 +18,6 @@
     --logo-blue: #0177EA;
     --logo-light-blue: #ABF2FD;
     --logo-light-green: #D0E3D6;
-    --logo-light-grey: #F8FEFF;
     --logo-white: #F8FEFF;
 
     /* Added based on logo-blue*/
@@ -28,6 +27,7 @@
     --palette-cyan: #01EAE9;
 
     /* Other */
+    --color-light-grey: lightgrey;
     --color-grey: #C1C2C4;
     --color-green: #2FAC03;
 
@@ -115,6 +115,10 @@
 
 .bg-color-grey {
     background-color: var(--color-grey);
+}
+
+.bg-color-light-grey {
+    background-color: var(--color-light-grey);
 }
 
 /*Color signals*/

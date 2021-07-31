@@ -21,7 +21,7 @@ class UserHasRecipeReaction(db.Model, BaseMixin):
 
     @staticmethod
     def load_by_recipe(recipe):
-        return UserHasRecipeReaction.load_by_attribute("recipe_id", recipe.id)
+        return UserHasRecipeReaction.load_all_by_attribute("recipe_id", recipe.id)
 
     @staticmethod
     def load_by_recipe_and_user(recipe, user):

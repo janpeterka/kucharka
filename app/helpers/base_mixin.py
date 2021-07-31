@@ -48,15 +48,15 @@ class BaseMixin(object):
         return cls.query.filter_by(name=name).first()
 
     @classmethod
-    def load_by_attribute(cls, attribute, value):
+    def load_all_by_attribute(cls, attribute, value):
         if not hasattr(cls, attribute):
             raise AttributeError
 
         return cls.query.filter_by(**{attribute: value}).all()
 
     @classmethod
-    def load_first_by_attribute(cls, attribute, value):
-        elements = cls.load_by_attribute(attribute, value)
+    def load_by_attribute(cls, attribute, value):
+        elements = cls.load_all_by_attribute(attribute, value)
         if elements:
             return elements[0]
         else:

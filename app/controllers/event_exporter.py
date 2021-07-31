@@ -171,6 +171,14 @@ class EventExporterView(HelperFlaskView):
             HTML(string=self.template(template_name="recipe_list", print=True))
         )
 
+    def show_recipe_list_visual(self, event_id):
+        return self.template(template_name="recipe_list_visual")
+
+    def show_recipe_list_visual_pdf(self, event_id):
+        return render_pdf(
+            HTML(string=self.template(template_name="recipe_list_visual", print=True))
+        )
+
     def show_cookbook(self, event_id):
         return self.template(
             template_name="cookbook", recipes=self.event.recipes_without_duplicated
@@ -178,5 +186,11 @@ class EventExporterView(HelperFlaskView):
 
     def show_cookbook_pdf(self, event_id):
         return render_pdf(
-            HTML(string=self.template(template_name="cookbook", print=True))
+            HTML(
+                string=self.template(
+                    template_name="cookbook",
+                    recipes=self.event.recipes_without_duplicated,
+                    print=True,
+                )
+            )
         )

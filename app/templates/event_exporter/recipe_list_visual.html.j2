@@ -6,11 +6,14 @@
 <h1 class="text-uppercase font-comfortaa text-center mb-3" > {{ link_or_name(event) }} </h1>
 <h2 class="text-uppercase font-comfortaa text-center">Recepty</h2>
 
-<div>
-    {% for daily_plan in daily_plans if daily_plan.real_recipes %}
+<div class="row">
+    {% for daily_plan in daily_plans %}
+        <div class="col bg-color-light-grey m-1" style="padding: 0.5rem; border-radius: 0.3rem;">
         <h4>{{ human_format_date(daily_plan.date) }}</h4>
         {{ list_of_links(daily_plan.real_recipes) }}
+        </div>
     {% endfor %}
 </div>
+
 
 {% endblock %}

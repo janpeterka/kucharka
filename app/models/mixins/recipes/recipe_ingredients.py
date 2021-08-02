@@ -31,4 +31,8 @@ class RecipeIngredientMixin:
 
     def remove_ingredient(self, ingredient):
         rhi = RecipeHasIngredient.load_by_recipe_and_ingredient(self, ingredient)
+        if not rhi:
+            return False
+
         rhi.delete()
+        return True

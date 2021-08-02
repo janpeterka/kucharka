@@ -1,4 +1,4 @@
-from flask import request, redirect, url_for
+from flask import request, redirect, url_for, flash
 from flask import render_template as template
 
 from flask_classful import route
@@ -130,7 +130,9 @@ class EditRecipeView(HelperFlaskView):
     def remove_ingredient(self, recipe_id, ingredient_id):
         ingredient = Ingredient.load(ingredient_id)
 
-        self.recipe.remove_ingredient(ingredient)
+        if not self.recipe.remove_ingredient(ingredient):
+            flash("Tato surovina už byla smazána.", "error")
+            return redirect(url_for("RecipesView:edit", id=self.recipe.id))
 
         if turbo.can_stream():
             return turbo.stream(

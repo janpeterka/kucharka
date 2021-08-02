@@ -65,10 +65,16 @@ class DailyPlansView(HelperFlaskView):
         else:
             return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
 
-    @route("daily_plans/remove_recipe/<daily_recipe_id>", methods=["POST"])
-    def remove_daily_recipe(self, daily_recipe_id):
+    @route(
+        "daily_plans/remove_recipe/<daily_recipe_id>/<daily_plan_id>", methods=["POST"]
+    )
+    def remove_daily_recipe(self, daily_recipe_id, daily_plan_id):
         daily_recipe = DailyPlanHasRecipe.load(daily_recipe_id)
-        daily_plan = DailyPlan.load(daily_recipe.daily_plan.id)
+        if not daily_recipe:
+            flash("Tento recept už je smazán.", "error")
+            return redirect(url_for("DailyPlansView:show", id=daily_plan_id))
+
+        daily_plan = daily_recipe.daily_plan
 
         if daily_plan.remove_daily_recipe(daily_recipe):
 
@@ -79,7 +85,7 @@ class DailyPlansView(HelperFlaskView):
             else:
                 return redirect(url_for("DailyPlansView:show", id=daily_plan.id))
         else:
-            flash("Tento recept nemůžete odebrat.")
+            flash("Tento recept nemůžete odebrat.", "error")
             return redirect(url_for("DailyPlansView:show", id=daily_plan.id))
 
     @route("change_meal_type/<daily_recipe_id>", methods=["POST"])

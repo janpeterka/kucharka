@@ -53,7 +53,7 @@
         {{ button_to(action=url_for('DailyPlansView:sort_down', daily_recipe_id=daily_recipe.id), class="icon float-right", value='<i class="fas fa-sort-down"></i>') }}
     </td>
     <td>
-        <form method="POST" class="text-right mr-3" action="{{ url_for('DailyPlansView:remove_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
+        <form method="POST" class="text-right mr-3" action="{{ url_for('DailyPlansView:remove_daily_recipe', daily_recipe_id=daily_recipe.id, daily_plan_id=daily_recipe.daily_plan.id) }}">
             <button type="submit" class="destroy icon"> {{ icon("remove") }} </button>
         </form>
     </td>

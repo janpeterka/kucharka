@@ -17,9 +17,16 @@
 
 	{% if event.no_measurement_ingredient_recipes %}
 		{% for recipe in event.no_measurement_ingredient_recipes %}
-			<li> {{ link_to(recipe) }} má surovinu s bez metrik </li>
+			<li> {{ link_to(recipe) }} má surovinu bez metrik </li>
 		{% endfor %}
 	{% endif %}
+
+	{% if event.no_category_ingredient_recipes %}
+		{% for recipe in event.no_category_ingredient_recipes %}
+			<li> {{ link_to(recipe) }} má surovinu bez kategorie </li>
+		{% endfor %}
+	{% endif %}
+
 
 	{% if event.recipes_without_category %}
 		{% for recipe in event.recipes_without_category %}

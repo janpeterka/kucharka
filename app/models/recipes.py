@@ -189,8 +189,16 @@ class Recipe(db.Model, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     @property
     def has_no_measurement_ingredient(self) -> bool:
-        for ingredient in self.ingredient:
+        for ingredient in self.ingredients:
             if ingredient.without_measurement and ingredient.is_measured:
+                return True
+
+        return False
+
+    @property
+    def has_no_category_ingredient(self) -> bool:
+        for ingredient in self.ingredients:
+            if ingredient.without_category:
                 return True
 
         return False

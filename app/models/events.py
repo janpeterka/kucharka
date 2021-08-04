@@ -99,5 +99,9 @@ class Event(db.Model, ItemMixin):
         return [r for r in self.recipes if r.without_category]
 
     @property
+    def no_category_ingredient_recipes(self):
+        return [r for r in self.recipes if r.has_no_category_ingredient]
+
+    @property
     def empty_recipes(self):
         return [r for r in self.recipes if r.is_draft]

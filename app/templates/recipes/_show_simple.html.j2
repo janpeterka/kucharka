@@ -50,7 +50,7 @@
             {% endif %}
 
             <td>
-            {% if True or ingredient.is_measured %}
+            {% if ingredient.is_measured %}
                 {% if ingredient.measurement.thousand_fold and ingredient_amount % 1000 != ingredient_amount %}
                     {{ formatted_amount(ingredient_amount/1000) }} {{ ingredient.measurement.thousand_fold }}
                 {% else %}

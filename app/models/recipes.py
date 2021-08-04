@@ -89,6 +89,9 @@ class Recipe(db.Model, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
         return recipe
 
+    def reload(self):
+        return Recipe.load(self.id)
+
     @staticmethod
     def load_by_ingredient(ingredient):
         recipes = Recipe.query.filter(

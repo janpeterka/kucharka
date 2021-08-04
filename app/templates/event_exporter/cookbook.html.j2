@@ -7,10 +7,7 @@
 <h2 class="text-uppercase font-comfortaa"> Kuchařka - {{ event.name }} </h2>
 
 <div>
-    {% for recipe in recipes %}
-    	<h3> {{ link_or_name(recipe) }} </h3>
-        <div> {{ recipe.description }} </div>
-    {% endfor %}
+    {{ recipes_html }}
 </div>
 
 {% endblock %}

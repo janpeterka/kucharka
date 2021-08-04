@@ -89,6 +89,9 @@ class Recipe(db.Model, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
         return recipe
 
+    def reload(self):
+        return Recipe.load(self.id)
+
     @staticmethod
     def load_by_ingredient(ingredient):
         recipes = Recipe.query.filter(
@@ -177,20 +180,32 @@ class Recipe(db.Model, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         return len(self.ingredients) == 0
 
     @property
-    def has_zero_amount_ingredient(self) -> bool:
-        for ingredient in self.recipe_ingredients:
-            if ingredient.amount == 0 and ingredient.is_measured:
-                return True
+    def zero_amount_ingredients(self) -> list:
+        return [
+            ri.ingredient
+            for ri in self.recipe_ingredients
+            if ri.is_measured and ri.amount == 0
+        ]
 
-        return False
+    @property
+    def has_zero_amount_ingredient(self) -> bool:
+        return len(self.zero_amount_ingredients) > 0
+
+    @property
+    def no_measurement_ingredients(self) -> list:
+        return [i for i in self.ingredients if i.is_measured and i.without_measurement]
 
     @property
     def has_no_measurement_ingredient(self) -> bool:
-        for ingredient in self.ingredient:
-            if ingredient.without_measurement and ingredient.is_measured:
-                return True
+        return len(self.no_measurement_ingredients) > 0
 
-        return False
+    @property
+    def no_category_ingredients(self) -> list:
+        return [i for i in self.ingredients if i.without_category]
+
+    @property
+    def has_no_category_ingredient(self) -> bool:
+        return len(self.no_category_ingredients) > 0
 
     @property
     def without_category(self) -> bool:

@@ -66,6 +66,9 @@ class EventExporterView(HelperFlaskView):
         self.lasting_ingredients_shopping = Shopping()
         self.lasting_ingredients_shopping.shopping_list = self.lasting_ingredients
         self.lasting_ingredients_shopping.daily_recipes = self.event.daily_recipes
+        self.lasting_ingredients_shopping.grouped_shopping_list = (
+            self._grouped_ingredients(self.lasting_ingredients)
+        )
 
         # a pak pro každý mezinákupový období
         self.shoppings = []
@@ -87,6 +90,7 @@ class EventExporterView(HelperFlaskView):
             self._sort_ingredients(shopping_list)
 
             shopping.shopping_list = shopping_list
+            shopping.grouped_shopping_list = self._grouped_ingredients(shopping_list)
             self.shoppings.append(shopping)
 
     def _sort_ingredients(self, list_of_ingredients):
@@ -96,6 +100,17 @@ class EventExporterView(HelperFlaskView):
                 unidecode(x.name.lower()),
             )
         )
+
+    def _grouped_ingredients(self, list_of_ingredients):
+        grouped_ingredients = {}
+        unused_ingredient_categories = [i.category_name for i in list_of_ingredients]
+        for c in unused_ingredient_categories:
+            grouped_ingredients[c] = []
+
+        for i in list_of_ingredients:
+            grouped_ingredients[i.category_name].append(i)
+
+        return grouped_ingredients
 
     def _get_amounts_for_shopping(self, shopping=None):
         used_recipes = [r.recipe for r in shopping.daily_recipes]

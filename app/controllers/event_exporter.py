@@ -29,20 +29,12 @@ class EventExporterView(HelperFlaskView):
         return self.template()
 
     def show_list(self, event_id, show_type):
-        self._set_shoppings()
-
-        self.lasting_ingredients_shopping.recipe_ingredient_amounts = (
-            self._get_amounts_for_shopping(self.lasting_ingredients_shopping)
-        )
-
-        for shopping in self.shoppings:
-            shopping.recipe_ingredient_amounts = self._get_amounts_for_shopping(
-                shopping
-            )
-
-        return self.template(template_name="shopping_list", show_type=show_type)
+        return self._show_list(event_id, show_type)
 
     def show_list_pdf(self, event_id, show_type):
+        return self._show_list(event_id, show_type, is_print=True)
+
+    def _show_list(self, event_id, show_type, is_print=False):
         self._set_shoppings()
 
         self.lasting_ingredients_shopping.recipe_ingredient_amounts = (
@@ -54,20 +46,21 @@ class EventExporterView(HelperFlaskView):
                 shopping
             )
 
-        return render_pdf(
-            HTML(
-                string=self.template(
-                    template_name="shopping_list", show_type=show_type, print=True
+        if is_print:
+            return render_pdf(
+                HTML(
+                    string=self.template(
+                        template_name="shopping_list", show_type=show_type, print=True
+                    )
                 )
             )
-        )
+        else:
+            return self.template(template_name="shopping_list", show_type=show_type)
 
     def _set_shoppings(self):
         # Nejdřív nákup před akcí - trvanlivé suroviny
         self.lasting_ingredients = [i for i in self.ingredients if i.is_lasting]
-        self.lasting_ingredients.sort(
-            key=lambda x: (x.category.name, unidecode(x.name.lower()))
-        )
+        self._sort_ingredients(self.lasting_ingredients)
 
         # Tohle je pro rozpadnutí
         self.lasting_ingredients_shopping = Shopping()
@@ -91,14 +84,18 @@ class EventExporterView(HelperFlaskView):
             )
 
             shopping_list = [i for i in shopping_list if not i.is_lasting]
-            shopping_list.sort(
-                key=lambda x: (
-                    getattr(x.category, "name", "ZZZ"),
-                    unidecode(x.name.lower()),
-                )
-            )
+            self._sort_ingredients(shopping_list)
+
             shopping.shopping_list = shopping_list
             self.shoppings.append(shopping)
+
+    def _sort_ingredients(self, list_of_ingredients):
+        list_of_ingredients.sort(
+            key=lambda x: (
+                getattr(x.category, "name", "ZZZ"),
+                unidecode(x.name.lower()),
+            )
+        )
 
     def _get_amounts_for_shopping(self, shopping=None):
         used_recipes = [r.recipe for r in shopping.daily_recipes]

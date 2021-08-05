@@ -144,10 +144,13 @@ class EventExporterView(HelperFlaskView):
                     for dr in event_recipe.daily_plan_daily_recipes
                 )
 
+                comment = ingredient.load_comment_by_recipe(event_recipe)
+
                 recipe_ingredient_amounts[ingredient.id]["recipes"][event_recipe.id] = {
                     # "name": event_recipe.name,
                     "amount": amount,
                     "occurences": len(event_recipe.daily_plan_daily_recipes),
+                    "comment": comment,
                 }
 
         return recipe_ingredient_amounts

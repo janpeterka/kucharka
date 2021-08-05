@@ -187,6 +187,12 @@ class IngredientCopy:
         ).first()
         return rhi.amount
 
+    def load_comment_by_recipe(self, recipe):
+        rhi = RecipeHasIngredient.query.filter_by(
+            recipe_id=recipe.id, ingredient_id=self.id
+        ).first()
+        return rhi.comment
+
     @property
     def category_name(self):
         return getattr(self.category, "name", "---")

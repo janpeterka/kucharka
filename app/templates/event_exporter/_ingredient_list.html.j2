@@ -1,36 +1,40 @@
 <ul>
-    {% for ingredient in ingredients %}
-    	<li>
-    		<details>
-    			<summary class="row">
-        			<span class="col font-weight-bold">
-                        {{ link_or_name(ingredient) }}
-                    </span>
-                        {% if ingredient.measurement.thousand_fold and ingredient.amount % 1000 != ingredient.amount %}
-                            <span class="col font-weight-bold"> {{ formatted_amount(ingredient.amount/1000) }} </span>
-                            <span class="col font-weight-bold"> {{ ingredient.measurement.thousand_fold }} </span>
-                        {% else %}
-                            <span class="col font-weight-bold"> {{ formatted_amount(ingredient.amount) }} </span>
-                            <span class="col font-weight-bold"> {{ ingredient.measurement.name }} </span>
-                        {% endif %}
-    			</summary>
+    {% for group, ingredients in groups.items() %}
+        <hr>
+        <h6> {{ group }} </h6>
+        {% for ingredient in ingredients %}
+        	<li>
+        		<details>
+        			<summary class="row">
+            			<span class="col font-weight-bold">
+                            {{ link_or_name(ingredient) }}
+                        </span>
+                            {% if ingredient.measurement.thousand_fold and ingredient.amount % 1000 != ingredient.amount %}
+                                <span class="col font-weight-bold"> {{ formatted_amount(ingredient.amount/1000) }} </span>
+                                <span class="col font-weight-bold"> {{ ingredient.measurement.thousand_fold }} </span>
+                            {% else %}
+                                <span class="col font-weight-bold"> {{ formatted_amount(ingredient.amount) }} </span>
+                                <span class="col font-weight-bold"> {{ ingredient.measurement.name }} </span>
+                            {% endif %}
+        			</summary>
 
-		    	{% for recipe in ingredient.event_recipes %}
-                    {% set amount = amounts[ingredient.id]["recipes"][recipe.id]["amount"] %}
-                    {% set occurences = amounts[ingredient.id]["recipes"][recipe.id]["occurences"] %}
+    		    	{% for recipe in ingredient.event_recipes %}
+                        {% set amount = amounts[ingredient.id]["recipes"][recipe.id]["amount"] %}
+                        {% set occurences = amounts[ingredient.id]["recipes"][recipe.id]["occurences"] %}
 
-                    <li class="row"> 
-                        <span class="col"> {{ link_or_name(recipe) }} {% if occurences > 1 %}({{ occurences }}x){% endif %} </span>
-                        {% if ingredient.measurement.thousand_fold and amount % 1000 != amount %}
-                            <span class="col"> {{ formatted_amount(amount/1000) }} </span>
-                            <span class="col"> {{ ingredient.measurement.thousand_fold }} </span>
-                        {% else %}
-                            <span class="col"> {{ formatted_amount(amount) }} </span>
-                            <span class="col"> {{ ingredient.measurement.name }} </span>
-                        {% endif %}
-                    </li>
-		    	{% endfor %}
-    		</details>
-    	</li>
+                        <li class="row"> 
+                            <span class="col"> {{ link_or_name(recipe) }} {% if occurences > 1 %}({{ occurences }}x){% endif %} </span>
+                            {% if ingredient.measurement.thousand_fold and amount % 1000 != amount %}
+                                <span class="col"> {{ formatted_amount(amount/1000) }} </span>
+                                <span class="col"> {{ ingredient.measurement.thousand_fold }} </span>
+                            {% else %}
+                                <span class="col"> {{ formatted_amount(amount) }} </span>
+                                <span class="col"> {{ ingredient.measurement.name }} </span>
+                            {% endif %}
+                        </li>
+    		    	{% endfor %}
+        		</details>
+        	</li>
+        {% endfor %}
     {% endfor %}
 </ul>

@@ -144,6 +144,10 @@ class Ingredient(db.Model, ItemMixin):
             self.measurement
         ]
 
+    @property
+    def category_name(self):
+        return getattr(self.category, "name", "---")
+
     # @property
     # def is_in_thousands(self):
     #     return self.measurement.thousand_fold and self.amount % 1000 != self.amount
@@ -182,6 +186,10 @@ class IngredientCopy:
             recipe_id=recipe.id, ingredient_id=self.id
         ).first()
         return rhi.amount
+
+    @property
+    def category_name(self):
+        return getattr(self.category, "name", "---")
 
     # CONTEXT PROCESSOR UTILITIES
     @property

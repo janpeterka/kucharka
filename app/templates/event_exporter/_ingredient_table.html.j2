@@ -1,5 +1,14 @@
-<table class="table">
-    {% for ingredient in ingredients %}
-        {% include "event_exporter/_ingredient_row.html.j2"%}
-    {% endfor %}
-</table>
+{% for group, ingredients in groups.items() %}
+
+    <table class="table">
+        <thead>
+            <th colspan="3">{{ group }}</th>
+        </thead>
+        <tbody>
+        {% for ingredient in ingredients %}
+            {% include "event_exporter/_ingredient_row.html.j2"%}
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endfor %}

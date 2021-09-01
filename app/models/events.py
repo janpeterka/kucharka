@@ -16,7 +16,10 @@ class Event(db.Model, ItemMixin):
 
     people_count = db.Column(db.Integer)
 
-    is_archived = db.Column(db.Boolean)
+    is_archived = db.Column(db.Boolean, default=False)
+
+    # event is personal, but shared publicly. can change or disappear
+    is_shared = db.Column(db.Boolean, default=False)
 
     created_by = db.Column(db.ForeignKey(("users.id")), nullable=False, index=True)
     author = db.relationship("User", uselist=False, backref="events")
@@ -27,7 +30,17 @@ class Event(db.Model, ItemMixin):
 
     def toggle_archived(self):
         self.is_archived = not self.is_archived
-        self.save()
+        self.edit()
+        return self.is_archived
+
+    def toggle_shared(self):
+        self.is_shared = not self.is_shared
+        self.edit()
+        return self.is_shared
+
+    def share_all_used_recipes(self):
+        for recipe in self.recipes:
+            recipe.toggle_shared()
 
     @property
     def is_active(self):

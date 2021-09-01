@@ -11,8 +11,8 @@
 
         {% if daily_recipe.is_shopping %}
             {{ icon("shopping") }}
-        {% else %}
-    	    {% if not daily_recipe.recipe.is_current_user_author %} {{ icon("public") }} {% endif %}
+        {% elif  daily_recipe.recipe.is_shared %}
+    	    {{ icon("public") }}
         {% endif %}
 	</td>
     <td>

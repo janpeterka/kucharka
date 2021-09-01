@@ -25,7 +25,9 @@
 </ul>
 </div>
 
-{% include "events/_delete_or_edit.html.j2" %}
+{% if event.can_current_user_edit %}
+    {% include "events/_delete_or_edit.html.j2" %}
+{% endif %}
 
 {% include "events/_export.html.j2" %}
 

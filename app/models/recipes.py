@@ -5,6 +5,7 @@ from flask_security import current_user
 from app import db
 
 from app.helpers.item_mixin import ItemMixin
+from app.helpers.general import list_without_duplicated
 
 from app.models.ingredients import Ingredient
 from app.models.recipes_have_ingredients import RecipeHasIngredient
@@ -32,8 +33,10 @@ class Recipe(db.Model, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     # recipe is from database of approved recipes
     # is_public = db.Column(db.Boolean, default=False)
-    # recipes is personal, but shared publicly. can change or disappear
+
+    # recipe is personal, but shared publicly. can change or disappear
     is_shared = db.Column(db.Boolean, default=False)
+
     # recipe is hidden from personal and public lists
     is_hidden = db.Column(db.Boolean, default=False)
 
@@ -155,14 +158,19 @@ class Recipe(db.Model, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
     # PERMISSIONS
 
     @property
-    def can_current_user_show(self) -> bool:
-        return current_user == self.author or current_user.is_admin or self.is_shared
+    def can_current_user_view(self) -> bool:
+        return (
+            current_user == self.author
+            or current_user.is_admin
+            or self.is_shared
+            or self.is_in_shared_event
+        )
 
     # PROPERTIES
 
     @property
     def is_shopping(self) -> bool:
-        return True if self.author.is_admin and self.name == "Nákup" else False
+        return self.author.is_admin and self.name == "Nákup"
 
     @property
     def is_used(self) -> bool:
@@ -171,6 +179,20 @@ class Recipe(db.Model, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
     @property
     def is_visible(self) -> bool:
         return not self.is_draft
+
+    @property
+    def events(self):
+        events = [dp.event for dp in self.daily_plans]
+        return list_without_duplicated(events)
+
+    @property
+    def shared_events(self):
+        shared_events = [event for event in self.events if event.is_shared]
+        return shared_events
+
+    @property
+    def is_in_shared_event(self) -> bool:
+        return True if self.shared_events else False
 
     @property
     def is_draft(self) -> bool:

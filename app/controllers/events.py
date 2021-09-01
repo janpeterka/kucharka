@@ -1,4 +1,4 @@
-from flask import redirect, url_for, request
+from flask import redirect, url_for, request, flash
 from flask_classful import route
 from flask_security import login_required
 
@@ -66,6 +66,21 @@ class EventsView(HelperFlaskView):
     def toggle_archived(self, id):
         self.event.toggle_archived()
 
+        return redirect(url_for("EventsView:show", id=self.event.id))
+
+    @route("toggle_shared/<id>", methods=["POST"])
+    def toggle_shared(self, id):
+        toggled = self.event.toggle_shared()
+        if toggled is True:
+            flash("Akce byla zveřejněna.", "success")
+        else:
+            flash("Akce byla skryta před veřejností.", "success")
+        return redirect(url_for("EventsView:show", id=self.event.id))
+
+    @route("share_all_used_recipes/<id>", methods=["POST"])
+    def share_all_used_recipes(self, id):
+        self.event.share_all_used_recipes()
+        flash("Všechny recepty byly zveřejněny.", "success")
         return redirect(url_for("EventsView:show", id=self.event.id))
 
     def warnings(self, id):

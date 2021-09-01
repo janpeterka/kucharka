@@ -79,3 +79,7 @@ class DailyPlan(db.Model, ItemMixin, DailyPlanLoaderMixin, DailyPlanRecipeMixin)
     @property
     def has_previous(self) -> bool:
         return self.previous is not None
+
+    @property
+    def is_shared(self) -> bool:
+        return self.event.is_shared

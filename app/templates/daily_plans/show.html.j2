@@ -61,6 +61,8 @@
         </table>
     </div>
 
+    {% if daily_plan.can_current_user_edit %}
+
     <div class="row float-right mt-5" data-controller="enable-select2">
         <form class="form" action="{{ url_for('DailyPlansView:add_recipe', daily_plan_id=daily_plan.id) }}" method="post">
             <div class="form-group form-inline">
@@ -76,6 +78,8 @@
     <div class="row mt-5">
         {{ button_to(action=url_for('DailyPlansView:add_shopping', daily_plan_id=daily_plan.id), class="btn btn-secondary", value="Přidat nákup") }}
     </div>
+
+    {% endif %}
 </div>
 
 {% endblock %}

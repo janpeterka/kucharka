@@ -18,6 +18,8 @@ class EventExporterView(HelperFlaskView):
 
     def before_request(self, name, event_id=None, *args, **kwargs):
         self.event = Event.load(event_id)
+        self.validate_view(self.event)
+
         self.daily_plans = self.event.daily_plans
         self.split_recipes = self.event.daily_recipes_split_by_shopping
 

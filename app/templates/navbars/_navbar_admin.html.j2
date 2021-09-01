@@ -2,7 +2,7 @@
 	<a class="nav-link dropdown-toggle color-admin" href="#" id="navbarDropdown" role="button"
 	 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	Admin
-		<turbo-frame id="admin-notification-count" src="{{ url_for('AdminStatisticsView:admin_notification_count') }}"></turbo-frame>
+		{# <turbo-frame id="admin-notification-count" src="{{ url_for('AdminStatisticsView:admin_notification_count') }}"></turbo-frame> #}
 	</a>
 	
 	<div class="dropdown-menu bg-color-admin" aria-labelledby="navbarDropdown">
@@ -13,7 +13,7 @@
 		<a class="dropdown-item" href="{{ url_for('RecipeCategoriesView:index') }}"> 		Kategorie receptů	</a>
 		<a class="dropdown-item" href="{{ url_for('TipsView:index') }}">
 			Tipy
-			<turbo-frame id="admin-notification-count" src="{{ url_for('AdminStatisticsView:unapproved_tips_count') }}"></turbo-frame>
+			{# <turbo-frame id="admin-notification-count" src="{{ url_for('AdminStatisticsView:unapproved_tips_count') }}"></turbo-frame> #}
 		</a>
 	</div>
 </li>

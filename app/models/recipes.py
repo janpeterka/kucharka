@@ -46,20 +46,26 @@ class Recipe(db.Model, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     ingredients = db.relationship(
         "Ingredient",
-        primaryjoin="and_(Recipe.id == remote(RecipeHasIngredient.recipe_id), foreign(Ingredient.id) == RecipeHasIngredient.ingredient_id)",
+        secondary="recipes_have_ingredients",
+        primaryjoin="RecipeHasIngredient.recipe_id == Recipe.id",
+        # primaryjoin="and_(Recipe.id == remote(RecipeHasIngredient.recipe_id), foreign(Ingredient.id) == RecipeHasIngredient.ingredient_id)",
         viewonly=True,
         order_by="Ingredient.name",
     )
 
     daily_plans = db.relationship(
         "DailyPlan",
-        primaryjoin="and_(Recipe.id == remote(DailyPlanHasRecipe.recipe_id), foreign(DailyPlan.id) == DailyPlanHasRecipe.daily_plan_id)",
+        secondary="daily_plans_have_recipes",
+        primaryjoin="Recipe.id == DailyPlanHasRecipe.recipe_id",
+        # primaryjoin="and_(Recipe.id == remote(DailyPlanHasRecipe.recipe_id), foreign(DailyPlan.id) == DailyPlanHasRecipe.daily_plan_id)",
         viewonly=True,
     )
 
     author = db.relationship("User", uselist=False, back_populates="recipes")
 
-    category = db.relationship("RecipeCategory", uselist=False, backref="recipes")
+    category = db.relationship(
+        "RecipeCategory", uselist=False, backref="recipes", lazy="joined"
+    )
 
     # LOADERS
     @staticmethod

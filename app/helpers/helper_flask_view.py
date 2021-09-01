@@ -18,6 +18,14 @@ class HelperFlaskView(FlaskView):
             if not instance.can_current_user_view:
                 abort(403)
 
+    def validate_view(self, instance):
+        if not instance.can_current_user_view:
+            abort(403)
+
+    def validate_edit(self, instance):
+        if not instance.can_current_user_edit:
+            abort(403)
+
     def template(self, template_name=None, *args, **kwargs):
         # Template name is given from view and method names if not provided
         calling_method = inspect.stack()[1].function

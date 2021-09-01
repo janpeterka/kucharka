@@ -4,6 +4,8 @@ from app import db
 
 from app.helpers.item_mixin import ItemMixin
 
+from app.models.daily_plans import DailyPlan
+
 
 class Event(db.Model, ItemMixin):
     __tablename__ = "events"
@@ -23,6 +25,10 @@ class Event(db.Model, ItemMixin):
 
     created_by = db.Column(db.ForeignKey(("users.id")), nullable=False, index=True)
     author = db.relationship("User", uselist=False, backref="events")
+
+    daily_plans = db.relationship(
+        "DailyPlan", back_populates="event", order_by=DailyPlan.date
+    )
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

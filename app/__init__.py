@@ -7,12 +7,7 @@ from turbo_flask import Turbo
 from flask_security import Security, SQLAlchemyUserDatastore
 
 
-# import pymysql
-# pymysql.converters.encoders[np.float64] = pymysql.converters.escape_float
-# pymysql.converters.conversions = pymysql.converters.encoders.copy()
-# pymysql.converters.conversions.update(pymysql.converters.decoders)
-
-db = SQLAlchemy(session_options={"autoflush": False, "autocommit": False})
+db = SQLAlchemy(session_options={"autoflush": False})
 migrate = Migrate()
 babel = Babel()
 turbo = Turbo()

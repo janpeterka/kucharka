@@ -268,11 +268,11 @@
         },
         "flask-security-too": {
             "hashes": [
-                "sha256:3ca961b2daebeced863af5477e1c61626d14408eab68061dd9fea889e900e5bb",
-                "sha256:c2967fce08cbe2a1c6ada8eaafc717626d90f296efa7a17f859c13f46bfef1e0"
+                "sha256:5d234aa0d2d717f3b723ffdc73b07763bb5224359138cfa236db4bc9d6965f57",
+                "sha256:68decf4435cf3706be4d14a7f2cfb58cb7852138291aaff0d553520d2e023081"
             ],
             "index": "pypi",
-            "version": "==4.0.1"
+            "version": "==4.1.0"
         },
         "flask-sock": {
             "hashes": [

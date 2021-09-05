@@ -57,13 +57,12 @@ class RecipesView(HelperFlaskView):
                 ingredient_names=self.ingredient_names, categories=self.categories
             )
 
-        if name in ["show", "pdf", "show_pdf"]:
-            if "portion_count" in request.args:
-                request_portion_count = request.args.get("portion_count", "1")
-                if not request_portion_count:
-                    request_portion_count = 1
+        if name in ["show", "pdf", "show_pdf"] and "portion_count" in request.args:
+            request_portion_count = request.args.get("portion_count", "1")
+            if not request_portion_count:
+                request_portion_count = 1
 
-                self.recipe.portion_count = int(request_portion_count)
+            self.recipe.portion_count = int(request_portion_count)
 
     def before_filter(self):
         self.form = RecipeFilterForm(
@@ -192,7 +191,7 @@ class RecipesView(HelperFlaskView):
         lactose_free = self.form.lactose_free.data
         gluten_free = self.form.gluten_free.data
 
-        if not self.form.ingredient_name.data == "---":
+        if self.form.ingredient_name.data != "---":
             ingredient_name = self.form.ingredient_name.data
 
         category = RecipeCategory.load(self.form.category.data)

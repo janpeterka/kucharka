@@ -80,9 +80,7 @@ def utility_processor():
         else:
             digits = int(math.log10(math.floor(amount))) + 1
 
-        if digits == 0:
-            return round(amount, 1)
-        elif digits == 1:
+        if digits in [0, 1]:
             return round(amount, 1)
         elif digits in (2, 3):
             return int(amount)

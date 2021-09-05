@@ -22,18 +22,15 @@ class Tip(db.Model, BaseMixin):
 
     @staticmethod
     def approved_tips():
-        tips = Tip.query.filter(Tip.is_approved).all()
-        return tips
+        return Tip.query.filter(Tip.is_approved).all()
 
     @staticmethod
     def disapproved_tips():
-        tips = Tip.query.filter(Tip.is_hidden).all()
-        return tips
+        return Tip.query.filter(Tip.is_hidden).all()
 
     @staticmethod
     def unapproved_tips():
-        tips = Tip.query.filter_by(is_approved=False, is_hidden=False).all()
-        return tips
+        return Tip.query.filter_by(is_approved=False, is_hidden=False).all()
 
     def approve(self):
         self.is_approved = True

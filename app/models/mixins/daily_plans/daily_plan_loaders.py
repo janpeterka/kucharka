@@ -6,11 +6,9 @@ class DailyPlanLoaderMixin:
     def load_by_date(date):
         from app.models.daily_plans import DailyPlan
 
-        date_plan = DailyPlan.query.filter_by(
+        return DailyPlan.query.filter_by(
             date=date, created_by=current_user.id
         ).first()
-
-        return date_plan
 
     @staticmethod
     def load_ingredient_amounts_for_daily_recipes(ids):

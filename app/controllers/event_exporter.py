@@ -82,7 +82,7 @@ class EventExporterView(HelperFlaskView):
             shopping = Shopping()
             shopping.daily_recipes = [dr for dr in section]
             shopping.date = section[0].daily_plan.date
-            shopping.is_shopping = True if section[0].is_shopping else False
+            shopping.is_shopping = section[0].is_shopping
 
             shopping_list = DailyPlan.load_ingredient_amounts_for_daily_recipes(
                 section_ids

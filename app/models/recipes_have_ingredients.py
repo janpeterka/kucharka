@@ -37,17 +37,13 @@ class RecipeHasIngredient(db.Model, BaseMixin):
 
     @staticmethod
     def load_by_recipe_and_ingredient(recipe, ingredient):
-        rhi = RecipeHasIngredient.query.filter_by(
+        return RecipeHasIngredient.query.filter_by(
             recipe_id=recipe.id, ingredient_id=ingredient.id
         ).first()
-        return rhi
 
     @hybrid_property
     def is_measured(self):
-        if self._is_measured is False:
-            return False
-        else:
-            return True
+        return self._is_measured is not False
 
     @is_measured.setter
     def is_measured(self, is_measured):

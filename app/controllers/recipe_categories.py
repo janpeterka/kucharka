@@ -78,9 +78,8 @@ class RecipeCategoriesView(HelperFlaskView):
         if self.category.is_used:
             if turbo.can_stream():
                 return turbo_flash("Už je někde použité, nelze smazat!")
-            else:
-                flash("Už je někde použité, nelze smazat!")
-                return redirect(url_for("RecipeCategoriesView:index"))
+            flash("Už je někde použité, nelze smazat!")
+            return redirect(url_for("RecipeCategoriesView:index"))
 
         else:
             self.category.delete()

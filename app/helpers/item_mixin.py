@@ -11,11 +11,9 @@ class ItemMixin(BaseMixin):
         for attr in attributes:
             value = getattr(self, attr)
             if isinstance(value, list):
-                data[attr] = ", ".join([str(x) for x in value])
+                data[attr] = ", ".join(str(x) for x in value)
             elif hasattr(value, "email"):
                 data[attr] = value.email
-            # elif hasattr[value, "measurement"]:
-            # data[attr] = value.name
             else:
                 data[attr] = str(value)
 

@@ -103,17 +103,14 @@ class Recipe(db.Model, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     @staticmethod
     def load_by_ingredient(ingredient):
-        recipes = Recipe.query.filter(
+        return Recipe.query.filter(
             Recipe.ingredients.any(Ingredient.id == ingredient.id)
         ).all()
-        return recipes
 
     @staticmethod
     def load_by_ingredient_and_user(ingredient, user):
         recipes = Recipe.load_by_ingredient(ingredient)
-        private_recipes = [r for r in recipes if r.author == user]
-
-        return private_recipes
+        return [r for r in recipes if r.author == user]
 
     # Operations
 
@@ -180,7 +177,7 @@ class Recipe(db.Model, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     @property
     def is_used(self) -> bool:
-        return True if self.daily_plans else False
+        return bool(self.daily_plans)
 
     @property
     def is_visible(self) -> bool:
@@ -193,12 +190,11 @@ class Recipe(db.Model, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     @property
     def shared_events(self):
-        shared_events = [event for event in self.events if event.is_shared]
-        return shared_events
+        return [event for event in self.events if event.is_shared]
 
     @property
     def is_in_shared_event(self) -> bool:
-        return True if self.shared_events else False
+        return bool(self.shared_events)
 
     @property
     def is_draft(self) -> bool:
@@ -244,7 +240,7 @@ class Recipe(db.Model, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     @property
     def concat_ingredients(self) -> str:
-        return ", ".join([o.name for o in self.ingredients])
+        return ", ".join(o.name for o in self.ingredients)
 
     @property
     def is_vegetarian(self) -> bool:

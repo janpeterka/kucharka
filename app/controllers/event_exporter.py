@@ -82,7 +82,7 @@ class EventExporterView(HelperFlaskView):
             shopping = Shopping()
             shopping.daily_recipes = [dr for dr in section]
             shopping.date = section[0].daily_plan.date
-            shopping.is_shopping = True if section[0].is_shopping else False
+            shopping.is_shopping = bool(section[0].is_shopping)
 
             shopping_list = DailyPlan.load_ingredient_amounts_for_daily_recipes(
                 section_ids
@@ -104,11 +104,8 @@ class EventExporterView(HelperFlaskView):
         )
 
     def _grouped_ingredients(self, list_of_ingredients):
-        grouped_ingredients = {}
         unused_ingredient_categories = [i.category_name for i in list_of_ingredients]
-        for c in unused_ingredient_categories:
-            grouped_ingredients[c] = []
-
+        grouped_ingredients = {c: [] for c in unused_ingredient_categories}
         for i in list_of_ingredients:
             grouped_ingredients[i.category_name].append(i)
 

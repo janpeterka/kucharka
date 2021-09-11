@@ -96,9 +96,8 @@ class IngredientsView(HelperFlaskView):
             return redirect(
                 url_for("IngredientsView:show", id=ingredient.id, from_new=True)
             )
-        else:
-            flash("Nepodařilo se vytvořit surovinu", "error")
-            return redirect(url_for("IngredientsView:new"))
+        flash("Nepodařilo se vytvořit surovinu", "error")
+        return redirect(url_for("IngredientsView:new"))
 
     @route("edit/<id>", methods=["POST"])
     def post_edit(self, id):

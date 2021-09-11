@@ -225,7 +225,7 @@ class EventExporterView(HelperFlaskView):
                 recipe.reload()
                 recipe.portion_count = daily_recipe.portion_count
                 recipe_template = template(
-                    "recipes/_show_simple.html.j2", recipe=recipe
+                    "recipes/_show_simple.html.j2", recipe=recipe, print=True
                 )
                 partial_templates.append(recipe_template)
 

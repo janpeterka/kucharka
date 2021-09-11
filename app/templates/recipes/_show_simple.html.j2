@@ -1,16 +1,17 @@
 {% from "macros/icons.html.j2" import icon %}
+{% from "macros/general.html.j2" import link_or_name with context %}
 
 <div class="mb-5">
 <div class="mb-3">
     <div> 
-        <h2> {{ recipe.link_to }} </h2>
+        <h2> {{ link_or_name(recipe) }} </h2>
     </div>
     
     <div>
         <span class="font-italic"> Kategorie: {{ recipe.category.name }} </span><br>
     </div>
+
     <div>
-        {% if not print %}
             <span class="float-right">
             {% if recipe.is_vegetarian %}
                 {{ icon("vegetarian")}}
@@ -25,7 +26,6 @@
                 {{ icon("gluten_free")}}
             {% endif %}
             </span>
-        {% endif %}
     </div>
 </div>
 

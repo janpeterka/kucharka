@@ -25,10 +25,9 @@ class UserHasRecipeReaction(db.Model, BaseMixin):
 
     @staticmethod
     def load_by_recipe_and_user(recipe, user):
-        reactions = UserHasRecipeReaction.query.filter_by(
+        return UserHasRecipeReaction.query.filter_by(
             recipe_id=recipe.id, user_id=user.id
         ).first()
-        return reactions
 
     @staticmethod
     def load_by_recipe_and_current_user(recipe):

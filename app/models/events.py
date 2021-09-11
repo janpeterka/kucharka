@@ -67,7 +67,7 @@ class Event(db.Model, ItemMixin):
     def recipes(self):
         recipes = []
         for daily_plan in self.daily_plans:
-            recipes = recipes + daily_plan.real_recipes
+            recipes += daily_plan.real_recipes
 
         return recipes
 
@@ -81,7 +81,7 @@ class Event(db.Model, ItemMixin):
     def daily_recipes(self):
         daily_recipes = []
         for daily_plan in self.daily_plans:
-            daily_recipes = daily_recipes + daily_plan.daily_recipes
+            daily_recipes += daily_plan.daily_recipes
 
         return daily_recipes
 

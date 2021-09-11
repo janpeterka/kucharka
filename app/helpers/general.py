@@ -1,8 +1,7 @@
 def empty_object():
     import types
 
-    obj = types.SimpleNamespace()
-    return obj
+    return types.SimpleNamespace()
 
 
 def list_without_duplicated(array):

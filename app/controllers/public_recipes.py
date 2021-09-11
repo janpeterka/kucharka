@@ -31,8 +31,7 @@ class PublicRecipesView(HelperFlaskView):
         flatten_ingredients = [y for x in ingredients for y in x]
         ingredient_names = [x.name for x in flatten_ingredients]
 
-        self.ingredient_names = ["---"]
-        self.ingredient_names.extend(list(set(ingredient_names)))
+        self.ingredient_names = ['---', *list(set(ingredient_names))]
         self.ingredient_names.sort()
 
         self.categories = RecipeCategory.load_all()
@@ -56,9 +55,8 @@ class PublicRecipesView(HelperFlaskView):
                     target=f"recipe-{recipe_id}",
                 )
             )
-        else:
-            flash("Reakce byla zaznamenána.")
-            return "", 204
+        flash("Reakce byla zaznamenána.")
+        return "", 204
 
     @login_required
     @route("/", methods=["GET", "POST"])
@@ -75,7 +73,7 @@ class PublicRecipesView(HelperFlaskView):
         lactose_free = self.form.lactose_free.data
         gluten_free = self.form.gluten_free.data
 
-        if not self.form.ingredient_name.data == "---":
+        if self.form.ingredient_name.data != "---":
             ingredient_name = self.form.ingredient_name.data
 
         with_reaction = self.form.with_reaction.data

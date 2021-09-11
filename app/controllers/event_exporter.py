@@ -82,7 +82,7 @@ class EventExporterView(HelperFlaskView):
             shopping = Shopping()
             shopping.daily_recipes = [dr for dr in section]
             shopping.date = section[0].daily_plan.date
-            shopping.is_shopping = bool(section[0].is_shopping)
+            shopping.is_shopping = section[0].is_shopping
 
             shopping_list = DailyPlan.load_ingredient_amounts_for_daily_recipes(
                 section_ids
@@ -222,7 +222,7 @@ class EventExporterView(HelperFlaskView):
                 recipe.reload()
                 recipe.portion_count = daily_recipe.portion_count
                 recipe_template = template(
-                    "recipes/_show_simple.html.j2", recipe=recipe
+                    "recipes/_show_simple.html.j2", recipe=recipe, print=True
                 )
                 partial_templates.append(recipe_template)
 

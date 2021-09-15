@@ -25,13 +25,13 @@ class PublicRecipesView(HelperFlaskView):
     @login_required
     def before_index(self):
         # Get values for filters
-        # TODO - tohle mi nepřijde úplně šťastný
-        # TODO - načítání by mohlo být přes /src
+        # TODO: tohle mi nepřijde úplně šťastný
+        # TODO: načítání by mohlo být přes /src
         ingredients = [x.ingredients for x in self.recipes]
         flatten_ingredients = [y for x in ingredients for y in x]
         ingredient_names = [x.name for x in flatten_ingredients]
 
-        self.ingredient_names = ['---', *list(set(ingredient_names))]
+        self.ingredient_names = ["---", *list(set(ingredient_names))]
         self.ingredient_names.sort()
 
         self.categories = RecipeCategory.load_all()

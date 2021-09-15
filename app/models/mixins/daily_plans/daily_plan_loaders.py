@@ -6,9 +6,7 @@ class DailyPlanLoaderMixin:
     def load_by_date(date):
         from app.models.daily_plans import DailyPlan
 
-        return DailyPlan.query.filter_by(
-            date=date, created_by=current_user.id
-        ).first()
+        return DailyPlan.query.filter_by(date=date, created_by=current_user.id).first()
 
     @staticmethod
     def load_ingredient_amounts_for_daily_recipes(ids):
@@ -21,6 +19,7 @@ class DailyPlanLoaderMixin:
 
         ids = tuple(ids)
 
+        # TODO: change to SQlAlchemy Query to avoid SQL Injection risk and improve code (30) 
         amounts_sql = f"""
                         SELECT
                             I.id AS ingredient_id,
@@ -54,6 +53,7 @@ class DailyPlanLoaderMixin:
 
     @staticmethod
     def load_ingredient_amounts_for_daily_plans(ids):
+        # TODO: move this to ingredient model (90)
         from app import db
         from app.models.ingredients import Ingredient
 
@@ -63,6 +63,7 @@ class DailyPlanLoaderMixin:
 
         ids = tuple(ids)
 
+        # TODO: change to SQlAlchemy Query to avoid SQL Injection risk and improve code (30)
         amounts_sql = f"""
                         SELECT
                             I.id AS ingredient_id,

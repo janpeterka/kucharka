@@ -128,7 +128,7 @@ class Recipe(db.Model, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         return self.id
 
     def remove(self):
-        # TODO: - to improve w/ orphan cascade (80)
+        # TODO: to improve w/ orphan cascade (80)
         recipe_ingredients = RecipeHasIngredient.query.filter(
             RecipeHasIngredient.recipe_id == self.id
         )

@@ -6,7 +6,10 @@
 
     {{ render_field(form.name) }}
 	
-	<div class="mt-2 mb-2"> Od {{ human_format_date(event.date_from) }} do {{ human_format_date(event.date_to) }} ({{ event.duration }} dnů) </div>
+	<div class="mt-2 mb-2">
+	{{ render_field(form.date_from) }}
+	{{ render_field(form.date_to) }}
+	({{ event.duration }} dnů) </div>
     
 	<span> Počet lidí</span>
 	{{ render_field(form.people_count, has_label=False) }}

@@ -27,7 +27,10 @@ class Event(db.Model, ItemMixin):
     author = db.relationship("User", uselist=False, backref="events")
 
     daily_plans = db.relationship(
-        "DailyPlan", back_populates="event", order_by=DailyPlan.date
+        "DailyPlan",
+        back_populates="event",
+        order_by=DailyPlan.date,
+        cascade="all, delete",
     )
 
     def __init__(self, **kwargs):
@@ -48,6 +51,17 @@ class Event(db.Model, ItemMixin):
         for recipe in self.recipes:
             recipe.toggle_shared()
 
+    def delete_old_daily_plans(self):
+        for daily_plan in self.daily_plans:
+            if not (self.date_from <= daily_plan.date <= self.date_to):
+                daily_plan.delete()
+
+    def add_new_daily_plans(self):
+        for date in self.days:
+            if not self.date_has_daily_plan(date):
+                day_plan = DailyPlan(date=date, event=self)
+                day_plan.save()
+
     @property
     def is_active(self):
         return not self.is_archived
@@ -62,6 +76,9 @@ class Event(db.Model, ItemMixin):
             self.date_from + timedelta(days=x)
             for x in range((self.date_to - self.date_from).days + 1)
         ]
+
+    def date_has_daily_plan(self, date) -> bool:
+        return any(dp.date == date for dp in self.daily_plans)
 
     @property
     def recipes(self):

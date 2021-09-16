@@ -29,7 +29,7 @@ class DailyPlan(db.Model, ItemMixin, DailyPlanLoaderMixin, DailyPlanRecipeMixin)
     )
 
     event_id = db.Column(db.ForeignKey(("events.id")))
-    event = db.relationship("Event", back_populates="daily_plans", cascade="all,delete")
+    event = db.relationship("Event", back_populates="daily_plans")
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

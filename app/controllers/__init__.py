@@ -3,8 +3,8 @@ from .daily_plans import DailyPlansView
 from .daily_plans_edit import DailyPlansEditView
 from .event_exporter import EventExporterView
 
-from .events import EventsView
-from .edit_events import EditEventView
+from .events.events import EventsView
+from .events.edit_events import EditEventView
 
 from .errors import ErrorsView
 from .index import IndexView

@@ -24,6 +24,7 @@ class EditEventView(HelperFlaskView):
     @route("/edit/<event_id>", methods=["POST"])
     def edit(self, event_id):
         self.form = EventsForm(obj=self.event)
+
         if turbo.can_stream():
             return turbo.stream(
                 turbo.replace(self.template(template_name="_info"), target="event-info")
@@ -39,7 +40,12 @@ class EditEventView(HelperFlaskView):
             )
 
         self.form.populate_obj(self.event)
+
         self.event.edit()
+
+        # delete daily_plans if not in days after edit
+
+        # add new daily_plans
 
         if turbo.can_stream():
             return turbo.stream(

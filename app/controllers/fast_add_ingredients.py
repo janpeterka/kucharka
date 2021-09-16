@@ -39,7 +39,7 @@ class FastAddIngredientsView(HelperFlaskView):
         set_form(self.form)
 
     def new(self, recipe_id):
-        # TODO - co s tímhle?
+        # TODO: make it work without turbo (80)
         return turbo.stream(
             turbo.replace(
                 self.template(

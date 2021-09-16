@@ -32,7 +32,7 @@ class HelperFlaskView(FlaskView):
 
         if template_name is None:
             template_name = f"{self._template_folder}/{calling_method}.html.j2"
-            # TODO - what if i want to force location?
+            # TODO: what if i want to force location?
         elif "/" in template_name or ".html.j2" in template_name:
             template_name = template_name
         else:

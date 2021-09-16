@@ -78,11 +78,7 @@ class Event(db.Model, ItemMixin):
         ]
 
     def date_has_daily_plan(self, date) -> bool:
-        for dp in self.daily_plans:
-            if dp.date == date:
-                return True
-
-        return False
+        return any(dp.date == date for dp in self.daily_plans)
 
     @property
     def recipes(self):

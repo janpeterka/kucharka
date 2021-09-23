@@ -1,0 +1,35 @@
+name: Build, lint, test
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+  
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pylint
+
+    - name: pylinter
+      uses: alexanderdamiani/pylinter@v1.3.0
+      
+    - name: Test with pytest
+      env:
+          TESTING_SECRET_KEY: "justtesting"
+          TESTING_DB_STRING: "sqlite://"
+
+          SECRET_KEY: "justtesting"
+          SQLALCHEMY_DATABASE_URI: "sqlite://"
+          
+          SENTRY_MONITORING: False
+      run: |
+        pipenv run pytest

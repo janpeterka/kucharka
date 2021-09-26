@@ -4,7 +4,7 @@ from flask import flash, request, redirect, url_for
 from flask_classful import route
 from flask_security import login_required, current_user, roles_accepted, roles_required
 
-from app.helpers.form import save_form_to_session
+from app.helpers.form import save_form_to_session, create_form
 from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models.ingredients import Ingredient
@@ -24,10 +24,10 @@ class IngredientsView(HelperFlaskView):
         self.validate_operation(id, self.ingredient)
 
     def before_new(self):
-        self.form = IngredientsForm()
+        self.form = create_form(IngredientsForm)
 
     def before_edit(self, id):
-        self.form = IngredientsForm(obj=self.ingredient)
+        self.form = create_form(IngredientsForm, obj=self.ingredient)
 
         self.recipes = Recipe.load_by_ingredient_and_user(self.ingredient, current_user)
         self.all_recipes = Recipe.load_by_ingredient(self.ingredient)

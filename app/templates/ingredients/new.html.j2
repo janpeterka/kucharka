@@ -2,6 +2,11 @@
 
 {% block title %} Nová surovina {% endblock %}
 
+{% block script %}
+    {% include 'javascript/stimulus.js.html' %}
+    {% include 'javascript/enable_select2_controller.js.html' %}
+{% endblock %}
+
 {% block content %}
 
 <form method="post" action="{{ url_for('IngredientsView:post') }}" class="form-group col-6" accept-charset="UTF-8">
@@ -12,15 +17,7 @@
     {{ render_field(form.measurement) }}
     {{ render_field(form.category) }}
     
-    <details open class="mt-2">
-    <summary>Štítky</summary>
-    {{ render_field(form.labels, has_label=False) }}
-    {# <summary>Potravinová omezení</summary> #}
-    {# {{ render_field(form.is_vegetarian) }}
-    {{ render_field(form.is_vegan) }}
-    {{ render_field(form.lactose_free) }}
-    {{ render_field(form.gluten_free) }} #}
-    </details>
+    {% include "ingredients/_form_labels.html.j2" %}
 
     <details class="mb-3" {% if form.errors %} open {% endif %}>
     <summary>Nutriční hodnoty</summary>

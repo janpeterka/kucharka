@@ -19,7 +19,7 @@ class DailyPlanLoaderMixin:
 
         ids = tuple(ids)
 
-        # TODO: change to SQlAlchemy Query to avoid SQL Injection risk and improve code (30) 
+        # TODO: change to SQlAlchemy Query to avoid SQL Injection risk and improve code (30)
         amounts_sql = f"""
                         SELECT
                             I.id AS ingredient_id,

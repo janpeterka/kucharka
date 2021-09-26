@@ -1,13 +1,13 @@
 from datetime import timedelta
 
-from app import db
+from app import db, BaseModel
 
 from app.helpers.item_mixin import ItemMixin
 
 from app.models.daily_plans import DailyPlan
 
 
-class Event(db.Model, ItemMixin):
+class Event(BaseModel, ItemMixin):
     __tablename__ = "events"
 
     id = db.Column(db.Integer, primary_key=True)

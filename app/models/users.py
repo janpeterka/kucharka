@@ -1,11 +1,11 @@
 from flask_security.models.fsqla_v2 import FsUserMixin as UserMixin
 
-from app import db
+from app import db, BaseModel
 
 from app.helpers.base_mixin import BaseMixin
 
 
-class User(db.Model, BaseMixin, UserMixin):
+class User(BaseModel, BaseMixin, UserMixin):
     from app.models.users_have_roles import users_have_roles
 
     __tablename__ = "users"

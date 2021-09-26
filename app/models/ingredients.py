@@ -2,13 +2,13 @@ from unidecode import unidecode
 
 from flask_security import current_user
 
-from app import db
+from app import db, BaseModel
 
 from app.helpers.item_mixin import ItemMixin
 from app.models.recipes_have_ingredients import RecipeHasIngredient
 
 
-class Ingredient(db.Model, ItemMixin):
+class Ingredient(BaseModel, ItemMixin):
     __tablename__ = "ingredients"
 
     id = db.Column(db.Integer, primary_key=True)

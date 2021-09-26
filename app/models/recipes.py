@@ -2,7 +2,7 @@ from unidecode import unidecode
 
 from flask_security import current_user
 
-from app import db
+from app import db, BaseModel
 
 from app.helpers.item_mixin import ItemMixin
 from app.helpers.general import list_without_duplicated
@@ -14,7 +14,7 @@ from app.models.mixins.recipes.recipe_reactions import RecipeReactionMixin
 from app.models.mixins.recipes.recipe_ingredients import RecipeIngredientMixin
 
 
-class Recipe(db.Model, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
+class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
     __tablename__ = "recipes"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

@@ -11,7 +11,6 @@ from flask_security import login_required, current_user
 
 from app.helpers.helper_flask_view import HelperFlaskView
 
-from app.models.recipe_categories import RecipeCategory
 from app.controllers.forms.public_recipes import PublicRecipeFilterForm
 
 
@@ -34,11 +33,7 @@ class PublicRecipesView(HelperFlaskView):
         self.ingredient_names = ["---", *list(set(ingredient_names))]
         self.ingredient_names.sort()
 
-        self.categories = RecipeCategory.load_all()
-
-        self.form = PublicRecipeFilterForm(
-            ingredient_names=self.ingredient_names, categories=self.categories
-        )
+        self.form = PublicRecipeFilterForm(ingredient_names=self.ingredient_names)
 
     @login_required
     @route("/toggleReaction/<recipe_id>", methods=["POST"])
@@ -65,8 +60,6 @@ class PublicRecipesView(HelperFlaskView):
 
         # Get filters from request
         ingredient_name = None
-        category = None
-        with_reaction = None
 
         is_vegetarian = self.form.is_vegetarian.data
         is_vegan = self.form.is_vegan.data
@@ -77,8 +70,7 @@ class PublicRecipesView(HelperFlaskView):
             ingredient_name = self.form.ingredient_name.data
 
         with_reaction = self.form.with_reaction.data
-
-        category = RecipeCategory.load(self.form.category.data)
+        category = self.form.category.data
 
         # Filter recipes
         if ingredient_name:

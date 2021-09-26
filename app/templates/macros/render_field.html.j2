@@ -37,7 +37,7 @@
       {% set class_ = class_ + ' form-control' %}
     {% elif field.type == 'FileField' %}
       {% set class_ = class_ + ' form-control-file' %}
-    {% elif field.type == 'SelectField' %}
+    {% elif field.type in ('SelectField', 'QuerySelectField') %}
       {% set class_ = class_ + ' form-control' %}
 
     {% elif field.type == 'SubmitField' %}
@@ -56,7 +56,7 @@
       {% set class_ = class_ + ' btn btn-warning' %}
     {% endif %}
 
-    {% if field.type == 'SelectField' %}
+    {% if field.type in ('SelectField', 'QuerySelectField') %}
       {{ field(class_=class_, **kwargs) }}
     {% elif field.type == 'PasswordField' %}
       {{ field(class_=class_, placeholder=placeholder, data_see_password_target="passwordField", **kwargs) }}

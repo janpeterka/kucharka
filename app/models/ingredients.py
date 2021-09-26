@@ -119,6 +119,10 @@ class Ingredient(db.Model, ItemMixin):
         return bool(self.recipes)
 
     @property
+    def can_be_deleted(self) -> bool:
+        return not self.is_used
+
+    @property
     def without_category(self):
         return self.category is None or self.category.name == "---"
 

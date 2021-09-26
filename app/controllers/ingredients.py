@@ -98,7 +98,7 @@ class IngredientsView(HelperFlaskView):
 
     @route("delete/<id>", methods=["POST"])
     def delete(self, id):
-        if not self.ingredient.is_used:
+        if self.ingredient.can_be_deleted:
             self.ingredient.delete()
             flash("Surovina byla smazána", "success")
             return redirect(url_for("IngredientsView:index"))
@@ -112,7 +112,7 @@ class IngredientsView(HelperFlaskView):
         self.ingredient.publish()
         return redirect(url_for("IngredientsView:show", id=self.ingredient.id))
 
-    @roles_required("admin")
+    @roles_required("admin", "application_manager")
     @route("unpublish/<id>", methods=["POST"])
     def unpublish(self, id):
         self.ingredient.unpublish()

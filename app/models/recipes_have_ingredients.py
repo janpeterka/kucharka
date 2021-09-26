@@ -45,6 +45,6 @@ class RecipeHasIngredient(BaseModel, BaseMixin):
     def is_measured(self):
         return self._is_measured is not False
 
-    @is_measured.setter
+    @is_measured.setter  # type: ignore
     def is_measured(self, is_measured):
         self._is_measured = is_measured

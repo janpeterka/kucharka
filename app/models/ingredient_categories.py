@@ -1,9 +1,9 @@
-from app import db
+from app import db, BaseModel
 
 from app.helpers.base_mixin import BaseMixin
 
 
-class IngredientCategory(db.Model, BaseMixin):
+class IngredientCategory(BaseModel, BaseMixin):
     __tablename__ = "ingredient_categories"
 
     id = db.Column(db.Integer(), primary_key=True)

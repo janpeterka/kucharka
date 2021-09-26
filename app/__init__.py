@@ -12,6 +12,10 @@ migrate = Migrate()
 babel = Babel()
 turbo = Turbo()
 
+from flask_sqlalchemy.model import DefaultMeta  # noqa: E402
+
+BaseModel: DefaultMeta = db.Model
+
 from app.models.users import User  # noqa: E402
 from app.models.roles import Role  # noqa: E402
 

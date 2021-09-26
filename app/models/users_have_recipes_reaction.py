@@ -1,11 +1,11 @@
-from app import db
+from app import db, BaseModel
 
 from flask_security import current_user
 
 from app.helpers.base_mixin import BaseMixin
 
 
-class UserHasRecipeReaction(db.Model, BaseMixin):
+class UserHasRecipeReaction(BaseModel, BaseMixin):
     __tablename__ = "users_have_recipes_reaction"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

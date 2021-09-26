@@ -1,11 +1,11 @@
 from sqlalchemy.ext.hybrid import hybrid_property
 
-from app import db
+from app import db, BaseModel
 
 from app.helpers.base_mixin import BaseMixin
 
 
-class RecipeHasIngredient(db.Model, BaseMixin):
+class RecipeHasIngredient(BaseModel, BaseMixin):
     """Recipe-Ingredient connection class
 
     Extends:

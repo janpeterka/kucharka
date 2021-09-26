@@ -1,4 +1,4 @@
-from app import db
+from app import db, BaseModel
 
 from app.helpers.item_mixin import ItemMixin
 
@@ -8,7 +8,7 @@ from app.models.mixins.daily_plans.daily_plan_loaders import DailyPlanLoaderMixi
 from app.models.mixins.daily_plans.daily_plan_recipes import DailyPlanRecipeMixin
 
 
-class DailyPlan(db.Model, ItemMixin, DailyPlanLoaderMixin, DailyPlanRecipeMixin):
+class DailyPlan(BaseModel, ItemMixin, DailyPlanLoaderMixin, DailyPlanRecipeMixin):
     __tablename__ = "daily_plans"
 
     id = db.Column(db.Integer, primary_key=True)

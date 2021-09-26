@@ -2,7 +2,7 @@ from wtforms import StringField, SubmitField, BooleanField
 from wtforms import validators
 
 from flask_wtf import FlaskForm
-from wtforms_sqlalchemy.fields import QuerySelectField  # , QuerySelectMultipleField
+from wtforms_sqlalchemy.fields import QuerySelectField
 
 from wtforms.widgets import TextArea
 

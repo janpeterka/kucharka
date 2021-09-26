@@ -1,8 +1,8 @@
 """Add labels
 
-Revision ID: 61144713de5c
+Revision ID: 089964981818
 Revises: 8d5c55c559f0
-Create Date: 2021-09-26 23:14:44.026739
+Create Date: 2021-09-27 00:29:54.046373
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = "61144713de5c"
+revision = "089964981818"
 down_revision = "8d5c55c559f0"
 branch_labels = None
 depends_on = None
@@ -30,11 +30,13 @@ def upgrade():
         "labels",
         sa.Column("id", sa.Integer(), nullable=False),
         sa.Column("name", sa.String(length=80), nullable=True),
+        sa.Column("visible_name", sa.String(length=80), nullable=True),
         sa.Column("description", sa.String(length=255), nullable=True),
         sa.Column("category_id", sa.Integer(), nullable=True),
         sa.ForeignKeyConstraint(["category_id"], ["label_categories.id"]),
         sa.PrimaryKeyConstraint("id"),
         sa.UniqueConstraint("name"),
+        sa.UniqueConstraint("visible_name"),
     )
     op.create_table(
         "ingredients_have_labels",
@@ -46,6 +48,19 @@ def upgrade():
         sa.ForeignKeyConstraint(["label_id"], ["labels.id"]),
         sa.PrimaryKeyConstraint("id"),
     )
+
+    op.execute(
+        """
+        INSERT INTO `label_categories` (`id`, `name`, `description`) VALUES (1, 'dietary', 'dietní omezení, alergie');
+
+        INSERT INTO `labels` (`id`,`name`,`description`,`category_id`,`visible_name`) VALUES
+            (1,'vegetarian',NULL,1,'vegetariánské'),
+            (2,'vegan',NULL,1,'veganské'),
+            (3,'gluten_free',NULL,1,'bez lepku'),
+            (4,'lactose_free',NULL,1,'bez laktózy');
+    """
+    )
+
     # ### end Alembic commands ###
 
 

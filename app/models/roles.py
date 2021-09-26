@@ -1,10 +1,10 @@
-from app import db
+from app import db, BaseModel
 from flask_security import RoleMixin
 
 from app.helpers.base_mixin import BaseMixin
 
 
-class Role(db.Model, BaseMixin, RoleMixin):
+class Role(BaseModel, BaseMixin, RoleMixin):
     __tablename__ = "roles"
 
     id = db.Column(db.Integer(), primary_key=True)

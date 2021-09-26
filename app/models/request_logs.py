@@ -1,11 +1,11 @@
 from sqlalchemy.sql import func
 
+from app import db, BaseModel
+
 from app.helpers.base_mixin import BaseMixin
 
-from app import db
 
-
-class RequestLog(db.Model, BaseMixin):
+class RequestLog(BaseModel, BaseMixin):
     __tablename__ = "request_logs"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

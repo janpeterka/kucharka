@@ -12,11 +12,9 @@ migrate = Migrate()
 babel = Babel()
 turbo = Turbo()
 
-from app.models.users import User  # noqa: E402
-from app.models.roles import Role  # noqa: E402
+from flask_sqlalchemy.model import DefaultMeta  # noqa: E402
 
-user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-security = Security()
+BaseModel: DefaultMeta = db.Model
 
 
 def create_app(config_name="default"):
@@ -28,6 +26,12 @@ def create_app(config_name="default"):
     application.config.from_object(configs[config_name])
 
     print(f"DB INFO: using {application.config['INFO_USED_DB']}")
+
+    from app.models.users import User  # noqa: E402
+    from app.models.roles import Role  # noqa: E402
+
+    user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+    security = Security()
 
     # APPS
     db.init_app(application)

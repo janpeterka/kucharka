@@ -1,9 +1,9 @@
-from app import db
+from app import db, BaseModel
 
 from app.helpers.base_mixin import BaseMixin
 
 
-class Measurement(db.Model, BaseMixin):
+class Measurement(BaseModel, BaseMixin):
     __tablename__ = "measurements"
 
     id = db.Column(db.Integer(), primary_key=True)

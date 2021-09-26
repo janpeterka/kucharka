@@ -1,11 +1,11 @@
 from sqlalchemy.ext.hybrid import hybrid_property
 
-from app import db
+from app import db, BaseModel
 
 from app.helpers.base_mixin import BaseMixin
 
 
-class RecipeHasIngredient(db.Model, BaseMixin):
+class RecipeHasIngredient(BaseModel, BaseMixin):
     """Recipe-Ingredient connection class
 
     Extends:
@@ -45,6 +45,6 @@ class RecipeHasIngredient(db.Model, BaseMixin):
     def is_measured(self):
         return self._is_measured is not False
 
-    @is_measured.setter
+    @is_measured.setter  # type: ignore
     def is_measured(self, is_measured):
         self._is_measured = is_measured

@@ -1,11 +1,24 @@
-from wtforms import StringField, SubmitField, SelectField, BooleanField
+from wtforms import StringField, SubmitField, BooleanField
 from wtforms import validators
 
 from flask_wtf import FlaskForm
+from wtforms_sqlalchemy.fields import QuerySelectField  # , QuerySelectMultipleField
+
+from wtforms.widgets import TextArea
 
 from app.controllers.forms.custom import ComaFloatField
 
-from wtforms.widgets import TextArea
+
+def categories():
+    from app.models.ingredient_categories import IngredientCategory
+
+    return IngredientCategory.load_all()
+
+
+def measurements():
+    from app.models.measurements import Measurement
+
+    return Measurement.load_all()
 
 
 class IngredientsForm(FlaskForm):
@@ -17,8 +30,12 @@ class IngredientsForm(FlaskForm):
 
     description = StringField("Popis", widget=TextArea())
 
-    measurement = SelectField("Počítané v", coerce=int)
-    category = SelectField("Kategorie", coerce=int)
+    measurement = QuerySelectField(
+        "Počítané v", query_factory=measurements, get_label="name", allow_blank=True
+    )
+    category = QuerySelectField(
+        "Kategorie", query_factory=categories, get_label="name", allow_blank=True
+    )
 
     is_vegetarian = BooleanField("vegetariánské")
     is_vegan = BooleanField("veganské")
@@ -54,14 +71,14 @@ class IngredientsForm(FlaskForm):
             (measurement.id, measurement.name) for measurement in measurements
         ]
 
-    def set_category(self, categories):
-        self.category.choices = [
-            (category.id, category.name) for category in categories
-        ]
+    # def set_category(self, categories):
+    #     self.category.choices = [
+    #         (category.id, category.name) for category in categories
+    #     ]
 
     def set_all(self, **kwargs):
         if "measurements" in kwargs:
             self.set_measurement(kwargs["measurements"])
 
-        if "categories" in kwargs:
-            self.set_category(kwargs["categories"])
+        # if "categories" in kwargs:
+        #     self.set_category(kwargs["categories"])

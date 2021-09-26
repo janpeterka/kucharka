@@ -8,24 +8,10 @@ from app.helpers.form import save_form_to_session
 from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models.ingredients import Ingredient
-from app.models.ingredient_categories import IngredientCategory
 from app.models.recipes import Recipe
 from app.models.measurements import Measurement
 
 from app.controllers.forms.ingredients import IngredientsForm
-
-
-def set_form(form, ingredient=None):
-    measurements = Measurement.load_all()
-    categories = IngredientCategory.load_all()
-
-    form.set_all(measurements=measurements, categories=categories)
-
-    if ingredient:
-        if ingredient.measurement:
-            form.measurement.data = ingredient.measurement.id
-        if ingredient.category:
-            form.category.data = ingredient.category.id
 
 
 class IngredientsView(HelperFlaskView):
@@ -39,11 +25,9 @@ class IngredientsView(HelperFlaskView):
 
     def before_new(self):
         self.form = IngredientsForm()
-        set_form(self.form)
 
     def before_edit(self, id):
         self.form = IngredientsForm(obj=self.ingredient)
-        set_form(self.form, self.ingredient)
 
         self.recipes = Recipe.load_by_ingredient_and_user(self.ingredient, current_user)
         self.all_recipes = Recipe.load_by_ingredient(self.ingredient)
@@ -81,15 +65,12 @@ class IngredientsView(HelperFlaskView):
 
     def post(self):
         form = IngredientsForm(request.form)
-        set_form(form)
 
         if not form.validate_on_submit():
             save_form_to_session(request.form)
             return redirect(url_for("IngredientsView:new"))
 
         ingredient = Ingredient(author=current_user)
-        form.measurement.data = Measurement.load(form.measurement.data)
-        form.category.data = IngredientCategory.load(form.category.data)
         form.populate_obj(ingredient)
 
         if ingredient.save():
@@ -102,7 +83,6 @@ class IngredientsView(HelperFlaskView):
     @route("edit/<id>", methods=["POST"])
     def post_edit(self, id):
         form = IngredientsForm(request.form)
-        set_form(form)
 
         if not self.ingredient.can_edit_measurement:
             del form.measurement
@@ -111,9 +91,6 @@ class IngredientsView(HelperFlaskView):
             save_form_to_session(request.form)
             return redirect(url_for("IngredientsView:edit", id=self.ingredient.id))
 
-        if self.ingredient.can_edit_measurement:
-            form.measurement.data = Measurement.load(form.measurement.data)
-        form.category.data = IngredientCategory.load(form.category.data)
         form.populate_obj(self.ingredient)
         self.ingredient.edit()
 

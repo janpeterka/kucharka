@@ -6,3 +6,7 @@ from app.models.users_have_roles import users_have_roles  # noqa: F401
 from app.models.request_logs import RequestLog  # noqa: F401
 
 from app.models.conversions import Conversion  # noqa: F401
+
+from app.models.label_categories import LabelCategory  # noqa: F401
+from app.models.labels import Label  # noqa: F401
+from app.models.ingredients_have_labels import IngredientHasLabel  # noqa: F401

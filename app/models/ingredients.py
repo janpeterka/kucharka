@@ -53,6 +53,13 @@ class Ingredient(BaseModel, ItemMixin):
         "IngredientCategory", uselist=False, backref="ingredients"
     )
 
+    labels = db.relationship(
+        "Label",
+        secondary="ingredients_have_labels",
+        primaryjoin="Ingredient.id == IngredientHasLabel.ingredient_id",
+        viewonly=True,
+    )
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         super().set_defaults()

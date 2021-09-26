@@ -11,10 +11,8 @@ class IngredientHasLabel(BaseModel, BaseMixin):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
 
-    ingredient_id = db.Column(
-        db.ForeignKey("ingredients.id"), nullable=False, index=True
-    )
-    label_id = db.Column(db.ForeignKey("labels.id"), nullable=False, index=True)
+    ingredient_id = db.Column(db.ForeignKey("ingredients.id"), nullable=False)
+    label_id = db.Column(db.ForeignKey("labels.id"), nullable=False)
 
     # ingredient = db.relationship("Ingredient", backref="ingredient_labels")
     # label = db.relationship("Label", backref="ingredient_labels")

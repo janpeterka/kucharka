@@ -48,7 +48,6 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         "Ingredient",
         secondary="recipes_have_ingredients",
         primaryjoin="RecipeHasIngredient.recipe_id == Recipe.id",
-        # primaryjoin="and_(Recipe.id == remote(RecipeHasIngredient.recipe_id), foreign(Ingredient.id) == RecipeHasIngredient.ingredient_id)",
         viewonly=True,
         order_by="Ingredient.name",
     )
@@ -57,7 +56,6 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         "DailyPlan",
         secondary="daily_plans_have_recipes",
         primaryjoin="Recipe.id == DailyPlanHasRecipe.recipe_id",
-        # primaryjoin="and_(Recipe.id == remote(DailyPlanHasRecipe.recipe_id), foreign(DailyPlan.id) == DailyPlanHasRecipe.daily_plan_id)",
         viewonly=True,
     )
 

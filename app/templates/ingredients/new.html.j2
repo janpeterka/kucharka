@@ -9,7 +9,7 @@
 
 {% block content %}
 
-<form method="post" action="{{ url_for('IngredientsView:post') }}" class="form-group col-6" accept-charset="UTF-8">
+<form method="post" action="{{ url_for('IngredientsView:post') }}" class="form-group col-12" accept-charset="UTF-8">
     {{ form.csrf_token }}
 
     {{ render_field(form.name) }}
@@ -19,23 +19,7 @@
     
     {% include "ingredients/_form_labels.html.j2" %}
 
-    <details class="mb-3" {% if form.errors %} open {% endif %}>
-    <summary>Nutriční hodnoty</summary>
-    <table class="table">
-        <tr>
-            <th>{{ texts.energy_100 }}</th>
-            <th>{{ texts.protein_100 }}</th>
-            <th>{{ texts.fat_100 }}</th>
-            <th>{{ texts.sugar_100 }}</th>
-        </tr>
-        <tr>
-            <td> {{ render_field(form.calorie, has_label=False) }} </td>
-            <td> {{ render_field(form.protein, has_label=False) }} </td>
-            <td> {{ render_field(form.fat, has_label=False) }} </td>
-            <td> {{ render_field(form.sugar, has_label=False) }} </td>
-        </tr>
-    </table>
-    </details>
+    {% include "ingredients/_form_nutrition_values.html.j2" %}
 
     {{ render_field(form.submit) }}
 </form>

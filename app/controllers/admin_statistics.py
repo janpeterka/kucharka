@@ -25,6 +25,7 @@ class AdminStatisticsView(HelperFlaskView):
 
     @route("convert_ingredients_to_labels", methods=["POST"])
     def convert_ingredients_to_labels(self):
+        # TODO: delete after using
         from app.models.labels import Label
         from app.models.ingredients import Ingredient
 

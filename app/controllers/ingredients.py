@@ -68,13 +68,11 @@ class IngredientsView(HelperFlaskView):
 
         ingredient = Ingredient(author=current_user)
         form.populate_obj(ingredient)
+        ingredient.save()
 
-        if ingredient.save():
-            return redirect(
-                url_for("IngredientsView:show", id=ingredient.id, from_new=True)
-            )
-        flash("Nepodařilo se vytvořit surovinu", "error")
-        return redirect(url_for("IngredientsView:new"))
+        return redirect(
+            url_for("IngredientsView:show", id=ingredient.id, from_new=True)
+        )
 
     @route("edit/<id>", methods=["POST"])
     def post_edit(self, id):

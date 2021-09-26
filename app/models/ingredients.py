@@ -57,7 +57,6 @@ class Ingredient(BaseModel, ItemMixin):
         "Label",
         secondary="ingredients_have_labels",
         primaryjoin="Ingredient.id == IngredientHasLabel.ingredient_id",
-        viewonly=True,
     )
 
     def __init__(self, **kwargs):

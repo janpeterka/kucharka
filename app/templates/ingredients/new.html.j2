@@ -12,12 +12,14 @@
     {{ render_field(form.measurement) }}
     {{ render_field(form.category) }}
     
-    <details open>
-    <summary>Potravinová omezení</summary>
-    {{ render_field(form.is_vegetarian) }}
+    <details open class="mt-2">
+    <summary>Štítky</summary>
+    {{ render_field(form.labels, has_label=False) }}
+    {# <summary>Potravinová omezení</summary> #}
+    {# {{ render_field(form.is_vegetarian) }}
     {{ render_field(form.is_vegan) }}
     {{ render_field(form.lactose_free) }}
-    {{ render_field(form.gluten_free) }}
+    {{ render_field(form.gluten_free) }} #}
     </details>
 
     <details class="mb-3" {% if form.errors %} open {% endif %}>

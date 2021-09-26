@@ -12,9 +12,7 @@ def categories():
 
 class PublicRecipeFilterForm(FlaskForm):
     ingredient_name = SelectField("Surovina")
-    category = QuerySelectField(
-        "Kategorie", query_factory=categories, get_label="name", allow_blank=True
-    )
+    category = QuerySelectField("Kategorie", query_factory=categories, allow_blank=True)
     with_reaction = BooleanField("Moje oblíbené")
 
     is_vegetarian = BooleanField("Vegetariánské")

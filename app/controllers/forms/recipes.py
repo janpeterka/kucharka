@@ -26,9 +26,7 @@ class RecipesForm(FlaskForm):
 
     description = StringField("Popis", widget=TextArea())
 
-    category = QuerySelectField(
-        "Kategorie", query_factory=categories, get_label="name", allow_blank=True
-    )
+    category = QuerySelectField("Kategorie", query_factory=categories, allow_blank=True)
     portion_count = IntegerField("Počet porcí", [validators.NumberRange(min=1)])
 
     submit = SubmitField("Přidat recept")
@@ -45,9 +43,7 @@ class RecipesForm(FlaskForm):
 
 class RecipeFilterForm(FlaskForm):
     ingredient_name = SelectField("Surovina")
-    category = QuerySelectField(
-        "Kategorie", query_factory=categories, get_label="name", allow_blank=True
-    )
+    category = QuerySelectField("Kategorie", query_factory=categories, allow_blank=True)
 
     is_vegetarian = BooleanField("Vegetariánské")
     is_vegan = BooleanField("Veganské")

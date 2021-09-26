@@ -21,15 +21,3 @@ jobs:
 
     - name: pylinter
       uses: alexanderdamiani/pylinter@v1.3.0
-      
-    - name: Test with pytest
-      env:
-          TESTING_SECRET_KEY: "justtesting"
-          TESTING_DB_STRING: "sqlite://"
-
-          SECRET_KEY: "justtesting"
-          SQLALCHEMY_DATABASE_URI: "sqlite://"
-          
-          SENTRY_MONITORING: False
-      run: |
-        pipenv run pytest

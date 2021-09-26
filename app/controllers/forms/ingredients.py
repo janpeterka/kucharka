@@ -22,7 +22,6 @@ def measurements():
 
 
 class IngredientsForm(FlaskForm):
-    # Required
 
     name = StringField(
         "Název suroviny", [validators.InputRequired("Název musí být vyplněn")]
@@ -65,20 +64,3 @@ class IngredientsForm(FlaskForm):
     )
     calorie = ComaFloatField("Energie (kJ) / 100 g", [validators.Optional()])
     submit = SubmitField("Přidat surovinu")
-
-    def set_measurement(self, measurements):
-        self.measurement.choices = [
-            (measurement.id, measurement.name) for measurement in measurements
-        ]
-
-    # def set_category(self, categories):
-    #     self.category.choices = [
-    #         (category.id, category.name) for category in categories
-    #     ]
-
-    def set_all(self, **kwargs):
-        if "measurements" in kwargs:
-            self.set_measurement(kwargs["measurements"])
-
-        # if "categories" in kwargs:
-        #     self.set_category(kwargs["categories"])

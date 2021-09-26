@@ -14,22 +14,8 @@ from app.helpers.form import save_form_to_session, create_form
 
 from app.models.recipes import Recipe
 from app.models.ingredients import Ingredient
-from app.models.recipe_categories import RecipeCategory
 
 from app.controllers.forms.recipes import RecipesForm, RecipeFilterForm
-
-
-def set_form(form, recipe=None):
-    categories = RecipeCategory.load_all()
-
-    form.set_all(categories=categories)
-
-    if recipe and recipe.category:
-        form.category.data = recipe.category.id
-
-    # this solves false error for category
-    if form.errors:
-        form.validate()
 
 
 class RecipesView(HelperFlaskView):
@@ -51,11 +37,7 @@ class RecipesView(HelperFlaskView):
             self.ingredient_names.extend(list(set(ingredient_names)))
             self.ingredient_names.sort()
 
-            self.categories = RecipeCategory.load_all()
-
-            self.form = RecipeFilterForm(
-                ingredient_names=self.ingredient_names, categories=self.categories
-            )
+            self.form = RecipeFilterForm(ingredient_names=self.ingredient_names)
 
         if name in ["show", "pdf", "show_pdf"] and "portion_count" in request.args:
             request_portion_count = request.args.get("portion_count", "1")
@@ -66,15 +48,11 @@ class RecipesView(HelperFlaskView):
 
     def before_filter(self):
         self.form = RecipeFilterForm(
-            request.form,
-            ingredient_names=self.ingredient_names,
-            categories=self.categories,
+            request.form, ingredient_names=self.ingredient_names
         )
 
     def before_edit(self, id):
         self.form = create_form(RecipesForm, obj=self.recipe)
-        self.categories = RecipeCategory.load_all()
-        set_form(self.form, self.recipe)
 
         unused_ingredients = [
             i
@@ -94,8 +72,6 @@ class RecipesView(HelperFlaskView):
 
     def before_new(self):
         self.form = create_form(RecipesForm)
-        self.categories = RecipeCategory.load_all()
-        set_form(self.form)
 
     def index(self):
         return self.template()
@@ -145,14 +121,12 @@ class RecipesView(HelperFlaskView):
 
     def post(self):
         form = RecipesForm(request.form)
-        set_form(form)
 
         if not form.validate_on_submit():
             save_form_to_session(request.form)
             return redirect(url_for("RecipesView:new"))
 
         recipe = Recipe(author=current_user)
-        form.category.data = RecipeCategory.load(form.category.data)
         form.populate_obj(recipe)
 
         recipe.save()
@@ -184,7 +158,6 @@ class RecipesView(HelperFlaskView):
 
         # Get filters from request
         ingredient_name = None
-        category = None
 
         is_vegetarian = self.form.is_vegetarian.data
         is_vegan = self.form.is_vegan.data
@@ -194,7 +167,7 @@ class RecipesView(HelperFlaskView):
         if self.form.ingredient_name.data != "---":
             ingredient_name = self.form.ingredient_name.data
 
-        category = RecipeCategory.load(self.form.category.data)
+        category = self.form.category.data
 
         # Filter recipes
         if ingredient_name:
@@ -202,7 +175,7 @@ class RecipesView(HelperFlaskView):
                 x for x in self.recipes if ingredient_name in x.concat_ingredients
             ]
 
-        if category.name != "---":
+        if category and category.name != "---":
             self.recipes = [x for x in self.recipes if x.category == category]
 
         if is_vegetarian:

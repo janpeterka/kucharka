@@ -84,18 +84,6 @@ class PublicRecipesView(HelperFlaskView):
         for label in with_labels:
             self.recipes = [x for x in self.recipes if x.has_label(label)]
 
-        # if is_vegetarian:
-        #     self.recipes = [x for x in self.recipes if x.is_vegetarian]
-
-        # if is_vegan:
-        #     self.recipes = [x for x in self.recipes if x.is_vegan]
-
-        # if lactose_free:
-        #     self.recipes = [x for x in self.recipes if x.lactose_free]
-
-        # if gluten_free:
-        #     self.recipes = [x for x in self.recipes if x.gluten_free]
-
         if turbo.can_stream():
             return turbo.stream(
                 turbo.replace(

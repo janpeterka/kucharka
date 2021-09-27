@@ -19,6 +19,8 @@
         <div class="col"> {{ render_field(form.portion_count, has_label=False) }} </div>
     </div>
 
+    {% import "recipes/_form_labels.html.j2" %}
+
     <div class="mt-4 pb-2">
         <input type="submit" value="{{ texts.recipe_edit }}" class="btn btn-warning">
         <span class="float-right mr-5 color-success">{{ message }}</span>

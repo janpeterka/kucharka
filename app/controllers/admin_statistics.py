@@ -23,25 +23,25 @@ class AdminStatisticsView(HelperFlaskView):
         self.notification_count = len(self.unapproved_tips)
         return self.template(template_name="admin/_admin_notification_count.html.j2")
 
-    @route("convert_ingredients_to_labels", methods=["POST"])
-    def convert_ingredients_to_labels(self):
+    @route("convert_recipes_to_labels", methods=["POST"])
+    def convert_recipes_to_labels(self):
         # TODO: delete after using
         from app.models.labels import Label
-        from app.models.ingredients import Ingredient
+        from app.models.recipes import Recipe
 
-        for ingredient in Ingredient.load_all():
-            if ingredient.is_vegetarian:
-                ingredient.labels.append(Label.load_by_name("vegetarian"))
+        for recipe in Recipe.load_all():
+            if recipe.is_vegetarian:
+                recipe.labels.append(Label.load_by_name("vegetarian"))
 
-            if ingredient.is_vegan:
-                ingredient.labels.append(Label.load_by_name("vegan"))
+            if recipe.is_vegan:
+                recipe.labels.append(Label.load_by_name("vegan"))
 
-            if ingredient.lactose_free:
-                ingredient.labels.append(Label.load_by_name("lactose_free"))
+            if recipe.lactose_free:
+                recipe.labels.append(Label.load_by_name("lactose_free"))
 
-            if ingredient.gluten_free:
-                ingredient.labels.append(Label.load_by_name("gluten_free"))
+            if recipe.gluten_free:
+                recipe.labels.append(Label.load_by_name("gluten_free"))
 
-            ingredient.edit()
+            recipe.edit()
 
         return redirect("AdminStatisticsView:index")

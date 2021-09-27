@@ -9,4 +9,4 @@ from app.models.conversions import Conversion  # noqa: F401
 
 from app.models.label_categories import LabelCategory  # noqa: F401
 from app.models.labels import Label  # noqa: F401
-from app.models.ingredients_have_labels import IngredientHasLabel  # noqa: F401
+from app.models.recipes_have_labels import RecipeHasLabel  # noqa: F401

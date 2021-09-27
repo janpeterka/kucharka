@@ -2,7 +2,7 @@ from wtforms import StringField, SubmitField
 from wtforms.validators import InputRequired, Optional, NumberRange
 
 from flask_wtf import FlaskForm
-from wtforms_sqlalchemy.fields import QuerySelectField, QuerySelectMultipleField
+from wtforms_sqlalchemy.fields import QuerySelectField
 
 from wtforms.widgets import TextArea
 
@@ -21,18 +21,6 @@ def measurements():
     return Measurement.load_all()
 
 
-def labels():
-    from app.models.labels import Label
-
-    return Label.load_all()
-
-
-def dietary_labels():
-    from app.models.labels import Label
-
-    return Label.load_dietary()
-
-
 class IngredientsForm(FlaskForm):
 
     name = StringField("Název suroviny", [InputRequired("Název musí být vyplněn")])
@@ -43,8 +31,6 @@ class IngredientsForm(FlaskForm):
         "Počítané v", query_factory=measurements, allow_blank=True
     )
     category = QuerySelectField("Kategorie", query_factory=categories, allow_blank=True)
-
-    labels = QuerySelectMultipleField("Dietní omezení", query_factory=dietary_labels)
 
     protein = ComaFloatField(
         "Množství bílkovin / 100 g",

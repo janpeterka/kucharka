@@ -65,6 +65,12 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         "RecipeCategory", uselist=False, backref="recipes", lazy="joined"
     )
 
+    labels = db.relationship(
+        "Label",
+        secondary="recipes_have_labels",
+        primaryjoin="Recipe.id == RecipeHasLabel.recipe_id",
+    )
+
     # LOADERS
     @staticmethod
     def load_all_public(

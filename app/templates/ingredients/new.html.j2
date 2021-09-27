@@ -2,11 +2,6 @@
 
 {% block title %} Nová surovina {% endblock %}
 
-{% block script %}
-    {% include 'javascript/stimulus.js.html' %}
-    {% include 'javascript/enable_select2_controller.js.html' %}
-{% endblock %}
-
 {% block content %}
 
 <form method="post" action="{{ url_for('IngredientsView:post') }}" class="form-group col-12" accept-charset="UTF-8">

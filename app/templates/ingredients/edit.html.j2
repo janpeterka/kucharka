@@ -2,11 +2,6 @@
 
 {% block title %} {{ texts.ingredient }} {% endblock %}
 
-{% block script %}
-    {% include 'javascript/stimulus.js.html' %}
-    {% include 'javascript/enable_select2_controller.js.html' %}
-{% endblock %}
-
 {% block content %}
 <div class="row">
     <div class="col-md-8 col-sm-12" style="margin-bottom:2rem">
@@ -36,18 +31,6 @@
             <a class="btn btn-secondary" href="{{ url_for('IngredientsView:show', id=ingredient.id) }}">{{ texts.edit_cancel }} {{ icon("edit") }}</a>
             
         </form>
-        {# <form
-            action="{{ url_for('IngredientsView:delete', id=ingredient.id) }}"
-            onsubmit="return confirm('{{ texts.ingredient_delete_confirm }}');"
-            method="post"
-            accept-charset="utf-8"
-            >
-            {% if ingredient.is_used == False %}
-                <button type="submit" class="btn btn-danger">{{ texts.ingredient_delete }} {{ icon("delete") }}</button>
-            {% else %}
-                <button type="submit" class="btn btn-danger" disabled>{{ texts.delete_error }} {{ icon("delete") }}</button>
-            {% endif %}
-        </form> #}
     </div>
     {% include ('recipes/_recipe_list.html.j2') %}
 </div>

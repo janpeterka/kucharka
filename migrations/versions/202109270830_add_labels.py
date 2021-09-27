@@ -1,8 +1,8 @@
 """Add labels
 
-Revision ID: b7c584ffe32b
+Revision ID: 85fc374dd038
 Revises: 8d5c55c559f0
-Create Date: 2021-09-27 08:22:58.497548
+Create Date: 2021-09-27 08:30:19.123693
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = "b7c584ffe32b"
+revision = "85fc374dd038"
 down_revision = "8d5c55c559f0"
 branch_labels = None
 depends_on = None
@@ -38,7 +38,7 @@ def upgrade():
         sa.UniqueConstraint("visible_name"),
     )
     op.create_table(
-        "ingredients_have_labels",
+        "recipes_have_labels",
         sa.Column("id", sa.Integer(), autoincrement=True, nullable=False),
         sa.Column("created_at", sa.DateTime(), nullable=True),
         sa.Column("recipe_id", sa.Integer(), nullable=False),
@@ -71,6 +71,6 @@ def upgrade():
 
 
 def downgrade():
-    op.drop_table("ingredients_have_labels")
+    op.drop_table("recipes_have_labels")
     op.drop_table("labels")
     op.drop_table("label_categories")

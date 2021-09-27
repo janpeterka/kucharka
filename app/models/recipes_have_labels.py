@@ -6,7 +6,7 @@ from app.helpers.base_mixin import BaseMixin
 
 
 class RecipeHasLabel(BaseModel, BaseMixin):
-    __tablename__ = "ingredients_have_labels"
+    __tablename__ = "recipes_have_labels"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())

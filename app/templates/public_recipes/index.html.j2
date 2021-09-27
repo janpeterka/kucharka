@@ -13,6 +13,7 @@
 {% block script %}
 	<script src="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.js"></script>
   {% include 'javascript/stimulus.js.html' %}
+  {% include 'javascript/enable_select2_controller.js.html' %}
   {% include 'javascript/recipe_reaction_controller.js.html' %}
 {% endblock %}
 
@@ -24,18 +25,16 @@
 			<div class="mt-2 row">
 				{{ form.ingredient_name.label(class_="ml-2") }}
 				{{ render_field(form.ingredient_name, has_label=False, class="ml-3") }}
-        {{ form.category.label(class_="ml-2") }}
+        {{ form.category.label(class_="ml-4") }}
         {{ render_field(form.category, has_label=False, class="ml-3") }}
-			  {{ render_field(form.with_reaction, class="ml-5", label=icon("heart_full", with_tooltip=True, tooltip="moje oblíbené")) }}
 			</div>
+      <hr>
       <div class="mt-2 ml-1 row">
-        {# <details open> #}
-          {# <summary>Dietní omezení</summary> #}
-          {{ render_field(form.is_vegetarian, div_class="form-check-inline", label="musí být " + icon("vegetarian")) }}
-          {{ render_field(form.is_vegan, div_class="form-check-inline", label="musí být " + icon("vegan")) }}
-          {{ render_field(form.gluten_free, div_class="form-check-inline", label="musí být " + icon("gluten_free")) }}
-          {{ render_field(form.lactose_free, div_class="form-check-inline", label="musí být " + icon("lactose_free")) }}
-        {# </details> #}
+        <div data-controller="enable-select2">
+            {# {{ form.with_labels.label(class_="ml-4") }} #}
+            {{ render_field(form.with_labels, has_label=False, data_enable_select2_target="select") }}
+        </div>
+			  {{ render_field(form.with_reaction, class="ml-5", label=icon("heart_full", with_tooltip=True, tooltip="moje oblíbené")) }}
       </div>
       <div class="text-right">
         {{ form.submit(class_='btn btn-primary ml-3') }}

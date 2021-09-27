@@ -27,6 +27,7 @@ class Ingredient(BaseModel, ItemMixin):
     fat = db.Column(db.Float, server_default=db.text("'0'"))
     protein = db.Column(db.Float, server_default=db.text("'0'"))
 
+    # TODO: delete after labels are active
     is_vegetarian = db.Column(db.Boolean, default=False)
     is_vegan = db.Column(db.Boolean, default=False)
     lactose_free = db.Column(db.Boolean, default=False)

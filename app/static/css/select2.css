@@ -1,0 +1,20 @@
+.select2-selection__choice{
+    margin-top: 0.5rem!important;
+    padding-right: 5px!important;
+    padding-left: 5px!important;
+    background-color: transparent!important;
+    border:none!important;
+    border-radius: 4px!important;
+    background-color: var(--logo-light-green) !important;
+}
+
+.select2-selection__choice__remove{
+    border: none!important;
+    border-radius: 0!important;
+    padding: 0 2px!important;
+}
+
+.select2-selection__choice__remove:hover{
+    background-color: transparent!important;
+    color: #ef5454 !important;
+}

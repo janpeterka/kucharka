@@ -1,10 +1,10 @@
-from wtforms import StringField, SubmitField, SelectField, IntegerField, BooleanField
+from wtforms import StringField, SubmitField, SelectField, IntegerField
 from wtforms import validators
 from wtforms.widgets import TextArea
 
 from flask_wtf import FlaskForm
 
-from wtforms_sqlalchemy.fields import QuerySelectField
+from wtforms_sqlalchemy.fields import QuerySelectField, QuerySelectMultipleField
 
 
 def categories():
@@ -19,6 +19,18 @@ def measurements():
     return Measurement.load_all()
 
 
+def labels():
+    from app.models.labels import Label
+
+    return Label.load_all()
+
+
+def dietary_labels():
+    from app.models.labels import Label
+
+    return Label.load_dietary()
+
+
 class RecipesForm(FlaskForm):
     name = StringField(
         "Název receptu", [validators.InputRequired("Název musí být vyplněn")]
@@ -28,6 +40,8 @@ class RecipesForm(FlaskForm):
 
     category = QuerySelectField("Kategorie", query_factory=categories, allow_blank=True)
     portion_count = IntegerField("Počet porcí", [validators.NumberRange(min=1)])
+
+    labels = QuerySelectMultipleField("Dietní omezení", query_factory=dietary_labels)
 
     submit = SubmitField("Přidat recept")
 
@@ -45,10 +59,9 @@ class RecipeFilterForm(FlaskForm):
     ingredient_name = SelectField("Surovina")
     category = QuerySelectField("Kategorie", query_factory=categories, allow_blank=True)
 
-    is_vegetarian = BooleanField("Vegetariánské")
-    is_vegan = BooleanField("Veganské")
-    lactose_free = BooleanField("Bez laktózy")
-    gluten_free = BooleanField("Bez lepku")
+    with_labels = QuerySelectMultipleField(
+        "Dietní omezení", query_factory=dietary_labels
+    )
 
     submit = SubmitField("Filtrovat")
 

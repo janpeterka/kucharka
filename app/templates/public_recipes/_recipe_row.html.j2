@@ -6,18 +6,9 @@
     <td>{{ recipe.category.name }}</td>
     <td>
         <span>
-        {% if recipe.is_vegetarian %}
-            {{ icon("vegetarian")}}
-        {% endif %}
-        {% if recipe.is_vegan %}
-            {{ icon("vegan")}}
-        {% endif %}
-        {% if recipe.lactose_free %}
-            {{ icon("lactose_free")}}
-        {% endif %}
-        {% if recipe.gluten_free %}
-            {{ icon("gluten_free")}}
-        {% endif %}
+        {% for label in recipe.labels %}
+            {{ icon(label.icon_name) }}            
+        {% endfor %}
         </span>
     </td>
     <td>{{ recipe.author.name }}</td>

@@ -27,20 +27,6 @@
             
             <div>
                 <span class="font-italic"> Kategorie: {{ ingredient.category.name }} </span>
-                <span class="float-right">
-                {% if ingredient.is_vegetarian %}
-                    {{ icon("vegetarian")}}
-                {% endif %}
-                {% if ingredient.is_vegan %}
-                    {{ icon("vegan")}}
-                {% endif %}
-                {% if ingredient.lactose_free %}
-                    {{ icon("lactose_free")}}
-                {% endif %}
-                {% if ingredient.gluten_free %}
-                    {{ icon("gluten_free")}}
-                {% endif %}
-                </span>
             </div>
         </div>
 

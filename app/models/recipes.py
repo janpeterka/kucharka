@@ -48,7 +48,6 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         "Ingredient",
         secondary="recipes_have_ingredients",
         primaryjoin="RecipeHasIngredient.recipe_id == Recipe.id",
-        # primaryjoin="and_(Recipe.id == remote(RecipeHasIngredient.recipe_id), foreign(Ingredient.id) == RecipeHasIngredient.ingredient_id)",
         viewonly=True,
         order_by="Ingredient.name",
     )
@@ -57,7 +56,6 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         "DailyPlan",
         secondary="daily_plans_have_recipes",
         primaryjoin="Recipe.id == DailyPlanHasRecipe.recipe_id",
-        # primaryjoin="and_(Recipe.id == remote(DailyPlanHasRecipe.recipe_id), foreign(DailyPlan.id) == DailyPlanHasRecipe.daily_plan_id)",
         viewonly=True,
     )
 
@@ -65,6 +63,12 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     category = db.relationship(
         "RecipeCategory", uselist=False, backref="recipes", lazy="joined"
+    )
+
+    labels = db.relationship(
+        "Label",
+        secondary="recipes_have_labels",
+        primaryjoin="Recipe.id == RecipeHasLabel.recipe_id",
     )
 
     # LOADERS
@@ -243,6 +247,7 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
     def concat_ingredients(self) -> str:
         return ", ".join(o.name for o in self.ingredients)
 
+    # TODO: delete after labels are active
     @property
     def is_vegetarian(self) -> bool:
         return [i for i in self.ingredients if i.is_vegetarian] == self.ingredients
@@ -258,3 +263,6 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
     @property
     def gluten_free(self) -> bool:
         return [i for i in self.ingredients if i.gluten_free] == self.ingredients
+
+    def has_label(self, label) -> bool:
+        return label in self.labels

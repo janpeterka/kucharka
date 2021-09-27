@@ -1,4 +1,5 @@
 {% extends "base/base.html.j2" %}
+
 {% block title %} {{ texts.ingredient }} {% endblock %}
 
 {% block content %}
@@ -14,60 +15,22 @@
             {{ render_field(form.description, has_label=False) }}                            
             </div>
 
-
             <div class="w-100">
             {{ render_field(form.measurement, disabled=not ingredient.can_edit_measurement) }}                            
             </div>
 
             <div class="w-100 mt-2">
-            {{ render_field(form.category, has_label=False) }}              
+            {{ render_field(form.category) }}              
             </div>
 
             <hr>
-            
-            <details open>
-            <summary>Potravinová omezení</summary>
-            {{ render_field(form.is_vegetarian) }}
-            {{ render_field(form.is_vegan) }}
-            {{ render_field(form.lactose_free) }}
-            {{ render_field(form.gluten_free) }}
-            </details>
 
-
-            <details class="mb-3" {% if form.errors %} open {% endif %}>
-            <summary>Nutriční hodnoty</summary>
-            <table class="table">
-                <tr>
-                    <th>{{ texts.energy_100 }}</th>
-                    <th>{{ texts.protein_100 }}</th>
-                    <th>{{ texts.fat_100 }}</th>
-                    <th>{{ texts.sugar_100 }}</th>
-                </tr>
-                <tr>
-                    <td> {{ render_field(form.calorie, has_label=False) }} </td>
-                    <td> {{ render_field(form.protein, has_label=False) }} </td>
-                    <td> {{ render_field(form.fat, has_label=False) }} </td>
-                    <td> {{ render_field(form.sugar, has_label=False) }} </td>
-                </tr>
-            </table>
-            </details>
+            {% include "ingredients/_form_nutrition_values.html.j2" %}
             
             <button type="submit" class="btn btn-warning">{{ texts.edit_confirm }} {{ icon("edit") }}</button>
             <a class="btn btn-secondary" href="{{ url_for('IngredientsView:show', id=ingredient.id) }}">{{ texts.edit_cancel }} {{ icon("edit") }}</a>
             
         </form>
-        {# <form
-            action="{{ url_for('IngredientsView:delete', id=ingredient.id) }}"
-            onsubmit="return confirm('{{ texts.ingredient_delete_confirm }}');"
-            method="post"
-            accept-charset="utf-8"
-            >
-            {% if ingredient.is_used == False %}
-                <button type="submit" class="btn btn-danger">{{ texts.ingredient_delete }} {{ icon("delete") }}</button>
-            {% else %}
-                <button type="submit" class="btn btn-danger" disabled>{{ texts.delete_error }} {{ icon("delete") }}</button>
-            {% endif %}
-        </form> #}
     </div>
     {% include ('recipes/_recipe_list.html.j2') %}
 </div>

@@ -27,13 +27,6 @@
             
             <div>
                 <span class="font-italic"> Kategorie: {{ ingredient.category.name }} </span>
-                <span class="float-right">
-                    
-                {% for label in ingredient.labels %}
-                    {{ icon(label.icon_name) }}
-                {% endfor %}
-
-                </span>
             </div>
         </div>
 

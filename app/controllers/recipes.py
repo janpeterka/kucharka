@@ -158,11 +158,7 @@ class RecipesView(HelperFlaskView):
 
         # Get filters from request
         ingredient_name = None
-
-        is_vegetarian = self.form.is_vegetarian.data
-        is_vegan = self.form.is_vegan.data
-        lactose_free = self.form.lactose_free.data
-        gluten_free = self.form.gluten_free.data
+        with_labels = self.form.with_labels.data
 
         if self.form.ingredient_name.data != "---":
             ingredient_name = self.form.ingredient_name.data
@@ -178,17 +174,8 @@ class RecipesView(HelperFlaskView):
         if category and category.name != "---":
             self.recipes = [x for x in self.recipes if x.category == category]
 
-        if is_vegetarian:
-            self.recipes = [x for x in self.recipes if x.is_vegetarian]
-
-        if is_vegan:
-            self.recipes = [x for x in self.recipes if x.is_vegan]
-
-        if lactose_free:
-            self.recipes = [x for x in self.recipes if x.lactose_free]
-
-        if gluten_free:
-            self.recipes = [x for x in self.recipes if x.gluten_free]
+        for label in with_labels:
+            self.recipes = [x for x in self.recipes if x.has_label(label)]
 
         if turbo.can_stream():
             return turbo.stream(

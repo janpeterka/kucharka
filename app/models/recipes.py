@@ -247,22 +247,5 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
     def concat_ingredients(self) -> str:
         return ", ".join(o.name for o in self.ingredients)
 
-    # TODO: delete after labels are active
-    @property
-    def is_vegetarian(self) -> bool:
-        return [i for i in self.ingredients if i.is_vegetarian] == self.ingredients
-
-    @property
-    def is_vegan(self) -> bool:
-        return [i for i in self.ingredients if i.is_vegan] == self.ingredients
-
-    @property
-    def lactose_free(self) -> bool:
-        return [i for i in self.ingredients if i.lactose_free] == self.ingredients
-
-    @property
-    def gluten_free(self) -> bool:
-        return [i for i in self.ingredients if i.gluten_free] == self.ingredients
-
     def has_label(self, label) -> bool:
         return label in self.labels

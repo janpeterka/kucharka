@@ -1,0 +1,20 @@
+ <div>
+    <span class="font-italic"> Kategorie: {{ recipe.category.name }} </span><br>
+    <span class="{% if print %}hidden{% endif %}">
+        {% if not print %}
+            {% if recipe.is_shared and not recipe.is_current_user_author %}
+                <span class="font-italic font-weight-light float-right"> (vytvořil*a {{ recipe.author.name }}) </span>
+            {% elif recipe.is_shared %}
+                <span class="font-italic font-weight-light float-right"> {{ icon("shared") }} </span>
+            {% endif %}
+        {% endif %}
+    </span>
+</div>
+
+<div class="{% if print %}hidden{% endif %}">
+    {# <span class="float-right"> #}
+    {% for label in recipe.labels %}
+        {{ icon(label.icon_name) }}
+    {% endfor %}
+    {# </span> #}
+</div>

@@ -1,0 +1,18 @@
+{% macro render_label(label) %}
+
+{% if label.color %}
+	{% set color = label.color %}	
+{% else %}
+	{% if label.category.name == "dietary" %}
+		{% set color = "light-green"%}
+	{% else %}
+		{% set color = "light-grey"%}
+	{% endif %}	
+{% endif %}
+
+
+<span class="p-2 m-1 bg-color-{{color}}" style="border-radius: 1rem; line-height: 3rem;">
+	{{ label | replace(" ","&nbsp") }}
+</span>
+
+{% endmacro %}

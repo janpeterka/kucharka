@@ -8,11 +8,7 @@ from app import turbo
 from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models.ingredients import Ingredient
-
-# from app.models.ingredient_categories import IngredientCategory
 from app.models.recipes import Recipe
-
-# from app.models.measurements import Measurement
 
 from app.controllers.edit_recipes import EditRecipeView
 
@@ -41,7 +37,6 @@ class FastAddIngredientsView(HelperFlaskView):
 
         ingredient = Ingredient()
         form.populate_obj(ingredient)
-        print(ingredient)
         ingredient.save()
 
         recipe = Recipe.load(recipe_id)

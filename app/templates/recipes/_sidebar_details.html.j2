@@ -1,0 +1,27 @@
+<div class="mt-2">
+    <span class="font-italic"> {{ recipe.category.name }} </span>
+</div>
+
+<hr>
+
+<div class="mt-2">
+    <span class="{% if print %}hidden{% endif %}">
+        {% if not print %}
+            {% if recipe.is_shared and not recipe.is_current_user_author %}
+                <span class="font-italic font-weight-light"> (vytvořil*a {{ recipe.author.name }}) </span>
+            {% elif recipe.is_shared %}
+                <span class="font-italic font-weight-light"> {{ icon("shared") }} </span>
+            {% endif %}
+        {% endif %}
+    </span>
+</div>
+
+<hr>
+
+<div class="{% if print %}hidden{% endif %}">
+    {% from "macros/render_label.html.j2" import render_label %}
+    {% for label in recipe.labels %}
+        {{ render_label(label) }}
+        {# {{ icon(label.icon_name) }} #}
+    {% endfor %}
+</div>

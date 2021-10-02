@@ -14,6 +14,8 @@ class Label(BaseModel, BaseMixin):
     category_id = db.Column(db.ForeignKey("label_categories.id"))
     category = db.relationship("LabelCategory", uselist=False, backref="labels")
 
+    color = db.Column(db.String(255))
+
     def __str__(self):
         if self.visible_name:
             return self.visible_name

@@ -21,21 +21,27 @@
 
 <form action="{{ url_for('PublicRecipesView:index') }}" method="post" class="form-inline form-control" accept-charset="UTF-8">
 	{{ form.csrf_token }}
-		<div class="col-12">
+		<div class="col">
 			<div class="mt-2 row">
-				{{ form.ingredient_name.label(class_="ml-2") }}
-				{{ render_field(form.ingredient_name, has_label=False, class="ml-3") }}
+				{{ form.ingredient.label(class_="ml-2") }}
+				{{ render_field(form.ingredient, has_label=False, class="ml-3") }}
         {{ form.category.label(class_="ml-4") }}
         {{ render_field(form.category, has_label=False, class="ml-3") }}
+
+        {{ render_field(form.with_reaction, class="ml-5", label=icon("heart_full", with_tooltip=True, tooltip="moje oblíbené")) }}
 			</div>
+
       <hr>
+      
       <div class="mt-2 ml-1 row">
-        <div data-controller="enable-select2">
+        <div data-controller="enable-select2" class="col-10" style="display: inline">
             {# {{ form.with_labels.label(class_="ml-4") }} #}
-            {{ render_field(form.with_labels, has_label=False, data_enable_select2_target="select") }}
+            {{ render_field(form.with_labels, has_label=False, data_enable_select2_target="select", style="width:70%;") }}
         </div>
-			  {{ render_field(form.with_reaction, class="ml-5", label=icon("heart_full", with_tooltip=True, tooltip="moje oblíbené")) }}
       </div>
+
+      <hr>
+      
       <div class="text-right">
         {{ form.submit(class_='btn btn-primary ml-3') }}
       </div>

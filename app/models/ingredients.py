@@ -70,6 +70,21 @@ class Ingredient(BaseModel, ItemMixin):
 
         return ingredients
 
+    @staticmethod
+    def load_all_in_public_recipes(ordered=True) -> list:
+        from app.models.recipes import Recipe
+        from app.helpers.general import list_without_duplicated
+
+        ingredients = [x.ingredients for x in Recipe.load_all_public()]
+        # flatten
+        ingredients = [y for x in ingredients for y in x]
+        ingredients = list_without_duplicated(ingredients)
+
+        if ordered:
+            ingredients.sort(key=lambda x: unidecode(x.name.lower()))
+
+        return ingredients
+
     def load_amount_by_recipe(self, recipe) -> float:
         rhi = RecipeHasIngredient.query.filter_by(
             recipe_id=recipe.id, ingredient_id=self.id

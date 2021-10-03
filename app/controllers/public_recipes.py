@@ -23,17 +23,7 @@ class PublicRecipesView(HelperFlaskView):
 
     @login_required
     def before_index(self):
-        # Get values for filters
-        # TODO: tohle mi nepřijde úplně šťastný
-        # TODO: načítání by mohlo být přes /src
-        ingredients = [x.ingredients for x in self.recipes]
-        flatten_ingredients = [y for x in ingredients for y in x]
-        ingredient_names = [x.name for x in flatten_ingredients]
-
-        self.ingredient_names = ["---", *list(set(ingredient_names))]
-        self.ingredient_names.sort()
-
-        self.form = PublicRecipeFilterForm(ingredient_names=self.ingredient_names)
+        self.form = PublicRecipeFilterForm()
 
     @login_required
     @route("/toggleReaction/<recipe_id>", methods=["POST"])
@@ -59,21 +49,14 @@ class PublicRecipesView(HelperFlaskView):
         self.recipes = Recipe.load_all_public()
 
         # Get filters from request
-        ingredient_name = None
-
         with_labels = self.form.with_labels.data
-
-        if self.form.ingredient_name.data != "---":
-            ingredient_name = self.form.ingredient_name.data
-
+        ingredient = self.form.ingredient.data
         with_reaction = self.form.with_reaction.data
         category = self.form.category.data
 
         # Filter recipes
-        if ingredient_name:
-            self.recipes = [
-                x for x in self.recipes if ingredient_name in x.concat_ingredients
-            ]
+        if ingredient:
+            self.recipes = [x for x in self.recipes if ingredient in x.ingredients]
 
         if with_reaction:
             self.recipes = [x for x in self.recipes if x.has_reaction]

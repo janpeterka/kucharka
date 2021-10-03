@@ -23,8 +23,8 @@
 	{{ form.csrf_token }}
 		<div class="col">
 			<div class="mt-2 row">
-				{{ form.ingredient_name.label(class_="ml-2") }}
-				{{ render_field(form.ingredient_name, has_label=False, class="ml-3") }}
+				{{ form.ingredient.label(class_="ml-2") }}
+				{{ render_field(form.ingredient, has_label=False, class="ml-3") }}
         {{ form.category.label(class_="ml-4") }}
         {{ render_field(form.category, has_label=False, class="ml-3") }}
 

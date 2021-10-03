@@ -18,7 +18,7 @@
 </h1>
 
 <hr>
-
+{# 
 <details open>
 <summary>Filtrování</summary>
 <form action="{{ url_for('RecipesView:filter') }}" method="post" class="form-inline form-control" accept-charset="UTF-8">
@@ -32,7 +32,6 @@
         </div>
     <div class="mt-2 ml-1 row">
         <div data-controller="enable-select2">
-            {# {{ form.with_labels.label(class_="ml-4") }} #}
             {{ render_field(form.with_labels, has_label=False, data_enable_select2_target="select") }}
         </div>
     </div>
@@ -44,6 +43,7 @@
 </details>
 
 <hr>
+#}
 
 {% include "recipes/_recipes.html.j2" %}
 

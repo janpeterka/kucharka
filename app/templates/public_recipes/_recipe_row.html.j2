@@ -1,13 +1,15 @@
 {% from "macros/icons.html.j2" import icon %}
+{% from "macros/render_label.html.j2" import render_label %}
 
 <tr id = "recipe-{{ recipe.id }}" class="h-5" data-controller="recipe-reactions">
 	<td>{{ link_to(recipe) }}</td>
-    <td>{{ recipe.concat_ingredients }}</td>
+    {# <td>{{ recipe.concat_ingredients }}</td> #}
     <td>{{ recipe.category.name }}</td>
     <td>
         <span>
         {% for label in recipe.labels %}
-            {{ icon(label.icon_name) }}            
+        	{{ render_label(label) }}
+            {# {{ icon(label.icon_name) }}             #}
         {% endfor %}
         </span>
     </td>

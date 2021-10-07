@@ -39,6 +39,5 @@
 
 
 {% block scripts_after %}
-    {% include 'javascript/stimulus.js.html' %}
-    {% include 'javascript/toggle_details_controller.js.html' %}
+    {{ stimulus("toggle-details") }}
 {% endblock %}

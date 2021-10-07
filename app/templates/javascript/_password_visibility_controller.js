@@ -1,8 +1,7 @@
-<script type="text/javascript">
-  application.register("see-password", class extends Stimulus.Controller {
-    static get targets() {
-      return ["passwordDiv", "passwordField"]
-    }
+Stimulus.register("see-password", class extends Controller {
+  static get targets() {
+    return ["passwordDiv", "passwordField"]
+  }
 
   connect() {
     this._add_icon()
@@ -22,4 +21,3 @@
     this.passwordFieldTarget.setAttribute("type", "password")
   }
 })
-</script>

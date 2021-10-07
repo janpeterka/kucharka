@@ -12,9 +12,7 @@
 
 {% block script %}
 	<script src="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.js"></script>
-  {% include 'javascript/stimulus.js.html' %}
-  {% include 'javascript/enable_select2_controller.js.html' %}
-  {% include 'javascript/recipe_reaction_controller.js.html' %}
+  {{ stimulus("select2", "recipe-reaction") }}
 {% endblock %}
 
 {% block content %}

@@ -8,8 +8,7 @@
 {% endblock %}
 
 {% block script %}
-    {% include 'javascript/stimulus.js.html' %}
-    {% include 'javascript/password_visibility_controller.js.html' %}
+    {{ stimulus("password-visibility") }}
 {% endblock %}
 
 {% block content %}

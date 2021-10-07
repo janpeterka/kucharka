@@ -12,9 +12,7 @@
 {% endblock %}
 
 {% block script %}
-    {% include 'javascript/stimulus.js.html' %}
-    {% include 'javascript/enable_select2_controller.js.html' %}
-    {% include 'javascript/enable_summernote_controller.js.html' %}
+    {{ stimulus("select2", "summernote") }}
 {% endblock %}
 
 {% block content %}

@@ -1,8 +1,7 @@
-<script type="text/javascript">
-  application.register("toggle-details", class extends Stimulus.Controller {
-    static get targets() {
-      return ["buttons"]
-    }
+Stimulus.register("toggle-details", class extends Controller {
+  static get targets() {
+    return ["buttons"]
+  }
 
   connect() {
     this.buttonsTarget.innerHTML = '\
@@ -28,4 +27,3 @@
     }
   }
 })
-</script>

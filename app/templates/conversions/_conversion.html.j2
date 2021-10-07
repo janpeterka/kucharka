@@ -1,0 +1,21 @@
+{% from "macros/turbo.html.j2" import button_to %}
+
+<turbo-frame id="conversion-{{ conversion.id }}">
+  <li class="row">
+    <span> {{ link_to(conversion.ingredient) }} </span>
+    :
+
+    {{ conversion.amount_from }}
+    {{ conversion.ingredient.measurement.name }}
+
+    ->
+
+    {{ conversion.amount_to }}
+    {{ conversion.to_measurement.name }}
+
+    {% if not edit_id %}
+      {# {{ button_to(action=url_for('MeasurementToMeasuremensView:edit', id=conversion.id), class="change", data="all") }} #}
+      {# {{ button_to(action=url_for('MeasurementToMeasuremensView:delete', id=conversion.id), class="destroy", method="DELETE") }} #}
+    {% endif %}
+  </li>
+</turbo-frame>

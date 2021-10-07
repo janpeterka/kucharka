@@ -1,0 +1,50 @@
+{% extends "base/base.html.j2" %}
+{% block title %}
+    {% if current_user.is_admin and user != current_user %}
+        Profil [{{ user.id }} | {{ user.username }}]   
+    {% else %}
+        Profil
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<div>
+    <table class="table">
+        <tr>
+            <th> {{ texts.user.username }} </th>
+            <th> Jméno </th>
+        </tr>
+        <tr>
+            <td> {{ user.email }} </td>
+            <td> {{ user.full_name }} </td>
+        </tr>
+     </table>
+</div>
+
+{% if current_user.is_admin %}
+    <div class="admin-field mb-2">
+        <h3>Role</h3>
+        <ul>
+        {% for role in user.roles %}
+            <li> {{ role.name }} </li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+
+<div>
+    <a href="{{ url_for('UsersView:edit') }}" class="btn btn-secondary">{{ texts.edit }} {{ icon("edit") }}</a>
+    <a href="{{ url_for_security('change_password') }}" class="btn btn-secondary"> Změnit heslo {{ icon("edit") }}</a>
+</div>
+
+{# {% if current_user.is_admin %}
+    {% from "macros/_admin_field.html.j2" import admin_field_class with context %}
+    <div class="admin-field">
+        <a href="{{ url_for('RecipesView:make_all_public_for_user', user_id=user.id) }}" class="btn btn-secondary">Zveřejnit všechny recepty uživatele</a>
+    </div>
+{% endif %} #}
+
+{% endblock %}
+

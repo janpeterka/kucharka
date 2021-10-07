@@ -1,6 +1,12 @@
 {% from "macros/render_field.html.j2" import render_field %}
-{% from "macros/general.html.j2" import option, options %}
+{% from "macros/admin_field.html.j2" import admin_field_class with context %}
+{% from "macros/general.html.j2" import option, options, link_or_name, list_of_links with context %}
 {% from "macros/icons.html.j2" import icon %}
+{% from "macros/turbo.html.j2" import button_to %}
+
+{% if not user %}
+    {% set user = current_user %}
+{% endif %}
 
 <!DOCTYPE html>
 <html lang="cs">
@@ -8,6 +14,7 @@
 {% block head %}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     {% block links %}
         <link rel="icon" href="{{ url_for('static', filename='img/icon_space.png') }}">
@@ -47,6 +54,9 @@
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
         <!-- custom fonts -->
         <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' type='text/css'>
+        {% if print %}
+            <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/print.css') }}">
+        {% endif %}
     {% endblock %}
 
     {% block style %}{% endblock %}
@@ -56,7 +66,9 @@
 {% endblock head %}
 </head>
 <body>
-    {% block navbar %}
+    {% if not print %}
+        
+    {% block navbar %}            
         {% if current_user.is_authenticated %}
             {% include('navbars/navbar.html.j2') %}
         {% else %}
@@ -71,22 +83,26 @@
         {% include('base/_flashing.html.j2') %}
     {% endblock %}
 
+
+    {% block dev %}
     {% if config.APP_STATE == "development" %}
         <span class="dev-badge dev"><strong>DEV</strong></span>
     {% elif config.APP_STATE == "local_production" %}
         <span class="dev-badge prod"><strong>PROD</strong></span>
     {% endif %}
+    {% endblock %}
 
-    <div id="content" class="container">
+    {% endif %}
+
+    <div id="content" class="container mb-5">
         {% block content %}{% endblock %}
     </div>
     
-    <div class="footer">
-        {% block footer %}
-            s radostí vyrobil Obr<br>
-            2021 - now()
-        {% endblock %}
+    {% if not print %}
+    <footer class="footer">
+        s radostí vyrobil <a href="mailto:obr+kucharka@skaut.cz">Obr</a>
     </div>
+    {% endif %}
 </body>
 {% block scripts_after %}{% endblock %}
 </html>

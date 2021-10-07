@@ -1,36 +1,59 @@
+{% from "macros/turbo.html.j2" import button_to %}
+
 {% extends "base/base.html.j2" %}
 {% block title %} Denní přehled {% endblock %}
 
+{% block links %}
+    {{ super() }}
+    {{ turbo() }}
+{% endblock %}
+
+{% block script %}
+    {% include 'javascript/stimulus.js.html' %}
+    {% include 'javascript/enable_select2_controller.js.html' %}
+{% endblock %}
+
 {% block content %}
 
-<div data-controller="daily-plan">
+<div>
     <div class="text-center">
+
+        {% if daily_plan.has_previous %}
         <span class="float-left" style="margin-left: 10rem">
-            <a href="{{ url_for('DailyPlansView:show', date=dates['previous']) }}">
-            {{ human_format_date(dates["previous"]) }}
+            <a href="{{ url_for('DailyPlansView:previous', daily_plan_id=daily_plan.id) }}">
+            {{ human_format_date(daily_plan.previous.date) }}
             </a>
         </span>
+        {% endif %}
+
         <span style="font-size: 2rem">
-            {{ human_format_date(dates["active"]) }}
+            {{ human_format_date(daily_plan.date, with_relative=False) }}
         </span>
-        <span class="float-right" style="margin-right: 10rem">
-            <a href="{{ url_for('DailyPlansView:show', date=dates['next']) }}">
-            {{ human_format_date(dates["next"]) }}
+
+        {% if daily_plan.has_next %}
+        <span class="float-right" style="margin-left: 10rem">
+            <a href="{{ url_for('DailyPlansView:next', daily_plan_id=daily_plan.id) }}">
+            {{ human_format_date(daily_plan.next.date) }}
             </a>
         </span>
+        {% endif %}
+
+    <h2>{{ link_to(daily_plan.event) }}</h2>
+    
     </div>
 
     <div class="row">
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>{{ texts.title }}</th>
+                    <th style="width: 40%">{{ texts.title }}</th>
+                    <th>Typ jídla</th>
+                    <th></th>
                     <th></th>
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
-
+            <tbody id="daily_recipes">
             {% for daily_recipe in daily_recipes %}
                 {% include "daily_plans/_recipe_row.html.j2"%}
             {% endfor %}
@@ -38,23 +61,25 @@
         </table>
     </div>
 
-    <div class="row float-right mt-5">
-        <form class="form" action="{{ url_for('DailyPlansView:add_recipe') }}" method="post">
-            <input type="hidden" name="date" value="{{ dates['active'] }}">
+    {% if daily_plan.can_current_user_edit %}
+
+    <div class="row float-right mt-5" data-controller="enable-select2">
+        <form class="form" action="{{ url_for('DailyPlansEditView:add_recipe', daily_plan_id=daily_plan.id) }}" method="post">
             <div class="form-group form-inline">
-                <select name="recipe_id" id="recipe_select" class="form-control">
+                <select name="recipe_id" id="recipe_select" class="form-control" data-enable-select2-target="select">
                     {% include "daily_plans/_add_recipe_form_options.html.j2" %}
                 </select>
             </div>
 
-            <input type="submit" data-load-recipes-for-diet-target="submit" class="form-control btn btn-primary" value="Přidat recept">
+            <input type="submit" class="form-control btn btn-primary" value="Přidat recept">
         </form>
     </div>
 
+    <div class="row mt-5">
+        {{ button_to(action=url_for('DailyPlansEditView:add_shopping', daily_plan_id=daily_plan.id), class="btn btn-secondary", value="Přidat nákup") }}
+    </div>
+
+    {% endif %}
 </div>
 
-{% endblock %}
-
-{% block scripts_after %}
-<script type="text/javascript"> $(document).ready(function() {$('#recipe_select').select2();}); </script>
 {% endblock %}

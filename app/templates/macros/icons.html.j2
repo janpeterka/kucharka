@@ -3,22 +3,30 @@
     {% set tooltip = kwargs.pop('tooltip', None) %}
     {% set value = kwargs.pop('value', None) %}
     {% set class_ = kwargs.pop('class', '') %}
-    {% set class_ = class_ + " cursor-default" %}
+    {% set cursor_class = kwargs.pop('cursor_class', "cursor-default") %}
+    {% set class_ = class_ + " " + cursor_class %}
+    {% set fa_class_ = "" %}
+    
+    {% set action = kwargs.pop('action', None) %}
 
     {# Pages #}
     {% if name=="user" %}
-    	{% set fa_class_ = 'material-icons user' %}
+    	{% set fa_class_ = 'fas fa-user' %}
     {% elif name=="daily" %}
         {% set fa_class_ = 'fas fa-calendar-alt' %}
-{#     {% elif name=="calculator" %}
-        {% set fa_class_ = 'fas fa-calculator' %} #}
-
 
     {# Operations #}
     {% elif name=="edit" %}
         {% set fa_class_ = 'fas fa-pencil-alt' %}
     {% elif name=="delete" %}
         {% set fa_class_ = 'fas fa-trash' %}
+    {% elif name=="archive" %}
+        {% set fa_class_ = 'fas fa-archive' %}
+    {% elif name=="unarchive" %}
+        {% set fa_class_ = 'fas fa-archive' %}
+
+    {% elif name=="remove" %}
+        {% set value = '×' %}
 
 
     {# Sharing, publishing,... #}
@@ -39,6 +47,28 @@
     {% elif name=="heart_full" %}
         {% set fa_class_ = 'fas fa-heart color-red' %}
 
+    {# Misc #}
+    {% elif name=="recipe_database" %}
+        {% set fa_class_ = 'fas fa-book-open' %}
+    {% elif name=="cookbook" %}
+        {% set fa_class_ = 'fas fa-book' %}
+    {% elif name=="food" %}
+        {% set fa_class_ = 'fas fa-utensils' %}
+    {% elif name=="shopping" %}
+        {% set fa_class_ = 'fas fa-shopping-basket' %}
+    {% elif name=="info" %}
+        {% set fa_class_ = 'fas fa-info' %}
+    {% elif name=="info-circle" %}
+        {% set fa_class_ = 'fas fa-info-circle' %}
+    {% elif name=="list" %}
+        {% set fa_class_ = 'fas fa-list-ul' %}
+
+    {% elif name=="up" %}
+        {% set fa_class_ = 'fas fa-sort-up' %}
+    {% elif name=="down" %}
+        {% set fa_class_ = 'fas fa-sort-down' %}
+
+
     {# Food types #}
     {% elif name=="vegan" %}
         {% set fa_class_ = 'fas fa-seedling color-green' %}
@@ -52,16 +82,25 @@
         {% set fa_class_ = 'fas fa-ban color-light-blue' %}
         {% if not tooltip %} {% set tooltip="bez laktózy" %} {% endif %}
         {% set with_tooltip = True %}
-    {% elif name=="gluten_free" or name=="gluten_free"%}
+    {% elif name=="gluten_free" or name=="gluten_free" %}
         {% set fa_class_ = 'fas fa-ban color-wheat' %}
         {% if not tooltip %} {% set tooltip="bez lepku" %} {% endif %}
+        {% set with_tooltip = True %}
+
+
+    {# Brands #}
+    {% elif name=="github" %}
+        {% set fa_class_ = 'fab fa-github' %}
+    {% elif name=="facebook" %}
+        {% set fa_class_ = 'fab fa-facebook-square' %}
+    {% elif name=="pdf" %}
+        {% set fa_class_ = 'fas fa-file-pdf color-red' %}
+        {% if not tooltip %} {% set tooltip="pdf" %} {% endif %}
         {% set with_tooltip = True %}
 
     {# Other, currently unused #}
     {#
     "print": '<i class="fas fa-print"></i>',
-    "archive": '<i class="fas fa-archive"></i>',
-    "unarchive": '<i class="fas fa-archive"></i>',
  
     "google": '<i class="fab fa-google"></i>',
     "list": '<i class="fas fa-list-ul"></i>',
@@ -81,7 +120,9 @@
         <abbr title="{{ tooltip }}">
     {% endif %}
 
-    <i class="{{ fa_class_ + class_ }}">{% if value %}{{ value }}{% endif %}</i>
+    <i class="{{ fa_class_ + ' ' + class_ }}" {% if action %}data-action="{{ action }}"{% endif %}>
+        {% if value %}{{ value }}{% endif %}
+    </i>
 
 
     {% if with_tooltip %}

@@ -3,102 +3,24 @@
 
 {% block content %}
 
-    {# <div class="row"> #}
-        {# <div class="col-10"> #}
-            <div class="mb-2">
-                <div> 
-                    <h2> {{ recipe.name }} </h2> 
-                    <p>{{ recipe.description if recipe.description }}</p>
-                </div>
-                
-                <div>
-                    <span class="font-italic"> Kategorie: {{ recipe.category.name }} </span>
+<div class="row">  
+    <div class="col-md-10 col-sm-12">
+        {% include("recipes/_show.html.j2") %} 
+    </div>
 
-                    {% if recipe.is_shared and not recipe.is_current_user_author %}
-                        <span class="font-italic font-weight-light float-right"> (vytvořil*a {{ recipe.author.name }}) </span>
-                    {% elif recipe.is_shared %}
-                        <span class="font-italic font-weight-light float-right"> {{ icon("shared") }} </span>
-                    {% endif %}
-                </div>
-                <div>
-                    <span class="float-right">
-                    {% if recipe.is_vegetarian %}
-                        {{ icon("vegetarian")}}
-                    {% endif %}
-                    {% if recipe.is_vegan %}
-                        {{ icon("vegan")}}
-                    {% endif %}
-                    {% if recipe.lactose_free %}
-                        {{ icon("lactose_free")}}
-                    {% endif %}
-                    {% if recipe.gluten_free %}
-                        {{ icon("gluten_free")}}
-                    {% endif %}
-                    </span>
-                </div>
-            </div>
+    {% if not print %}
+    <div class="col-md-2 col-sm-12 border-left">
+        {% include("recipes/_sidebar_details.html.j2") %} 
+    </div>
+    {% endif %}
+</div>
 
+{% if not print %}
+<hr>
+<div>
+    {% include("recipes/_interactions.html.j2") %} 
+</div>
+{% endif %}
 
-            <table id="ingredients" class="table">
-                <tr>
-                    <th>{{ texts.title }}</th>
-                    <th>{{ texts.amount_simple }}</th>
-                </tr>
-
-                {% for ingredient in recipe.ingredients: %}
-                    <tr>
-                        <td>{{ link_to(ingredient) }}
-                            {% if not ingredient.author == recipe.author %} {{ icon("public") }} {% endif %}
-                        </td>
-                        <td>{{ ingredient.amount }}</td>
-                    </tr>
-                {% endfor %}
-            </table>
-
-
-            {% if recipe.can_current_user_edit %}
-            <div>
-                <form action="{{ url_for('RecipesView:delete', id=recipe.id) }}" method="post" class="form-inline" onsubmit="return confirm('{{ texts.recipe_delete_confirm }}');">
-                    <a class="btn btn-warning" href="{{ url_for('RecipesView:edit', id=recipe.id) }}">{{ texts.edit }} {{ icon("edit") }}</a>
-                    {# <a class="btn btn-secondary" href="{{ url_for('RecipesView:print', id=recipe.id) }}" target="_blank" rel="noopener noreferrer">{{ texts.print }} {{ icon("print") }}</a> #}
-                    <button type="submit" class="btn btn-danger">{{ texts.recipe_delete }} {{ icon("delete") }}</button>
-                </form>
-                <form action="{{ url_for('RecipesView:toggle_shared', id=recipe.id) }}" method="post" class="form-inline">
-                    {% if recipe.is_shared == True %}
-                        <button type="submit" class="btn btn-secondary">{{ texts.recipe_unshare }} {{ icon("unshare") }}</button>
-                    {% else %}
-                        <button type="submit" class="btn btn-secondary">{{ texts.recipe_share }} {{ icon("share") }}</button>
-                    {% endif %}
-                </form>
-            </div>
-            {% endif %}
-            
-            {# <div class="mt-2">
-                <a class="btn btn-info" href="{{ url_for('RecipesView:duplicate', id=recipe.id }}">
-                    Zkopírovat do mých receptů
-                </a>
-            </div> #}
-
-        {# </div> #}
-        
-        {# <div class="col-2">
-            {% from "macros/_render_image.html.j2" import render_image %}
-            {% for image in recipe.images %}
-                {{ render_image(image, style="width: 20rem; margin-bottom: 2rem", thumbnail=False) }}
-                {% if image.author == current_user or current_user.is_admin %}
-                    <form action="{{ url_for('FilesView:delete', id=image.id) }}" method="post">
-                        <button type="submit" class="btn btn-danger">{{ texts.image.delete }} {{ icon("delete") }}</button>
-                    </form>
-                {% endif %}
-            {% endfor %}
-            {% if recipe.images|length == 0 and recipe.can_current_user_edit %}
-                <form {{ admin_field_class(obj=recipe) }} action="{{ url_for('RecipesView:upload_photo', id=recipe.id) }}" method="post" accept-charset="utf-8" enctype=multipart/form-data>
-                    {{ photo_form.file }}
-                    {{ photo_form.submit(class="btn btn-secondary") }}
-                </form>         
-            {% endif %}
-        </div>
-        {% endif %} #}
-    {# </div> #}
 {% endblock %}
 

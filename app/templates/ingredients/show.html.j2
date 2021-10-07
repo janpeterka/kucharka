@@ -1,44 +1,38 @@
+{% from "macros/turbo.html.j2" import button_to %}
+
+{% if ingredient.source == "nutridatabaze" %}
+    {% set source = "<abbr title='Na základě dat z NutriDatabaze.cz, verze 7.16, ÚZEI, Praha, www.nutridatabaze.cz/.'>" + ingredient.source + "</abbr>" %}
+{% else %}
+    {% set source = ingredient.author.full_name %}
+{% endif %}
+
 {% extends "base/base.html.j2" %}
 {% block title %} Surovina {% endblock %}
 {% block content %}
 
 <div class="row">
-    <div class="col-md-8 col-sm-12">
+    <div class="col-md-8 col-sm-12 mb-4">
         <div class="mb-2">
             <div>
-                <h2>{{ ingredient.name }}</h2>
-                <p>{{ ingredient.description if ingredient.description }}</p>
+                <h2> {{ ingredient.name }} </h2>
+                <p> {{ ingredient.description if ingredient.description }} </p>
             </div>
 
             <div>   
                 <span class="font-italic"> Míra: {{ ingredient.measurement.name }} </span>
                 {% if ingredient.is_public %}
-                    <span class="font-italic font-weight-light float-right" >Veřejná surovina (zdroj: {{ ingredient.source }})</span>
+                    <span class="font-italic font-weight-light float-right" >Veřejná surovina (zdroj: {{ source }})</span>
                 {% endif %}
             </div>
             
             <div>
                 <span class="font-italic"> Kategorie: {{ ingredient.category.name }} </span>
-                <span class="float-right">
-                {% if ingredient.is_vegetarian %}
-                    {{ icon("vegetarian")}}
-                {% endif %}
-                {% if ingredient.is_vegan %}
-                    {{ icon("vegan")}}
-                {% endif %}
-                {% if ingredient.lactose_free %}
-                    {{ icon("lactose_free")}}
-                {% endif %}
-                {% if ingredient.gluten_free %}
-                    {{ icon("gluten_free")}}
-                {% endif %}
-                </span>
             </div>
         </div>
 
         <hr>
 
-        <details class="mb-3 mt-2" open>
+        <details class="mb-3 mt-2">
         <summary>Nutriční hodnoty</summary>
             <table class="table">
             <tr>
@@ -56,8 +50,54 @@
             </table>
         </details>
 
+        {% if ingredient.alternative_measurements %}
+        
+            <details class="mb-3 mt-2">
+            <summary> Konverze mezi druhy měření </summary>
+            {% for conversion in ingredient.alternative_measurements %}
+                <li>{{ conversion.amount_from }} {{ conversion.ingredient.measurement.name }} → {{ conversion.amount_to }} {{ conversion.to_measurement.name }}</li>
+            {% endfor %}
+
+            {% if current_user.is_admin or current_user.is_application_manager %}
+            <div class="admin-field mt-3">
+                <h4> Přidat alternativní měření </h4>
+                {% include ('conversions/_add.html.j2') %}
+            </div>
+            {% endif %}
+            </details>
+        
+        {% else %}
+            {% if current_user.is_admin or current_user.is_application_manager %}
+            <details class="mb-3 mt-2 admin-field">
+            <summary> Konverze mezi druhy měření </summary>
+
+            <div class="mt-3">
+                <h4> Přidat alternativní měření </h4>
+                {% include ('conversions/_add.html.j2') %}
+            </div>
+            </details>    
+            {% endif %}
+        {% endif %}
+
         {% if ingredient.can_current_user_edit %}
             {% include "ingredients/_edit_or_delete.html.j2"%}
+
+            {% if from_new %}
+            <div class="row">
+                <a href="{{ url_for('IngredientsView:new') }}"><button class="btn btn-primary mt-3 ml-0">Přidat další surovinu</button></a>
+            </div>
+            {% endif %}
+
+            {% if current_user.is_admin or current_user.is_application_manager %}
+            <div class="mt-4 admin-field">
+                {% if not ingredient.is_public and (current_user.is_application_manager or current_user.is_admin)  %}
+                    {{ button_to(action=url_for('IngredientsView:publish', id=ingredient.id), class="btn btn-danger", value="Zařadit mezi veřejné") }}
+                {% elif ingredient.is_public and (current_user.is_application_manager or current_user.is_admin) %}
+                    {{ button_to(action=url_for('IngredientsView:unpublish', id=ingredient.id), class="btn btn-danger", value="Vyřadit z veřejných") }}
+                {% endif %}
+            </div>
+            {% endif %}
+
         {% endif %}
     </div>
 

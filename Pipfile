@@ -10,7 +10,6 @@ Flask-Classful = "*"
 python-dotenv = "*"
 email-validator = "*"
 PyMySQL = "*"
-Flask-Security-Too = "*"
 gunicorn = "*"
 Flask-BabelEx = "*"
 Flask-Babel = "*"
@@ -18,8 +17,16 @@ cryptography = "*"
 Turbo-Flask = "*"
 Unidecode = "*"
 turbo-flask = "*"
+wtforms-sqlalchemy = "*"
+flask-weasyprint = "*"
+flask-security-too = "*"
+bleach = "*"
 
 [dev-packages]
+mypy = "*"
 
 [requires]
 python_version = "3.8"
+
+[packages.sentry-sdk]
+extras = [ "sqlalchemy",]

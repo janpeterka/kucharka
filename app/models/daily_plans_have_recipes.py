@@ -1,10 +1,12 @@
-import types
-from app import db
+# import types
+from app import db, BaseModel
 
 from app.helpers.base_mixin import BaseMixin
 
+# from sqlalchemy.ext.hybrid import hybrid_property
 
-class DailyPlanHasRecipe(db.Model, BaseMixin):
+
+class DailyPlanHasRecipe(BaseModel, BaseMixin):
     __tablename__ = "daily_plans_have_recipes"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -13,24 +15,41 @@ class DailyPlanHasRecipe(db.Model, BaseMixin):
         db.ForeignKey("daily_plans.id"), nullable=False, index=True
     )
 
-    # amount = db.Column(db.Float, nullable=False)
     order_index = db.Column(db.Integer)
     created_at = db.Column(
         db.DateTime, nullable=True, default=db.func.current_timestamp()
     )
 
+    portion_count = db.Column(db.Integer, nullable=False, default=0)
+
+    meal_type = db.Column(
+        db.Enum(
+            "snídaně",
+            "dopolední svačina",
+            "oběd",
+            "odpolední svačina",
+            "večeře",
+            "programové",
+            "jiné",
+            "nákup",
+        )
+    )
+
     daily_plan = db.relationship("DailyPlan")
-    recipe = db.relationship("Recipe")
+    recipe = db.relationship("Recipe", backref="daily_plan_recipes")
+
+    def change_order(self, order_type):
+        coef = 1 if order_type == "up" else -1
+
+        for daily_recipe in self.daily_plan.daily_recipes:
+            if daily_recipe.order_index == self.order_index - (1 * coef):
+                daily_recipe.order_index += 1 * coef
+                daily_recipe.edit()
+
+                self.order_index -= 1 * coef
+                self.edit()
+                return
 
     @property
-    def values(self):
-        values = types.SimpleNamespace()
-        metrics = ["calorie", "sugar", "fat", "protein"]
-        for metric in metrics:
-            total = getattr(self.recipe.totals, metric)
-            if getattr(self, "amount", None) is not None:
-                value = (total / self.recipe.totals.amount) * self.amount
-            else:
-                value = total
-            setattr(values, metric, value)
-        return values
+    def is_shopping(self):
+        return self.recipe.name == "Nákup" or self.meal_type == "nákup"

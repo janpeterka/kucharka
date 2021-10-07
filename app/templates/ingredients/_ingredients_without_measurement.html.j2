@@ -1,0 +1,15 @@
+{% if ingredients %}
+
+<turbo-frame id="ingredients-without-measurement">
+<details>
+    <summary class="text-uppercase font-comfortaa">Přidat míru surovinám ({{ ingredients | length }})</summary>
+
+    <ul>
+    {% for ingredient in ingredients %}
+        <li>{{ link_to(ingredient) }}</li>
+    {% endfor %}
+    </ul>
+</details>
+</turbo-frame>
+
+{% endif %}

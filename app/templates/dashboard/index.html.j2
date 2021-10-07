@@ -1,0 +1,83 @@
+{% extends "base/base.html.j2" %}
+{% block title %} Vítejte {{ current_user.email }} {% endblock %}
+
+{% block links %}
+    {{ super() }}
+    {{ turbo() }}
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-sm-12 col-md-6 mb-4 mb-md-0">
+        <h4 class="text-uppercase font-comfortaa">Rychlé akce</h4>
+        
+        {% if not current_user.full_name %}
+            <hr>
+            <a href="{{ url_for('UsersView:edit') }}" class="text-uppercase font-comfortaa"> Přidat uživatelské jméno</a>
+        {% endif %}
+        
+        <hr>
+        
+        <div class="mb-3">
+            <a href="{{url_for('RecipesView:new')}}" class="text-uppercase font-comfortaa">Přidat nový recept</a>
+        </div>
+
+        <hr>
+
+        <details>
+            <summary class="text-uppercase font-comfortaa">Další rychlé akce</summary>
+            <div class="ml-4">
+                
+            <turbo-frame id="draft-recipes" src="{{ url_for('UserStatisticsView:draft_recipes') }}">
+            </turbo-frame>
+
+            <turbo-frame id="ingredients-without-category" src="{{ url_for('UserStatisticsView:ingredients_without_category') }}">
+            </turbo-frame>
+            
+            <turbo-frame id="ingredients-without-measurement" src="{{ url_for('UserStatisticsView:ingredients_without_measurement') }}">
+            </turbo-frame>
+
+            <turbo-frame id="recipes-with-zero-amount-ingredient" src="{{ url_for('UserStatisticsView:recipes_with_zero_amount_ingredient') }}">
+            </turbo-frame>
+            
+            <turbo-frame id="recipes-without-category" src="{{ url_for('UserStatisticsView:recipes_without_category') }}">
+            </turbo-frame>
+            </div>
+        </details>
+
+
+    </div>
+
+    <div class="col-sm-12 col-md-6">
+        <h4 class="text-uppercase font-comfortaa">Moje</h4>
+
+        <hr>
+
+        <details open>
+            <summary class="text-uppercase font-comfortaa"> Akce </summary>
+            <turbo-frame id="events" src="{{ url_for('UserStatisticsView:events') }}">
+            </turbo-frame>
+        </details>
+        
+        <details>
+            <summary class="text-uppercase font-comfortaa"> Recepty </summary>
+            <turbo-frame id="recipes" src="{{ url_for('UserStatisticsView:recipes') }}">
+            </turbo-frame>
+        </details>
+
+        <details>
+            <summary class="text-uppercase font-comfortaa"> Rozdělané recepty </summary>
+            <turbo-frame id="draft-recipes-simple" src="{{ url_for('UserStatisticsView:draft_recipes') }}">
+            </turbo-frame>
+        </details>
+
+        <details>
+            <summary class="text-uppercase font-comfortaa"> Suroviny </summary>
+            <turbo-frame id="ingredients" src="{{ url_for('UserStatisticsView:ingredients') }}">
+            </turbo-frame>
+        </details>
+    </div>
+</div>
+
+{% endblock %}

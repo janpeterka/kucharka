@@ -3,7 +3,7 @@
     <div>
       <label></label>
     </div>
-    <form method="POST" action="{{ url_for('MeasurementsView:edit', id=measurement.id) }}">
+    <form method="PUT" action="{{ url_for('MeasurementsView:put', id=measurement.id) }}">
       <input type="text" name="measurement" value="{{ measurement.name }}" class="edit" autofocus>
     </form>
   </li>

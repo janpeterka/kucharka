@@ -2,16 +2,19 @@ from unidecode import unidecode
 
 from flask_security import current_user
 
-from app import db
+from app import db, BaseModel
 
 from app.helpers.item_mixin import ItemMixin
+from app.helpers.general import list_without_duplicated
 
 from app.models.ingredients import Ingredient
 from app.models.recipes_have_ingredients import RecipeHasIngredient
-from app.models.users_have_recipes_reaction import UserHasRecipeReaction
+
+from app.models.mixins.recipes.recipe_reactions import RecipeReactionMixin
+from app.models.mixins.recipes.recipe_ingredients import RecipeIngredientMixin
 
 
-class Recipe(db.Model, ItemMixin):
+class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
     __tablename__ = "recipes"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -21,15 +24,19 @@ class Recipe(db.Model, ItemMixin):
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     last_updated_at = db.Column(db.DateTime, onupdate=db.func.current_timestamp())
 
-    description = db.Column(db.Text)
+    description = db.Column(db.String())
+
+    portion_count = db.Column(db.Integer)
 
     # recipe is not yet saved
-    is_draft = db.Column(db.Boolean, default=False)
+    # is_draft = db.Column(db.Boolean, default=False)
 
     # recipe is from database of approved recipes
     # is_public = db.Column(db.Boolean, default=False)
-    # recipes is personal, but shared publicly. can change or disappear
+
+    # recipe is personal, but shared publicly. can change or disappear
     is_shared = db.Column(db.Boolean, default=False)
+
     # recipe is hidden from personal and public lists
     is_hidden = db.Column(db.Boolean, default=False)
 
@@ -39,31 +46,45 @@ class Recipe(db.Model, ItemMixin):
 
     ingredients = db.relationship(
         "Ingredient",
-        primaryjoin="and_(Recipe.id == remote(RecipeHasIngredient.recipe_id), foreign(Ingredient.id) == RecipeHasIngredient.ingredient_id)",
+        secondary="recipes_have_ingredients",
+        primaryjoin="RecipeHasIngredient.recipe_id == Recipe.id",
         viewonly=True,
         order_by="Ingredient.name",
     )
 
     daily_plans = db.relationship(
         "DailyPlan",
-        primaryjoin="and_(Recipe.id == remote(DailyPlanHasRecipe.recipe_id), foreign(DailyPlan.id) == DailyPlanHasRecipe.daily_plan_id)",
+        secondary="daily_plans_have_recipes",
+        primaryjoin="Recipe.id == DailyPlanHasRecipe.recipe_id",
         viewonly=True,
     )
 
-    author = db.relationship("User", uselist=False, backref="recipes")
+    author = db.relationship("User", uselist=False, back_populates="recipes")
 
-    category = db.relationship("RecipeCategory", uselist=False, backref="recipes")
+    category = db.relationship(
+        "RecipeCategory", uselist=False, backref="recipes", lazy="joined"
+    )
+
+    labels = db.relationship(
+        "Label",
+        secondary="recipes_have_labels",
+        primaryjoin="Recipe.id == RecipeHasLabel.recipe_id",
+    )
 
     # LOADERS
     @staticmethod
-    def load_all_public(ordered=True, exclude_mine=False) -> list:
+    def load_all_public(
+        ordered=True, exclude_mine=False, exclude_shopping=True
+    ) -> list:
         recipes = Recipe.query.filter(Recipe.is_shared).all()
+        recipes = [r for r in recipes if not (r.author.is_admin and r.name == "Nákup")]
 
         if exclude_mine:
             recipes = [r for r in recipes if r.author != current_user]
 
         if ordered:
             recipes.sort(key=lambda x: unidecode(x.name.lower()), reverse=False)
+
         return recipes
 
     @staticmethod
@@ -73,23 +94,27 @@ class Recipe(db.Model, ItemMixin):
             return None
 
         for ingredient in recipe.ingredients:
-            ingredient.amount = round(ingredient.load_amount_by_recipe(recipe.id), 2)
+            ingredient.set_additional_info(recipe)
+
+        recipe.ingredients.sort(
+            key=lambda x: (not x.is_measured, unidecode(x.name.lower()))
+        )
 
         return recipe
 
+    def reload(self):
+        return Recipe.load(self.id)
+
     @staticmethod
     def load_by_ingredient(ingredient):
-        recipes = Recipe.query.filter(
+        return Recipe.query.filter(
             Recipe.ingredients.any(Ingredient.id == ingredient.id)
         ).all()
-        return recipes
 
     @staticmethod
     def load_by_ingredient_and_user(ingredient, user):
         recipes = Recipe.load_by_ingredient(ingredient)
-        private_recipes = [r for r in recipes if r.author == user]
-
-        return private_recipes
+        return [r for r in recipes if r.author == user]
 
     # Operations
 
@@ -107,7 +132,7 @@ class Recipe(db.Model, ItemMixin):
         return self.id
 
     def remove(self):
-        # TODO: - to improve w/ orphan cascade (80)
+        # TODO: to improve w/ orphan cascade (80)
         recipe_ingredients = RecipeHasIngredient.query.filter(
             RecipeHasIngredient.recipe_id == self.id
         )
@@ -118,108 +143,109 @@ class Recipe(db.Model, ItemMixin):
         db.session.commit()
         return True
 
+    def duplicate(self):
+        new = Recipe()
+
+        new.name = self.name
+        new.author = current_user
+        new.description = self.description
+        new.portion_count = self.portion_count
+        new.category = self.category
+        new.ingredients = []
+        for rhi in self.recipe_ingredients:
+            new.add_ingredient(rhi.ingredient, amount=rhi.amount)
+
+        new.save()
+        return new
+
     def toggle_shared(self):
         self.is_shared = not self.is_shared
         self.edit()
         return self.is_shared
 
-    def toggle_reaction(self, user=None):
-        user = current_user if user is None else user
-
-        if self.has_reaction is True:
-            self.remove_reaction(user)
-        else:
-            self.add_reaction(user)
-
-    def add_reaction(self, user):
-        UserHasRecipeReaction(recipe=self, user=user).save()
-
-    def remove_reaction(self, user):
-        UserHasRecipeReaction.load_by_recipe_and_current_user(recipe=self).remove()
-
-    @property
-    def has_reaction(self):
-        reactions = UserHasRecipeReaction.load_by_recipe_and_current_user(self)
-        return bool(reactions)
-
-    def add_ingredient(self, ingredient, amount=None):
-        rhi = RecipeHasIngredient()
-        rhi.ingredient = ingredient
-        if amount:
-            rhi.amount = amount
-
-        self.recipe_ingredients.append(rhi)
-        self.save()
-
-    def remove_ingredient(self, ingredient):
-        rhi = RecipeHasIngredient.load_by_recipe_and_ingredient(self, ingredient)
-        rhi.delete()
-
-    def change_ingredient_amount(self, ingredient, amount):
-        rhi = RecipeHasIngredient.load_by_recipe_and_ingredient(self, ingredient)
-        rhi.amount = amount
-        rhi.save()
-
     # PERMISSIONS
 
     @property
-    def can_current_user_show(self) -> bool:
-        return current_user == self.author or current_user.is_admin or self.is_shared
+    def can_current_user_view(self) -> bool:
+        return (
+            current_user == self.author
+            or current_user.is_admin
+            or self.is_shared
+            or self.is_in_shared_event
+        )
 
     # PROPERTIES
 
     @property
-    def is_used(self):
-        return True if self.daily_plans else False
+    def is_shopping(self) -> bool:
+        return self.author.is_admin and self.name == "Nákup"
 
     @property
-    def is_visible(self):
+    def is_used(self) -> bool:
+        return bool(self.daily_plans)
+
+    @property
+    def is_visible(self) -> bool:
         return not self.is_draft
 
     @property
+    def events(self):
+        events = [dp.event for dp in self.daily_plans]
+        return list_without_duplicated(events)
+
+    @property
+    def shared_events(self):
+        return [event for event in self.events if event.is_shared]
+
+    @property
+    def is_in_shared_event(self) -> bool:
+        return bool(self.shared_events)
+
+    @property
+    def is_draft(self) -> bool:
+        if self.is_shopping:
+            return False
+
+        return len(self.ingredients) == 0
+
+    @property
+    def zero_amount_ingredients(self) -> list:
+        return [
+            ri.ingredient
+            for ri in self.recipe_ingredients
+            if ri.is_measured and ri.amount == 0
+        ]
+
+    @property
+    def has_zero_amount_ingredient(self) -> bool:
+        return len(self.zero_amount_ingredients) > 0
+
+    @property
+    def no_measurement_ingredients(self) -> list:
+        return [i for i in self.ingredients if i.is_measured and i.without_measurement]
+
+    @property
+    def has_no_measurement_ingredient(self) -> bool:
+        return len(self.no_measurement_ingredients) > 0
+
+    @property
+    def no_category_ingredients(self) -> list:
+        return [i for i in self.ingredients if i.without_category]
+
+    @property
+    def has_no_category_ingredient(self) -> bool:
+        return len(self.no_category_ingredients) > 0
+
+    @property
+    def without_category(self) -> bool:
+        if self.is_shopping:
+            return False
+
+        return self.category is None or self.category.name == "---"
+
+    @property
     def concat_ingredients(self) -> str:
-        return ", ".join([o.name for o in self.ingredients])
+        return ", ".join(o.name for o in self.ingredients)
 
-    @property
-    def is_vegetarian(self):
-        return [i for i in self.ingredients if i.is_vegetarian] == self.ingredients
-
-    @property
-    def is_vegan(self):
-        return [i for i in self.ingredients if i.is_vegan] == self.ingredients
-
-    @property
-    def lactose_free(self):
-        return [i for i in self.ingredients if i.lactose_free] == self.ingredients
-
-    @property
-    def gluten_free(self):
-        return [i for i in self.ingredients if i.gluten_free] == self.ingredients
-
-    @property
-    # @cache.cached(timeout=50, key_prefix="recipe_totals")
-    def totals(self):
-        import types
-        import math
-
-        totals = types.SimpleNamespace()
-        metrics = ["calorie", "sugar", "fat", "protein"]
-
-        totals.amount = 0
-
-        for ingredient in self.ingredients:
-            ingredient.amount = round(ingredient.load_amount_by_recipe(self.id), 2)
-            for metric in metrics:
-                value = getattr(totals, metric, 0)
-                ing_value = getattr(ingredient, metric)
-                setattr(totals, metric, value + (ingredient.amount * ing_value))
-
-            totals.amount += ingredient.amount
-
-        for metric in metrics:
-            value = getattr(totals, metric)
-            setattr(totals, metric, math.floor(value) / 100)
-
-        totals.amount = math.floor(totals.amount)
-
-        return totals
+    def has_label(self, label) -> bool:
+        return label in self.labels

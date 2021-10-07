@@ -1,0 +1,18 @@
+{% extends "base/base.html.j2" %}
+{% block title %} Nová akce {% endblock %}
+
+{% block content %}
+
+<form method="post" action="{{ url_for('EventsView:post') }}" class="form-group col-6" accept-charset="UTF-8">
+    {{ form.csrf_token }}
+
+    {{ render_field(form.name, placeholder="např. Tábor 2021") }}
+    {{ render_field(form.date_from) }}
+    {{ render_field(form.date_to) }}
+    {{ render_field(form.people_count, placeholder="základní, u jednotlivých jídel je možné změnit") }}
+    
+    {{ render_field(form.submit) }}
+</form>
+
+{% endblock %}
+

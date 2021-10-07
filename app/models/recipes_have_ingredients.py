@@ -1,9 +1,11 @@
-from app import db
+from sqlalchemy.ext.hybrid import hybrid_property
+
+from app import db, BaseModel
 
 from app.helpers.base_mixin import BaseMixin
 
 
-class RecipeHasIngredient(db.Model, BaseMixin):
+class RecipeHasIngredient(BaseModel, BaseMixin):
     """Recipe-Ingredient connection class
 
     Extends:
@@ -27,13 +29,22 @@ class RecipeHasIngredient(db.Model, BaseMixin):
         db.ForeignKey("ingredients.id"), primary_key=True, nullable=False, index=True
     )
     amount = db.Column(db.Float, nullable=False, default=0)
+    comment = db.Column(db.String(255))
+    _is_measured = db.Column(db.Boolean, default=True)
 
     ingredient = db.relationship("Ingredient", back_populates="ingredient_recipes")
     recipe = db.relationship("Recipe", back_populates="recipe_ingredients")
 
     @staticmethod
     def load_by_recipe_and_ingredient(recipe, ingredient):
-        rhi = RecipeHasIngredient.query.filter_by(
+        return RecipeHasIngredient.query.filter_by(
             recipe_id=recipe.id, ingredient_id=ingredient.id
         ).first()
-        return rhi
+
+    @hybrid_property
+    def is_measured(self):
+        return self._is_measured is not False
+
+    @is_measured.setter  # type: ignore
+    def is_measured(self, is_measured):
+        self._is_measured = is_measured

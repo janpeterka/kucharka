@@ -1,7 +1,7 @@
 from unidecode import unidecode
 
 # from flask import render_template as template
-from flask import request, redirect, url_for, flash, abort, g
+from flask import request, redirect, url_for, flash
 
 from flask_security import login_required, current_user
 
@@ -9,115 +9,134 @@ from flask_classful import route
 
 from app import turbo
 
-from app.helpers.extended_flask_view import ExtendedFlaskView
-from app.helpers.form import save_form_to_session
+from app.helpers.helper_flask_view import HelperFlaskView
+from app.helpers.form import save_form_to_session, create_form
 
 from app.models.recipes import Recipe
 from app.models.ingredients import Ingredient
-from app.models.recipe_categories import RecipeCategory
 
-from app.controllers.base_recipes import BaseRecipesView
-
-from app.controllers.forms.recipes import RecipesForm
+from app.controllers.forms.recipes import RecipesForm, RecipeFilterForm
 
 
-def set_form(form, recipe=None):
-    categories = RecipeCategory.load_all()
-    categories.sort(key=lambda x: unidecode(x.name.lower()))
-
-    if recipe:
-        if recipe.category:
-            form.category.data = recipe.category.id
-
-    form.set_all(categories=categories)
-
-
-class RecipesView(BaseRecipesView, ExtendedFlaskView):
+class RecipesView(HelperFlaskView):
     decorators = [login_required]
 
     @login_required
     def before_request(self, name, id=None, **kwargs):
-        g.request_item_type = "recipe"
-        if id is not None:
-            g.request_item_id = id
-            self.recipe = Recipe.load(id)
+        self.recipe = Recipe.load(id)
+        self.validate_operation(id, self.recipe)
 
-            if self.recipe is None:
-                abort(404)
-            if not self.recipe.can_current_user_show:
-                abort(403)
+        if name in ["index", "filter"]:
+            self.recipes = sorted(
+                current_user.visible_recipes, key=lambda x: unidecode(x.name.lower())
+            )
+            ingredients = [x.ingredients for x in self.recipes]
+            flatten_ingredients = [y for x in ingredients for y in x]
+            ingredient_names = [x.name for x in flatten_ingredients]
+            self.ingredient_names = ["---"]
+            self.ingredient_names.extend(list(set(ingredient_names)))
+            self.ingredient_names.sort()
 
-    def before_public(self):
-        self.public_recipes = Recipe.load_all_public()
+            self.form = RecipeFilterForm(ingredient_names=self.ingredient_names)
+
+        if name in ["show", "pdf", "show_pdf"] and "portion_count" in request.args:
+            request_portion_count = request.args.get("portion_count", "1")
+            if not request_portion_count:
+                request_portion_count = 1
+
+            self.recipe.portion_count = int(request_portion_count)
+
+    def before_filter(self):
+        self.form = RecipeFilterForm(
+            request.form, ingredient_names=self.ingredient_names
+        )
 
     def before_edit(self, id):
-        super().before_edit(id)
-        self.categories = RecipeCategory.load_all()
-        set_form(self.form, self.recipe)
+        self.form = create_form(RecipesForm, obj=self.recipe)
+
+        unused_ingredients = [
+            i
+            for i in current_user.personal_ingredients
+            if i not in self.recipe.ingredients
+        ]
+        self.personal_ingredients = sorted(
+            unused_ingredients, key=lambda x: unidecode(x.name.lower())
+        )
+
+        unused_public_ingredients = [
+            i for i in Ingredient.load_all_public() if i not in self.recipe.ingredients
+        ]
+        self.public_ingredients = sorted(
+            unused_public_ingredients, key=lambda x: unidecode(x.name.lower())
+        )
 
     def before_new(self):
-        self.categories = RecipeCategory.load_all()
-        self.public_ingredients = Ingredient.load_all_public()
-        self.personal_ingredients = current_user.ingredients
+        self.form = create_form(RecipesForm)
 
-    def public(self):
+    def index(self):
         return self.template()
 
-    @route("<id>/edit", methods=["POST"])
-    def post_edit(self, id):
-        form = RecipesForm(request.form)
-        set_form(form)
+    def show(self, id):
+        return self.template()
 
-        if not form.validate_on_submit():
-            save_form_to_session(request.form)
-            return redirect(url_for("RecipesView:edit", id=self.recipe.id))
+    def show_pdf(self, id):
+        return self.template(template_name="show", print=True)
 
-        form.category.data = RecipeCategory.load(form.category.data)
-        form.populate_obj(self.recipe)
-        self.recipe.is_draft = False
-        self.recipe.edit()
+    def pdf(self, id):
+        from flask_weasyprint import render_pdf, HTML
 
-        return redirect(url_for("RecipesView:show", id=self.recipe.id))
+        return render_pdf(HTML(string=self.template(template_name="show", print=True)))
 
-    # def show(self, id):
-    #     # from .forms.files import PhotoForm
+    def pdf_download(self, id):
+        from flask_weasyprint import render_pdf, HTML
+        from app.helpers.general import slugify
 
-    #     return template(
-    #         "recipes/show.html.j2",
-    #         recipe=self.recipe,
-    #         # is_print=False,
-    #         # photo_form=PhotoForm(),
-    #     )
+        filename = slugify(self.recipe.name)
 
-    # def print(self, id):
-    #     return template("recipes/show.html.j2", recipe=self.recipe, is_print=True,)
+        return render_pdf(
+            HTML(string=self.template(template_name="show", print=True)),
+            download_filename=f"{filename}.pdf",
+        )
 
-    @route("<id>/delete", methods=["POST"])
+    @route("show_with_portion_count/<id>/", methods=["POST"])
+    def show_with_portion_count(self, id):
+        portion_count = request.form["portion_count"]
+        return redirect(url_for("RecipesView:show", id=id, portion_count=portion_count))
+
+    def edit(self, id):
+        return self.template()
+
+    def new(self):
+        return self.template()
+
+    @route("delete/<id>/", methods=["POST"])
     def delete(self, id):
         if self.recipe.is_used:
             flash("Recept je použit, nelze smazat.", "error")
             return redirect(url_for("RecipesView:show", id=id))
 
-        self.recipe.remove()
+        self.recipe.delete()
         flash("Recept byl smazán.", "success")
-        return redirect(url_for("DashboardView:show"))
+        return redirect(url_for("DashboardView:index"))
 
-    @route("/save", methods=["POST"])
-    def save(self):
-        if "recipe_id" in request.form and request.form["recipe_id"]:
-            recipe = Recipe.load(request.form["recipe_id"])
-        else:
-            recipe = Recipe()
+    def post(self):
+        form = RecipesForm(request.form)
 
-        recipe.name = request.form["name"]
-        recipe.category = RecipeCategory.load(request.form["category_id"])
-        recipe.is_draft = False
-        recipe.author = current_user
+        if not form.validate_on_submit():
+            save_form_to_session(request.form)
+            return redirect(url_for("RecipesView:new"))
+
+        recipe = Recipe(author=current_user)
+        form.populate_obj(recipe)
 
         recipe.save()
-        return redirect(url_for("RecipesView:show", id=recipe.id))
+        return redirect(url_for("RecipesView:edit", id=recipe.id))
 
-    @route("/toggle_shared/<id>", methods=["POST"])
+    def duplicate(self, id):
+        new_recipe = self.recipe.duplicate()
+        return redirect(url_for("RecipesView:show", id=new_recipe.id))
+
+    @route("toggle_shared/<id>", methods=["POST"])
     def toggle_shared(self, id):
         toggled = self.recipe.toggle_shared()
         if toggled is True:
@@ -126,38 +145,41 @@ class RecipesView(BaseRecipesView, ExtendedFlaskView):
             flash("Recept byl skryt před veřejností.", "success")
         return redirect(url_for("RecipesView:show", id=self.recipe.id))
 
-    @route("/delete_drafts", methods=["POST"])
+    @route("delete_drafts", methods=["POST"])
     def delete_drafts(self):
         for draft in current_user.draft_recipes:
             draft.delete()
 
-        return redirect(url_for("DashboardView:show"))
+        return redirect(url_for("DashboardView:index"))
 
-    @route("/remove_ingredient/<recipe_id>/<ingredient_id>", methods=["POST"])
-    def remove_ingredient(self, recipe_id, ingredient_id):
-        recipe = Recipe.load(recipe_id)
-        ingredient = Ingredient.load(ingredient_id)
+    @route("filter", methods=["POST"])
+    def filter(self):
+        self.recipes = current_user.visible_recipes
 
-        recipe.remove_ingredient(ingredient)
-        return turbo.stream(
-            [turbo.remove(target=f"ingredient-{ingredient_id}")]
-            + BaseRecipesView().update_usable_ingredients(recipe)
-        )
+        # Get filters from request
+        ingredient_name = None
+        with_labels = self.form.with_labels.data
 
-    @route("/change_ingredient_amount/<recipe_id>/<ingredient_id>", methods=["POST"])
-    def change_ingredient_amount(self, recipe_id, ingredient_id):
-        self.recipe = Recipe.load(recipe_id)
-        self.ingredient = Ingredient.load(ingredient_id)
-        amount = request.form["amount"]
+        if self.form.ingredient_name.data != "---":
+            ingredient_name = self.form.ingredient_name.data
 
-        self.recipe.change_ingredient_amount(self.ingredient, amount)
-        self.ingredient.amount = amount
+        category = self.form.category.data
 
-        flash("Množství změněno")
+        # Filter recipes
+        if ingredient_name:
+            self.recipes = [
+                x for x in self.recipes if ingredient_name in x.concat_ingredients
+            ]
 
-        return turbo.stream(
-            turbo.replace(
-                self.template(template_name="recipes/_edit_ingredient.html.j2"),
-                target=f"ingredient-{self.ingredient.id}",
+        if category and category.name != "---":
+            self.recipes = [x for x in self.recipes if x.category == category]
+
+        for label in with_labels:
+            self.recipes = [x for x in self.recipes if x.has_label(label)]
+
+        if turbo.can_stream():
+            return turbo.stream(
+                turbo.replace(self.template(template_name="_recipes"), target="recipes")
             )
-        )
+        else:
+            return self.template("index")

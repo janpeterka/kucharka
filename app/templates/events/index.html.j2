@@ -1,0 +1,32 @@
+{% extends "base/base.html.j2" %}
+{% block title %} Akce {% endblock %}
+
+{% block content %}
+
+<h1>Moje akce
+    <a href="{{ url_for('EventsView:new') }}"><button class="btn btn-secondary float-right"> Přidat akci </button></a>
+</h1>
+
+<table class="table">
+    {% for event in current_user.events: %}
+        {% if event.is_active %}
+        <tr><td>{{ link_to(event) }}</td></tr>    
+        {% endif %}
+    {% endfor %}
+</table>
+
+{% if current_user.archived_events %}
+<details>
+    <summary>Archivované akce</summary>
+    <table class="table">
+    {% for event in current_user.events: %}
+        {% if event.is_archived %}
+        <tr><td>{{ link_to(event) }}</td></tr>    
+        {% endif %}
+    {% endfor %}
+</table>
+</details>
+{% endif %}
+
+{% endblock %}
+

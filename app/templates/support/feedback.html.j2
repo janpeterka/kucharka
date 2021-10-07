@@ -1,0 +1,20 @@
+{% extends "base/base.html.j2" %}
+{% block title %} Feedback - Dejte nám vědět! {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <form action="{{ url_for('SupportView:feedback') }}" method="POST" class="form-group form-control" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        {% from "macros/_form_element.html.j2" import render_field %}
+        {{ render_field(form.option) }}
+        {{ render_field(form.message) }}
+        {{ render_field(form.email) }}
+        {{ form.feedback_file(class_='form-control') }}
+        {{ form.submit(class_='btn btn-primary') }}
+    </form>
+    <span>nebo mi napište na <a href="mailto:janmpeterka+skautskakucharka@gmail.com">e-mail</a></span>
+</div>
+
+{% endblock %}
+

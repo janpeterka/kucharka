@@ -1,0 +1,30 @@
+details.colored {
+  margin-bottom: 0.2rem;
+}
+
+details.colored > summary {
+  background-color: var(--pale-spring-bud);
+  border-radius: 0.4rem; 
+  cursor: pointer;
+  padding: .5rem 0.5rem;
+}
+
+details[open].colored > summary  {
+  border-radius: 0.4rem 0.4rem 0 0; 
+}
+
+details.colored > summary > * {
+  display: inline;
+}
+
+details.colored > div {
+  border: 2px solid var(--pale-spring-bud);
+  border-radius: 0 0 0.4rem 0.4rem;
+  padding: 1rem;
+}
+
+/*
+details summary > * { 
+  display: inline;
+}
+*/

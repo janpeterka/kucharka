@@ -1,38 +1,13 @@
 {% extends "base/base.html.j2" %}
 {% block title %} Vytvořit recept {% endblock %}
 
- {% block links %}
+{% block links %}
     {{ super() }}
     {{ turbo() }}
 {% endblock %}
 
 {% block content %}
 
-<div class="col">
-    <div>
-        {% include "recipes/new/_add_ingredient_form.html.j2" %}
-    </div>
+{% include "recipes/new/_new_recipe_form.html.j2" %}
 
-    <div>
-        <table class="table">
-            <thead>
-                <th>{{ texts.title }}</th>
-                <th> {{ texts.amount_simple }}</th>
-            </thead>
-            <tbody id="ingredients">
-            </tbody>
-        </table>
-
-        <div class="col-12">
-            {% include "recipes/new/_new_recipe_form.html.j2" %}
-        </div>
-
-    </div>
-
-</div>
-
-{% endblock %}
-
-{% block scripts_after %}
-<script type="text/javascript"> $(document).ready(function() {$('#ingredient_select').select2();}); </script>
 {% endblock %}

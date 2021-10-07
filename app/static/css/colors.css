@@ -1,4 +1,4 @@
-:root{
+:root {
     /* Old colors */
     --error: #CC0000;
     --success: #007E33;
@@ -18,7 +18,6 @@
     --logo-blue: #0177EA;
     --logo-light-blue: #ABF2FD;
     --logo-light-green: #D0E3D6;
-    --logo-light-grey: #F8FEFF;
     --logo-white: #F8FEFF;
 
     /* Added based on logo-blue*/
@@ -28,59 +27,98 @@
     --palette-cyan: #01EAE9;
 
     /* Other */
+    --color-light-grey: lightgrey;
     --color-grey: #C1C2C4;
     --color-green: #2FAC03;
+
+    /* CSS HEX */
+    --hunter-green: #386641ff;
+    --lapis-lazuli: #1c5d99ff;
+    --pale-spring-bud: #dde0bdff;
+    --pale-spring-bud-2: #d0d1acff;
+
+    --admin-yellow: #FFE766;
 }
 
 /*Colors*/
 
-.color-red{
+.color-dark-green {
+    color: var(--hunter-green);
+}
+
+.color-white {
+    color: white;
+}
+
+.color-red {
     color: var(--error);
 }
 
-.color-light-blue{
+.color-light-blue {
     color: var(--logo-light-blue);
 }
 
-.color-blue{
+.color-blue {
     color: var(--logo-blue);
 }
 
-.color-light-green{
+.color-light-green {
     color: var(--logo-light-green);
 }
 
-.color-orange{
+.color-orange {
     color: var(--palette-orange);
 }
 
-.color-purple{
+.color-purple {
     color: var(--palette-purple);
 }
 
+.color-green {
+    color: var(--color-green);
+}
+
+.color-wheat {
+    color: #f5deb3;
+}
+
+
+
 /*Background colors*/
-.bg-color-red{
+.bg-color-red {
     background-color: var(--error);
 }
 
-.bg-color-light-blue{
+.bg-color-light-blue {
     background-color: var(--logo-light-blue);
 }
 
-.bg-color-blue{
-    background-color: var(--logo-blue);
+.bg-color-blue {
+    background-color: var(--lapis-lazuli);
 }
 
-.bg-color-light-green{
+.bg-color-light-green {
     background-color: var(--logo-light-green);
 }
 
-.bg-color-orange {
+.bg-color-orange  {
     background-color: var(--palette-orange);
 }
 
-.bg-color-purple{
+.bg-color-purple {
     background-color: var(--palette-purple);
+}
+
+.bg-color-dark-green {
+    background-color: var(--hunter-green);
+}
+
+.bg-color-grey {
+    background-color: var(--color-grey);
+}
+
+.bg-color-light-grey {
+    background-color: var(--color-light-grey);
 }
 
 /*Color signals*/
@@ -92,18 +130,13 @@
     color: var(--inactive);
 }
 
-.color-green{
-    color: var(--color-green);
+.color-success {
+    color: var(--success);
 }
-
-.color-wheat {
-    color: #f5deb3;
-}
-
-
 
 /*Filters*/
 
+/*
 .filter-gs-25{
     filter: grayscale(25%);
 }
@@ -118,4 +151,9 @@
 
 .filter-gs-90{
     filter: grayscale(90%);
+}
+*/
+
+.opacity-50 {
+    opacity: 0.7;
 }

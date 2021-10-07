@@ -14,9 +14,14 @@ from app import db
 
 # Custom methods for all my classes
 class BaseMixin(object):
-    def __init__(self, **kwargs):
-        for kwarg in kwargs:
-            setattr(self, kwarg.key, kwarg.value)
+    def __str__(self):
+        if hasattr(self, "name"):
+            return self.name
+        else:
+            return self.__str__
+
+    def set_defaults(self, **kwargs):
+        self.created_by = current_user.id
 
     # LOADERS
 
@@ -26,8 +31,15 @@ class BaseMixin(object):
         return cls.query.filter_by(id=object_id).first()
 
     @classmethod
-    def load_all(cls):
-        return cls.query.filter_by(is_visible=True).all()
+    def load_all(cls, ordered_by_name=True):
+        from unidecode import unidecode
+
+        objects = cls.query.all()
+
+        if ordered_by_name and hasattr(cls, "name"):
+            objects.sort(key=lambda x: unidecode(x.name.lower()))
+
+        return objects
 
     @classmethod
     def load_last(cls):
@@ -42,15 +54,15 @@ class BaseMixin(object):
         return cls.query.filter_by(name=name).first()
 
     @classmethod
-    def load_by_attribute(cls, attribute, value):
+    def load_all_by_attribute(cls, attribute, value):
         if not hasattr(cls, attribute):
             raise AttributeError
 
         return cls.query.filter_by(**{attribute: value}).all()
 
     @classmethod
-    def load_first_by_attribute(cls, attribute, value):
-        elements = cls.load_by_attribute(attribute, value)
+    def load_by_attribute(cls, attribute, value):
+        elements = cls.load_all_by_attribute(attribute, value)
         if elements:
             return elements[0]
         else:
@@ -61,15 +73,8 @@ class BaseMixin(object):
     def created_at_date(cls, date):
         if hasattr(cls, "created_at"):
             attr = "created_at"
-        elif hasattr(cls, "created"):
-            attr = "created"
-        elif hasattr(cls, "date"):
-            # DailyPlan
-            attr = "date"
         else:
-            raise AttributeError(
-                'No "created_at", "created" or "date" for created_recently'
-            )
+            raise AttributeError('No "created_at" for created_recently')
 
         return cls.query.filter(func.DATE(getattr(cls, attr)) == date).all()
 
@@ -78,15 +83,8 @@ class BaseMixin(object):
         date_from = datetime.date.today() - datetime.timedelta(days=days)
         if hasattr(cls, "created_at"):
             attr = "created_at"
-        elif hasattr(cls, "created"):
-            attr = "created"
-        elif hasattr(cls, "date"):
-            # DailyPlan
-            attr = "date"
         else:
-            raise AttributeError(
-                'No "created_at", "created" or "date" for created_recently'
-            )
+            raise AttributeError('No "created_at" for created_recently')
 
         return cls.query.filter(getattr(cls, attr) > date_from).all()
 
@@ -150,41 +148,32 @@ class BaseMixin(object):
             application.logger.error("Refresh error: {}".format(e))
             return False
 
-    # OTHER METHODS
+    # PROPERTIES
 
     def is_author(self, user) -> bool:
         if hasattr(self, "author"):
-            return self.author == user
+            return self.author == user  # type: ignore
         else:
             return False
-            # raise AttributeError("No 'author' attribute.")
 
     @property
     def is_current_user_author(self) -> bool:
         return self.is_author(current_user)
 
-    # PROPERTIES
-
     @hybrid_property
     def is_public(self) -> bool:
-        """alias for is_shared"""
         if hasattr(self, "is_shared"):
-            return self.is_shared
+            return self.is_shared  # type: ignore
         else:
             return False
-            # raise AttributeError("No 'is_shared' attribute.")
-
-    @hybrid_property
-    def is_visible(self) -> bool:
-        if hasattr(self, "is_visible"):
-            return self.is_visible
-        else:
-            return True
 
     # PERMISSIONS
     def can_view(self, user) -> bool:
         return (
-            self.is_public or self.is_author(user) or getattr(user, "is_admin", False)
+            self == user  # for User
+            or self.is_public
+            or self.is_author(user)
+            or getattr(user, "is_admin", False)
         )
 
     @property
@@ -192,7 +181,7 @@ class BaseMixin(object):
         return self.can_view(user=current_user)
 
     def can_edit(self, user) -> bool:
-        return self.is_author(user) or getattr(user, "is_admin", False)
+        return self == user or self.is_author(user) or getattr(user, "is_admin", False)
 
     @property
     def can_current_user_edit(self) -> bool:

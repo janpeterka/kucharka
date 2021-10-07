@@ -4,32 +4,17 @@ from flask_migrate import Migrate
 from flask_babel import Babel
 from turbo_flask import Turbo
 
-from flask_security import (
-    Security,
-    SQLAlchemyUserDatastore,
-    # UserMixin,
-    # RoleMixin,
-    # login_required,
-)
+from flask_security import Security, SQLAlchemyUserDatastore
 
 
-# import pymysql
-# import numpy as np
-
-# pymysql.converters.encoders[np.float64] = pymysql.converters.escape_float
-# pymysql.converters.conversions = pymysql.converters.encoders.copy()
-# pymysql.converters.conversions.update(pymysql.converters.decoders)
-
-db = SQLAlchemy(session_options={"autoflush": False, "autocommit": False})
+db = SQLAlchemy(session_options={"autoflush": False})
 migrate = Migrate()
 babel = Babel()
 turbo = Turbo()
 
-from app.models.users import User  # noqa: E402
-from app.models.roles import Role  # noqa: E402
+from flask_sqlalchemy.model import DefaultMeta  # noqa: E402
 
-user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-security = Security()
+BaseModel: DefaultMeta = db.Model
 
 
 def create_app(config_name="default"):
@@ -42,10 +27,11 @@ def create_app(config_name="default"):
 
     print(f"DB INFO: using {application.config['INFO_USED_DB']}")
 
-    # @migrate.configure
-    # def configure_alembic(config):
-    #     # modify config object
-    #     return config
+    from app.models.users import User  # noqa: E402
+    from app.models.roles import Role  # noqa: E402
+
+    user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+    security = Security()
 
     # APPS
     db.init_app(application)
@@ -54,18 +40,18 @@ def create_app(config_name="default"):
     babel.init_app(application)
     turbo.init_app(application)
 
-    # if application.config["SENTRY_MONITORING"]:
-    #     import sentry_sdk
-    #     from sentry_sdk.integrations.flask import FlaskIntegration
-    #     from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
+    if application.config["SENTRY_MONITORING"]:
+        import sentry_sdk
+        from sentry_sdk.integrations.flask import FlaskIntegration
+        from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
-    #     sentry_sdk.init(
-    #         dsn="https://cf0294c7f1784ba2acbe5c9ed2409bef@o457759.ingest.sentry.io/5454190",
-    #         integrations=[FlaskIntegration(), SqlalchemyIntegration()],
-    #         traces_sample_rate=0.2,
-    #     )
-    # else:
-    #     print("No Sentry monitoring.")
+        sentry_sdk.init(
+            dsn="https://e50dbd5c633a43dda2d9d4d0ae2475ad@o457759.ingest.sentry.io/5776351",
+            integrations=[FlaskIntegration(), SqlalchemyIntegration()],
+            traces_sample_rate=0.2,
+        )
+    else:
+        print("No Sentry monitoring.")
 
     # LOGGING
     # from .config.config_logging import db_handler, gunicorn_logger
@@ -78,8 +64,8 @@ def create_app(config_name="default"):
 
     register_all_controllers(application)
 
-    # from .controllers import register_error_handlers  # noqa: F401
+    from .controllers import register_error_handlers  # noqa: F401
 
-    # register_error_handlers(application)
+    register_error_handlers(application)
 
     return application

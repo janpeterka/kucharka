@@ -1,0 +1,51 @@
+{% extends "base/base.html.j2" %}
+{% block title %}
+    {% if current_user.is_admin and user != current_user %}
+        Profil [{{ user.id }} | {{ user.username }}]   
+    {% else %}
+        Profil
+    {% endif %}
+{% endblock %}
+
+{% block script %}
+    {% include 'javascript/stimulus.js.html' %}
+    {% include 'javascript/password_visibility_controller.js.html' %}
+{% endblock %}
+
+{% block content %}
+
+<div class="col-12">
+    <form action="{{ url_for('UsersView:post') }}" class="form-group" method="post" accept-charset="utf-8">
+        {{ user_form.csrf_token }}
+        {# {% from "macros/_form_element.html.j2" import render_field %} #}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>{{ texts.user.username }}</th>
+                    <th>{{ texts.user.name }}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        {{ user.email }}
+                    </td>
+                    <td>
+                        {{ render_field(user_form.full_name, has_label=False) }}
+                    </td>
+                    <td>
+                        {{ render_field(user_form.submit, class="btn btn-warning", has_label=False, value=texts.edit_confirm) }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+
+<div>
+    <a href="{{ url_for('UsersView:show') }}" class="btn btn-secondary">{{ texts.edit_cancel }} {{ icon("edit") }}</a>
+</div>
+
+{% endblock %}
+

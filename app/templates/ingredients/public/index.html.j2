@@ -1,0 +1,40 @@
+{% extends "base/base.html.j2" %}
+{% block title %} Veřejné suroviny {% endblock %}
+
+{% block links %}
+	{{ super() }}
+	{{ turbo() }}
+{% endblock %}
+
+
+{% block content %}
+
+{# {% if current_user.is_admin %} {% include "admin/ingredients/_ingredients_to_approve.html.j2" %} {% endif %} #}
+
+<div class="mb-5">
+	
+	<div class="text-center">
+  	<h1 class="text-uppercase font-comfortaa">Veřejné suroviny</h1>
+	</div>
+	{# {% if current_user.is_admin %}		 #}
+		{# <a href="{{ url_for('IngredientsView:add_public') }}"><button class="btn btn-secondary float-right">Přidat veřejnou surovinu</button></a> #}
+	{# {% endif %} #}
+	{# <table id="public_ingredients" class="table">
+	<tr>
+		<th>Surovina</th>
+		<th>Specifika</th>
+		<th>Vytvořil*a</th>
+	    <th>Míra</th>
+	    <th>Kategorie</th>
+	</tr>
+	</table> #}
+	<ul class="list">
+	    {% for ingredient in public_ingredients %}
+	    	{% include "ingredients/public/_ingredient.html.j2"%}
+		{% endfor %}
+	</ul>
+</div>
+{# </table> #}
+
+{% endblock %}
+

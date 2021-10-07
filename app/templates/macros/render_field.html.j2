@@ -29,7 +29,7 @@
   {% if field.type == 'BooleanField' %}
     <div class="form-check {{div_class}}">
       {{ field(class_=class_ + ' form-check-input', **kwargs) }}
-      <label class="form-check-label" for="{{ field.id }}">{{ label|safe }}</label>
+      <label class="form-check-label" for="{{ field.id }}">{{ label }}</label>
     </div>
   {% else %}
     {% if field.type in ('TextField', 'TextAreaField', 'PasswordField',
@@ -37,7 +37,7 @@
       {% set class_ = class_ + ' form-control' %}
     {% elif field.type == 'FileField' %}
       {% set class_ = class_ + ' form-control-file' %}
-    {% elif field.type == 'SelectField' %}
+    {% elif field.type in ('SelectField', 'QuerySelectField', 'QuerySelectMultipleField') %}
       {% set class_ = class_ + ' form-control' %}
 
     {% elif field.type == 'SubmitField' %}
@@ -56,10 +56,10 @@
       {% set class_ = class_ + ' btn btn-warning' %}
     {% endif %}
 
-    {% if field.type == 'SelectField' %}
+    {% if field.type in ('SelectField', 'QuerySelectField', 'QuerySelectMultipleField') %}
       {{ field(class_=class_, **kwargs) }}
     {% elif field.type == 'PasswordField' %}
-      {{ field(class_=class_, placeholder=placeholder, data_password_visibility_target="passwordField", **kwargs) }}
+      {{ field(class_=class_, placeholder=placeholder, data_see_password_target="passwordField", **kwargs) }}
     {% else %}
       {{ field(class_=class_, placeholder=placeholder, **kwargs) }}
     {% endif %}

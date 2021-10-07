@@ -3,48 +3,56 @@
     {{ texts.recipe }}
 {% endblock %}
 
-{% block content %}
-<form action="{{ url_for('RecipesView:post_edit', id=recipe.id) }}" class="form" method="post" accept-charset="utf-8">
-    {{ form.csrf_token }}
-    <div class="w-100">
-    {{ render_field(form.name, has_label=False, class="col-6") }}
-    </div>
-
-    <div class="w-100">
-    {{ render_field(form.description, has_label=False, class="col") }}                            
-    </div>
-
-    <div class="w-100 mt-2 mb-2">
-    {{ render_field(form.category, has_label=False, class="col") }}                            
-    </div>
-
-    <input type="submit" value="{{ texts.recipe_edit }}" class="btn btn-warning">
-    <a class="btn btn-secondary ml-2" href="{{ url_for('RecipesView:show', id=recipe.id) }}">{{ texts.edit_cancel }} {{ icon("edit") }}</a>
-</form>
-
-<table id="ingredients" class="table">
-    <tr>
-        <th>{{ texts.title }}</th>
-        <th>{{ texts.amount_simple }}</th>
-        {# <th>{{ texts.energy_simple }}</th> #}
-        {# <th>{{ texts.protein_simple }}</th> #}
-        {# <th>{{ texts.fat_simple }}</th> #}
-        {# <th>{{ texts.sugar_simple }}</th> #}
-    </tr>
-
-    {% for ingredient in recipe.ingredients: %}
-        {% include "recipes/_edit_ingredient.html.j2" %}
-    {% endfor %}
-
-    {# <tr class="totals"> #}
-        {# <td>Celkem</td> #}
-        {# <td>{{ totals.amount|round(2,'common')  }}</td> #}
-        {# <td>{{ totals.calorie }}</td> #}
-        {# <td>{{ totals.protein }}</td> #}
-        {# <td>{{ totals.fat }}</td> #}
-        {# <td>{{ totals.sugar }}</td> #}
-    {# </tr> #}
-</table>
-
+ {% block links %}
+    {{ super() }}
+    {{ turbo() }}
+    <!-- include summernote css/js-->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 {% endblock %}
 
+{% block script %}
+    {% include 'javascript/stimulus.js.html' %}
+    {% include 'javascript/enable_select2_controller.js.html' %}
+    {% include 'javascript/enable_summernote_controller.js.html' %}
+{% endblock %}
+
+{% block content %}
+
+<a class="btn btn-secondary ml-2 mb-3" href="{{ url_for('RecipesView:show', id=recipe.id) }}">{{ texts.edit_finish }} {{ icon("edit") }}</a>
+
+<details open class="form-control mb-3">
+<summary> Upravit recept </summary>
+    {% include "recipes/edit/_info.html.j2" %}
+</details>
+
+<details open class="form-control mb-3">
+<summary> Upravit suroviny </summary>
+<div>
+    {% include "recipes/edit/_add_ingredient_form.html.j2" %}
+</div>
+
+<table class="table">
+    <tr>
+        <th>{{ texts.title }}</th>
+        <th>Množství (na {{ recipe.portion_count }} porcí) </th>
+        <th colspan="2"></th>
+    </tr>
+    <tbody id="ingredients">
+
+    {% for ingredient in recipe.ingredients: %}
+        {% include "recipes/edit/_edit_ingredient.html.j2" %}
+    {% endfor %}
+    </tbody>
+</table>
+</details>
+
+
+<details class="form-control mb-3" open>
+<summary> Upravit návod </summary>
+    {% include "recipes/edit/_description.html.j2" %}
+</details>
+
+<a class="btn btn-secondary ml-2 mb-5" href="{{ url_for('RecipesView:show', id=recipe.id) }}">{{ texts.edit_finish }} {{ icon("edit") }}</a>
+
+{% endblock %}

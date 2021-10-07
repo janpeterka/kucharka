@@ -1,13 +1,71 @@
-<tr data-id="{{ daily_recipe.id }}">
-    <td>{{ link_to(daily_recipe.recipe) }}
-    	{% if not daily_recipe.recipe.is_current_user_author %} {{ icon("public") }} {% endif %}
+{% from "macros/icons.html.j2" import icon %}
+{% from "macros/turbo.html.j2" import button_to %}
+
+<tr id="daily-recipe-{{ daily_recipe.id }}" {% if daily_recipe.is_shopping %} class="bg-color-grey opacity-50" {% endif %} class="align-middle">
+    <td>
+        {% if not daily_recipe.is_shopping %}
+            {{ link_to(daily_recipe.recipe) }}
+        {% else %}
+            {{ daily_recipe.recipe.name }}
+        {% endif %}
+
+        {% if daily_recipe.is_shopping %}
+            {{ icon("shopping") }}
+        {% elif  daily_recipe.recipe.is_shared %}
+    	    {{ icon("public") }}
+        {% endif %}
 	</td>
     <td>
-        {% from "macros/daily_plans/_change_order_button.html.j2" import change_order_buttons with context %}
-        {{ change_order_buttons() }}
+        {% if not daily_recipe.is_shopping %}
+            
+            {{ daily_recipe.meal_type | default("", True) }}
+
+            {% if daily_recipe.can_current_user_edit %}
+            <details>    
+            <summary><em> upravit typ jídla </em></summary>
+                <form method="POST" class="form form-inline text-right mr-3" action="{{ url_for('DailyPlansEditView:change_meal_type', daily_recipe_id=daily_recipe.id) }}">
+                    <select name="meal-type" id="meal-type" class="form-control">
+                        <option name='snídaně' value='snídaně'>Snídaně</option>
+                        <option name='dopolední svačina' value='dopolední svačina'>Dopolední svačina</option>
+                        <option name='oběd' value='oběd'>Oběd</option>
+                        <option name='odpolední svačina' value='odpolední svačina'>Odpolední svačina</option>
+                        <option name='večeře' value='večeře'>Večeře</option>
+                        <option name='program' value='program'>Program</option>
+                        <option name='jiné' value='jiné'>Jiné</option>
+                        <option name='nákup' value='nákup'>Nákup</option>
+                    </select>
+                    <button type="submit" class="btn btn-secondary"> Změnit </button>
+                </form>
+            </details>
+            {% endif %}
+        {% endif %}
     </td>
     <td>
-        {% from "macros/_active_icons.html.j2" import remove_icon %}
-        {{ remove_icon(url=url_for('DailyPlansView:remove_daily_recipe', daily_recipe_id=daily_recipe.id, date=dates['active']))}}
+        {% if not daily_recipe.is_shopping %}
+            {% if daily_recipe.can_current_user_edit %}
+            <details>
+            <summary><em> počet porcí: {{ daily_recipe.portion_count }} </em></summary>    
+                <form method="POST" action="{{ url_for('DailyPlansEditView:change_portion_count', daily_recipe_id=daily_recipe.id) }}" class="form form-inline">
+                    <input type="number" class="form-control" name="portion-count" value="{{ daily_recipe.portion_count}}">
+                    <button type="submit" class="btn btn-secondary"> Změnit </button>               
+                </form>
+            </details>
+            {% else %}
+            <em> počet porcí: {{ daily_recipe.portion_count }}  </em>
+            {% endif %}
+        {% endif %}
+    </td>
+    <td>
+        {% if daily_recipe.can_current_user_edit %}
+        {{ button_to(action=url_for('DailyPlansEditView:sort_up', daily_recipe_id=daily_recipe.id), class="icon float-left", value='<i class="fas fa-sort-up"></i>') }}
+        {{ button_to(action=url_for('DailyPlansEditView:sort_down', daily_recipe_id=daily_recipe.id), class="icon float-right", value='<i class="fas fa-sort-down"></i>') }}
+        {% endif %}
+    </td>
+    <td>
+        {% if daily_recipe.can_current_user_edit %}
+        <form method="POST" class="text-right mr-3" action="{{ url_for('DailyPlansEditView:remove_daily_recipe', daily_recipe_id=daily_recipe.id, daily_plan_id=daily_recipe.daily_plan.id) }}">
+            <button type="submit" class="destroy icon"> {{ icon("remove") }} </button>
+        </form>
+        {% endif %}
     </td>
 </tr>

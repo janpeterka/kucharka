@@ -5,10 +5,10 @@
       </div>
     <label style="font-size: smaller;">{{ category.description if category.description  }}</label>
     {% if not edit_id %}
-      <form method="POST" action="{{ url_for('IngredientCategoriesView:show_edit', id=category.id) }}" data-turbo-frame="all">
+      <form method="POST" action="{{ url_for('IngredientCategoriesView:edit', id=category.id) }}" data-turbo-frame="all">
         <button type="submit" class="change"></button>
       </form>
-      <form method="POST" action="{{ url_for('IngredientCategoriesView:delete', id=category.id) }}">
+      <form method="DELETE" action="{{ url_for('IngredientCategoriesView:delete', id=category.id) }}">
         <button type="submit" class="destroy"></button>
       </form>
     {% endif %}

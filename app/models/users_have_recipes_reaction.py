@@ -1,11 +1,11 @@
-from app import db
+from app import db, BaseModel
 
 from flask_security import current_user
 
 from app.helpers.base_mixin import BaseMixin
 
 
-class UserHasRecipeReaction(db.Model, BaseMixin):
+class UserHasRecipeReaction(BaseModel, BaseMixin):
     __tablename__ = "users_have_recipes_reaction"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -21,14 +21,13 @@ class UserHasRecipeReaction(db.Model, BaseMixin):
 
     @staticmethod
     def load_by_recipe(recipe):
-        return UserHasRecipeReaction.load_by_attribute("recipe_id", recipe.id)
+        return UserHasRecipeReaction.load_all_by_attribute("recipe_id", recipe.id)
 
     @staticmethod
     def load_by_recipe_and_user(recipe, user):
-        reactions = UserHasRecipeReaction.query.filter_by(
+        return UserHasRecipeReaction.query.filter_by(
             recipe_id=recipe.id, user_id=user.id
         ).first()
-        return reactions
 
     @staticmethod
     def load_by_recipe_and_current_user(recipe):

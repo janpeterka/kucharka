@@ -1,12 +1,10 @@
 {% extends "base/base.html.j2" %}
+{% block title %} Databáze receptů {% endblock %}
 
 {% block links %}
     {{ super() }}
     {{ turbo() }}
 {% endblock %}
-
-{% block title %} {{ texts.recipe_all }} {% endblock %}
-
 
 {% block style %}
 	<link href="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.css" rel="stylesheet">
@@ -14,37 +12,43 @@
 
 {% block script %}
 	<script src="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.js"></script>
+  {% include 'javascript/stimulus.js.html' %}
+  {% include 'javascript/enable_select2_controller.js.html' %}
+  {% include 'javascript/recipe_reaction_controller.js.html' %}
 {% endblock %}
 
 {% block content %}
-  <form action="{{ url_for('PublicRecipesView:filter') }}" method="post" class="form-inline form-control" accept-charset="UTF-8">
-  	{{ form.csrf_token }}
-  		<div class="col-12">
-  			<div class="mt-2 row">
-  				{{ form.ingredient_name.label(class_="ml-2") }}
-  				{{ render_field(form.ingredient_name, has_label=False, class="ml-3") }}
-          {{ form.category.label(class_="ml-2") }}
-          {{ render_field(form.category, has_label=False, class="ml-3") }}
-				  {{ render_field(form.with_reaction, class="ml-5", label="moje" + icon("heart_full", with_tooltip=True, tooltip="moje oblíbené")) }}
-  			</div>
-        <div class="mt-2 ml-1 row">
-          {# <details open> #}
-            {# <summary>Dietní omezení</summary> #}
-            {{ render_field(form.is_vegetarian, div_class="form-check-inline", label="musí být " + icon("vegetarian")) }}
-            {{ render_field(form.is_vegan, div_class="form-check-inline", label="musí být " + icon("vegan")) }}
-            {{ render_field(form.gluten_free, div_class="form-check-inline", label="musí být " + icon("gluten_free")) }}
-            {{ render_field(form.lactose_free, div_class="form-check-inline", label="musí být " + icon("lactose_free")) }}
-          {# </details> #}
-        </div>
-        <div class="text-right">
-          {{ form.submit(class_='btn btn-primary ml-3') }}
-        </div>
-        {# <div class="row"> #}
-        {# </div> #}
-  		</div>
-  </form>
 
-  {% include "public_recipes/_recipes_table.html.j2"%}
+<form action="{{ url_for('PublicRecipesView:index') }}" method="post" class="form-inline form-control" accept-charset="UTF-8">
+	{{ form.csrf_token }}
+		<div class="col">
+			<div class="mt-2 row">
+				{{ form.ingredient.label(class_="ml-2") }}
+				{{ render_field(form.ingredient, has_label=False, class="ml-3") }}
+        {{ form.category.label(class_="ml-4") }}
+        {{ render_field(form.category, has_label=False, class="ml-3") }}
+
+        {{ render_field(form.with_reaction, class="ml-5", label=icon("heart_full", with_tooltip=True, tooltip="moje oblíbené")) }}
+			</div>
+
+      <hr>
+      
+      <div class="mt-2 ml-1 row">
+        <div data-controller="enable-select2" class="col-10" style="display: inline">
+            {# {{ form.with_labels.label(class_="ml-4") }} #}
+            {{ render_field(form.with_labels, has_label=False, data_enable_select2_target="select", style="width:70%;") }}
+        </div>
+      </div>
+
+      <hr>
+      
+      <div class="text-right">
+        {{ form.submit(class_='btn btn-primary ml-3') }}
+      </div>
+		</div>
+</form>
+
+{% include "public_recipes/_recipes_table.html.j2"%}
 
 {% endblock %}
 

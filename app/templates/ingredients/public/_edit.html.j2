@@ -1,0 +1,21 @@
+{% from "macros/icons.html.j2" import icon %}
+
+{% from "macros/general.html.j2" import options %}
+<turbo-frame id="ingredient-{{ ingredient.id }}">
+  <li class="editing">
+    <div>
+      <label></label>
+    </div>
+    <form method="POST" class="form" action="{{ url_for('PublicIngredientsView:post_edit', id=ingredient.id) }}">
+    	{{ ingredient.name }}
+      {# <input type="text" name="ingredient_name" value="{{ ingredient.name }}" class="edit" autofocus> #}
+      <select name="measurement_id">
+      	{{ options(measurements, selected_item=ingredient.measurement) }}
+      </select>
+      <select name="category_id">
+      	{{ options(categories, selected_item=ingredient.category) }}
+      </select>
+      <button type="submit">✔</button>
+    </form>
+  </li>
+</turbo-frame>

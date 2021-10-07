@@ -1,0 +1,29 @@
+body {
+	font-family: "Open Sans", Calibri, Candara, Arial, sans-serif;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+/*@page { size: A4; margin: 1cm }*/
+@media print {
+    nav { display: none }
+}
+
+@page {
+    /*size: A4;*/
+    counter-increment: page;
+
+    @bottom-center {
+	    content: counter(page) " / " counter(pages);
+	    /*text-align: center;*/
+	    /*border-top: .05rem solid #666;*/
+    	width: 100%;
+    }
+}
+
+td div, th div, div, .vessel, .column-1, .column-2, .column-3, .column-4, .column-5, .column-6, .column-7, .column-8, .column-9, .column-10, .column-11, .column-12, .series {
+  page-break-inside: avoid !important;
+}

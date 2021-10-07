@@ -1,5 +1,4 @@
-<script type="text/javascript">
-  application.register("enable-summernote", class extends Stimulus.Controller {
+Stimulus.register("enable-summernote", class extends Controller {
     static get targets() {
       return ["summernote"]
     }
@@ -8,7 +7,6 @@
     if (this.hasSummernoteTarget) {
       $(this.summernoteTarget).summernote();
     }
-    
   }
+
 })
-</script>

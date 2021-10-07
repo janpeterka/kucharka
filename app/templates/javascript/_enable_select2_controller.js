@@ -1,5 +1,4 @@
-<script type="text/javascript">
-  application.register("enable-select2", class extends Stimulus.Controller {
+Stimulus.register("enable-select2", class extends Controller {
     static get targets() {
       return ["select"]
     }
@@ -8,7 +7,6 @@
     if (this.hasSelectTarget) {
       $(this.selectTarget).select2();
     }
-    
+
   }
 })
-</script>

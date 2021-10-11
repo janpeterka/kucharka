@@ -15,6 +15,22 @@ div.flashes {
     background-color: rgba(0, 0, 0, 0);
 }
 
+/*@keyframes cssAnimation {
+    to {
+        width:0;
+        height:0;
+        overflow:hidden;
+    }
+}
+
+@-webkit-keyframes cssAnimation {
+    to {
+        width:0;
+        height:0;
+        visibility:hidden;
+    }
+}*/
+
 div.flashes ul li{
     list-style-type: none;
     text-align: center; 

@@ -17,6 +17,7 @@
 
 {% block content %}
 
+<turbo-frame target="recipes-table">
 <form action="{{ url_for('PublicRecipesView:index') }}" method="post" class="form-inline form-control" accept-charset="UTF-8">
 	{{ form.csrf_token }}
 		<div class="col">
@@ -45,8 +46,11 @@
       </div>
 		</div>
 </form>
+</turbo-frame>
 
+<turbo-frame id="recipes-table">
 {% include "public_recipes/_recipes_table.html.j2"%}
+</turbo-frame>
 
 {% endblock %}
 

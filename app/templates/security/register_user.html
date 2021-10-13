@@ -6,11 +6,11 @@
 <h1>{{ _('Registrovat') }}</h1>
 <form action="{{ url_for_security('register') }}" class="form-controll" method="POST" name="register_user_form">
   {{ register_user_form.hidden_tag() }}
-  {{ render_field(register_user_form.email) }}
-  {{ render_field(register_user_form.password) }}
+  {{ render_field(register_user_form.email, label="Přihlašovací e-mail", placeholder="např. kuchar@skautskakuchyne.cz") }}
+  {{ render_field(register_user_form.password, label="Heslo", placeholder="***") }}
   {% if register_user_form.password_confirm %}
-    {{ render_field(register_user_form.password_confirm) }}
+    {{ render_field(register_user_form.password_confirm, label="Heslo znovu", placeholder="***") }}
   {% endif %}
-  {{ render_field(register_user_form.submit) }}
+  {{ render_field(register_user_form.submit, value="Registrovat") }}
 </form>
 {% endblock %}

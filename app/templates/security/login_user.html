@@ -1,5 +1,4 @@
 {% extends "security/base.html" %}
-<!-- {% from "macros/render_field.html.j2" import render_field %} -->
 
 {% block content %}
 {% include "security/_messages.html" %}
@@ -7,10 +6,11 @@
 <form action="{{ url_for_security('login') }}" class="form-control" method="POST" name="login_user_form" data-turbo="false">
   {{ login_user_form.hidden_tag() }}
   {{ render_field(login_user_form.email, label="Přihlašovací e-mail", placeholder="např. kuchar@skautskakuchyne.cz", with_errors=True) }}
-  {{ render_field(login_user_form.password, label="Heslo", placeholder="***", with_errors=True) }}
-  {{ render_field(login_user_form.remember, label="Pamatovat si", with_errors=True) }}
+  {{ render_field(login_user_form.password, label="Heslo", placeholder="***") }}
+  {{ render_field(login_user_form.remember, label="Pamatovat si", with_errors=False) }}
   {{ render_field(login_user_form.submit, value="Přihlásit se") }}
 </form>
 
+<a href="{{ url_for_security('forgot_password')}}">Zapomněli jste heslo?</a>
 
 {% endblock %}

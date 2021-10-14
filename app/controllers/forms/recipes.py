@@ -51,24 +51,12 @@ class RecipesForm(FlaskForm):
 
     submit = SubmitField("Přidat recept")
 
-    def set_category(self, categories):
-        self.category.choices = [
-            (category.id, category.name) for category in categories
-        ]
-
-    def set_all(self, **kwargs):
-        if "categories" in kwargs:
-            self.set_category(kwargs["categories"])
-
 
 class RecipeFilterForm(FlaskForm):
     ingredient = QuerySelectField(
         "Surovina", query_factory=ingredients, allow_blank=True
     )
     category = QuerySelectField("Kategorie", query_factory=categories, allow_blank=True)
-
-    with_labels = QuerySelectMultipleField(
-        "Dietní omezení", query_factory=dietary_labels
-    )
+    labels = QuerySelectMultipleField("Dietní omezení", query_factory=dietary_labels)
 
     submit = SubmitField("Filtrovat")

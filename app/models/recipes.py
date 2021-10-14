@@ -168,10 +168,10 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
     @property
     def can_current_user_view(self) -> bool:
         return (
-            current_user == self.author
-            or current_user.is_admin
-            or self.is_shared
+            self.is_shared
             or self.is_in_shared_event
+            or current_user == self.author
+            or current_user.is_admin
         )
 
     # PROPERTIES
@@ -207,6 +207,16 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
             return False
 
         return len(self.ingredients) == 0
+
+    @property
+    def unused_personal_ingredients(self) -> list:
+        return [
+            i for i in current_user.personal_ingredients if i not in self.ingredients
+        ]
+
+    @property
+    def unused_public_ingredients(self) -> list:
+        return [i for i in Ingredient.load_all_public() if i not in self.ingredients]
 
     @property
     def zero_amount_ingredients(self) -> list:
@@ -251,8 +261,4 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         return label in self.labels
 
     def has_labels(self, labels) -> bool:
-        for label in labels:
-            if not self.has_label(label):
-                return False
-
-        return True
+        return all(self.has_label(label) for label in labels)

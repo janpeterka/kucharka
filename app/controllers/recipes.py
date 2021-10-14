@@ -13,7 +13,6 @@ from app.helpers.helper_flask_view import HelperFlaskView
 from app.helpers.form import save_form_to_session, create_form
 
 from app.models.recipes import Recipe
-from app.models.ingredients import Ingredient
 
 from app.controllers.forms.recipes import RecipesForm, RecipeFilterForm
 
@@ -46,20 +45,14 @@ class RecipesView(HelperFlaskView):
     def before_edit(self, id):
         self.form = create_form(RecipesForm, obj=self.recipe)
 
-        unused_ingredients = [
-            i
-            for i in current_user.personal_ingredients
-            if i not in self.recipe.ingredients
-        ]
         self.personal_ingredients = sorted(
-            unused_ingredients, key=lambda x: unidecode(x.name.lower())
+            self.recipe.unused_personal_ingredients,
+            key=lambda x: unidecode(x.name.lower()),
         )
 
-        unused_public_ingredients = [
-            i for i in Ingredient.load_all_public() if i not in self.recipe.ingredients
-        ]
         self.public_ingredients = sorted(
-            unused_public_ingredients, key=lambda x: unidecode(x.name.lower())
+            self.recipe.unused_public_ingredients,
+            key=lambda x: unidecode(x.name.lower()),
         )
 
     def before_new(self):
@@ -70,6 +63,9 @@ class RecipesView(HelperFlaskView):
 
     def show(self, id):
         return self.template()
+
+    def public_show(self, id):
+        pass
 
     def show_pdf(self, id):
         return self.template(template_name="show", print=True)

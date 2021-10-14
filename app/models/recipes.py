@@ -209,6 +209,16 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         return len(self.ingredients) == 0
 
     @property
+    def unused_personal_ingredients(self) -> list:
+        return [
+            i for i in current_user.personal_ingredients if i not in self.ingredients
+        ]
+
+    @property
+    def unused_public_ingredients(self) -> list:
+        return [i for i in Ingredient.load_all_public() if i not in self.ingredients]
+
+    @property
     def zero_amount_ingredients(self) -> list:
         return [
             ri.ingredient

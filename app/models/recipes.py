@@ -249,3 +249,10 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     def has_label(self, label) -> bool:
         return label in self.labels
+
+    def has_labels(self, labels) -> bool:
+        for label in labels:
+            if not self.has_label(label):
+                return False
+
+        return True

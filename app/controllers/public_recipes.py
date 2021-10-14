@@ -49,7 +49,7 @@ class PublicRecipesView(HelperFlaskView):
         self.recipes = Recipe.load_all_public()
 
         # Get filters from request
-        with_labels = self.form.with_labels.data
+        labels = self.form.labels.data
         ingredient = self.form.ingredient.data
         with_reaction = self.form.with_reaction.data
         category = self.form.category.data
@@ -64,8 +64,8 @@ class PublicRecipesView(HelperFlaskView):
         if category and category.name != "---":
             self.recipes = [x for x in self.recipes if x.category == category]
 
-        for label in with_labels:
-            self.recipes = [x for x in self.recipes if x.has_label(label)]
+        if labels:
+            self.recipes = [x for x in self.recipes if x.has_labels(labels)]
 
         if turbo.can_stream():
             return turbo.stream(

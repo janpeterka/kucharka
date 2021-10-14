@@ -12,19 +12,6 @@ from app.models.ingredient_categories import IngredientCategory
 from app.models.measurements import Measurement
 
 
-def set_form(form, ingredient=None):
-    measurements = Measurement.load_all()
-    categories = IngredientCategory.load_all()
-
-    form.set_all(measurements=measurements, categories=categories)
-
-    if ingredient:
-        if ingredient.measurement:
-            form.measurement.data = ingredient.measurement.id
-        if ingredient.category:
-            form.category.data = ingredient.category.id
-
-
 class PublicIngredientsView(HelperFlaskView):
     decorators = [login_required, roles_accepted("admin", "application_manager")]
     template_folder = "ingredients/public"

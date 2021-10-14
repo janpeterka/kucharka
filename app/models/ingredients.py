@@ -85,6 +85,15 @@ class Ingredient(BaseModel, ItemMixin):
 
         return ingredients
 
+    @staticmethod
+    def load_all_by_current_user(ordered=True):
+        ingredients = Ingredient.query.filter(Ingredient.author == current_user).all()
+
+        if ordered:
+            ingredients.sort(key=lambda x: unidecode(x.name.lower()))
+
+        return ingredients
+
     def load_amount_by_recipe(self, recipe) -> float:
         rhi = RecipeHasIngredient.query.filter_by(
             recipe_id=recipe.id, ingredient_id=self.id

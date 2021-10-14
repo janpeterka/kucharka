@@ -30,14 +30,8 @@ class RecipesView(HelperFlaskView):
             self.recipes = sorted(
                 current_user.visible_recipes, key=lambda x: unidecode(x.name.lower())
             )
-            ingredients = [x.ingredients for x in self.recipes]
-            flatten_ingredients = [y for x in ingredients for y in x]
-            ingredient_names = [x.name for x in flatten_ingredients]
-            self.ingredient_names = ["---"]
-            self.ingredient_names.extend(list(set(ingredient_names)))
-            self.ingredient_names.sort()
 
-            self.form = RecipeFilterForm(ingredient_names=self.ingredient_names)
+            self.form = RecipeFilterForm()
 
         if name in ["show", "pdf", "show_pdf"] and "portion_count" in request.args:
             request_portion_count = request.args.get("portion_count", "1")
@@ -47,9 +41,7 @@ class RecipesView(HelperFlaskView):
             self.recipe.portion_count = int(request_portion_count)
 
     def before_filter(self):
-        self.form = RecipeFilterForm(
-            request.form, ingredient_names=self.ingredient_names
-        )
+        self.form = RecipeFilterForm(request.form)
 
     def before_edit(self, id):
         self.form = create_form(RecipesForm, obj=self.recipe)
@@ -157,19 +149,13 @@ class RecipesView(HelperFlaskView):
         self.recipes = current_user.visible_recipes
 
         # Get filters from request
-        ingredient_name = None
         with_labels = self.form.with_labels.data
-
-        if self.form.ingredient_name.data != "---":
-            ingredient_name = self.form.ingredient_name.data
-
+        ingredient = self.form.ingredient.data
         category = self.form.category.data
 
         # Filter recipes
-        if ingredient_name:
-            self.recipes = [
-                x for x in self.recipes if ingredient_name in x.concat_ingredients
-            ]
+        if ingredient:
+            self.recipes = [x for x in self.recipes if ingredient in x.ingredients]
 
         if category and category.name != "---":
             self.recipes = [x for x in self.recipes if x.category == category]

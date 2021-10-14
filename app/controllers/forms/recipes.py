@@ -1,10 +1,16 @@
-from wtforms import StringField, SubmitField, SelectField, IntegerField
+from wtforms import StringField, SubmitField, IntegerField
 from wtforms import validators
 from wtforms.widgets import TextArea
 
 from flask_wtf import FlaskForm
 
 from wtforms_sqlalchemy.fields import QuerySelectField, QuerySelectMultipleField
+
+
+def ingredients():
+    from app.models.ingredients import Ingredient
+
+    return Ingredient.load_all_in_public_recipes()
 
 
 def categories():
@@ -56,7 +62,9 @@ class RecipesForm(FlaskForm):
 
 
 class RecipeFilterForm(FlaskForm):
-    ingredient_name = SelectField("Surovina")
+    ingredient = QuerySelectField(
+        "Surovina", query_factory=ingredients, allow_blank=True
+    )
     category = QuerySelectField("Kategorie", query_factory=categories, allow_blank=True)
 
     with_labels = QuerySelectMultipleField(
@@ -64,15 +72,3 @@ class RecipeFilterForm(FlaskForm):
     )
 
     submit = SubmitField("Filtrovat")
-
-    def __init__(self, *args, ingredient_names=None, categories=None):
-        if ingredient_names is None:
-            raise Exception(
-                f"{self.__class__.__name__} has no select (ingredient_names) values"
-            )
-
-        super().__init__(*args)
-        self.set_ingredient_name(ingredient_names)
-
-    def set_ingredient_name(self, ingredient_names):
-        self.ingredient_name.choices = [name for name in ingredient_names]

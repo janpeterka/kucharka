@@ -261,8 +261,4 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         return label in self.labels
 
     def has_labels(self, labels) -> bool:
-        for label in labels:
-            if not self.has_label(label):
-                return False
-
-        return True
+        return all(self.has_label(label) for label in labels)

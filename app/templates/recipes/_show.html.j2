@@ -7,7 +7,6 @@
     <tr>
         <th>{{ texts.title }}</th>
         <th>Množství (na {{recipe.portion_count}} porcí)</th>
-        {# <th>{{ texts.amount_simple }}</th> #}
         <th></th>
     </tr>
 
@@ -15,11 +14,11 @@
     {% set ingredient_amount = ingredient.amount * recipe.portion_count %}
         <tr>
             {% if not print and current_user.is_authenticated %}
-                <td>{{ link_to(ingredient) }}
+                <td> {{ link_to(ingredient) }}
                     {% if ingredient.is_public %} {{ icon("public", class="text-secondary") }} {% endif %}
                 </td>
             {% else %}
-                <td>{{ ingredient.name }}</td>
+                <td> {{ ingredient.name }} </td>
             {% endif %}
 
             <td>
@@ -49,8 +48,6 @@
         </tr>
     {% endfor %}
 </table>
-
-{# <hr> #}
 
 {% if recipe.description %}
     {% include "recipes/_description.html.j2" %}

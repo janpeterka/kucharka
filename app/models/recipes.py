@@ -168,10 +168,10 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
     @property
     def can_current_user_view(self) -> bool:
         return (
-            current_user == self.author
-            or current_user.is_admin
-            or self.is_shared
+            self.is_shared
             or self.is_in_shared_event
+            or current_user == self.author
+            or current_user.is_admin
         )
 
     # PROPERTIES

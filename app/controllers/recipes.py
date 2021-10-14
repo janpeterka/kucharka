@@ -18,12 +18,12 @@ from app.controllers.forms.recipes import RecipesForm, RecipeFilterForm
 
 
 class RecipesView(HelperFlaskView):
-    decorators = [login_required]
+    # decorators = [login_required]
 
-    @login_required
     def before_request(self, name, id=None, **kwargs):
         self.recipe = Recipe.load(id)
-        self.validate_operation(id, self.recipe)
+        if current_user.is_authenticated:
+            self.validate_operation(id, self.recipe)
 
         if name in ["index", "filter"]:
             self.recipes = sorted(
@@ -39,9 +39,11 @@ class RecipesView(HelperFlaskView):
 
             self.recipe.portion_count = int(request_portion_count)
 
+    @login_required
     def before_filter(self):
         self.form = RecipeFilterForm(request.form)
 
+    @login_required
     def before_edit(self, id):
         self.form = create_form(RecipesForm, obj=self.recipe)
 
@@ -55,17 +57,20 @@ class RecipesView(HelperFlaskView):
             key=lambda x: unidecode(x.name.lower()),
         )
 
+    @login_required
     def before_new(self):
         self.form = create_form(RecipesForm)
 
+    @login_required
     def index(self):
         return self.template()
 
+    # @login_required
     def show(self, id):
-        return self.template()
+        if not current_user.is_authenticated:
+            return self.template("show", public=True)
 
-    def public_show(self, id):
-        pass
+        return self.template()
 
     def show_pdf(self, id):
         return self.template(template_name="show", print=True)
@@ -91,12 +96,15 @@ class RecipesView(HelperFlaskView):
         portion_count = request.form["portion_count"]
         return redirect(url_for("RecipesView:show", id=id, portion_count=portion_count))
 
+    @login_required
     def edit(self, id):
         return self.template()
 
+    @login_required
     def new(self):
         return self.template()
 
+    @login_required
     @route("delete/<id>/", methods=["POST"])
     def delete(self, id):
         if self.recipe.is_used:
@@ -107,6 +115,7 @@ class RecipesView(HelperFlaskView):
         flash("Recept byl smazán.", "success")
         return redirect(url_for("DashboardView:index"))
 
+    @login_required
     def post(self):
         form = RecipesForm(request.form)
 
@@ -120,10 +129,12 @@ class RecipesView(HelperFlaskView):
         recipe.save()
         return redirect(url_for("RecipesView:edit", id=recipe.id))
 
+    @login_required
     def duplicate(self, id):
         new_recipe = self.recipe.duplicate()
         return redirect(url_for("RecipesView:show", id=new_recipe.id))
 
+    @login_required
     @route("toggle_shared/<id>", methods=["POST"])
     def toggle_shared(self, id):
         toggled = self.recipe.toggle_shared()
@@ -133,6 +144,7 @@ class RecipesView(HelperFlaskView):
             flash("Recept byl skryt před veřejností.", "success")
         return redirect(url_for("RecipesView:show", id=self.recipe.id))
 
+    @login_required
     @route("delete_drafts", methods=["POST"])
     def delete_drafts(self):
         for draft in current_user.draft_recipes:
@@ -140,6 +152,7 @@ class RecipesView(HelperFlaskView):
 
         return redirect(url_for("DashboardView:index"))
 
+    @login_required
     @route("filter", methods=["POST"])
     def filter(self):
         self.recipes = current_user.visible_recipes

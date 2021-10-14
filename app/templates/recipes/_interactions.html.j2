@@ -19,7 +19,7 @@
 </div>
 {% endif %}
 
-{% if not recipe.is_current_user_author %}
+{% if current_user.is_authenticated and not recipe.is_current_user_author %}
 <div class="mt-2 mb-1">
     <a class="btn btn-info" href="{{ url_for('RecipesView:duplicate', id=recipe.id) }}">
         Zkopírovat do mých receptů

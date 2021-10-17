@@ -26,7 +26,8 @@
 
 <details open class="form-control mb-3">
 <summary> Upravit suroviny </summary>
-<div>
+
+<div class="m-3">
     {% include "recipes/edit/_add_ingredient_form.html.j2" %}
 </div>
 
@@ -39,7 +40,6 @@
         </tr>
     </thead>
     <tbody id="ingredients">
-
     {% for ingredient in recipe.ingredients: %}
         {% include "recipes/edit/_edit_ingredient.html.j2" %}
     {% endfor %}

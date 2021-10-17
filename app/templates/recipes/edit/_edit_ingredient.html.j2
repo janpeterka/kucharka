@@ -6,25 +6,25 @@
     
     <td> 
         {% if ingredient.is_measured %}
-        <form action="{{ url_for('EditRecipeView:change_ingredient_amount', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" class="form form-inline" method="post">
-            <div class="col-8">
+        <form action="{{ url_for('EditRecipeView:change_ingredient_amount', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" method="post">
+            <div class="col">
                 <input type="number" class="form-control" name="amount" step="1" min="0"
                        value="{% if ingredient.amount %}{{ (ingredient.amount|float * recipe.portion_count|float) | round | int }}{% endif %}">
-                <span class="ml-2">{{ ingredient.measurement.name }}</span>
+                <span class="ms-2">{{ ingredient.measurement.name }}</span>
+            <input type="submit" class="form-control btn btn-warning ms-4" value="Uložit">
             </div>
-            <input type="submit" class="form-control btn btn-warning ml-4" value="Uložit">
         </form>
         {% endif %}
-        <details>
+{#         <details>
             <summary>Komentář</summary>
-              <form action="{{ url_for('EditRecipeView:change_ingredient_comment', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" class="form form-inline" method="post">
-            <div class="col-8">
-                <input type="text" class="form-control" name="comment"
-                       value="{% if ingredient.comment %}{{ ingredient.comment }}{% endif %}">
-            </div>
-            <input type="submit" class="form-control btn btn-warning ml-4" value="Uložit komentář">
-        </form>
-        </details>
+            <form action="{{ url_for('EditRecipeView:change_ingredient_comment', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" class="form-inline" method="post">
+                <div class="col-8">
+                    <input type="text" class="form-control" name="comment"
+                           value="{% if ingredient.comment %}{{ ingredient.comment }}{% endif %}">
+                </div>
+                <input type="submit" class="form-control btn btn-warning ms-4" value="Uložit komentář">
+            </form>
+        </details> #}
     </td>
     
     <td>

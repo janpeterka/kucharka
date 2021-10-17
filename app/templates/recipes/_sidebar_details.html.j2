@@ -2,19 +2,24 @@
     <span class="font-italic"> {{ recipe.category.name }} </span>
 </div>
 
+
+{% if recipe.is_shared and not recipe.is_current_user_author %}
+    {% set author_note = "(vytvořil*a" + recipe.author.name + ")" %}
+{% elif recipe.is_shared %}
+    {% set author_note = icon("shared") %}
+{% else %}
+    {% set author_note = None %}
+{% endif %}
+
+{% if author_note != None%}
+    
 <hr>
 
 <div class="mt-2">
-    <span class="{% if print %}hidden{% endif %}">
-        {% if not print %}
-            {% if recipe.is_shared and not recipe.is_current_user_author %}
-                <span class="font-italic font-weight-light"> (vytvořil*a {{ recipe.author.name }}) </span>
-            {% elif recipe.is_shared %}
-                <span class="font-italic font-weight-light"> {{ icon("shared") }} </span>
-            {% endif %}
-        {% endif %}
-    </span>
+    <span class="font-italic font-weight-light"> {{ author_note }} </span>
 </div>
+
+{% endif %}
 
 <hr>
 

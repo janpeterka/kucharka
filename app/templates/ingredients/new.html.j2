@@ -7,10 +7,13 @@
     {{ form.csrf_token }}
 
     {{ render_floating_field(form.name) }}
-    {{ render_floating_field(form.measurement, class="mt-2") }}
-    {{ render_floating_field(form.category, class="mt-2") }}
 
-    {{ render_field(form.submit) }}
+    <div class="row mt-2">
+        <div class="col-md-6 col-sm-12"> {{ render_floating_field(form.measurement) }} </div>
+        <div class="col-md-6 col-sm-12"> {{ render_floating_field(form.category) }} </div>
+    </div>
+
+    {{ render_field(form.submit, class="mt-2") }}
 </form>
 
 {% endblock %}

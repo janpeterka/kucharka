@@ -1,18 +1,23 @@
-<div class="mt-2">
-    <span class="fst-italic"> {{ recipe.category.name }} </span>
-</div>
+{% if recipe.category.name %}
+    {% set category_name=recipe.category.name %}
+{% else %}
+    {% set category_name="bez kategorie" %}    
+{% endif %}
 
+<div class="mt-2">
+    <span class="fst-italic"> {{ category_name }} </span>
+</div>
 
 {% if recipe.is_shared and not recipe.is_current_user_author %}
     {% set author_note = "(vytvořil*a" + recipe.author.name + ")" %}
 {% elif recipe.is_shared %}
-    {% set author_note = icon("shared") %}
+    {% set author_note = "zveřejněný recept " + icon("shared") %}
 {% else %}
     {% set author_note = None %}
 {% endif %}
 
-{% if author_note != None%}
-    
+{% if author_note != None %}
+
 <hr>
 
 <div class="mt-2">
@@ -21,12 +26,15 @@
 
 {% endif %}
 
+{% if recipe.labels %}
+
 <hr>
 
 <div class="{% if print %}hidden{% endif %}">
     {% from "macros/render_label.html.j2" import render_label %}
     {% for label in recipe.labels %}
         {{ render_label(label) }}
-        {# {{ icon(label.icon_name) }} #}
     {% endfor %}
 </div>
+
+{% endif %}

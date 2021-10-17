@@ -2,7 +2,7 @@
 
 {% block content %}
 {% include "security/_messages.html" %}
-<h1>{{ _('Přihlášení') }}</h1>
+<h1 class="text-center font-comfortaa text-uppercase"> {{ _('Přihlásit se') }} </h1>
 <form action="{{ url_for_security('login') }}" class="form-control" method="POST" name="login_user_form" data-turbo="false">
   {{ login_user_form.hidden_tag() }}
   {{ render_field(login_user_form.email, label="Přihlašovací e-mail", placeholder="např. kuchar@skautskakuchyne.cz", with_errors=True) }}

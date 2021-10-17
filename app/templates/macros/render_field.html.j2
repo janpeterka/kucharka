@@ -82,3 +82,11 @@
 
 {% endmacro %}
 
+{% macro render_floating_field(field) %}
+
+<div class="form-floating">
+  {{ render_field(field, has_label=False, **kwargs) }}
+  {{ field.label }}
+</div>
+
+{% endmacro %}

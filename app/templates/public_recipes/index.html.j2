@@ -17,34 +17,30 @@
 
 {% block content %}
 
-<form action="{{ url_for('PublicRecipesView:index') }}" method="post" class="form-inline form-control" accept-charset="UTF-8">
+<form action="{{ url_for('PublicRecipesView:index') }}" method="post" accept-charset="UTF-8">
 	{{ form.csrf_token }}
-		<div class="col">
-			<div class="mt-2 row">
-				{{ form.ingredient.label(class_="ms-2") }}
-				{{ render_field(form.ingredient, has_label=False, class="ms-3") }}
-        {{ form.category.label(class_="ms-4") }}
-        {{ render_field(form.category, has_label=False, class="ms-3") }}
 
-        {{ render_field(form.with_reaction, class="ms-5", label=icon("heart_full", with_tooltip=True, tooltip="moje oblíbené")) }}
-			</div>
+  <div class="row">
+    <div class="col"> {{ render_floating_field(form.ingredient) }} </div>
+    <div class="col"> {{ render_floating_field(form.category) }} </div>
+  </div>
 
-      <hr>
-      
-      <div class="mt-2 ms-1 row">
-        <div data-controller="enable-select2" class="col-10" style="display: inline">
-            {# {{ form.labels.label(class_="ms-4") }} #}
-            {{ render_field(form.labels, has_label=False, data_enable_select2_target="select", style="width:70%;") }}
-        </div>
-      </div>
+  <div class="row mt-2">
+    <div data-controller="enable-select2" class="col-10" style="display: inline">
+        {{ form.labels.label(class_="me-1") }}
+        {{ render_field(form.labels, has_label=False, data_enable_select2_target="select", style="width:70%;") }}
+    </div>
+    <div class="col mt-2">
+      {{ render_field(form.with_reaction, label="moje " + icon("heart_full")) }}
+    </div>
+  </div>
 
-      <hr>
-      
-      <div class="text-end">
-        {{ form.submit(class_='btn btn-primary ms-3') }}
-      </div>
-		</div>
+  <div class="text-end">
+    {{ form.submit(class_='btn btn-primary ms-3') }}
+  </div>
 </form>
+
+<hr>
 
 {% include "public_recipes/_recipes_table.html.j2"%}
 

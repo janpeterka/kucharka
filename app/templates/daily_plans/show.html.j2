@@ -75,7 +75,7 @@
     </div>
 
     <div class="row mt-5">
-        {{ button_to(action=url_for('DailyPlansEditView:add_shopping', daily_plan_id=daily_plan.id), class="btn btn-secondary", value="Přidat nákup") }}
+        {{ button_to(action=url_for('DailyPlansEditView:add_shopping', daily_plan_id=daily_plan.id), class="btn btn-secondary", value="Přidat nákup <i class='fas fa-shopping-basket'></i>") }}
     </div>
 
     {% endif %}

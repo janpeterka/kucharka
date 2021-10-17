@@ -19,8 +19,13 @@
             {{ form.portion_count.label }}
         </div>
 
-        <div data-controller="enable-select2">
+{#         <div data-controller="enable-select2">
             {{ render_field(form.labels, has_label=False, data_enable_select2_target="select", placeholder=form.labels.label) }}
+        </div> #}
+
+        <div data-controller="enable-select2">
+            {{ form.labels.label(class_="me-1") }}
+            {{ render_field(form.labels, has_label=False, data_enable_select2_target="select", style="width:70%;") }}
         </div>
 
         <div class="mt-4 pb-2">

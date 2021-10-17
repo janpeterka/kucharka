@@ -8,6 +8,26 @@
 
 {% block content %}
 
-{% include "recipes/new/_new_recipe_form.html.j2" %}
+<form action="{{ url_for('RecipesView:post') }}" method="post" accept-charset="utf-8">
+    {{ form.csrf_token }}
+
+    <div class="form-floating">
+        {{ render_field(form.name, has_label=False, class="col-6") }}
+        {{ form.name.label }}
+    </div>
+
+    <div class="form-floating">
+        {{ render_field(form.category, has_label=False, class="col") }}                            
+        {{ form.category.label }}
+    </div>
+
+    <div class="form-floating">
+        {{ render_field(form.portion_count, has_label=False, class="col") }}
+        {{ form.portion_count.label }}
+    </div>
+
+    <input type="submit" value="Vytvořit nový recept" class="btn btn-warning">
+</form>
+
 
 {% endblock %}

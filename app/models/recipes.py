@@ -47,7 +47,7 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
     ingredients = db.relationship(
         "Ingredient",
         secondary="recipes_have_ingredients",
-        primaryjoin="RecipeHasIngredient.recipe_id == Recipe.id",
+        primaryjoin="Recipe.id == RecipeHasIngredient.recipe_id",
         viewonly=True,
         order_by="Ingredient.name",
     )
@@ -97,7 +97,13 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
             ingredient.set_additional_info(recipe)
 
         recipe.ingredients.sort(
-            key=lambda x: (not x.is_measured, unidecode(x.name.lower()))
+            key=lambda x: (
+                x.is_measured,
+                x.measurement.sorting_priority,
+                x.amount,
+                unidecode(x.name.lower()),
+            ),
+            reverse=True,
         )
 
         return recipe

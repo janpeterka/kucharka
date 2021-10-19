@@ -6,13 +6,12 @@
  {% block links %}
     {{ super() }}
     {{ turbo() }}
-    <!-- include summernote css/js-->
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.25.1/trumbowyg.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.25.1/ui/trumbowyg.min.css" rel="stylesheet">
 {% endblock %}
 
 {% block script %}
-    {{ stimulus("select2", "summernote") }}
+    {{ stimulus("select2", "editor") }}
 {% endblock %}
 
 {% block content %}

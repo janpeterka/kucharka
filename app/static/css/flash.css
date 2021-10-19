@@ -1,18 +1,8 @@
 /*Flashes*/
 
-@keyframes fadeOut {
-    0% { opacity: 1;}
-    99% { opacity: 0.01;}
-    100% { opacity: 0;}
-}
-
 div.flashes {
     position: relative;
     height: 0px;
-
-    animation: fadeOut 3s;
-    animation-delay: 2s;
-    animation-fill-mode: forwards;
 }
 
 div.flashes ul li{

@@ -21,6 +21,15 @@
 @import "select2.css";
 
 
+/* Animations */
+
+@keyframes fadeOut {
+    0% { opacity: 1;}
+    99% { opacity: 0.01;}
+    100% { opacity: 0;}
+}
+
+
 /* other */
 
 a {

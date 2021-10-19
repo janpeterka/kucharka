@@ -10,6 +10,7 @@ class Measurement(BaseModel, BaseMixin):
     name = db.Column(db.String(80), unique=True, nullable=False)
     description = db.Column(db.String(255))
     suffix = db.Column(db.String(20))
+    sorting_priority = db.Column(db.Integer(), server_default="0")
 
     thousand_fold = db.Column(db.String(20))
 

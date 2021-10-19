@@ -4,11 +4,13 @@
 
 
 <table id="ingredients" class="table">
-    <tr>
-        <th>{{ texts.title }}</th>
-        <th>Množství (na {{recipe.portion_count}} porcí)</th>
-        <th></th>
-    </tr>
+    <thead>
+        <tr>
+            <th>{{ texts.title }}</th>
+            <th>Množství (na {{recipe.portion_count}} porcí)</th>
+            <th></th>
+        </tr>
+    </thead>
 
     {% for ingredient in recipe.ingredients: %}
     {% set ingredient_amount = ingredient.amount * recipe.portion_count %}
@@ -37,7 +39,7 @@
                         {% set ns.title = ns.title + "\n" %}
                     {% endfor %}
                     <abbr title="{{ ns.title }}">
-                         {{ icon("info-circle", class="ml-1") }}
+                         {{ icon("info-circle", class="ms-1") }}
                     </abbr>   
                 {% endif %}
 

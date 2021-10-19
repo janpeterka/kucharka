@@ -1,5 +1,5 @@
 from wtforms import StringField, SubmitField, IntegerField
-from wtforms import validators
+from wtforms.validators import InputRequired, NumberRange
 from wtforms.widgets import TextArea
 
 from flask_wtf import FlaskForm
@@ -38,14 +38,14 @@ def dietary_labels():
 
 
 class RecipesForm(FlaskForm):
-    name = StringField(
-        "Název receptu", [validators.InputRequired("Název musí být vyplněn")]
-    )
+    name = StringField("Název receptu", [InputRequired("Název musí být vyplněn")])
 
     description = StringField("Popis", widget=TextArea())
 
     category = QuerySelectField("Kategorie", query_factory=categories, allow_blank=True)
-    portion_count = IntegerField("Počet porcí", [validators.NumberRange(min=1)])
+    portion_count = IntegerField(
+        "Počet porcí", [NumberRange(message="Musí být alespoň jedna porce", min=1)]
+    )
 
     labels = QuerySelectMultipleField("Dietní omezení", query_factory=dietary_labels)
 

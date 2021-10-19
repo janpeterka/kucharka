@@ -9,7 +9,6 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse">
-
       <ul class="nav navbar-nav navbar-center">
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('DashboardView:index') }}"> Domů | </a>
@@ -20,22 +19,23 @@
         </li>
 
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdd" role="button"
+             data-bs-toggle="dropdown" aria-expanded="false">
             Přidat
           </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ url_for('RecipesView:new') }}"> recept </a>
-            <a class="dropdown-item" href="{{ url_for('IngredientsView:new') }}"> surovinu </a>
-          </div>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownAdd">
+            <li><a class="dropdown-item" href="{{ url_for('RecipesView:new') }}"> recept </a></li>
+            <li><a class="dropdown-item" href="{{ url_for('IngredientsView:new') }}"> surovinu </a></li>
+            <li><a class="dropdown-item" href="{{ url_for('EventsView:new') }}"> akci </a></li>
+          </ul>
         </li>
 
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownList" role="button"
+             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Seznam
           </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownList">
             <a class="dropdown-item" href="{{ url_for('RecipesView:index') }}"> receptů </a>
             <a class="dropdown-item" href="{{ url_for('IngredientsView:index') }}"> surovin </a>
             {# <a class="dropdown-item" href="{{ url_for('PublicIngredientsView:index') }}"> veřejných surovin </a> #}
@@ -50,10 +50,10 @@
         {% endif %}
       </ul>
 
-      <ul class="nav navbar-nav navbar-right ml-auto">
+      <ul class="nav navbar-nav ms-auto">
         <li class="nav-item dropdown">
           <a class="nav-link" href="#" id="navbarDropdown" role="button"
-             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
              <i class="fa fa-question-circle"></i>
           </a>
 

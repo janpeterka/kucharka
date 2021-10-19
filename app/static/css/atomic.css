@@ -3,6 +3,10 @@
   display: none;
 }
 
+.d-inline {
+	display: inline;
+}
+
 /* lists */
 .no-list {
   list-style: none
@@ -59,4 +63,11 @@
 
 .cursor-clickable {
 	cursor: pointer;
+}
+
+/* Animations */
+.with-fadeout {
+  animation: fadeOut 2s;
+  animation-delay: 1s;
+  animation-fill-mode: forwards;
 }

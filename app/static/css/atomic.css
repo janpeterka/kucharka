@@ -3,6 +3,10 @@
   display: none;
 }
 
+.d-inline {
+	display: inline;
+}
+
 /* lists */
 .no-list {
   list-style: none

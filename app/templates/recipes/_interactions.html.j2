@@ -30,11 +30,11 @@
 <details class="colored">
     <summary>Zobrazit pro daný počet porcí</summary>
     <div>
-        <div class="ml-2">
+        <div class="ms-2">
         
         <a class="btn color-white color-hover-black bg-color-blue" href="{{ url_for('RecipesView:show', id=recipe.id, portion_count=1) }}">Jedna porce</a>
-        <a class="btn color-white color-hover-black bg-color-purple ml-1" href="{{ url_for('RecipesView:show', id=recipe.id, portion_count=13) }}">Třináct porcí</a>
-        <a class="btn color-white color-hover-black bg-color-purple ml-1" href="{{ url_for('RecipesView:show', id=recipe.id) }}">Původní</a>
+        <a class="btn color-white color-hover-black bg-color-purple ms-1" href="{{ url_for('RecipesView:show', id=recipe.id, portion_count=13) }}">Třináct porcí</a>
+        <a class="btn color-white color-hover-black bg-color-purple ms-1" href="{{ url_for('RecipesView:show', id=recipe.id) }}">Původní</a>
     
         </div>
         

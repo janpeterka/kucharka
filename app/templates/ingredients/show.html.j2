@@ -19,14 +19,14 @@
             </div>
 
             <div>   
-                <span class="font-italic"> Míra: {{ ingredient.measurement.name }} </span>
+                <span class="fst-italic"> Míra: {{ ingredient.measurement.name }} </span>
                 {% if ingredient.is_public %}
-                    <span class="font-italic font-weight-light float-right" >Veřejná surovina (zdroj: {{ source }})</span>
+                    <span class="fst-italic font-weight-light float-end" >Veřejná surovina (zdroj: {{ source }})</span>
                 {% endif %}
             </div>
             
             <div>
-                <span class="font-italic"> Kategorie: {{ ingredient.category.name }} </span>
+                <span class="fst-italic"> Kategorie: {{ ingredient.category.name }} </span>
             </div>
         </div>
 
@@ -84,7 +84,7 @@
 
             {% if from_new %}
             <div class="row">
-                <a href="{{ url_for('IngredientsView:new') }}"><button class="btn btn-primary mt-3 ml-0">Přidat další surovinu</button></a>
+                <a href="{{ url_for('IngredientsView:new') }}"><button class="btn btn-primary mt-3 ms-0">Přidat další surovinu</button></a>
             </div>
             {% endif %}
 

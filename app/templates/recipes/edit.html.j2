@@ -17,7 +17,7 @@
 
 {% block content %}
 
-<a class="btn btn-secondary ml-2 mb-3" href="{{ url_for('RecipesView:show', id=recipe.id) }}">{{ texts.edit_finish }} {{ icon("edit") }}</a>
+<a class="btn btn-secondary ms-2 mb-3" href="{{ url_for('RecipesView:show', id=recipe.id) }}">{{ texts.edit_finish }} {{ icon("edit") }}</a>
 
 <details open class="form-control mb-3">
 <summary> Upravit recept </summary>
@@ -26,18 +26,20 @@
 
 <details open class="form-control mb-3">
 <summary> Upravit suroviny </summary>
-<div>
+
+<div class="m-3">
     {% include "recipes/edit/_add_ingredient_form.html.j2" %}
 </div>
 
 <table class="table">
-    <tr>
-        <th>{{ texts.title }}</th>
-        <th>Množství (na {{ recipe.portion_count }} porcí) </th>
-        <th colspan="2"></th>
-    </tr>
+    <thead>
+        <tr>
+            <th>{{ texts.title }}</th>
+            <th>Množství (na {{ recipe.portion_count }} porcí) </th>
+            <th colspan="4"></th>
+        </tr>
+    </thead>
     <tbody id="ingredients">
-
     {% for ingredient in recipe.ingredients: %}
         {% include "recipes/edit/_edit_ingredient.html.j2" %}
     {% endfor %}
@@ -51,6 +53,6 @@
     {% include "recipes/edit/_description.html.j2" %}
 </details>
 
-<a class="btn btn-secondary ml-2 mb-5" href="{{ url_for('RecipesView:show', id=recipe.id) }}">{{ texts.edit_finish }} {{ icon("edit") }}</a>
+<a class="btn btn-secondary ms-2 mb-5" href="{{ url_for('RecipesView:show', id=recipe.id) }}">{{ texts.edit_finish }} {{ icon("edit") }}</a>
 
 {% endblock %}

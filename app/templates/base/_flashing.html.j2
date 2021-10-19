@@ -2,7 +2,7 @@
   <div class="flashes container alert alert-light mt-5" role="alert" id="flashing">
     <ul>
     {% for category, message in messages %}
-      {% if not category %}
+      {% if not category or category == "message" %}
         {% set category = "info" %}  
       {% endif %}
 

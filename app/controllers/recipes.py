@@ -7,14 +7,14 @@ from flask_security import login_required, current_user
 
 from flask_classful import route
 
-from app import turbo
+# from app import turbo
 
 from app.helpers.helper_flask_view import HelperFlaskView
 from app.helpers.form import save_form_to_session, create_form
 
 from app.models.recipes import Recipe
 
-from app.controllers.forms.recipes import RecipesForm, RecipeFilterForm
+from app.controllers.forms.recipes import RecipesForm
 
 
 class RecipesView(HelperFlaskView):
@@ -25,12 +25,10 @@ class RecipesView(HelperFlaskView):
         if current_user.is_authenticated:
             self.validate_operation(id, self.recipe)
 
-        if name in ["index", "filter"]:
+        if name in ["index"]:
             self.recipes = sorted(
                 current_user.visible_recipes, key=lambda x: unidecode(x.name.lower())
             )
-
-            self.form = RecipeFilterForm()
 
         if name in ["show", "pdf", "show_pdf"] and "portion_count" in request.args:
             request_portion_count = request.args.get("portion_count", "1")
@@ -38,10 +36,6 @@ class RecipesView(HelperFlaskView):
                 request_portion_count = 1
 
             self.recipe.portion_count = int(request_portion_count)
-
-    @login_required
-    def before_filter(self):
-        self.form = RecipeFilterForm(request.form)
 
     @login_required
     def before_edit(self, id):
@@ -151,30 +145,3 @@ class RecipesView(HelperFlaskView):
             draft.delete()
 
         return redirect(url_for("DashboardView:index"))
-
-    @login_required
-    @route("filter", methods=["POST"])
-    def filter(self):
-        self.recipes = current_user.visible_recipes
-
-        # Get filters from request
-        labels = self.form.labels.data
-        ingredient = self.form.ingredient.data
-        category = self.form.category.data
-
-        # Filter recipes
-        if ingredient:
-            self.recipes = [x for x in self.recipes if ingredient in x.ingredients]
-
-        if category and category.name != "---":
-            self.recipes = [x for x in self.recipes if x.category == category]
-
-        if labels:
-            self.recipes = [x for x in self.recipes if x.has_labels(labels)]
-
-        if turbo.can_stream():
-            return turbo.stream(
-                turbo.replace(self.template(template_name="_recipes"), target="recipes")
-            )
-        else:
-            return self.template("index")

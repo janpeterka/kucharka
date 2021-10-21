@@ -7,12 +7,6 @@ from flask_wtf import FlaskForm
 from wtforms_sqlalchemy.fields import QuerySelectField, QuerySelectMultipleField
 
 
-def ingredients():
-    from app.models.ingredients import Ingredient
-
-    return Ingredient.load_all_in_public_recipes()
-
-
 def categories():
     from app.models.recipe_categories import RecipeCategory
 
@@ -50,13 +44,3 @@ class RecipesForm(FlaskForm):
     labels = QuerySelectMultipleField("Dietní omezení", query_factory=dietary_labels)
 
     submit = SubmitField("Přidat recept")
-
-
-class RecipeFilterForm(FlaskForm):
-    ingredient = QuerySelectField(
-        "Surovina", query_factory=ingredients, allow_blank=True
-    )
-    category = QuerySelectField("Kategorie", query_factory=categories, allow_blank=True)
-    labels = QuerySelectMultipleField("Dietní omezení", query_factory=dietary_labels)
-
-    submit = SubmitField("Filtrovat")

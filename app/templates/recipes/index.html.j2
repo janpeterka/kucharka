@@ -17,32 +17,6 @@
 </h1>
 
 <hr>
-{# 
-<details open>
-<summary>Filtrování</summary>
-<form action="{{ url_for('RecipesView:filter') }}" method="post" class="form-inline form-control" accept-charset="UTF-8">
-    {{ form.csrf_token }}
-    <div class="col-12">
-        <div class="mt-2 row">
-            {{ form.ingredient.label(class_="ms-2") }}
-            {{ render_field(form.ingredient, has_label=False, class="ms-3") }}
-            {{ form.category.label(class_="ms-2") }}
-            {{ render_field(form.category, has_label=False, class="ms-3") }}
-        </div>
-    <div class="mt-2 ms-1 row">
-        <div data-controller="enable-select2">
-            {{ render_field(form.labels, has_label=False, data_enable_select2_target="select") }}
-        </div>
-    </div>
-    <div class="text-end">
-      {{ form.submit(class_='btn btn-primary ms-3') }}
-    </div>
-    </div>
-</form>
-</details>
-
-<hr>
-#}
 
 {% include "recipes/_recipes.html.j2" %}
 

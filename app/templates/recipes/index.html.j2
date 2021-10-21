@@ -1,24 +1,26 @@
 {% extends "base/base.html.j2" %}
 {% block title %} {{ texts.recipe_all }} {% endblock %}
 
-{% block links %}
-    {{ super() }}
-    {{ turbo() }}
+{% block style %}
+    <link href="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.css" rel="stylesheet">
 {% endblock %}
 
 {% block script %}
-  {{ stimulus("select2") }}
+    <script src="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.js"></script>
 {% endblock %}
 
 {% block content %}
 
-<h1>Moje recepty
-    <a href="{{ url_for('RecipesView:new') }}"><button class="btn btn-secondary float-end">{{ texts.recipe_new }}</button></a>
-</h1>
+<div class="row">
+    <h1 class="float-start col">Moje recepty</h1>
+    <a href="{{ url_for('RecipesView:new') }}" class="col">
+        <button class="btn btn-secondary float-end mt-2"> {{ texts.recipe_new }} </button>
+    </a>
+</div>
 
 <hr>
 
-{% include "recipes/_recipes.html.j2" %}
+{% include "recipes/_recipes_table.html.j2" %}
 
 {% endblock %}
 

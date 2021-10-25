@@ -1,6 +1,6 @@
 Stimulus.register("select-badges", class extends Controller {
     static targets = ["select", "badges"]
-    static classes = ["badge"]
+    static classes = ["selected", "unselected"]
 
   connect() {
     this.add_badges();
@@ -23,7 +23,6 @@ Stimulus.register("select-badges", class extends Controller {
     var badge = document.createElement("span")
     badge.className = "select-badge btn ms-1 me-1 bg-color-grey"
     badge.dataset.label = option.label
-    // badge.dataset.value = option.value
     badge.dataset.selectBadgesValueParam = option.value
     badge.id = `badge-${option.value}`
     badge.dataset.action = "click->select-badges#select"
@@ -56,15 +55,15 @@ Stimulus.register("select-badges", class extends Controller {
 
   set_selected_badge(badge){
     badge.dataset.selected = true
-    badge.classList.remove("bg-color-grey")
-    badge.classList.add("bg-color-light-green")
+    badge.classList.remove(this.unselectedClass)
+    badge.classList.add(this.selectedClass)
   }
 
   unset_all_badges(){
     var badges = document.getElementsByClassName("select-badge")
     for (let i = 0, badge; badge = badges[i]; i++) {
-      badge.classList.remove("bg-color-light-green")
-      badge.classList.add("bg-color-grey")
+      badge.classList.remove(this.selectedClass)
+      badge.classList.add(this.unselectedClass)
       badge.dataset.selected = false
     }
   }

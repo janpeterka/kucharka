@@ -1,7 +1,7 @@
 {% macro render_label(label) %}
 
 {% if label.color %}
-	{% set color = label.color %}	
+	{% set color = label.color %}
 {% else %}
 	{% if label.category.name == "dietary" %}
 		{% set color = "light-green"%}

@@ -121,6 +121,11 @@
     background-color: var(--color-light-grey);
 }
 
+.bg-color-light-yellow {
+    background-color: var(--admin-yellow);
+
+}
+
 /*Color signals*/
 .color-inactive{
     color: var(--inactive);

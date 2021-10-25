@@ -14,6 +14,7 @@ from app.controllers.forms.recipes import RecipesForm
 
 from app.models.ingredients import Ingredient
 from app.models.recipes import Recipe
+from app.models.label_categories import LabelCategory
 
 # from app.models.recipe_categories import RecipeCategory
 
@@ -144,13 +145,7 @@ class EditRecipeView(HelperFlaskView):
             save_form_to_session(request.form)
             return redirect(url_for("RecipesView:edit", id=self.recipe.id))
 
-        form.labels.data = form.dietary_labels.data
-
-        """This can be null as it's how QuerySelectField with blank works.
-        Normally it sets value, so it's okay, but as we want to append here, we need to make sure it's not empty"""
-        if form.difficulty_label.data:
-            form.labels.data.append(form.difficulty_label.data)
-
+        self._set_labels(form)
         form.populate_obj(self.recipe)
         self.recipe.edit()
 
@@ -163,6 +158,23 @@ class EditRecipeView(HelperFlaskView):
             )
         else:
             return redirect(url_for("RecipesView:edit", id=self.recipe.id))
+
+    def _set_labels(self, form):
+        form.labels.data = []
+
+        for category in LabelCategory.load_all():
+            if category.allow_multiple:
+                attr_name = f"{category.name}_labels"
+            else:
+                attr_name = f"{category.name}_label"
+
+            specific_labels = getattr(form, attr_name).data
+            if not specific_labels:
+                continue
+            elif type(specific_labels) == list:
+                form.labels.data.extend(specific_labels)
+            else:
+                form.labels.data.append(specific_labels)
 
     @route("description/<recipe_id>/", methods=["POST"])
     def post_description(self, recipe_id):

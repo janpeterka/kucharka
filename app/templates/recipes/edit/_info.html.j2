@@ -19,31 +19,30 @@
             {{ form.portion_count.label }}
         </div>
 
-{#         <div class="row" data-controller="enable-select2">
-            {{ form.dietary_labels.label(class_="me-1 col-sm-2 col-form-label") }}
-            {{ render_field(form.dietary_labels, has_label=False, data_enable_select2_target="select", class="w-75") }}
-        </div> #}
+        <details open class="colored">
+            <summary>Další informace</summary>
+            <div>
+                <div class="row mt-2" data-controller="select-badges" data-select-badges-type-value="multiple" data-select-badges-selected-class="bg-color-light-green" data-select-badges-unselected-class="bg-color-grey">
+                    {{ form.dietary_labels.label(class_="me-1 col-sm-2 col-form-label") }}
+                    <div class="col-sm-9">
+                        {{ render_field(form.dietary_labels, has_label=False, data_select_badges_target="select") }}
+                        <span data-select-badges-target="badges">
+                    </div>
+                        
+                    </span>
+                </div>
 
-
-        <div class="row mt-2" data-controller="select-badges" data-select-badges-type-value="multiple" data-select-badges-selected-class="bg-color-light-green" data-select-badges-unselected-class="bg-color-grey">
-            {{ form.dietary_labels.label(class_="me-1 col-sm-2 col-form-label") }}
-            <div class="col-sm-9">
-                {{ render_field(form.dietary_labels, has_label=False, data_select_badges_target="select") }}
-                <span data-select-badges-target="badges">
+                <div class="row mt-2" data-controller="select-badges" data-select-badges-selected-class="bg-color-light-green" data-select-badges-unselected-class="bg-color-grey">
+                    {{ form.difficulty_label.label(class_="me-1 col-sm-2 col-form-label") }}
+                    <div class="col-sm-9">
+                        {{ render_field(form.difficulty_label, has_label=False, data_select_badges_target="select") }}
+                        <span data-select-badges-target="badges">
+                    </div>
+                        
+                    </span>
+                </div>
             </div>
-                
-            </span>
-        </div>
-
-        <div class="row mt-2" data-controller="select-badges" data-select-badges-selected-class="bg-color-light-green" data-select-badges-unselected-class="bg-color-grey">
-            {{ form.difficulty_label.label(class_="me-1 col-sm-2 col-form-label") }}
-            <div class="col-sm-9">
-                {{ render_field(form.difficulty_label, has_label=False, data_select_badges_target="select") }}
-                <span data-select-badges-target="badges">
-            </div>
-                
-            </span>
-        </div>
+        </details>
 
         <div class="mt-4 pb-2">
             <input type="submit" value="{{ texts.recipe_edit }}" class="btn btn-warning">

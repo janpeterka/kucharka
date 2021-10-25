@@ -45,7 +45,7 @@ class RecipesForm(FlaskForm):
         "Dietní omezení", query_factory=dietary_labels
     )
     difficulty_label = QuerySelectField(
-        "Obtížnost", query_factory=difficulty_labels, allow_blank=True
+        "Obtížnost přípravy", query_factory=difficulty_labels, allow_blank=True
     )
 
     labels = HiddenField()

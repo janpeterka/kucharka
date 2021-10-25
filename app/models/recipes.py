@@ -9,6 +9,7 @@ from app.helpers.general import list_without_duplicated
 
 from app.models.ingredients import Ingredient
 from app.models.recipes_have_ingredients import RecipeHasIngredient
+from app.models.label_categories import LabelCategory
 
 from app.models.mixins.recipes.recipe_reactions import RecipeReactionMixin
 from app.models.mixins.recipes.recipe_ingredients import RecipeIngredientMixin
@@ -107,15 +108,13 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
             reverse=True,
         )
 
-        recipe.dietary_labels = [
-            label for label in recipe.labels if label.category.name == "dietary"
-        ]
-        recipe.difficulty_labels = [
-            label for label in recipe.labels if label.category.name == "difficulty"
-        ]
-        recipe.difficulty_label = (
-            recipe.difficulty_labels[0] if recipe.difficulty_labels else None
-        )
+        for category in LabelCategory.load_all():
+            labels = [label for label in recipe.labels if label.category == category]
+            if category.allow_multiple:
+                setattr(recipe, f"{category.name}_labels", labels)
+            else:
+                label = labels[0] if labels else None
+                setattr(recipe, f"{category.name}_label", label)
 
         return recipe
 

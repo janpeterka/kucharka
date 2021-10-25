@@ -19,12 +19,6 @@ def measurements():
     return Measurement.load_all()
 
 
-# def labels():
-#     from app.models.labels import Label
-
-#     return Label.load_all()
-
-
 def dietary_labels():
     from app.models.labels import Label
 

@@ -56,6 +56,10 @@
 	height: 5rem
 }
 
+.lh-3 {
+	line-height: 3rem
+}
+
 /* Cursors */
 .cursor-default {
 	cursor: default;

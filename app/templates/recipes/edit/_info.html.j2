@@ -19,17 +19,21 @@
             {{ form.portion_count.label }}
         </div>
 
-        <div class="row" data-controller="enable-select2">
+{#         <div class="row" data-controller="enable-select2">
             {{ form.dietary_labels.label(class_="me-1 col-sm-2 col-form-label") }}
             {{ render_field(form.dietary_labels, has_label=False, data_enable_select2_target="select", class="w-75") }}
+        </div> #}
+
+
+        <div class="row mt-2" data-controller="select-badges" data-select-badges-type-value="multiple" data-select-badges-selected-class="bg-color-light-green" data-select-badges-unselected-class="bg-color-grey">
+            {{ form.dietary_labels.label(class_="me-1 col-sm-2 col-form-label") }}
+            <div class="col-sm-9">
+                {{ render_field(form.dietary_labels, has_label=False, data_select_badges_target="select") }}
+                <span data-select-badges-target="badges">
+            </div>
+                
+            </span>
         </div>
-{# 
-          <div class="row mb-3">
-    <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
-    <div class="col-sm-10">
-      <input type="email" class="form-control" id="inputEmail3">
-    </div>
-  </div> #}
 
         <div class="row mt-2" data-controller="select-badges" data-select-badges-selected-class="bg-color-light-green" data-select-badges-unselected-class="bg-color-grey">
             {{ form.difficulty_label.label(class_="me-1 col-sm-2 col-form-label") }}

@@ -69,6 +69,7 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         "Label",
         secondary="recipes_have_labels",
         primaryjoin="Recipe.id == RecipeHasLabel.recipe_id",
+        order_by="Label.id",
     )
 
     # LOADERS

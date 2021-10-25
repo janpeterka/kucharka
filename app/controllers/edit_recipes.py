@@ -144,6 +144,13 @@ class EditRecipeView(HelperFlaskView):
             save_form_to_session(request.form)
             return redirect(url_for("RecipesView:edit", id=self.recipe.id))
 
+        form.labels.data = form.dietary_labels.data
+
+        """This can be null as it's how QuerySelectField with blank works.
+        Normally it sets value, so it's okay, but as we want to append here, we need to make sure it's not empty"""
+        if form.difficulty_label.data:
+            form.labels.data.append(form.difficulty_label.data)
+
         form.populate_obj(self.recipe)
         self.recipe.edit()
 

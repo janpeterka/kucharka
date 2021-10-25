@@ -36,6 +36,10 @@ class Label(BaseModel, BaseMixin):
     def load_dietary():
         return Label.load_by_category_name("dietary")
 
+    @staticmethod
+    def load_difficulty():
+        return Label.load_by_category_name("difficulty")
+
     @property
     def icon_name(self) -> str:
         return self.name

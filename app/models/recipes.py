@@ -106,6 +106,16 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
             reverse=True,
         )
 
+        recipe.dietary_labels = [
+            label for label in recipe.labels if label.category.name == "dietary"
+        ]
+        recipe.difficulty_labels = [
+            label for label in recipe.labels if label.category.name == "difficulty"
+        ]
+        recipe.difficulty_label = (
+            recipe.difficulty_labels[0] if recipe.difficulty_labels else None
+        )
+
         return recipe
 
     def reload(self):

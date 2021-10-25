@@ -5,6 +5,10 @@
 import { Application, Controller } from "https://unpkg.com/@hotwired/stimulus/dist/stimulus.js"
 window.Stimulus = Application.start()
 
+{% if config["APP_STATE"]=="development" %}
+	window.Stimulus.debug = true
+{% endif %}
+
 {% for controller in varargs %}
 	{% if controller == "select2" %}
 		{% include 'javascript/_enable_select2_controller.js' %}

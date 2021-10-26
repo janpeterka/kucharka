@@ -51,3 +51,24 @@ class RecipesForm(FlaskForm):
     labels = HiddenField()
 
     submit = SubmitField("Přidat recept")
+
+    def set_labels(form):
+        from app.models.label_categories import LabelCategory
+
+        form.labels.data = []
+
+        for category in LabelCategory.load_all():
+            if category.allow_multiple:
+                attr_name = f"{category.name}_labels"
+            else:
+                attr_name = f"{category.name}_label"
+
+            field = getattr(form, attr_name, None)
+            if field:
+                specific_labels = field.data
+                if not specific_labels:
+                    continue
+                elif type(specific_labels) == list:
+                    form.labels.data.extend(specific_labels)
+                else:
+                    form.labels.data.append(specific_labels)

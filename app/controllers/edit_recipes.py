@@ -14,9 +14,6 @@ from app.controllers.forms.recipes import RecipesForm
 
 from app.models.ingredients import Ingredient
 from app.models.recipes import Recipe
-from app.models.label_categories import LabelCategory
-
-# from app.models.recipe_categories import RecipeCategory
 
 
 class EditRecipeView(HelperFlaskView):
@@ -145,7 +142,7 @@ class EditRecipeView(HelperFlaskView):
             save_form_to_session(request.form)
             return redirect(url_for("RecipesView:edit", id=self.recipe.id))
 
-        self._set_labels(form)
+        form.set_labels()
         form.populate_obj(self.recipe)
         self.recipe.edit()
 
@@ -158,23 +155,6 @@ class EditRecipeView(HelperFlaskView):
             )
         else:
             return redirect(url_for("RecipesView:edit", id=self.recipe.id))
-
-    def _set_labels(self, form):
-        form.labels.data = []
-
-        for category in LabelCategory.load_all():
-            if category.allow_multiple:
-                attr_name = f"{category.name}_labels"
-            else:
-                attr_name = f"{category.name}_label"
-
-            specific_labels = getattr(form, attr_name).data
-            if not specific_labels:
-                continue
-            elif type(specific_labels) == list:
-                form.labels.data.extend(specific_labels)
-            else:
-                form.labels.data.append(specific_labels)
 
     @route("description/<recipe_id>/", methods=["POST"])
     def post_description(self, recipe_id):

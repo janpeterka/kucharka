@@ -47,27 +47,22 @@ class PublicRecipesView(HelperFlaskView):
     def index(self):
         self.recipes = Recipe.load_all_public()
 
-        # Get filters from request
-        dietary_labels = self.form.dietary_labels.data
-        difficulty_labels = self.form.difficulty_labels.data
-        ingredient = self.form.ingredient.data
-        with_reaction = self.form.with_reaction.data
-        category = self.form.category.data
-
         # Filter recipes
-        if ingredient:
+        if ingredient := self.form.ingredient.data:
             self.recipes = [r for r in self.recipes if ingredient in r.ingredients]
 
-        if with_reaction:
+        if self.form.with_reaction.data:
             self.recipes = [r for r in self.recipes if r.has_reaction]
+
+        category = self.form.category.data
 
         if category and category.name != "---":
             self.recipes = [r for r in self.recipes if r.category == category]
 
-        if dietary_labels:
+        if dietary_labels := self.form.dietary_labels.data:
             self.recipes = [r for r in self.recipes if r.has_labels(dietary_labels)]
 
-        if difficulty_labels:
+        if difficulty_labels := self.form.difficulty_labels.data:
             self.recipes = [
                 r for r in self.recipes if r.has_any_of_labels(difficulty_labels)
             ]

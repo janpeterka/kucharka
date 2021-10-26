@@ -6,14 +6,14 @@
     --info: grey;
     --debug: pink;
 
-    --icon_remove: #8b0000;
-    --icon_disapprove: #8b0000;
-    --icon_approve: #00C851;
+    /*--icon_remove: #8b0000;*/
+    /*--icon_disapprove: #8b0000;*/
+    /*--icon_approve: #00C851;*/
 
     --inactive: grey;
     --inactive-bg: lightgrey;
 
-    /* New colors */
+    /* Ketocalc colors */
     /* From logo */
     --logo-blue: #0177EA;
     --logo-light-blue: #ABF2FD;
@@ -27,20 +27,21 @@
     --palette-cyan: #01EAE9;
 
     /* Other */
-    --color-light-grey: lightgrey;
-    --color-grey: #C1C2C4;
     --color-green: #2FAC03;
 
-    /* CSS HEX */
+    /* Kucharka colors */
     --hunter-green: #386641ff;
     --lapis-lazuli: #1c5d99ff;
     --pale-spring-bud: #dde0bdff;
     --pale-spring-bud-2: #d0d1acff;
 
+    /* Other colors */
     --admin-yellow: #FFE766;
+    --color-light-grey: lightgrey;
+    --color-grey: #C1C2C4;
 }
 
-/*Colors*/
+/* Colors */
 
 .color-dark-green {
     color: var(--hunter-green);
@@ -84,7 +85,7 @@
 
 
 
-/*Background colors*/
+/* Background colors */
 .bg-color-red {
     background-color: var(--error);
 }
@@ -123,10 +124,9 @@
 
 .bg-color-light-yellow {
     background-color: var(--admin-yellow);
-
 }
 
-/*Color signals*/
+/* Color signals */
 .color-inactive{
     color: var(--inactive);
 }
@@ -139,25 +139,8 @@
     color: var(--success);
 }
 
-/*Filters*/
 
-/*
-.filter-gs-25{
-    filter: grayscale(25%);
-}
-
-.filter-gs-50{
-    filter: grayscale(50%);
-}
-
-.filter-gs-75{
-    filter: grayscale(75%);
-}
-
-.filter-gs-90{
-    filter: grayscale(90%);
-}
-*/
+/* Effects */
 
 .opacity-50 {
     opacity: 0.7;

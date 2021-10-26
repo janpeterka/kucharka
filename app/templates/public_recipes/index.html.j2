@@ -12,7 +12,7 @@
 
 {% block script %}
 	<script src="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.js"></script>
-  {{ stimulus("select2", "recipe-reaction") }}
+  {{ stimulus("select2", "recipe-reaction", "select-badges") }}
 {% endblock %}
 
 {% block content %}
@@ -26,9 +26,18 @@
   </div>
 
   <div class="row mt-2">
-    <div data-controller="enable-select2" class="col-10 d-inline">
+ {#    <div data-controller="enable-select2" class="col-10 d-inline">
         {{ form.labels.label(class_="me-1") }}
         {{ render_field(form.labels, has_label=False, data_enable_select2_target="select", style="width:70%;") }}
+    </div> #}
+   <div class="row mt-2" data-controller="select-badges" data-select-badges-type-value="multiple" data-select-badges-selected-class="bg-color-light-green" data-select-badges-unselected-class="bg-color-grey">
+        {{ form.dietary_labels.label(class_="me-1 col-sm-2 col-form-label") }}
+        <div class="col-sm-9">
+            {{ render_field(form.dietary_labels, has_label=False, data_select_badges_target="select") }}
+            <span data-select-badges-target="badges">
+        </div>
+            
+        </span>
     </div>
     <div class="col mt-2">
       {{ render_field(form.with_reaction, label="moje " + icon("heart_full")) }}

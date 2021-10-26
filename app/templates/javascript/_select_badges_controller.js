@@ -8,7 +8,6 @@ Stimulus.register("select-badges", class extends Controller {
   connect() {
     this.add_badges();
     this.hide_select();
-
   }
 
   hide_select(){

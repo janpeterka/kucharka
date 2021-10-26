@@ -49,6 +49,8 @@ class PublicRecipesView(HelperFlaskView):
         self.recipes = Recipe.load_all_public()
 
         # Get filters from request
+        self.form.set_labels()
+
         labels = self.form.labels.data
         ingredient = self.form.ingredient.data
         with_reaction = self.form.with_reaction.data

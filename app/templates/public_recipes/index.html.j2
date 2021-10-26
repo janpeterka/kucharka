@@ -7,38 +7,59 @@
 {% endblock %}
 
 {% block style %}
-	<link href="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.css" rel="stylesheet">
+	<link href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css" rel="stylesheet">
 {% endblock %}
 
 {% block script %}
-	<script src="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.js"></script>
-  {{ stimulus("select2", "recipe-reaction") }}
+	<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+  {{ stimulus("select2", "recipe-reaction", "select-badges") }}
 {% endblock %}
 
 {% block content %}
 
-<form action="{{ url_for('PublicRecipesView:index') }}" method="post" accept-charset="UTF-8">
-	{{ form.csrf_token }}
+<details open class="colored">
+  <summary> Filtrování </summary>
+  <div>
 
-  <div class="row">
-    <div class="col"> {{ render_floating_field(form.ingredient) }} </div>
-    <div class="col"> {{ render_floating_field(form.category) }} </div>
-  </div>
+  <form action="{{ url_for('PublicRecipesView:index') }}" method="post" accept-charset="UTF-8">
+  	{{ form.csrf_token }}
 
-  <div class="row mt-2">
-    <div data-controller="enable-select2" class="col-10 d-inline">
-        {{ form.labels.label(class_="me-1") }}
-        {{ render_field(form.labels, has_label=False, data_enable_select2_target="select", style="width:70%;") }}
+    <div class="row">
+      <div class="col"> {{ render_floating_field(form.ingredient) }} </div>
+      <div class="col"> {{ render_floating_field(form.category) }} </div>
     </div>
-    <div class="col mt-2">
-      {{ render_field(form.with_reaction, label="moje " + icon("heart_full")) }}
-    </div>
-  </div>
 
-  <div class="text-end">
-    {{ form.submit(class_='btn btn-primary ms-3') }}
+    <div class="row mt-2">
+    
+      <div class="row mt-2" data-controller="select-badges" data-select-badges-type-value="multiple" data-select-badges-selected-class="bg-color-light-green" data-select-badges-unselected-class="bg-color-grey">
+        {{ form.dietary_labels.label(class_="me-1 col-sm-2 col-form-label") }}
+        <div class="col-sm-9">
+            {{ render_field(form.dietary_labels, has_label=False, data_select_badges_target="select") }}
+            <span data-select-badges-target="badges"></span>
+        </div>
+      </div>
+      
+      <div class="row mt-2" data-controller="select-badges" data-select-badges-type-value="multiple" data-select-badges-selected-class="bg-color-light-green" data-select-badges-unselected-class="bg-color-grey">
+        {{ form.difficulty_labels.label(class_="me-1 col-sm-2 col-form-label") }}
+        <div class="col-sm-9">
+          {{ render_field(form.difficulty_labels, has_label=False, data_select_badges_target="select") }}
+          <span data-select-badges-target="badges"></span>
+        </div>
+      </div>
+
+      <div class="col mt-2">
+        {{ render_field(form.with_reaction, label="moje " + icon("heart_full")) }}
+      </div>
+    
+    </div>
+
+    <div class="text-end">
+      {{ form.submit(class_='btn bg-color-light-green ms-3') }}
+    </div>
+
+  </form>
   </div>
-</form>
+</details>
 
 <hr>
 

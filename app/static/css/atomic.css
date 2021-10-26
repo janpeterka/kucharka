@@ -51,9 +51,17 @@
 	font-size: smaller !important;
 }
 
+.text-larger {
+	font-size: larger !important;
+}
+
 /* Height */
 .h-5 {
 	height: 5rem
+}
+
+.lh-3 {
+	line-height: 3rem
 }
 
 /* Cursors */

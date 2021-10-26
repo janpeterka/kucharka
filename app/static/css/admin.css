@@ -12,6 +12,7 @@
 
 .dev-badge {
   margin-left: 2rem;
+  position: fixed;
   padding: 1rem;
   border-radius: 0.5rem;
   box-shadow: 0.5rem 0.5rem 0.7rem black;

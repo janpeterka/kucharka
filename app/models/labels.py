@@ -28,13 +28,17 @@ class Label(BaseModel, BaseMixin):
 
         return [
             label
-            for label in Label.load_all()
+            for label in Label.load_all(ordered_by_name=False)
             if label.category == LabelCategory.load_by_name(category_name)
         ]
 
     @staticmethod
     def load_dietary():
         return Label.load_by_category_name("dietary")
+
+    @staticmethod
+    def load_difficulty():
+        return Label.load_by_category_name("difficulty")
 
     @property
     def icon_name(self) -> str:

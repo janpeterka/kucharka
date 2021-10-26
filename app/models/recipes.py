@@ -9,6 +9,7 @@ from app.helpers.general import list_without_duplicated
 
 from app.models.ingredients import Ingredient
 from app.models.recipes_have_ingredients import RecipeHasIngredient
+from app.models.label_categories import LabelCategory
 
 from app.models.mixins.recipes.recipe_reactions import RecipeReactionMixin
 from app.models.mixins.recipes.recipe_ingredients import RecipeIngredientMixin
@@ -69,6 +70,7 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         "Label",
         secondary="recipes_have_labels",
         primaryjoin="Recipe.id == RecipeHasLabel.recipe_id",
+        order_by="Label.id",
     )
 
     # LOADERS
@@ -105,6 +107,14 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
             ),
             reverse=True,
         )
+
+        for category in LabelCategory.load_all():
+            labels = [label for label in recipe.labels if label.category == category]
+            if category.allow_multiple:
+                setattr(recipe, f"{category.name}_labels", labels)
+            else:
+                label = labels[0] if labels else None
+                setattr(recipe, f"{category.name}_label", label)
 
         return recipe
 
@@ -268,3 +278,6 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     def has_labels(self, labels) -> bool:
         return all(self.has_label(label) for label in labels)
+
+    def has_any_of_labels(self, labels) -> bool:
+        return any(self.has_label(label) for label in labels)

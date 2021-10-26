@@ -15,7 +15,6 @@ from app.controllers.forms.public_recipes import PublicRecipeFilterForm
 
 
 class PublicRecipesView(HelperFlaskView):
-    # decorators = [login_required]
     template_folder = "public_recipes"
 
     def before_request(self, name, *args, **kwargs):
@@ -48,24 +47,25 @@ class PublicRecipesView(HelperFlaskView):
     def index(self):
         self.recipes = Recipe.load_all_public()
 
-        # Get filters from request
-        labels = self.form.labels.data
-        ingredient = self.form.ingredient.data
-        with_reaction = self.form.with_reaction.data
+        # Filter recipes
+        if ingredient := self.form.ingredient.data:
+            self.recipes = [r for r in self.recipes if ingredient in r.ingredients]
+
+        if self.form.with_reaction.data:
+            self.recipes = [r for r in self.recipes if r.has_reaction]
+
         category = self.form.category.data
 
-        # Filter recipes
-        if ingredient:
-            self.recipes = [x for x in self.recipes if ingredient in x.ingredients]
-
-        if with_reaction:
-            self.recipes = [x for x in self.recipes if x.has_reaction]
-
         if category and category.name != "---":
-            self.recipes = [x for x in self.recipes if x.category == category]
+            self.recipes = [r for r in self.recipes if r.category == category]
 
-        if labels:
-            self.recipes = [x for x in self.recipes if x.has_labels(labels)]
+        if dietary_labels := self.form.dietary_labels.data:
+            self.recipes = [r for r in self.recipes if r.has_labels(dietary_labels)]
+
+        if difficulty_labels := self.form.difficulty_labels.data:
+            self.recipes = [
+                r for r in self.recipes if r.has_any_of_labels(difficulty_labels)
+            ]
 
         if turbo.can_stream():
             return turbo.stream(

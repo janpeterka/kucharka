@@ -20,14 +20,16 @@ from app.controllers.forms.recipes import RecipesForm
 class RecipesView(HelperFlaskView):
     # decorators = [login_required]
 
+    # @login_required
     def before_request(self, name, id=None, **kwargs):
         self.recipe = Recipe.load(id)
         if current_user.is_authenticated:
             self.validate_operation(id, self.recipe)
 
-        if name in ["index"]:
+        if name in ["index"] and current_user.is_authenticated:
             self.recipes = sorted(
-                current_user.visible_recipes, key=lambda x: unidecode(x.name.lower())
+                current_user.visible_recipes,
+                key=lambda x: unidecode(x.name.lower()),
             )
 
         if name in ["show", "pdf", "show_pdf"] and "portion_count" in request.args:

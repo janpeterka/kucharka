@@ -49,3 +49,9 @@ def save_form_to_session(form_data):
         form_data {request.form} -- request.form data
     """
     session["formdata"] = form_data
+
+
+def load_from_form_to_object(obj, *, form, attributes: list):
+    for attribute in attributes:
+        form_data = getattr(form, attribute).data
+        setattr(obj, attribute, form_data)

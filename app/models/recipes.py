@@ -101,7 +101,7 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         recipe.ingredients.sort(
             key=lambda x: (
                 x.is_measured,
-                x.measurement.sorting_priority,
+                x.sorting_priority,
                 x.amount,
                 unidecode(x.name.lower()),
             ),

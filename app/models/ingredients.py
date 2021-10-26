@@ -56,6 +56,10 @@ class Ingredient(BaseModel, ItemMixin):
         self.amount = self.load_amount_by_recipe(recipe)
         self.comment = self.load_comment_by_recipe(recipe)
         self.is_measured = self.load_measured_by_recipe(recipe)
+        if self.measurement:
+            self.sorting_priority = self.measurement.sorting_priority
+        else:
+            self.sorting_priority = 0
 
     # LOADERS
     @staticmethod

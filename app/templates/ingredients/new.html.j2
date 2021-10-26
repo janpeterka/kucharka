@@ -1,34 +1,19 @@
 {% extends "base/base.html.j2" %}
-
 {% block title %} Nová surovina {% endblock %}
 
 {% block content %}
 
-<form method="post" action="{{ url_for('IngredientsView:post') }}" class="form-group col-6" accept-charset="UTF-8">
+<form action="{{ url_for('IngredientsView:post') }}" method="post" accept-charset="UTF-8">
     {{ form.csrf_token }}
 
-    {{ render_field(form.name) }}
-    {{ render_field(form.description) }}
-    {{ render_field(form.measurement) }}
-    {{ render_field(form.category) }}
-    
-    <details open>
-    <summary>Potravinová omezení</summary>
-    {{ render_field(form.is_vegetarian) }}
-    {{ render_field(form.is_vegan) }}
-    {{ render_field(form.lactose_free) }}
-    {{ render_field(form.gluten_free) }}
-    </details>
+    {{ render_floating_field(form.name) }}
 
-    <details>
-    <summary>Nutriční hodnoty</summary>
-    {{ render_field(form.protein) }}
-    {{ render_field(form.fat) }}
-    {{ render_field(form.sugar) }}
-    {{ render_field(form.calorie) }}
-    </details>
+    <div class="row mt-2">
+        <div class="col-md-6 col-sm-12"> {{ render_floating_field(form.measurement) }} </div>
+        <div class="col-md-6 col-sm-12"> {{ render_floating_field(form.category) }} </div>
+    </div>
 
-    {{ render_field(form.submit) }}
+    {{ render_field(form.submit, class="mt-2") }}
 </form>
 
 {% endblock %}

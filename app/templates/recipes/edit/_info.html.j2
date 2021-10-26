@@ -1,27 +1,32 @@
 {% from "macros/render_field.html.j2" import render_field %}
 
 <div id="recipe-info">
-<form action="{{ url_for('EditRecipeView:post', recipe_id=recipe.id) }}" class="form" method="post" accept-charset="utf-8">
-    {{ form.csrf_token }}
+    <form action="{{ url_for('EditRecipeView:post', recipe_id=recipe.id) }}" method="post" accept-charset="utf-8">
+        {{ form.csrf_token }}
 
-    <div class="w-100 mt-2 mb-2 row">
-        <div class="col-2 pt-2 pl-3"> {{ form.name.label }}</div>
-        <div class="col"> {{ render_field(form.name, has_label=False) }} </div>
-    </div>
+        <div class="form-floating">
+            {{ render_field(form.name, has_label=False) }}
+            {{ form.name.label }}
+        </div>
 
-    <div class="w-100 mt-2 mb-2 row">
-        <div class="col-2 pt-2 pl-3"> {{ form.category.label }}</div>
-        <div class="col"> {{ render_field(form.category, has_label=False) }} </div>
-    </div>
+        <div class="form-floating">
+            {{ render_field(form.category, has_label=False) }}
+            {{ form.category.label }}
+        </div>
 
-    <div class="w-100 mt-2 mb-2 row">
-        <div class="col-2 pt-2 pl-3"> {{ form.portion_count.label }}</div>
-        <div class="col"> {{ render_field(form.portion_count, has_label=False) }} </div>
-    </div>
+        <div class="form-floating">
+            {{ render_field(form.portion_count, has_label=False) }}
+            {{ form.portion_count.label }}
+        </div>
 
-    <div class="mt-4 pb-2">
-        <input type="submit" value="{{ texts.recipe_edit }}" class="btn btn-warning">
-        <span class="float-right mr-5 color-success">{{ message }}</span>
-    </div>
-</form>
+        <div data-controller="enable-select2">
+            {{ form.labels.label(class_="me-1") }}
+            {{ render_field(form.labels, has_label=False, data_enable_select2_target="select", style="width:70%;") }}
+        </div>
+
+        <div class="mt-4 pb-2">
+            <input type="submit" value="{{ texts.recipe_edit }}" class="btn btn-warning">
+            <span class="float-end me-5 color-success with-fadeout">{{ message }}</span>
+        </div>
+    </form>
 </div>

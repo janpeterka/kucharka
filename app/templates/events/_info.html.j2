@@ -6,7 +6,7 @@
 	<span> Pro {{ event.people_count }} lidí</span>
 
     {% if event.is_shared %}
-        <span class="font-italic font-weight-light float-right"> {{ icon("shared") }} </span>
+        <span class="fst-italic font-weight-light float-end"> {{ icon("shared") }} </span>
     {% endif %}
 
     {% if event.can_current_user_edit %}

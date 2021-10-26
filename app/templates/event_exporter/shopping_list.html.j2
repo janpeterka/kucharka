@@ -6,7 +6,7 @@
 <h1 class="text-uppercase font-comfortaa text-center mb-3" >{{ link_or_name(event) }}</h1>
 
 {% if show_type == "list" %}
-    <span data-controller="toggle-details" data-turbo="false" data-toggle-details-target="buttons" class="float-right"></span>
+    <span data-controller="toggle-details" data-turbo="false" data-toggle-details-target="buttons" class="float-end"></span>
 {% endif %}
 <h2 class="text-uppercase font-comfortaa">Suroviny (pro {{ event.people_count }} lidí)</h2>
 
@@ -39,6 +39,5 @@
 
 
 {% block scripts_after %}
-    {% include 'javascript/stimulus.js.html' %}
-    {% include 'javascript/toggle_details_controller.js.html' %}
+    {{ stimulus("toggle-details") }}
 {% endblock %}

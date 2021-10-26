@@ -1,5 +1,5 @@
-<div class="row mb-2 ml-1">
-    {# <a class="btn btn-secondary mr-3" href="{{ url_for('EventsView:edit', id=event.id) }}">{{ texts.edit }} {{ icon("edit") }}</a> #}
+<div class="row mb-2 ms-1">
+    {# <a class="btn btn-secondary me-3" href="{{ url_for('EventsView:edit', id=event.id) }}">{{ texts.edit }} {{ icon("edit") }}</a> #}
     
     <form class="form form-inline" action="{{ url_for('EventsView:delete', id=event.id) }}" onsubmit="return confirm('Opravdu chcete smazat akci?');" method="post" accept-charset="utf-8">
         <button type="submit" class="btn btn-danger"> Smazat akci {{ icon("delete") }}</button>

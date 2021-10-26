@@ -27,11 +27,6 @@ class Ingredient(BaseModel, ItemMixin):
     fat = db.Column(db.Float, server_default=db.text("'0'"))
     protein = db.Column(db.Float, server_default=db.text("'0'"))
 
-    is_vegetarian = db.Column(db.Boolean, default=False)
-    is_vegan = db.Column(db.Boolean, default=False)
-    lactose_free = db.Column(db.Boolean, default=False)
-    gluten_free = db.Column(db.Boolean, default=False)
-
     is_public = db.Column(db.Boolean, default=False)
     # is_approved = db.Column(db.Boolean, default=False)
     source = db.Column(db.String(255), default="user")
@@ -69,6 +64,30 @@ class Ingredient(BaseModel, ItemMixin):
 
         if exclude_mine:
             ingredients = [r for r in ingredients if r.author != current_user]
+
+        if ordered:
+            ingredients.sort(key=lambda x: unidecode(x.name.lower()))
+
+        return ingredients
+
+    @staticmethod
+    def load_all_in_public_recipes(ordered=True) -> list:
+        from app.models.recipes import Recipe
+        from app.helpers.general import list_without_duplicated
+
+        ingredients = [x.ingredients for x in Recipe.load_all_public()]
+        # flatten
+        ingredients = [y for x in ingredients for y in x]
+        ingredients = list_without_duplicated(ingredients)
+
+        if ordered:
+            ingredients.sort(key=lambda x: unidecode(x.name.lower()))
+
+        return ingredients
+
+    @staticmethod
+    def load_all_by_current_user(ordered=True):
+        ingredients = Ingredient.query.filter(Ingredient.author == current_user).all()
 
         if ordered:
             ingredients.sort(key=lambda x: unidecode(x.name.lower()))
@@ -117,6 +136,10 @@ class Ingredient(BaseModel, ItemMixin):
     @property
     def is_used(self) -> bool:
         return bool(self.recipes)
+
+    @property
+    def can_be_deleted(self) -> bool:
+        return not self.is_used
 
     @property
     def without_category(self):

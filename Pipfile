@@ -21,6 +21,7 @@ wtforms-sqlalchemy = "*"
 flask-weasyprint = "*"
 flask-security-too = "*"
 bleach = "*"
+flask-mail = "*"
 
 [dev-packages]
 mypy = "*"

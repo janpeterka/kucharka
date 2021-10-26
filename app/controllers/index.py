@@ -30,3 +30,7 @@ class IndexView(FlaskView):
     @route("tips")
     def tips(self):
         return redirect(url_for("SupportView:tips"))
+
+    @route("uptime")
+    def uptime(self):
+        return "OK"

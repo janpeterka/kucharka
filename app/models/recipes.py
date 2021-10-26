@@ -47,8 +47,7 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
     ingredients = db.relationship(
         "Ingredient",
         secondary="recipes_have_ingredients",
-        primaryjoin="RecipeHasIngredient.recipe_id == Recipe.id",
-        # primaryjoin="and_(Recipe.id == remote(RecipeHasIngredient.recipe_id), foreign(Ingredient.id) == RecipeHasIngredient.ingredient_id)",
+        primaryjoin="Recipe.id == RecipeHasIngredient.recipe_id",
         viewonly=True,
         order_by="Ingredient.name",
     )
@@ -57,7 +56,6 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         "DailyPlan",
         secondary="daily_plans_have_recipes",
         primaryjoin="Recipe.id == DailyPlanHasRecipe.recipe_id",
-        # primaryjoin="and_(Recipe.id == remote(DailyPlanHasRecipe.recipe_id), foreign(DailyPlan.id) == DailyPlanHasRecipe.daily_plan_id)",
         viewonly=True,
     )
 
@@ -65,6 +63,12 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     category = db.relationship(
         "RecipeCategory", uselist=False, backref="recipes", lazy="joined"
+    )
+
+    labels = db.relationship(
+        "Label",
+        secondary="recipes_have_labels",
+        primaryjoin="Recipe.id == RecipeHasLabel.recipe_id",
     )
 
     # LOADERS
@@ -93,7 +97,13 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
             ingredient.set_additional_info(recipe)
 
         recipe.ingredients.sort(
-            key=lambda x: (not x.is_measured, unidecode(x.name.lower()))
+            key=lambda x: (
+                x.is_measured,
+                x.measurement.sorting_priority,
+                x.amount,
+                unidecode(x.name.lower()),
+            ),
+            reverse=True,
         )
 
         return recipe
@@ -164,10 +174,10 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
     @property
     def can_current_user_view(self) -> bool:
         return (
-            current_user == self.author
-            or current_user.is_admin
-            or self.is_shared
+            self.is_shared
             or self.is_in_shared_event
+            or current_user == self.author
+            or current_user.is_admin
         )
 
     # PROPERTIES
@@ -203,6 +213,16 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
             return False
 
         return len(self.ingredients) == 0
+
+    @property
+    def unused_personal_ingredients(self) -> list:
+        return [
+            i for i in current_user.personal_ingredients if i not in self.ingredients
+        ]
+
+    @property
+    def unused_public_ingredients(self) -> list:
+        return [i for i in Ingredient.load_all_public() if i not in self.ingredients]
 
     @property
     def zero_amount_ingredients(self) -> list:
@@ -243,18 +263,8 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
     def concat_ingredients(self) -> str:
         return ", ".join(o.name for o in self.ingredients)
 
-    @property
-    def is_vegetarian(self) -> bool:
-        return [i for i in self.ingredients if i.is_vegetarian] == self.ingredients
+    def has_label(self, label) -> bool:
+        return label in self.labels
 
-    @property
-    def is_vegan(self) -> bool:
-        return [i for i in self.ingredients if i.is_vegan] == self.ingredients
-
-    @property
-    def lactose_free(self) -> bool:
-        return [i for i in self.ingredients if i.lactose_free] == self.ingredients
-
-    @property
-    def gluten_free(self) -> bool:
-        return [i for i in self.ingredients if i.gluten_free] == self.ingredients
+    def has_labels(self, labels) -> bool:
+        return all(self.has_label(label) for label in labels)

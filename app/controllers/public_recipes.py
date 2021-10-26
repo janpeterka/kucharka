@@ -11,7 +11,6 @@ from flask_security import login_required, current_user
 
 from app.helpers.helper_flask_view import HelperFlaskView
 
-from app.models.recipe_categories import RecipeCategory
 from app.controllers.forms.public_recipes import PublicRecipeFilterForm
 
 
@@ -24,21 +23,7 @@ class PublicRecipesView(HelperFlaskView):
 
     @login_required
     def before_index(self):
-        # Get values for filters
-        # TODO: tohle mi nepřijde úplně šťastný
-        # TODO: načítání by mohlo být přes /src
-        ingredients = [x.ingredients for x in self.recipes]
-        flatten_ingredients = [y for x in ingredients for y in x]
-        ingredient_names = [x.name for x in flatten_ingredients]
-
-        self.ingredient_names = ["---", *list(set(ingredient_names))]
-        self.ingredient_names.sort()
-
-        self.categories = RecipeCategory.load_all()
-
-        self.form = PublicRecipeFilterForm(
-            ingredient_names=self.ingredient_names, categories=self.categories
-        )
+        self.form = PublicRecipeFilterForm()
 
     @login_required
     @route("/toggleReaction/<recipe_id>", methods=["POST"])
@@ -64,27 +49,14 @@ class PublicRecipesView(HelperFlaskView):
         self.recipes = Recipe.load_all_public()
 
         # Get filters from request
-        ingredient_name = None
-        category = None
-        with_reaction = None
-
-        is_vegetarian = self.form.is_vegetarian.data
-        is_vegan = self.form.is_vegan.data
-        lactose_free = self.form.lactose_free.data
-        gluten_free = self.form.gluten_free.data
-
-        if self.form.ingredient_name.data != "---":
-            ingredient_name = self.form.ingredient_name.data
-
+        labels = self.form.labels.data
+        ingredient = self.form.ingredient.data
         with_reaction = self.form.with_reaction.data
-
-        category = RecipeCategory.load(self.form.category.data)
+        category = self.form.category.data
 
         # Filter recipes
-        if ingredient_name:
-            self.recipes = [
-                x for x in self.recipes if ingredient_name in x.concat_ingredients
-            ]
+        if ingredient:
+            self.recipes = [x for x in self.recipes if ingredient in x.ingredients]
 
         if with_reaction:
             self.recipes = [x for x in self.recipes if x.has_reaction]
@@ -92,17 +64,8 @@ class PublicRecipesView(HelperFlaskView):
         if category and category.name != "---":
             self.recipes = [x for x in self.recipes if x.category == category]
 
-        if is_vegetarian:
-            self.recipes = [x for x in self.recipes if x.is_vegetarian]
-
-        if is_vegan:
-            self.recipes = [x for x in self.recipes if x.is_vegan]
-
-        if lactose_free:
-            self.recipes = [x for x in self.recipes if x.lactose_free]
-
-        if gluten_free:
-            self.recipes = [x for x in self.recipes if x.gluten_free]
+        if labels:
+            self.recipes = [x for x in self.recipes if x.has_labels(labels)]
 
         if turbo.can_stream():
             return turbo.stream(

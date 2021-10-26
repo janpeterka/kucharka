@@ -18,12 +18,13 @@
     <td>
         {% if not daily_recipe.is_shopping %}
             
-            {{ daily_recipe.meal_type | default("", True) }}
+            {# {{ daily_recipe.meal_type | default("", True) }} #}
 
             {% if daily_recipe.can_current_user_edit %}
             <details>    
-            <summary><em> upravit typ jídla </em></summary>
-                <form method="POST" class="form form-inline text-right mr-3" action="{{ url_for('DailyPlansEditView:change_meal_type', daily_recipe_id=daily_recipe.id) }}">
+            <summary><em> typ jídla: {{ daily_recipe.meal_type or "" }} </em></summary>
+                <form method="POST" class="row row-cols-lg-auto g-3 align-items-center text-end me-3" action="{{ url_for('DailyPlansEditView:change_meal_type', daily_recipe_id=daily_recipe.id) }}">
+                    <div class="col-12">
                     <select name="meal-type" id="meal-type" class="form-control">
                         <option name='snídaně' value='snídaně'>Snídaně</option>
                         <option name='dopolední svačina' value='dopolední svačina'>Dopolední svačina</option>
@@ -34,7 +35,10 @@
                         <option name='jiné' value='jiné'>Jiné</option>
                         <option name='nákup' value='nákup'>Nákup</option>
                     </select>
+                    </div>
+                    <div class="col-12">
                     <button type="submit" class="btn btn-secondary"> Změnit </button>
+                    </div>
                 </form>
             </details>
             {% endif %}
@@ -45,9 +49,9 @@
             {% if daily_recipe.can_current_user_edit %}
             <details>
             <summary><em> počet porcí: {{ daily_recipe.portion_count }} </em></summary>    
-                <form method="POST" action="{{ url_for('DailyPlansEditView:change_portion_count', daily_recipe_id=daily_recipe.id) }}" class="form form-inline">
-                    <input type="number" class="form-control" name="portion-count" value="{{ daily_recipe.portion_count}}">
-                    <button type="submit" class="btn btn-secondary"> Změnit </button>               
+                <form method="POST" action="{{ url_for('DailyPlansEditView:change_portion_count', daily_recipe_id=daily_recipe.id) }}" class="row row-cols-lg-auto g-3 align-items-center">
+                    <div class="col"><input type="number" class="form-control" name="portion-count" value="{{ daily_recipe.portion_count}}"></div>
+                    <div class="col"><button type="submit" class="btn btn-secondary"> Změnit </button></div>
                 </form>
             </details>
             {% else %}
@@ -57,13 +61,13 @@
     </td>
     <td>
         {% if daily_recipe.can_current_user_edit %}
-        {{ button_to(action=url_for('DailyPlansEditView:sort_up', daily_recipe_id=daily_recipe.id), class="icon float-left", value='<i class="fas fa-sort-up"></i>') }}
-        {{ button_to(action=url_for('DailyPlansEditView:sort_down', daily_recipe_id=daily_recipe.id), class="icon float-right", value='<i class="fas fa-sort-down"></i>') }}
+        {{ button_to(action=url_for('DailyPlansEditView:sort_up', daily_recipe_id=daily_recipe.id), class="icon float-start", value='<i class="fas fa-sort-up"></i>') }}
+        {{ button_to(action=url_for('DailyPlansEditView:sort_down', daily_recipe_id=daily_recipe.id), class="icon float-end", value='<i class="fas fa-sort-down"></i>') }}
         {% endif %}
     </td>
     <td>
         {% if daily_recipe.can_current_user_edit %}
-        <form method="POST" class="text-right mr-3" action="{{ url_for('DailyPlansEditView:remove_daily_recipe', daily_recipe_id=daily_recipe.id, daily_plan_id=daily_recipe.daily_plan.id) }}">
+        <form method="POST" class="text-end me-3" action="{{ url_for('DailyPlansEditView:remove_daily_recipe', daily_recipe_id=daily_recipe.id, daily_plan_id=daily_recipe.daily_plan.id) }}">
             <button type="submit" class="destroy icon"> {{ icon("remove") }} </button>
         </form>
         {% endif %}

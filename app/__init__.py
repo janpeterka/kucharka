@@ -5,12 +5,14 @@ from flask_babel import Babel
 from turbo_flask import Turbo
 
 from flask_security import Security, SQLAlchemyUserDatastore
+from flask_mail import Mail
 
 
 db = SQLAlchemy(session_options={"autoflush": False})
 migrate = Migrate()
 babel = Babel()
 turbo = Turbo()
+mail = Mail()
 
 from flask_sqlalchemy.model import DefaultMeta  # noqa: E402
 
@@ -39,6 +41,7 @@ def create_app(config_name="default"):
     security.init_app(application, user_datastore)
     babel.init_app(application)
     turbo.init_app(application)
+    mail.init_app(application)
 
     if application.config["SENTRY_MONITORING"]:
         import sentry_sdk

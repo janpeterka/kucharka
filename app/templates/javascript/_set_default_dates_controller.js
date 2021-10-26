@@ -1,5 +1,4 @@
-<script type="text/javascript">
-  application.register("set-default-dates", class extends Stimulus.Controller {
+Stimulus.register("set-default-dates", class extends Controller {
     static get targets() {
       return ["dateFrom", "dateTo"]
     }
@@ -17,4 +16,3 @@
     return result;
   }
 })
-</script>

@@ -8,24 +8,15 @@
     </div>
     
     <div>
-        <span class="font-italic"> Kategorie: {{ recipe.category.name }} </span><br>
+        <span class="fst-italic"> Kategorie: {{ recipe.category.name }} </span><br>
     </div>
 
     <div>
-            <span class="float-right">
-            {% if recipe.is_vegetarian %}
-                {{ icon("vegetarian")}}
-            {% endif %}
-            {% if recipe.is_vegan %}
-                {{ icon("vegan")}}
-            {% endif %}
-            {% if recipe.lactose_free %}
-                {{ icon("lactose_free")}}
-            {% endif %}
-            {% if recipe.gluten_free %}
-                {{ icon("gluten_free")}}
-            {% endif %}
-            </span>
+        <span class="float-end">
+        {% for label in recipe.labels %}
+            {{ icon(label.icon_name)}}
+        {% endfor %}
+        </span>
     </div>
 </div>
 

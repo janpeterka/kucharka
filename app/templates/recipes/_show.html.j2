@@ -1,59 +1,26 @@
-<div class="mb-2" id="recipe-info">
-    <div> 
-        <h2> {{ recipe.name }} </h2> 
-    </div>
-    
-    <div>
-        <span class="font-italic"> Kategorie: {{ recipe.category.name }} </span><br>
-
-        {% if not print %}
-            {% if recipe.is_shared and not recipe.is_current_user_author %}
-                <span class="font-italic font-weight-light float-right"> (vytvořil*a {{ recipe.author.name }}) </span>
-            {% elif recipe.is_shared %}
-                <span class="font-italic font-weight-light float-right"> {{ icon("shared") }} </span>
-            {% endif %}
-        {% endif %}
-
-    </div>
-    <div>
-        {% if not print %}
-            <span class="float-right">
-            {% if recipe.is_vegetarian %}
-                {{ icon("vegetarian")}}
-            {% endif %}
-            {% if recipe.is_vegan %}
-                {{ icon("vegan")}}
-            {% endif %}
-            {% if recipe.lactose_free %}
-                {{ icon("lactose_free")}}
-            {% endif %}
-            {% if recipe.gluten_free %}
-                {{ icon("gluten_free")}}
-            {% endif %}
-            </span>
-        {% endif %}
-    </div>
+<div id="recipe-info">
+    <h2> {{ recipe.name }} </h2> 
 </div>
 
 
 <table id="ingredients" class="table">
-    <tr>
-        <th>{{ texts.title }}</th>
-        <th>Množství (na {{recipe.portion_count}} porcí)</th>
-        {# <th>{{ texts.amount_simple }}</th> #}
-        <th></th>
-    </tr>
+    <thead>
+        <tr>
+            <th>{{ texts.title }}</th>
+            <th>Množství (na {{recipe.portion_count}} porcí)</th>
+            <th></th>
+        </tr>
+    </thead>
 
     {% for ingredient in recipe.ingredients: %}
     {% set ingredient_amount = ingredient.amount * recipe.portion_count %}
         <tr>
-            {% if not print %}
-                
-            <td>{{ link_to(ingredient) }}
-                {% if ingredient.is_public %} {{ icon("public", class="text-secondary") }} {% endif %}
-            </td>
+            {% if not print and current_user.is_authenticated %}
+                <td> {{ link_to(ingredient) }}
+                    {% if ingredient.is_public %} {{ icon("public", class="text-secondary") }} {% endif %}
+                </td>
             {% else %}
-                <td>{{ ingredient.name }}</td>
+                <td> {{ ingredient.name }} </td>
             {% endif %}
 
             <td>
@@ -72,7 +39,7 @@
                         {% set ns.title = ns.title + "\n" %}
                     {% endfor %}
                     <abbr title="{{ ns.title }}">
-                         {{ icon("info-circle", class="ml-1") }}
+                         {{ icon("info-circle", class="ms-1") }}
                     </abbr>   
                 {% endif %}
 
@@ -83,8 +50,6 @@
         </tr>
     {% endfor %}
 </table>
-
-{# <hr> #}
 
 {% if recipe.description %}
     {% include "recipes/_description.html.j2" %}

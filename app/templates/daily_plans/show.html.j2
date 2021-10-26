@@ -9,8 +9,7 @@
 {% endblock %}
 
 {% block script %}
-    {% include 'javascript/stimulus.js.html' %}
-    {% include 'javascript/enable_select2_controller.js.html' %}
+    {{ stimulus("select2") }}
 {% endblock %}
 
 {% block content %}
@@ -19,7 +18,7 @@
     <div class="text-center">
 
         {% if daily_plan.has_previous %}
-        <span class="float-left" style="margin-left: 10rem">
+        <span class="float-start" style="margin-left: 10rem">
             <a href="{{ url_for('DailyPlansView:previous', daily_plan_id=daily_plan.id) }}">
             {{ human_format_date(daily_plan.previous.date) }}
             </a>
@@ -31,7 +30,7 @@
         </span>
 
         {% if daily_plan.has_next %}
-        <span class="float-right" style="margin-left: 10rem">
+        <span class="float-end" style="margin-left: 10rem">
             <a href="{{ url_for('DailyPlansView:next', daily_plan_id=daily_plan.id) }}">
             {{ human_format_date(daily_plan.next.date) }}
             </a>
@@ -63,7 +62,7 @@
 
     {% if daily_plan.can_current_user_edit %}
 
-    <div class="row float-right mt-5" data-controller="enable-select2">
+    <div class="row float-end mt-5" data-controller="enable-select2">
         <form class="form" action="{{ url_for('DailyPlansEditView:add_recipe', daily_plan_id=daily_plan.id) }}" method="post">
             <div class="form-group form-inline">
                 <select name="recipe_id" id="recipe_select" class="form-control" data-enable-select2-target="select">
@@ -76,7 +75,7 @@
     </div>
 
     <div class="row mt-5">
-        {{ button_to(action=url_for('DailyPlansEditView:add_shopping', daily_plan_id=daily_plan.id), class="btn btn-secondary", value="Přidat nákup") }}
+        {{ button_to(action=url_for('DailyPlansEditView:add_shopping', daily_plan_id=daily_plan.id), class="btn btn-secondary", value="Přidat nákup <i class='fas fa-shopping-basket'></i>") }}
     </div>
 
     {% endif %}

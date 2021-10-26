@@ -20,10 +20,15 @@
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for_security('register') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}">Zaregistrovat se</a>
           </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('PublicRecipesView:public_index') }}"> Sdílené recepty </a>
+          </li>
       </ul>
+
       {# <div class="navbar-divider"></div> #}
 
-      <ul class="nav navbar-nav navbar-right ml-auto">
+      <ul class="nav navbar-nav ms-auto">
           <li class="nav-item">
             <a class="nav-link" target="_blank" title="sledujte na facebooku" href="{{ url_for('SupportView:facebook_redirect') }}"> {{ icon("facebook") }} </a>
           </li>

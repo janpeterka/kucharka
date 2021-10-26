@@ -1,23 +1,14 @@
 {% from "macros/icons.html.j2" import icon %}
+{% from "macros/render_label.html.j2" import render_label %}
 
 <tr id = "recipe-{{ recipe.id }}" class="h-5" data-controller="recipe-reactions">
 	<td>{{ link_to(recipe) }}</td>
-    <td>{{ recipe.concat_ingredients }}</td>
     <td>{{ recipe.category.name }}</td>
     <td>
         <span>
-        {% if recipe.is_vegetarian %}
-            {{ icon("vegetarian")}}
-        {% endif %}
-        {% if recipe.is_vegan %}
-            {{ icon("vegan")}}
-        {% endif %}
-        {% if recipe.lactose_free %}
-            {{ icon("lactose_free")}}
-        {% endif %}
-        {% if recipe.gluten_free %}
-            {{ icon("gluten_free")}}
-        {% endif %}
+        {% for label in recipe.labels %}
+        	{{ render_label(label) }}
+        {% endfor %}
         </span>
     </td>
     <td>{{ recipe.author.name }}</td>
@@ -37,6 +28,6 @@
     {% endif %}
 
     <td>
-    	<span class="ml-1">{{ recipe.reactions | length }}</span>
+    	<span class="ms-1">{{ recipe.reactions | length }}</span>
     </td>
 </tr>

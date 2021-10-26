@@ -14,14 +14,8 @@ from app.controllers.forms.recipes import RecipesForm
 
 from app.models.ingredients import Ingredient
 from app.models.recipes import Recipe
-from app.models.recipe_categories import RecipeCategory
 
-
-def set_form(form, recipe=None):
-    form.set_all(categories=RecipeCategory.load_all())
-
-    if recipe and recipe.category:
-        form.category.data = recipe.category.id
+# from app.models.recipe_categories import RecipeCategory
 
 
 class EditRecipeView(HelperFlaskView):
@@ -145,17 +139,13 @@ class EditRecipeView(HelperFlaskView):
     @route("info/<recipe_id>", methods=["POST"])
     def post(self, recipe_id):
         form = RecipesForm(request.form)
-        set_form(form)
 
         if not form.validate_on_submit():
             save_form_to_session(request.form)
             return redirect(url_for("RecipesView:edit", id=self.recipe.id))
 
-        form.category.data = RecipeCategory.load(form.category.data)
         form.populate_obj(self.recipe)
         self.recipe.edit()
-
-        set_form(form, recipe=self.recipe)
 
         if turbo.can_stream():
             return turbo.stream(

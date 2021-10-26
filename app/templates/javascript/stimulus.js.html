@@ -1,8 +1,29 @@
-<script src="https://unpkg.com/stimulus/dist/stimulus.umd.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/platform/1.3.5/platform.min.js"></script>
-<script type="text/javascript">
-	if (platform.name == "IE"){
-		window.location.replace("https:ketokalkulacka.cz/support/unsupported_browser");
-	}
-	const application = Stimulus.Application.start()
+{% macro stimulus() %}
+
+<script type="module">
+
+import { Application, Controller } from "https://unpkg.com/@hotwired/stimulus/dist/stimulus.js"
+window.Stimulus = Application.start()
+
+{% for controller in varargs %}
+	{% if controller == "select2" %}
+		{% include 'javascript/_enable_select2_controller.js' %}
+	{% elif controller == "editor" %}		
+		{% include 'javascript/_enable_editor_controller.js' %}
+	{% elif controller == "password-visibility" %}		
+		{% include 'javascript/_password_visibility_controller.js' %}
+	{% elif controller == "recipe-reaction" %}		
+		{% include 'javascript/_recipe_reaction_controller.js' %}
+	{% elif controller == "set-default-dates" %}		
+		{% include 'javascript/_set_default_dates_controller.js' %}
+	{% elif controller == "toggle-details" %}		
+		{% include 'javascript/_toggle_details_controller.js' %}
+	{% else %}
+		console.log("Tento Stimulus controller neexistuje:")
+		console.log(controller)
+	{% endif %}
+{% endfor %}
+
 </script>
+
+{% endmacro %}

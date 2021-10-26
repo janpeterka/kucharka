@@ -8,37 +8,19 @@ from app import turbo
 from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models.ingredients import Ingredient
-from app.models.ingredient_categories import IngredientCategory
 from app.models.recipes import Recipe
-from app.models.measurements import Measurement
 
 from app.controllers.edit_recipes import EditRecipeView
 
 from app.controllers.forms.ingredients import IngredientsForm
 
 
-def set_form(form, ingredient=None):
-    measurements = Measurement.load_all()
-    categories = IngredientCategory.load_all()
-
-    form.set_all(measurements=measurements, categories=categories)
-
-    if ingredient:
-        if ingredient.measurement:
-            form.measurement.data = ingredient.measurement.id
-        if ingredient.category:
-            form.category.data = ingredient.category.id
-
-
 class FastAddIngredientsView(HelperFlaskView):
     decorators = [login_required]
     template_folder = "ingredients"
 
-    def before_new(self, **kwargs):
-        self.form = IngredientsForm()
-        set_form(self.form)
-
     def new(self, recipe_id):
+        self.form = IngredientsForm()
         # TODO: make it work without turbo (80)
         return turbo.stream(
             turbo.replace(
@@ -52,10 +34,8 @@ class FastAddIngredientsView(HelperFlaskView):
     @route("ingredients/fast/post/<recipe_id>", methods=["POST"])
     def post(self, recipe_id):
         form = IngredientsForm(request.form)
-        set_form(form)
 
         ingredient = Ingredient()
-        form.measurement.data = Measurement.load(form.measurement.data)
         form.populate_obj(ingredient)
         ingredient.save()
 

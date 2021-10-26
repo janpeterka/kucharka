@@ -75,15 +75,25 @@ def utility_processor():
     def formatted_amount(amount):
         import math
 
+        if amount == 0:
+            return 0
+
         if math.floor(amount) == 0:
             digits = 0
         else:
             digits = int(math.log10(math.floor(amount))) + 1
 
         if digits in [0, 1]:
-            return round(amount, 1)
+            # if number is in ones, return with one decimal
+            formatted_amount = round(amount, 1)
+            # if first decimal is zero
+            if int(formatted_amount) == formatted_amount:
+                return int(formatted_amount)
+            else:
+                return formatted_amount
         elif digits in (2, 3):
-            return int(amount)
+            # if number is in tens or hundereds, return without decimals
+            return round(amount)
 
         return int(amount)
 

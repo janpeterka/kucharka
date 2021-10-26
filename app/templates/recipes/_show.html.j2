@@ -13,7 +13,8 @@
     </thead>
 
     {% for ingredient in recipe.ingredients: %}
-    {% set ingredient_amount = ingredient.amount * recipe.portion_count %}
+        {% set ingredient_amount = ingredient.amount * recipe.portion_count %}
+
         <tr>
             {% if not print and current_user.is_authenticated %}
                 <td> {{ link_to(ingredient) }}

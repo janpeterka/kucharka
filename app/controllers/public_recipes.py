@@ -15,7 +15,6 @@ from app.controllers.forms.public_recipes import PublicRecipeFilterForm
 
 
 class PublicRecipesView(HelperFlaskView):
-    # decorators = [login_required]
     template_folder = "public_recipes"
 
     def before_request(self, name, *args, **kwargs):
@@ -58,16 +57,16 @@ class PublicRecipesView(HelperFlaskView):
 
         # Filter recipes
         if ingredient:
-            self.recipes = [x for x in self.recipes if ingredient in x.ingredients]
+            self.recipes = [r for r in self.recipes if ingredient in r.ingredients]
 
         if with_reaction:
-            self.recipes = [x for x in self.recipes if x.has_reaction]
+            self.recipes = [r for r in self.recipes if r.has_reaction]
 
         if category and category.name != "---":
-            self.recipes = [x for x in self.recipes if x.category == category]
+            self.recipes = [r for r in self.recipes if r.category == category]
 
         if labels:
-            self.recipes = [x for x in self.recipes if x.has_labels(labels)]
+            self.recipes = [r for r in self.recipes if r.has_labels(labels)]
 
         if turbo.can_stream():
             return turbo.stream(

@@ -26,7 +26,7 @@
                     {{ form.dietary_labels.label(class_="me-1 col-sm-2 col-form-label") }}
                     <div class="col-sm-9">
                         {{ render_field(form.dietary_labels, has_label=False, data_select_badges_target="select") }}
-                        <span data-select-badges-target="badges"></span>
+                        <div data-select-badges-target="badges" class="text-overflow-break"></div>
                     </div>
                 </div>
 
@@ -34,7 +34,7 @@
                     {{ form.difficulty_label.label(class_="me-1 col-sm-2 col-form-label") }}
                     <div class="col-sm-9">
                         {{ render_field(form.difficulty_label, has_label=False, data_select_badges_target="select") }}
-                        <span data-select-badges-target="badges"></span>
+                        <div data-select-badges-target="badges" class="text-overflow-break"></div>
                     </div>
                 </div>
             </div>

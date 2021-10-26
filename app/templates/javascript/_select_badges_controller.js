@@ -24,7 +24,7 @@ Stimulus.register("select-badges", class extends Controller {
 
   add_badge(option){
     var badge = document.createElement("span")
-    badge.className = "select-badge lh-3 ms-1 me-1 p-2 bg-color-grey cursor-clickable rounded-pill"
+    badge.className = "select-badge lh-3 ms-1 me-1 p-2 bg-color-grey cursor-clickable rounded-pill text-nobreak"
     badge.dataset.label = option.label
     badge.dataset.selected = false
     badge.dataset.selectBadgesValueParam = option.value

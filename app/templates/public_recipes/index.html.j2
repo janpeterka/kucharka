@@ -25,8 +25,8 @@
   	{{ form.csrf_token }}
 
     <div class="row">
-      <div class="col"> {{ render_floating_field(form.ingredient) }} </div>
-      <div class="col"> {{ render_floating_field(form.category) }} </div>
+      <div class="col-md-6 col-sm-12">  {{ render_floating_field(form.ingredient) }} </div>
+      <div class="col-md-6 col-sm-12 mt-2 mt-md-0">  {{ render_floating_field(form.category) }} </div>
     </div>
 
     <div class="row mt-2">
@@ -35,7 +35,7 @@
         {{ form.dietary_labels.label(class_="me-1 col-sm-2 col-form-label") }}
         <div class="col-sm-9">
             {{ render_field(form.dietary_labels, has_label=False, data_select_badges_target="select") }}
-            <span data-select-badges-target="badges"></span>
+            <div data-select-badges-target="badges" class="text-overflow-break"></div>
         </div>
       </div>
       
@@ -43,7 +43,7 @@
         {{ form.difficulty_labels.label(class_="me-1 col-sm-2 col-form-label") }}
         <div class="col-sm-9">
           {{ render_field(form.difficulty_labels, has_label=False, data_select_badges_target="select") }}
-          <span data-select-badges-target="badges"></span>
+          <div data-select-badges-target="badges" class="text-overflow-break"></div>
         </div>
       </div>
 

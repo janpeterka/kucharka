@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<form method="post" action="{{ url_for('EventsView:post') }}" class="form-group col-6" accept-charset="UTF-8">
+<form method="post" action="{{ url_for('EventsView:post') }}" class="form-group" accept-charset="UTF-8">
     {{ form.csrf_token }}
 
     {{ render_floating_field(form.name, placeholder="např. Tábor 2021") }}

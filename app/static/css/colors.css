@@ -126,6 +126,10 @@
     background-color: var(--admin-yellow);
 }
 
+.bg-color-light-red {
+    background-color: var(--palette-orange);
+}
+
 /* Color signals */
 .color-inactive{
     color: var(--inactive);

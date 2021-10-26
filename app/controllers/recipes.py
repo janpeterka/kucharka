@@ -26,12 +26,11 @@ class RecipesView(HelperFlaskView):
         if current_user.is_authenticated:
             self.validate_operation(id, self.recipe)
 
-        if name in ["index"]:
-            if current_user.is_authenticated:
-                self.recipes = sorted(
-                    current_user.visible_recipes,
-                    key=lambda x: unidecode(x.name.lower()),
-                )
+        if name in ["index"] and current_user.is_authenticated:
+            self.recipes = sorted(
+                current_user.visible_recipes,
+                key=lambda x: unidecode(x.name.lower()),
+            )
 
         if name in ["show", "pdf", "show_pdf"] and "portion_count" in request.args:
             request_portion_count = request.args.get("portion_count", "1")

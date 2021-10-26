@@ -16,6 +16,12 @@ def dietary_labels():
     return Label.load_dietary()
 
 
+def difficulty_labels():
+    from app.models.labels import Label
+
+    return Label.load_by_category_name("difficulty")
+
+
 def public_ingredients():
     from app.models.ingredients import Ingredient
 
@@ -31,6 +37,9 @@ class PublicRecipeFilterForm(FlaskForm):
 
     dietary_labels = QuerySelectMultipleField(
         "Dietní omezení", query_factory=dietary_labels
+    )
+    difficulty_label = QuerySelectMultipleField(
+        "Obtížnost přípravy", query_factory=difficulty_labels, allow_blank=True
     )
 
     labels = HiddenField()

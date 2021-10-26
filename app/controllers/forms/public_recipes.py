@@ -30,7 +30,7 @@ def public_ingredients():
 
 class PublicRecipeFilterForm(FlaskForm):
     ingredient = QuerySelectField(
-        "Surovina", query_factory=public_ingredients, allow_blank=True
+        "Obsahuje surovinu", query_factory=public_ingredients, allow_blank=True
     )
     category = QuerySelectField("Kategorie", query_factory=categories, allow_blank=True)
     with_reaction = BooleanField("Moje oblíbené")
@@ -38,31 +38,10 @@ class PublicRecipeFilterForm(FlaskForm):
     dietary_labels = QuerySelectMultipleField(
         "Dietní omezení", query_factory=dietary_labels
     )
-    difficulty_label = QuerySelectMultipleField(
-        "Obtížnost přípravy", query_factory=difficulty_labels, allow_blank=True
+    difficulty_labels = QuerySelectMultipleField(
+        "Obtížnost přípravy", query_factory=difficulty_labels
     )
 
     labels = HiddenField()
 
     submit = SubmitField("Filtrovat")
-
-    def set_labels(form):
-        from app.models.label_categories import LabelCategory
-
-        form.labels.data = []
-
-        for category in LabelCategory.load_all():
-            if category.allow_multiple:
-                attr_name = f"{category.name}_labels"
-            else:
-                attr_name = f"{category.name}_label"
-
-            field = getattr(form, attr_name, None)
-            if field:
-                specific_labels = field.data
-                if not specific_labels:
-                    continue
-                elif type(specific_labels) == list:
-                    form.labels.data.extend(specific_labels)
-                else:
-                    form.labels.data.append(specific_labels)

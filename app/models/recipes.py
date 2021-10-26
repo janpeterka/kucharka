@@ -278,3 +278,6 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     def has_labels(self, labels) -> bool:
         return all(self.has_label(label) for label in labels)
+
+    def has_any_of_labels(self, labels) -> bool:
+        return any(self.has_label(label) for label in labels)

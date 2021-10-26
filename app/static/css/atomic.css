@@ -55,6 +55,14 @@
 	font-size: larger !important;
 }
 
+.text-nobreak {
+	white-space: nowrap;
+}
+
+.text-overflow-break {
+	overflow-wrap: break-word;
+}
+
 /* Height */
 .h-5 {
 	height: 5rem

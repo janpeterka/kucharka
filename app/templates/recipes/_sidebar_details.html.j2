@@ -9,7 +9,7 @@
 </div>
 
 {% if recipe.is_shared and not recipe.is_current_user_author %}
-    {% set author_note = "(vytvořil*a" + recipe.author.name + ")" %}
+    {% set author_note = "(vytvořil*a " + recipe.author.name + ")" %}
 {% elif recipe.is_shared %}
     {% set author_note = "zveřejněný recept " + icon("shared") %}
 {% else %}

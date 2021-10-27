@@ -20,7 +20,7 @@
             
             {# {{ daily_recipe.meal_type | default("", True) }} #}
 
-            {% if daily_recipe.can_current_user_edit %}
+            {% if daily_plan.can_current_user_edit %}
             <details>    
             <summary><em> typ jídla: {{ daily_recipe.meal_type or "" }} </em></summary>
                 <form method="POST" class="row row-cols-lg-auto g-3 align-items-center text-end me-3" action="{{ url_for('DailyPlansEditView:change_meal_type', daily_recipe_id=daily_recipe.id) }}">
@@ -46,7 +46,7 @@
     </td>
     <td>
         {% if not daily_recipe.is_shopping %}
-            {% if daily_recipe.can_current_user_edit %}
+            {% if daily_plan.can_current_user_edit %}
             <details>
             <summary><em> počet porcí: {{ daily_recipe.portion_count }} </em></summary>    
                 <form method="POST" action="{{ url_for('DailyPlansEditView:change_portion_count', daily_recipe_id=daily_recipe.id) }}" class="row row-cols-lg-auto g-3 align-items-center">
@@ -60,13 +60,13 @@
         {% endif %}
     </td>
     <td>
-        {% if daily_recipe.can_current_user_edit %}
+        {% if daily_plan.can_current_user_edit %}
         {{ button_to(action=url_for('DailyPlansEditView:sort_up', daily_recipe_id=daily_recipe.id), class="icon float-start", value='<i class="fas fa-sort-up"></i>') }}
         {{ button_to(action=url_for('DailyPlansEditView:sort_down', daily_recipe_id=daily_recipe.id), class="icon float-end", value='<i class="fas fa-sort-down"></i>') }}
         {% endif %}
     </td>
     <td>
-        {% if daily_recipe.can_current_user_edit %}
+        {% if daily_plan.can_current_user_edit %}
         <form method="POST" class="text-end me-3" action="{{ url_for('DailyPlansEditView:remove_daily_recipe', daily_recipe_id=daily_recipe.id, daily_plan_id=daily_recipe.daily_plan.id) }}">
             <button type="submit" class="destroy icon"> {{ icon("remove") }} </button>
         </form>

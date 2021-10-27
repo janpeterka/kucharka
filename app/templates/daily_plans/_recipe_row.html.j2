@@ -2,6 +2,7 @@
 {% from "macros/turbo.html.j2" import button_to %}
 
 <tr id="daily-recipe-{{ daily_recipe.id }}" {% if daily_recipe.is_shopping %} class="bg-color-grey opacity-50" {% endif %} class="align-middle">
+
     <td>
         {% if not daily_recipe.is_shopping %}
             {{ link_to(daily_recipe.recipe) }}
@@ -15,6 +16,7 @@
     	    {{ icon("public") }}
         {% endif %}
 	</td>
+
     <td>
         {% if not daily_recipe.is_shopping %}
             
@@ -44,6 +46,7 @@
             {% endif %}
         {% endif %}
     </td>
+
     <td>
         {% if not daily_recipe.is_shopping %}
             {% if daily_plan.can_current_user_edit %}
@@ -59,12 +62,14 @@
             {% endif %}
         {% endif %}
     </td>
+
     <td>
         {% if daily_plan.can_current_user_edit %}
         {{ button_to(action=url_for('DailyPlansEditView:sort_up', daily_recipe_id=daily_recipe.id), class="icon float-start", value='<i class="fas fa-sort-up"></i>') }}
         {{ button_to(action=url_for('DailyPlansEditView:sort_down', daily_recipe_id=daily_recipe.id), class="icon float-end", value='<i class="fas fa-sort-down"></i>') }}
         {% endif %}
     </td>
+    
     <td>
         {% if daily_plan.can_current_user_edit %}
         <form method="POST" class="text-end me-3" action="{{ url_for('DailyPlansEditView:remove_daily_recipe', daily_recipe_id=daily_recipe.id, daily_plan_id=daily_recipe.daily_plan.id) }}">
@@ -72,4 +77,5 @@
         </form>
         {% endif %}
     </td>
+
 </tr>

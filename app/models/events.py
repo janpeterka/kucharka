@@ -82,6 +82,12 @@ class Event(BaseModel, ItemMixin):
         return any(dp.date == date for dp in self.daily_plans)
 
     @property
+    def active_daily_plans(self):
+        return [
+            dp for dp in self.daily_plans if (self.date_from <= dp.date <= self.date_to)
+        ]
+
+    @property
     def recipes(self):
         recipes = []
         for daily_plan in self.daily_plans:

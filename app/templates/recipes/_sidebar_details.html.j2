@@ -25,6 +25,18 @@
 </div>
 
 {% endif %}
+{% if not recipe.is_current_user_author %}
+<form method="post" action="{{ url_for('PublicRecipesView:toggle_reaction', recipe_id=recipe.id, refresh=True) }}">
+    <button type="submit" class="invisible-button">
+        {% if recipe.has_reaction %}
+            <span>{{ icon("heart_full", action="click->recipe-reactions#empty") }}</span>
+        {% else %}
+            <span>{{ icon("heart_empty", action="click->recipe-reactions#fill") }}</span>
+        {% endif %}
+    </button>
+</form>
+{% endif %}
+
 
 {% if recipe.labels %}
 
@@ -38,3 +50,6 @@
 </div>
 
 {% endif %}
+
+<hr>
+

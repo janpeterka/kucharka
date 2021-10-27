@@ -27,7 +27,10 @@ class DailyPlan(BaseModel, ItemMixin, DailyPlanLoaderMixin, DailyPlanRecipeMixin
     )
 
     recipes = db.relationship(
-        "Recipe", secondary="daily_plans_have_recipes", viewonly=True
+        "Recipe",
+        secondary="daily_plans_have_recipes",
+        viewonly=True,
+        order_by=DailyPlanHasRecipe.order_index,
     )
 
     event_id = db.Column(db.ForeignKey(("events.id")))

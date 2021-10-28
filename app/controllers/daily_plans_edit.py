@@ -33,9 +33,7 @@ class DailyPlansEditView(HelperFlaskView):
 
     @route("daily_plans/add_recipe/<daily_plan_id>", methods=["POST"])
     def add_recipe(self, daily_plan_id):
-        # validate_edit(self.daily_plan)
         self.recipe = Recipe.load(request.form["recipe_id"])
-
         self.daily_recipe = self.daily_plan.add_recipe(self.recipe)
 
         if turbo.can_stream():
@@ -63,13 +61,11 @@ class DailyPlansEditView(HelperFlaskView):
         else:
             return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
 
-    @route(
-        "daily_plans/remove_recipe/<daily_recipe_id>/<daily_plan_id>", methods=["POST"]
-    )
-    def remove_daily_recipe(self, daily_recipe_id, daily_plan_id):
+    @route("daily_plans/remove_recipe/<daily_recipe_id>", methods=["POST"])
+    def remove_daily_recipe(self, daily_recipe_id):
         if not self.daily_recipe:
             flash("Tento recept už je smazán.", "error")
-            return redirect(url_for("DailyPlansView:show", id=daily_plan_id))
+            return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
 
         if self.daily_plan.remove_daily_recipe(self.daily_recipe):
             if turbo.can_stream():
@@ -80,6 +76,28 @@ class DailyPlansEditView(HelperFlaskView):
                 return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
         else:
             flash("Tento recept nemůžete odebrat.", "error")
+            return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
+
+    @route("daily_plans/show_edit_recipe/<daily_recipe_id>", methods=["POST"])
+    def show_edit_daily_recipe(self, daily_recipe_id):
+        if turbo.can_stream():
+            return turbo.stream(
+                turbo.after(
+                    self.template(template_name="_edit_recipe_row"),
+                    target=f"daily-recipe-{self.daily_recipe.id}",
+                )
+            )
+
+    @route("daily_plans/edit_recipe/<daily_recipe_id>", methods=["POST"])
+    def edit_daily_recipe(self, daily_recipe_id):
+        if turbo.can_stream():
+            return turbo.stream(
+                turbo.replace(
+                    self.template(template_name="_recipe_row"),
+                    target=f"daily-recipe-{self.daily_recipe.id}",
+                )
+            )
+        else:
             return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
 
     @route("change_meal_type/<daily_recipe_id>", methods=["POST"])

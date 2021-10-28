@@ -24,10 +24,11 @@
 
             {% if daily_plan.can_current_user_edit %}
             <details>    
-            <summary><em> typ jídla: {{ daily_recipe.meal_type or "" }} </em></summary>
+            <summary><em> {{ daily_recipe.meal_type or "typ jídla:" }} </em></summary>
                 <form method="POST" class="row row-cols-lg-auto g-3 align-items-center text-end me-3" action="{{ url_for('DailyPlansEditView:change_meal_type', daily_recipe_id=daily_recipe.id) }}">
                     <div class="col-12">
                     <select name="meal-type" id="meal-type" class="form-control">
+                        <option disabled value>  </option>
                         <option name='snídaně' value='snídaně'>Snídaně</option>
                         <option name='dopolední svačina' value='dopolední svačina'>Dopolední svačina</option>
                         <option name='oběd' value='oběd'>Oběd</option>
@@ -63,19 +64,28 @@
         {% endif %}
     </td>
 
-    <td>
+    <td >
         {% if daily_plan.can_current_user_edit %}
         {{ button_to(action=url_for('DailyPlansEditView:sort_up', daily_recipe_id=daily_recipe.id), class="icon float-start", value='<i class="fas fa-sort-up"></i>') }}
         {{ button_to(action=url_for('DailyPlansEditView:sort_down', daily_recipe_id=daily_recipe.id), class="icon float-end", value='<i class="fas fa-sort-down"></i>') }}
         {% endif %}
     </td>
-    
-    <td>
+
+    <td class="ps-5" style="width: 4rem">
         {% if daily_plan.can_current_user_edit %}
-        <form method="POST" class="text-end me-3" action="{{ url_for('DailyPlansEditView:remove_daily_recipe', daily_recipe_id=daily_recipe.id, daily_plan_id=daily_recipe.daily_plan.id) }}">
-            <button type="submit" class="destroy icon"> {{ icon("remove") }} </button>
+        <form method="POST" class="text-end me-3" action="{{ url_for('DailyPlansEditView:show_edit_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
+            {# <button type="submit" class="change icon"></button> #}
+            <button type="submit" class="btn btn-warning"> Upravit </button>
         </form>
         {% endif %}
     </td>
+
+{#     <td class="ps-3" style="width: 4rem">
+        {% if daily_plan.can_current_user_edit %}
+        <form method="POST" class="text-end me-3" action="{{ url_for('DailyPlansEditView:remove_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
+            <button type="submit" class="destroy icon"></button>
+        </form>
+        {% endif %}
+    </td> #}
 
 </tr>

@@ -79,10 +79,9 @@
     color: var(--color-green);
 }
 
-.color-wheat {
-    color: #f5deb3;
+.color-light-yellow {
+    color: var(--admin-yellow);
 }
-
 
 
 /* Background colors */

@@ -6,6 +6,8 @@ from flask_wtf import FlaskForm
 
 from wtforms_sqlalchemy.fields import QuerySelectField, QuerySelectMultipleField
 
+from app.helpers.form_select_field import MyQuerySelectField
+
 
 def categories():
     from app.models.recipe_categories import RecipeCategory
@@ -44,7 +46,7 @@ class RecipesForm(FlaskForm):
     dietary_labels = QuerySelectMultipleField(
         "Dietní omezení", query_factory=dietary_labels
     )
-    difficulty_label = QuerySelectField(
+    difficulty_label = MyQuerySelectField(
         "Obtížnost přípravy", query_factory=difficulty_labels, allow_blank=True
     )
 

@@ -1,5 +1,8 @@
 {% macro render_field(field) %}
 
+  {% set SELECT_FIELDS = ['SelectField', 'QuerySelectField', 'QuerySelectMultipleField', 'MyQuerySelectField', 'MyQuerySelectMultipleField'] %}
+
+
   {% set with_errors = kwargs.pop('with_errors', True) %}
   {% set with_label = kwargs.pop('has_label', True) %}
   {% set label = kwargs.pop('label', field.label.text) %}
@@ -41,7 +44,7 @@
       {% set class_ = class_ + ' form-control' %}
     {% elif field.type == 'FileField' %}
       {% set class_ = class_ + ' form-control-file' %}
-    {% elif field.type in ('SelectField', 'QuerySelectField', 'QuerySelectMultipleField') %}
+    {% elif field.type in SELECT_FIELDS %}
       {% set class_ = class_ + ' form-control' %}
 
     {% elif field.type == 'SubmitField' %}
@@ -60,7 +63,7 @@
       {% set class_ = class_ + ' btn btn-warning' %}
     {% endif %}
 
-    {% if field.type in ('SelectField', 'QuerySelectField', 'QuerySelectMultipleField') %}
+    {% if field.type in SELECT_FIELDS %}
       {{ field(class_=class_, **kwargs) }}
     {% elif field.type == 'PasswordField' %}
       {{ field(class_=class_, placeholder=placeholder, data_see_password_target="passwordField", **kwargs) }}
@@ -81,6 +84,8 @@
   {% endif %}
 
 {% endmacro %}
+
+
 
 {% macro render_floating_field(field) %}
 

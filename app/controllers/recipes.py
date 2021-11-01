@@ -120,6 +120,8 @@ class RecipesView(HelperFlaskView):
             return redirect(url_for("RecipesView:new"))
 
         recipe = Recipe(author=current_user)
+        del form.labels
+
         form.populate_obj(recipe)
 
         recipe.save()

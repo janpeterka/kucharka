@@ -22,7 +22,9 @@ class ItemMixin(BaseMixin):
     # CONTEXT PROCESSOR UTILITIES
     @property
     def link_to(self):
-        from flask import url_for
+        from flask import url_for, Markup, escape
 
         self_view_name = f"{type(self).__name__}sView:show"
-        return f"<a data-turbo='false' href='{url_for(self_view_name, id=self.id)}'>{self.name}</a>"
+        return Markup(
+            f"<a data-turbo='false' href='{url_for(self_view_name, id=self.id)}'>{escape(self.name)}</a>"
+        )

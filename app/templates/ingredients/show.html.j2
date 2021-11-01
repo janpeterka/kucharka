@@ -21,7 +21,11 @@
             <div>   
                 <span class="fst-italic"> Míra: {{ ingredient.measurement.name }} </span>
                 {% if ingredient.is_public %}
-                    <span class="fst-italic font-weight-light float-end" >Veřejná surovina (zdroj: {{ source }})</span>
+                    {% if ingredient.source == "nutridatabaze" %}
+                        <span class="fst-italic font-weight-light float-end">Veřejná surovina (zdroj: <abbr title='Na základě dat z NutriDatabaze.cz, verze 7.16, ÚZEI, Praha, www.nutridatabaze.cz/.'>nutridatabaze.cz</abbr>)</span>
+                    {% else %}
+                        <span class="fst-italic font-weight-light float-end">ingredient.author.full_name</span>
+                    {% endif %}
                 {% endif %}
             </div>
             

@@ -227,6 +227,9 @@ class IngredientCopy:
     # CONTEXT PROCESSOR UTILITIES
     @property
     def link_to(self):
-        from flask import url_for
+        from flask import url_for, Markup, escape
 
-        return f"<a data-turbo='false' href='{url_for('IngredientsView:show', id=self.id)}'>{self.name}</a>"
+        self_view_name = "IngredientsView:show"
+        return Markup(
+            f"<a data-turbo='false' href='{url_for(self_view_name, id=self.id)}'>{escape(self.name)}</a>"
+        )

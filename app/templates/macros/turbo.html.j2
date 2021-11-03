@@ -5,10 +5,11 @@
   {% set icon = kwargs.pop('icon', None) %}
   {% set value = kwargs.pop('value', None) %}
   {% set method = kwargs.pop('method', "POST") %}
+  {% set disabled = kwargs.pop('disabled', False) %}
 
 
 <form method="{{ method | upper }}" action="{{ action }}" class="{{ form_class_ }}" {% if data %} data-turbo-frame="{{ data }}" {% endif %}>
-    <button type="submit" class="{% if icon %} icon {% endif %} {{ class_ }}">
+    <button type="submit" class="{% if icon %} icon {% endif %} {{ class_ }}" {% if disabled %} disabled {% endif %}>
       {% if value %} {{ value | safe }} {% endif %}
     </button>
 </form>

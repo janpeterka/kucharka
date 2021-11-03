@@ -1,12 +1,6 @@
-def after(self, target):
-    """Create a after stream.
+def after(turbo, content, target):
+    """Create an append stream.
+    :param content: the HTML content to include in the stream.
     :param target: the target ID for this change.
     """
-    return self._make_stream("after", "", target)
-
-
-def before(self, target):
-    """Create a before stream.
-    :param target: the target ID for this change.
-    """
-    return self._make_stream("before", "", target)
+    return turbo._make_stream("after", content, target)

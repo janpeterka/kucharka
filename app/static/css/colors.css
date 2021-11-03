@@ -79,10 +79,13 @@
     color: var(--color-green);
 }
 
-.color-wheat {
-    color: #f5deb3;
+.color-light-yellow {
+    color: var(--admin-yellow);
 }
 
+.color-light-greenish {
+    color: var(--pale-spring-bud);
+}
 
 
 /* Background colors */
@@ -124,6 +127,10 @@
 
 .bg-color-light-yellow {
     background-color: var(--admin-yellow);
+}
+
+.bg-color-light-greenish {
+    background-color: var(--pale-spring-bud);
 }
 
 .bg-color-light-red {

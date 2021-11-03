@@ -62,7 +62,7 @@ class DailyPlan(BaseModel, ItemMixin, DailyPlanLoaderMixin, DailyPlanRecipeMixin
 
     @property
     def next(self):
-        for plan in self.event.daily_plans:
+        for plan in self.event.active_daily_plans:
             if plan.date == self.date + datetime.timedelta(days=1):
                 return plan
 
@@ -74,7 +74,7 @@ class DailyPlan(BaseModel, ItemMixin, DailyPlanLoaderMixin, DailyPlanRecipeMixin
 
     @property
     def previous(self):
-        for plan in self.event.daily_plans:
+        for plan in self.event.active_daily_plans:
             if plan.date == self.date - datetime.timedelta(days=1):
                 return plan
 
@@ -87,3 +87,17 @@ class DailyPlan(BaseModel, ItemMixin, DailyPlanLoaderMixin, DailyPlanRecipeMixin
     @property
     def is_shared(self) -> bool:
         return self.event.is_shared
+
+    @property
+    def first_recipe(self):
+        if self.daily_recipes:
+            return self.daily_recipes[0]
+        else:
+            return None
+
+    @property
+    def last_recipe(self):
+        if self.daily_recipes:
+            return self.daily_recipes[-1]
+        else:
+            return None

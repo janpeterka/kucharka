@@ -4,7 +4,7 @@ from app import turbo
 
 from flask import render_template as template
 
-from flask import redirect, url_for
+from flask import redirect, url_for, request
 
 from flask_classful import route
 from flask_security import login_required, current_user
@@ -26,21 +26,23 @@ class PublicRecipesView(HelperFlaskView):
 
     @login_required
     @route("/toggleReaction/<recipe_id>", methods=["POST"])
-    def toggle_reaction(self, recipe_id):
+    def toggle_reaction(self, recipe_id, refresh=False):
         from flask import flash
 
         recipe = Recipe.load(recipe_id)
         recipe.toggle_reaction()
 
-        if turbo.can_stream():
+        if turbo.can_stream() and not refresh:
             return turbo.stream(
                 turbo.replace(
                     template("public_recipes/_recipe_row.html.j2", recipe=recipe),
                     target=f"recipe-{recipe_id}",
                 )
             )
+
         flash("Reakce byla zaznamenána.")
-        return "", 204
+        return redirect(request.referrer)
+        # return "", 204
 
     @login_required
     @route("/", methods=["GET", "POST"])

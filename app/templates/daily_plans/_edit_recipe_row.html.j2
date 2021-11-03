@@ -23,7 +23,9 @@
 	                    	{% endfor %}
 	                    </select>
                     </div>
-                    <div class="col"><input type="number" class="form-control" name="portion-count" value="{{ daily_recipe.portion_count}}"></div>
+                    <div class="col">
+                    	<input type="number" class="form-control" name="portion-count" value="{{ daily_recipe.portion_count}}" placeholder="Počet porcí">
+                    </div>
                     <div class="col">
                     	<button type="submit" class="btn btn-secondary"> Změnit </button>
                     </div>

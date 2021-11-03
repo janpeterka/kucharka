@@ -118,7 +118,7 @@ class DailyPlansEditView(HelperFlaskView):
     @route("daily_plans/edit_recipe/<daily_recipe_id>", methods=["POST"])
     def edit_daily_recipe(self, daily_recipe_id):
         self.daily_recipe.portion_count = request.form["portion-count"]
-        self.daily_recipe.meal_type = request.form["meal-type"]
+        self.daily_recipe.meal_type = request.form.get("meal-type")
         self.daily_recipe.save()
 
         if turbo.can_stream():

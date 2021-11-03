@@ -14,8 +14,12 @@ class UserHasRecipeReaction(BaseModel, BaseMixin):
     recipe_id = db.Column(db.ForeignKey("recipes.id"), nullable=False, index=True)
     user_id = db.Column(db.ForeignKey("users.id"), nullable=False, index=True)
 
-    recipe = db.relationship("Recipe", backref="reactions")
-    user = db.relationship("User", backref="reactions")
+    recipe = db.relationship(
+        "Recipe", backref=db.backref("reactions", cascade="all,delete")
+    )
+    user = db.relationship(
+        "User", backref=db.backref("reactions", cascade="all,delete")
+    )
 
     # LOADERS
 

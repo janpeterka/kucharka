@@ -83,6 +83,10 @@
     color: var(--admin-yellow);
 }
 
+.color-light-greenish {
+    color: var(--pale-spring-bud);
+}
+
 
 /* Background colors */
 .bg-color-red {

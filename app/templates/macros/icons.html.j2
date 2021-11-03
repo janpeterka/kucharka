@@ -28,6 +28,11 @@
     {% elif name=="remove" %}
         {% set value = '×' %}
 
+    {% elif name=="previous" %}
+        {% set fa_class_ = 'fas fa-chevron-left' %}
+    {% elif name=="next" %}
+        {% set fa_class_ = 'fas fa-chevron-right' %}
+
 
     {# Sharing, publishing,... #}
     {% elif name=="shared" %}

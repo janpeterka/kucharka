@@ -1,13 +1,8 @@
 {% from "macros/turbo.html.j2" import button_to %}
 
-{% if ingredient.source == "nutridatabaze" %}
-    {% set source = "<abbr title='Na základě dat z NutriDatabaze.cz, verze 7.16, ÚZEI, Praha, www.nutridatabaze.cz/.'>" + ingredient.source + "</abbr>" %}
-{% else %}
-    {% set source = ingredient.author.full_name %}
-{% endif %}
-
 {% extends "base/base.html.j2" %}
 {% block title %} Surovina {% endblock %}
+
 {% block content %}
 
 <div class="row">

@@ -47,8 +47,12 @@ class DailyPlan(BaseModel, ItemMixin, DailyPlanLoaderMixin, DailyPlanRecipeMixin
     # PROPERTIES
 
     @property
-    def is_active(self) -> bool:
+    def is_filled(self) -> bool:
         return len(self.daily_recipes) > 0
+
+    @property
+    def is_active(self) -> bool:
+        return self in self.event.active_daily_plans
 
     @property
     def weekday(self) -> str:

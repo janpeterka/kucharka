@@ -37,7 +37,7 @@
     <td>
         {% if daily_plan.can_current_user_edit%}
         <form method="POST" class="text-end me-3" action="{{ url_for('DailyPlansEditView:hide_edit_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
-            <button type="submit" class="btn btn-warning"> Zrušit </button>
+            <button type="submit" class="btn bg-color-light-greenish"> Zrušit </button>
         </form>
         {% endif %}
     </td>

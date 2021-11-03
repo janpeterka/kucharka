@@ -125,6 +125,10 @@
     background-color: var(--admin-yellow);
 }
 
+.bg-color-light-greenish {
+    background-color: var(--pale-spring-bud);
+}
+
 .bg-color-light-red {
     background-color: var(--palette-orange);
 }

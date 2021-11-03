@@ -2,27 +2,30 @@
 {% from "macros/turbo.html.j2" import button_to %}
 
 <tr id="daily-recipe-edit-{{ daily_recipe.id }}">
-	<td></td>
+	<td>
+        {% if daily_plan.can_current_user_edit %}
+        <form method="POST" class="text-start me-3" action="{{ url_for('DailyPlansEditView:remove_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
+            {# <button type="submit" class="destroy icon"></button> #}
+            <button type="submit" class="btn btn-danger"> Smazat </button>
+        </form>
+        {% endif %}
+	</td>
 
-    <td>
+    <td colspan="3">
         {% if not daily_recipe.is_shopping %}
             {% if daily_plan.can_current_user_edit %}
-                <form method="POST" class="row row-cols-lg-auto g-3 align-items-center text-end me-3" action="{{ url_for('DailyPlansEditView:change_meal_type', daily_recipe_id=daily_recipe.id) }}">
-                    <div class="col-12">
-                    <select name="meal-type" id="meal-type" class="form-control">
-                        <option disabled selected value> Typ jídla: </option>
-                        <option name='snídaně' value='snídaně'>Snídaně</option>
-                        <option name='dopolední svačina' value='dopolední svačina'>Dopolední svačina</option>
-                        <option name='oběd' value='oběd'>Oběd</option>
-                        <option name='odpolední svačina' value='odpolední svačina'>Odpolední svačina</option>
-                        <option name='večeře' value='večeře'>Večeře</option>
-                        <option name='program' value='program'>Program</option>
-                        <option name='jiné' value='jiné'>Jiné</option>
-                        <option name='nákup' value='nákup'>Nákup</option>
-                    </select>
+                <form method="POST" class="row row-cols-auto g-3 align-items-center" action="{{ url_for('DailyPlansEditView:edit_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
+                    <div class="col">
+	                    <select name="meal-type" id="meal-type" class="form-control">
+	                        <option disabled {% if not daily_recipe.meal_type %}selected{% endif %} value> Typ jídla: </option>
+	                    	{% for option in ["snídaně", "dopolední svačina", "oběd", "odpolední svačina", "večeře", "program", "jiné"] %}
+	                        	<option name='{{ option }}' value='{{ option }}' {% if daily_recipe.meal_type==option %}selected{% endif %}> {{ option | capitalize}} </option>
+	                    	{% endfor %}
+	                    </select>
                     </div>
-                    <div class="col-12">
-                    <button type="submit" class="btn btn-secondary"> Změnit </button>
+                    <div class="col"><input type="number" class="form-control" name="portion-count" value="{{ daily_recipe.portion_count}}"></div>
+                    <div class="col">
+                    	<button type="submit" class="btn btn-secondary"> Změnit </button>
                     </div>
                 </form>
             {% endif %}
@@ -30,23 +33,9 @@
     </td>
 
     <td>
-        {% if not daily_recipe.is_shopping %}
-            {% if daily_plan.can_current_user_edit %}
-            <form method="POST" action="{{ url_for('DailyPlansEditView:change_portion_count', daily_recipe_id=daily_recipe.id) }}" class="row row-cols-lg-auto g-3 align-items-center">
-                <div class="col"><input type="number" class="form-control" name="portion-count" value="{{ daily_recipe.portion_count}}"></div>
-                <div class="col"><button type="submit" class="btn btn-secondary"> Změnit </button></div>
-            </form>
-            {% endif %}
-        {% endif %}
-    </td>
-
-    <td ></td>
-
-    <td class="ps-3" style="width: 4rem">
-        {% if daily_plan.can_current_user_edit %}
-        <form method="POST" class="text-end me-3" action="{{ url_for('DailyPlansEditView:remove_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
-            {# <button type="submit" class="destroy icon"></button> #}
-            <button type="submit" class="btn btn-danger"> Smazat </button>
+        {% if daily_plan.can_current_user_edit%}
+        <form method="POST" class="text-end me-3" action="{{ url_for('DailyPlansEditView:hide_edit_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
+            <button type="submit" class="btn btn-warning"> Zrušit </button>
         </form>
         {% endif %}
     </td>

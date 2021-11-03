@@ -117,12 +117,21 @@ class DailyPlansEditView(HelperFlaskView):
 
     @route("daily_plans/edit_recipe/<daily_recipe_id>", methods=["POST"])
     def edit_daily_recipe(self, daily_recipe_id):
+        self.daily_recipe.portion_count = request.form["portion-count"]
+        self.daily_recipe.meal_type = request.form["meal-type"]
+        self.daily_recipe.save()
+
         if turbo.can_stream():
             return turbo.stream(
-                turbo.replace(
-                    self.template(template_name="_recipe_row"),
-                    target=f"daily-recipe-{self.daily_recipe.id}",
-                )
+                [
+                    turbo.replace(
+                        self.template(template_name="_recipe_row"),
+                        target=f"daily-recipe-{self.daily_recipe.id}",
+                    ),
+                    turbo.remove(
+                        target=f"daily-recipe-edit-{self.daily_recipe.id}",
+                    ),
+                ]
             )
         else:
             return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
@@ -135,7 +144,7 @@ class DailyPlansEditView(HelperFlaskView):
         if turbo.can_stream():
             return turbo.stream(
                 turbo.replace(
-                    self.template(template_name="_recipe_row"),
+                    self.template(template_name="_recipe_row", editing=True),
                     target=f"daily-recipe-{self.daily_recipe.id}",
                 )
             )
@@ -150,7 +159,7 @@ class DailyPlansEditView(HelperFlaskView):
         if turbo.can_stream():
             return turbo.stream(
                 turbo.replace(
-                    self.template(template_name="_recipe_row"),
+                    self.template(template_name="_recipe_row", editing=True),
                     target=f"daily-recipe-{self.daily_recipe.id}",
                 )
             )

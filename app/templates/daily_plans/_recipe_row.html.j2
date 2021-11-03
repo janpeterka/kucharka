@@ -1,7 +1,7 @@
 {% from "macros/icons.html.j2" import icon %}
 {% from "macros/turbo.html.j2" import button_to %}
 
-<tr id="daily-recipe-{{ daily_recipe.id }}" {% if daily_recipe.is_shopping %} class="bg-color-grey opacity-50" {% endif %} class="align-middle">
+<tr id="daily-recipe-{{ daily_recipe.id }}" {% if daily_recipe.is_shopping %} class="bg-color-grey opacity-50" {% endif %} class="align-middle" style="line-height: 2.5rem;">
 
     <td>
         {% if not daily_recipe.is_shopping %}
@@ -40,12 +40,6 @@
         {% if daily_plan.can_current_user_edit and not editing %}
         <form method="POST" class="text-end me-3" action="{{ url_for('DailyPlansEditView:show_edit_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
             <button type="submit" class="btn btn-warning"> Upravit </button>
-        </form>
-        {% endif %}
-
-        {% if daily_plan.can_current_user_edit and editing %}
-        <form method="POST" class="text-end me-3" action="{{ url_for('DailyPlansEditView:hide_edit_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
-            <button type="submit" class="btn btn-warning"> Zrušit úpravy </button>
         </form>
         {% endif %}
     </td>

@@ -3,6 +3,10 @@
   display: none;
 }
 
+.visibility-hidden {
+	visibility: hidden;
+}
+
 .d-inline {
 	display: inline;
 }

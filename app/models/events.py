@@ -104,7 +104,7 @@ class Event(BaseModel, ItemMixin):
     @property
     def daily_recipes(self):
         daily_recipes = []
-        for daily_plan in self.daily_plans:
+        for daily_plan in self.active_daily_plans:
             daily_recipes += daily_plan.daily_recipes
 
         return daily_recipes

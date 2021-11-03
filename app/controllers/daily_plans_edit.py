@@ -83,13 +83,10 @@ class DailyPlansEditView(HelperFlaskView):
 
     @route("daily_plans/show_edit_recipe/<daily_recipe_id>", methods=["POST"])
     def show_edit_daily_recipe(self, daily_recipe_id):
-        from app.helpers.turbo import after
-
         if turbo.can_stream():
             return turbo.stream(
                 [
-                    after(
-                        turbo,
+                    turbo.after(
                         self.template(template_name="_edit_recipe_row"),
                         target=f"daily-recipe-{self.daily_recipe.id}",
                     ),
@@ -132,36 +129,6 @@ class DailyPlansEditView(HelperFlaskView):
                         target=f"daily-recipe-edit-{self.daily_recipe.id}",
                     ),
                 ]
-            )
-        else:
-            return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
-
-    @route("change_meal_type/<daily_recipe_id>", methods=["POST"])
-    def change_meal_type(self, daily_recipe_id):
-        self.daily_recipe.meal_type = request.form["meal-type"]
-        self.daily_recipe.save()
-
-        if turbo.can_stream():
-            return turbo.stream(
-                turbo.replace(
-                    self.template(template_name="_recipe_row", editing=True),
-                    target=f"daily-recipe-{self.daily_recipe.id}",
-                )
-            )
-        else:
-            return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
-
-    @route("change_portion_count/<daily_recipe_id>", methods=["POST"])
-    def change_portion_count(self, daily_recipe_id):
-        self.daily_recipe.portion_count = request.form["portion-count"]
-        self.daily_recipe.save()
-
-        if turbo.can_stream():
-            return turbo.stream(
-                turbo.replace(
-                    self.template(template_name="_recipe_row", editing=True),
-                    target=f"daily-recipe-{self.daily_recipe.id}",
-                )
             )
         else:
             return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))

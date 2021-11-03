@@ -7,10 +7,13 @@ from turbo_flask import Turbo
 from flask_security import Security, SQLAlchemyUserDatastore
 from flask_mail import Mail
 
+from app.helpers.turbo import after
+
 
 db = SQLAlchemy(session_options={"autoflush": False})
 migrate = Migrate()
 babel = Babel()
+Turbo.after = after
 turbo = Turbo()
 mail = Mail()
 

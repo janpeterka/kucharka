@@ -9,7 +9,7 @@
 
 <form method="{{ method | upper }}" action="{{ action }}" class="{{ form_class_ }}" {% if data %} data-turbo-frame="{{ data }}" {% endif %}>
     <button type="submit" class="{% if icon %} icon {% endif %} {{ class_ }}">
-      {% if value %} {{ value }} {% endif %}
+      {% if value %} {{ value | safe }} {% endif %}
     </button>
 </form>
 

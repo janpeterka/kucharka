@@ -70,7 +70,10 @@ class DailyPlansEditView(HelperFlaskView):
         if self.daily_plan.remove_daily_recipe(self.daily_recipe):
             if turbo.can_stream():
                 return turbo.stream(
-                    turbo.remove(target=f"daily-recipe-{daily_recipe_id}")
+                    [
+                        turbo.remove(target=f"daily-recipe-{daily_recipe_id}"),
+                        turbo.remove(target=f"daily-recipe-edit-{daily_recipe_id}"),
+                    ]
                 )
             else:
                 return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
@@ -80,12 +83,36 @@ class DailyPlansEditView(HelperFlaskView):
 
     @route("daily_plans/show_edit_recipe/<daily_recipe_id>", methods=["POST"])
     def show_edit_daily_recipe(self, daily_recipe_id):
+        from app.helpers.turbo import after
+
         if turbo.can_stream():
             return turbo.stream(
-                turbo.after(
-                    self.template(template_name="_edit_recipe_row"),
-                    target=f"daily-recipe-{self.daily_recipe.id}",
-                )
+                [
+                    after(
+                        turbo,
+                        self.template(template_name="_edit_recipe_row"),
+                        target=f"daily-recipe-{self.daily_recipe.id}",
+                    ),
+                    turbo.replace(
+                        self.template(template_name="_recipe_row", editing=True),
+                        target=f"daily-recipe-{self.daily_recipe.id}",
+                    ),
+                ]
+            )
+
+    @route("daily_plans/hide_edit_recipe/<daily_recipe_id>", methods=["POST"])
+    def hide_edit_daily_recipe(self, daily_recipe_id):
+        if turbo.can_stream():
+            return turbo.stream(
+                [
+                    turbo.remove(
+                        target=f"daily-recipe-{self.daily_recipe.id}",
+                    ),
+                    turbo.replace(
+                        self.template(template_name="_recipe_row"),
+                        target=f"daily-recipe-edit-{self.daily_recipe.id}",
+                    ),
+                ]
             )
 
     @route("daily_plans/edit_recipe/<daily_recipe_id>", methods=["POST"])

@@ -24,7 +24,7 @@ class Event(BaseModel, ItemMixin):
     is_shared = db.Column(db.Boolean, default=False)
 
     created_by = db.Column(db.ForeignKey(("users.id")), nullable=False, index=True)
-    author = db.relationship("User", uselist=False, backref="events")
+    author = db.relationship("User", uselist=False, back_populates="events")
 
     daily_plans = db.relationship(
         "DailyPlan",

@@ -10,3 +10,11 @@ class DashboardView(HelperFlaskView):
     def index(self):
         self.ingredients = current_user.personal_ingredients
         return self.template()
+
+    def tasks(self):
+        return self.template(template_name="_tasks")
+
+    def current(self):
+        # from time import sleep
+        # sleep(10)
+        return self.template(template_name="_current")

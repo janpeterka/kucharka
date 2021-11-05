@@ -39,13 +39,12 @@ class User(BaseModel, BaseMixin, UserMixin):
     def closest_event(self):
         if not self.active_events:
             return None
-        else:
-            closest_event = self.active_events[0]
-            for event in self.active_events:
-                if event.date_from > closest_event.date_from:
-                    closest_event = event
+        closest_event = self.active_events[0]
+        for event in self.active_events:
+            if event.date_from > closest_event.date_from:
+                closest_event = event
 
-            return closest_event
+        return closest_event
 
     @property
     def archived_events(self):

@@ -15,6 +15,4 @@ class DashboardView(HelperFlaskView):
         return self.template(template_name="_tasks")
 
     def current(self):
-        # from time import sleep
-        # sleep(10)
         return self.template(template_name="_current")

@@ -30,6 +30,7 @@
     </div>
 </div>
 
+{#
 <div class="row mt-4 text-center bg-color-light-green p-3" id="current" style="border-radius: 1.5rem;">
     <h5> Aktuální </h5>
     <hr>
@@ -37,14 +38,12 @@
         {{ loader() }}
     </turbo-frame>
 </div>
+#}
 
 <div class="row mt-4 text-center bg-color-light-green p-3" id="tasks" style="border-radius: 1.5rem;">
+
     <h5> K vyřešení </h5>
     <hr>
-
-    {% if not current_user.full_name %}
-        <a href="{{ url_for('UsersView:edit') }}" class="text-uppercase font-comfortaa"> Přidat uživatelské jméno</a>
-    {% endif %}
 
     <turbo-frame id="tasks" src="{{ url_for('DashboardView:tasks') }}" loading="lazy" class="row">
         {{ loader() }}

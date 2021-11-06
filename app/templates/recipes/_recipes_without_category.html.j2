@@ -1,15 +1,14 @@
-{% if recipes %}
+{% if current_user.recipes_without_category %}
 
-<turbo-frame id="recipes-without-category">
-<details>
-    <summary class="text-uppercase font-comfortaa">Přidat kategorie receptům ({{ recipes | length }})</summary>
+<div id="recipes-without-category" class="mt-3 col-12 col-sm-6 col-md-4">
+    <h6> Přidat kategorie receptům </h6>
 
-    <ul>
-    {% for recipe in recipes %}
-        <li>{{ link_to(recipe) }}</li>
+    <ul class="no-list">
+    {% for recipe in current_user.recipes_without_category %}
+        <li>{{ link_to(recipe, link_type="edit") }}</li>
     {% endfor %}
     </ul>
-</details>
-</turbo-frame>
+
+</div>
 
 {% endif %}

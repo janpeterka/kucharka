@@ -156,3 +156,10 @@
 .opacity-50 {
     opacity: 0.7;
 }
+
+
+/* Border color */
+
+.border-color-dark-green {
+    border-color: var(--hunter-green);
+}

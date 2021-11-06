@@ -36,11 +36,18 @@ class User(BaseModel, BaseMixin, UserMixin):
         return [e for e in self.events if e.is_active]
 
     @property
-    def closest_event(self):
-        if not self.active_events:
+    def active_future_events(self):
+        import datetime
+
+        return [e for e in self.active_events if e.date_to >= datetime.date.today()]
+
+    @property
+    def closest_future_event(self):
+        if not self.active_future_events:
             return None
-        closest_event = self.active_events[0]
-        for event in self.active_events:
+
+        closest_event = self.active_future_events[0]
+        for event in self.active_future_events:
             if event.date_from > closest_event.date_from:
                 closest_event = event
 

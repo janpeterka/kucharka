@@ -2,20 +2,13 @@ import os
 
 import re
 import time
-
 import datetime
 
-from flask import request, redirect
-
-from flask import g
-
-from flask_security import url_for_security
+from flask import request, redirect, g
 
 from flask_security import current_user
 
-from app import create_app
-
-from app import db
+from app import create_app, db
 
 
 env = os.environ.get("APP_STATE", "default")
@@ -54,23 +47,17 @@ def utility_processor():
 
         return formatted_date
 
-    def link_to(obj, text=None):
-        if type(obj) == str:
-            if obj == "login":
-                if text is None:
-                    text = "Přihlaste se"
-                return f"<a href='{url_for_security('login')}'>{text}</a>"
-            elif obj == "register":
-                if text is None:
-                    text = "Zaregistrujte se"
-                return f"<a href='{url_for_security('register')}'>{text}</a>"
-            else:
-                raise NotImplementedError("This string has no associated link_to")
-
+    def link_to(obj, link_type="show"):
         try:
-            return obj.link_to
+            if link_type == "show":
+                return obj.link_to
+            elif link_type == "edit":
+                return obj.link_to_edit
+
         except Exception:
-            raise NotImplementedError("This object link_to is probably not implemented")
+            raise NotImplementedError(
+                f"This object link_to (with {link_type}) is probably not implemented"
+            )
 
     def formatted_amount(amount):
         import math

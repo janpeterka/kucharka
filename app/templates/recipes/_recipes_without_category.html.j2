@@ -5,7 +5,7 @@
 
     <ul class="no-list">
     {% for recipe in current_user.recipes_without_category %}
-        <li>{{ link_to(recipe) }}</li>
+        <li>{{ link_to(recipe, link_type="edit") }}</li>
     {% endfor %}
     </ul>
 

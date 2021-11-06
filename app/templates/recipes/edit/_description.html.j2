@@ -2,12 +2,12 @@
     <form action="{{ url_for('EditRecipeView:post_description', recipe_id=recipe.id) }}" class="form" method="post" accept-charset="utf-8">
         
         <textarea id="editor" name="description" data-enable-editor-target="editor">
-            {% if recipe.description %}{{ recipe.description }}{% endif %}
+            {% if recipe.description %} {{ recipe.description }} {% endif %}
         </textarea>
 
         <div class="mt-4 pb-2">
-        	<button type="submit" class="btn btn-warning">Upravit návod</button>
-    		<span class="float-end me-5 color-success with-fadeout">{{ message }}</span>
+        	<button type="submit" class="btn btn-warning"> Upravit návod </button>
+    		<span class="float-end me-5 color-success with-fadeout"> {{ message }} </span>
         </div>
 
     </form>

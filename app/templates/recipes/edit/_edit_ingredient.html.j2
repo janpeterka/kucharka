@@ -46,7 +46,7 @@
 
     <td class="align-middle">
         {% if ingredient.amount %}
-            <span class="fst-italic font-weight-light"> {{ formatted_amount(ingredient.amount) }} na porci </span>
+            <span class="fst-italic font-weight-light"> {{ formatted_amount(ingredient.amount) }} {{ ingredient.measurement.name }} na porci </span>
         {% endif %}
     </td>
 

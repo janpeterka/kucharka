@@ -1,6 +1,7 @@
 from wtforms import StringField, SubmitField, IntegerField, HiddenField
 from wtforms.validators import InputRequired, NumberRange
-from wtforms.widgets import TextArea
+
+# from wtforms.widgets import TextArea
 
 from flask_wtf import FlaskForm
 
@@ -34,7 +35,7 @@ def difficulty_labels():
 class RecipesForm(FlaskForm):
     name = StringField("Název receptu", [InputRequired("Název musí být vyplněn")])
 
-    description = StringField("Popis", widget=TextArea())
+    # description = StringField("Popis", widget=TextArea())
 
     category = QuerySelectField("Kategorie", query_factory=categories, allow_blank=True)
     portion_count = IntegerField(

@@ -143,7 +143,9 @@ class EditRecipeView(HelperFlaskView):
             return redirect(url_for("RecipesView:edit", id=self.recipe.id))
 
         form.set_labels()
+
         form.populate_obj(self.recipe)
+
         self.recipe.edit()
 
         if turbo.can_stream():

@@ -2,18 +2,19 @@
 {% if recipe.can_current_user_edit %}
 <div class="mb-5 {{ admin_field_class(in_class=True, obj=recipe) }}">
     <form action="{{ url_for('RecipesView:delete', id=recipe.id) }}" method="post" class="form-inline" onsubmit="return confirm('{{ texts.recipe_delete_confirm }}');">
-        <a class="btn btn-warning" href="{{ url_for('RecipesView:edit', id=recipe.id) }}">{{ texts.edit }} {{ icon("edit") }}</a>
+        <input type="hidden" name="previous" value="{{ request.referrer }}">
+        <a class="btn btn-warning" href="{{ url_for('RecipesView:edit', id=recipe.id) }}"> Upravit {{ icon("edit") }}</a>
         {% if recipe.is_used %}
-            <button type="submit" class="btn btn-danger" disabled="">Nelze smazat, je použit</button>
+            <button type="submit" class="btn btn-danger" disabled> Nelze smazat, je použit </button>
         {% else %}
-            <button type="submit" class="btn btn-danger">{{ texts.recipe_delete }} {{ icon("delete") }}</button>
+            <button type="submit" class="btn btn-danger"> Smazat recept {{ icon("delete") }}</button>
         {% endif %}
     </form>
     <form action="{{ url_for('RecipesView:toggle_shared', id=recipe.id) }}" method="post" class="form-inline">
         {% if recipe.is_shared == True %}
-            <button type="submit" class="btn btn-secondary">{{ texts.recipe_unshare }} {{ icon("unshare") }}</button>
+            <button type="submit" class="btn btn-secondary"> Zneveřejnit recept {{ icon("unshare") }} </button>
         {% else %}
-            <button type="submit" class="btn btn-secondary">{{ texts.recipe_share }} {{ icon("share") }}</button>
+            <button type="submit" class="btn btn-secondary"> Zveřejnit recept {{ icon("share") }} </button>
         {% endif %}
     </form>
 </div>

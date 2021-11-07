@@ -1,11 +1,6 @@
 {% extends "base/base.html.j2" %}
 {% block title %} Databáze receptů {% endblock %}
 
-{% block meta %}
-	<meta name="turbo-cache-control" content="no-cache" />
-{% endblock %}
-
-
 {% block links %}
 	{{ super() }}
 	{{ turbo() }}

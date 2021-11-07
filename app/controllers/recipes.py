@@ -137,10 +137,7 @@ class RecipesView(HelperFlaskView):
     @login_required
     def duplicate(self, id):
         new_recipe = self.recipe.duplicate()
-        if self.recipe.is_current_user_author:
-            method = "edit"
-        else:
-            method = "show"
+        method = "edit" if self.recipe.is_current_user_author else "show"
         return redirect(url_for(f"RecipesView:{method}", id=new_recipe.id))
 
     @login_required

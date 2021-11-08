@@ -803,11 +803,11 @@
         },
         "wtforms-sqlalchemy": {
             "hashes": [
-                "sha256:2ef019cb9bf1e544911b3e08aff963b67fb9409db9d2029eb71c73d1af1f8f16",
-                "sha256:5160250c04782e26a7485a3913b8d52c2548b609ee3117f3e32aee2c20c919ba"
+                "sha256:7ca42824ad7c453a036f502b42d9c17d4ad8398ff9248a62ed538d1ce0bc41c3",
+                "sha256:90195d7592bf256d82498c42c79d416832e4a4e6fbca4f1e745a018f66d26c47"
             ],
             "index": "pypi",
-            "version": "==0.2"
+            "version": "==0.3"
         },
         "zipp": {
             "hashes": [

@@ -3,7 +3,7 @@
       <div>
         <label>{{ category.name}}</label>
       </div>
-    <label style="font-size: smaller;">{{ category.description if category.description  }}</label>
+    <label class="text-smaller"> {{ category.description if category.description }} </label>
     {% if not edit_id %}
       <form method="POST" action="{{ url_for('RecipeCategoriesView:show_edit', id=category.id) }}" data-turbo-frame="all">
         <button type="submit" class="change"></button>

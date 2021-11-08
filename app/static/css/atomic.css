@@ -50,13 +50,16 @@
 	font-family: 'MontSerrat', serif;
 }
 
-
-.smaller {
+.text-smaller {
 	font-size: smaller !important;
 }
 
 .text-larger {
 	font-size: larger !important;
+}
+
+.text-large {
+	font-size: large !important;
 }
 
 .text-nobreak {

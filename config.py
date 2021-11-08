@@ -61,6 +61,7 @@ class DevConfig(LocalProdConfig):
     SENTRY_MONITORING = False
 
     INFO_USED_DB = "local db"
+    FLASK_DEBUG = True
     # SQLALCHEMY_ECHO = True
 
 

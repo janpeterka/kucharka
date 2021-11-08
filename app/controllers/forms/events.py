@@ -1,15 +1,13 @@
 import datetime
 
 from wtforms import StringField, SubmitField, IntegerField, DateField
-from wtforms import validators
+from wtforms.validators import InputRequired, NumberRange
 
 from flask_wtf import FlaskForm
 
 
 class EventsForm(FlaskForm):
-    name = StringField(
-        "Název akce", [validators.InputRequired("Název musí být vyplněn")]
-    )
+    name = StringField("Název akce", [InputRequired("Název musí být vyplněn")])
 
     date_from = DateField("Od", default=datetime.date.today())
     date_to = DateField(
@@ -19,8 +17,8 @@ class EventsForm(FlaskForm):
     people_count = IntegerField(
         "Počet lidí",
         [
-            validators.InputRequired("Počet lidí musí být vyplněn"),
-            validators.NumberRange(min=1),
+            InputRequired("Počet lidí musí být vyplněn"),
+            NumberRange(min=1),
         ],
     )
 

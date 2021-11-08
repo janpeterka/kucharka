@@ -1,12 +1,9 @@
 import datetime
 
-from wtforms import StringField, SubmitField, IntegerField
+from wtforms import StringField, SubmitField, IntegerField, DateField
 from wtforms import validators
 
 from flask_wtf import FlaskForm
-
-# from wtforms.widgets import TextArea
-from wtforms.fields.html5 import DateField
 
 
 class EventsForm(FlaskForm):

@@ -11,9 +11,13 @@
 
     {# Pages #}
     {% if name=="user" %}
-    	{% set fa_class_ = 'fas fa-user' %}
+    	{% set fa_class_ = 'far fa-user-circle' %}
     {% elif name=="daily" %}
         {% set fa_class_ = 'fas fa-calendar-alt' %}
+    {% elif name=="more" %}
+        {% set fa_class_ = 'fas fa-ellipsis-h' %}
+
+
 
     {# Operations #}
     {% elif name=="edit" %}

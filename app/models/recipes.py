@@ -162,11 +162,12 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
     def duplicate(self):
         new = Recipe()
 
-        new.name = self.name
+        new.name = f"{self.name} (kopie)"
         new.author = current_user
         new.description = self.description
         new.portion_count = self.portion_count
         new.category = self.category
+        new.labels = self.labels
         new.ingredients = []
         for rhi in self.recipe_ingredients:
             new.add_ingredient(rhi.ingredient, amount=rhi.amount)

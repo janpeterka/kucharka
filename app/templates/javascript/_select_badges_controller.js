@@ -5,7 +5,7 @@ Stimulus.register("select-badges", class extends Controller {
       type: { type: String, default: 'single' }
     }
 
-  connect() {
+  connect(){
     this.add_badges();
     this.hide_select();
   }

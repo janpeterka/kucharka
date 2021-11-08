@@ -2,6 +2,7 @@ from unidecode import unidecode
 
 # from flask import render_template as template
 from flask import request, redirect, url_for, flash
+from flask import current_app as application
 
 from flask_security import login_required, current_user
 
@@ -109,7 +110,13 @@ class RecipesView(HelperFlaskView):
 
         self.recipe.delete()
         flash("Recept byl smazán.", "success")
-        return redirect(url_for("DashboardView:index"))
+        prev_path = request.form["previous"]
+
+        with application.test_client() as tc:
+            if tc.get(prev_path).status_code == 200:
+                return redirect(prev_path)
+            else:
+                return redirect(url_for("RecipesView:index"))
 
     @login_required
     def post(self):
@@ -130,7 +137,8 @@ class RecipesView(HelperFlaskView):
     @login_required
     def duplicate(self, id):
         new_recipe = self.recipe.duplicate()
-        return redirect(url_for("RecipesView:show", id=new_recipe.id))
+        method = "edit" if self.recipe.is_current_user_author else "show"
+        return redirect(url_for(f"RecipesView:{method}", id=new_recipe.id))
 
     @login_required
     @route("toggle_shared/<id>", methods=["POST"])

@@ -103,11 +103,11 @@ class DailyPlansEditView(HelperFlaskView):
             return turbo.stream(
                 [
                     turbo.remove(
-                        target=f"daily-recipe-{self.daily_recipe.id}",
+                        target=f"daily-recipe-edit-{self.daily_recipe.id}",
                     ),
                     turbo.replace(
                         self.template(template_name="_recipe_row"),
-                        target=f"daily-recipe-edit-{self.daily_recipe.id}",
+                        target=f"daily-recipe-{self.daily_recipe.id}",
                     ),
                 ]
             )

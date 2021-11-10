@@ -85,10 +85,9 @@ class HelperFlaskView(FlaskView):
     def _attribute_name(self):
         if hasattr(self, "attribute_name"):
             return self.attribute_name
-        else:
-            # e.g. measurement
-            model_name = self._model_name
-            return re.sub("(?!^)([A-Z]+)", r"_\1", model_name).lower()
+        # e.g. measurement
+        model_name = self._model_name
+        return re.sub("(?!^)([A-Z]+)", r"_\1", model_name).lower()
 
     @property
     def _plural_attribute_name(self):
@@ -110,9 +109,8 @@ class HelperFlaskView(FlaskView):
 
     @property
     def _instance(self):
-        if hasattr(self, "instance_name"):
-            instance = getattr(self, self.instance_name)
-        else:
-            instance = getattr(self, self._attribute_name)
-
-        return instance
+        return (
+            getattr(self, self.instance_name)
+            if hasattr(self, "instance_name")
+            else getattr(self, self._attribute_name)
+        )

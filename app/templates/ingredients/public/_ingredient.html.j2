@@ -6,7 +6,7 @@
   <td> {{ ingredient.author.name }} </td>
   <td>
     {% if current_user.is_application_manager or current_user.is_admin %}
-      <form method="POST" class="col {% if editing %}visibility-hidden{% endif %}" action="{{ url_for('PublicIngredientsView:show_edit', id=ingredient.id) }}" data-turbo-frame="all">
+      <form method="POST" class="col {% if editing %} visibility-hidden {% endif %}" action="{{ url_for('PublicIngredientsView:show_edit', id=ingredient.id) }}" data-turbo-frame="all">
         <button type="submit" class="icon change"></button>
       </form>
     {% endif %}

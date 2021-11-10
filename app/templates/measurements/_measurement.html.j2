@@ -5,6 +5,8 @@
   <td> {{ measurement.description | default("", True)}} </td>
   <td colspan="3"></td>
   <td>
-    {{ button_to(url_for('MeasurementsView:show_edit', id=measurement.id), class="icon change") }}
+    {% if not editing %}
+      {{ button_to(url_for('MeasurementsView:show_edit', id=measurement.id), class="icon change") }}
+    {% endif %}
   </td>
 </tr>

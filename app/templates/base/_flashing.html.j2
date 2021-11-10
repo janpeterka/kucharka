@@ -1,5 +1,5 @@
 {% with messages = get_flashed_messages(with_categories=true) %}
-  <div class="flashes container alert alert-light mt-5 with-fadeout" role="alert" id="flashing">
+  <div class="flashes container alert alert-light mt-5 animate-fadeout" role="alert" id="flashing">
     <ul>
     {% for category, message in messages %}
       {% if not category or category == "message" %}

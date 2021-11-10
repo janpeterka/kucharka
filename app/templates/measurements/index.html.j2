@@ -24,14 +24,13 @@
       <th style="width: 5%"> </th>
       <th></th>
       <th></th>
-      {# <th></th> #}
     </thead>
-    <tbody>
+    <tbody id="measurements">
       {% for measurement in measurements %}
         {% set editing = (edit_id and measurement.id == edit_id | int) %}
         {{ editing }}
 
-        {% include 'measurements/_measurement.html.j2' %}
+        {% include 'measurements/_row.html.j2' %}
 
         {% if editing %}
           {% include "measurements/_edit.html.j2"%}

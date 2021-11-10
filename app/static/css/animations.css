@@ -20,13 +20,13 @@
 }
 
 @keyframes slide-down {
-  from { transform: translateY(0.5rem); }
+  from { transform: translateY(1rem); }
   to { transform: translateY(0); }
 }
 
 @keyframes slide-up {
   from { transform: translateY(0); }
-  to { transform: translateY(0.5rem); }
+  to { transform: translateY(1rem); }
 }
 
 /*@keyframes slide-down {
@@ -51,7 +51,7 @@
 }
 
 /* Animation classes */
-.with-fadeout {
+.animate-fadeout {
     animation: fade-out 2s;
     animation-delay: 2s;
     animation-fill-mode: forwards;

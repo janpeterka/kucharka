@@ -1,25 +1,29 @@
 {% from "macros/icons.html.j2" import icon %}
 {% from "macros/general.html.j2" import options %}
+{% from "macros/turbo.html.j2" import button_to %}
 
-<tr id="public-ingredient-edit-{{ ingredient.id }}" data-stream-enter-class="animate-row-in" data-stream-exit-class="animate-row-out">
+<tr id="public-ingredient-edit-{{ ingredient.id }}"
+    data-stream-enter-class="animate-row-in"
+    data-stream-exit-class="animate-row-out">
+  
   <td></td>
   <td colspan="3">
       
     <form method="POST" class="row row-cols-auto g-3 align-items-center" action="{{ url_for('PublicIngredientsView:post_edit', id=ingredient.id) }}">
 
-      <div class="col">     
+      <div class="col-12 col-md-4">     
         <select name="measurement_id" class="form-control">
         	{{ options(measurements, selected_item=ingredient.measurement) }}
         </select>
       </div>
       
-      <div class="col">
+      <div class="col-12 col-md-4">
         <select name="category_id" class="form-control">
         	{{ options(categories, selected_item=ingredient.category) }}
         </select>
       </div>
     
-      <div class="col"> 
+      <div class="col-12 col-md-3"> 
         <button type="submit" class="btn btn-warning"> Uložit </button>
       </div>
     
@@ -27,8 +31,8 @@
 
   </td>
   <td>
-    <form method="POST" class="row row-cols-auto g-3 align-items-center" action="{{ url_for('PublicIngredientsView:hide_edit', id=ingredient.id) }}">
-      <button type="submit" class="btn btn-secondary"> Zrušit </button>
+    {{ button_to(url_for('PublicIngredientsView:hide_edit', id=ingredient.id), class="btn btn-secondary float-end", value="Zrušit") }}
     </form>
   </td>
+
 </tr>

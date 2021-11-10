@@ -6,6 +6,9 @@
 	{{ turbo() }}
 {% endblock %}
 
+{# {% block flashing %}
+    {% include('base/_turbo_flashing.html.j2') %}
+{% endblock %} #}
 
 {% block content %}
 
@@ -15,11 +18,11 @@
 
 <table id="public_ingredients" class="table">
 	<thead>
-		<th> Surovina </th>
-	    <th> Míra </th>
-	    <th> Kategorie </th>
+		<th style="width: 30%"> Surovina </th>
+	    <th style="width: 20%"> Míra </th>
+	    <th style="width: 20%"> Kategorie </th>
 		<th> Vytvořil*a </th>
-	    <th> Upravit </th>
+	    <th>  </th>
 	</thead>
 	<tbody>
     {% for ingredient in public_ingredients %}

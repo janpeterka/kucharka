@@ -4,15 +4,15 @@
 
   <td colspan="3">
     <form class="row row-cols-auto g-3 align-items-center" action="{{ url_for('MeasurementsView:post_edit', id=measurement.id) }}" method="POST">
-      <div class="col">
+      <div class="col-12 col-md-4">
         <input type="text" name="name" value="{{ measurement.name }}" class="form-control" autofocus>
       </div>
 
-      <div class="col">
+      <div class="col-12 col-md-4">
         <input type="text" name="description" value="{{ measurement.description | default('',True)}}" class="form-control">
       </div>
       
-      <div class="col">
+      <div class="col-12 col-md-2">
         <button type="submit" class="btn btn-warning"> Uložit </button>
       </div>
 

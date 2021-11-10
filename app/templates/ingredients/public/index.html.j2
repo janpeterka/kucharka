@@ -23,11 +23,7 @@
 	</thead>
 	<tbody>
     {% for ingredient in public_ingredients %}
-    	{% if edit_id and ingredient.id == edit_id |int %}
-    		{% set editing=True %}
-    	{% else %}
-    		{% set editing=False %}
-    	{% endif %}
+		{% set editing = (edit_id and ingredient.id == edit_id | int) %}
 
 		{% include "ingredients/public/_ingredient.html.j2" %}
 

@@ -22,13 +22,21 @@
       <th style="width: 20%"> Popis </th>
       <th style="width: 20%"> </th>
       <th style="width: 5%"> </th>
-      {# <th></th> #}
-      {# <th></th> #}
+      <th></th>
+      <th></th>
       {# <th></th> #}
     </thead>
     <tbody>
       {% for measurement in measurements %}
+        {% set editing = (edit_id and measurement.id == edit_id | int) %}
+        {{ editing }}
+
         {% include 'measurements/_measurement.html.j2' %}
+
+        {% if editing %}
+          {% include "measurements/_edit.html.j2"%}
+        {% endif %}
+
       {% endfor %}
     </tbody>
   </table>

@@ -1,15 +1,19 @@
 {% from "macros/turbo.html.j2" import button_to %}
 
 <tr id="ingredient-category-edit-{{ category.id }}" data-stream-enter-class="animate-row-in" data-stream-exit-class="animate-row-out">
-
   <td colspan="3">
     <form class="row row-cols-auto g-3 align-items-center" action="{{ url_for('IngredientCategoriesView:post_edit', id=category.id) }}" method="POST">
-      <div class="col-12 col-md-4">
+      <div class="col-12 col-md-3">
         <input type="text" name="name" value="{{ category.name }}" class="form-control" autofocus>
       </div>
 
-      <div class="col-12 col-md-4">
+      <div class="col-12 col-md-3">
         <input type="text" name="description" value="{{ category.description | default('',True)}}" class="form-control">
+      </div>
+
+      <div class="col-12 col-md-3">
+        <input type="checkbox" name="is_lasting" {% if category.is_lasting %}checked{% endif %} class="form-check-input">
+        <label for="is_lasting" class="form-check-label">Trvanlivá?</label>
       </div>
       
       <div class="col-12 col-md-2">

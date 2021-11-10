@@ -17,17 +17,28 @@
   <h1 class="text-uppercase font-comfortaa">Typy surovin</h1>
   <span class="font-montserrat">pro lepší řazení při nákupu</span>
 
-  <ul class="list">
-    <turbo-frame id="ingredient-categories">
+<table class="table">
+    <thead>
+      <th style="width: 40%"> Název </th>
+      <th style="width: 20%"> Popis </th>
+      <th style="width: 20%"> </th>
+      <th style="width: 5%"> </th>
+      <th></th>
+      <th></th>
+    </thead>
+    <tbody id="ingredient-categories">
       {% for category in ingredient_categories %}
-        {% if category.id != edit_id %}
-          {% include 'ingredient_categories/_ingredient_category.html.j2' %}
-        {% else %}
+        {% set editing = (edit_id and measurement.id == edit_id | int) %}
+
+        {% include 'ingredient_categories/_row.html.j2' %}
+
+        {% if editing %}
           {% include 'ingredient_categories/_edit.html.j2' %}
         {% endif %}
+
       {% endfor %}
-    </turbo-frame>
-  </ul>
+    </tbody>
+  </table>
 
   {% include 'ingredient_categories/_add.html.j2' %}
 

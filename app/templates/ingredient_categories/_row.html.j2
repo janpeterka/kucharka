@@ -1,0 +1,11 @@
+{% from "macros/turbo.html.j2" import button_to %}
+
+<tr id="ingredient-category-{{ category.id }}">
+  <td> {{ category.name}} </td>
+  <td> {{ category.description | default("", True)}} </td>
+
+  <td colspan="4" class="text-end me-3">
+    {% if editing %}{% set form_class="visibility-hidden"%}{% endif %}
+      {{ button_to(url_for('IngredientCategoriesView:show_edit', id=category.id), form_class=form_class, value="Upravit", class="btn btn-warning") }}
+  </td>
+</tr>

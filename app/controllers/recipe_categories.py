@@ -67,7 +67,6 @@ class RecipeCategoriesView(HelperFlaskView, AdminViewMixin):
             return redirect(url_for("RecipeCategoriesView:index"))
 
         else:
-            print("smazat")
             self.category.delete()
 
             return super().delete()

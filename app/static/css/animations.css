@@ -62,3 +62,14 @@
     animation-fill-mode: forwards;
     transition: opacity 1s ease-in-out;
 }
+
+.hover-animate-fadein {
+  opacity: 0.1;
+}
+
+.hover-animate-fadein:hover{
+    animation: fade-in 0.5s;
+    animation-fill-mode: forwards;
+    transition: opacity 1s ease-in-out;
+}
+

@@ -14,8 +14,8 @@
     {{ conversion.to_measurement.name }}
 
     {% if not edit_id %}
-      {# {{ button_to(action=url_for('MeasurementToMeasuremensView:edit', id=conversion.id), class="change", data="all") }} #}
-      {# {{ button_to(action=url_for('MeasurementToMeasuremensView:delete', id=conversion.id), class="destroy", method="DELETE") }} #}
+      {# {{ button_to(url_for('MeasurementToMeasuremensView:edit', id=conversion.id), class="change", data="all") }} #}
+      {# {{ button_to(url_for('MeasurementToMeasuremensView:delete', id=conversion.id), class="destroy", method="DELETE") }} #}
     {% endif %}
   </li>
 </turbo-frame>

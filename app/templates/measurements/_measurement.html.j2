@@ -1,14 +1,10 @@
 {% from "macros/turbo.html.j2" import button_to %}
 
-<turbo-frame id="measurement-{{ measurement.id }}">
-  <li class="row">
-      <div>
-        <label>{{ measurement.name}}</label>
-      </div>
-    <label class="text-smaller"> {{ measurement.description if measurement.description  }} </label>
-    {% if not edit_id %}
-      {{ button_to(action=url_for('MeasurementsView:edit', id=measurement.id), class="change", data="all") }}
-      {{ button_to(action=url_for('MeasurementsView:delete', id=measurement.id), class="destroy", method="DELETE") }}
-    {% endif %}
-  </li>
-</turbo-frame>
+<tr id="measurement-{{ measurement.id }}">
+  <td> {{ measurement.name}} </td>
+  <td> {{ measurement.description | default("", True)}} </td>
+  <td colspan="3"></td>
+  <td>
+    {{ button_to(url_for('MeasurementsView:show_edit', id=measurement.id), class="icon change") }}
+  </td>
+</tr>

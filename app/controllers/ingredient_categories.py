@@ -31,7 +31,6 @@ class IngredientCategoriesView(HelperFlaskView, AdminViewMixin):
 
     @route("/show_edit/<id>", methods=["POST"])
     def show_edit(self, id):
-        print(self.category)
         return super().show_edit()
 
     @route("/hide_edit/<id>", methods=["POST"])

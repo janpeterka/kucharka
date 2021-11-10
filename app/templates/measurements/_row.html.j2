@@ -3,8 +3,8 @@
 <tr id="measurement-{{ measurement.id }}">
   <td> {{ measurement.name}} </td>
   <td> {{ measurement.description | default("", True)}} </td>
-  {# <td colspan="3"></td> #}
-  <td colspan="4" class="text-end me-3">
+  <td colspan> {{ measurement.count }}</td>
+  <td colspan="3" class="text-end me-3">
     {% if editing %}{% set form_class="visibility-hidden"%}{% endif %}
       {{ button_to(url_for('MeasurementsView:show_edit', id=measurement.id), form_class=form_class, value="Upravit", class="btn btn-warning") }}
   </td>

@@ -1,4 +1,6 @@
 {% extends "base/base.html.j2" %}
+{% block title %} Kategorie receptů {% endblock %}
+
 {% block links %}
     {{ super() }}
     {{ turbo() }}
@@ -8,7 +10,6 @@
     {% include('base/_turbo_flashing.html.j2') %}
 {% endblock %}
 
-{% block title %} Kategorie receptů {% endblock %}
 
 {% block content %}
 <div class="text-center">
@@ -17,7 +18,7 @@
     <thead>
       <th style="width: 40%"> Název </th>
       <th style="width: 20%"> Popis </th>
-      <th style="width: 20%"> </th>
+      <th style="width: 20%"> Použití </th>
       <th style="width: 5%"> </th>
       <th></th>
       <th></th>

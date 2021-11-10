@@ -6,21 +6,20 @@
     {{ turbo() }}
 {% endblock %}
 
-{# {% block flashing %}
+{% block flashing %}
     {% include('base/_turbo_flashing.html.j2') %}
-{% endblock %} #}
+{% endblock %}
 
 {% block content %}
 
-<div class="text-center mt-2">
+<div class="text-center">
   <h1 class="text-uppercase font-comfortaa"> V čem se dá počítat? </h1>
-</div>
 
   <table class="table">
     <thead>
       <th style="width: 40%"> Název </th>
       <th style="width: 20%"> Popis </th>
-      <th style="width: 20%"> </th>
+      <th style="width: 20%"> Použití </th>
       <th style="width: 5%"> </th>
       <th></th>
       <th></th>

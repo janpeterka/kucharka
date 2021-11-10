@@ -8,11 +8,15 @@ from flask_classful import route
 from app.models.recipe_categories import RecipeCategory
 
 from app.helpers.helper_flask_view import HelperFlaskView
+from app.helpers.admin_view_mixin import AdminViewMixin
 
 
-class RecipeCategoriesView(HelperFlaskView):
+class RecipeCategoriesView(HelperFlaskView, AdminViewMixin):
     decorators = [login_required, roles_accepted("admin", "application_manager")]
     template_folder = "recipe_categories"
+    attribute_name = "recipe-category"
+    plural_attribute_name = "recipe-categories"
+    instance_name = "category"
 
     @login_required
     def before_request(self, name, id=None, *args, **kwargs):
@@ -25,52 +29,33 @@ class RecipeCategoriesView(HelperFlaskView):
 
     @route("/show_edit/<id>", methods=["POST"])
     def show_edit(self, id):
-        if turbo.can_stream():
-            return turbo.stream(
-                turbo.replace(
-                    self.template(template_name="_edit"), target=f"recipe-category-{id}"
-                )
-            )
-        else:
-            return redirect(url_for("RecipeCategoriesView:index", edit_id=id))
+        return super().show_edit()
+
+    @route("/hide_edit/<id>", methods=["POST"])
+    def hide_edit(self, id):
+        return super().hide_edit()
+
+    @route("/post_edit/<id>", methods=["POST"])
+    def post_edit(self, id):
+        self.category.name = request.form["name"]
+        self.category.description = request.form["description"]
+        self.category.save()
+
+        return super().post_edit()
 
     @route("/edit/<id>", methods=["POST"])
     def edit(self, id):
         self.category.name = request.form["recipe-category"]
         self.category.save()
 
-        if turbo.can_stream():
-            return turbo.stream(
-                turbo.replace(
-                    self.template(template_name="_recipe_category"),
-                    target=f"recipe-category-{id}",
-                )
-            )
-
-        else:
-            return redirect(url_for("RecipeCategoriesView:index"))
+        return super().edit()
 
     def post(self):
         self.category = RecipeCategory(name=request.form["recipe-category"])
         self.category.save()
 
-        if turbo.can_stream():
-            return turbo.stream(
-                [
-                    turbo.append(
-                        self.template(template_name="_recipe_category"),
-                        target="recipe-categories",
-                    ),
-                    turbo.replace(
-                        self.template(template_name="_add"),
-                        target="recipe-category-create-form",
-                    ),
-                ]
-            )
-        else:
-            return redirect(url_for("RecipeCategoriesView:index"))
+        return super().post()
 
-    @route("/delete/<id>", methods=["POST"])
     def delete(self, id):
         from flask import flash
         from app.helpers.turbo_flash import turbo_flash
@@ -82,9 +67,7 @@ class RecipeCategoriesView(HelperFlaskView):
             return redirect(url_for("RecipeCategoriesView:index"))
 
         else:
+            print("smazat")
             self.category.delete()
 
-            if turbo.can_stream():
-                return turbo.stream(turbo.remove(target=f"recipe-category-{id}"))
-            else:
-                return redirect(url_for("RecipeCategoriesView:index"))
+            return super().delete()

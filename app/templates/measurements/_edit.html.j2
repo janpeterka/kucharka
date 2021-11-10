@@ -1,6 +1,6 @@
 {% from "macros/turbo.html.j2" import button_to %}
 
-<tr id="measurement-edit-{{ measurement.id }}">
+<tr id="measurement-edit-{{ measurement.id }}" data-stream-enter-class="animate-row-in" data-stream-exit-class="animate-row-out">
 
   <td colspan="3">
     <form class="row row-cols-auto g-3 align-items-center" action="{{ url_for('MeasurementsView:post_edit', id=measurement.id) }}" method="POST">

@@ -28,6 +28,7 @@ class IndexView(FlaskView):
         return redirect(url_for("PublicRecipesView:public_index"))
 
     @route("tips")
+    @route("tipy")
     def tips(self):
         return redirect(url_for("SupportView:tips"))
 

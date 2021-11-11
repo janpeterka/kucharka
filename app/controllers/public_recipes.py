@@ -78,6 +78,7 @@ class PublicRecipesView(HelperFlaskView):
         else:
             return self.template()
 
+    @route("public-index/")
     def public_index(self):
         if current_user.is_authenticated:
             return redirect(url_for("PublicRecipesView:index"))

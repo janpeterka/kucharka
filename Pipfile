@@ -25,7 +25,7 @@ flask-mail = "*"
 
 [dev-packages]
 mypy = "*"
-flask-pytest = "*"
+pytest-flask = "*"
 
 [requires]
 python_version = "3.8"

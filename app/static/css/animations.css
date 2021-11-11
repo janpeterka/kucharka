@@ -57,7 +57,7 @@
     animation-fill-mode: forwards;
 }
 
-.with-fadein {
+.animate-fadein {
     animation: fade-in 2s;
     animation-fill-mode: forwards;
     transition: opacity 1s ease-in-out;
@@ -70,6 +70,6 @@
 .hover-animate-fadein:hover{
     animation: fade-in 0.5s;
     animation-fill-mode: forwards;
-    transition: opacity 1s ease-in-out;
+    /*transition: opacity 1s ease-in-out;*/
 }
 

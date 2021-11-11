@@ -11,13 +11,13 @@
       
     <form method="POST" class="row row-cols-auto g-3 align-items-center" action="{{ url_for('PublicIngredientsView:post_edit', id=ingredient.id) }}">
 
-      <div class="col-12 col-md-4">     
+      <div class="col-12 col-md-3">     
         <select name="measurement_id" class="form-control">
         	{{ options(measurements, selected_item=ingredient.measurement) }}
         </select>
       </div>
       
-      <div class="col-12 col-md-4">
+      <div class="col-12 col-md-3">
         <select name="category_id" class="form-control">
         	{{ options(categories, selected_item=ingredient.category) }}
         </select>

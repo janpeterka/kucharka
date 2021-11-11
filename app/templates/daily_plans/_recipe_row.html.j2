@@ -31,8 +31,8 @@
 
     <td >
         {% if daily_plan.can_current_user_edit %}
-        {{ button_to(action=url_for('DailyPlansEditView:sort_up', daily_recipe_id=daily_recipe.id), class="icon float-start", value='<i class="fas fa-sort-up"></i>') }}
-        {{ button_to(action=url_for('DailyPlansEditView:sort_down', daily_recipe_id=daily_recipe.id), class="icon float-end", value='<i class="fas fa-sort-down"></i>') }}
+        {{ button_to(url_for('DailyPlansEditView:sort_up', daily_recipe_id=daily_recipe.id), class="icon float-start", value='<i class="fas fa-sort-up"></i>') }}
+        {{ button_to(url_for('DailyPlansEditView:sort_down', daily_recipe_id=daily_recipe.id), class="icon float-end", value='<i class="fas fa-sort-down"></i>') }}
         {% endif %}
     </td>
 

@@ -4,18 +4,26 @@
 {% block content %}
 
 <h1>Moje suroviny
-    <a href="{{ url_for('IngredientsView:new') }}"><button class="btn btn-secondary float-end">Přidat surovinu</button></a>
+    <a href="{{ url_for('IngredientsView:new') }}">
+        <button class="btn btn-secondary float-end"> Přidat surovinu </button>
+    </a>
 </h1>
 
 <table id="ingredients" class="table">
-    <tr>
-        <th>Název</th>
-    </tr>
+    <thead>
+        <th> Název </th>
+        <th> Kategorie </th>
+        <th> Míra </th>
+    </thead>
+    <tbody>
     {% for ingredient in ingredients: %}
         <tr>
-            <td>{{ link_to(ingredient) }}</td>
+            <td> {{ link_to(ingredient) }} </td>
+            <td> {{ ingredient.category.name }} </td>
+            <td> {{ ingredient.measurement.name }} </td>
         </tr>
     {% endfor %}
+    </tbody>
 </table>
 
 {% endblock %}

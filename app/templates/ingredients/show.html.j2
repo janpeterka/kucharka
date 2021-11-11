@@ -90,9 +90,9 @@
             {% if current_user.is_admin or current_user.is_application_manager %}
             <div class="mt-4 admin-field">
                 {% if not ingredient.is_public and (current_user.is_application_manager or current_user.is_admin)  %}
-                    {{ button_to(action=url_for('IngredientsView:publish', id=ingredient.id), class="btn btn-danger", value="Zařadit mezi veřejné") }}
+                    {{ button_to(url_for('IngredientsView:publish', id=ingredient.id), class="btn btn-danger", value="Zařadit mezi veřejné") }}
                 {% elif ingredient.is_public and (current_user.is_application_manager or current_user.is_admin) %}
-                    {{ button_to(action=url_for('IngredientsView:unpublish', id=ingredient.id), class="btn btn-danger", value="Vyřadit z veřejných") }}
+                    {{ button_to(url_for('IngredientsView:unpublish', id=ingredient.id), class="btn btn-danger", value="Vyřadit z veřejných") }}
                 {% endif %}
             </div>
             {% endif %}

@@ -19,3 +19,7 @@ class Measurement(BaseModel, BaseMixin):
     @property
     def is_used(self) -> bool:
         return bool(self.ingredients)
+
+    @property
+    def count(self) -> int:
+        return len(self.ingredients)

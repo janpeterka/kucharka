@@ -13,15 +13,21 @@
 {% block content %}
 
 <div class="text-center">
-  <h1 class="text-uppercase font-comfortaa">Přepočty</h1>
+  <h1 class="text-uppercase font-comfortaa"> Přepočty </h1>
 
-    <ul class="list">
-      <turbo-frame id="conversions">
+  <table class="table">
+    <thead>
+      <th> název </th>
+      <th> z </th>
+      <th> na </th>
+    </thead>
+    <tbody>
         {% for conversion in conversions %}
-            {% include 'conversions/_conversion.html.j2' %}
+            {% include 'conversions/_row.html.j2' %}
         {% endfor %}
-      </turbo-stream>
-    </ul>
+    </tbody>
+  </table>
+
  </div> 
 
 {% endblock %}

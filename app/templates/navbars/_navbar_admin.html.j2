@@ -6,12 +6,19 @@
 	</a>
 	
 	<div class="dropdown-menu bg-color-admin" aria-labelledby="navbarDropdown">
-		<a class="dropdown-item" href="{{ url_for('AdminStatisticsView:index') }}">			Dashboard	</a>
-		<a class="dropdown-item" href="{{ url_for('PublicIngredientsView:index') }}">		Veřejné suroviny	</a>
-        <a class="dropdown-item" href="{{ url_for('MeasurementsView:index') }}"> 			Míry 				</a>
-		<a class="dropdown-item" href="{{ url_for('IngredientCategoriesView:index') }}">	Kategorie surovin	</a>
-		<a class="dropdown-item" href="{{ url_for('RecipeCategoriesView:index') }}"> 		Kategorie receptů	</a>
-		<a class="dropdown-item" href="{{ url_for('TipsView:index') }}">
+		<a class="dropdown-item" href="{{ url_for('AdminStatisticsView:index') }}">
+			Dashboard </a>
+		<a class="dropdown-item" href="{{ url_for('AdminStatisticsView:public_ingredients_index') }}">
+			Veřejné suroviny </a>
+        <a class="dropdown-item" href="{{ url_for('AdminStatisticsView:measurements_index') }}">
+        	Míry </a>
+		<a class="dropdown-item" href="{{ url_for('AdminStatisticsView:conversion_index') }}">
+			Konverze </a>
+		<a class="dropdown-item" href="{{ url_for('AdminStatisticsView:ingredient_categories_index') }}">
+			Kategorie surovin </a>
+		<a class="dropdown-item" href="{{ url_for('AdminStatisticsView:recipe_categories_index') }}">
+			Kategorie receptů </a>
+		<a class="dropdown-item" href="{{ url_for('AdminStatisticsView:tips_index') }}">
 			Tipy
 			{# <turbo-frame id="admin-notification-count" src="{{ url_for('AdminStatisticsView:unapproved_tips_count') }}"></turbo-frame> #}
 		</a>

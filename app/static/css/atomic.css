@@ -75,6 +75,10 @@
 	height: 5rem
 }
 
+.lh-2 {
+	line-height: 2rem
+}
+
 .lh-3 {
 	line-height: 3rem
 }
@@ -86,11 +90,4 @@
 
 .cursor-clickable {
 	cursor: pointer;
-}
-
-/* Animations */
-.with-fadeout {
-  animation: fadeOut 2s;
-  animation-delay: 1s;
-  animation-fill-mode: forwards;
 }

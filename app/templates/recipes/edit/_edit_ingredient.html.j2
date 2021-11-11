@@ -36,11 +36,11 @@
     <td>
         {% if ingredient.is_measured is true %}
         <abbr title="Neuvádět množství">
-            {{ button_to(action=url_for('EditRecipeView:change_ingredient_measured', recipe_id=recipe.id, ingredient_id=ingredient.id, measured=False), class="no-measurement", icon=True, value="⚖️") }}
+            {{ button_to(url_for('EditRecipeView:change_ingredient_measured', recipe_id=recipe.id, ingredient_id=ingredient.id, measured=False), class="no-measurement", icon=True, value="⚖️") }}
         </abbr>
         {% else %}
         <abbr title="Uvádět množství">
-            {{ button_to(action=url_for('EditRecipeView:change_ingredient_measured', recipe_id=recipe.id, ingredient_id=ingredient.id, measured=True), class="measurement", icon=True, value="⚖️") }}
+            {{ button_to(url_for('EditRecipeView:change_ingredient_measured', recipe_id=recipe.id, ingredient_id=ingredient.id, measured=True), class="measurement", icon=True, value="⚖️") }}
         {% endif %}
     </td>
 

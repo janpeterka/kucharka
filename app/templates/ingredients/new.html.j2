@@ -1,20 +1,19 @@
 {% extends "base/base.html.j2" %}
-
 {% block title %} Nová surovina {% endblock %}
 
 {% block content %}
 
-<form method="post" action="{{ url_for('IngredientsView:post') }}" class="form-group col-12" accept-charset="UTF-8">
+<form action="{{ url_for('IngredientsView:post') }}" method="post" accept-charset="UTF-8">
     {{ form.csrf_token }}
 
-    {{ render_field(form.name) }}
-    {{ render_field(form.description) }}
-    {{ render_field(form.measurement) }}
-    {{ render_field(form.category) }}
+    {{ render_floating_field(form.name) }}
 
-    {% include "ingredients/_form_nutrition_values.html.j2" %}
+    <div class="row mt-2">
+        <div class="col-md-6 col-sm-12"> {{ render_floating_field(form.measurement) }} </div>
+        <div class="col-md-6 col-sm-12"> {{ render_floating_field(form.category) }} </div>
+    </div>
 
-    {{ render_field(form.submit) }}
+    {{ render_field(form.submit, class="mt-2") }}
 </form>
 
 {% endblock %}

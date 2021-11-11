@@ -9,6 +9,7 @@ from app.helpers.general import list_without_duplicated
 
 from app.models.ingredients import Ingredient
 from app.models.recipes_have_ingredients import RecipeHasIngredient
+from app.models.label_categories import LabelCategory
 
 from app.models.mixins.recipes.recipe_reactions import RecipeReactionMixin
 from app.models.mixins.recipes.recipe_ingredients import RecipeIngredientMixin
@@ -47,7 +48,7 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
     ingredients = db.relationship(
         "Ingredient",
         secondary="recipes_have_ingredients",
-        primaryjoin="RecipeHasIngredient.recipe_id == Recipe.id",
+        primaryjoin="Recipe.id == RecipeHasIngredient.recipe_id",
         viewonly=True,
         order_by="Ingredient.name",
     )
@@ -69,6 +70,7 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         "Label",
         secondary="recipes_have_labels",
         primaryjoin="Recipe.id == RecipeHasLabel.recipe_id",
+        order_by="Label.id",
     )
 
     # LOADERS
@@ -97,8 +99,22 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
             ingredient.set_additional_info(recipe)
 
         recipe.ingredients.sort(
-            key=lambda x: (not x.is_measured, unidecode(x.name.lower()))
+            key=lambda x: (
+                x.is_measured,
+                x.sorting_priority,
+                x.amount,
+                unidecode(x.name.lower()),
+            ),
+            reverse=True,
         )
+
+        for category in LabelCategory.load_all():
+            labels = [label for label in recipe.labels if label.category == category]
+            if category.allow_multiple:
+                setattr(recipe, f"{category.name}_labels", labels)
+            else:
+                label = labels[0] if labels else None
+                setattr(recipe, f"{category.name}_label", label)
 
         return recipe
 
@@ -146,11 +162,12 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
     def duplicate(self):
         new = Recipe()
 
-        new.name = self.name
+        new.name = f"{self.name} (kopie)"
         new.author = current_user
         new.description = self.description
         new.portion_count = self.portion_count
         new.category = self.category
+        new.labels = self.labels
         new.ingredients = []
         for rhi in self.recipe_ingredients:
             new.add_ingredient(rhi.ingredient, amount=rhi.amount)
@@ -168,10 +185,10 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
     @property
     def can_current_user_view(self) -> bool:
         return (
-            current_user == self.author
-            or current_user.is_admin
-            or self.is_shared
+            self.is_shared
             or self.is_in_shared_event
+            or current_user == self.author
+            or current_user.is_admin
         )
 
     # PROPERTIES
@@ -207,6 +224,16 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
             return False
 
         return len(self.ingredients) == 0
+
+    @property
+    def unused_personal_ingredients(self) -> list:
+        return [
+            i for i in current_user.personal_ingredients if i not in self.ingredients
+        ]
+
+    @property
+    def unused_public_ingredients(self) -> list:
+        return [i for i in Ingredient.load_all_public() if i not in self.ingredients]
 
     @property
     def zero_amount_ingredients(self) -> list:
@@ -249,3 +276,9 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     def has_label(self, label) -> bool:
         return label in self.labels
+
+    def has_labels(self, labels) -> bool:
+        return all(self.has_label(label) for label in labels)
+
+    def has_any_of_labels(self, labels) -> bool:
+        return any(self.has_label(label) for label in labels)

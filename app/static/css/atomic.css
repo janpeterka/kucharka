@@ -3,6 +3,14 @@
   display: none;
 }
 
+.visibility-hidden {
+	visibility: hidden;
+}
+
+.d-inline {
+	display: inline;
+}
+
 /* lists */
 .no-list {
   list-style: none
@@ -42,14 +50,37 @@
 	font-family: 'MontSerrat', serif;
 }
 
-
-.smaller {
+.text-smaller {
 	font-size: smaller !important;
+}
+
+.text-larger {
+	font-size: larger !important;
+}
+
+.text-large {
+	font-size: large !important;
+}
+
+.text-nobreak {
+	white-space: nowrap;
+}
+
+.text-overflow-break {
+	overflow-wrap: break-word;
 }
 
 /* Height */
 .h-5 {
 	height: 5rem
+}
+
+.lh-2 {
+	line-height: 2rem
+}
+
+.lh-3 {
+	line-height: 3rem
 }
 
 /* Cursors */

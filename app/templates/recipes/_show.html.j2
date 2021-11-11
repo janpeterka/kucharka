@@ -4,23 +4,24 @@
 
 
 <table id="ingredients" class="table">
-    <tr>
-        <th>{{ texts.title }}</th>
-        <th>Množství (na {{recipe.portion_count}} porcí)</th>
-        {# <th>{{ texts.amount_simple }}</th> #}
-        <th></th>
-    </tr>
+    <thead>
+        <tr>
+            <th>{{ texts.title }}</th>
+            <th>Množství (na {{recipe.portion_count}} porcí)</th>
+            <th></th>
+        </tr>
+    </thead>
 
     {% for ingredient in recipe.ingredients: %}
-    {% set ingredient_amount = ingredient.amount * recipe.portion_count %}
+        {% set ingredient_amount = ingredient.amount * recipe.portion_count %}
+
         <tr>
-            {% if not print %}
-                
-            <td>{{ link_to(ingredient) }}
-                {% if ingredient.is_public %} {{ icon("public", class="text-secondary") }} {% endif %}
-            </td>
+            {% if not print and current_user.is_authenticated %}
+                <td> {{ link_to(ingredient) }}
+                    {% if ingredient.is_public %} {{ icon("public", class="text-secondary") }} {% endif %}
+                </td>
             {% else %}
-                <td>{{ ingredient.name }}</td>
+                <td> {{ ingredient.name }} </td>
             {% endif %}
 
             <td>
@@ -39,7 +40,7 @@
                         {% set ns.title = ns.title + "\n" %}
                     {% endfor %}
                     <abbr title="{{ ns.title }}">
-                         {{ icon("info-circle", class="ml-1") }}
+                         {{ icon("info-circle", class="ms-1") }}
                     </abbr>   
                 {% endif %}
 
@@ -50,8 +51,6 @@
         </tr>
     {% endfor %}
 </table>
-
-{# <hr> #}
 
 {% if recipe.description %}
     {% include "recipes/_description.html.j2" %}

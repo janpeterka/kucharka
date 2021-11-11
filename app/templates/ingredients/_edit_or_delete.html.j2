@@ -1,5 +1,5 @@
 <div>
-    <a class="btn btn-secondary mr-3 d-inline-flex" href="{{ url_for('IngredientsView:edit', id=ingredient.id) }}">{{ texts.edit }} {{ icon("edit", class="pl-1") }}</a>
+    <a class="btn btn-secondary me-3 d-inline-flex" href="{{ url_for('IngredientsView:edit', id=ingredient.id) }}">{{ texts.edit }} {{ icon("edit", class="ps-1") }}</a>
     <form class="d-inline form" action="{{ url_for('IngredientsView:delete', id=ingredient.id) }}" onsubmit="return confirm('{{ texts.ingredient_delete_confirm }}');" method="post" accept-charset="utf-8">
         {% if ingredient.is_used == False %}
             <button type="submit" class="btn btn-danger">{{ texts.ingredient_delete }} {{ icon("delete") }}</button>

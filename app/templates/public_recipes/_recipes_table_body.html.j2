@@ -1,5 +1,7 @@
 <tbody id="recipes">
-    {% for recipe in recipes: %}
-    	 {% include "public_recipes/_recipe_row.html.j2" %}
-    {% endfor %}
+
+{% for recipe in recipes: %}
+	{% include "public_recipes/_recipe_row.html.j2" %}
+{% endfor %}
+
 </tbody>

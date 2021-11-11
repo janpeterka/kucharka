@@ -11,6 +11,10 @@
     {% set class_ = class_ + ' required' %}
   {% endif %}
 
+  {% if field.errors %}
+    {% set class_ = class_ + ' is-invalid' %}
+  {% endif %}
+
   {% if field.type in ('SubmitField', 'ButtonField', 'CancelButtonField', 'AddButtonField', 'DeleteButtonField', 'EditButtonField') %}
     {% set with_label = False %}
     {% set with_errors = False %}
@@ -29,7 +33,7 @@
   {% if field.type == 'BooleanField' %}
     <div class="form-check {{div_class}}">
       {{ field(class_=class_ + ' form-check-input', **kwargs) }}
-      <label class="form-check-label" for="{{ field.id }}">{{ label }}</label>
+      <label class="form-check-label ms-1 ps-1" for="{{ field.id }}">{{ label }}</label>
     </div>
   {% else %}
     {% if field.type in ('TextField', 'TextAreaField', 'PasswordField',
@@ -67,12 +71,22 @@
   {% endif %}
 
   {% if with_errors and field.errors %}
-    <ul class=errors>
-    {% for error in field.errors %}
-      <li class="warning no-list">{{ error }}</li>
-    {% endfor %}
-    </ul>
+    <div class="invalid-feedback">
+      <ul class="errors" >
+        {% for error in field.errors %}
+        <li class="warning no-list">{{ error }}</li>
+        {% endfor %}
+      </ul>
+    </div>
   {% endif %}
 
 {% endmacro %}
 
+{% macro render_floating_field(field) %}
+
+<div class="form-floating">
+  {{ render_field(field, has_label=False, **kwargs) }}
+  {{ field.label }}
+</div>
+
+{% endmacro %}

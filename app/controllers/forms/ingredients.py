@@ -33,15 +33,15 @@ class IngredientsForm(FlaskForm):
     category = QuerySelectField("Kategorie", query_factory=categories, allow_blank=True)
 
     protein = ComaFloatField(
-        "Množství bílkovin / 100 g",
+        "Bílkoviny / 100 g",
         [Optional(), NumberRange(0, 100, "Musí být mezi 0 a 100")],
     )
     sugar = ComaFloatField(
-        "Množství sacharidů / 100 g",
+        "Sacharidy / 100 g",
         [Optional(), NumberRange(0, 100, "Musí být mezi 0 a 100")],
     )
     fat = ComaFloatField(
-        "Množství tuku / 100 g",
+        "Tuky / 100 g",
         [Optional(), NumberRange(0, 100, "Musí být mezi 0 a 100")],
     )
     calorie = ComaFloatField("Energie (kJ) / 100 g", [Optional()])

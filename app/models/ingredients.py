@@ -56,6 +56,10 @@ class Ingredient(BaseModel, ItemMixin):
         self.amount = self.load_amount_by_recipe(recipe)
         self.comment = self.load_comment_by_recipe(recipe)
         self.is_measured = self.load_measured_by_recipe(recipe)
+        if self.measurement:
+            self.sorting_priority = self.measurement.sorting_priority
+        else:
+            self.sorting_priority = 0
 
     # LOADERS
     @staticmethod
@@ -79,6 +83,15 @@ class Ingredient(BaseModel, ItemMixin):
         # flatten
         ingredients = [y for x in ingredients for y in x]
         ingredients = list_without_duplicated(ingredients)
+
+        if ordered:
+            ingredients.sort(key=lambda x: unidecode(x.name.lower()))
+
+        return ingredients
+
+    @staticmethod
+    def load_all_by_current_user(ordered=True):
+        ingredients = Ingredient.query.filter(Ingredient.author == current_user).all()
 
         if ordered:
             ingredients.sort(key=lambda x: unidecode(x.name.lower()))
@@ -214,6 +227,9 @@ class IngredientCopy:
     # CONTEXT PROCESSOR UTILITIES
     @property
     def link_to(self):
-        from flask import url_for
+        from flask import url_for, Markup, escape
 
-        return f"<a data-turbo='false' href='{url_for('IngredientsView:show', id=self.id)}'>{self.name}</a>"
+        self_view_name = "IngredientsView:show"
+        return Markup(
+            f"<a data-turbo='false' href='{url_for(self_view_name, id=self.id)}'>{escape(self.name)}</a>"
+        )

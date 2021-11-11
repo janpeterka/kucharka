@@ -15,29 +15,43 @@
 {% block content %}
 
 <div>
-    <div class="text-center">
+    {% if not daily_plan.is_active %}
+        <div class="bg-color-light-red m-2 p-2 rounded-pill text-center">
+            <strong> Pozor, tento den je mimo zadané rozmezí akce! </strong><br>
+            Nezobrazuje se v exportech a přehledu akce.
+        </div>
+    {% endif %}
 
-        {% if daily_plan.has_previous %}
-        <span class="float-left" style="margin-left: 10rem">
-            <a href="{{ url_for('DailyPlansView:previous', daily_plan_id=daily_plan.id) }}">
-            {{ human_format_date(daily_plan.previous.date) }}
-            </a>
-        </span>
-        {% endif %}
+    <div class="row text-center" style="font-size: 1.5rem">
+    <h4> {{ link_to(daily_plan.event) }} </h4>
 
-        <span style="font-size: 2rem">
-            {{ human_format_date(daily_plan.date, with_relative=False) }}
-        </span>
+        <div class="col">
+            {% if daily_plan.has_previous %}
+            <span class="float-start" >
+                <a href="{{ url_for('DailyPlansView:previous', daily_plan_id=daily_plan.id) }}" class="color-dark-green">
+                    {{ icon("previous", cursor_class="pointer") }}
+                </a>
+            </span>
+            {% endif %}
+        </div>
 
-        {% if daily_plan.has_next %}
-        <span class="float-right" style="margin-left: 10rem">
-            <a href="{{ url_for('DailyPlansView:next', daily_plan_id=daily_plan.id) }}">
-            {{ human_format_date(daily_plan.next.date) }}
-            </a>
-        </span>
-        {% endif %}
 
-    <h2>{{ link_to(daily_plan.event) }}</h2>
+        <div class="col">
+            <span style="font-size: 1.5rem">
+                {{ human_format_date(daily_plan.date, with_relative=False) }}
+            </span>
+        </div>
+
+        <div class="col">
+            {% if daily_plan.has_next %}
+            <span class="float-end" >
+                <a href="{{ url_for('DailyPlansView:next', daily_plan_id=daily_plan.id) }}" class="color-dark-green">
+                    {{ icon("next", cursor_class="pointer") }}
+                </a>
+            </span>
+            {% endif %}
+        </div>
+
     
     </div>
 
@@ -46,9 +60,9 @@
             <thead>
                 <tr>
                     <th style="width: 40%">{{ texts.title }}</th>
-                    <th>Typ jídla</th>
-                    <th></th>
-                    <th></th>
+                    <th style="width: 20%">Typ jídla</th>
+                    <th style="width: 20%">Počet porcí</th>
+                    <th style="width: 5%"></th>
                     <th></th>
                 </tr>
             </thead>
@@ -62,7 +76,7 @@
 
     {% if daily_plan.can_current_user_edit %}
 
-    <div class="row float-right mt-5" data-controller="enable-select2">
+    <div class="row float-end mt-5" data-controller="enable-select2">
         <form class="form" action="{{ url_for('DailyPlansEditView:add_recipe', daily_plan_id=daily_plan.id) }}" method="post">
             <div class="form-group form-inline">
                 <select name="recipe_id" id="recipe_select" class="form-control" data-enable-select2-target="select">
@@ -75,7 +89,7 @@
     </div>
 
     <div class="row mt-5">
-        {{ button_to(action=url_for('DailyPlansEditView:add_shopping', daily_plan_id=daily_plan.id), class="btn btn-secondary", value="Přidat nákup") }}
+        {{ button_to(url_for('DailyPlansEditView:add_shopping', daily_plan_id=daily_plan.id), class="btn btn-secondary", value="Přidat nákup <i class='fas fa-shopping-basket'></i>") }}
     </div>
 
     {% endif %}

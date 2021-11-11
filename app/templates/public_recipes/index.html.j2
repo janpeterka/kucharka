@@ -2,55 +2,68 @@
 {% block title %} Databáze receptů {% endblock %}
 
 {% block links %}
-    {{ super() }}
-    {{ turbo() }}
+	{{ super() }}
+	{{ turbo() }}
 {% endblock %}
 
 {% block style %}
-	<link href="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.css" rel="stylesheet">
+	<link href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css" rel="stylesheet">
 {% endblock %}
 
 {% block script %}
-	<script src="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.js"></script>
-  {{ stimulus("select2", "recipe-reaction") }}
+	<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+	{{ stimulus("recipe-reaction", "select-badges") }}
 {% endblock %}
 
 {% block content %}
 
-<turbo-frame target="recipes-table">
-<form action="{{ url_for('PublicRecipesView:index') }}" method="post" class="form-inline form-control" accept-charset="UTF-8">
-	{{ form.csrf_token }}
-		<div class="col">
-			<div class="mt-2 row">
-				{{ form.ingredient.label(class_="ml-2") }}
-				{{ render_field(form.ingredient, has_label=False, class="ml-3") }}
-        {{ form.category.label(class_="ml-4") }}
-        {{ render_field(form.category, has_label=False, class="ml-3") }}
+<details open class="colored">
+  <summary> Filtrování </summary>
+  <div>
 
-        {{ render_field(form.with_reaction, class="ml-5", label=icon("heart_full", with_tooltip=True, tooltip="moje oblíbené")) }}
-			</div>
+  <form action="{{ url_for('PublicRecipesView:index') }}" method="post" accept-charset="UTF-8">
+  	{{ form.csrf_token }}
 
-      <hr>
+    <div class="row">
+      <div class="col-md-6 col-sm-12">  {{ render_floating_field(form.ingredient) }} </div>
+      <div class="col-md-6 col-sm-12 mt-2 mt-md-0">  {{ render_floating_field(form.category) }} </div>
+    </div>
+
+    <div class="row mt-2">
+    
+      <div class="row mt-2" data-controller="select-badges" data-select-badges-type-value="multiple" data-select-badges-selected-class="bg-color-light-green" data-select-badges-unselected-class="bg-color-grey">
+        {{ form.dietary_labels.label(class_="me-1 col-sm-2 col-form-label") }}
+        <div class="col-sm-9">
+            {{ render_field(form.dietary_labels, has_label=False, data_select_badges_target="select") }}
+            <div data-select-badges-target="badges" class="text-overflow-break"></div>
+        </div>
+      </div>
       
-      <div class="mt-2 ml-1 row">
-        <div data-controller="enable-select2" class="col-10" style="display: inline">
-            {# {{ form.with_labels.label(class_="ml-4") }} #}
-            {{ render_field(form.with_labels, has_label=False, data_enable_select2_target="select", style="width:70%;") }}
+      <div class="row mt-2" data-controller="select-badges" data-select-badges-type-value="multiple" data-select-badges-selected-class="bg-color-light-green" data-select-badges-unselected-class="bg-color-grey">
+        {{ form.difficulty_labels.label(class_="me-1 col-sm-2 col-form-label") }}
+        <div class="col-sm-9">
+          {{ render_field(form.difficulty_labels, has_label=False, data_select_badges_target="select") }}
+          <div data-select-badges-target="badges" class="text-overflow-break"></div>
         </div>
       </div>
 
-      <hr>
-      
-      <div class="text-right">
-        {{ form.submit(class_='btn btn-primary ml-3') }}
+      <div class="col mt-2">
+        {{ render_field(form.with_reaction, label="moje oblíbené " + icon("heart_full")) }}
       </div>
-		</div>
-</form>
-</turbo-frame>
+    
+    </div>
 
-<turbo-frame id="recipes-table">
+    <div class="text-end">
+      {{ form.submit(class_='btn bg-color-light-green ms-3') }}
+    </div>
+
+  </form>
+  </div>
+</details>
+
+<hr>
+
 {% include "public_recipes/_recipes_table.html.j2"%}
-</turbo-frame>
 
 {% endblock %}
 

@@ -4,10 +4,10 @@
 {% block content %}
 
 <div class="font-montserrat ">
-	<h1 class="text-uppercase text-center color-blue font-comfortaa-bb mb-3"> Tipy a triky </h1>
+	<h1 class="text-uppercase text-center color-dark-green font-comfortaa-bb mb-3"> Tipy a triky </h1>
     {# <hr> #}
     
-    <h2 class="text-uppercase color-blue font-comfortaa-bb"> Množství surovin </h2>
+    <h2 class="text-uppercase color-dark-green font-comfortaa-bb"> Množství surovin </h2>
     
     <table class="table">
         <thead>
@@ -30,7 +30,7 @@
         </tbody>
     </table>
 
-    <h3 class="text-uppercase color-blue font-comfortaa-bb"> Další tipy a triky </h3>
+    <h3 class="text-uppercase color-dark-green font-comfortaa-bb"> Další tipy a triky </h3>
     <ul>
         <li>Aby se mezi potraviny nenastěhovali mravenci, vložíme mezi ně nakrájený citrón.</li>
         <li>Jídlo uchováme déle teplé, když nádobu po sejmutí z ohně i s pokličkou zabalíme do utěrky a do peřin.</li>
@@ -38,7 +38,7 @@
         <li>Přesolená zelenina: do přesolené zeleniny přidáme žloutek rozšlehaný ve smetaně nebo mléce.</li>
     </ul>
 
-    <h3 class="text-uppercase color-blue font-comfortaa-bb"> Tipy od vás </h3>
+    <h3 class="text-uppercase color-dark-green font-comfortaa-bb"> Tipy od vás </h3>
     <ul>
         {% for tip in tips %}
             <li>{{tip.description}} <em>(přidal*a {{ tip.author.full_name }})</em></li>
@@ -48,7 +48,6 @@
 
     {% if current_user.is_authenticated %}
     <div class="mt-4">
-        
         <hr>
         <h3 class="font-comfortaa text-uppercase">Přidat vlastní tip</h3>
         <form action="{{ url_for('SupportView:add_tip') }}" method="POST" class="form">

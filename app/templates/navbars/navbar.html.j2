@@ -3,39 +3,35 @@
     {# {% include '_navbar_brand.html.j2' %} #}
     
     <button class="navbar-toggler" type="button"
-            data-toggle="collapse" data-target=".navbar-collapse"
+            data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
             aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div id="navbar" class="collapse navbar-collapse">
-
       <ul class="nav navbar-nav navbar-center">
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('DashboardView:index') }}"> Domů | </a>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('UsersView:show') }}">{{ icon("user", cursor_class="cursor-clickable") }}</a>
-        </li>
-
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdd" role="button"
+             data-bs-toggle="dropdown" aria-expanded="false">
             Přidat
           </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ url_for('RecipesView:new') }}"> recept </a>
-            <a class="dropdown-item" href="{{ url_for('IngredientsView:new') }}"> surovinu </a>
-          </div>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownAdd">
+            <li><a class="dropdown-item" href="{{ url_for('RecipesView:new') }}"> recept </a></li>
+            <li><a class="dropdown-item" href="{{ url_for('IngredientsView:new') }}"> surovinu </a></li>
+            <li><a class="dropdown-item" href="{{ url_for('EventsView:new') }}"> akci </a></li>
+          </ul>
         </li>
 
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownList" role="button"
+             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Seznam
           </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownList">
             <a class="dropdown-item" href="{{ url_for('RecipesView:index') }}"> receptů </a>
             <a class="dropdown-item" href="{{ url_for('IngredientsView:index') }}"> surovin </a>
             {# <a class="dropdown-item" href="{{ url_for('PublicIngredientsView:index') }}"> veřejných surovin </a> #}
@@ -50,15 +46,25 @@
         {% endif %}
       </ul>
 
-      <ul class="nav navbar-nav navbar-right ml-auto">
+      <ul class="nav navbar-nav ms-auto">
         <li class="nav-item dropdown">
           <a class="nav-link" href="#" id="navbarDropdown" role="button"
-             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-             <i class="fa fa-question-circle"></i>
+             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             {{ icon("more", cursor_class="cursor-clickable") }}
           </a>
 
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="{{ url_for('SupportView:tips') }}"> Tipy a triky </a>
+          </div>
+        </li>
+        
+        <li class="nav-item dropdown me-3">
+          <a class="nav-link" href="#" id="navbarDropdown" role="button"
+             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             <i class="fa fa-question-circle"></i>
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="{{ url_for('SupportView:terms') }}"> Podmínky použití </a>
             <a class="dropdown-item" href="{{ url_for('SupportView:privacy') }}"> Osobní data </a>
             <a class="dropdown-item" href="https://github.com/janmpeterka/kucharka" target="_blank"> {{ icon("github") }} </a>
@@ -66,9 +72,19 @@
           </div>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="/logout">Odhlásit se</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link" href="#" id="navbarDropdown" role="button"
+             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             {{ icon("user", cursor_class="cursor-clickable", class="text-larger") }}
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ url_for('UsersView:show') }}"> Profil </a>
+            <a class="dropdown-item" href="{{ url_for_security('logout') }}"> Odhlásit se </a>
+          </div>
         </li>
+
+
       </ul>
     </div>
   </div>

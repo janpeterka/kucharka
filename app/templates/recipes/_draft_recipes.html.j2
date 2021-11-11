@@ -1,26 +1,13 @@
-{% if user.draft_recipes %}
+{% if current_user.draft_recipes %}
 
-<turbo-frame id="draft-recipes">
-<details data-turbo="false">
-    <summary class="text-uppercase font-comfortaa">Dokončit rozdělané recepty ({{ user.draft_recipes | length }})</summary>
-    <form method="post" action="{{ url_for('RecipesView:delete_drafts')}}" class="float-right">
-        <button type="submit" class="btn btn-warning">Smazat návrhy</button>
-    </form>
+<div id="draft-recipes" class="mt-3 col-12 col-sm-6 col-md-4">
+    <h6> Dokončit rozdělané recepty </h6>
 
-    <ul>
-    {% for recipe in user.draft_recipes %}
-        <li>{{ link_to(recipe) }} <span class="color-grey">({{recipe.ingredients | length}} zadaných surovin)</span></li>
+    <ul class="no-list">
+    {% for recipe in current_user.draft_recipes %}
+        <li> {{ link_to(recipe, link_type="edit") }} </li>
     {% endfor %}
-    </ul>
-</details>
-</turbo-frame>
-
-<turbo-frame id="draft-recipes-simple">
-    <ul>
-    {% for recipe in user.draft_recipes %}
-        <li>{{ link_to(recipe) }} <span class="color-grey">({{recipe.ingredients | length}} zadaných surovin)</span></li>
-    {% endfor %}
-    </ul>
-</turbo-frame>
+    </ul>    
+</div>
 
 {% endif %}

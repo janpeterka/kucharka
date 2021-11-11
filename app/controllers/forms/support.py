@@ -1,6 +1,5 @@
-from wtforms import StringField, SubmitField, SelectField
-from wtforms import validators
-from wtforms.fields.html5 import EmailField
+from wtforms import StringField, SubmitField, SelectField, EmailField
+from wtforms.validators import InputRequired
 
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField
@@ -16,7 +15,7 @@ class FeedbackForm(FlaskForm):
             ("other", "Jiné"),
         ],
     )
-    message = StringField("Popište", [validators.InputRequired("Musí být vyplněno")])
+    message = StringField("Popište", [InputRequired("Musí být vyplněno")])
     email = EmailField("Váš email (pro případ nutnosti upřesnění)")
     feedback_file = FileField("Screenshot s problémem")
     submit = SubmitField("Poslat reakci")

@@ -1,29 +1,48 @@
 {% from "macros/render_field.html.j2" import render_field %}
 
 <div id="recipe-info">
-<form action="{{ url_for('EditRecipeView:post', recipe_id=recipe.id) }}" class="form" method="post" accept-charset="utf-8">
-    {{ form.csrf_token }}
+    <form action="{{ url_for('EditRecipeView:post', recipe_id=recipe.id) }}" method="post" accept-charset="utf-8">
+        {{ form.csrf_token }}
 
-    <div class="w-100 mt-2 mb-2 row">
-        <div class="col-2 pt-2 pl-3"> {{ form.name.label }}</div>
-        <div class="col"> {{ render_field(form.name, has_label=False) }} </div>
-    </div>
+        <div class="form-floating">
+            {{ render_field(form.name, has_label=False) }}
+            {{ form.name.label }}
+        </div>
 
-    <div class="w-100 mt-2 mb-2 row">
-        <div class="col-2 pt-2 pl-3"> {{ form.category.label }}</div>
-        <div class="col"> {{ render_field(form.category, has_label=False) }} </div>
-    </div>
+        <div class="form-floating">
+            {{ render_field(form.category, has_label=False) }}
+            {{ form.category.label }}
+        </div>
 
-    <div class="w-100 mt-2 mb-2 row">
-        <div class="col-2 pt-2 pl-3"> {{ form.portion_count.label }}</div>
-        <div class="col"> {{ render_field(form.portion_count, has_label=False) }} </div>
-    </div>
+        <div class="form-floating">
+            {{ render_field(form.portion_count, has_label=False) }}
+            {{ form.portion_count.label }}
+        </div>
 
-    {% include "recipes/_form_labels.html.j2" %}
+        <details open class="colored">
+            <summary>Další informace</summary>
+            <div>
+                <div class="row mt-2" data-controller="select-badges" data-select-badges-type-value="multiple" data-select-badges-selected-class="bg-color-light-green" data-select-badges-unselected-class="bg-color-grey">
+                    {{ form.dietary_labels.label(class_="me-1 col-sm-2 col-form-label") }}
+                    <div class="col-sm-9">
+                        {{ render_field(form.dietary_labels, has_label=False, data_select_badges_target="select") }}
+                        <div data-select-badges-target="badges" class="text-overflow-break"></div>
+                    </div>
+                </div>
 
-    <div class="mt-4 pb-2">
-        <input type="submit" value="{{ texts.recipe_edit }}" class="btn btn-warning">
-        <span class="float-right mr-5 color-success">{{ message }}</span>
-    </div>
-</form>
+                <div class="row mt-2" data-controller="select-badges" data-select-badges-selected-class="bg-color-light-green" data-select-badges-unselected-class="bg-color-grey">
+                    {{ form.difficulty_label.label(class_="me-1 col-sm-2 col-form-label") }}
+                    <div class="col-sm-9">
+                        {{ render_field(form.difficulty_label, has_label=False, data_select_badges_target="select") }}
+                        <div data-select-badges-target="badges" class="text-overflow-break"></div>
+                    </div>
+                </div>
+            </div>
+        </details>
+
+        <div class="mt-4 pb-2">
+            <input type="submit" value="{{ texts.recipe_edit }}" class="btn btn-warning">
+            <span class="float-end me-5 color-success animate-fadeout">{{ message }}</span>
+        </div>
+    </form>
 </div>

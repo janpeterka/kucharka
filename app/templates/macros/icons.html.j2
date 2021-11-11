@@ -11,9 +11,13 @@
 
     {# Pages #}
     {% if name=="user" %}
-    	{% set fa_class_ = 'fas fa-user' %}
+    	{% set fa_class_ = 'far fa-user-circle' %}
     {% elif name=="daily" %}
         {% set fa_class_ = 'fas fa-calendar-alt' %}
+    {% elif name=="more" %}
+        {% set fa_class_ = 'fas fa-ellipsis-h' %}
+
+
 
     {# Operations #}
     {% elif name=="edit" %}
@@ -27,6 +31,11 @@
 
     {% elif name=="remove" %}
         {% set value = '×' %}
+
+    {% elif name=="previous" %}
+        {% set fa_class_ = 'fas fa-chevron-left' %}
+    {% elif name=="next" %}
+        {% set fa_class_ = 'fas fa-chevron-right' %}
 
 
     {# Sharing, publishing,... #}
@@ -70,7 +79,7 @@
 
 
     {# Food types #}
-    {% elif name=="vegan" %}
+{#     {% elif name=="vegan" %}
         {% set fa_class_ = 'fas fa-seedling color-green' %}
         {% if not tooltip %} {% set tooltip="veganské" %} {% endif %}
         {% set with_tooltip = True %}
@@ -85,7 +94,7 @@
     {% elif name=="gluten_free" or name=="gluten_free" %}
         {% set fa_class_ = 'fas fa-ban color-wheat' %}
         {% if not tooltip %} {% set tooltip="bez lepku" %} {% endif %}
-        {% set with_tooltip = True %}
+        {% set with_tooltip = True %} #}
 
 
     {# Brands #}

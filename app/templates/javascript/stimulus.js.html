@@ -5,11 +5,17 @@
 import { Application, Controller } from "https://unpkg.com/@hotwired/stimulus/dist/stimulus.js"
 window.Stimulus = Application.start()
 
+{% if config["APP_STATE"]=="development" %}
+	window.Stimulus.debug = true
+{% endif %}
+
 {% for controller in varargs %}
 	{% if controller == "select2" %}
 		{% include 'javascript/_enable_select2_controller.js' %}
-	{% elif controller == "summernote" %}		
-		{% include 'javascript/_enable_summernote_controller.js' %}
+	{% elif controller == "select-badges" %}
+		{% include 'javascript/_select_badges_controller.js' %}
+	{% elif controller == "editor" %}		
+		{% include 'javascript/_enable_editor_controller.js' %}
 	{% elif controller == "password-visibility" %}		
 		{% include 'javascript/_password_visibility_controller.js' %}
 	{% elif controller == "recipe-reaction" %}		

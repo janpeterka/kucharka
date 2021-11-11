@@ -6,53 +6,59 @@
     
     <td> 
         {% if ingredient.is_measured %}
-        <form action="{{ url_for('EditRecipeView:change_ingredient_amount', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" class="form form-inline" method="post">
-            <div class="col-8">
-                <input type="number" class="form-control" name="amount" step="1" min="0"
-                       value="{% if ingredient.amount %}{{ (ingredient.amount|float * recipe.portion_count|float) | round | int }}{% endif %}">
-                <span class="ml-2">{{ ingredient.measurement.name }}</span>
+        <form action="{{ url_for('EditRecipeView:change_ingredient_amount', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" method="post" class="row row-cols-lg-auto g-3 align-items-center">
+            <div class="col form-floating">
+                {% if ingredient.amount %}
+                    {% set amount = (ingredient.amount|float * recipe.portion_count|float) | round | int %}
+                {% endif %}
+                <input id="ingredient-amount-{{ingredient.id}}" type="number" class="form-control" name="amount" step="1" min="0" value="{{ amount }}">
+                <label for="ingredient-amount-{{ingredient.id}}" class="ms-2">{{ ingredient.measurement.name }}</span>
             </div>
-            <input type="submit" class="form-control btn btn-warning ml-4" value="Uložit">
+            <div class="col-12">
+                <input type="submit" class="form-control btn btn-warning ms-4" value="Uložit">
+            </div>
         </form>
         {% endif %}
         <details>
             <summary>Komentář</summary>
-              <form action="{{ url_for('EditRecipeView:change_ingredient_comment', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" class="form form-inline" method="post">
-            <div class="col-8">
-                <input type="text" class="form-control" name="comment"
-                       value="{% if ingredient.comment %}{{ ingredient.comment }}{% endif %}">
-            </div>
-            <input type="submit" class="form-control btn btn-warning ml-4" value="Uložit komentář">
-        </form>
+            <form action="{{ url_for('EditRecipeView:change_ingredient_comment', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" class="row row-cols-lg-auto g-3 align-items-center" method="post">
+                <div class="col-8">
+                    <input type="text" class="form-control" name="comment" value="{% if ingredient.comment %}{{ ingredient.comment }}{% endif %}">
+                </div>
+                <div>
+                    
+                <input type="submit" class="form-control btn btn-warning ms-4" value="Uložit komentář">
+                </div>
+            </form>
         </details>
     </td>
     
     <td>
-        {% if ingredient.is_measured is false %}
-        <abbr title="Uvádět množství">
-            {{ button_to(action=url_for('EditRecipeView:change_ingredient_measured', recipe_id=recipe.id, ingredient_id=ingredient.id, measured=True), class="measurement", icon=True, value="⚖️") }}
-        {% else %}
+        {% if ingredient.is_measured is true %}
         <abbr title="Neuvádět množství">
-            {{ button_to(action=url_for('EditRecipeView:change_ingredient_measured', recipe_id=recipe.id, ingredient_id=ingredient.id, measured=False), class="no-measurement", icon=True, value="⚖️") }}
+            {{ button_to(url_for('EditRecipeView:change_ingredient_measured', recipe_id=recipe.id, ingredient_id=ingredient.id, measured=False), class="no-measurement", icon=True, value="⚖️") }}
         </abbr>
+        {% else %}
+        <abbr title="Uvádět množství">
+            {{ button_to(url_for('EditRecipeView:change_ingredient_measured', recipe_id=recipe.id, ingredient_id=ingredient.id, measured=True), class="measurement", icon=True, value="⚖️") }}
         {% endif %}
     </td>
 
     <td class="align-middle">
         {% if ingredient.amount %}
-            <span class="font-italic font-weight-light"> {{ formatted_amount(ingredient.amount) }} na porci </span>
+            <span class="fst-italic font-weight-light"> {{ formatted_amount(ingredient.amount) }} {{ ingredient.measurement.name }} na porci </span>
         {% endif %}
     </td>
 
     <td class="align-middle">
         {% if ingredient.comment %}
-            <span class="font-italic font-weight-light"> {{ ingredient.comment }} </span>
+            <span class="fst-italic font-weight-light"> {{ ingredient.comment }} </span>
         {% endif %}
     </td>
 
     <td>
         <form method="POST" action="{{ url_for('EditRecipeView:remove_ingredient', ingredient_id=ingredient.id, recipe_id=recipe.id) }}">
-            <button type="submit" class="destroy icon mt-2">&#10005;</button>
+            <button type="submit" class="destroy icon mt-2"></button>
         </form>
     </td>
 </tr>

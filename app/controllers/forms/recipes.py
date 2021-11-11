@@ -1,6 +1,7 @@
-from wtforms import StringField, SubmitField, SelectField, IntegerField
-from wtforms import validators
-from wtforms.widgets import TextArea
+from wtforms import StringField, SubmitField, IntegerField, HiddenField
+from wtforms.validators import InputRequired, NumberRange
+
+# from wtforms.widgets import TextArea
 
 from flask_wtf import FlaskForm
 
@@ -19,60 +20,56 @@ def measurements():
     return Measurement.load_all()
 
 
-def labels():
-    from app.models.labels import Label
-
-    return Label.load_all()
-
-
 def dietary_labels():
     from app.models.labels import Label
 
     return Label.load_dietary()
 
 
-class RecipesForm(FlaskForm):
-    name = StringField(
-        "Název receptu", [validators.InputRequired("Název musí být vyplněn")]
-    )
+def difficulty_labels():
+    from app.models.labels import Label
 
-    description = StringField("Popis", widget=TextArea())
+    return Label.load_by_category_name("difficulty")
+
+
+class RecipesForm(FlaskForm):
+    name = StringField("Název receptu", [InputRequired("Název musí být vyplněn")])
+
+    # description = StringField("Popis", widget=TextArea())
 
     category = QuerySelectField("Kategorie", query_factory=categories, allow_blank=True)
-    portion_count = IntegerField("Počet porcí", [validators.NumberRange(min=1)])
+    portion_count = IntegerField(
+        "Počet porcí", [NumberRange(message="Musí být alespoň jedna porce", min=1)]
+    )
 
-    labels = QuerySelectMultipleField("Dietní omezení", query_factory=dietary_labels)
+    dietary_labels = QuerySelectMultipleField(
+        "Dietní omezení", query_factory=dietary_labels
+    )
+    difficulty_label = QuerySelectField(
+        "Obtížnost přípravy", query_factory=difficulty_labels, allow_blank=True
+    )
+
+    labels = HiddenField()
 
     submit = SubmitField("Přidat recept")
 
-    def set_category(self, categories):
-        self.category.choices = [
-            (category.id, category.name) for category in categories
-        ]
+    def set_labels(form):
+        from app.models.label_categories import LabelCategory
 
-    def set_all(self, **kwargs):
-        if "categories" in kwargs:
-            self.set_category(kwargs["categories"])
+        form.labels.data = []
 
+        for category in LabelCategory.load_all():
+            if category.allow_multiple:
+                attr_name = f"{category.name}_labels"
+            else:
+                attr_name = f"{category.name}_label"
 
-class RecipeFilterForm(FlaskForm):
-    ingredient_name = SelectField("Surovina")
-    category = QuerySelectField("Kategorie", query_factory=categories, allow_blank=True)
-
-    with_labels = QuerySelectMultipleField(
-        "Dietní omezení", query_factory=dietary_labels
-    )
-
-    submit = SubmitField("Filtrovat")
-
-    def __init__(self, *args, ingredient_names=None, categories=None):
-        if ingredient_names is None:
-            raise Exception(
-                f"{self.__class__.__name__} has no select (ingredient_names) values"
-            )
-
-        super().__init__(*args)
-        self.set_ingredient_name(ingredient_names)
-
-    def set_ingredient_name(self, ingredient_names):
-        self.ingredient_name.choices = [name for name in ingredient_names]
+            field = getattr(form, attr_name, None)
+            if field:
+                specific_labels = field.data
+                if not specific_labels:
+                    continue
+                elif type(specific_labels) == list:
+                    form.labels.data.extend(specific_labels)
+                else:
+                    form.labels.data.append(specific_labels)

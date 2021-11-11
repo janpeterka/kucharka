@@ -5,20 +5,37 @@ from flask_babel import Babel
 from turbo_flask import Turbo
 
 from flask_security import Security, SQLAlchemyUserDatastore
+from flask_mail import Mail
 
-
-db = SQLAlchemy(session_options={"autoflush": False})
-migrate = Migrate()
-babel = Babel()
-turbo = Turbo()
-
+# from app.helpers.turbo import after
 from flask_sqlalchemy.model import DefaultMeta  # noqa: E402
 
+db = SQLAlchemy(session_options={"autoflush": False})
 BaseModel: DefaultMeta = db.Model
+
+from app.models.users import User  # noqa: E402
+from app.models.roles import Role  # noqa: E402
+
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+
+migrate = Migrate()
+babel = Babel()
+# Turbo.after = after
+turbo = Turbo()
+mail = Mail()
+security = Security()
 
 
 def create_app(config_name="default"):
     application = Flask(__name__, instance_relative_config=True)
+
+    from jinja2 import select_autoescape
+
+    application.jinja_options = {
+        "autoescape": select_autoescape(
+            enabled_extensions=("html", "html.j2", "xml"),
+        )
+    }
 
     # CONFIG
     from config import configs
@@ -27,18 +44,13 @@ def create_app(config_name="default"):
 
     print(f"DB INFO: using {application.config['INFO_USED_DB']}")
 
-    from app.models.users import User  # noqa: E402
-    from app.models.roles import Role  # noqa: E402
-
-    user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-    security = Security()
-
     # APPS
     db.init_app(application)
     migrate.init_app(application, db)
     security.init_app(application, user_datastore)
     babel.init_app(application)
     turbo.init_app(application)
+    mail.init_app(application)
 
     if application.config["SENTRY_MONITORING"]:
         import sentry_sdk

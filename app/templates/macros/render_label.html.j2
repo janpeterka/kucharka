@@ -1,7 +1,7 @@
 {% macro render_label(label) %}
 
 {% if label.color %}
-	{% set color = label.color %}	
+	{% set color = label.color %}
 {% else %}
 	{% if label.category.name == "dietary" %}
 		{% set color = "light-green"%}
@@ -11,8 +11,8 @@
 {% endif %}
 
 
-<span class="p-2 m-1 bg-color-{{color}}" style="border-radius: 1rem; line-height: 3rem;">
-	{{ label | replace(" ","&nbsp") }}
+<span class="p-2 m-1 bg-color-{{color}} rounded-pill lh-3 text-nobreak">
+	{{ label }}
 </span>
 
 {% endmacro %}

@@ -1,13 +1,8 @@
 {% from "macros/turbo.html.j2" import button_to %}
 
-{% if ingredient.source == "nutridatabaze" %}
-    {% set source = "<abbr title='Na základě dat z NutriDatabaze.cz, verze 7.16, ÚZEI, Praha, www.nutridatabaze.cz/.'>" + ingredient.source + "</abbr>" %}
-{% else %}
-    {% set source = ingredient.author.full_name %}
-{% endif %}
-
 {% extends "base/base.html.j2" %}
 {% block title %} Surovina {% endblock %}
+
 {% block content %}
 
 <div class="row">
@@ -19,14 +14,18 @@
             </div>
 
             <div>   
-                <span class="font-italic"> Míra: {{ ingredient.measurement.name }} </span>
+                <span class="fst-italic"> Míra: {{ ingredient.measurement.name }} </span>
                 {% if ingredient.is_public %}
-                    <span class="font-italic font-weight-light float-right" >Veřejná surovina (zdroj: {{ source }})</span>
+                    {% if ingredient.source == "nutridatabaze" %}
+                        <span class="fst-italic font-weight-light float-end">Veřejná surovina (zdroj: <abbr title='Na základě dat z NutriDatabaze.cz, verze 7.16, ÚZEI, Praha, www.nutridatabaze.cz/.'>nutridatabaze.cz</abbr>)</span>
+                    {% else %}
+                        <span class="fst-italic font-weight-light float-end">ingredient.author.full_name</span>
+                    {% endif %}
                 {% endif %}
             </div>
             
             <div>
-                <span class="font-italic"> Kategorie: {{ ingredient.category.name }} </span>
+                <span class="fst-italic"> Kategorie: {{ ingredient.category.name }} </span>
             </div>
         </div>
 
@@ -84,16 +83,16 @@
 
             {% if from_new %}
             <div class="row">
-                <a href="{{ url_for('IngredientsView:new') }}"><button class="btn btn-primary mt-3 ml-0">Přidat další surovinu</button></a>
+                <a href="{{ url_for('IngredientsView:new') }}"><button class="btn btn-primary mt-3 ms-0">Přidat další surovinu</button></a>
             </div>
             {% endif %}
 
             {% if current_user.is_admin or current_user.is_application_manager %}
             <div class="mt-4 admin-field">
                 {% if not ingredient.is_public and (current_user.is_application_manager or current_user.is_admin)  %}
-                    {{ button_to(action=url_for('IngredientsView:publish', id=ingredient.id), class="btn btn-danger", value="Zařadit mezi veřejné") }}
+                    {{ button_to(url_for('IngredientsView:publish', id=ingredient.id), class="btn btn-danger", value="Zařadit mezi veřejné") }}
                 {% elif ingredient.is_public and (current_user.is_application_manager or current_user.is_admin) %}
-                    {{ button_to(action=url_for('IngredientsView:unpublish', id=ingredient.id), class="btn btn-danger", value="Vyřadit z veřejných") }}
+                    {{ button_to(url_for('IngredientsView:unpublish', id=ingredient.id), class="btn btn-danger", value="Vyřadit z veřejných") }}
                 {% endif %}
             </div>
             {% endif %}

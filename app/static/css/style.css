@@ -15,6 +15,8 @@
 @import "icons.css";
 @import "flash.css";
 @import "turboflash.css";
+@import "loader.css";
+@import "animations.css";
 
 /* Other */
 @import "admin.css";
@@ -22,6 +24,11 @@
 
 
 /* other */
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
 
 
 a.info {

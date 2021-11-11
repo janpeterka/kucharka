@@ -24,7 +24,7 @@ class Event(BaseModel, ItemMixin):
     is_shared = db.Column(db.Boolean, default=False)
 
     created_by = db.Column(db.ForeignKey(("users.id")), nullable=False, index=True)
-    author = db.relationship("User", uselist=False, backref="events")
+    author = db.relationship("User", uselist=False, back_populates="events")
 
     daily_plans = db.relationship(
         "DailyPlan",
@@ -54,7 +54,8 @@ class Event(BaseModel, ItemMixin):
     def delete_old_daily_plans(self):
         for daily_plan in self.daily_plans:
             if not (self.date_from <= daily_plan.date <= self.date_to):
-                daily_plan.delete()
+                # daily_plan.delete()
+                pass
 
     def add_new_daily_plans(self):
         for date in self.days:
@@ -81,6 +82,12 @@ class Event(BaseModel, ItemMixin):
         return any(dp.date == date for dp in self.daily_plans)
 
     @property
+    def active_daily_plans(self):
+        return [
+            dp for dp in self.daily_plans if (self.date_from <= dp.date <= self.date_to)
+        ]
+
+    @property
     def recipes(self):
         recipes = []
         for daily_plan in self.daily_plans:
@@ -97,7 +104,7 @@ class Event(BaseModel, ItemMixin):
     @property
     def daily_recipes(self):
         daily_recipes = []
-        for daily_plan in self.daily_plans:
+        for daily_plan in self.active_daily_plans:
             daily_recipes += daily_plan.daily_recipes
 
         return daily_recipes

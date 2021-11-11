@@ -2,24 +2,25 @@
 {% if recipe.can_current_user_edit %}
 <div class="mb-5 {{ admin_field_class(in_class=True, obj=recipe) }}">
     <form action="{{ url_for('RecipesView:delete', id=recipe.id) }}" method="post" class="form-inline" onsubmit="return confirm('{{ texts.recipe_delete_confirm }}');">
-        <a class="btn btn-warning" href="{{ url_for('RecipesView:edit', id=recipe.id) }}">{{ texts.edit }} {{ icon("edit") }}</a>
+        <input type="hidden" name="previous" value="{{ request.referrer }}">
+        <a class="btn btn-warning" href="{{ url_for('RecipesView:edit', id=recipe.id) }}"> Upravit {{ icon("edit") }}</a>
         {% if recipe.is_used %}
-            <button type="submit" class="btn btn-danger" disabled="">Nelze smazat, je použit</button>
+            <button type="submit" class="btn btn-danger" disabled> Nelze smazat, je použit </button>
         {% else %}
-            <button type="submit" class="btn btn-danger">{{ texts.recipe_delete }} {{ icon("delete") }}</button>
+            <button type="submit" class="btn btn-danger"> Smazat recept {{ icon("delete") }}</button>
         {% endif %}
     </form>
     <form action="{{ url_for('RecipesView:toggle_shared', id=recipe.id) }}" method="post" class="form-inline">
         {% if recipe.is_shared == True %}
-            <button type="submit" class="btn btn-secondary">{{ texts.recipe_unshare }} {{ icon("unshare") }}</button>
+            <button type="submit" class="btn btn-secondary"> Zneveřejnit recept {{ icon("unshare") }} </button>
         {% else %}
-            <button type="submit" class="btn btn-secondary">{{ texts.recipe_share }} {{ icon("share") }}</button>
+            <button type="submit" class="btn btn-secondary"> Zveřejnit recept {{ icon("share") }} </button>
         {% endif %}
     </form>
 </div>
 {% endif %}
 
-{% if not recipe.is_current_user_author %}
+{% if current_user.is_authenticated and not recipe.is_current_user_author %}
 <div class="mt-2 mb-1">
     <a class="btn btn-info" href="{{ url_for('RecipesView:duplicate', id=recipe.id) }}">
         Zkopírovat do mých receptů
@@ -30,11 +31,11 @@
 <details class="colored">
     <summary>Zobrazit pro daný počet porcí</summary>
     <div>
-        <div class="ml-2">
+        <div class="ms-2">
         
         <a class="btn color-white color-hover-black bg-color-blue" href="{{ url_for('RecipesView:show', id=recipe.id, portion_count=1) }}">Jedna porce</a>
-        <a class="btn color-white color-hover-black bg-color-purple ml-1" href="{{ url_for('RecipesView:show', id=recipe.id, portion_count=13) }}">Třináct porcí</a>
-        <a class="btn color-white color-hover-black bg-color-purple ml-1" href="{{ url_for('RecipesView:show', id=recipe.id) }}">Původní</a>
+        <a class="btn color-white color-hover-black bg-color-purple ms-1" href="{{ url_for('RecipesView:show', id=recipe.id, portion_count=13) }}">Třináct porcí</a>
+        <a class="btn color-white color-hover-black bg-color-purple ms-1" href="{{ url_for('RecipesView:show', id=recipe.id) }}">Původní</a>
     
         </div>
         

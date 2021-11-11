@@ -10,17 +10,17 @@ class User(BaseModel, BaseMixin, UserMixin):
 
     __tablename__ = "users"
 
-    id = db.Column(db.Integer, primary_key=True)
-    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
-    full_name = db.Column(db.String(255))
+    id = db.Column(db.Integer, primary_key=True)  # type: ignore
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())  # type: ignore
+    full_name = db.Column(db.String(255))  # type: ignore
 
-    roles = db.relationship("Role", secondary="users_have_roles", backref="users")
+    roles = db.relationship("Role", secondary="users_have_roles", backref="users")  # type: ignore
 
-    daily_plans = db.relationship("DailyPlan", back_populates="author")
+    daily_plans = db.relationship("DailyPlan", back_populates="author")  # type: ignore
 
-    recipes = db.relationship("Recipe", order_by="Recipe.name", back_populates="author")
+    recipes = db.relationship("Recipe", order_by="Recipe.name", back_populates="author")  # type: ignore
 
-    events = db.relationship("Event", back_populates="author")
+    events = db.relationship("Event", back_populates="author")  # type: ignore
 
     # PROPERTIES
 

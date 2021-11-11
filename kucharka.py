@@ -1,14 +1,6 @@
 import os
 
-import re
-import time
-import datetime
-
-from flask import request, redirect, g
-
-from flask_security import current_user
-
-from app import create_app, db
+from app import create_app
 
 
 env = os.environ.get("APP_STATE", "default")
@@ -25,6 +17,8 @@ def inject_globals():
 @application.context_processor
 def utility_processor():
     def human_format_date(date, with_weekday=True, with_relative=True):
+        import datetime
+
         formatted_date = date.strftime("%d.%m.%Y")
 
         from app.helpers.formaters import week_day
@@ -93,6 +87,8 @@ def utility_processor():
 
 @application.before_request
 def session_management():
+    from flask import request, redirect
+
     # current_user.logged_from_admin = session.get("logged_from_admin")
 
     if application.config["APP_STATE"] == "shutdown" and request.path not in [
@@ -106,19 +102,28 @@ def session_management():
 
 @application.before_request
 def log_request_start():
+    from flask import g
+    import time
+
     g.log_request_start_time = time.time()
 
 
 @application.teardown_request
 def log_request(exception=None):
+    import re
+    import time
+    from flask import request, g
+    from flask_security import current_user
+    from app import db
     from app.handlers.data import DataHandler
     from app.models.request_logs import RequestLog
 
     db.session.expire_all()
-    pattern = re.compile("/static/")
-    if not pattern.search(request.path):
-        user_id = getattr(current_user, "id", None)
 
+    ignore_pattern = re.compile("/static/")
+
+    if not ignore_pattern.search(request.path):
+        user_id = getattr(current_user, "id", None)
         item_type = DataHandler.get_additional_request_data("item_type")
         item_id = DataHandler.get_additional_request_data("item_id")
 

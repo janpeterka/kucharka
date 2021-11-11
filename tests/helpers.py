@@ -19,11 +19,7 @@ def create_user(username="test", password="testtest"):
 def with_authenticated_user(app, username=None):
     @app.login_manager.request_loader
     def load_user_from_request(request, username=username):
-        if not username:
-            user = User.query.first()
-        else:
-            user = User.load_by_username(username)
-
+        user = User.query.first() if not username else User.load_by_username(username)
         if user is None:
             assert False
         else:
@@ -36,5 +32,4 @@ def _get_password_hash(password):
     if not isinstance(password, bytes) and password is not None:
         password = password.encode("utf-8")
 
-    pwdhash = bcrypt.hashpw(password, bcrypt.gensalt())
-    return pwdhash
+    return bcrypt.hashpw(password, bcrypt.gensalt())

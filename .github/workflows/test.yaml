@@ -1,4 +1,4 @@
-name: Build and lint
+name: Test
 
 on: [push]
 
@@ -17,7 +17,6 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pylint
+        ip install pipenv
+        pipenv install
 
-    - name: pylinter
-      uses: alexanderdamiani/pylinter@v1.3.0

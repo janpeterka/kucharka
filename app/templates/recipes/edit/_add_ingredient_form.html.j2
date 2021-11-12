@@ -3,7 +3,7 @@
 
 <turbo-frame id="add_ingredient_form">	
 
-<form method="post" action="{{ url_for('EditRecipeView:add_ingredient', recipe_id=recipe.id) }}" data-controller="enable-select2" class="row row-cols-lg-auto g-3 align-items-center">
+<form method="post" action="{{ url_for('EditRecipeIngredientsView:add_ingredient', recipe_id=recipe.id) }}" data-controller="enable-select2" class="row row-cols-lg-auto g-3 align-items-center">
 	<div class="col-12">
 	    <select class="form-control" name="ingredient_option" id="ingredient_select" data-enable-select2-target="select">
 			<optgroup label="Moje suroviny">

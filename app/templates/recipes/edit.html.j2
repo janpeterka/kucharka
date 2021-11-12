@@ -18,7 +18,7 @@
 
 <a class="btn bg-color-secondary-action color-white ms-2 mb-3" href="{{ url_for('RecipesView:show', id=recipe.id) }}">{{ texts.edit_finish }} {{ icon("edit") }}</a>
 
-<details open class="form-control mb-3">
+<details class="form-control mb-3">
 <summary> Upravit recept </summary>
     {% include "recipes/edit/_info.html.j2" %}
 </details>
@@ -30,12 +30,24 @@
     {% include "recipes/edit/_add_ingredient_form.html.j2" %}
 </div>
 
-{% include "recipes/edit/_ingredient_table.html.j2" %}
-
+<table class="table">
+    <thead>
+        <tr>
+            <th>{{ texts.title }}</th>
+            <th>Množství (na {{ recipe.portion_count }} porcí) </th>
+            <th colspan="4"></th>
+        </tr>
+    </thead>
+    <tbody id="ingredients">
+    {% for ingredient in recipe.ingredients: %}
+        {% include "recipes/edit/ingredient/_row.html.j2" %}
+    {% endfor %}
+    </tbody>
+</table>
 </details>
 
 
-<details class="form-control mb-3" open>
+<details class="form-control mb-3">
 <summary> Upravit návod </summary>
     {% include "recipes/edit/_description.html.j2" %}
 </details>

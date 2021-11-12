@@ -1,0 +1,36 @@
+{% from "macros/turbo.html.j2" import button_to %}
+
+<tr id="ingredient-{{ingredient.id}}">
+
+    <td class="align-middle"> {{ link_to(ingredient) }} </td>
+    
+    <td> 
+    	{% if ingredient.amount %}
+        	{% set amount = (ingredient.amount|float * recipe.portion_count|float) | round | int %}
+        	{{ amount }}
+        {% endif %}
+    </td>
+    
+    <td>
+    </td>
+
+    <td class="align-middle">
+        {% if ingredient.amount %}
+            <span class="fst-italic font-weight-light">
+            	{{ formatted_amount(ingredient.amount) }}
+            	{{ ingredient.measurement.name }} na porci
+        	</span>
+        {% endif %}
+    </td>
+
+    <td class="align-middle">
+        {% if ingredient.comment %}
+            <span class="fst-italic font-weight-light"> {{ ingredient.comment }} </span>
+        {% endif %}
+    </td>
+
+    <td>
+        {% if editing %}{% set form_class="visibility-hidden"%}{% endif %}
+    	{{ button_to(url_for('EditRecipeIngredientsView:show_ingredient_edit', recipe_id=recipe.id, ingredient_id=ingredient.id), form_class=form_class, value="Upravit", class="btn btn-warning hover-animate-fadein") }}
+    </td>
+</tr>

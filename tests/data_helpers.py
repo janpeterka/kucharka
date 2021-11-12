@@ -14,7 +14,7 @@ def create_user(username=None, password=None, roles=[]):
     user = security.datastore.create_user(**user_dict)
     security.datastore.activate_user(user)
 
-    for role in user.roles:
+    for role in roles:
         r = security.datastore.find_or_create_role(role)
         security.datastore.add_role_to_user(user, r)
 

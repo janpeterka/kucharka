@@ -25,8 +25,7 @@ def test_public_requests(app, client, db):
 
 
 def test_requests_logged_in(app, db, client):
-
-    with_authenticated_user(app)
+    with_authenticated_user(app, username="user")
 
     pages = [
         {"path": "/dashboard", "code": 308, "redirect_path": "/dashboard/"},
@@ -42,6 +41,29 @@ def test_requests_logged_in(app, db, client):
         },
         {"path": "/login", "code": 302, "redirect_path": "/dashboard/"},
         {"path": "/", "code": 302, "redirect_path": "/dashboard/"},
+        {"path": "/measurements/", "code": 404},
+    ]
+
+    for page in pages:
+        assert client.get(page["path"]) == page["code"], f"path: {page['path']}"
+
+
+def test_requests_admin_logged_in(app, db, client):
+    with_authenticated_user(app, username="admin")
+
+    pages = [
+        {"path": "/measurements/", "code": 200},
+    ]
+
+    for page in pages:
+        assert client.get(page["path"]) == page["code"], f"path: {page['path']}"
+
+
+def test_requests_app_manager_logged_in(app, db, client):
+    with_authenticated_user(app, username="application_manager")
+
+    pages = [
+        {"path": "/measurements/", "code": 200},
     ]
 
     for page in pages:

@@ -22,6 +22,12 @@ class User(BaseModel, BaseMixin, UserMixin):
 
     events = db.relationship("Event", back_populates="author")  # type: ignore
 
+    # LOADERS
+
+    @staticmethod
+    def load_by_username(username):
+        return User.load_by_attribute("username", username)
+
     # PROPERTIES
 
     @property

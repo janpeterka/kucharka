@@ -101,8 +101,7 @@ def db(app):
 
 
 def db_fill():
-    users = []
-    users.append(create_user(username="user"))
+    users = [create_user(username="user")]
     users.append(
         create_user(username="application_manager", roles=["application_manager"])
     )

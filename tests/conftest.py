@@ -4,7 +4,8 @@ import datetime
 
 from app import create_app
 from app import db as _db
-from tests.helpers import create_user
+
+from tests.data_helpers import create_user
 
 
 @pytest.fixture
@@ -100,5 +101,9 @@ def db(app):
 
 
 def db_fill():
-    user = create_user()
-    user.save()
+    users = []
+    users.append(create_user(username="admin", roles=["admin"]))
+    users.append(create_user(username="app_manager", roles=["application_manager"]))
+
+    for user in users:
+        user.save()

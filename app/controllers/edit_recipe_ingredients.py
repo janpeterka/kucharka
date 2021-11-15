@@ -27,9 +27,14 @@ class EditRecipeIngredientsView(HelperFlaskView, AdminViewMixin):
         self.validate_operation(recipe_id, self.recipe)
 
     @route("show_edit/<recipe_id>/<ingredient_id>", methods=["POST"])
-    def show_ingredient_edit(self, recipe_id, ingredient_id):
+    def show_edit(self, recipe_id, ingredient_id):
         self.ingredient = Ingredient.load(ingredient_id)
         return super().show_edit()
+
+    @route("hide_edit/<recipe_id>/<ingredient_id>", methods=["POST"])
+    def hide_edit(self, recipe_id, ingredient_id):
+        self.ingredient = Ingredient.load(ingredient_id)
+        return super().hide_edit()
 
     @route("add_ingredient/<recipe_id>", methods=["POST"])
     def add_ingredient(self, recipe_id):
@@ -64,89 +69,42 @@ class EditRecipeIngredientsView(HelperFlaskView, AdminViewMixin):
             )
         ]
 
-    @route("change_amount/<recipe_id>/<ingredient_id>", methods=["POST"])
-    def change_ingredient_amount(self, recipe_id, ingredient_id):
+    @route("post_edit/<recipe_id>/<ingredient_id>", methods=["POST"])
+    def post_edit(self, recipe_id, ingredient_id):
         self.ingredient = Ingredient.load(ingredient_id)
+
         amount = request.form["amount"]
         if not amount:
             amount = 0
-
         amount_for_portion = float(amount) / float(self.recipe.portion_count)
 
-        self.recipe.change_ingredient_amount(self.ingredient, amount_for_portion)
-        self.ingredient.amount = amount_for_portion
-
-        if turbo.can_stream():
-            return turbo.stream(
-                turbo.replace(
-                    self.template(template_name="_row"),
-                    target=f"ingredient-{self.ingredient.id}",
-                )
-            )
-        else:
-            return redirect(url_for("RecipesView:edit", id=self.recipe.id))
-
-    @route("change_comment/<recipe_id>/<ingredient_id>", methods=["POST"])
-    def change_ingredient_comment(self, recipe_id, ingredient_id):
-        self.ingredient = Ingredient.load(ingredient_id)
         comment = request.form["comment"]
+        is_measured = "is_measured" in request.form
 
+        self.recipe.change_ingredient_amount(self.ingredient, amount_for_portion)
         self.recipe.change_ingredient_comment(self.ingredient, comment)
-        self.ingredient.comment = comment
+        self.recipe.change_ingredient_measured(self.ingredient, is_measured)
 
-        if turbo.can_stream():
-            return turbo.stream(
-                turbo.replace(
-                    self.template(template_name="_row"),
-                    target=f"ingredient-{self.ingredient.id}",
-                )
-            )
-        else:
-            return redirect(url_for("RecipesView:edit", id=self.recipe.id))
+        return super().post_edit()
 
-    @route("change_measured/<recipe_id>/<ingredient_id>/<measured>", methods=["POST"])
-    def change_ingredient_measured(self, recipe_id, ingredient_id, measured):
+    # @route("delete/<recipe_id>/<ingredient_id>", methods=["POST"])
+    def delete(self, recipe_id, ingredient_id):
         self.ingredient = Ingredient.load(ingredient_id)
-        measured = measured == "True"
 
-        self.recipe.change_ingredient_measured(self.ingredient, measured)
-        self.ingredient.is_measured = measured
-        self.ingredient.amount = self.ingredient.load_amount_by_recipe(self.recipe)
-
-        if turbo.can_stream():
-            return turbo.stream(
-                turbo.replace(
-                    self.template(template_name="_row"),
-                    target=f"ingredient-{self.ingredient.id}",
-                )
-            )
-        else:
-            return redirect(url_for("RecipesView:edit", id=self.recipe.id))
-
-    @route("remove_ingredient/<recipe_id>/<ingredient_id>", methods=["POST"])
-    def remove_ingredient(self, recipe_id, ingredient_id):
-        ingredient = Ingredient.load(ingredient_id)
-
-        if not self.recipe.remove_ingredient(ingredient):
+        if not self.recipe.remove_ingredient(self.ingredient):
             flash("Tato surovina už byla smazána.", "error")
             return redirect(url_for("RecipesView:edit", id=self.recipe.id))
 
-        if turbo.can_stream():
-            return turbo.stream(
-                [turbo.remove(target=f"ingredient-{ingredient_id}")]
-                + self.update_usable_ingredients(self.recipe)
-            )
-        else:
-            return redirect(url_for("RecipesView:edit", id=self.recipe.id))
+        return super().delete()
 
-    @route("refresh_usable_ingredients/<recipe_id>", methods=["POST"])
-    def refresh_usable_ingredients(self, recipe_id):
-        response = self.update_usable_ingredients(self.recipe)
+    # @route("refresh_usable_ingredients/<recipe_id>", methods=["POST"])
+    # def refresh_usable_ingredients(self, recipe_id):
+    #     response = self.update_usable_ingredients(self.recipe)
 
-        if turbo.can_stream():
-            return turbo.stream(response)
-        else:
-            return redirect(url_for("RecipesView:edit", id=self.recipe.id))
+    #     if turbo.can_stream():
+    #         return turbo.stream(response)
+    #     else:
+    #         return redirect(url_for("RecipesView:edit", id=self.recipe.id))
 
     def update_usable_ingredients(self, recipe):
         unused_personal_ingredients = [

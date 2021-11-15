@@ -45,7 +45,10 @@ class IngredientsView(HelperFlaskView):
         ]
 
     def before_index(self):
+        from unidecode import unidecode
+
         self.ingredients = current_user.personal_ingredients
+        self.ingredients.sort(key=lambda x: unidecode(x.name.lower()))
 
     def new(self):
         return self.template()

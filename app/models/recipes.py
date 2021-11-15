@@ -203,7 +203,7 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     @property
     def is_visible(self) -> bool:
-        return not self.is_draft
+        return not self.is_draft and not self.is_shopping
 
     @property
     def events(self):

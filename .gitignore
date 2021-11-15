@@ -1,6 +1,9 @@
 # Custom
 scripts/
 
+# Sublime
+*.sublime-*
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

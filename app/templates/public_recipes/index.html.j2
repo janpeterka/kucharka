@@ -17,7 +17,7 @@
 
 {% block content %}
 
-<details open class="colored">
+<details open class="colored" data-turbo="false">
   <summary> Filtrování </summary>
   <div>
 
@@ -48,7 +48,7 @@
       </div>
 
       <div class="col mt-2">
-        {{ render_field(form.with_reaction, label="moje oblíbené " + icon("heart_full")) }}
+        {{ render_field(form.with_reaction, label="pouze moje oblíbené " + icon("heart_full")) }}
       </div>
     
     </div>

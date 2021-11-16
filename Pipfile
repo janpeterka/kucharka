@@ -23,6 +23,9 @@ flask-security-too = "*"
 bleach = "*"
 flask-mail = "*"
 
+[packages.sentry-sdk]
+extras = [ "sqlalchemy",]
+
 [dev-packages]
 mypy = "*"
 pytest-flask = "*"
@@ -30,5 +33,3 @@ pytest-flask = "*"
 [requires]
 python_version = "3.8"
 
-[packages.sentry-sdk]
-extras = [ "sqlalchemy",]

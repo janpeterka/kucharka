@@ -14,7 +14,7 @@ class Config(object):
 
     APP_STATE = os.environ.get("APP_STATE")  # production, development, debug, shutdown
 
-    SECURITY_PASSWORD_SALT = os.environ.get("SECRET_KEY")
+    SECURITY_PASSWORD_SALT = os.environ.get("SECURITY_PASSWORD_SALT")
 
     SECURITY_REGISTERABLE = True
     SECURITY_SEND_REGISTER_EMAIL = False

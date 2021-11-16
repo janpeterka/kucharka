@@ -1,4 +1,4 @@
-"""empty message
+"""Add recipe category to recipe
 
 Revision ID: 86031807390d
 Revises: 06bdf14c5de1

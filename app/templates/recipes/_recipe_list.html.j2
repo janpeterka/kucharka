@@ -5,7 +5,7 @@
 
     {% include "recipes/_recipes.html.j2" %}
 
-    {% if current_user.is_admin and all_recipes %}
+    {% if current_user.has_permission("manage-application") and all_recipes %}
     <div class="admin-field">
 	    <label><h3>Všechny recepty</h3></label>
 

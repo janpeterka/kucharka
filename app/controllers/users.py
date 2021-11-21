@@ -20,15 +20,20 @@ class UsersView(HelperFlaskView):
 
         self.validate_operation(id, self.user)
 
+    def before_edit(self):
+        self.user_form = create_form(UsersForm, obj=self.user)
+
     def index(self):
-        return redirect(url_for("UsersView:show"))
+        if not current_user.has_permission("manage-users"):
+            return redirect(url_for("UsersView:show_all"))
+
+        self.users = User.load_all()
+        return self.template()
 
     def show(self, **kwargs):
         return self.template()
 
     def edit(self):
-        self.user_form = create_form(UsersForm, obj=self.user)
-
         return self.template()
 
     def post(self, page_type=None):
@@ -47,11 +52,6 @@ class UsersView(HelperFlaskView):
             flash("Nepovedlo se změnit uživatele", "error")
 
         return redirect(url_for("UsersView:show"))
-
-    # @permissions_required("manage-users")
-    # def show_all(self):
-    #     users = User.load_all()
-    #     return self.template("admin/users/all.html.j2", users=users)
 
     # @permissions_required("login-as")
     # def login_as(self, user_id, back=False):

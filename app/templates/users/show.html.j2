@@ -1,6 +1,6 @@
 {% extends "base/base.html.j2" %}
 {% block title %}
-    {% if current_user.is_admin and user != current_user %}
+    {% if current_user.has_permission("manage-users") and user != current_user %}
         Profil [{{ user.id }} | {{ user.username }}]   
     {% else %}
         Profil
@@ -22,9 +22,9 @@
      </table>
 </div>
 
-{% if current_user.is_admin %}
+{% if current_user.has_permission("manage-users") %}
     <div class="admin-field mb-2">
-        <h3>Role</h3>
+        <h3> Role </h3>
         <ul>
         {% for role in user.roles %}
             <li> {{ role.name }} </li>
@@ -39,12 +39,13 @@
     <a href="{{ url_for_security('change_password') }}" class="btn btn-secondary"> Změnit heslo {{ icon("edit") }}</a>
 </div>
 
-{# {% if current_user.is_admin %}
-    {% from "macros/_admin_field.html.j2" import admin_field_class with context %}
+{#
+{% if current_user.has_role("manage-application") %}
     <div class="admin-field">
         <a href="{{ url_for('RecipesView:make_all_public_for_user', user_id=user.id) }}" class="btn btn-secondary">Zveřejnit všechny recepty uživatele</a>
     </div>
-{% endif %} #}
+{% endif %}
+#}
 
 {% endblock %}
 

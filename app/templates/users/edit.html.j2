@@ -1,6 +1,6 @@
 {% extends "base/base.html.j2" %}
 {% block title %}
-    {% if current_user.is_admin and user != current_user %}
+    {% if current_user.has_permission("manage-users") and user != current_user %}
         Profil [{{ user.id }} | {{ user.username }}]   
     {% else %}
         Profil

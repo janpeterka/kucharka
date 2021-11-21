@@ -7,7 +7,7 @@
   <td> {{ ingredient.category.name }} </td>
   <td> {{ ingredient.author.name }} </td>
   <td>
-    {% if current_user.is_application_manager or current_user.is_admin %}
+    {% if current_user.has_permission("manage-application") %}
       {% if editing %} {% set form_class="visibility-hidden"%} {% endif %}
 
       {{ button_to(url_for('PublicIngredientsView:show_edit', id=ingredient.id), form_class=form_class, value="Upravit", class="btn btn-warning float-end") }}

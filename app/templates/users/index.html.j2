@@ -1,0 +1,22 @@
+{% extends "base/base.html.j2" %}
+{% block title %} admin - všichni uživatelé {% endblock %}
+
+{% block content %}
+
+{% for user in users %}
+    <div class="row">
+        {{ user.email }} - {{ user }}
+        <details>
+            <summary> recepty </summary>
+            {% for recipe in user.recipes %}
+                {{ link_to(recipe) }} <br>
+            {% endfor %}
+
+
+        </details>
+
+    </div>
+{% endfor %}
+
+{% endblock %}
+

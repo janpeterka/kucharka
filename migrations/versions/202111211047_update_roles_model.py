@@ -31,14 +31,14 @@ def upgrade():
     op.execute(
         """
         UPDATE roles
-        SET permissions='manage-application,manage-users,login-as,see-debug,see-other'
+        SET permissions='manage-application,manage-users,login-as,see-debug,see-other,edit-other'
         WHERE name='admin';
         """
     )
     op.execute(
         """
         UPDATE roles
-        SET permissions='manage-application,see-other'
+        SET permissions='manage-application,see-other,edit-other'
         WHERE name='application-manager';
         """
     )

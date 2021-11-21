@@ -6,8 +6,6 @@
 	</a>
 	
 	<div class="dropdown-menu bg-color-admin" aria-labelledby="navbarDropdown">
-		<a class="dropdown-item" href="{{ url_for('AdminView:index') }}">
-			Dashboard </a>
 		<a class="dropdown-item" href="{{ url_for('AdminView:public_ingredients_index') }}">
 			Veřejné suroviny </a>
         <a class="dropdown-item" href="{{ url_for('AdminView:measurements_index') }}">
@@ -18,10 +16,19 @@
 			Kategorie surovin </a>
 		<a class="dropdown-item" href="{{ url_for('AdminView:recipe_categories_index') }}">
 			Kategorie receptů </a>
+		
+		{% if current_user.has_permission("manage-users") %}
+			<a class="dropdown-item" href="{{ url_for('UsersView:index') }}">
+			Uživatelé </a>
+		{% endif %}
+
 		<a class="dropdown-item" href="{{ url_for('AdminView:tips_index') }}">
 			Tipy
 			{# <turbo-frame id="admin-notification-count" src="{{ url_for('AdminView:unapproved_tips_count') }}"></turbo-frame> #}
 		</a>
+
+		<a class="dropdown-item" href="{{ url_for('AdminView:index') }}">
+			grafy </a>
 	</div>
 </li>
 

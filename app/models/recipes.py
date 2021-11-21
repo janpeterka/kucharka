@@ -79,7 +79,7 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         ordered=True, exclude_mine=False, exclude_shopping=True
     ) -> list:
         recipes = Recipe.query.filter(Recipe.is_shared).all()
-        recipes = [r for r in recipes if not (r.author.is_admin and r.name == "Nákup")]
+        recipes = [r for r in recipes if not (r.is_shopping)]
 
         if exclude_mine:
             recipes = [r for r in recipes if r.author != current_user]

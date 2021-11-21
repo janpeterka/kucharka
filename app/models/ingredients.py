@@ -118,13 +118,8 @@ class Ingredient(BaseModel, ItemMixin):
 
     # FUNCTIONS
 
-    def publish(self):
-        self.is_public = True
-        self.edit()
-        return self.is_public
-
-    def unpublish(self):
-        self.is_public = False
+    def toggle_public(self):
+        self.is_public = not self.is_public
         self.edit()
         return self.is_public
 

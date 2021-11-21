@@ -104,11 +104,8 @@ class IngredientsView(HelperFlaskView):
             return redirect(url_for("IngredientsView:show", id=self.ingredient.id))
 
     @permissions_required("manage-application")
-    @route("publish/<id>", methods=["POST"])
+    @route("toggle_public/<id>", methods=["POST"])
     def toggle_public(self, id):
-        if self.ingredient.is_public:
-            self.ingredient.unpublish()
-        else:
-            self.ingredient.publish()
+        self.ingredient.toggle_public()
 
         return redirect(url_for("IngredientsView:show", id=self.ingredient.id))

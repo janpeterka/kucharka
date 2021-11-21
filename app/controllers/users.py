@@ -48,12 +48,12 @@ class UsersView(HelperFlaskView):
 
         return redirect(url_for("UsersView:show"))
 
-    # @roles_required("admin")
+    # @permissions_required("manage-users")
     # def show_all(self):
     #     users = User.load_all()
     #     return self.template("admin/users/all.html.j2", users=users)
 
-    # @roles_required("admin")
+    # @permissions_required("login-as")
     # def login_as(self, user_id, back=False):
     #     if "back" in request.args:
     #         back = request.args["back"]

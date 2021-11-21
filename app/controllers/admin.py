@@ -1,12 +1,13 @@
 from flask import redirect, url_for
 from flask_security import login_required, roles_accepted
+from flask_classful import route
 
 from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models.tips import Tip
 
 
-class AdminStatisticsView(HelperFlaskView):
+class AdminView(HelperFlaskView):
     decorators = [login_required, roles_accepted("admin", "application_manager")]
 
     def index(self):
@@ -39,3 +40,14 @@ class AdminStatisticsView(HelperFlaskView):
         self.unapproved_tips = Tip.unapproved_tips()
         self.notification_count = len(self.unapproved_tips)
         return self.template(template_name="admin/_admin_notification_count.html.j2")
+
+    @route("toggle_admin", methods=["POST"])
+    def toggle_admin(self):
+        from flask import session, request
+
+        if session.get("as_commoner", False):
+            session["as_commoner"] = False
+        else:
+            session["as_commoner"] = True
+
+        return redirect(request.referrer)

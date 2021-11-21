@@ -195,7 +195,7 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     @property
     def is_shopping(self) -> bool:
-        return self.author.is_admin and self.name == "Nákup"
+        return self.author.has_role("admin") and self.name == "Nákup"
 
     @property
     def is_used(self) -> bool:

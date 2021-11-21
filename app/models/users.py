@@ -94,7 +94,9 @@ class User(BaseModel, BaseMixin, UserMixin):
     # ROLES
     @property
     def is_admin(self):
-        return self.has_role("admin")
+        from flask import session
+
+        return self.has_role("admin") and not session.get("as_commoner", False)
 
     @property
     def is_application_manager(self):

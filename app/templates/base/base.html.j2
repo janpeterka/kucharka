@@ -91,7 +91,7 @@
             {% include('admin/_env_badge.html.j2') with context %}
         {% endif %}
 
-        {% if current_user.is_admin %}
+        {% if current_user.has_role("admin") %}
             {% include('admin/_admin_warning.html.j2') %}
         {% endif %}
     {% endblock %}

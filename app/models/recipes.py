@@ -182,13 +182,12 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     # PERMISSIONS
 
-    @property
-    def can_current_user_view(self) -> bool:
+    def can_view(self, user) -> bool:
         return (
             self.is_shared
             or self.is_in_shared_event
-            or current_user == self.author
-            or current_user.is_admin
+            or user == self.author
+            or user.has_permission("see-other")
         )
 
     # PROPERTIES

@@ -67,8 +67,6 @@ class User(BaseModel, BaseMixin, UserMixin):
 
     @property
     def draft_recipes(self):
-        # import time
-        # time.sleep(3)
         return [r for r in self.recipes if r.is_draft]
 
     @property
@@ -77,7 +75,7 @@ class User(BaseModel, BaseMixin, UserMixin):
 
     @property
     def recipes_without_category(self):
-        return [i for i in self.recipes if i.without_category]
+        return [r for r in self.recipes if r.without_category]
 
     @property
     def personal_ingredients(self):
@@ -92,12 +90,13 @@ class User(BaseModel, BaseMixin, UserMixin):
         return [i for i in self.personal_ingredients if i.without_measurement]
 
     # ROLES
-    @property
-    def is_admin(self):
-        from flask import session
+    # @property
+    # def is_admin(self):
+    #     # from flask import session
 
-        return self.has_role("admin") and not session.get("as_commoner", False)
+    #     return self.has_role("admin")
+    #     # return self.has_role("admin") and not session.get("as_commoner", False)
 
-    @property
-    def is_application_manager(self):
-        return self.has_role("application_manager")
+    # @property
+    # def is_application_manager(self):
+    #     return self.has_role("application_manager")

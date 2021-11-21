@@ -1,5 +1,5 @@
 from flask import request
-from flask_security import login_required, roles_accepted
+from flask_security import login_required, permissions_required
 
 from flask_classful import route
 
@@ -11,7 +11,7 @@ from app.helpers.admin_view_mixin import AdminViewMixin
 
 
 class MeasurementsView(HelperFlaskView, AdminViewMixin):
-    decorators = [login_required, roles_accepted("admin", "application_manager")]
+    decorators = [login_required, permissions_required("manage-application")]
 
     @login_required
     def before_request(self, name, id=None, *args, **kwargs):

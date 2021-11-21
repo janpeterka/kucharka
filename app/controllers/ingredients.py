@@ -2,7 +2,7 @@ from flask import flash, request, redirect, url_for
 
 
 from flask_classful import route
-from flask_security import login_required, current_user, roles_accepted, roles_required
+from flask_security import login_required, current_user, permissions_required
 
 from app.helpers.form import save_form_to_session, create_form
 from app.helpers.helper_flask_view import HelperFlaskView
@@ -103,13 +103,13 @@ class IngredientsView(HelperFlaskView):
             flash("Tato surovina je použita, nelze smazat", "error")
             return redirect(url_for("IngredientsView:show", id=self.ingredient.id))
 
-    @roles_accepted("admin", "application_manager")
+    @permissions_required("manage-application")
     @route("publish/<id>", methods=["POST"])
     def publish(self, id):
         self.ingredient.publish()
         return redirect(url_for("IngredientsView:show", id=self.ingredient.id))
 
-    @roles_required("admin", "application_manager")
+    @permissions_required("manage-application")
     @route("unpublish/<id>", methods=["POST"])
     def unpublish(self, id):
         self.ingredient.unpublish()

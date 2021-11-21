@@ -1,5 +1,5 @@
 from flask import request, redirect, url_for
-from flask_security import login_required, roles_accepted
+from flask_security import login_required, permissions_required
 
 from app import turbo
 
@@ -12,7 +12,7 @@ from app.helpers.admin_view_mixin import AdminViewMixin
 
 
 class IngredientCategoriesView(HelperFlaskView, AdminViewMixin):
-    decorators = [login_required, roles_accepted("admin", "application_manager")]
+    decorators = [login_required, permissions_required("manage-application")]
     template_folder = "ingredient_categories"
     attribute_name = "ingredient-category"
     plural_attribute_name = "ingredient-categories"

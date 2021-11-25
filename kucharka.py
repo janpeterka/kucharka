@@ -146,14 +146,15 @@ def flash_if_turbo(response):
     message = session.get("turbo_flash_message", None)
     category = session.get("turbo_flash_message_category", "info")
 
-    if not _is_turbo_response(response) and message:
-        flash(message, category)
-        remove_flash_from_session()
+    if message:
+        if _is_turbo_response(response):
+            turbo_flash = turbo_flash_partial(message, category)
+            remove_flash_from_session()
+            response.response.append(turbo_flash)
 
-    elif _is_turbo_response(response) and message:
-        turbo_flash = turbo_flash_partial(message, category)
-        remove_flash_from_session()
-        response.response.append(turbo_flash)
+        else:
+            flash(message, category)
+            remove_flash_from_session()
 
     return response
 

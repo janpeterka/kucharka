@@ -54,9 +54,7 @@ class IngredientCategoriesView(HelperFlaskView, AdminViewMixin):
         self.category = IngredientCategory(name=request.form["ingredient-category"])
         self.category.save()
 
-        return redirect(url_for("IngredientCategoriesView:index"))
-
-        # return super().post()
+        return super().post()
 
     def delete(self, id):
         from app.helpers.turbo_flash import turbo_flash

@@ -59,9 +59,7 @@ class RecipeCategoriesView(HelperFlaskView, AdminViewMixin):
 
         if self.category.is_used:
             turbo_flash("Už je někde použité, nelze smazat!")
-            return redirect(url_for("RecipeCategoriesView:index"))
+            return redirect(url_for("RecipeCategoriesView:index"), code=303)
 
-        else:
-            self.category.delete()
-
-            return super().delete()
+        self.category.delete()
+        return super().delete()

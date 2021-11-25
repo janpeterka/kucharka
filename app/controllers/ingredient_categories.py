@@ -60,10 +60,8 @@ class IngredientCategoriesView(HelperFlaskView, AdminViewMixin):
         from app.helpers.turbo_flash import turbo_flash
 
         if self.category.is_used:
-            turbo_flash("Už je někde použité, nelze smazat! [turbo]", category="error")
+            turbo_flash("Už je někde použité, nelze smazat!", category="error")
             return redirect(url_for("IngredientCategoriesView:index"), code="303")
 
-        else:
-            self.category.delete()
-
-            return super().delete()
+        self.category.delete()
+        return super().delete()

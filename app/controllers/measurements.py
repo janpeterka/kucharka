@@ -49,7 +49,7 @@ class MeasurementsView(HelperFlaskView, AdminViewMixin):
     def delete(self, id):
         if self.measurement.is_used:
             turbo_flash("Už je někde použité, nelze smazat!")
-            return redirect(url_for("MeasurementsView:index"))
+            return redirect(url_for("MeasurementsView:index"), code=303)
 
         self.measurement.delete()
 

@@ -28,8 +28,6 @@ class PublicRecipesView(HelperFlaskView):
     @login_required
     @route("/toggleReaction/<recipe_id>", methods=["POST"])
     def toggle_reaction(self, recipe_id, refresh=False):
-        from flask import flash
-
         recipe = Recipe.load(recipe_id)
         recipe.toggle_reaction()
 
@@ -45,7 +43,6 @@ class PublicRecipesView(HelperFlaskView):
                 ]
             )
 
-        flash("Reakce byla zaznamenána.")
         return redirect(request.referrer)
         # return "", 204
 

@@ -77,7 +77,8 @@ class PublicRecipesView(HelperFlaskView):
         if turbo.can_stream():
             return turbo.stream(
                 turbo.replace(
-                    self.template(template_name="_recipes_table_body"), target="recipes"
+                    self.template(template_name="_recipes_table"),
+                    target="recipes-table",
                 )
             )
         else:

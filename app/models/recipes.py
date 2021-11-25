@@ -79,7 +79,7 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         ordered=True, exclude_mine=False, exclude_shopping=True
     ) -> list:
         recipes = Recipe.query.filter(Recipe.is_shared).all()
-        recipes = [r for r in recipes if not (r.author.is_admin and r.name == "Nákup")]
+        recipes = [r for r in recipes if not (r.is_shopping)]
 
         if exclude_mine:
             recipes = [r for r in recipes if r.author != current_user]
@@ -182,20 +182,19 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     # PERMISSIONS
 
-    @property
-    def can_current_user_view(self) -> bool:
+    def can_view(self, user) -> bool:
         return (
             self.is_shared
             or self.is_in_shared_event
-            or current_user == self.author
-            or current_user.is_admin
+            or user == self.author
+            or user.has_permission("see-other")
         )
 
     # PROPERTIES
 
     @property
     def is_shopping(self) -> bool:
-        return self.author.is_admin and self.name == "Nákup"
+        return self.author.has_role("admin") and self.name == "Nákup"
 
     @property
     def is_used(self) -> bool:
@@ -203,7 +202,7 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     @property
     def is_visible(self) -> bool:
-        return not self.is_draft
+        return not self.is_draft and not self.is_shopping
 
     @property
     def events(self):

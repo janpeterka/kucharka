@@ -118,13 +118,8 @@ class Ingredient(BaseModel, ItemMixin):
 
     # FUNCTIONS
 
-    def publish(self):
-        self.is_public = True
-        self.edit()
-        return self.is_public
-
-    def unpublish(self):
-        self.is_public = False
+    def toggle_public(self):
+        self.is_public = not self.is_public
         self.edit()
         return self.is_public
 
@@ -187,16 +182,6 @@ class Ingredient(BaseModel, ItemMixin):
     @property
     def can_current_user_add(self) -> bool:
         return self.can_add(current_user)
-
-    def can_edit(self, user) -> bool:
-        return (
-            self.is_author(user)
-            or user.is_admin
-            or (self.is_public and user.is_application_manager)
-        )
-
-    def can_current_user_edit(self) -> bool:
-        return self.can_edit(current_user)
 
 
 class IngredientCopy:

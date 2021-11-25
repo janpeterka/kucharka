@@ -68,6 +68,12 @@ class Event(BaseModel, ItemMixin):
         return not self.is_archived
 
     @property
+    def in_future(self):
+        import datetime
+
+        return self.date_to >= datetime.date.today()
+
+    @property
     def duration(self):
         return (self.date_to - self.date_from).days
 

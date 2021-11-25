@@ -22,6 +22,12 @@ class User(BaseModel, BaseMixin, UserMixin):
 
     events = db.relationship("Event", back_populates="author")  # type: ignore
 
+    # LOADERS
+
+    @staticmethod
+    def load_by_username(username):
+        return User.load_by_attribute("username", username)
+
     # PROPERTIES
 
     @property
@@ -37,9 +43,7 @@ class User(BaseModel, BaseMixin, UserMixin):
 
     @property
     def active_future_events(self):
-        import datetime
-
-        return [e for e in self.active_events if e.date_to >= datetime.date.today()]
+        return [e for e in self.active_events if e.in_future]
 
     @property
     def closest_future_event(self):
@@ -63,8 +67,6 @@ class User(BaseModel, BaseMixin, UserMixin):
 
     @property
     def draft_recipes(self):
-        # import time
-        # time.sleep(3)
         return [r for r in self.recipes if r.is_draft]
 
     @property
@@ -73,7 +75,7 @@ class User(BaseModel, BaseMixin, UserMixin):
 
     @property
     def recipes_without_category(self):
-        return [i for i in self.recipes if i.without_category]
+        return [r for r in self.recipes if r.without_category]
 
     @property
     def personal_ingredients(self):
@@ -88,10 +90,13 @@ class User(BaseModel, BaseMixin, UserMixin):
         return [i for i in self.personal_ingredients if i.without_measurement]
 
     # ROLES
-    @property
-    def is_admin(self):
-        return self.has_role("admin")
+    # @property
+    # def is_admin(self):
+    #     # from flask import session
 
-    @property
-    def is_application_manager(self):
-        return self.has_role("application_manager")
+    #     return self.has_role("admin")
+    #     # return self.has_role("admin") and not session.get("as_commoner", False)
+
+    # @property
+    # def is_application_manager(self):
+    #     return self.has_role("application_manager")

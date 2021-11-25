@@ -1,7 +1,7 @@
 from flask import request, redirect, url_for
 
 from flask_classful import route
-from flask_security import login_required, roles_accepted
+from flask_security import login_required, permissions_required
 
 from app import turbo
 
@@ -13,7 +13,7 @@ from app.models.measurements import Measurement
 
 
 class PublicIngredientsView(HelperFlaskView):
-    decorators = [login_required, roles_accepted("admin", "application_manager")]
+    decorators = [login_required, permissions_required("manage-application")]
     template_folder = "ingredients/public"
 
     def before_request(self, name, id=None, *args, **kwargs):

@@ -1,5 +1,5 @@
 from flask import redirect, url_for
-from flask_security import login_required, roles_accepted
+from flask_security import login_required, permissions_required
 
 from app import turbo
 
@@ -11,7 +11,7 @@ from app.helpers.helper_flask_view import HelperFlaskView
 
 
 class TipsView(HelperFlaskView):
-    decorators = [login_required, roles_accepted("admin", "application_manager")]
+    decorators = [login_required, permissions_required("manage-application")]
 
     @login_required
     def before_request(self, name, id=None, *args, **kwargs):

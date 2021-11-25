@@ -6,13 +6,25 @@
   box-shadow: 0.2rem 0.2rem 0.4rem black;
 }
 
+.admin-badge {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0.5rem 0.5rem 0.7rem black;
+}
+
 .admin-warning {
   text-align: center;
+  position: fixed;
+  bottom: 2rem;
+  left: 1rem;
+  z-index: 1;
 }
 
 .dev-badge {
-  margin-left: 2rem;
   position: fixed;
+  left: 1rem;
+  top: 5rem;
+  z-index: 1;
   padding: 1rem;
   border-radius: 0.5rem;
   box-shadow: 0.5rem 0.5rem 0.7rem black;

@@ -1,5 +1,5 @@
 from flask import request, redirect, url_for
-from flask_security import login_required, roles_accepted
+from flask_security import login_required, permissions_required
 
 # from app import turbo
 
@@ -12,7 +12,7 @@ from app.helpers.helper_flask_view import HelperFlaskView
 
 
 class ConversionsView(HelperFlaskView):
-    decorators = [login_required, roles_accepted("admin", "application_manager")]
+    decorators = [login_required, permissions_required("manage-application")]
 
     def index(self):
         self.conversions = Conversion.load_all()

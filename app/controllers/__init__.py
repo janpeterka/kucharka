@@ -18,7 +18,7 @@ from .recipe_categories import RecipeCategoriesView
 from .measurements import MeasurementsView
 from .conversions import ConversionsView
 from .tips import TipsView
-from .admin_statistics import AdminStatisticsView
+from .admin import AdminView
 
 from .recipes import RecipesView
 from .edit_recipes import EditRecipeView
@@ -47,7 +47,7 @@ __all__ = [
     "MeasurementsView",
     "ConversionsView",
     "TipsView",
-    "AdminStatisticsView",
+    "AdminView",
     "RecipesView",
     "EditRecipeView",
     "PublicRecipesView",
@@ -83,7 +83,7 @@ def register_all_controllers(application):
     ConversionsView.register(application, base_class=HelperFlaskView)
 
     TipsView.register(application, base_class=HelperFlaskView)
-    AdminStatisticsView.register(application, base_class=HelperFlaskView)
+    AdminView.register(application, base_class=HelperFlaskView)
 
     RecipeCategoriesView.register(application, base_class=HelperFlaskView)
 

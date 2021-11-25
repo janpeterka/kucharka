@@ -1,5 +1,7 @@
-<table  id="table" class="table"
-	   	data-filter-control="true" data-toggle="table" data-search="true"  data-pagination="true" data-sort-name="reaction_count" data-sort-order="desc">
+{% from "macros/icons.html.j2" import icon %}
+
+<table id="recipes-table" class="table"
+	   data-filter-control="true" data-toggle="table" data-search="true"  data-pagination="true" data-sort-name="reaction_count" data-sort-order="desc">
     <thead>
     	<th data-field="recipe" data-sortable="true"> recept </th>
     	{# <th data-field="ingredients" data-sortable="true"> seznam surovin </th> #}
@@ -12,5 +14,12 @@
   		<th data-field="reaction_count" data-sortable="true"> {{ icon("heart_empty") }} </th>
     </thead>
     
-    {% include "public_recipes/_recipes_table_body.html.j2" %}
+    {# {% include "public_recipes/_recipes_table_body.html.j2" %} #}
+    <tbody>
+
+    {% for recipe in recipes: %}
+        {% include "public_recipes/_recipe_row.html.j2" %}
+    {% endfor %}
+
+    </tbody>
 </table>

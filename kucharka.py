@@ -136,3 +136,30 @@ def log_request(exception=None):
             duration=time.time() - g.log_request_start_time,
         )
         log.save()
+
+
+@application.after_request
+def flash_if_turbo(response):
+    from flask import session, flash
+    from app.helpers.turbo_flash import turbo_flash_partial, remove_flash_from_session
+
+    message = session.get("turbo_flash_message", None)
+    category = session.get("turbo_flash_message_category", "info")
+
+    if message:
+        if _is_turbo_response(response):
+            turbo_flash = turbo_flash_partial(message, category)
+            remove_flash_from_session()
+            response.response.append(turbo_flash)
+
+        else:
+            flash(message, category)
+            remove_flash_from_session()
+
+    return response
+
+
+def _is_turbo_response(response) -> bool:
+    return (
+        response.headers["Content-Type"] == "text/vnd.turbo-stream.html; charset=utf-8"
+    )

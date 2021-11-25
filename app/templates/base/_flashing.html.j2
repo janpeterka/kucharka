@@ -1,14 +1,7 @@
-{% with messages = get_flashed_messages(with_categories=true) %}
-  <div class="flashes container alert alert-light mt-5 animate-fadeout" role="alert" id="flashing">
-    <ul>
-    {% for category, message in messages %}
-      {% if not category or category == "message" %}
-        {% set category = "info" %}  
-      {% endif %}
-
-      <li class='{{ category }}'>{{ message }}</li>
-    
-    {% endfor %}
-    </ul>
-  </div>
-{% endwith %}
+<div id="flashes" class="flashes container alert alert-light mt-5 animate-fadeout" role="alert">
+  <ul id="flashes_list">
+  {% for category, message in messages %}
+    {% include "base/_flash.html.j2" %}    
+  {% endfor %}
+  </ul>
+</div>

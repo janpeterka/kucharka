@@ -1,8 +1,6 @@
 from flask import request, redirect, url_for
 from flask_security import login_required, permissions_required
 
-from app import turbo
-
 from flask_classful import route
 
 from app.models.ingredient_categories import IngredientCategory
@@ -59,16 +57,11 @@ class IngredientCategoriesView(HelperFlaskView, AdminViewMixin):
         return super().post()
 
     def delete(self, id):
-        from flask import flash
         from app.helpers.turbo_flash import turbo_flash
 
         if self.category.is_used:
-            if turbo.can_stream():
-                return turbo_flash("Už je někde použité, nelze smazat!")
-            flash("Už je někde použité, nelze smazat!")
-            return redirect(url_for("IngredientCategoriesView:index"))
+            turbo_flash("Už je někde použité, nelze smazat!", category="error")
+            return redirect(url_for("IngredientCategoriesView:index"), code="303")
 
-        else:
-            self.category.delete()
-
-            return super().delete()
+        self.category.delete()
+        return super().delete()

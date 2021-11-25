@@ -2,7 +2,6 @@ from flask import request, redirect, url_for, flash
 from flask_classful import route
 from flask_security import login_required
 
-
 from app import turbo
 
 from app.models.daily_plans import DailyPlan

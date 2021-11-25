@@ -140,9 +140,18 @@ def log_request(exception=None):
 
 @application.after_request
 def flash_if_turbo(response):
+    from flask import session
     from app.helpers.turbo_flash import turbo_flash_partial
 
+    # print("checking for turbo flash")
+    message = session.get("turbo_flash_message", None)
+
     if response.headers["Content-Type"] == "text/vnd.turbo-stream.html; charset=utf-8":
-        response.response.append(turbo_flash_partial())
+        if message:
+            print("should turbo flash")
+            response.response.append(turbo_flash_partial())
+        else:
+            print("turbo without flash message")
+        print(response.response)
 
     return response

@@ -11,13 +11,16 @@ def turbo_flash(message, category=None):
         flash(message, category)
 
 
+def turbo_flash_partial(message, category):
+    return turbo.replace(
+        template("base/_flashing.html.j2", messages=[(category, message)]),
+        target="flashes",
+    )
+
+
 def save_flash_to_session(message, category):
     session["turbo_flash_message"] = message
     session["turbo_flash_message_category"] = category
-
-
-def is_flash_in_session() -> bool:
-    return "turbo_flash_message" in session
 
 
 def remove_flash_from_session():
@@ -25,8 +28,5 @@ def remove_flash_from_session():
     session.pop("turbo_flash_message_category")
 
 
-def turbo_flash_partial(message, category):
-    return turbo.replace(
-        template("base/_flashing.html.j2", messages=[(category, message)]),
-        target="flashes",
-    )
+def is_flash_in_session() -> bool:
+    return "turbo_flash_message" in session

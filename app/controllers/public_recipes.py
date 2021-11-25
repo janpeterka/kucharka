@@ -35,12 +35,10 @@ class PublicRecipesView(HelperFlaskView):
 
         if turbo.can_stream() and not refresh:
             return turbo.stream(
-                [
-                    turbo.replace(
-                        template("public_recipes/_recipe_row.html.j2", recipe=recipe),
-                        target=f"recipe-{recipe_id}",
-                    )
-                ]
+                turbo.replace(
+                    template("public_recipes/_recipe_row.html.j2", recipe=recipe),
+                    target=f"recipe-{recipe_id}",
+                )
             )
 
         return redirect(request.referrer)

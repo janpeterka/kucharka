@@ -31,7 +31,7 @@ class PublicRecipesView(HelperFlaskView):
         recipe = Recipe.load(recipe_id)
         recipe.toggle_reaction()
 
-        turbo_flash("Reakce byla zaznamenána.", "success"),
+        turbo_flash("Reakce byla zaznamenána.", "success")
 
         if turbo.can_stream() and not refresh:
             return turbo.stream(

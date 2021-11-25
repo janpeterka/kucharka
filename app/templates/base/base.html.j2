@@ -75,9 +75,10 @@
     {% endblock %}
 
     {% block flashing %}
-        {% include('base/_flashing.html.j2') %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% include('base/_flashing.html.j2') %}
+        {% endwith %}
     {% endblock %}
-
 
     {% block dev %}
         {% if config.APP_STATE == "development" %}

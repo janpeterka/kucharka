@@ -36,7 +36,9 @@ class FileHandler(object):
         elif application.config["STORAGE_SYSTEM"] == "AWS":
             return AWSFileHandler(**kwargs)
         else:
-            return LocalFileHandler(**kwargs)
+            raise NotImplementedError(
+                f"Unknown STORAGE_SYSTEM: {application.config['STORAGE_SYSTEM']}"
+            )
 
 
 class LocalFileHandler(object):
@@ -258,7 +260,9 @@ class ImageHandler(object):
         elif application.config["STORAGE_SYSTEM"] == "AWS":
             return AWSImageHandler(**kwargs)
         else:
-            return LocalImageHandler(**kwargs)
+            raise NotImplementedError(
+                f"Unknown STORAGE_SYSTEM: {application.config['STORAGE_SYSTEM']}"
+            )
 
 
 class ImageHandlerMixin(object):

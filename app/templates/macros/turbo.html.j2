@@ -1,7 +1,7 @@
 {% macro button_to(action) %}
 
   {% set class_ = kwargs.pop('class', "") %}
-  {% set form_class_ = kwargs.pop('form_class', "") %}
+  {% set form_class = kwargs.pop('form_class', "") %}
   {% set data = kwargs.pop('data', None) %}
   {% set icon = kwargs.pop('icon', None) %}
   {% set value = kwargs.pop('value', None) %}
@@ -9,10 +9,19 @@
   {% set disabled = kwargs.pop('disabled', False) %}
 
 
-<form method="{{ method | upper }}" action="{{ action }}" class="{{ form_class_ }}" {% if data %} data-turbo-frame="{{ data }}" {% endif %}>
-    <button type="submit" class="{% if icon %} icon {% endif %} {{ class_ }}" {% if disabled %} disabled {% endif %}>
+<form method="{{ method | upper }}"
+      action="{{ action }}"
+      {% if form_class %} class="{{ form_class }}" {% endif %}
+      {% if data %} data-turbo-frame="{{ data }}" {% endif %}>
+
+  <button type="submit"
+          class="{% if icon %} icon {% endif %} {{ class_ }}"
+          {% if disabled %} disabled {% endif %}>
+      
       {% if value %} {{ value | safe }} {% endif %}
-    </button>
+  
+  </button>
+
 </form>
 
 {% endmacro %}

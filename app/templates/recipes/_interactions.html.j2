@@ -70,13 +70,8 @@
         <div class="row">
             
         {% for image in recipe.images %}
-        <div class="col-2 m-2">
-            {{ render_image(image, style="width: 10rem; margin-bottom: 2rem") }}
-            {% if recipe.can_current_user_edit %}
-                <form action="{{ url_for('FilesView:delete', id=image.id) }}" method="post">
-                    <button type="submit" class="btn btn-danger"> Smazat foto {{ icon("delete") }} </button>
-                </form>
-            {% endif %}
+        <div class="col-12 col-sm-6 col-md-4">
+            {{ render_image(image, style="margin-bottom: 2rem") }}
         </div>
         {% endfor %}
         </div>

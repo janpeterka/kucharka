@@ -1,0 +1,15 @@
+.delete-icon {
+	position: absolute;
+	top: 2%;
+	right: 2%;
+	z-index: 100;
+	width: 1.5rem;
+	height: 1.5rem;
+	background-color: red;
+	color: white;
+	border-radius: 50%;
+	opacity: 0.8;
+	text-align: center;
+	display: inline-flex;
+  	align-items: center; 
+}

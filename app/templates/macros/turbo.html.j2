@@ -8,11 +8,15 @@
   {% set method = kwargs.pop('method', "POST") %}
   {% set disabled = kwargs.pop('disabled', False) %}
 
+  {% set confirmation = kwargs.pop('confirmation', None) %}
+
 
 <form method="{{ method | upper }}"
       action="{{ action }}"
       {% if form_class %} class="{{ form_class }}" {% endif %}
-      {% if data %} data-turbo-frame="{{ data }}" {% endif %}>
+      {% if data %} data-turbo-frame="{{ data }}" {% endif %}
+      {% if confirmation %} onsubmit='return confirm("{{ confirmation }}");' {% endif %}
+>
 
   <button type="submit"
           class="{% if icon %} icon {% endif %} {{ class_ }}"

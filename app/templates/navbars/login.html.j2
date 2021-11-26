@@ -17,11 +17,14 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for_security('register') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}">Zaregistrovat se</a>
+            <a class="nav-link" href="{{ url_for_security('register') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}">Zaregistrovat se |</a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('PublicRecipesView:public_index') }}"> Sdílené recepty </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('PublicRecipesView:gallery') }}"> Galerie receptů </a>
           </li>
       </ul>
 

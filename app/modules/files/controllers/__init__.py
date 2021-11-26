@@ -1,9 +1,7 @@
-# from .files import FilesView
+from .files import FilesView
 
-# __all__ = [
-#     "FilesView",
-# ]
+__all__ = ["FilesView"]
 
 
-# def register_all_controllers(application):
-#     FilesView.register(application)
+def register_all_controllers(application):
+    FilesView.register(application)

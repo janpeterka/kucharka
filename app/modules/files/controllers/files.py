@@ -7,8 +7,8 @@ from flask import render_template as template
 
 from flask_classful import FlaskView, route
 
-from app.modules.files.models.files import File
-from app.modules.files.handlers.files import FileHandler
+from ..models.files import File
+from ..handlers.files import FileHandler
 
 files_blueprint = Blueprint("files", __name__, url_prefix="/files")
 

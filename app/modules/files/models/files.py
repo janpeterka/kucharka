@@ -7,8 +7,8 @@ from app import db
 
 from app.helpers.base_mixin import BaseMixin
 
-from app.modules.files.handlers.files import FileHandler
-from app.modules.files.handlers.files import ImageHandler
+from ..handlers.files import FileHandler
+from ..handlers.files import ImageHandler
 
 
 class File(db.Model, BaseMixin):

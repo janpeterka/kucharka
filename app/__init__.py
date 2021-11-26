@@ -80,4 +80,10 @@ def create_app(config_name="default"):
 
     register_error_handlers(application)
 
+    # MODULES
+    # Files module
+    from app.modules.files import create_module as files_create_module  # noqa: F401
+
+    # files_create_module(application)
+
     return application

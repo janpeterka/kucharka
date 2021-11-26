@@ -1,0 +1,13 @@
+{% macro render_image(image) %}
+
+	{% set thumbnail = kwargs.pop('thumbnail', False) %}
+	{% set class = kwargs.pop('class', "") %}
+	{% set style = kwargs.pop('style', "") %}
+
+	{% if thumbnail %}
+		<img style="{{ style }}" class="{{ class }}" src="{{ image.thumbnail_url }}" alt="{{ image.full_name }}"/>		
+	{% else %}
+		<img style="{{ style }}" class="{{ class }}" src="{{ image.url }}" alt="{{ image.full_name }}"/>		
+	{% endif %}
+
+{% endmacro %}

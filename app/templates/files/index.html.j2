@@ -1,0 +1,27 @@
+{% from "macros/render_image.html.j2" import render_image %}
+
+{% extends "base/base.html.j2" %}
+{% block title %} admin | soubory {% endblock %}
+
+{% block content %}
+
+<div class="admin-field">
+    <table>
+        <thead>
+            <th> img </th>
+            <th> author </th>
+        </thead>
+        <tbody>
+            
+        {% for file in files %}
+            <tr>
+                <td>{{ render_image(file, style="height: 7rem; width:auto;", thumbnail=True) }}</td>
+                <td>{{ file.author.name }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+

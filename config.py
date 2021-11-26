@@ -37,6 +37,8 @@ class Config(object):
     MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
     MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
 
+    STORAGE_SYSTEM = os.environ.get("STORAGE_SYSTEM")
+
     SENTRY_MONITORING = True
     INFO_USED_DB = "production db"
 

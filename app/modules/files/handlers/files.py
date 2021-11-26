@@ -60,7 +60,7 @@ class LocalFileHandler(object):
             file {app.models.File}
         """
 
-        from app.models.files import File
+        from ..models.files import File
 
         if isinstance(file, File):
             file.data.name = file.name
@@ -109,7 +109,7 @@ class LocalFileHandler(object):
 
     @property
     def all_files(self):
-        from app.models.files import File
+        from ..models.files import File
 
         file_names = [
             f
@@ -180,7 +180,7 @@ class AWSFileHandler(object):
 
     @property
     def all_files(self):
-        from app.models.files import File
+        from ..models.files import File
 
         aws_files = self._list_files()
         files = []

@@ -20,7 +20,6 @@ user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 
 migrate = Migrate()
 babel = Babel()
-# Turbo.after = after
 turbo = Turbo()
 mail = Mail()
 security = Security()
@@ -84,6 +83,7 @@ def create_app(config_name="default"):
     # Files module
     from app.modules.files import create_module as files_create_module  # noqa: F401
 
-    # files_create_module(application)
+    files_create_module(application)
+    # print(application.url_map)
 
     return application

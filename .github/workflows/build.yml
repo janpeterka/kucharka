@@ -19,5 +19,5 @@ jobs:
         python -m pip install --upgrade pip
         pip install pylint
 
-    - name: pylinter
-      uses: alexanderdamiani/pylinter@v1.3.0
+    # - name: pylinter
+    #   uses: alexanderdamiani/pylinter@v1.3.0

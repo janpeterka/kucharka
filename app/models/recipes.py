@@ -281,3 +281,13 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     def has_any_of_labels(self, labels) -> bool:
         return any(self.has_label(label) for label in labels)
+
+    @property
+    def main_image(self):
+        if not self.images:
+            return None
+
+        if main := [i for i in self.images if i.is_main]:
+            return main[0]
+
+        return self.images[0]

@@ -113,6 +113,8 @@ class ImageFile(File):
 class RecipeImageFile(ImageFile):
     __mapper_args__ = {"polymorphic_identity": "recipe_image"}
 
+    is_main = db.Column(db.Boolean(), default=False)
+
     recipe = db.relationship(
         "Recipe",
         primaryjoin="RecipeImageFile.recipe_id == Recipe.id",

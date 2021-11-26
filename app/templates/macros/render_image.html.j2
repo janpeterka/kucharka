@@ -14,15 +14,11 @@
 		{% set url = image.url %}
 	{% endif %}
 
-	<div style="position: relative;">
+	<div style="position: relative;" >
+    {% if with_delete and image.recipe.can_current_user_edit %}
 		{{ button_to(url_for('FilesView:delete', id=image.id), class="delete-icon", value="&times", confirmation="Opravdu chcete smazat fotku?") }}
+    {% endif %}
 		<img style="{{ style }}" class="{{ class }} img-fluid" src="{{ url }}" alt="{{ image.full_name }}"/>	
 	</div>
-
-    {% if with_delete and image.recipe.can_current_user_edit %}
-        <form action="{{ url_for('FilesView:delete', id=image.id) }}" method="post">
-            <button type="submit" class="btn btn-danger"> Smazat foto {{ icon("delete") }} </button>
-        </form>
-    {% endif %}	
 
 {% endmacro %}

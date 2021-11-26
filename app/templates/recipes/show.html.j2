@@ -2,6 +2,9 @@
 {% block title %} {{ texts.recipe }} {% endblock %}
 
 {% block content %}
+<div class="row mb-2 gradient-transparent d-block cover-photo">
+    {{ render_image(recipe.main_image, class="w-100", style="border-radius: 2%;") }} 
+</div>
 
 <div class="row">  
     <div class="col-md-10 col-sm-12">

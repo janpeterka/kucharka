@@ -85,3 +85,7 @@ class PublicRecipesView(HelperFlaskView):
             return redirect(url_for("PublicRecipesView:index"))
 
         return self.template(template_name="public_index")
+
+    def gallery(self):
+        self.recipes = Recipe.load_all_public_with_image()
+        return self.template()

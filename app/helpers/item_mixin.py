@@ -20,6 +20,14 @@ class ItemMixin(BaseMixin):
         return data
 
     # CONTEXT PROCESSOR UTILITIES
+
+    @property
+    def url(self):
+        from flask import url_for
+
+        self_view_name = f"{type(self).__name__}sView:show"
+        return url_for(self_view_name, id=self.id)
+
     @property
     def link_to(self):
         from flask import url_for, Markup, escape

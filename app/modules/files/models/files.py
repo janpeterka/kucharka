@@ -120,3 +120,7 @@ class RecipeImageFile(ImageFile):
         primaryjoin="RecipeImageFile.recipe_id == Recipe.id",
         backref="images",
     )
+
+    @property
+    def is_public(self) -> bool:
+        return self.recipe.is_public

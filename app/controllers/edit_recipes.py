@@ -204,3 +204,19 @@ class EditRecipeView(HelperFlaskView):
                 target="add_ingredient_form",
             )
         ]
+
+    @route("/upload_photo/<id>", methods=["POST"])
+    def upload_photo(self, id):
+        from werkzeug.datastructures import CombinedMultiDict
+
+        from app.modules.files.controllers.forms.files import PhotoForm
+        from app.modules.files.models.files import RecipeImageFile
+
+        form = PhotoForm(CombinedMultiDict((request.files, request.form)))
+
+        if form.file.data:
+            file = RecipeImageFile(recipe_id=id)
+            file.data = form.file.data
+            file.save()
+
+        return redirect(url_for("RecipesView:show", id=id))

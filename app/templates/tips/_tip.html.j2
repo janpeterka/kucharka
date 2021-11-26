@@ -2,7 +2,7 @@
 
 <turbo-frame id="tip-{{ tip.id }}">
   <li class="row">
-      <div> {{ tip.description }} (přidal*a {{ tip.author.full_name }} v {{ human_format_date(tip.created_at, with_weekday=False) }}) </div>
+      <div> {{ tip.description }} (přidal*a {{ tip.author.full_name }} {{ human_format_date(tip.created_at, with_weekday=False) }}) </div>
     {% if not edit_id %}
       {% if not tip.is_approved %}
         {{ button_to(url_for('TipsView:approve', id=tip.id), class="approve", data="all") }}

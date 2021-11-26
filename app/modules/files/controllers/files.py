@@ -20,14 +20,10 @@ files_blueprint = Blueprint(
 
 class FilesView(HelperFlaskView):
     def show(self, hash_value):
-        file = File.load_first_by_attribute("hash", hash_value)
+        file = File.load_by_attribute("hash", hash_value)
         thumbnail = request.args.get("thumbnail", False) == "True"
 
-        # if not file:
-        #     abort(404)
-        # if not file.can_current_user_view:
-        #     abort(403)
-        self.validate_operation(file, hash_value)
+        self.validate_operation(hash_value, file)
 
         return FileHandler().show(file, thumbnail=thumbnail)
 
@@ -52,7 +48,7 @@ class FilesView(HelperFlaskView):
 
     def download(self, id):
         file = File.load(id)
-        self.validate_operation(file, id)
+        self.validate_operation(id, file)
 
         return FileHandler().download(file)
 

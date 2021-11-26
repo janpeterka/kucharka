@@ -205,8 +205,8 @@ class EditRecipeView(HelperFlaskView):
             )
         ]
 
-    @route("/upload_photo/<id>", methods=["POST"])
-    def upload_photo(self, id):
+    @route("/upload_photo/<recipe_id>", methods=["POST"])
+    def upload_photo(self, recipe_id):
         from werkzeug.datastructures import CombinedMultiDict
 
         from app.modules.files.controllers.forms.files import PhotoForm
@@ -215,8 +215,8 @@ class EditRecipeView(HelperFlaskView):
         form = PhotoForm(CombinedMultiDict((request.files, request.form)))
 
         if form.file.data:
-            file = RecipeImageFile(recipe_id=id)
+            file = RecipeImageFile(recipe_id=recipe_id)
             file.data = form.file.data
             file.save()
 
-        return redirect(url_for("RecipesView:show", id=id))
+        return redirect(url_for("RecipesView:show", id=recipe_id))

@@ -63,3 +63,29 @@
     
     </div>
 </details>
+
+<details class="colored" open>
+    <summary> Fotky </summary>
+    <div class="p-2">
+        <div class="row">
+            
+        {% for image in recipe.images %}
+        <div class="col-2 m-2">
+            {{ render_image(image, style="width: 10rem; margin-bottom: 2rem") }}
+            {% if recipe.can_current_user_edit %}
+                <form action="{{ url_for('FilesView:delete', id=image.id) }}" method="post">
+                    <button type="submit" class="btn btn-danger"> Smazat foto {{ icon("delete") }} </button>
+                </form>
+            {% endif %}
+        </div>
+        {% endfor %}
+        </div>
+        
+    {% if recipe.can_current_user_edit %}
+        <form {{ admin_field_class(obj=recipe) }} action="{{ url_for('EditRecipeView:upload_photo', recipe_id=recipe.id) }}" method="post" accept-charset="utf-8" enctype=multipart/form-data>
+            {{ photo_form.file }}
+            {{ photo_form.submit(class="btn btn-secondary") }}
+        </form>         
+    {% endif %}
+    </div>
+</details>

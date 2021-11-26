@@ -71,7 +71,7 @@
             
         {% for image in recipe.images %}
         <div class="col-12 col-sm-6 col-md-4">
-            {{ render_image(image, with_delete=True) }}
+            {{ render_image(image, with_delete=True, with_pin=True) }}
         </div>
         {% endfor %}
         </div>

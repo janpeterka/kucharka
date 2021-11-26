@@ -220,3 +220,18 @@ class EditRecipeView(HelperFlaskView):
             file.save()
 
         return redirect(url_for("RecipesView:show", id=recipe_id))
+
+    @route("/set-main-image/<recipe_id>/<image_id>", methods=["POST"])
+    def set_main_image(self, recipe_id, image_id):
+        from app.modules.files.models.files import RecipeImageFile
+
+        new_image = RecipeImageFile.load(image_id)
+        for image in self.recipe.images:
+            if image.is_main:
+                image.is_main = False
+                image.edit()
+
+        new_image.is_main = True
+        new_image.edit()
+
+        return redirect(url_for("RecipesView:show", id=recipe_id))

@@ -1,17 +1,33 @@
-.delete-icon {
+.image-icon {
 	position: absolute;
-	top: 2%;
-	right: 2%;
 	z-index: 100;
 	width: 1.5rem;
 	height: 1.5rem;
-	background-color: red;
-	color: white;
 	border-radius: 50%;
 	opacity: 0.8;
+
+}
+
+.delete-icon {
+	top: 2%;
+	right: 2%;
+	background-color: red;
+	color: white;
 	text-align: center;
 	display: inline-flex;
   	align-items: center; 
+}
+
+.pin-icon {
+	top: 2%;
+	left: 2%;
+	background-color: transparent;
+	border: none;
+	opacity: 1;
+	color: blue;
+	text-align: center;
+	display: inline-flex;
+  	align-items: center; 	
 }
 
 
@@ -40,6 +56,6 @@
 
 @media only screen and (min-width: 765px) {
   .cover-photo {
-    height: 20rem;
+    height: 15rem;
   }
 }

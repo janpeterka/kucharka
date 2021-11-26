@@ -291,10 +291,7 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     @property
     def has_image(self) -> bool:
-        if self.images:
-            return True
-        else:
-            return False
+        return bool(self.images)
 
     @property
     def main_image(self):

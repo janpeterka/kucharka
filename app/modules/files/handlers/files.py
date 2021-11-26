@@ -174,10 +174,7 @@ class AWSFileHandler(object):
         raise NotImplementedError
 
     def url(self, file, thumbnail=False):
-        if thumbnail is True:
-            file_path = f"thumbnails/{file.path}"
-        else:
-            file_path = file.path
+        file_path = f"thumbnails/{file.path}" if thumbnail is True else file.path
         return self._create_presigned_url(file_path)
 
     @property
@@ -206,11 +203,9 @@ class AWSFileHandler(object):
         """
         Function to upload a file to an S3 bucket
         """
-        response = self.client.upload_file(
+        return self.client.upload_file(
             file_path, application.config["BUCKET"], file_name
         )
-
-        return response
 
     def _list_files(self):
         """

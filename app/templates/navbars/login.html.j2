@@ -13,19 +13,21 @@
         </li>
 
           <li class="nav-item">
-            <a class="nav-link font-weight-bold " href="{{ url_for_security('login') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}">Přihlásit se</a>
+            <a class="nav-link font-weight-bold " href="{{ url_for_security('login') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}"> Přihlásit se </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for_security('register') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}">Zaregistrovat se |</a>
+            <a class="nav-link" href="{{ url_for_security('register') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}"> Zaregistrovat se |</a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('PublicRecipesView:public_index') }}"> {{ icon("recipe_database")}} Sdílené recepty </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('PublicRecipesView:gallery') }}"> {{icon("image")}} Galerie receptů </a>
-          </li>
+          {% if config.FF_GALLERY %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('PublicRecipesView:gallery') }}"> {{icon("image")}} Galerie receptů </a>
+            </li>
+          {% endif %}
       </ul>
 
       {# <div class="navbar-divider"></div> #}

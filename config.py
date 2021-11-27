@@ -42,6 +42,8 @@ class Config(object):
     SENTRY_MONITORING = True
     INFO_USED_DB = "production db"
 
+    FF_GALLERY = os.getenv("FF_GALLERY", False)
+
 
 class LocalProdConfig(Config):
     INFO_USED_DB = "production db"

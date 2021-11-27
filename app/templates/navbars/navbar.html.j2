@@ -40,6 +40,7 @@
         <a class="nav-link" href="{{ url_for('EventsView:index') }}">{{ icon("daily") }} Akce </a>
 
         <a class="nav-link" href="{{ url_for('PublicRecipesView:index') }}"> {{ icon("recipe_database")}} Databáze receptů </a>
+        <a class="nav-link" href="{{ url_for('PublicRecipesView:gallery') }}"> {{ icon("image")}} Galerie receptů </a>
 
         {% if current_user.has_permission("manage-application") %}
           {% include 'navbars/_navbar_admin.html.j2' %}

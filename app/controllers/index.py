@@ -46,3 +46,14 @@ class IndexView(FlaskView):
             abort(404)
 
         return generate_ical_response(user.events)
+
+    @route("ical_direct/<calendar_hash>")
+    def ical_direct(self, calendar_hash):
+        from app.modules.calendar import generate_ical
+        from app.models.users import User
+        from flask import abort
+
+        if not (user := User.load_by_calendar_hash(calendar_hash)):
+            abort(404)
+
+        return generate_ical(user.events)

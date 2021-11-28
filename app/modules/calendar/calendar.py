@@ -17,3 +17,5 @@ def generate_ical_response(events):
     ical = generate_ical(events)
     response = make_response(ical)
     response.headers["Content-Disposition"] = "attachment; filename=calendar.ics"
+
+    return response

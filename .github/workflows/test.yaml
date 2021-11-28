@@ -29,6 +29,7 @@ jobs:
           SQLALCHEMY_DATABASE_URI: "sqlite://"
           
           SENTRY_MONITORING: False
+          STORAGE_SYSTEM: "LOCAL"
 
       run: |
         pipenv run pytest

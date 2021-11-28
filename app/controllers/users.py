@@ -1,5 +1,6 @@
 from flask import request, url_for, redirect, flash
 
+from flask_classful import route
 from flask_security import login_required, current_user
 
 from app.helpers.form import create_form, save_form_to_session
@@ -62,3 +63,9 @@ class UsersView(HelperFlaskView):
     #         session["logged_from_admin"] = current_user.id
     #     login_user(User.load(user_id))
     #     return redirect(url_for("IndexView:index"))
+
+    @route("create-cal", methods=["POST"])
+    def create_calendar(self):
+        current_user.set_calendar_hash()
+
+        return redirect(url_for("UsersView:show"))

@@ -5,18 +5,18 @@
 
 {% block content %}
 
-<div class="admin-field">
+<div>
     <table>
         <thead>
-            <th> img </th>
-            <th> author </th>
+            <th> </th>
+            <th> autor </th>
         </thead>
         <tbody>
             
         {% for file in files %}
             <tr>
-                <td>{{ render_image(file, style="height: 7rem; width:auto;", thumbnail=True) }}</td>
-                <td>{{ file.author.name }}</td>
+                <td> {{ render_image(file, style="height: 7rem; width:auto; margin-bottom: 0.3rem;", thumbnail=True) }}</td>
+                <td> {{ file.author.name }} </td>
             </tr>
         {% endfor %}
         </tbody>

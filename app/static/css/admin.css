@@ -6,6 +6,13 @@
   box-shadow: 0.2rem 0.2rem 0.4rem black;
 }
 
+.testing-field {
+   background-color: pink;
+  padding: 0.5rem;
+  border-radius: 0.3rem;
+  box-shadow: 0.2rem 0.2rem 0.4rem black; 
+}
+
 .admin-badge {
   padding: 1rem;
   border-radius: 0.5rem;

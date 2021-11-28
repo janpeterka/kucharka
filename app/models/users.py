@@ -4,8 +4,10 @@ from app import db, BaseModel
 
 from app.helpers.base_mixin import BaseMixin
 
+from app.modules.calendar.models.calendar_user_mixin import CalendarUserMixin
 
-class User(BaseModel, BaseMixin, UserMixin):
+
+class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin):
     from app.models.users_have_roles import users_have_roles
 
     __tablename__ = "users"

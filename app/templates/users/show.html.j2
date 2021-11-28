@@ -22,12 +22,31 @@
      </table>
 </div>
 
+
+{% if current_user.has_permission('see-debug')%}
+<hr>
+<div class="testing-field">
+    
+{% if user.calendar_hash %}
+    
+    {{ user.calendar_hash }}
+    <a href="{{ url_for('IndexView:ical', calendar_hash=user.calendar_hash) }}">URL</a>
+    
+    {{ button_to(url_for('UsersView:create_calendar'), class="btn btn-secondary", value="Přegenerovat kalendář") }}
+{% else %}
+    {{ button_to(url_for('UsersView:create_calendar'), class="btn btn-secondary", value="Vygenerovat kalendář") }}
+{% endif %}
+</div>
+<hr>
+{% endif %}
+
+
 {% if current_user.has_permission("manage-users") %}
     <div class="admin-field mb-2">
         <h3> Role </h3>
         <ul>
         {% for role in user.roles %}
-            <li> {{ role.name }} </li>
+            <li> {{ role.name }} ({{ role.permissions }}) </li>
         {% endfor %}
         </ul>
     </div>

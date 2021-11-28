@@ -35,3 +35,14 @@ class IndexView(FlaskView):
     @route("uptime")
     def uptime(self):
         return "OK"
+
+    @route("ical/<calendar_hash>")
+    def ical(self, calendar_hash):
+        from app.modules.calendar import generate_ical_response
+        from app.models.users import User
+        from flask import abort
+
+        if not (user := User.load_by_calendar_hash(calendar_hash)):
+            abort(404)
+
+        return generate_ical_response(user.events)

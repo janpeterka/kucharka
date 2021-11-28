@@ -1,29 +1,30 @@
 <li class="nav-item dropdown">
 	<a class="nav-link dropdown-toggle color-admin" href="#" id="navbarDropdown" role="button"
 	 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	Admin
+	admin
 		{# <turbo-frame id="admin-notification-count" src="{{ url_for('AdminView:admin_notification_count') }}"></turbo-frame> #}
 	</a>
 	
 	<div class="dropdown-menu bg-color-admin" aria-labelledby="navbarDropdown">
 		<a class="dropdown-item" href="{{ url_for('AdminView:public_ingredients_index') }}">
-			Veřejné suroviny </a>
+			veřejné suroviny </a>
         <a class="dropdown-item" href="{{ url_for('AdminView:measurements_index') }}">
-        	Míry </a>
+        	míry </a>
 		<a class="dropdown-item" href="{{ url_for('AdminView:conversion_index') }}">
-			Konverze </a>
+			konverze </a>
 		<a class="dropdown-item" href="{{ url_for('AdminView:ingredient_categories_index') }}">
-			Kategorie surovin </a>
+			kategorie surovin </a>
 		<a class="dropdown-item" href="{{ url_for('AdminView:recipe_categories_index') }}">
-			Kategorie receptů </a>
+			kategorie receptů </a>
+		<a class="dropdown-item" href="{{ url_for('AdminView:files') }}"> soubory </a>
 		
 		{% if current_user.has_permission("manage-users") %}
 			<a class="dropdown-item" href="{{ url_for('UsersView:index') }}">
-			Uživatelé </a>
+			uživatelé </a>
 		{% endif %}
 
 		<a class="dropdown-item" href="{{ url_for('AdminView:tips_index') }}">
-			Tipy
+			tipy
 			{# <turbo-frame id="admin-notification-count" src="{{ url_for('AdminView:unapproved_tips_count') }}"></turbo-frame> #}
 		</a>
 

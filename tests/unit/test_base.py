@@ -42,6 +42,7 @@ def test_requests_logged_in(app, db, client):
         {"path": "/login", "code": 302, "redirect_path": "/dashboard/"},
         {"path": "/", "code": 302, "redirect_path": "/dashboard/"},
         {"path": "/measurements/", "code": 404},
+        {"path": "/files/", "code": 404},
     ]
 
     for page in pages:
@@ -53,6 +54,7 @@ def test_requests_admin_logged_in(app, db, client):
 
     pages = [
         {"path": "/measurements/", "code": 200},
+        {"path": "/files/", "code": 200},
     ]
 
     for page in pages:

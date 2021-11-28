@@ -32,6 +32,9 @@ class AdminView(HelperFlaskView):
     def tips_index(self):
         return redirect(url_for("TipsView:index"))
 
+    def files(self):
+        return redirect(url_for("FilesView:index"))
+
     def unapproved_tips_count(self):
         self.unapproved_tips = Tip.unapproved_tips()
         self.notification_count = len(self.unapproved_tips)

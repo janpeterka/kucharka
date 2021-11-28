@@ -64,6 +64,10 @@ class RecipesView(HelperFlaskView):
 
     # @login_required
     def show(self, id):
+        from app.modules.files.controllers.forms.files import PhotoForm
+
+        self.photo_form = PhotoForm()
+
         if not current_user.is_authenticated:
             return self.template("show", public=True)
 

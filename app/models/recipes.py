@@ -90,6 +90,13 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         return recipes
 
     @staticmethod
+    def load_all_public_with_image() -> list:
+        recipes = Recipe.load_all_public()
+        recipes = [r for r in recipes if r.has_image]
+
+        return recipes
+
+    @staticmethod
     def load(recipe_id):
         recipe = Recipe.query.filter_by(id=recipe_id).first()
         if recipe is None:
@@ -281,3 +288,17 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     def has_any_of_labels(self, labels) -> bool:
         return any(self.has_label(label) for label in labels)
+
+    @property
+    def has_image(self) -> bool:
+        return bool(self.images)
+
+    @property
+    def main_image(self):
+        if not self.images:
+            return None
+
+        if main := [i for i in self.images if i.is_main]:
+            return main[0]
+
+        return self.images[0]

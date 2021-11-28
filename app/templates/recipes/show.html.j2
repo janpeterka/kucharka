@@ -3,14 +3,20 @@
 
 {% block content %}
 
-<div class="row">  
+{% if recipe.main_image %}
+<div class="row mb-2 gradient-transparent d-block cover-photo">
+    {{ render_image(recipe.main_image, class="w-100", style="border-radius: 2%;") }} 
+</div>
+{% endif %}
+
+<div class="row">
     <div class="col-md-10 col-sm-12">
         {% include("recipes/_show.html.j2") %} 
     </div>
 
     {% if not print %}
     <div class="col-md-2 col-sm-12 border-start">
-        {% include("recipes/_sidebar_details.html.j2") %} 
+        {% include("recipes/_sidebar_details.html.j2") %}
     </div>
     {% endif %}
 </div>

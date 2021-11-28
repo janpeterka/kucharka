@@ -1,0 +1,29 @@
+{% from "macros/icons.html.j2" import icon %}
+{% from "macros/turbo.html.j2" import button_to %}
+
+{% macro render_image(image) %}
+	{% set thumbnail = kwargs.pop('thumbnail', False) %}
+	{% set class = kwargs.pop('class', "") %}
+	{% set style = kwargs.pop('style', "") %}
+	{% set with_delete = kwargs.pop('with_delete', False) %}
+	{% set with_pin = kwargs.pop('with_pin', False) %}
+
+	{% if thumbnail %}
+		{% set url = image.thumbnail_url %}
+	{% else %}
+		{% set url = image.url %}
+	{% endif %}
+
+	<div style="position: relative;" >
+    {% if with_delete and image.recipe.can_current_user_edit %}
+		{{ button_to(url_for('FilesView:delete', id=image.id), class="image-icon delete-icon", value="&times", confirmation="Opravdu chcete smazat fotku?") }}
+    {% endif %}
+    
+    {% if with_pin and not image.is_main and image.recipe.can_current_user_edit %}
+		{{ button_to(url_for('EditRecipeView:set_main_image', recipe_id=image.recipe.id, image_id=image.id), class="image-icon pin-icon", value="<abbr style='cursor: pointer' title='Nastavit jako hlavní'>📌</abbr>") }}
+    {% endif %}
+
+		<img style="{{ style }}" class="{{ class }} img-fluid" src="{{ url }}" alt="{{ image.full_name }}"/>	
+	</div>
+
+{% endmacro %}

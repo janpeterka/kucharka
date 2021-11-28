@@ -204,3 +204,34 @@ class EditRecipeView(HelperFlaskView):
                 target="add_ingredient_form",
             )
         ]
+
+    @route("/upload_photo/<recipe_id>", methods=["POST"])
+    def upload_photo(self, recipe_id):
+        from werkzeug.datastructures import CombinedMultiDict
+
+        from app.modules.files.controllers.forms.files import PhotoForm
+        from app.modules.files.models.files import RecipeImageFile
+
+        form = PhotoForm(CombinedMultiDict((request.files, request.form)))
+
+        if form.file.data:
+            file = RecipeImageFile(recipe_id=recipe_id)
+            file.data = form.file.data
+            file.save()
+
+        return redirect(url_for("RecipesView:show", id=recipe_id))
+
+    @route("/set-main-image/<recipe_id>/<image_id>", methods=["POST"])
+    def set_main_image(self, recipe_id, image_id):
+        from app.modules.files.models.files import RecipeImageFile
+
+        new_image = RecipeImageFile.load(image_id)
+        for image in self.recipe.images:
+            if image.is_main:
+                image.is_main = False
+                image.edit()
+
+        new_image.is_main = True
+        new_image.edit()
+
+        return redirect(url_for("RecipesView:show", id=recipe_id))

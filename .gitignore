@@ -1,5 +1,6 @@
 # Custom
 scripts/
+app/files/
 
 # Sublime
 *.sublime-*

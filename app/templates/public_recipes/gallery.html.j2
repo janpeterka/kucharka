@@ -1,0 +1,21 @@
+{% extends "base/base.html.j2" %}
+{% block title %} Galerie receptů {% endblock %}
+
+{% block content %}
+
+<div class="row">
+	
+{% for recipe in recipes %}
+	<div class="col-12 col-sm-6 col-md-4 ">
+		<a href="{{ recipe.url }}">
+			{{ render_image(recipe.main_image) }}
+		</a>
+	
+		<div style="text-align: center">{{ recipe.name }}</div>
+	</div>
+{% endfor %}
+
+</div>
+
+{% endblock %}
+

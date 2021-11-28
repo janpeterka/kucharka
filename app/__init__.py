@@ -9,8 +9,21 @@ from flask_mail import Mail
 
 # from app.helpers.turbo import after
 from flask_sqlalchemy.model import DefaultMeta  # noqa: E402
+from sqlalchemy import MetaData
 
-db = SQLAlchemy(session_options={"autoflush": False})
+convention = {
+    "ix": "ix_%(column_0_label)s",
+    "uq": "uq_%(table_name)s_%(column_0_name)s",
+    "ck": "ck_%(table_name)s_%(constraint_name)s",
+    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+    "pk": "pk_%(table_name)s",
+}
+
+db = SQLAlchemy(
+    session_options={"autoflush": False},
+    metadata=MetaData(naming_convention=convention),
+)
+
 BaseModel: DefaultMeta = db.Model
 
 from app.models.users import User  # noqa: E402
@@ -86,6 +99,8 @@ def create_app(config_name="default"):
     files_create_module(application)
     # print(application.url_map)
 
-    from app.modules.calendar import create_module
+    from app.modules.calendar import create_module as cal_create_module
+
+    cal_create_module(application)
 
     return application

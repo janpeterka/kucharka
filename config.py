@@ -58,6 +58,7 @@ class DevConfig(LocalProdConfig):
     INFO_USED_DB = "local db"
     FLASK_DEBUG = True
     # SQLALCHEMY_ECHO = True
+    # EXPLAIN_TEMPLATE_LOADING = True
 
 
 class TestConfig(Config):

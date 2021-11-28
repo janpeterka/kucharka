@@ -45,5 +45,4 @@ class IndexView(FlaskView):
         if not (user := User.load_by_calendar_hash(calendar_hash)):
             abort(404)
 
-        ical = generate_ical(user.events)
-        return ical
+        return generate_ical(user.events)

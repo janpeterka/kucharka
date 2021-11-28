@@ -5,7 +5,7 @@ import datetime
 from app import create_app
 from app import db as _db
 
-from tests.data_helpers import create_user
+# from tests.data_helpers import create_user
 
 
 @pytest.fixture
@@ -101,11 +101,37 @@ def db(app):
 
 
 def db_fill():
-    users = [create_user(username="user")]
-    users.append(
-        create_user(username="application_manager", roles=["application_manager"])
-    )
-    users.append(create_user(username="admin", roles=["admin"]))
+    # from flask_security import create_user, create_role
+    from app import security
+
+    roles = [
+        security.datastore.create_role(
+            name="admin",
+            permissions="manage-application,manage-users,login-as,see-debug,see-other,edit-other",
+        ),
+        security.datastore.create_role(
+            name="application_manager",
+            permissions="manage-application,see-other,edit-other",
+        ),
+    ]
+
+    for role in roles:
+        role.save()
+
+    users = [
+        security.datastore.create_user(
+            username="user", email="user@sk.cz", password="pass123"
+        ),
+        security.datastore.create_user(
+            username="application_manager",
+            email="appmanager@sk.cz",
+            roles=["application_manager"],
+            password="pass123",
+        ),
+        security.datastore.create_user(
+            username="admin", email="admin@sk.cz", roles=["admin"], password="pass123"
+        ),
+    ]
 
     for user in users:
         user.save()

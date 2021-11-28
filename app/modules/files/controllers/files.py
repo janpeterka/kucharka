@@ -6,6 +6,7 @@ from flask import request, redirect
 from flask import render_template as template
 
 from flask_classful import route
+from flask_security import permissions_required
 
 from app.helpers.helper_flask_view import HelperFlaskView
 from app.helpers.turbo_flash import turbo_flash as flash
@@ -52,5 +53,6 @@ class FilesView(HelperFlaskView):
 
         return FileHandler().download(file)
 
+    @permissions_required("manage-application")
     def index(self):
         return template("files/index.html.j2", files=FileHandler().all_files)

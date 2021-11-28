@@ -86,4 +86,6 @@ def create_app(config_name="default"):
     files_create_module(application)
     # print(application.url_map)
 
+    from app.modules.calendar import create_module
+
     return application

@@ -7,7 +7,6 @@ from turbo_flask import Turbo
 from flask_security import Security, SQLAlchemyUserDatastore
 from flask_mail import Mail
 
-# from app.helpers.turbo import after
 from flask_sqlalchemy.model import DefaultMeta  # noqa: E402
 from sqlalchemy import MetaData
 

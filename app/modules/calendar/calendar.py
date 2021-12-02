@@ -2,13 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-from flask import Blueprint, make_response
+from flask import make_response
 from icalendar import Calendar, Event
-
-
-calendar_blueprint = Blueprint(
-    "calendar", __name__, url_prefix="/calendar", template_folder="templates"
-)
 
 
 def generate_ical_response(events):

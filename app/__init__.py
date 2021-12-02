@@ -98,8 +98,4 @@ def create_app(config_name="default"):
     files_create_module(application)
     # print(application.url_map)
 
-    from app.modules.calendar import create_module as cal_create_module
-
-    cal_create_module(application)
-
     return application

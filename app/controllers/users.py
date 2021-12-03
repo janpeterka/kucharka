@@ -1,7 +1,9 @@
-from flask import request, url_for, redirect, flash
+from flask import request, url_for, redirect, flash, abort
 
 from flask_classful import route
 from flask_security import login_required, current_user
+
+from app.modules.calendar import generate_ical, generate_ical_response
 
 from app.helpers.form import create_form, save_form_to_session
 from app.helpers.helper_flask_view import HelperFlaskView
@@ -69,3 +71,17 @@ class UsersView(HelperFlaskView):
         current_user.set_calendar_hash()
 
         return redirect(url_for("UsersView:show"))
+
+    @route("ical/<calendar_hash>")
+    def ical(self, calendar_hash):
+        if not (user := User.load_by_calendar_hash(calendar_hash)):
+            abort(404)
+
+        return generate_ical(user.events)
+
+    @route("ical/download/<calendar_hash>")
+    def ical_download(self, calendar_hash):
+        if not (user := User.load_by_calendar_hash(calendar_hash)):
+            abort(404)
+
+        return generate_ical_response(user.events)

@@ -154,3 +154,17 @@ class Event(BaseModel, ItemMixin):
     @property
     def empty_recipes(self):
         return [r for r in self.recipes if r.is_draft]
+
+    @property
+    def starts_at(self):
+        return self.date_from
+
+    @property
+    def ends_at(self):
+        return self.date_to
+
+    @property
+    def url(self):
+        from flask import url_for
+
+        return f"https://skautskakucharka.cz{url_for('EventsView:show', id=self.id)}?from_calendar=True"

@@ -34,6 +34,6 @@ def _event_to_ical(event):
     ical_event.add("dtstart", event.starts_at)
     ical_event.add("dtend", event.ends_at)
     ical_event.add("dtstamp", datetime.now())
-    ical_event.add("description", event.url)
+    # ical_event.add("url", event.url)
 
     return ical_event

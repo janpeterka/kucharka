@@ -167,4 +167,4 @@ class Event(BaseModel, ItemMixin):
     def url(self):
         from flask import url_for
 
-        return f"https://skautskakucharka.cz{url_for('EventsView:show', id=self.id)}?from_calendar=True"
+        return f"https://skautskakucharka.cz{url_for('EventsView:show', id=self.id)}"

@@ -1,10 +1,10 @@
 .turbo-flash {
     animation:fadeout 0.5s 1;
-    -webkit-animation:fadeout 0.5s 1;
+    animation-delay:1.5s;
     animation-fill-mode: forwards;
 
-    animation-delay:2s;
-    -webkit-animation-delay:1s; /* Safari and Chrome */
+    -webkit-animation:fadeout 0.5s 1;
+    -webkit-animation-delay:1.5s; /* Safari and Chrome */
     -webkit-animation-fill-mode: forwards;
 } 
 
@@ -14,6 +14,6 @@
 }
 
 @-webkit-keyframes fadeout {
-    from {opacity :1;}
+    from {opacity :0.9;}
     to {opacity :0;}
 }

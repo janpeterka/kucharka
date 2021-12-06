@@ -2,9 +2,10 @@
 {% from "macros/turbo.html.j2" import button_to %}
 
 {% macro render_image(image) %}
-	{% set thumbnail = kwargs.pop('thumbnail', False) %}
+
 	{% set class = kwargs.pop('class', "") %}
 	{% set style = kwargs.pop('style', "") %}
+	{% set thumbnail = kwargs.pop('thumbnail', False) %}
 	{% set with_delete = kwargs.pop('with_delete', False) %}
 	{% set with_pin = kwargs.pop('with_pin', False) %}
 

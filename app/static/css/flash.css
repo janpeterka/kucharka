@@ -1,8 +1,15 @@
 /*Flashes*/
 
 div.flashes {
-    position: relative;
-    height: 0px;
+    position: absolute;
+    width: 100%;
+    margin-left: 15%;
+    margin-right: auto;
+    top: 0.7rem;
+    height: 3rem;
+    z-index: 10000;
+    background-color: rgba(255, 255, 255, 0.6);
+    pointer-events: none;
 }
 
 div.flashes ul li{

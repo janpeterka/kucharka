@@ -6,11 +6,10 @@
     animation-delay:2s;
     -webkit-animation-delay:1s; /* Safari and Chrome */
     -webkit-animation-fill-mode: forwards;
-
 } 
 
 @keyframes fadeout {
-    from {opacity :1;}
+    from {opacity :0.9;}
     to {opacity :0;}
 }
 

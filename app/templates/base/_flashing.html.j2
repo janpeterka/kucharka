@@ -1,7 +1,11 @@
-<div id="flashes" class="flashes container alert alert-light mt-5 animate-fadeout" role="alert">
+{% if messages %}
+  
+<div id="flashes" class="flashes container alert alert-light animate-fadeout" role="alert">
   <ul id="flashes_list">
   {% for category, message in messages %}
     {% include "base/_flash.html.j2" %}    
   {% endfor %}
   </ul>
 </div>
+
+{% endif %}

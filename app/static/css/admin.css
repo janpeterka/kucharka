@@ -23,7 +23,7 @@
   text-align: center;
   position: fixed;
   bottom: 2rem;
-  left: 1rem;
+  right: 1rem;
   z-index: 1;
 }
 

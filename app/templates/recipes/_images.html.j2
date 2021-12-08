@@ -1,0 +1,23 @@
+<details class="colored" open>
+    <summary> Fotky </summary>
+    <div class="p-2">
+        <div class="row">
+            
+        {% for image in recipe.images %}
+        <div class="col-12 col-sm-6 col-md-4">
+            {{ render_image(image, with_delete=True, with_pin=True) }}
+        </div>
+        {% endfor %}
+        </div>
+        
+    {% if recipe.can_current_user_edit %}
+            
+        <form {{ admin_field_class(obj=recipe) }} action="{{ url_for('EditRecipeView:upload_photo', recipe_id=recipe.id) }}" method="post" accept-charset="utf-8" enctype=multipart/form-data>
+            <div class="mt-3 form-group">
+            {{ render_field(photo_form.file, has_label=False) }}
+            {{ render_field(photo_form.submit) }}
+            </div>
+        </form>         
+    {% endif %}
+    </div>
+</details>

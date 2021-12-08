@@ -30,11 +30,13 @@
 {% if user.calendar_hash %}
     
     {{ user.calendar_hash }}
-    <a href="{{ url_for('UsersView:ical', calendar_hash=user.calendar_hash) }}"> URL </a>
+    <a href="{{ url_for('UserCalendarsView:ical', calendar_hash=user.calendar_hash) }}"> URL </a>
     
-    {{ button_to(url_for('UsersView:create_calendar'), class="btn btn-secondary", value="Přegenerovat kalendář") }}
+    {{ button_to(url_for('UserCalendarsView:create_calendar'),
+       class="btn btn-secondary", value="Přegenerovat adresu") }}
 {% else %}
-    {{ button_to(url_for('UsersView:create_calendar'), class="btn btn-secondary", value="Vygenerovat kalendář") }}
+    {{ button_to(url_for('UserCalendarsView:create_calendar'),
+       class="btn btn-secondary", value="Vygenerovat URL kalendáře") }}
 {% endif %}
 </div>
 <hr>

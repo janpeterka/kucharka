@@ -1,58 +1,70 @@
 {% extends "base/base.html.j2" %}
-{% block title %} Tipy - admin {% endblock %}
-
-{% block links %}
-    {{ super() }}
-    {{ turbo() }}
-{% endblock %}
+{% block title %} Kuchařské tipy a triky {% endblock %}
 
 {% block content %}
 
-<div class="text-center">
-  <h1 class="text-uppercase font-comfortaa">Tipy - ke schválení</h1>
+<div class="font-montserrat ">
+	<h1 class="text-uppercase text-center color-dark-green font-comfortaa-bb mb-3"> Tipy a triky </h1>
+    {# <hr> #}
+    
+    <h2 class="text-uppercase color-dark-green font-comfortaa-bb"> Množství surovin </h2>
+    
+    <table class="table">
+        <thead>
+            <th> Co </th>
+            <th> Kolik </th>
+        </thead>
+        <tbody>
+            <tr>
+                <td> Těstoviny (suché) </td>
+                <td> ~ 100g jako hlavní, ~70g jako příloha </td>
+            </tr>
+            <tr>
+                <td> Rýže (suchá) </td>
+                <td> ~ 100g jako hlavní, ~70g jako příloha </td>
+            </tr>
+            <tr>
+                <td> Brambory </td>
+                <td> ~ 250-300g jako hlavní, ~150g jako příloha </td>
+            </tr>
+        </tbody>
+    </table>
 
-    <ul class="list">
-      <turbo-frame id="unapproved-tips">
-        {% for tip in unapproved_tips %}
-            {% include 'tips/_tip.html.j2' %}
-        {% endfor %}
-      </turbo-stream>
+    <h3 class="text-uppercase color-dark-green font-comfortaa-bb"> Další tipy a triky </h3>
+    <ul>
+        <li>Aby se mezi potraviny nenastěhovali mravenci, vložíme mezi ně nakrájený citrón.</li>
+        <li>Jídlo uchováme déle teplé, když nádobu po sejmutí z ohně i s pokličkou zabalíme do utěrky a do peřin.</li>
+        <li>Pokud přepepříme nějaký pokrm, stačí nakrájet dvě jablka na větší kousky, vložit je do jídla a krátce povařit. Ostrost jídla se tím zmírní.</li>
+        <li>Přesolená zelenina: do přesolené zeleniny přidáme žloutek rozšlehaný ve smetaně nebo mléce.</li>
     </ul>
 
-  <div class="mt-5">
-  <details>
-    <summary>
-      Schválené tipy
-    </summary>
-
-    <ul class="list">
-      <turbo-frame id="approved-tips">
-        {% for tip in approved_tips %}
-            {% include 'tips/_tip.html.j2' %}
+    <h3 class="text-uppercase color-dark-green font-comfortaa-bb"> Tipy od vás </h3>
+    <ul>
+        {% for tip in tips %}
+            <li> {{tip.description}} <em>(přidal*a {{ tip.author.full_name }})</em></li>
         {% endfor %}
-      </turbo-stream>
-    </ul> 
-  </details>
-  </div>
+    </ul>
 
-  <div class="mt-5">
-  <details>
-    <summary>
-      Zamítnuté tipy
-    </summary>
 
-    <ul class="list">
-      <turbo-frame id="disapproved-tips">
-        {% for tip in disapproved_tips %}
-            {% include 'tips/_tip.html.j2' %}
-        {% endfor %}
-      </turbo-stream>
-    </ul> 
-  </details>
-  </div>
+    {% if current_user.is_authenticated %}
+    <div class="mt-4">
+        <hr>
+        <h3 class="font-comfortaa text-uppercase">Přidat vlastní tip</h3>
+        <form action="{{ url_for('TipsView:add_tip') }}" method="POST" class="form">
+            <textarea name="description" class="form-control mb-2"></textarea>
+            <button type="submit" class="btn btn-primary">Přidat</button>
+        </form>
+    </div>
+    {% endif %}
 
 
 </div>
 
 {% endblock %}
+
+
+
+
+
+
 

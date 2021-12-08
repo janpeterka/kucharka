@@ -5,7 +5,7 @@
 
 {% if recipe.main_image %}
 <div class="row mb-2 gradient-transparent d-block cover-photo">
-    {{ render_image(recipe.main_image, class="w-100", style="border-radius: 2%;") }} 
+    {{ render_image(recipe.main_image, class="w-100", center=True) }} 
 </div>
 {% endif %}
 

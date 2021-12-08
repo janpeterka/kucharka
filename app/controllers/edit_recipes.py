@@ -204,6 +204,12 @@ class EditRecipeView(HelperFlaskView):
         from werkzeug.datastructures import CombinedMultiDict
         from app.modules.files import PhotoForm
 
+        photo = RecipeImageFile(recipe_id=recipe_id)
+        photo.data = request.files.get("file")
+        photo.save()
+
+        # f.save(os.path.join('the/path/to/save', f.filename))
+
         form = PhotoForm(CombinedMultiDict((request.files, request.form)))
 
         if form.file.data:
@@ -214,6 +220,11 @@ class EditRecipeView(HelperFlaskView):
             flash("Nepovedlo se nahrát soubor.", "error")
 
         return redirect(url_for("RecipesView:show", id=recipe_id))
+
+    @route("/delete-all-photos/<recipe_id>", methods=["POST"])
+    def delete_all_photos(self, recipe_id):
+        for photo in self.recipe.photos:
+            photo.delete()
 
     @route("/set-main-image/<recipe_id>/<image_id>", methods=["POST"])
     def set_main_image(self, recipe_id, image_id):

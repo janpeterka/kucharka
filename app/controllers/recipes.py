@@ -4,7 +4,7 @@ from unidecode import unidecode
 from flask import request, redirect, url_for, flash
 from flask import current_app as application
 
-from flask_security import login_required, current_user
+from flask_security import login_required, permissions_required, current_user
 
 from flask_classful import route
 
@@ -60,6 +60,12 @@ class RecipesView(HelperFlaskView):
 
     @login_required
     def index(self):
+        return self.template()
+
+    @login_required
+    @permissions_required("manage-application")
+    def all(self):
+        self.recipes = Recipe.load_all()
         return self.template()
 
     # @login_required

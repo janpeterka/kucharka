@@ -30,7 +30,7 @@ class AdminView(HelperFlaskView):
         return redirect(url_for("PublicIngredientsView:index"))
 
     def tips_index(self):
-        return redirect(url_for("TipsView:index"))
+        return redirect(url_for("TipsView:manage"))
 
     def files(self):
         return redirect(url_for("FilesView:index"))

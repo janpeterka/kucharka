@@ -1,0 +1,58 @@
+{% extends "base/base.html.j2" %}
+{% block title %} Tipy - admin {% endblock %}
+
+{% block links %}
+    {{ super() }}
+    {{ turbo() }}
+{% endblock %}
+
+{% block content %}
+
+<div class="text-center">
+  <h1 class="text-uppercase font-comfortaa">Tipy - ke schválení</h1>
+
+    <ul class="list">
+      <turbo-frame id="unapproved-tips">
+        {% for tip in unapproved_tips %}
+            {% include 'tips/_tip.html.j2' %}
+        {% endfor %}
+      </turbo-stream>
+    </ul>
+
+  <div class="mt-5">
+  <details>
+    <summary>
+      Schválené tipy
+    </summary>
+
+    <ul class="list">
+      <turbo-frame id="approved-tips">
+        {% for tip in approved_tips %}
+            {% include 'tips/_tip.html.j2' %}
+        {% endfor %}
+      </turbo-stream>
+    </ul> 
+  </details>
+  </div>
+
+  <div class="mt-5">
+  <details>
+    <summary>
+      Zamítnuté tipy
+    </summary>
+
+    <ul class="list">
+      <turbo-frame id="disapproved-tips">
+        {% for tip in disapproved_tips %}
+            {% include 'tips/_tip.html.j2' %}
+        {% endfor %}
+      </turbo-stream>
+    </ul> 
+  </details>
+  </div>
+
+
+</div>
+
+{% endblock %}
+

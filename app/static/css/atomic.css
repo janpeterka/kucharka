@@ -16,6 +16,10 @@
   list-style: none
 }
 
+.no-click {
+	pointer-events: none;
+}
+
 /*.no-decoration {
   text-decoration: none;
 }

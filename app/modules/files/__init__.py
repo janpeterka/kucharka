@@ -1,9 +1,12 @@
-from .controllers.files import files_blueprint
+from .forms import PhotoForm
+from .functions import show_file, download_file, all_files
+from .handlers import FileHandler, ImageHandler
 
-
-def create_module(app, **kwargs):
-    app.register_blueprint(files_blueprint)
-
-    from .controllers import register_all_controllers  # noqa: F401
-
-    register_all_controllers(app)
+__all__ = [
+    "PhotoForm",
+    "show_file",
+    "download_file",
+    "all_files",
+    "FileHandler",
+    "ImageHandler",
+]

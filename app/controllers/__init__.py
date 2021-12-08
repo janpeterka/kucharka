@@ -28,6 +28,8 @@ from .public_ingredients import PublicIngredientsView
 from .users import UsersView
 from .user_statistics import UserStatisticsView
 
+from .files import FilesView
+
 from app.helpers.helper_flask_view import HelperFlaskView
 
 __all__ = [
@@ -54,6 +56,7 @@ __all__ = [
     "PublicIngredientsView",
     "UsersView",
     "UserStatisticsView",
+    "FilesView",
 ]
 
 
@@ -93,6 +96,8 @@ def register_all_controllers(application):
 
     UsersView.register(application, base_class=HelperFlaskView)
     UserStatisticsView.register(application, base_class=HelperFlaskView)
+
+    FilesView.register(application, base_class=HelperFlaskView)
 
 
 def register_error_handlers(application):

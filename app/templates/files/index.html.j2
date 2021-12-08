@@ -10,6 +10,7 @@
         <thead>
             <th> </th>
             <th> autor </th>
+            <th> objekt </th>
         </thead>
         <tbody>
             
@@ -17,6 +18,7 @@
             <tr>
                 <td> {{ render_image(file, style="height: 7rem; width:auto; margin-bottom: 0.3rem;", thumbnail=True) }}</td>
                 <td> {{ file.author.name }} </td>
+                <td> {{ link_to(file.object) }} </td>
             </tr>
         {% endfor %}
         </tbody>

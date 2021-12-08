@@ -7,8 +7,7 @@ from app import db
 
 from app.helpers.base_mixin import BaseMixin
 
-from ..handlers.files import FileHandler
-from ..handlers.files import ImageHandler
+from app.modules.files import FileHandler, ImageHandler
 
 
 class File(db.Model, BaseMixin):
@@ -105,6 +104,10 @@ class File(db.Model, BaseMixin):
     def full_identifier(self):
         return f"{self.id}.{self.extension}"
 
+    @property
+    def object(self):
+        raise NotImplementedError
+
 
 class ImageFile(File):
     __mapper_args__ = {"polymorphic_identity": "image"}
@@ -124,3 +127,7 @@ class RecipeImageFile(ImageFile):
     @property
     def is_public(self) -> bool:
         return self.recipe.is_public
+
+    @property
+    def object(self):
+        return self.recipe

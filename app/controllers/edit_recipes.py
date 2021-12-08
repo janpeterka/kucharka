@@ -36,12 +36,7 @@ class EditRecipeView(HelperFlaskView):
 
         if turbo.can_stream():
             return turbo.stream(
-                [
-                    turbo.prepend(
-                        self.template(template_name="_edit_ingredient"),
-                        target="ingredients",
-                    )
-                ]
+                self.add_ingredient_to_recipe(self.recipe, self.ingredient)
                 + self.update_usable_ingredients(self.recipe)
             )
         else:
@@ -49,13 +44,12 @@ class EditRecipeView(HelperFlaskView):
 
     def add_ingredient_to_recipe(self, recipe, ingredient):
         recipe.add_ingredient(ingredient)
+        self.ingredient = ingredient
+        self.recipe = recipe
+
         return [
-            turbo.append(
-                self.template(
-                    template_name="_edit_ingredient",
-                    ingredient=ingredient,
-                    recipe=recipe,
-                ),
+            turbo.prepend(
+                self.template(template_name="_edit_ingredient"),
                 target="ingredients",
             )
         ]

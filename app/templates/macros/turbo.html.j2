@@ -1,6 +1,7 @@
 {% macro button_to(action) %}
 
   {% set class_ = kwargs.pop('class', "") %}
+  {% set style_ = kwargs.pop('style', "") %}
   {% set form_class = kwargs.pop('form_class', "") %}
   {% set data = kwargs.pop('data', None) %}
   {% set icon = kwargs.pop('icon', None) %}
@@ -20,6 +21,7 @@
 
   <button type="submit"
           class="{% if icon %} icon {% endif %} {{ class_ }}"
+          style="{{ style_ }}"
           {% if disabled %} disabled {% endif %}>
       
       {% if value %} {{ value | safe }} {% endif %}

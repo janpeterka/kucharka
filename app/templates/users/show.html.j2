@@ -7,6 +7,10 @@
     {% endif %}
 {% endblock %}
 
+{% block script %}
+    {{ stimulus('clipboard') }}
+{% endblock %}
+
 {% block content %}
 
 <div>
@@ -28,13 +32,20 @@
 <div class="testing-field">
     
 {% if user.calendar_hash %}
+<div data-controller="clipboard" class="row row-cols-lg-auto g-3 align-items-center mb-2">
+    <div class="col-10 me-3">
+        <input type="text" name="" value="https://skautskakucharka.cz{{ url_for('UserCalendarsView:ical', calendar_hash=user.calendar_hash) }}" readonly data-clipboard-target="source" class="form-control me-4">
+    </div>
+    <div class="col-4">
+        <button data-action="click->clipboard#copy" class="btn btn-secondary col-"> Zkopírovat adresu </button>
+    </div>
+</div>
     
-    {{ user.calendar_hash }}
-    <a href="{{ url_for('UsersView:ical', calendar_hash=user.calendar_hash) }}"> URL </a>
-    
-    {{ button_to(url_for('UsersView:create_calendar'), class="btn btn-secondary", value="Přegenerovat kalendář") }}
+    {{ button_to(url_for('UserCalendarsView:create_calendar'),
+       class="btn btn-secondary", value="Přegenerovat adresu") }}
 {% else %}
-    {{ button_to(url_for('UsersView:create_calendar'), class="btn btn-secondary", value="Vygenerovat kalendář") }}
+    {{ button_to(url_for('UserCalendarsView:create_calendar'),
+       class="btn btn-secondary", value="Vygenerovat URL kalendáře") }}
 {% endif %}
 </div>
 <hr>

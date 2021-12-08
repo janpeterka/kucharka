@@ -29,6 +29,9 @@ from .users import UsersView
 from .user_statistics import UserStatisticsView
 from .user_calendars import UserCalendarsView
 
+from .files import FilesView
+
+
 __all__ = [
     "DashboardView",
     "DailyPlansView",
@@ -54,6 +57,7 @@ __all__ = [
     "UsersView",
     "UserStatisticsView",
     "UserCalendarsView",
+    "FilesView",
 ]
 
 
@@ -96,6 +100,8 @@ def register_all_controllers(application):
     UsersView.register(application, base_class=HelperFlaskView)
     UserStatisticsView.register(application, base_class=HelperFlaskView)
     UserCalendarsView.register(application, base_class=HelperFlaskView)
+
+    FilesView.register(application, base_class=HelperFlaskView)
 
 
 def register_error_handlers(application):

@@ -6,6 +6,7 @@ from turbo_flask import Turbo
 
 from flask_security import Security, SQLAlchemyUserDatastore
 from flask_mail import Mail
+from flask_dropzone import Dropzone
 
 from flask_sqlalchemy.model import DefaultMeta  # noqa: E402
 from sqlalchemy import MetaData
@@ -35,6 +36,7 @@ babel = Babel()
 turbo = Turbo()
 mail = Mail()
 security = Security()
+dropzone = Dropzone()
 
 
 def create_app(config_name="default"):
@@ -62,6 +64,7 @@ def create_app(config_name="default"):
     babel.init_app(application)
     turbo.init_app(application)
     mail.init_app(application)
+    dropzone.init_app(application)
 
     if application.config["SENTRY_MONITORING"]:
         import sentry_sdk
@@ -92,10 +95,5 @@ def create_app(config_name="default"):
     register_error_handlers(application)
 
     # MODULES
-    # Files module
-    from app.modules.files import create_module as files_create_module  # noqa: F401
-
-    files_create_module(application)
-    # print(application.url_map)
 
     return application

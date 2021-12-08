@@ -66,3 +66,9 @@ form button.change:hover {
 form button.measurement:hover  {
 	display: block;
 }
+
+/*.submit-dropzone {
+	position: relative;
+	left: 83%;
+	top: 1.2rem;
+}*/

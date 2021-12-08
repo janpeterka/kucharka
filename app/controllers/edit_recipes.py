@@ -1,4 +1,4 @@
-from flask import request, redirect, url_for, flash
+from flask import request, redirect, url_for
 from flask import render_template as template
 
 from flask_classful import route
@@ -8,12 +8,14 @@ from flask_security import current_user, login_required
 from app import turbo
 
 from app.helpers.form import save_form_to_session
+from app.helpers.turbo_flash import turbo_flash as flash
 from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.controllers.forms.recipes import RecipesForm
 
 from app.models.ingredients import Ingredient
 from app.models.recipes import Recipe
+from app.models.files import RecipeImageFile
 
 
 class EditRecipeView(HelperFlaskView):
@@ -35,12 +37,7 @@ class EditRecipeView(HelperFlaskView):
 
         if turbo.can_stream():
             return turbo.stream(
-                [
-                    turbo.prepend(
-                        self.template(template_name="_edit_ingredient"),
-                        target="ingredients",
-                    )
-                ]
+                self.add_ingredient_to_recipe(self.recipe, self.ingredient)
                 + self.update_usable_ingredients(self.recipe)
             )
         else:
@@ -48,13 +45,12 @@ class EditRecipeView(HelperFlaskView):
 
     def add_ingredient_to_recipe(self, recipe, ingredient):
         recipe.add_ingredient(ingredient)
+        self.ingredient = ingredient
+        self.recipe = recipe
+
         return [
-            turbo.append(
-                self.template(
-                    template_name="_edit_ingredient",
-                    ingredient=ingredient,
-                    recipe=recipe,
-                ),
+            turbo.prepend(
+                self.template(template_name="_edit_ingredient"),
                 target="ingredients",
             )
         ]
@@ -177,10 +173,8 @@ class EditRecipeView(HelperFlaskView):
 
     @route("refresh_usable_ingredients/<recipe_id>", methods=["POST"])
     def refresh_usable_ingredients(self, recipe_id):
-        response = self.update_usable_ingredients(self.recipe)
-
         if turbo.can_stream():
-            return turbo.stream(response)
+            return turbo.stream(self.update_usable_ingredients(self.recipe))
         else:
             return redirect(url_for("RecipesView:edit", id=self.recipe.id))
 
@@ -205,26 +199,23 @@ class EditRecipeView(HelperFlaskView):
             )
         ]
 
-    @route("/upload_photo/<recipe_id>", methods=["POST"])
+    @route("/upload-photo/<recipe_id>", methods=["POST"])
     def upload_photo(self, recipe_id):
-        from werkzeug.datastructures import CombinedMultiDict
+        photo = RecipeImageFile(recipe_id=recipe_id)
+        photo.data = request.files.get("file")
+        photo.save()
 
-        from app.modules.files.controllers.forms.files import PhotoForm
-        from app.modules.files.models.files import RecipeImageFile
+        return redirect(url_for("RecipesView:show", id=recipe_id))
 
-        form = PhotoForm(CombinedMultiDict((request.files, request.form)))
-
-        if form.file.data:
-            file = RecipeImageFile(recipe_id=recipe_id)
-            file.data = form.file.data
-            file.save()
+    @route("/delete-all-photos/<recipe_id>", methods=["POST"])
+    def delete_all_photos(self, recipe_id):
+        for image in self.recipe.images:
+            image.delete()
 
         return redirect(url_for("RecipesView:show", id=recipe_id))
 
     @route("/set-main-image/<recipe_id>/<image_id>", methods=["POST"])
     def set_main_image(self, recipe_id, image_id):
-        from app.modules.files.models.files import RecipeImageFile
-
         new_image = RecipeImageFile.load(image_id)
         for image in self.recipe.images:
             if image.is_main:

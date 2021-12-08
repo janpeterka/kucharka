@@ -27,8 +27,7 @@ from .public_ingredients import PublicIngredientsView
 
 from .users import UsersView
 from .user_statistics import UserStatisticsView
-
-from app.helpers.helper_flask_view import HelperFlaskView
+from .user_calendars import UserCalendarsView
 
 __all__ = [
     "DashboardView",
@@ -54,10 +53,13 @@ __all__ = [
     "PublicIngredientsView",
     "UsersView",
     "UserStatisticsView",
+    "UserCalendarsView",
 ]
 
 
 def register_all_controllers(application):
+    from app.helpers.helper_flask_view import HelperFlaskView
+
     DailyPlansView.register(application, base_class=HelperFlaskView)
     DailyPlansEditView.register(application, base_class=HelperFlaskView)
 
@@ -93,6 +95,7 @@ def register_all_controllers(application):
 
     UsersView.register(application, base_class=HelperFlaskView)
     UserStatisticsView.register(application, base_class=HelperFlaskView)
+    UserCalendarsView.register(application, base_class=HelperFlaskView)
 
 
 def register_error_handlers(application):

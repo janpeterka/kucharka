@@ -8,6 +8,7 @@
 	{% set thumbnail = kwargs.pop('thumbnail', False) %}
 	{% set with_delete = kwargs.pop('with_delete', False) %}
 	{% set with_pin = kwargs.pop('with_pin', False) %}
+	{% set center = kwargs.pop('center', False) %}
 
 	{% if thumbnail %}
 		{% set url = image.thumbnail_url %}
@@ -15,7 +16,12 @@
 		{% set url = image.url %}
 	{% endif %}
 
-	<div style="position: relative;" >
+	{% set div_class = 'pos-r' %}
+	{% if center %}
+		{% set div_class = div_class + ' t-y--50 ' %}
+	{% endif %}
+
+	<div class="{{ div_class }}">
     {% if with_delete and image.recipe.can_current_user_edit %}
 		{{ button_to(url_for('FilesView:delete', id=image.id), class="image-icon delete-icon", value="&times", confirmation="Opravdu chcete smazat fotku?") }}
     {% endif %}

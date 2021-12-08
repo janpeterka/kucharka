@@ -14,6 +14,7 @@ from app.controllers.forms.recipes import RecipesForm
 
 from app.models.ingredients import Ingredient
 from app.models.recipes import Recipe
+from app.models.files import RecipeImageFile
 
 
 class EditRecipeView(HelperFlaskView):
@@ -208,9 +209,7 @@ class EditRecipeView(HelperFlaskView):
     @route("/upload_photo/<recipe_id>", methods=["POST"])
     def upload_photo(self, recipe_id):
         from werkzeug.datastructures import CombinedMultiDict
-
-        from app.modules.files.controllers.forms.files import PhotoForm
-        from app.modules.files.models.files import RecipeImageFile
+        from app.modules.files import PhotoForm
 
         form = PhotoForm(CombinedMultiDict((request.files, request.form)))
 
@@ -223,8 +222,6 @@ class EditRecipeView(HelperFlaskView):
 
     @route("/set-main-image/<recipe_id>/<image_id>", methods=["POST"])
     def set_main_image(self, recipe_id, image_id):
-        from app.modules.files.models.files import RecipeImageFile
-
         new_image = RecipeImageFile.load(image_id)
         for image in self.recipe.images:
             if image.is_main:

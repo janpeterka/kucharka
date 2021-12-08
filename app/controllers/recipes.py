@@ -64,7 +64,7 @@ class RecipesView(HelperFlaskView):
 
     # @login_required
     def show(self, id):
-        from app.modules.files.controllers.forms.files import PhotoForm
+        from app.modules.files import PhotoForm
 
         self.photo_form = PhotoForm()
 

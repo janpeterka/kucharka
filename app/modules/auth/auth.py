@@ -30,6 +30,12 @@ def google_logged_in(blueprint, token):
 
     info = response.json()
     user_id = info["id"]
+    first_name = info.get("given_name", None)
+    last_name = info.get("family_name", None)
+    if first_name and last_name:
+        full_name = f"{first_name} {last_name}"
+    else:
+        full_name = None
 
     # Find this OAuth token in the database, or create it
     try:
@@ -46,7 +52,7 @@ def google_logged_in(blueprint, token):
         user = User.load_by_attribute("email", info["email"])
         if not user:
             # Create a new local user account for this user
-            user = User(email=info["email"], active=True)
+            user = User(email=info["email"], full_name=full_name, active=True)
         # user.save()
         # Associate the new local user account with the OAuth token
         oauth.user = user

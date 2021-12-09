@@ -86,7 +86,6 @@ def _generate_password():
     import string
 
     alphabet = string.ascii_letters + string.digits
-    password = "".join(
+    return "".join(
         secrets.choice(alphabet) for i in range(80)
-    )  # for a 20-character password
-    return password
+    )

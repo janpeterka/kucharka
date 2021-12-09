@@ -24,7 +24,9 @@ class Config(object):
     SECURITY_SEND_PASSWORD_CHANGE_EMAIL = False
 
     SECURITY_RECOVERABLE = True
-    SECURITY_EMAIL_SUBJECT_PASSWORD_RESET = "Žádost o reset hesla do Skautské kuchařky"
+    SECURITY_EMAIL_SUBJECT_PASSWORD_RESET = (
+        "Žádost o reset hesla do Skautské kuchařky"  # nosec
+    )
     SECURITY_SEND_PASSWORD_RESET_NOTICE_EMAIL = False
     # SECURITY_EMAIL_SUBJECT_PASSWORD_NOTICE = "Vaše heslo do Skautské kuchařky bylo resetováno."
 
@@ -46,6 +48,7 @@ class Config(object):
     INFO_USED_DB = "production db"
 
     FF_GALLERY = os.getenv("FF_GALLERY", False)
+    FF_GOOGLE_OAUTH = os.getenv("FF_GOOGLE_OAUTH", False)
 
 
 class LocalProdConfig(Config):

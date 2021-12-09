@@ -60,6 +60,10 @@
             <li> {{ role.name }} ({{ role.permissions }}) </li>
         {% endfor %}
         </ul>
+        <hr>
+        {% for oauth in user.oauths %}
+            <li> {{ oauth.provider }} </li>
+        {% endfor %}
     </div>
 {% endif %}
 

@@ -24,12 +24,6 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin):
 
     events = db.relationship("Event", back_populates="author")  # type: ignore
 
-    # LOADERS
-
-    @staticmethod
-    def load_by_username(username):
-        return User.load_by_attribute("username", username)
-
     @staticmethod
     def create(email, password, **kwargs):
         from app import user_datastore
@@ -38,6 +32,12 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin):
         return user_datastore.create_user(
             email=email, password=hash_password(password), **kwargs
         )
+
+    # LOADERS
+
+    @staticmethod
+    def load_by_username(username):
+        return User.load_by_attribute("username", username)
 
     # PROPERTIES
 

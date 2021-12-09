@@ -22,37 +22,40 @@ def google_logged_in(blueprint, token):
         flash("Failed to log in.", category="error")
         return False
 
-    resp = blueprint.session.get("/oauth2/v1/userinfo")
-    if not resp.ok:
+    response = blueprint.session.get("/oauth2/v1/userinfo")
+    if not response.ok:
         msg = "Failed to fetch user info."
         flash(msg, category="error")
         return False
 
-    info = resp.json()
+    info = response.json()
     user_id = info["id"]
 
     # Find this OAuth token in the database, or create it
-    query = OAuth.query.filter_by(provider=blueprint.name, provider_user_id=user_id)
     try:
-        oauth = query.one()
+        oauth = OAuth.query.filter_by(
+            provider=blueprint.name, provider_user_id=user_id
+        ).one()
     except NoResultFound:
         oauth = OAuth(provider=blueprint.name, provider_user_id=user_id, token=token)
 
     if oauth.user:
         login_user(oauth.user)
-        flash("Successfully signed in.")
-
     else:
-        # Create a new local user account for this user
-        user = User(email=info["email"], active=True)
+        # Try finding user with given e-mail in database
+        user = User.load_by_attribute("email", info["email"])
+        if not user:
+            # Create a new local user account for this user
+            user = User(email=info["email"], active=True)
+        # user.save()
         # Associate the new local user account with the OAuth token
         oauth.user = user
+        # oauth.save()
         # Save and commit our database models
         db.session.add_all([user, oauth])
         db.session.commit()
         # Log in the new local user account
         login_user(user)
-        flash("Successfully signed in.")
 
     # Disable Flask-Dance's default behavior for saving the OAuth token
     return False

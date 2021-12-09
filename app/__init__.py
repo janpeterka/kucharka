@@ -95,5 +95,8 @@ def create_app(config_name="default"):
     register_error_handlers(application)
 
     # MODULES
+    from app.modules.auth.auth import blueprint
+
+    application.register_blueprint(blueprint, url_prefix="/oauth/")
 
     return application

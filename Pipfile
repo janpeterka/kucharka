@@ -25,6 +25,7 @@ flask-mail = "*"
 icalendar = "*"
 sentry-sdk = {extras = [ "sqlalchemy",]}
 flask-dropzone = "*"
+flask-dance = "*"
 
 [dev-packages]
 mypy = "*"

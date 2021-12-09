@@ -24,6 +24,15 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin):
 
     events = db.relationship("Event", back_populates="author")  # type: ignore
 
+    @staticmethod
+    def create(email, password, **kwargs):
+        from app import user_datastore
+        from flask_security import hash_password
+
+        return user_datastore.create_user(
+            email=email, password=hash_password(password), **kwargs
+        )
+
     # LOADERS
 
     @staticmethod

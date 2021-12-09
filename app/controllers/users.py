@@ -15,8 +15,12 @@ class UsersView(HelperFlaskView):
 
     @login_required
     def before_request(self, name, id=None, *args, **kwargs):
+        if "id" in request.args:
+            id = request.args.get("id")
+
         self.user = User.load(id)
-        self.user = current_user if self.user is None else self.user
+        if not self.user:
+            self.user = current_user
 
         self.validate_operation(id, self.user)
 
@@ -25,7 +29,7 @@ class UsersView(HelperFlaskView):
 
     def index(self):
         if not current_user.has_permission("manage-users"):
-            return redirect(url_for("UsersView:show_all"))
+            return redirect(url_for("UsersView:show"))
 
         self.users = User.load_all()
         return self.template()

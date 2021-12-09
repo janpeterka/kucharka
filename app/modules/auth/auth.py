@@ -52,7 +52,12 @@ def google_logged_in(blueprint, token):
         user = User.load_by_attribute("email", info["email"])
         if not user:
             # Create a new local user account for this user
-            user = User(email=info["email"], full_name=full_name, active=True)
+            user = User.create(
+                email=info["email"],
+                password=_generate_password(),
+                full_name=full_name,
+                active=True,
+            )
         # user.save()
         # Associate the new local user account with the OAuth token
         oauth.user = user
@@ -74,3 +79,14 @@ def google_error(blueprint, message, response):
         name=blueprint.name, message=message, response=response
     )
     flash(msg, category="error")
+
+
+def _generate_password():
+    import secrets
+    import string
+
+    alphabet = string.ascii_letters + string.digits
+    password = "".join(
+        secrets.choice(alphabet) for i in range(80)
+    )  # for a 20-character password
+    return password

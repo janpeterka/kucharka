@@ -30,6 +30,15 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin):
     def load_by_username(username):
         return User.load_by_attribute("username", username)
 
+    @staticmethod
+    def create(email, password, **kwargs):
+        from app import user_datastore
+        from flask_security import hash_password
+
+        return user_datastore.create_user(
+            email=email, password=hash_password(password), **kwargs
+        )
+
     # PROPERTIES
 
     @property

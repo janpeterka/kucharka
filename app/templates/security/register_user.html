@@ -15,24 +15,27 @@
 
   <hr>
   <div class="smaller text-center color-grey"> nebo </div>
-  <div>
-    
+  
+  <div>  
 
-  {{ render_floating_field(register_user_form.email, label="Přihlašovací e-mail", placeholder="") }}
-  <div class="row">
-    <div class="col-6">
-  {{ render_floating_field(register_user_form.password, label="Heslo", placeholder="") }}
-    </div>
-  {% if register_user_form.password_confirm %}
-    <div class="col-6">
+    {{ render_floating_field(register_user_form.email, label="Přihlašovací e-mail", placeholder="") }}
+    <div class="row">
+      <div class="col-6">
+        {{ render_floating_field(register_user_form.password, label="Heslo", placeholder="") }}
+      </div>
       
-    {{ render_floating_field(register_user_form.password_confirm, label="Heslo znovu", placeholder="") }}
+      {% if register_user_form.password_confirm %}
+      <div class="col-6">
+        {{ render_floating_field(register_user_form.password_confirm, label="Heslo znovu", placeholder="") }}
+      </div>
+      {% endif %}
+    
     </div>
-  {% endif %}
-  </div>
-  <div class="text-center mt-2">
-    {{ render_field(register_user_form.submit, value="Registrovat", class="p-2 ps-4 pe-4") }}
-  </div>
+    
+    <div class="text-center mt-2">
+      {{ render_field(register_user_form.submit, value="Registrovat", class="p-2 ps-4 pe-4") }}
+    </div>
+  
   </div>
 </form>
 {% endblock %}

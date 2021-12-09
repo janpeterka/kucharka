@@ -50,6 +50,8 @@ class Config(object):
     FF_GALLERY = os.getenv("FF_GALLERY", False)
     FF_GOOGLE_OAUTH = os.getenv("FF_GOOGLE_OAUTH", False)
 
+    SYSTEM_MESSAGE = os.getenv("SYSTEM_MESSAGE", None)
+
 
 class LocalProdConfig(Config):
     INFO_USED_DB = "production db"

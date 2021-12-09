@@ -98,6 +98,7 @@
     {% endif %}
 
     <div id="content" class="container pt-6 mb-5">
+        {% include('base/_system_message.html.j2') %}
         {% block content %}{% endblock %}
     </div>
 

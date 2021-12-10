@@ -3,15 +3,15 @@
 
 {% block content %}
 
-<div class="row">
+<div class="row" style="align-items: center;">
 	
 {% for recipe in recipes %}
 	<div class="col-12 col-sm-6 col-md-4 ">
 		<a href="{{ recipe.url }}">
-			{{ render_image(recipe.main_image) }}
+			{{ render_image(recipe.main_image, style="border-radius: 0.4rem", class="gradient-transparent") }}
 		</a>
 	
-		<div style="text-align: center">{{ recipe.name }}</div>
+		<div style="text-align: center; position: relative; bottom: 1.5rem"> {{ recipe.name }} </div>
 	</div>
 {% endfor %}
 

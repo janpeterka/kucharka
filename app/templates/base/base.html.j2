@@ -23,6 +23,11 @@
     {% block meta %}{% endblock %} 
 
     {% block links %}
+        {% if config["SENTRY_MONITORING"] %}
+            {% include "javascript/_sentry.js.html" %}
+        {% else %}
+            <script type="text/javascript">console.log("No Sentry monitoring")</script>
+        {% endif %}
         {# <link rel="icon" href="{{ url_for('static', filename='img/icon_space.png') }}"> #}
 
         <!-- Bootstrap -->
@@ -106,7 +111,6 @@
 </body>
 {% block scripts_after %}{% endblock %}
 <script>
-
 document.addEventListener("turbo:before-stream-render", function(event) {
   // Add a class to an element we are about to add to the page
   // as defined by its "data-stream-enter-class"

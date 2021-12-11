@@ -10,7 +10,7 @@
 
 {% block content %}
 
-{% if recipe.main_image %}
+{% if recipe.main_image and not print %}
 <div class="row mb-2 gradient-transparent d-block cover-photo">
     {{ render_image(recipe.main_image, class="w-100", center=True) }} 
 </div>

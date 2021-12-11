@@ -1,5 +1,5 @@
 {% extends "base/base.html.j2" %}
-{% block title %} Akce {% endblock %}
+{% block title %} {{ event.name }} {% endblock %}
 {% block links %}
     {{ super() }}
     {{ turbo() }}

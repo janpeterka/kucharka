@@ -54,9 +54,10 @@ def google_logged_in(blueprint, token):
             # Create a new local user account for this user
             user = User.create(
                 email=info["email"],
-                password=_generate_password(),
+                password="x",
                 full_name=full_name,
                 active=True,
+                do_hash=False,
             )
         # user.save()
         # Associate the new local user account with the OAuth token
@@ -86,6 +87,4 @@ def _generate_password():
     import string
 
     alphabet = string.ascii_letters + string.digits
-    return "".join(
-        secrets.choice(alphabet) for i in range(80)
-    )
+    return "".join(secrets.choice(alphabet) for i in range(80))

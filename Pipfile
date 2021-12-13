@@ -30,6 +30,8 @@ flask-dance = "*"
 [dev-packages]
 mypy = "*"
 pytest-flask = "*"
+bcrypt = "*"
+betamax = "*"
 
 [requires]
 python_version = "3.9"

@@ -70,7 +70,11 @@
 
 <div>
     <a href="{{ url_for('UsersView:edit') }}" class="btn btn-secondary">{{ texts.edit }} {{ icon("edit") }}</a>
-    <a href="{{ url_for_security('change_password') }}" class="btn btn-secondary"> Změnit heslo {{ icon("edit") }}</a>
+    {% if user.has_password %}
+        <a href="{{ url_for_security('change_password') }}" class="btn btn-secondary"> Změnit heslo {{ icon("edit") }}</a>
+    {% else %}
+        <a href="{{ url_for('UsersView:set_password') }}" class="btn btn-secondary"> Nastavit heslo </a>
+    {% endif %}
 </div>
 
 {#

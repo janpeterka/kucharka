@@ -32,7 +32,6 @@ class EditRecipeView(HelperFlaskView):
     def add_ingredient(self, recipe_id):
         self.ingredient = Ingredient.load(request.form["ingredient_option"])
         self.ingredient.is_measured = True
-
         self.recipe.add_ingredient(self.ingredient)
 
         if turbo.can_stream():
@@ -44,7 +43,6 @@ class EditRecipeView(HelperFlaskView):
             return redirect(url_for("RecipesView:edit", id=self.recipe.id))
 
     def add_ingredient_to_recipe(self, recipe, ingredient):
-        recipe.add_ingredient(ingredient)
         self.ingredient = ingredient
         self.recipe = recipe
 

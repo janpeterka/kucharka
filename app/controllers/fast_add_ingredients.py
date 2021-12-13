@@ -33,13 +33,17 @@ class FastAddIngredientsView(HelperFlaskView):
 
     @route("ingredients/fast/post/<recipe_id>", methods=["POST"])
     def post(self, recipe_id):
+        recipe = Recipe.load(recipe_id)
+
         form = IngredientsForm(request.form)
 
         ingredient = Ingredient()
         form.populate_obj(ingredient)
         ingredient.save()
 
-        recipe = Recipe.load(recipe_id)
+        recipe.add_ingredient(ingredient)
+
+        ingredient.set_additional_info(recipe)
 
         if turbo.can_stream():
             return turbo.stream(

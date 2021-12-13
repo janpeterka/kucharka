@@ -1,15 +1,16 @@
 from unidecode import unidecode
 
 # from flask import render_template as template
-from flask import request, redirect, url_for, flash
+from flask import request, redirect, url_for
 from flask import current_app as application
 
 from flask_security import login_required, permissions_required, current_user
 
 from flask_classful import route
 
-# from app import turbo
+from app.modules.files import PhotoForm
 
+from app.helpers.turbo_flash import turbo_flash as flash
 from app.helpers.helper_flask_view import HelperFlaskView
 from app.helpers.form import save_form_to_session, create_form
 
@@ -19,9 +20,6 @@ from app.controllers.forms.recipes import RecipesForm
 
 
 class RecipesView(HelperFlaskView):
-    # decorators = [login_required]
-
-    # @login_required
     def before_request(self, name, id=None, **kwargs):
         self.recipe = Recipe.load(id)
         if current_user.is_authenticated:
@@ -70,8 +68,6 @@ class RecipesView(HelperFlaskView):
 
     # @login_required
     def show(self, id):
-        from app.modules.files import PhotoForm
-
         self.photo_form = PhotoForm()
 
         if not current_user.is_authenticated:
@@ -141,11 +137,9 @@ class RecipesView(HelperFlaskView):
             return redirect(url_for("RecipesView:new"))
 
         recipe = Recipe(author=current_user)
-        del form.labels
-
-        form.populate_obj(recipe)
-
+        recipe.fill(form)
         recipe.save()
+
         return redirect(url_for("RecipesView:edit", id=recipe.id))
 
     @login_required

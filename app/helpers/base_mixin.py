@@ -23,6 +23,9 @@ class BaseMixin(object):
     def set_defaults(self, **kwargs):
         self.created_by = current_user.id
 
+    def fill(self, form):
+        form.populate_obj(self)
+
     # LOADERS
 
     @classmethod

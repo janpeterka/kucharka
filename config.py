@@ -24,7 +24,9 @@ class Config(object):
     SECURITY_SEND_PASSWORD_CHANGE_EMAIL = False
 
     SECURITY_RECOVERABLE = True
-    SECURITY_EMAIL_SUBJECT_PASSWORD_RESET = "Žádost o reset hesla do Skautské kuchařky"
+    SECURITY_EMAIL_SUBJECT_PASSWORD_RESET = (
+        "Žádost o reset hesla do Skautské kuchařky"  # nosec
+    )
     SECURITY_SEND_PASSWORD_RESET_NOTICE_EMAIL = False
     # SECURITY_EMAIL_SUBJECT_PASSWORD_NOTICE = "Vaše heslo do Skautské kuchařky bylo resetováno."
 
@@ -70,8 +72,9 @@ class TestConfig(Config):
     SENTRY_MONITORING = False
     FLASK_DEBUG = False
 
-    SQLALCHEMY_DATABASE_URI = os.environ.get("TESTING_DB_STRING")
-    SECRET_KEY = os.environ.get("TESTING_SECRET_KEY")
+    SQLALCHEMY_DATABASE_URI = os.environ.get("TESTING_DB_STRING", "sqlite://")
+    SECRET_KEY = "justtesting"  # nosec
+    SECURITY_PASSWORD_SALT = "justtesting"  # nosec
 
     INFO_USED_DB = "testing db"
 

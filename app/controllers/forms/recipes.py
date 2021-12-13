@@ -53,6 +53,10 @@ class RecipesForm(FlaskForm):
 
     submit = SubmitField("Přidat recept")
 
+    def __init__(self, formdata=None, obj=None, **kwargs):
+        super().__init__(formdata=formdata, obj=obj, **kwargs)
+        self.set_labels()
+
     def set_labels(form):
         from app.models.label_categories import LabelCategory
 

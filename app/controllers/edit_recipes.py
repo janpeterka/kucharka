@@ -136,8 +136,6 @@ class EditRecipeView(HelperFlaskView):
             save_form_to_session(request.form)
             return redirect(url_for("RecipesView:edit", id=self.recipe.id))
 
-        form.set_labels()
-
         form.populate_obj(self.recipe)
 
         self.recipe.edit()

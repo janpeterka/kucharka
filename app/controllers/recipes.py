@@ -123,9 +123,13 @@ class RecipesView(HelperFlaskView):
         prev_path = request.form["previous"]
 
         with application.test_client() as tc:
-            if tc.get(prev_path).status_code == 200:
-                return redirect(prev_path)
-            else:
+            try:
+                response = tc.get(prev_path)
+                if response.status_code == 200:
+                    return redirect(prev_path)
+                else:
+                    return redirect(url_for("RecipesView:index"))
+            except Exception:
                 return redirect(url_for("RecipesView:index"))
 
     @login_required

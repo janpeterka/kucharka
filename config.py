@@ -48,7 +48,7 @@ class Config(object):
     INFO_USED_DB = "production db"
 
     FF_GALLERY = os.getenv("FF_GALLERY", False)
-    FF_GOOGLE_OAUTH = os.getenv("FF_GOOGLE_OAUTH", False)
+    FF_GOOGLE_OAUTH = os.getenv("FF_GOOGLE_OAUTH", True)
 
     SYSTEM_MESSAGE = os.getenv("SYSTEM_MESSAGE", None)
 

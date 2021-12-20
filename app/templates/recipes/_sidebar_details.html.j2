@@ -20,13 +20,15 @@
 
 {% if author_note != None %}
 
+<hr>
+
 <div class="mt-2">
     <span class="fst-italic font-weight-light"> {{ author_note }} </span>
 </div>
 
 {% endif %}
 
-{% if current_user.is_authenticated and not recipe.is_current_user_author %}
+{% if current_user.is_authenticated and recipe.is_shared and not recipe.is_current_user_author %}
 
 <hr>
 

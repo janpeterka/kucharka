@@ -7,7 +7,7 @@
 }
 
 .testing-field {
-   background-color: pink;
+  background-color: pink;
   padding: 0.5rem;
   border-radius: 0.3rem;
   box-shadow: 0.2rem 0.2rem 0.4rem black; 
@@ -56,8 +56,10 @@
 
 .admin-notification-count {
   border-radius: 0.5rem;
-  padding-left: 0.3rem;
+  margin-left: 0.3rem;
+  padding-left: 0.2rem;
   padding-right: 0.2rem;
   color: white;
   background-color: red;
+  text-align: center;
 }

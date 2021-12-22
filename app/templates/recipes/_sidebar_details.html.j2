@@ -8,8 +8,10 @@
     <span class="fst-italic"> {{ category_name }} </span>
 </div>
 
-{% if recipe.is_shared and not recipe.is_current_user_author %}
+{% if recipe.is_shared and not recipe.is_current_user_author and recipe.author.name %}
     {% set author_note = "(vytvořil*a " + recipe.author.name + ")" %}
+{% elif recipe.is_shared and not recipe.is_current_user_author and not recipe.author.name %}
+    {% set author_note = None %}
 {% elif recipe.is_shared %}
     {% set author_note = "zveřejněný recept " + icon("shared") %}
 {% else %}
@@ -25,13 +27,17 @@
 </div>
 
 {% endif %}
-{% if current_user.is_authenticated and not recipe.is_current_user_author %}
+
+{% if current_user.is_authenticated and recipe.is_shared and not recipe.is_current_user_author %}
+
+<hr>
+
 <form method="post" action="{{ url_for('PublicRecipesView:toggle_reaction', recipe_id=recipe.id, refresh=True) }}">
     <button type="submit" class="invisible-button">
         {% if recipe.has_reaction %}
-            <span>{{ icon("heart_full", action="click->recipe-reactions#empty") }}</span>
+            <span> {{ icon("heart_full", action="click->recipe-reactions#empty", cursor_class="cursor-clickable") }} </span>
         {% else %}
-            <span>{{ icon("heart_empty", action="click->recipe-reactions#fill") }}</span>
+            <span> {{ icon("heart_empty", action="click->recipe-reactions#fill", cursor_class="cursor-clickable") }} </span>
         {% endif %}
     </button>
 </form>
@@ -50,6 +56,4 @@
 </div>
 
 {% endif %}
-
-<hr>
 

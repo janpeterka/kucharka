@@ -1,4 +1,5 @@
 from flask_security.models.fsqla_v2 import FsUserMixin as UserMixin
+from flask_security import hash_password
 
 from app import db, BaseModel
 
@@ -25,13 +26,16 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin):
     events = db.relationship("Event", back_populates="author")  # type: ignore
 
     @staticmethod
-    def create(email, password, **kwargs):
+    def create(email, password, do_hash=True, **kwargs):
         from app import user_datastore
-        from flask_security import hash_password
 
-        return user_datastore.create_user(
-            email=email, password=hash_password(password), **kwargs
-        )
+        if do_hash:
+            password = hash_password(password)
+
+        return user_datastore.create_user(email=email, password=password, **kwargs)
+
+    def set_password(self, password):
+        self.password = hash_password(password)
 
     # LOADERS
 
@@ -47,6 +51,10 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin):
             return self.full_name
         else:
             return ""
+
+    @property
+    def has_password(self):
+        return self.password != "x"
 
     @property
     def active_events(self):

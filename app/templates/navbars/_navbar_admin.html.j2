@@ -2,7 +2,7 @@
 	<a class="nav-link dropdown-toggle color-admin" href="#" id="navbarDropdown" role="button"
 	 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	admin
-		{# <turbo-frame id="admin-notification-count" src="{{ url_for('AdminView:admin_notification_count') }}"></turbo-frame> #}
+		<turbo-frame id="admin-notification-count" src="{{ url_for('AdminView:admin_notification_count') }}"></turbo-frame>
 	</a>
 	
 	<div class="dropdown-menu bg-color-admin" aria-labelledby="navbarDropdown">
@@ -25,11 +25,11 @@
 
 		<a class="dropdown-item" href="{{ url_for('AdminView:tips_index') }}">
 			tipy
-			{# <turbo-frame id="admin-notification-count" src="{{ url_for('AdminView:unapproved_tips_count') }}"></turbo-frame> #}
+			<turbo-frame id="admin-notification-count" src="{{ url_for('AdminView:unapproved_tips_count') }}"></turbo-frame>
 		</a>
 
-		<a class="dropdown-item" href="{{ url_for('AdminView:index') }}">
-			grafy </a>
+{# 		<a class="dropdown-item" href="{{ url_for('AdminView:index') }}">
+			grafy </a> #}
 	</div>
 </li>
 

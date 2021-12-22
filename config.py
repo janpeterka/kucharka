@@ -48,7 +48,7 @@ class Config(object):
     INFO_USED_DB = "production db"
 
     FF_GALLERY = os.getenv("FF_GALLERY", False)
-    FF_GOOGLE_OAUTH = os.getenv("FF_GOOGLE_OAUTH", False)
+    FF_GOOGLE_OAUTH = os.getenv("FF_GOOGLE_OAUTH", True)
 
     SYSTEM_MESSAGE = os.getenv("SYSTEM_MESSAGE", None)
 
@@ -75,8 +75,9 @@ class TestConfig(Config):
     SENTRY_MONITORING = False
     FLASK_DEBUG = False
 
-    SQLALCHEMY_DATABASE_URI = os.environ.get("TESTING_DB_STRING")
-    SECRET_KEY = os.environ.get("TESTING_SECRET_KEY")
+    SQLALCHEMY_DATABASE_URI = os.environ.get("TESTING_DB_STRING", "sqlite://")
+    SECRET_KEY = "justtesting"  # nosec
+    SECURITY_PASSWORD_SALT = "justtesting"  # nosec
 
     INFO_USED_DB = "testing db"
 

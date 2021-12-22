@@ -18,7 +18,7 @@
                     <div class="col">
 	                    <select name="meal-type" id="meal-type" class="form-control">
 	                        <option disabled {% if not daily_recipe.meal_type %}selected{% endif %} value> Typ jídla: </option>
-	                    	{% for option in ["snídaně", "dopolední svačina", "oběd", "odpolední svačina", "večeře", "program", "jiné"] %}
+	                    	{% for option in ["snídaně", "dopolední svačina", "oběd", "odpolední svačina", "večeře", "programové", "jiné"] %}
 	                        	<option name='{{ option }}' value='{{ option }}' {% if daily_recipe.meal_type==option %}selected{% endif %}> {{ option | capitalize}} </option>
 	                    	{% endfor %}
 	                    </select>

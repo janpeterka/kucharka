@@ -52,7 +52,7 @@ class Config(object):
     FF_GALLERY = os.getenv("FF_GALLERY", False)
     FF_GOOGLE_OAUTH = os.getenv("FF_GOOGLE_OAUTH", True)
     FF_SKAUTIS_OAUTH = os.getenv("FF_SKAUTIS_OAUTH", False)
-    FF_OAUTHS = (FF_GOOGLE_OAUTH or FF_SKAUTIS_OAUTH)
+    FF_OAUTHS = FF_GOOGLE_OAUTH or FF_SKAUTIS_OAUTH
 
     SYSTEM_MESSAGE = os.getenv("SYSTEM_MESSAGE", None)
 

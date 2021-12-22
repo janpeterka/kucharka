@@ -36,14 +36,15 @@ class AdminView(HelperFlaskView):
         return redirect(url_for("FilesView:index"))
 
     def unapproved_tips_count(self):
-        self.unapproved_tips = Tip.unapproved_tips()
-        self.notification_count = len(self.unapproved_tips)
+        self.notification_count = self._unapproved_tips_count()
         return self.template(template_name="admin/_admin_notification_count.html.j2")
 
     def admin_notification_count(self):
-        self.unapproved_tips = Tip.unapproved_tips()
-        self.notification_count = len(self.unapproved_tips)
+        self.notification_count = self._unapproved_tips_count()
         return self.template(template_name="admin/_admin_notification_count.html.j2")
+
+    def _unapproved_tips_count(self) -> int:
+        return len(Tip.unapproved_tips())
 
     # @route("toggle_admin", methods=["POST"])
     # def toggle_admin(self):

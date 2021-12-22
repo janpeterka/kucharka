@@ -176,7 +176,7 @@ class BaseMixin(object):
             self == user  # for User
             or self.is_public
             or self.is_author(user)
-            or user.has_permission("see-other")
+            or (user.is_authenticated and user.has_permission("see-other"))
         )
 
     @property
@@ -184,7 +184,11 @@ class BaseMixin(object):
         return self.can_view(user=current_user)
 
     def can_edit(self, user) -> bool:
-        return self == user or self.is_author(user) or user.has_permission("edit-other")
+        return (
+            self == user
+            or self.is_author(user)
+            or (user.is_authenticated and user.has_permission("edit-other"))
+        )
 
     @property
     def can_current_user_edit(self) -> bool:

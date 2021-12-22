@@ -42,6 +42,8 @@ class Config(object):
     GOOGLE_OAUTH_CLIENT_ID = os.environ.get("GOOGLE_OAUTH_CLIENT_ID")
     GOOGLE_OAUTH_CLIENT_SECRET = os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET")
 
+    SKAUTIS_APP_ID = os.environ.get("SKAUTIS_APP_ID")
+
     STORAGE_SYSTEM = os.environ.get("STORAGE_SYSTEM")
 
     SENTRY_MONITORING = True
@@ -49,6 +51,8 @@ class Config(object):
 
     FF_GALLERY = os.getenv("FF_GALLERY", False)
     FF_GOOGLE_OAUTH = os.getenv("FF_GOOGLE_OAUTH", True)
+    FF_SKAUTIS_OAUTH = os.getenv("FF_SKAUTIS_OAUTH", False)
+    FF_OAUTHS = (FF_GOOGLE_OAUTH or FF_SKAUTIS_OAUTH)
 
     SYSTEM_MESSAGE = os.getenv("SYSTEM_MESSAGE", None)
 

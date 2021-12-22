@@ -4,6 +4,7 @@
 <h1 class="text-center font-comfortaa text-uppercase"> {{ _('Přihlásit se') }} </h1>
 <form action="{{ url_for_security('login') }}" class="form-control" method="POST" name="login_user_form" data-turbo="false">
   {{ login_user_form.hidden_tag() }}
+
   {% if config.FF_GOOGLE_OAUTH %}
   <div class="text-center mt-2"> 
     <a class="no-decoration" href="{{ url_for('google.login') }}">
@@ -12,8 +13,23 @@
       </button>
     </a>
   </div>
+  {% endif %}
+  
+  
+  {% if config.FF_SKAUTIS_OAUTH %}
+  <div class="text-center mt-2"> 
+    <a class="no-decoration" href="{{ url_for('skautis.login') }}">
+      <button type="button" class="btn btn-social btn-skautis loginBtn--skautis loginBtn">
+          <span class="fab"></span> Přihlásit se pomocí SkautISu
+      </button>
+    </a>
+  </div>
+  {% endif %}
+  
 
+  {% if config.FF_OAUTHS %}
   <hr>
+
   <div class="smaller text-center color-grey"> nebo </div>
   {% endif %}
 
@@ -28,11 +44,12 @@
   
   {{ render_field(login_user_form.remember, label="Pamatovat si", with_errors=False) }}
   
-      <div class="text-center mt-2">
-      {{ render_field(login_user_form.submit, value="Přihlásit se", class="p-2 ps-4 pe-4") }}
-    </div>
+  <div class="text-center mt-2">
+    {{ render_field(login_user_form.submit, value="Přihlásit se", class="p-2 ps-4 pe-4") }}
+  </div>
   
   <a class="mt-2 float-end" href="{{ url_for_security('forgot_password')}}">Zapomněli jste heslo?</a>
+
 </form>
 
 {% endblock %}

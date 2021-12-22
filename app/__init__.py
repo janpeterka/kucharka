@@ -96,7 +96,9 @@ def create_app(config_name="default"):
 
     # MODULES
     from app.modules.auth.auth import blueprint as google_oauth_bp
+    from app.modules.auth.skautis import skautis_blueprint
 
     application.register_blueprint(google_oauth_bp, url_prefix="/oauth/")
+    application.register_blueprint(skautis_blueprint, url_prefix="/skautis/oauth/")
 
     return application

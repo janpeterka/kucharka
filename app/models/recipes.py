@@ -194,7 +194,7 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
             self.is_shared
             or self.is_in_shared_event
             or user == self.author
-            or user.has_permission("see-other")
+            or (user.is_authenticated and user.has_permission("see-other"))
         )
 
     # PROPERTIES

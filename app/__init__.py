@@ -11,6 +11,8 @@ from flask_dropzone import Dropzone
 from flask_sqlalchemy.model import DefaultMeta  # noqa: E402
 from sqlalchemy import MetaData
 
+from skautis import SkautisApi
+
 convention = {
     "ix": "ix_%(column_0_label)s",
     "uq": "uq_%(table_name)s_%(column_0_name)s",
@@ -37,7 +39,7 @@ turbo = Turbo()
 mail = Mail()
 security = Security()
 dropzone = Dropzone()
-skautis = SkautisApi(test=True)
+skautis = SkautisApi(appId=None, test=True)
 
 
 def create_app(config_name="default"):

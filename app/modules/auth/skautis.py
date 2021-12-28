@@ -9,12 +9,11 @@ skautis_blueprint = Blueprint("skautis", __name__)
 def login():
     if request.method == "GET":
         return redirect(skautis.get_login_url())
-    else:
-        skautis_token = request.form["skautIS_Token"]
-        # skautis_idrole = request.form["skautIS_IDRole"]
-        # skautis_idunit = request.form["skautIS_IDUnit"]
-        # skautis_datelogout = request.form["skautIS_DateLogout"]
+    skautis_token = request.form["skautIS_Token"]
+    # skautis_idrole = request.form["skautIS_IDRole"]
+    # skautis_idunit = request.form["skautIS_IDUnit"]
+    # skautis_datelogout = request.form["skautIS_DateLogout"]
 
-        user_info = skautis.UserManagement.UserDetail(skautis_token, None)
+    user_info = skautis.UserManagement.UserDetail(skautis_token, None)
 
-        return redirect(url_for("DashboardView:dashboard"))
+    return redirect(url_for("DashboardView:dashboard"))

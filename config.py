@@ -42,7 +42,7 @@ class Config(object):
     GOOGLE_OAUTH_CLIENT_ID = os.environ.get("GOOGLE_OAUTH_CLIENT_ID")
     GOOGLE_OAUTH_CLIENT_SECRET = os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET")
 
-    SKAUTIS_APP_ID = os.environ.get("SKAUTIS_APP_ID")
+    SKAUTIS_APPID = os.environ.get("SKAUTIS_APPID")
 
     STORAGE_SYSTEM = os.environ.get("STORAGE_SYSTEM")
 

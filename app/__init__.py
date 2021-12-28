@@ -37,6 +37,7 @@ turbo = Turbo()
 mail = Mail()
 security = Security()
 dropzone = Dropzone()
+skautis = SkautisApi(test=True)
 
 
 def create_app(config_name="default"):
@@ -65,6 +66,7 @@ def create_app(config_name="default"):
     turbo.init_app(application)
     mail.init_app(application)
     dropzone.init_app(application)
+    skautis._appId = application.config["SKAUTIS_APPID"]
 
     if application.config["SENTRY_MONITORING"]:
         import sentry_sdk

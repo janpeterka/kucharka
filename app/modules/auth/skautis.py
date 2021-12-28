@@ -1,16 +1,12 @@
 from flask import Blueprint, redirect, request, url_for
-from skautis import SkautisApi
-from flask import current_app as application
 
+from app import skautis
 
 skautis_blueprint = Blueprint("skautis", __name__)
 
 
 @skautis_blueprint.route("/login", methods=["GET", "POST"])
 def login():
-    # WIP - trvá hrozně dlouho, než se to vytvoří. mělo by se dít radši normálně při iniciaci celé aplikace
-    skautis = SkautisApi(application.config["SKAUTIS_APP_ID"], test=True)
-
     if request.method == "GET":
         return redirect(skautis.get_login_url())
     else:

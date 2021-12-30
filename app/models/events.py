@@ -1,5 +1,7 @@
 from datetime import timedelta
 
+from flask_security import current_user
+
 from app import db, BaseModel
 
 from app.helpers.item_mixin import ItemMixin
@@ -31,6 +33,8 @@ class Event(BaseModel, ItemMixin):
         primaryjoin="and_(Event.id == UserHasEventRole.event_id, UserHasEventRole.role =='collaborator')",
         viewonly=True,
     )
+
+    user_roles = db.relationship("UserHasEventRole")
 
     daily_plans = db.relationship(
         "DailyPlan",
@@ -169,8 +173,38 @@ class Event(BaseModel, ItemMixin):
     def ends_at(self):
         return self.date_to
 
-    @property
-    def url(self):
-        from flask import url_for
+    def user_role(self, user):
+        roles = [user_role for user_role in self.user_roles if user_role.user == user]
+        if len(roles) == 0:
+            return None
+        elif len(roles) == 1:
+            return roles[0].role
+        else:
+            raise Warning("User has multiple roles on this event")
+            return roles[0].role
 
-        return f"https://skautskakucharka.cz{url_for('EventsView:show', id=self.id)}"
+    @property
+    def current_user_role(self):
+        return self.user_role(current_user)
+
+    # @property
+    # def url(self):
+    #     from flask import url_for
+
+    #     return f"https://skautskakucharka.cz{url_for('EventsView:show', id=self.id)}"
+
+    # PERMISSIONS
+    def can_view(self, user) -> bool:
+        return (
+            self.is_author(user)
+            or self.user_role(user) in ["viewer", "collaborator"]
+            or self.is_public
+            or (user.is_authenticated and user.has_permission("see-other"))
+        )
+
+    def can_edit(self, user) -> bool:
+        return (
+            self.is_author(user)
+            or self.user_role(user) == "collaborator"
+            or (user.is_authenticated and user.has_permission("edit-other"))
+        )

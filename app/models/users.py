@@ -24,6 +24,12 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin):
     recipes = db.relationship("Recipe", order_by="Recipe.name", back_populates="author")  # type: ignore
 
     events = db.relationship("Event", back_populates="author")  # type: ignore
+    role_events = db.relationship(
+        "Event",
+        secondary="users_have_event_roles",
+        primaryjoin="User.id == UserHasEventRole.user_id",
+        viewonly=True,
+    )
 
     @staticmethod
     def create(email, password, do_hash=True, **kwargs):

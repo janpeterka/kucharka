@@ -4,6 +4,7 @@ from flask_security import current_user
 
 from app import db, BaseModel
 
+from app.helpers.general import list_without_duplicated, placeholder_day
 from app.helpers.item_mixin import ItemMixin
 
 from app.models.daily_plans import DailyPlan
@@ -98,13 +99,57 @@ class Event(BaseModel, ItemMixin):
         return any(dp.date == date for dp in self.daily_plans)
 
     @property
-    def active_daily_plans(self):
+    def active_daily_plans(self) -> list:
         return [
             dp for dp in self.daily_plans if (self.date_from <= dp.date <= self.date_to)
         ]
 
     @property
-    def recipes(self):
+    def weeks(self) -> list:
+        weeks = [dp.week for dp in self.active_daily_plans]
+
+        return list_without_duplicated(weeks)
+
+    def days_of_week(self, week) -> list:
+        return [dp for dp in self.active_daily_plans if dp.week == week]
+
+    def days_of_week_extended(self, week) -> list:
+        import datetime
+
+        base_days = [dp for dp in self.active_daily_plans if dp.week == week]
+        week_length = len(base_days)
+        missing_day_count = 7 - week_length
+        if week_length == 7:
+            return base_days
+
+        if base_days[-1].weekday == "neděle":
+            first_date = base_days[0].date
+            # add missing days
+            for i in range(missing_day_count):
+                base_days.insert(
+                    0, placeholder_day(first_date + datetime.timedelta(days=-(i + 1)))
+                )
+
+        elif base_days[0].weekday == "pondělí":
+            last_date = base_days[-1].date
+            # add missing days
+            for i in range(missing_day_count):
+                base_days.append(
+                    placeholder_day(last_date + datetime.timedelta(days=i + 1))
+                )
+
+        return base_days
+
+    @property
+    def days_by_week(self) -> list:
+        days_by_week = []
+        for week in self.weeks:
+            days_by_week.append(self.days_of_week_extended(week))
+
+        return days_by_week
+
+    @property
+    def recipes(self) -> list:
         recipes = []
         for daily_plan in self.daily_plans:
             recipes += daily_plan.real_recipes
@@ -113,8 +158,6 @@ class Event(BaseModel, ItemMixin):
 
     @property
     def recipes_without_duplicated(self):
-        from app.helpers.general import list_without_duplicated
-
         return list_without_duplicated(self.recipes)
 
     @property

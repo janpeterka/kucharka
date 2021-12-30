@@ -1,0 +1,32 @@
+{% macro render_day_badge(day) %}
+
+
+
+{% if not day.is_active %}
+	{% set color = "white" %}
+{% elif day.weekday == "neděle"  %}
+	{% set color = "light-yellow" %}
+{% else %}
+	{% set color = "light-green"%}
+{% endif %}
+
+{% if not day.is_active %}
+	{% set class = "opacity-50 d-none d-md-inline-block" %}
+{% elif day.is_active %}
+	{% set class = "day-badge" %}
+{% endif %}
+
+<div
+	{% if day.is_active %} data-action="click->clicker#activateLink" {% endif %}
+	class="col-10 col-md p-2 mb-2 mb-md-3 ms-4 bg-color-{{ color }} rounded text-center text-nobreak {{ class }}">
+	{% if not day.is_active %}
+		{{ day.weekday }}
+	{% else %}
+		{{ link_to(day) }}
+		{% if day.daily_recipes %}
+		    ({{ day.daily_recipes | length }})
+		{% endif %}
+	{% endif %}
+</div>
+
+{% endmacro %}

@@ -1,9 +1,16 @@
 {% from "macros/icons.html.j2" import icon %}
 
 <div id="event-info">
-	<h1> {{ event.name }} </h1>		
-	<span> Od {{ human_format_date(event.date_from) }} do {{ human_format_date(event.date_to) }} ({{ event.duration }} dnů)<br></span>
-	<span> Pro {{ event.people_count }} lidí</span>
+	<h1> {{ event.name }} </h1>
+	<div>
+		Od {{ human_format_date(event.date_from) }}
+	</div>
+
+	<div>
+ 		Do {{ human_format_date(event.date_to) }} ({{ event.duration }} dnů)
+	</div>	
+	
+	<span> Pro {{ event.people_count }} lidí </span>
 
     {% if event.is_shared %}
         <span class="fst-italic font-weight-light float-end"> {{ icon("shared") }} </span>

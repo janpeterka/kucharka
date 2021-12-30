@@ -17,7 +17,7 @@ class EventsView(HelperFlaskView):
     @login_required
     def before_request(self, name, id=None):
         event_id = id
-        self.event = Event.load(id)
+        self.event = Event.load(event_id)
 
         self.validate_operation(event_id, self.event)
 

@@ -6,7 +6,7 @@ Stimulus.register("clicker", class extends Controller {
   connect() {
     for (let i = 0, badge; badge = this.areaTarget.querySelectorAll(".day-badge")[i]; i++) {
       // if (badge.value > 0) {
-        badge.addClass("cursor-clicable")
+        badge.classList.add("cursor-clickable")
       // }
     }
   }

@@ -50,7 +50,7 @@ class EditEventView(HelperFlaskView):
         self.event.edit()
 
         # TODO: do this only if date changed (70)
-        self.event.delete_old_daily_plans()
+        # self.event.delete_old_daily_plans()
         self.event.add_new_daily_plans()
 
         return redirect(url_for("EventsView:show", id=self.event.id))

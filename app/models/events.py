@@ -55,13 +55,13 @@ class Event(BaseModel, ItemMixin):
 
     def share_all_used_recipes(self):
         for recipe in self.recipes:
-            recipe.toggle_shared()
+            recipe.share()
 
-    def delete_old_daily_plans(self):
-        for daily_plan in self.daily_plans:
-            if not (self.date_from <= daily_plan.date <= self.date_to):
-                # daily_plan.delete()
-                pass
+    # def delete_old_daily_plans(self):
+    #     for daily_plan in self.daily_plans:
+    #         if not (self.date_from <= daily_plan.date <= self.date_to):
+    #             # daily_plan.delete()
+    #             pass
 
     def add_new_daily_plans(self):
         for date in self.days:

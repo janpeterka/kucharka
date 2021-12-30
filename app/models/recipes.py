@@ -182,6 +182,11 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         new.save()
         return new
 
+    def share(self):
+        if not self.is_shared:
+            self.is_shared = True
+            self.edit()
+
     def toggle_shared(self):
         self.is_shared = not self.is_shared
         self.edit()

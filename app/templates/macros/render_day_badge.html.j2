@@ -1,9 +1,7 @@
 {% macro render_day_badge(day) %}
 
-
-
 {% if not day.is_active %}
-	{% set color = "white" %}
+	{% set color = "light-grey" %}
 {% elif day.weekday == "neděle"  %}
 	{% set color = "light-yellow" %}
 {% else %}
@@ -18,14 +16,26 @@
 
 <div
 	{% if day.is_active %} data-action="click->clicker#activateLink" {% endif %}
-	class="col-10 col-md p-2 mb-2 mb-md-3 ms-4 bg-color-{{ color }} rounded text-center text-nobreak {{ class }}">
-	{% if not day.is_active %}
-		{{ day.weekday }}
-	{% else %}
-		{{ link_to(day) }}
-		{% if day.daily_recipes %}
-		    ({{ day.daily_recipes | length }})
+	class="col-10 col-md p-2 mb-2 mb-md-3 ms-4 bg-color-{{ color }} rounded text-center text-nobreak {{ class }} lh-2">
+	<div>
+		{% if not day.is_active %}
+			{{ day.weekday }}
+		{% else %}
+			{{ link_to(day) }}
+			{% if day.daily_recipes %}
+			    ({{ day.daily_recipes | length }})
+			{% endif %}
 		{% endif %}
+	</div>
+	
+	{% if day.is_active %}
+		
+		<hr>
+
+		{% for recipe in day.recipes %}
+			{{ link_to(recipe) }}<br>
+		{% endfor %}
+	
 	{% endif %}
 </div>
 

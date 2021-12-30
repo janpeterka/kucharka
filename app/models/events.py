@@ -25,6 +25,12 @@ class Event(BaseModel, ItemMixin):
 
     created_by = db.Column(db.ForeignKey(("users.id")), nullable=False, index=True)
     author = db.relationship("User", uselist=False, back_populates="events")
+    collaborators = db.relationship(
+        "User",
+        secondary="users_have_event_roles",
+        primaryjoin="and_(Event.id == UserHasEventRole.event_id, UserHasEventRole.role =='collaborator')",
+        viewonly=True,
+    )
 
     daily_plans = db.relationship(
         "DailyPlan",

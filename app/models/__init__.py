@@ -11,3 +11,5 @@ from app.models.label_categories import LabelCategory  # noqa: F401
 from app.models.labels import Label  # noqa: F401
 from app.models.recipes_have_labels import RecipeHasLabel  # noqa: F401
 from app.models.oauth import OAuth  # noqa: F401
+
+from app.models.users_have_event_roles import UserHasEventRole  # noqa: F401

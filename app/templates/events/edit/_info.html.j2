@@ -1,4 +1,5 @@
 {% from "macros/render_field.html.j2" import render_field, render_floating_field %}
+{% from "macros/icons.html.j2" import icon %}
 
 <div id="event-info">
 <form method="POST" action="{{ url_for('EditEventView:post', event_id=event.id) }}">
@@ -6,13 +7,55 @@
 
     {{ render_floating_field(form.name) }}
 
-    <div class="row mt-2">
-        <div class="col-md-6 col-sm-12"> {{ render_floating_field(form.date_from) }} </div>
-        <div class="col-md-6 col-sm-12"> {{ render_floating_field(form.date_to) }} </div>
-    </div>
-	
-	{{ render_floating_field(form.people_count) }}
+    <hr>
 
-    {{ render_field(form.submit, value="Uložit změny") }}
+    <div class="row">
+
+        <div class="col">
+            <div class="row">
+                    <div class="col mb-1 me-1 p-1">
+                        {{ render_floating_field(form.date_from) }}
+                    </div>
+
+                    <div class="col mb-1 p-1">
+                        {{ render_floating_field(form.date_to) }}
+                    </div>
+                </div>
+        </div>
+
+        <div class="col">
+            <div class="col mb-1 p-1">
+                <div class="form-floating">
+                    <input type="text" name="duration" class="form-control" value="{{ event.duration }} dnů" disabled>
+                    <label for="shared"> Trvání </label>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <div class="col mb-1 me-1 p-1">
+                    {{ render_floating_field(form.people_count) }}
+                </div>
+                <div class="col mb-1 p-1">
+                    {% if event.is_shared %}
+                      <div class="form-floating">
+                        <input type="text" name="shared" class="form-control font-fa"  value="" disabled>
+                        <label for="shared">Další informace</label>
+                      </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col mt-2">
+            {{ render_field(form.submit, value="Uložit změny", class="w-100 btn-warning") }}
+        </div>
+
+    </div>
+
 </form>
 </div>

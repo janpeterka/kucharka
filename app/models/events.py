@@ -85,7 +85,16 @@ class Event(BaseModel, ItemMixin):
 
     @property
     def duration(self):
-        return (self.date_to - self.date_from).days
+        return (self.date_to - self.date_from).days + 1
+
+    @property
+    def duration_label(self):
+        if self.duration == 1:
+            return "den"
+        elif self.duration in [1, 2, 3, 4]:
+            return "dny"
+        else:
+            return "dnů"
 
     @property
     def days(self):
@@ -148,6 +157,14 @@ class Event(BaseModel, ItemMixin):
         return recipes
 
     @property
+    def active_recipes(self) -> list:
+        recipes = []
+        for daily_plan in self.active_daily_plans:
+            recipes += daily_plan.real_recipes
+
+        return recipes
+
+    @property
     def recipes_without_duplicated(self):
         return list_without_duplicated(self.recipes)
 
@@ -181,23 +198,23 @@ class Event(BaseModel, ItemMixin):
 
     @property
     def zero_amount_ingredient_recipes(self):
-        return [r for r in self.recipes if r.has_zero_amount_ingredient]
+        return [r for r in self.active_recipes if r.has_zero_amount_ingredient]
 
     @property
     def no_measurement_ingredient_recipes(self):
-        return [r for r in self.recipes if r.has_no_measurement_ingredient]
+        return [r for r in self.active_recipes if r.has_no_measurement_ingredient]
 
     @property
     def recipes_without_category(self):
-        return [r for r in self.recipes if r.without_category]
+        return [r for r in self.active_recipes if r.without_category]
 
     @property
     def no_category_ingredient_recipes(self):
-        return [r for r in self.recipes if r.has_no_category_ingredient]
+        return [r for r in self.active_recipes if r.has_no_category_ingredient]
 
     @property
     def empty_recipes(self):
-        return [r for r in self.recipes if r.is_draft]
+        return [r for r in self.active_recipes if r.is_draft]
 
     @property
     def starts_at(self):

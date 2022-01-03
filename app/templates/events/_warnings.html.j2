@@ -1,5 +1,9 @@
 <turbo-frame id="event-warnings">
-	{% if event.zero_amount_ingredient_recipes or event.empty_recipes or event.no_measurement_ingredient_recipes or event.recipes_without_category%}
+	{% if event.zero_amount_ingredient_recipes
+		  or event.empty_recipes
+		  or event.no_measurement_ingredient_recipes
+		  or event.no_category_ingredient_recipes
+		  or event.recipes_without_category %}
 
 	<hr>
 		

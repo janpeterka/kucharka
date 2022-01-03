@@ -26,7 +26,7 @@ Stimulus.register("set-duration", class extends Controller {
     var startDate = this.dateFromTarget.valueAsDate
     var endDate = this.dateToTarget.valueAsDate
 
-    return (this._treatAsUTC(endDate) - this._treatAsUTC(startDate)) / millisecondsPerDay;
+    return (this._treatAsUTC(endDate) - this._treatAsUTC(startDate)) / millisecondsPerDay + 1;
   }
 
   _treatAsUTC(date) {

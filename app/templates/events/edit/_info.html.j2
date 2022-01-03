@@ -64,7 +64,15 @@
         </div>
 
         <div class="col mt-2">
-            {{ render_field(form.submit, value="Uložit změny", class="w-100 btn-warning mt-0 pb-3 pt-3") }}
+            <div class="row">
+                
+            <div class="col">
+                {{ render_field(form.submit, value="Uložit změny", class="w-100 btn-warning mt-0 pt-3 pb-3") }}
+            </div>
+            <div class="col">
+                <a href="{{ url_for('EventsView:show', id=event.id) }}" class="btn btn-secondary w-100 mt-0 pt-3 pb-3"> Zrušit změny </a>
+            </div>
+            </div>
         </div>
 
     </div>

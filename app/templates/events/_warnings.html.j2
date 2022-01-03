@@ -1,8 +1,10 @@
 <turbo-frame id="event-warnings">
 	{% if event.zero_amount_ingredient_recipes or event.empty_recipes or event.no_measurement_ingredient_recipes or event.recipes_without_category%}
+
+	<hr>
 		
-	<div class="warning m-3 p-2">
-		<h3>Upozornění</h3>
+	<div class="warning m-2 p-2">
+		<h3 class="text-center"> Upozornění </h3>
 
 		{% if event.zero_amount_ingredient_recipes %}
 			{% for recipe in event.zero_amount_ingredient_recipes %}

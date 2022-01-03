@@ -70,5 +70,5 @@ div.warning li {
 }
 
 div.warning li:before {
-  content: "!";
+  content: "⚠️";
 }

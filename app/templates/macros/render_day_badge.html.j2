@@ -31,7 +31,11 @@
 
 		{% for recipe in day.recipes %}
 		<div class="text-truncate">
-			{{ link_to(recipe) }}
+			{% if not recipe.is_shopping %}
+				{{ link_to(recipe) }}
+			{% else %}
+				<span class="color-grey"> nákup </span>
+			{% endif %}
 		</div>
 		{% endfor %}
 	

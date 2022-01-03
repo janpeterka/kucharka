@@ -35,10 +35,11 @@
     {% include "events/_delete_or_edit.html.j2" %}
 {% endif %}
 
-{% include "events/_export.html.j2" %}
-
 {% if event.can_current_user_edit %}
     <turbo-frame id="event-warnings" src="{{ url_for('EventsView:warnings', id=event.id) }}"></turbo-frame>
 {% endif %}
+
+{% include "events/_export.html.j2" %}
+
 
 {% endblock %}

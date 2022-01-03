@@ -13,18 +13,18 @@
 
         <div class="col">
             <div class="row">
-                    <div class="col mb-1 me-1 p-1">
+                    <div class="col mb-0 mt-0 me-1 p-1">
                         {{ render_floating_field(form.date_from) }}
                     </div>
 
-                    <div class="col mb-1 p-1">
+                    <div class="col mb-0 mt-0 p-1">
                         {{ render_floating_field(form.date_to) }}
                     </div>
                 </div>
         </div>
 
         <div class="col">
-            <div class="col mb-1 p-1">
+            <div class="col mb-0 mt-0 p-1">
                 <div class="form-floating">
                     <input type="text" name="duration" class="form-control" value="{{ event.duration }} dnů" disabled>
                     <label for="shared"> Trvání </label>
@@ -37,10 +37,10 @@
     <div class="row">
         <div class="col">
             <div class="row">
-                <div class="col mb-1 me-1 p-1">
+                <div class="col mb-0 mt-0 me-1 p-1">
                     {{ render_floating_field(form.people_count) }}
                 </div>
-                <div class="col mb-1 p-1">
+                <div class="col mb-0 mt-0 p-1">
                     {% if event.is_shared or event.is_archived %}
                       <div class="form-floating">
                         {% set value="" %}

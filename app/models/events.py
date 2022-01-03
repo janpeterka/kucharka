@@ -142,11 +142,7 @@ class Event(BaseModel, ItemMixin):
 
     @property
     def days_by_week(self) -> list:
-        days_by_week = []
-        for week in self.weeks:
-            days_by_week.append(self.days_of_week_extended(week))
-
-        return days_by_week
+        return [self.days_of_week_extended(week) for week in self.weeks]
 
     @property
     def recipes(self) -> list:
@@ -218,13 +214,12 @@ class Event(BaseModel, ItemMixin):
 
     def user_role(self, user):
         roles = [user_role for user_role in self.user_roles if user_role.user == user]
-        if len(roles) == 0:
+        if not roles:
             return None
         elif len(roles) == 1:
             return roles[0].role
         else:
             raise Warning("User has multiple roles on this event")
-            return roles[0].role
 
     @property
     def current_user_role(self):

@@ -1,3 +1,4 @@
+import datetime
 from datetime import timedelta
 
 from flask_security import current_user
@@ -80,8 +81,6 @@ class Event(BaseModel, ItemMixin):
 
     @property
     def in_future(self):
-        import datetime
-
         return self.date_to >= datetime.date.today()
 
     @property
@@ -114,8 +113,6 @@ class Event(BaseModel, ItemMixin):
         return [dp for dp in self.active_daily_plans if dp.week == week]
 
     def days_of_week_extended(self, week) -> list:
-        import datetime
-
         base_days = [dp for dp in self.active_daily_plans if dp.week == week]
         week_length = len(base_days)
         missing_day_count = 7 - week_length
@@ -127,16 +124,14 @@ class Event(BaseModel, ItemMixin):
             # add missing days
             for i in range(missing_day_count):
                 base_days.insert(
-                    0, placeholder_day(first_date + datetime.timedelta(days=-(i + 1)))
+                    0, placeholder_day(first_date + timedelta(days=-(i + 1)))
                 )
 
         elif base_days[0].weekday == "pondělí":
             last_date = base_days[-1].date
             # add missing days
             for i in range(missing_day_count):
-                base_days.append(
-                    placeholder_day(last_date + datetime.timedelta(days=i + 1))
-                )
+                base_days.append(placeholder_day(last_date + timedelta(days=i + 1)))
 
         return base_days
 

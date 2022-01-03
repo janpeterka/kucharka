@@ -1,7 +1,7 @@
 {% from "macros/icons.html.j2" import icon %}
 
 <div id="event-info">
-	<h1 class="text-center"> {{ event.name }} </h1>
+	<h1 class="text-center font-comfortaa"> {{ event.name }} </h1>
 
 	<hr>
 
@@ -43,7 +43,7 @@
 		<div class="col">
 		    {% if event.can_current_user_edit %}
 				<form method="POST" action="{{ url_for('EditEventView:edit', event_id=event.id) }}">
-					<button type="submit" class="btn btn-warning w-100"> Upravit {{ icon("edit") }} </button>
+					<button type="submit" class="btn btn-warning w-100 pb-2 pt-2"> Upravit {{ icon("edit") }} </button>
 				</form>
 		    {% endif %}
 		</div>

@@ -41,9 +41,16 @@
                     {{ render_floating_field(form.people_count) }}
                 </div>
                 <div class="col mb-1 p-1">
-                    {% if event.is_shared %}
+                    {% if event.is_shared or event.is_archived %}
                       <div class="form-floating">
-                        <input type="text" name="shared" class="form-control font-fa"  value="" disabled>
+                        {% set value="" %}
+                        {% if event.is_shared %}
+                            {% set value = value~"  " %}
+                        {% endif %}
+                        {% if event.is_archived %}
+                            {% set value =value~"  " %}
+                        {% endif %}
+                        <input type="text" name="shared" class="form-control font-fa"  value="{{value}}" disabled>
                         <label for="shared">Další informace</label>
                       </div>
                     {% endif %}

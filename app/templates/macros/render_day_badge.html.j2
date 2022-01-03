@@ -22,9 +22,6 @@
 			{{ day.weekday }}
 		{% else %}
 			{{ link_to(day) }}
-			{% if day.daily_recipes %}
-			    ({{ day.daily_recipes | length }})
-			{% endif %}
 		{% endif %}
 	</div>
 	
@@ -33,7 +30,9 @@
 		<hr>
 
 		{% for recipe in day.recipes %}
-			{{ link_to(recipe) }}<br>
+		<div class="text-truncate">
+			{{ link_to(recipe) }}
+		</div>
 		{% endfor %}
 	
 	{% endif %}

@@ -16,7 +16,7 @@
 
 <div
 	{% if day.is_active %} data-action="click->clicker#activateLink" {% endif %}
-	class="col-10 col-md p-2 mb-2 mb-md-3 ms-4 bg-color-{{ color }} rounded text-center text-nobreak {{ class }} lh-2">
+	class="col-10 col-md p-2 mb-2 mb-md-3 ms-4 bg-color-{{ color }} rounded text-center text-nobreak {{ class }} lh-2 text-truncate">
 	<div>
 		{% if not day.is_active %}
 			{{ day.weekday }}

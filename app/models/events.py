@@ -258,3 +258,12 @@ class Event(BaseModel, ItemMixin):
             or self.user_role(user) == "collaborator"
             or (user.is_authenticated and user.has_permission("edit-other"))
         )
+
+    def can_share(self, user) -> bool:
+        return self.is_author(user) or (
+            user.is_authenticated and user.has_permission("edit-other")
+        )
+
+    @property
+    def can_current_user_share(self) -> bool:
+        return self.can_share(current_user)

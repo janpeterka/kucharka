@@ -12,7 +12,7 @@
 
     <div class="row ms-2 me-2" data-controller="set-duration">
 
-        <div class="col">
+        <div class="col-12 col-sm">
             <div class="row">
                     <div class="col mb-0 mt-0 me-1 p-1">
                         {{ render_floating_field(form.date_from,
@@ -28,8 +28,8 @@
                 </div>
         </div>
 
-        <div class="col">
-            <div class="col mb-0 mt-0 p-1">
+        <div class="col-12 col-sm">
+            <div class="mb-0 mt-0 p-1">
                 <div class="form-floating">
                     <input type="text" name="duration" class="form-control" value="{{ event.duration }} dnů" disabled data-set-duration-target="duration">
                     <label for="shared"> Trvání </label>
@@ -40,7 +40,7 @@
     </div>
 
     <div class="row ms-2 me-2">
-        <div class="col">
+        <div class="col-12 col-sm">
             <div class="row">
                 <div class="col mb-0 mt-0 me-1 p-1">
                     {{ render_floating_field(form.people_count) }}

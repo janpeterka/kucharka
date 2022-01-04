@@ -6,21 +6,20 @@
 	<hr>
 
 	<div class="row ms-2 me-2">
-
-		<div class="col">
+		<div class="col-12 col-sm">
 			<div class="row">
-					<div class="col mb-1 me-1 p-2 info-badge">
-						Od {{ human_format_date(event.date_from, with_relative=False, with_weekday=False) }}
-					</div>
-
-					<div class="col mb-1 p-2 info-badge">
-						Do {{ human_format_date(event.date_to, with_relative=False, with_weekday=False) }}
-					</div>
+				<div class="col mb-1 me-1 p-2 info-badge">
+					Od {{ human_format_date(event.date_from, with_relative=False, with_weekday=False) }}
 				</div>
+
+				<div class="col mb-1 p-2 info-badge">
+					Do {{ human_format_date(event.date_to, with_relative=False, with_weekday=False) }}
+				</div>
+			</div>
 		</div>
 
-		<div class="col">
-			<div class="col mb-1 p-2 info-badge">
+		<div class="col-12 col-sm">
+			<div class="mb-1 p-2 info-badge">
 				 {{ event.duration }} {{ event.duration_label }}
 			</div>
 		</div>
@@ -28,12 +27,12 @@
 	</div>
 
 	<div class="row ms-2 me-2">
-		<div class="col">
+		<div class="col-12 col-sm">
 			<div class="row">
 				<div class="col mb-1 me-1 p-2 info-badge">
 					Pro {{ event.people_count }} lidí
 				</div>
-				<div class="col mb-1 p-2 info-badge">
+				<div class="col col mb-1 p-2 info-badge">
 				    {% if event.is_shared %}   <span class="me-2"> {{ icon("shared") }}   </span> {% endif %}
 				    {% if event.is_archived %} <span class="me-2"> {{ icon("archived") }} </span> {% endif %}
 				</div>

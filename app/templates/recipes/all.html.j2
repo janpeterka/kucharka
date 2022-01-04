@@ -1,0 +1,23 @@
+{% extends "base/base.html.j2" %}
+{% block title %} {{ texts.recipe_all }} {% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
+{% endblock %}
+
+{% block script %}
+    <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <h1 class="float-start col"> Všechny recepty </h1>
+</div>
+
+<hr>
+
+{% include "public_recipes/_recipes_table.html.j2" %}
+
+{% endblock %}
+

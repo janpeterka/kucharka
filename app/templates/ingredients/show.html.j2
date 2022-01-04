@@ -1,13 +1,8 @@
 {% from "macros/turbo.html.j2" import button_to %}
 
-{% if ingredient.source == "nutridatabaze" %}
-    {% set source = "<abbr title='Na základě dat z NutriDatabaze.cz, verze 7.16, ÚZEI, Praha, www.nutridatabaze.cz/.'>" + ingredient.source + "</abbr>" %}
-{% else %}
-    {% set source = ingredient.author.full_name %}
-{% endif %}
-
 {% extends "base/base.html.j2" %}
-{% block title %} Surovina {% endblock %}
+{% block title %} {{ ingredient.name }} {% endblock %}
+
 {% block content %}
 
 <div class="row">
@@ -21,7 +16,11 @@
             <div>   
                 <span class="fst-italic"> Míra: {{ ingredient.measurement.name }} </span>
                 {% if ingredient.is_public %}
-                    <span class="fst-italic font-weight-light float-end" >Veřejná surovina (zdroj: {{ source }})</span>
+                    {% if ingredient.source == "nutridatabaze" %}
+                        <span class="fst-italic font-weight-light float-end">Veřejná surovina (zdroj: <abbr title='Na základě dat z NutriDatabaze.cz, verze 7.16, ÚZEI, Praha, www.nutridatabaze.cz/.'>nutridatabaze.cz</abbr>)</span>
+                    {% else %}
+                        <span class="fst-italic font-weight-light float-end"> {{ ingredient.author.full_name }} </span>
+                    {% endif %}
                 {% endif %}
             </div>
             
@@ -58,7 +57,7 @@
                 <li>{{ conversion.amount_from }} {{ conversion.ingredient.measurement.name }} → {{ conversion.amount_to }} {{ conversion.to_measurement.name }}</li>
             {% endfor %}
 
-            {% if current_user.is_admin or current_user.is_application_manager %}
+            {% if current_user.has_permission("manage-application") %}
             <div class="admin-field mt-3">
                 <h4> Přidat alternativní měření </h4>
                 {% include ('conversions/_add.html.j2') %}
@@ -67,7 +66,7 @@
             </details>
         
         {% else %}
-            {% if current_user.is_admin or current_user.is_application_manager %}
+            {% if current_user.has_permission("manage-application") %}
             <details class="mb-3 mt-2 admin-field">
             <summary> Konverze mezi druhy měření </summary>
 
@@ -88,13 +87,11 @@
             </div>
             {% endif %}
 
-            {% if current_user.is_admin or current_user.is_application_manager %}
+            {% if current_user.has_permission("manage-application") %}
             <div class="mt-4 admin-field">
-                {% if not ingredient.is_public and (current_user.is_application_manager or current_user.is_admin)  %}
-                    {{ button_to(action=url_for('IngredientsView:publish', id=ingredient.id), class="btn btn-danger", value="Zařadit mezi veřejné") }}
-                {% elif ingredient.is_public and (current_user.is_application_manager or current_user.is_admin) %}
-                    {{ button_to(action=url_for('IngredientsView:unpublish', id=ingredient.id), class="btn btn-danger", value="Vyřadit z veřejných") }}
-                {% endif %}
+                {% if ingredient.is_public %} {% set value="Vyřadit z veřejných" %} {% else %} {% set value="Zařadit mezi veřejné" %} {% endif %}
+                
+                {{ button_to(url_for('IngredientsView:toggle_public', id=ingredient.id), class="btn btn-danger", value=value) }}
             </div>
             {% endif %}
 

@@ -1,0 +1,5 @@
+{% if not category or category == "message" %}
+    {% set category = "info" %}  
+{% endif %}
+
+<li class='{{ category }}'> {{ message }} </li>

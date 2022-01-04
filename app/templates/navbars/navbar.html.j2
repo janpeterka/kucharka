@@ -1,9 +1,9 @@
-<nav class="navbar navbar-dark bg-color-dark-green navbar-expand-lg fixed-top" >
+<nav class="navbar fixed-top navbar-dark bg-color-dark-green navbar-expand-lg" >
   <div class="container">
     {# {% include '_navbar_brand.html.j2' %} #}
     
     <button class="navbar-toggler" type="button"
-            data-toggle="collapse" data-target=".navbar-collapse"
+            data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
             aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -12,10 +12,6 @@
       <ul class="nav navbar-nav navbar-center">
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('DashboardView:index') }}"> Domů | </a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('UsersView:show') }}">{{ icon("user", cursor_class="cursor-clickable") }}</a>
         </li>
 
         <li class="nav-item dropdown">
@@ -44,8 +40,14 @@
         <a class="nav-link" href="{{ url_for('EventsView:index') }}">{{ icon("daily") }} Akce </a>
 
         <a class="nav-link" href="{{ url_for('PublicRecipesView:index') }}"> {{ icon("recipe_database")}} Databáze receptů </a>
+        
+        {% if config['FF_GALLERY'] %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('PublicRecipesView:gallery') }}"> {{icon("image")}} Galerie receptů </a>
+          </li>
+        {% endif %}
 
-        {% if current_user.is_application_manager or current_user.is_admin %}
+        {% if current_user.has_permission("manage-application") %}
           {% include 'navbars/_navbar_admin.html.j2' %}
         {% endif %}
       </ul>
@@ -54,11 +56,21 @@
         <li class="nav-item dropdown">
           <a class="nav-link" href="#" id="navbarDropdown" role="button"
              data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             {{ icon("more", cursor_class="cursor-clickable") }}
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ url_for('TipsView:index') }}"> Tipy a triky </a>
+          </div>
+        </li>
+        
+        <li class="nav-item dropdown me-3">
+          <a class="nav-link" href="#" id="navbarDropdown" role="button"
+             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
              <i class="fa fa-question-circle"></i>
           </a>
 
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ url_for('SupportView:tips') }}"> Tipy a triky </a>
             <a class="dropdown-item" href="{{ url_for('SupportView:terms') }}"> Podmínky použití </a>
             <a class="dropdown-item" href="{{ url_for('SupportView:privacy') }}"> Osobní data </a>
             <a class="dropdown-item" href="https://github.com/janmpeterka/kucharka" target="_blank"> {{ icon("github") }} </a>
@@ -66,9 +78,19 @@
           </div>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="/logout">Odhlásit se</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link" href="#" id="navbarDropdown" role="button"
+             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             {{ icon("user", cursor_class="cursor-clickable", class="text-larger") }}
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ url_for('UsersView:show') }}"> Profil </a>
+            <a class="dropdown-item" href="{{ url_for_security('logout') }}"> Odhlásit se </a>
+          </div>
         </li>
+
+
       </ul>
     </div>
   </div>

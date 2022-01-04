@@ -18,7 +18,7 @@ from .recipe_categories import RecipeCategoriesView
 from .measurements import MeasurementsView
 from .conversions import ConversionsView
 from .tips import TipsView
-from .admin_statistics import AdminStatisticsView
+from .admin import AdminView
 
 from .recipes import RecipesView
 from .edit_recipes import EditRecipeView
@@ -27,8 +27,10 @@ from .public_ingredients import PublicIngredientsView
 
 from .users import UsersView
 from .user_statistics import UserStatisticsView
+from .user_calendars import UserCalendarsView
 
-from app.helpers.helper_flask_view import HelperFlaskView
+from .files import FilesView
+
 
 __all__ = [
     "DashboardView",
@@ -47,17 +49,21 @@ __all__ = [
     "MeasurementsView",
     "ConversionsView",
     "TipsView",
-    "AdminStatisticsView",
+    "AdminView",
     "RecipesView",
     "EditRecipeView",
     "PublicRecipesView",
     "PublicIngredientsView",
     "UsersView",
     "UserStatisticsView",
+    "UserCalendarsView",
+    "FilesView",
 ]
 
 
 def register_all_controllers(application):
+    from app.helpers.helper_flask_view import HelperFlaskView
+
     DailyPlansView.register(application, base_class=HelperFlaskView)
     DailyPlansEditView.register(application, base_class=HelperFlaskView)
 
@@ -83,7 +89,7 @@ def register_all_controllers(application):
     ConversionsView.register(application, base_class=HelperFlaskView)
 
     TipsView.register(application, base_class=HelperFlaskView)
-    AdminStatisticsView.register(application, base_class=HelperFlaskView)
+    AdminView.register(application, base_class=HelperFlaskView)
 
     RecipeCategoriesView.register(application, base_class=HelperFlaskView)
 
@@ -93,6 +99,9 @@ def register_all_controllers(application):
 
     UsersView.register(application, base_class=HelperFlaskView)
     UserStatisticsView.register(application, base_class=HelperFlaskView)
+    UserCalendarsView.register(application, base_class=HelperFlaskView)
+
+    FilesView.register(application, base_class=HelperFlaskView)
 
 
 def register_error_handlers(application):

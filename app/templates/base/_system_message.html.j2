@@ -1,0 +1,7 @@
+{% if config.SYSTEM_MESSAGE %}
+
+<div style="border-radius: 0.5rem; text-align: center; font-size: large;" class="bg-color-red p-3 mb-2"> 
+	{{ config.SYSTEM_MESSAGE|safe}}
+</div>
+
+{% endif %}

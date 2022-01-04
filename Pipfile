@@ -22,12 +22,16 @@ flask-weasyprint = "*"
 flask-security-too = "*"
 bleach = "*"
 flask-mail = "*"
+icalendar = "*"
+sentry-sdk = {extras = [ "sqlalchemy",]}
+flask-dropzone = "*"
+flask-dance = "*"
 
 [dev-packages]
 mypy = "*"
+pytest-flask = "*"
+bcrypt = "*"
+betamax = "*"
 
 [requires]
-python_version = "3.8"
-
-[packages.sentry-sdk]
-extras = [ "sqlalchemy",]
+python_version = "3.9"

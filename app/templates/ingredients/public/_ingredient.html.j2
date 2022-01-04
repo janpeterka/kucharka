@@ -1,19 +1,17 @@
-{% from "macros/icons.html.j2" import icon %}
+{% from "macros/turbo.html.j2" import button_to %}
 
-<turbo-frame id="ingredient-{{ ingredient.id }}">
-  <li class="row">
-      {# <div> #}
-        <span class="col-4" data-turbo="false">{{ link_to(ingredient) }}</span>
-        <span class="col-2">{{ ingredient.measurement.name }}</span>
-        <span class="col-3">{{ ingredient.category.name }}</span>
+<tr id="public-ingredient-{{ ingredient.id }}">
+ 
+  <td> {{ link_to(ingredient) }} </td>
+  <td> {{ ingredient.measurement.name }} </td>
+  <td> {{ ingredient.category.name }} </td>
+  <td> {{ ingredient.author.name }} </td>
+  <td>
+    {% if current_user.has_permission("manage-application") %}
+      {% if editing %} {% set form_class="visibility-hidden"%} {% endif %}
 
-    {% if current_user.is_application_manager or current_user.is_admin %}
-      <form method="POST" class="col" action="{{ url_for('PublicIngredientsView:edit', ingredient_id=ingredient.id) }}" data-turbo-frame="all">
-        <button type="submit" class="change" style="margin-top: 0.1rem"></button>
-      </form>
-      {# <form method="POST" action="{{ url_for('IngredientsView:delete', id=ingredient.id) }}"> #}
-        {# <button type="submit" class="destroy"></button> #}
-      {# </form> #}
+      {{ button_to(url_for('PublicIngredientsView:show_edit', id=ingredient.id), form_class=form_class, value="Upravit", class="btn btn-warning float-end") }}
     {% endif %}
-  </li>
-</turbo-frame>
+  </td>
+
+</tr>

@@ -1,7 +1,7 @@
 from flask import request, redirect, url_for
 
 from flask_classful import route
-from flask_security import login_required, roles_accepted
+from flask_security import login_required, permissions_required
 
 from app import turbo
 
@@ -13,33 +13,57 @@ from app.models.measurements import Measurement
 
 
 class PublicIngredientsView(HelperFlaskView):
-    decorators = [login_required, roles_accepted("admin", "application_manager")]
+    decorators = [login_required, permissions_required("manage-application")]
     template_folder = "ingredients/public"
 
     def before_request(self, name, id=None, *args, **kwargs):
         self.ingredient = Ingredient.load(id)
         self.validate_operation(id, self.ingredient)
 
-    def before_index(self):
-        self.public_ingredients = Ingredient.load_all_public()
-
-    def index(self):
-        return self.template()
-
-    @route("/ingredients/show_edit/<ingredient_id>", methods=["POST"])
-    def edit(self, ingredient_id):
-        self.ingredient = Ingredient.load(ingredient_id)
-
         self.measurements = Measurement.load_all()
         self.categories = IngredientCategory.load_all()
+        self.public_ingredients = Ingredient.load_all_public()
 
-        # WIP - tohle teď index neumí bez turba
-        return turbo.stream(
-            turbo.replace(
-                self.template(template_name="_edit"),
-                target=f"ingredient-{ingredient_id}",
+    def index(self, edit_id=None):
+        self.edit_id = int(request.args.get("edit_id", -1))
+        return self.template()
+
+    @route("/ingredients/show_edit/<id>", methods=["POST"])
+    def show_edit(self, id):
+        if turbo.can_stream():
+            return turbo.stream(
+                [
+                    turbo.after(
+                        self.template(template_name="_edit"),
+                        target=f"public-ingredient-{self.ingredient.id}",
+                    ),
+                    turbo.replace(
+                        self.template(template_name="_ingredient", editing=True),
+                        target=f"public-ingredient-{self.ingredient.id}",
+                    ),
+                ]
             )
-        )
+        else:
+            return redirect(
+                url_for("PublicIngredientsView:index", edit_id=self.ingredient.id)
+            )
+
+    @route("ingredients/hide_edit/<id>", methods=["POST"])
+    def hide_edit(self, id):
+        if turbo.can_stream():
+            return turbo.stream(
+                [
+                    turbo.remove(
+                        target=f"public-ingredient-edit-{self.ingredient.id}",
+                    ),
+                    turbo.replace(
+                        self.template(template_name="_ingredient"),
+                        target=f"public-ingredient-{self.ingredient.id}",
+                    ),
+                ]
+            )
+        else:
+            return redirect(url_for("PublicIngredientsView:index"))
 
     @route("ingredients/edit/<id>", methods=["POST"])
     def post_edit(self, id):
@@ -50,10 +74,13 @@ class PublicIngredientsView(HelperFlaskView):
 
         if turbo.can_stream():
             return turbo.stream(
-                turbo.replace(
-                    self.template(template_name="_ingredient"),
-                    target=f"ingredient-{self.ingredient.id}",
-                )
+                [
+                    turbo.replace(
+                        self.template(template_name="_ingredient"),
+                        target=f"public-ingredient-{self.ingredient.id}",
+                    ),
+                    turbo.remove(target=f"public-ingredient-edit-{self.ingredient.id}"),
+                ]
             )
         else:
             return redirect(url_for("PublicIngredientsView:index"))

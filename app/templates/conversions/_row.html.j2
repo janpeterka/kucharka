@@ -1,0 +1,16 @@
+{% from "macros/turbo.html.j2" import button_to %}
+
+<tr id="conversion-{{ conversion.id }}">
+  <td> {{ link_to(conversion.ingredient) }} </td>
+
+  <td>
+    {{ conversion.amount_from }}
+    {{ conversion.ingredient.measurement.name }}
+  </td>
+
+  <td>
+    {{ conversion.amount_to }}
+    {{ conversion.to_measurement.name }}
+  </td>
+
+</tr>

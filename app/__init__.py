@@ -6,21 +6,49 @@ from turbo_flask import Turbo
 
 from flask_security import Security, SQLAlchemyUserDatastore
 from flask_mail import Mail
+from flask_dropzone import Dropzone
 
+from flask_sqlalchemy.model import DefaultMeta  # noqa: E402
+from sqlalchemy import MetaData
 
-db = SQLAlchemy(session_options={"autoflush": False})
+convention = {
+    "ix": "ix_%(column_0_label)s",
+    "uq": "uq_%(table_name)s_%(column_0_name)s",
+    "ck": "ck_%(table_name)s_%(constraint_name)s",
+    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+    "pk": "pk_%(table_name)s",
+}
+
+db = SQLAlchemy(
+    session_options={"autoflush": False},
+    metadata=MetaData(naming_convention=convention),
+)
+
+BaseModel: DefaultMeta = db.Model
+
+from app.models.users import User  # noqa: E402
+from app.models.roles import Role  # noqa: E402
+
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+
 migrate = Migrate()
 babel = Babel()
 turbo = Turbo()
 mail = Mail()
-
-from flask_sqlalchemy.model import DefaultMeta  # noqa: E402
-
-BaseModel: DefaultMeta = db.Model
+security = Security()
+dropzone = Dropzone()
 
 
 def create_app(config_name="default"):
     application = Flask(__name__, instance_relative_config=True)
+
+    from jinja2 import select_autoescape
+
+    application.jinja_options = {
+        "autoescape": select_autoescape(
+            enabled_extensions=("html", "html.j2", "xml"),
+        )
+    }
 
     # CONFIG
     from config import configs
@@ -29,12 +57,6 @@ def create_app(config_name="default"):
 
     print(f"DB INFO: using {application.config['INFO_USED_DB']}")
 
-    from app.models.users import User  # noqa: E402
-    from app.models.roles import Role  # noqa: E402
-
-    user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-    security = Security()
-
     # APPS
     db.init_app(application)
     migrate.init_app(application, db)
@@ -42,6 +64,7 @@ def create_app(config_name="default"):
     babel.init_app(application)
     turbo.init_app(application)
     mail.init_app(application)
+    dropzone.init_app(application)
 
     if application.config["SENTRY_MONITORING"]:
         import sentry_sdk
@@ -70,5 +93,10 @@ def create_app(config_name="default"):
     from .controllers import register_error_handlers  # noqa: F401
 
     register_error_handlers(application)
+
+    # MODULES
+    from app.modules.auth.auth import blueprint as google_oauth_bp
+
+    application.register_blueprint(google_oauth_bp, url_prefix="/oauth/")
 
     return application

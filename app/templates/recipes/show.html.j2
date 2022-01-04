@@ -1,24 +1,51 @@
 {% extends "base/base.html.j2" %}
-{% block title %} {{ texts.recipe }} {% endblock %}
+{% block title %} {{ recipe.name }} {% endblock %}
+
+{% block meta %}
+    <meta name="turbo-visit-control" content="reload">
+{% endblock %}
+
+{% block script %}
+    {{ dropzone.load_js() }}
+{% endblock %}
+
+{% block style %}
+    {{ dropzone.style('border: 1px dashed #0087F7; margin: 2rem; border-radius: 1rem;') }}
+    {{ dropzone.load_css() }}
+{% endblock %}
 
 {% block content %}
 
-<div class="row">  
+{% if recipe.main_image and not print %}
+<div class="row mb-2 gradient-transparent d-block cover-photo">
+    {{ render_image(recipe.main_image, class="w-100", center=True) }} 
+</div>
+{% endif %}
+<div id="recipe-info">
+    <h2> {{ recipe.name }} </h2> 
+</div>
+
+<div class="row">
     <div class="col-md-10 col-sm-12">
         {% include("recipes/_show.html.j2") %} 
     </div>
 
     {% if not print %}
     <div class="col-md-2 col-sm-12 border-start">
-        {% include("recipes/_sidebar_details.html.j2") %} 
+        {% include("recipes/_sidebar_details.html.j2") %}
     </div>
     {% endif %}
 </div>
+
+{% if recipe.description %}
+    {% include "recipes/_description.html.j2" %}
+{% endif %}
 
 {% if not print %}
 <hr>
 <div>
     {% include("recipes/_interactions.html.j2") %} 
+    {% include("recipes/_images.html.j2") %} 
 </div>
 {% endif %}
 

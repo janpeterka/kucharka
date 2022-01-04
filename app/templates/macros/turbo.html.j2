@@ -1,16 +1,33 @@
-{% macro button_to(action="") %}
+{% macro button_to(action) %}
+
   {% set class_ = kwargs.pop('class', "") %}
-  {% set form_class_ = kwargs.pop('form_class', "") %}
+  {% set style_ = kwargs.pop('style', "") %}
+  {% set form_class = kwargs.pop('form_class', "") %}
   {% set data = kwargs.pop('data', None) %}
   {% set icon = kwargs.pop('icon', None) %}
   {% set value = kwargs.pop('value', None) %}
   {% set method = kwargs.pop('method', "POST") %}
+  {% set disabled = kwargs.pop('disabled', False) %}
+
+  {% set confirmation = kwargs.pop('confirmation', None) %}
 
 
-<form method="{{ method | upper }}" action="{{ action }}" class="{{ form_class_ }}" {% if data %} data-turbo-frame="{{ data }}" {% endif %}>
-    <button type="submit" class="{% if icon %} icon {% endif %} {{ class_ }}">
-      {% if value %} {{ value }} {% endif %}
-    </button>
+<form method="{{ method | upper }}"
+      action="{{ action }}"
+      {% if form_class %} class="{{ form_class }}" {% endif %}
+      {% if data %} data-turbo-frame="{{ data }}" {% endif %}
+      {% if confirmation %} onsubmit='return confirm("{{ confirmation }}");' {% endif %}
+>
+
+  <button type="submit"
+          class="{% if icon %} icon {% endif %} {{ class_ }}"
+          style="{{ style_ }}"
+          {% if disabled %} disabled {% endif %}>
+      
+      {% if value %} {{ value | safe }} {% endif %}
+  
+  </button>
+
 </form>
 
 {% endmacro %}

@@ -1,10 +1,32 @@
-<turbo-frame id="measurement-{{ measurement.id }}">
-  <li class="editing">
-    <div>
-      <label></label>
-    </div>
-    <form method="PUT" action="{{ url_for('MeasurementsView:put', id=measurement.id) }}">
-      <input type="text" name="measurement" value="{{ measurement.name }}" class="edit" autofocus>
+{% from "macros/turbo.html.j2" import button_to %}
+
+<tr id="measurement-edit-{{ measurement.id }}" data-stream-enter-class="animate-row-in" data-stream-exit-class="animate-row-out">
+
+  <td colspan="3">
+    <form class="row row-cols-auto g-3 align-items-center" action="{{ url_for('MeasurementsView:post_edit', id=measurement.id) }}" method="POST">
+      <div class="col-12 col-md-4">
+        <input type="text" name="name" value="{{ measurement.name }}" class="form-control" autofocus>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <input type="text" name="description" value="{{ measurement.description | default('',True)}}" class="form-control">
+      </div>
+      
+      <div class="col-12 col-md-2">
+        <button type="submit" class="btn btn-warning"> Uložit </button>
+      </div>
+
     </form>
-  </li>
-</turbo-frame>
+  </td>
+
+  <td></td>
+  
+  <td>
+    {{ button_to(url_for('MeasurementsView:delete', id=measurement.id), class="btn btn-danger", method="DELETE", value="Smazat") }}
+  </td>
+  
+  <td>
+    {{ button_to(url_for('MeasurementsView:hide_edit', id=measurement.id), class="btn btn-secondary", value="Zrušit") }}
+  </td>
+  
+</tr>

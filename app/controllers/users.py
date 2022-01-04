@@ -1,13 +1,14 @@
 from flask import request, url_for, redirect, flash
 
 from flask_security import login_required, current_user
+from flask_classful import route
 
 from app.helpers.form import create_form, save_form_to_session
 from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models.users import User
 
-from app.controllers.forms.users import UsersForm
+from app.controllers.forms.users import UsersForm, SetPasswordForm
 
 
 class UsersView(HelperFlaskView):
@@ -15,20 +16,29 @@ class UsersView(HelperFlaskView):
 
     @login_required
     def before_request(self, name, id=None, *args, **kwargs):
+        if "id" in request.args:
+            id = request.args.get("id")
+
         self.user = User.load(id)
-        self.user = current_user if self.user is None else self.user
+        if not self.user:
+            self.user = current_user
 
         self.validate_operation(id, self.user)
 
+    def before_edit(self):
+        self.user_form = create_form(UsersForm, obj=self.user)
+
     def index(self):
-        return redirect(url_for("UsersView:show"))
+        if not current_user.has_permission("manage-users"):
+            return redirect(url_for("UsersView:show"))
+
+        self.users = User.load_all()
+        return self.template()
 
     def show(self, **kwargs):
         return self.template()
 
     def edit(self):
-        self.user_form = create_form(UsersForm, obj=self.user)
-
         return self.template()
 
     def post(self, page_type=None):
@@ -48,12 +58,19 @@ class UsersView(HelperFlaskView):
 
         return redirect(url_for("UsersView:show"))
 
-    # @roles_required("admin")
-    # def show_all(self):
-    #     users = User.load_all()
-    #     return self.template("admin/users/all.html.j2", users=users)
+    def set_password(self):
+        self.form = SetPasswordForm()
+        return self.template("_set_password")
 
-    # @roles_required("admin")
+    @route("set-password", methods=["POST"])
+    def set_new_password(self):
+        self.form = SetPasswordForm(request.form)
+        self.user.set_password(self.form.password.data)
+        self.user.save()
+        flash("Heslo nastaveno")
+        return redirect(url_for("UsersView:show"))
+
+    # @permissions_required("login-as")
     # def login_as(self, user_id, back=False):
     #     if "back" in request.args:
     #         back = request.args["back"]

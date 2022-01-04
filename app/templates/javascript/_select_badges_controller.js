@@ -5,7 +5,7 @@ Stimulus.register("select-badges", class extends Controller {
       type: { type: String, default: 'single' }
     }
 
-  connect() {
+  connect(){
     this.add_badges();
     this.hide_select();
   }
@@ -23,6 +23,11 @@ Stimulus.register("select-badges", class extends Controller {
   }
 
   add_badge(option){
+    if (document.getElementById(`badge-${option.value}`)) {
+      // console.log("already exists")
+      return;
+    }
+
     var badge = document.createElement("span")
     badge.className = "select-badge lh-3 ms-1 me-1 p-2 bg-color-grey cursor-clickable rounded-pill text-nobreak"
     badge.dataset.label = option.label

@@ -24,7 +24,7 @@ class Event(BaseModel, ItemMixin):
     is_shared = db.Column(db.Boolean, default=False)
 
     created_by = db.Column(db.ForeignKey(("users.id")), nullable=False, index=True)
-    author = db.relationship("User", uselist=False, backref="events")
+    author = db.relationship("User", uselist=False, back_populates="events")
 
     daily_plans = db.relationship(
         "DailyPlan",
@@ -68,6 +68,12 @@ class Event(BaseModel, ItemMixin):
         return not self.is_archived
 
     @property
+    def in_future(self):
+        import datetime
+
+        return self.date_to >= datetime.date.today()
+
+    @property
     def duration(self):
         return (self.date_to - self.date_from).days
 
@@ -104,7 +110,7 @@ class Event(BaseModel, ItemMixin):
     @property
     def daily_recipes(self):
         daily_recipes = []
-        for daily_plan in self.daily_plans:
+        for daily_plan in self.active_daily_plans:
             daily_recipes += daily_plan.daily_recipes
 
         return daily_recipes
@@ -148,3 +154,17 @@ class Event(BaseModel, ItemMixin):
     @property
     def empty_recipes(self):
         return [r for r in self.recipes if r.is_draft]
+
+    @property
+    def starts_at(self):
+        return self.date_from
+
+    @property
+    def ends_at(self):
+        return self.date_to
+
+    @property
+    def url(self):
+        from flask import url_for
+
+        return f"https://skautskakucharka.cz{url_for('EventsView:show', id=self.id)}"

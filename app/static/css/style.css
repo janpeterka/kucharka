@@ -8,6 +8,7 @@
 @import "lists.css";
 @import "forms.css";
 @import "details.css";
+@import "images.css";
 @import "footer.css";
 /*@import "tables.css";*/
 
@@ -15,19 +16,13 @@
 @import "icons.css";
 @import "flash.css";
 @import "turboflash.css";
+@import "loader.css";
+@import "animations.css";
 
 /* Other */
 @import "admin.css";
 @import "select2.css";
-
-
-/* Animations */
-
-@keyframes fadeOut {
-    0% { opacity: 1;}
-    99% { opacity: 0.01;}
-    100% { opacity: 0;}
-}
+@import "auth.css";
 
 
 /* other */

@@ -20,7 +20,7 @@ class EventExporterView(HelperFlaskView):
         self.event = Event.load(event_id)
         self.validate_view(self.event)
 
-        self.daily_plans = self.event.daily_plans
+        self.daily_plans = self.event.active_daily_plans
         self.split_recipes = self.event.daily_recipes_split_by_shopping
 
         self.ingredients = DailyPlan.load_ingredient_amounts_for_daily_plans(
@@ -196,7 +196,7 @@ class EventExporterView(HelperFlaskView):
 
     def show_cookbook(self, event_id):
         partial_templates = []
-        for daily_plan in self.event.daily_plans:
+        for daily_plan in self.daily_plans:
             for daily_recipe in daily_plan.daily_recipes:
                 recipe = daily_recipe.recipe
                 if recipe.is_shopping:
@@ -214,7 +214,7 @@ class EventExporterView(HelperFlaskView):
 
     def show_cookbook_pdf(self, event_id):
         partial_templates = []
-        for daily_plan in self.event.daily_plans:
+        for daily_plan in self.daily_plans:
             for daily_recipe in daily_plan.daily_recipes:
                 recipe = daily_recipe.recipe
                 if recipe.is_shopping:

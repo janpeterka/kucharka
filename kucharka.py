@@ -1,21 +1,6 @@
 import os
 
-import re
-import time
-
-import datetime
-
-from flask import request, redirect
-
-from flask import g
-
-from flask_security import url_for_security
-
-from flask_security import current_user
-
 from app import create_app
-
-from app import db
 
 
 env = os.environ.get("APP_STATE", "default")
@@ -32,6 +17,8 @@ def inject_globals():
 @application.context_processor
 def utility_processor():
     def human_format_date(date, with_weekday=True, with_relative=True):
+        import datetime
+
         formatted_date = date.strftime("%d.%m.%Y")
 
         from app.helpers.formaters import week_day
@@ -54,23 +41,17 @@ def utility_processor():
 
         return formatted_date
 
-    def link_to(obj, text=None):
-        if type(obj) == str:
-            if obj == "login":
-                if text is None:
-                    text = "Přihlaste se"
-                return f"<a href='{url_for_security('login')}'>{text}</a>"
-            elif obj == "register":
-                if text is None:
-                    text = "Zaregistrujte se"
-                return f"<a href='{url_for_security('register')}'>{text}</a>"
-            else:
-                raise NotImplementedError("This string has no associated link_to")
-
+    def link_to(obj, link_type="show"):
         try:
-            return obj.link_to
+            if link_type == "show":
+                return obj.link_to
+            elif link_type == "edit":
+                return obj.link_to_edit
+
         except Exception:
-            raise NotImplementedError("This object link_to is probably not implemented")
+            raise NotImplementedError(
+                f"This object link_to (with {link_type}) is probably not implemented"
+            )
 
     def formatted_amount(amount):
         import math
@@ -106,6 +87,8 @@ def utility_processor():
 
 @application.before_request
 def session_management():
+    from flask import request, redirect
+
     # current_user.logged_from_admin = session.get("logged_from_admin")
 
     if application.config["APP_STATE"] == "shutdown" and request.path not in [
@@ -119,19 +102,28 @@ def session_management():
 
 @application.before_request
 def log_request_start():
+    from flask import g
+    import time
+
     g.log_request_start_time = time.time()
 
 
 @application.teardown_request
 def log_request(exception=None):
+    import re
+    import time
+    from flask import request, g
+    from flask_security import current_user
+    from app import db
     from app.handlers.data import DataHandler
     from app.models.request_logs import RequestLog
 
     db.session.expire_all()
-    pattern = re.compile("/static/")
-    if not pattern.search(request.path):
-        user_id = getattr(current_user, "id", None)
 
+    ignore_pattern = re.compile("/static/")
+
+    if not ignore_pattern.search(request.path):
+        user_id = getattr(current_user, "id", None)
         item_type = DataHandler.get_additional_request_data("item_type")
         item_id = DataHandler.get_additional_request_data("item_id")
 
@@ -144,3 +136,30 @@ def log_request(exception=None):
             duration=time.time() - g.log_request_start_time,
         )
         log.save()
+
+
+@application.after_request
+def flash_if_turbo(response):
+    from flask import session, flash
+    from app.helpers.turbo_flash import turbo_flash_partial, remove_flash_from_session
+
+    message = session.get("turbo_flash_message", None)
+    category = session.get("turbo_flash_message_category", "info")
+
+    if message:
+        if _is_turbo_response(response):
+            turbo_flash = turbo_flash_partial(message, category)
+            remove_flash_from_session()
+            response.response.append(turbo_flash)
+
+        else:
+            flash(message, category)
+            remove_flash_from_session()
+
+    return response
+
+
+def _is_turbo_response(response) -> bool:
+    return (
+        response.headers["Content-Type"] == "text/vnd.turbo-stream.html; charset=utf-8"
+    )

@@ -18,13 +18,19 @@ class HelperFlaskView(FlaskView):
             if not instance.can_current_user_view:
                 abort(403)
 
+        return True
+
     def validate_view(self, instance):
         if not instance.can_current_user_view:
             abort(403)
 
+        return True
+
     def validate_edit(self, instance):
         if not instance.can_current_user_edit:
             abort(403)
+
+        return True
 
     def template(self, template_name=None, *args, **kwargs):
         # Template name is given from view and method names if not provided
@@ -83,9 +89,18 @@ class HelperFlaskView(FlaskView):
 
     @property
     def _attribute_name(self):
-        # e.g. user
+        if hasattr(self, "attribute_name"):
+            return self.attribute_name
+        # e.g. measurement
         model_name = self._model_name
         return re.sub("(?!^)([A-Z]+)", r"_\1", model_name).lower()
+
+    @property
+    def _plural_attribute_name(self):
+        if hasattr(self, "plural_attribute_name"):
+            return self.plural_attribute_name
+        else:
+            return f"{self._attribute_name}s"
 
     @property
     def _form_name(self):
@@ -97,3 +112,11 @@ class HelperFlaskView(FlaskView):
             return self.template_folder
         else:
             return f"{self._attribute_name}s"
+
+    @property
+    def _instance(self):
+        return (
+            getattr(self, self.instance_name)
+            if hasattr(self, "instance_name")
+            else getattr(self, self._attribute_name)
+        )

@@ -4,6 +4,8 @@
 {% from "macros/general.html.j2" import option, options, link_or_name, list_of_links with context %}
 {% from "macros/icons.html.j2" import icon %}
 {% from "macros/turbo.html.j2" import button_to %}
+{% from "macros/loader.html.j2" import loader %}
+{% from "macros/render_image.html.j2" import render_image %}
 {% from 'javascript/stimulus.js.html' import stimulus %}
 
 {% if not user %}
@@ -16,9 +18,18 @@
 {% block head %}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    {% if not config.APP_STATE == "development" %}
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    {% endif %}
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block meta %}{% endblock %} 
 
     {% block links %}
+        {% if config["SENTRY_MONITORING"] %}
+            {% include "javascript/_sentry.js.html" %}
+        {% else %}
+            <script type="text/javascript">console.log("No Sentry monitoring")</script>
+        {% endif %}
         {# <link rel="icon" href="{{ url_for('static', filename='img/icon_space.png') }}"> #}
 
         <!-- Bootstrap -->
@@ -73,27 +84,60 @@
     {% endblock %}
 
     {% block flashing %}
-        {# {% if current_user.is_admin %} #}
-            {# {% include('_admin_warning.html.j2') %} #}
-        {# {% endif %} #}
-        {% include('base/_flashing.html.j2') %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% include('base/_flashing.html.j2') %}
+        {% endwith %}
     {% endblock %}
-
 
     {% block dev %}
-    {% if config.APP_STATE == "development" %}
-        <span class="dev-badge dev"><strong>DEV</strong></span>
-    {% elif config.APP_STATE == "local_production" %}
-        <span class="dev-badge prod"><strong>PROD</strong></span>
-    {% endif %}
+        {% if config.APP_STATE == "development" %}
+            {% set env="dev" %}
+            {% include('admin/_env_badge.html.j2') with context %}
+        {% elif config.APP_STATE == "local_production" %}
+            {% set env="prod" %}
+            {% include('admin/_env_badge.html.j2') with context %}
+        {% endif %}
+
+        {% if current_user.has_role("admin") %}
+            {% include('admin/_admin_warning.html.j2') %}
+        {% endif %}
     {% endblock %}
 
     {% endif %}
 
-    <div id="content" class="container mb-5">
+    <div id="content" class="container pt-6 mb-5">
+        {% include('base/_system_message.html.j2') %}
         {% block content %}{% endblock %}
     </div>
 
 </body>
 {% block scripts_after %}{% endblock %}
+<script>
+document.addEventListener("turbo:before-stream-render", function(event) {
+  // Add a class to an element we are about to add to the page
+  // as defined by its "data-stream-enter-class"
+  
+  if (event.target.firstElementChild instanceof HTMLTemplateElement && event.target.templateContent.firstElementChild != null)  {
+    var enterAnimationClass = event.target.templateContent.firstElementChild.dataset.streamEnterClass
+    if (enterAnimationClass) {
+      event.target.templateElement.content.firstElementChild.classList.add(enterAnimationClass)
+    }
+  }
+
+  // Add a class to an element we are about to remove from the page
+  // as defined by its "data-stream-exit-class"
+  var elementToRemove = document.getElementById(event.target.target)
+  var streamExitClass = elementToRemove.dataset.streamExitClass
+  if (streamExitClass) {
+    // Intercept the removal of the element
+    event.preventDefault()
+    elementToRemove.classList.add(streamExitClass)
+    // Wait for its animation to end before removing the element
+    elementToRemove.addEventListener("animationend", function() {
+      event.target.performAction()
+    })
+  }
+})
+
+</script>
 </html>

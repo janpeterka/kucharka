@@ -79,13 +79,20 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         ordered=True, exclude_mine=False, exclude_shopping=True
     ) -> list:
         recipes = Recipe.query.filter(Recipe.is_shared).all()
-        recipes = [r for r in recipes if not (r.author.is_admin and r.name == "Nákup")]
+        recipes = [r for r in recipes if not (r.is_shopping)]
 
         if exclude_mine:
             recipes = [r for r in recipes if r.author != current_user]
 
         if ordered:
             recipes.sort(key=lambda x: unidecode(x.name.lower()), reverse=False)
+
+        return recipes
+
+    @staticmethod
+    def load_all_public_with_image() -> list:
+        recipes = Recipe.load_all_public()
+        recipes = [r for r in recipes if r.has_image]
 
         return recipes
 
@@ -162,11 +169,12 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
     def duplicate(self):
         new = Recipe()
 
-        new.name = self.name
+        new.name = f"{self.name} (kopie)"
         new.author = current_user
         new.description = self.description
         new.portion_count = self.portion_count
         new.category = self.category
+        new.labels = self.labels
         new.ingredients = []
         for rhi in self.recipe_ingredients:
             new.add_ingredient(rhi.ingredient, amount=rhi.amount)
@@ -181,20 +189,19 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     # PERMISSIONS
 
-    @property
-    def can_current_user_view(self) -> bool:
+    def can_view(self, user) -> bool:
         return (
             self.is_shared
             or self.is_in_shared_event
-            or current_user == self.author
-            or current_user.is_admin
+            or user == self.author
+            or (user.is_authenticated and user.has_permission("see-other"))
         )
 
     # PROPERTIES
 
     @property
     def is_shopping(self) -> bool:
-        return self.author.is_admin and self.name == "Nákup"
+        return self.author.has_role("admin") and self.name == "Nákup"
 
     @property
     def is_used(self) -> bool:
@@ -202,7 +209,7 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     @property
     def is_visible(self) -> bool:
-        return not self.is_draft
+        return not self.is_draft and not self.is_shopping
 
     @property
     def events(self):
@@ -281,3 +288,17 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     def has_any_of_labels(self, labels) -> bool:
         return any(self.has_label(label) for label in labels)
+
+    @property
+    def has_image(self) -> bool:
+        return bool(self.images)
+
+    @property
+    def main_image(self):
+        if not self.images:
+            return None
+
+        if main := [i for i in self.images if i.is_main]:
+            return main[0]
+
+        return self.images[0]

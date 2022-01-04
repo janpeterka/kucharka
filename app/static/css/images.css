@@ -1,0 +1,61 @@
+.image-icon {
+	position: absolute;
+	z-index: 100;
+	width: 1.5rem;
+	height: 1.5rem;
+	border-radius: 50%;
+	opacity: 0.8;
+
+}
+
+.delete-icon {
+	top: 2%;
+	right: 2%;
+	background-color: red;
+	color: white;
+	text-align: center;
+	display: inline-flex;
+  	align-items: center; 
+}
+
+.pin-icon {
+	top: 2%;
+	left: 2%;
+	background-color: transparent;
+	border: none;
+	opacity: 1;
+	color: blue;
+	text-align: center;
+	display: inline-flex;
+  	align-items: center; 	
+}
+
+
+.gradient-transparent {
+	-webkit-mask-image: -webkit-gradient(linear, left top, left bottom, 
+    from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+    mask-image: gradient(linear, left top, left bottom, 
+    from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+}
+
+.cover-photo {
+	overflow:hidden;
+}
+
+@media only screen and (max-width: 600px) {
+  .cover-photo {
+    height: 7rem;
+   }
+}
+
+@media only screen and (min-width: 600px) {
+  .cover-photo {
+    height: 10rem;
+  }
+}
+
+@media only screen and (min-width: 765px) {
+  .cover-photo {
+    height: 15rem;
+  }
+}

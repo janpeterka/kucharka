@@ -1,29 +1,33 @@
 <nav class="navbar navbar-dark bg-color-dark-green navbar-expand-lg fixed-top">
   <div class="container">
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_main" aria-controls="navbar_main" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar_main" class="collapse navbar-collapse">
+    <div id="navbar" class="collapse navbar-collapse">
 
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link" href="/">Skautská kuchařka | </a>
         </li>
-          
 
           <li class="nav-item">
-            <a class="nav-link font-weight-bold " href="{{ url_for_security('login') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}">Přihlásit se</a>
+            <a class="nav-link font-weight-bold " href="{{ url_for_security('login') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}"> Přihlásit se </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for_security('register') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}">Zaregistrovat se</a>
+            <a class="nav-link" href="{{ url_for_security('register') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}"> Zaregistrovat se |</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('PublicRecipesView:public_index') }}"> Sdílené recepty </a>
+            <a class="nav-link" href="{{ url_for('PublicRecipesView:public_index') }}"> {{ icon("recipe_database")}} Sdílené recepty </a>
           </li>
+          {% if config.FF_GALLERY %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('PublicRecipesView:gallery') }}"> {{icon("image")}} Galerie receptů </a>
+            </li>
+          {% endif %}
       </ul>
 
       {# <div class="navbar-divider"></div> #}

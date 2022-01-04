@@ -1,10 +1,32 @@
-<turbo-frame id="recipe-category-{{ category.id }}">
-  <li class="editing">
-    <div>
-      <label></label>
-    </div>
-    <form method="POST" action="{{ url_for('RecipeCategoriesView:edit', id=category.id) }}" data-turbo-frame="all">
-      <input type="text" name="recipe-category" value="{{ category.name }}" class="edit" autofocus>
+{% from "macros/turbo.html.j2" import button_to %}
+
+<tr id="recipe-category-edit-{{ category.id }}" data-stream-enter-class="animate-row-in" data-stream-exit-class="animate-row-out">
+
+  <td colspan="3">
+    <form class="row row-cols-auto g-3 align-items-center" action="{{ url_for('RecipeCategoriesView:post_edit', id=category.id) }}" method="POST">
+      <div class="col-12 col-md-4">
+        <input type="text" name="name" value="{{ category.name }}" class="form-control" autofocus>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <input type="text" name="description" value="{{ category.description | default('',True)}}" class="form-control">
+      </div>
+      
+      <div class="col-12 col-md-2">
+        <button type="submit" class="btn btn-warning"> Uložit </button>
+      </div>
+
     </form>
-  </li>
-</turbo-frame>
+  </td>
+
+  <td></td>
+  
+  <td>
+    {{ button_to(url_for('RecipeCategoriesView:delete', id=category.id), class="btn btn-danger", method="DELETE", value="Smazat") }}
+  </td>
+  
+  <td>
+    {{ button_to(url_for('RecipeCategoriesView:hide_edit', id=category.id), class="btn btn-secondary", value="Zrušit") }}
+  </td>
+  
+</tr>

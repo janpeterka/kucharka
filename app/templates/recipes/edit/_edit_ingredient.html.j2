@@ -36,17 +36,17 @@
     <td>
         {% if ingredient.is_measured is true %}
         <abbr title="Neuvádět množství">
-            {{ button_to(action=url_for('EditRecipeView:change_ingredient_measured', recipe_id=recipe.id, ingredient_id=ingredient.id, measured=False), class="no-measurement", icon=True, value="⚖️") }}
+            {{ button_to(url_for('EditRecipeView:change_ingredient_measured', recipe_id=recipe.id, ingredient_id=ingredient.id, measured=False), class="no-measurement", icon=True, value="⚖️") }}
         </abbr>
         {% else %}
         <abbr title="Uvádět množství">
-            {{ button_to(action=url_for('EditRecipeView:change_ingredient_measured', recipe_id=recipe.id, ingredient_id=ingredient.id, measured=True), class="measurement", icon=True, value="⚖️") }}
+            {{ button_to(url_for('EditRecipeView:change_ingredient_measured', recipe_id=recipe.id, ingredient_id=ingredient.id, measured=True), class="measurement", icon=True, value="⚖️") }}
         {% endif %}
     </td>
 
     <td class="align-middle">
         {% if ingredient.amount %}
-            <span class="fst-italic font-weight-light"> {{ formatted_amount(ingredient.amount) }} na porci </span>
+            <span class="fst-italic font-weight-light"> {{ formatted_amount(ingredient.amount) }} {{ ingredient.measurement.name }} na porci </span>
         {% endif %}
     </td>
 
@@ -58,7 +58,7 @@
 
     <td>
         <form method="POST" action="{{ url_for('EditRecipeView:remove_ingredient', ingredient_id=ingredient.id, recipe_id=recipe.id) }}">
-            <button type="submit" class="destroy icon mt-2">&#10005;</button>
+            <button type="submit" class="destroy icon mt-2"></button>
         </form>
     </td>
 </tr>

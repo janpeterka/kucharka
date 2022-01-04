@@ -1,14 +1,16 @@
 from unidecode import unidecode
 
 # from flask import render_template as template
-from flask import request, redirect, url_for, flash
+from flask import request, redirect, url_for
+from flask import current_app as application
 
-from flask_security import login_required, current_user
+from flask_security import login_required, permissions_required, current_user
 
 from flask_classful import route
 
-# from app import turbo
+from app.modules.files import PhotoForm
 
+from app.helpers.turbo_flash import turbo_flash as flash
 from app.helpers.helper_flask_view import HelperFlaskView
 from app.helpers.form import save_form_to_session, create_form
 
@@ -18,9 +20,6 @@ from app.controllers.forms.recipes import RecipesForm
 
 
 class RecipesView(HelperFlaskView):
-    # decorators = [login_required]
-
-    # @login_required
     def before_request(self, name, id=None, **kwargs):
         self.recipe = Recipe.load(id)
         if current_user.is_authenticated:
@@ -61,8 +60,16 @@ class RecipesView(HelperFlaskView):
     def index(self):
         return self.template()
 
+    @login_required
+    @permissions_required("manage-application")
+    def all(self):
+        self.recipes = Recipe.load_all()
+        return self.template()
+
     # @login_required
     def show(self, id):
+        self.photo_form = PhotoForm()
+
         if not current_user.is_authenticated:
             return self.template("show", public=True)
 
@@ -109,7 +116,17 @@ class RecipesView(HelperFlaskView):
 
         self.recipe.delete()
         flash("Recept byl smazán.", "success")
-        return redirect(url_for("DashboardView:index"))
+        prev_path = request.form["previous"]
+
+        with application.test_client() as tc:
+            try:
+                response = tc.get(prev_path)
+                if response.status_code == 200:
+                    return redirect(prev_path)
+                else:
+                    return redirect(url_for("RecipesView:index"))
+            except Exception:
+                return redirect(url_for("RecipesView:index"))
 
     @login_required
     def post(self):
@@ -120,15 +137,16 @@ class RecipesView(HelperFlaskView):
             return redirect(url_for("RecipesView:new"))
 
         recipe = Recipe(author=current_user)
-        form.populate_obj(recipe)
-
+        recipe.fill(form)
         recipe.save()
+
         return redirect(url_for("RecipesView:edit", id=recipe.id))
 
     @login_required
     def duplicate(self, id):
         new_recipe = self.recipe.duplicate()
-        return redirect(url_for("RecipesView:show", id=new_recipe.id))
+        method = "edit" if self.recipe.is_current_user_author else "show"
+        return redirect(url_for(f"RecipesView:{method}", id=new_recipe.id))
 
     @login_required
     @route("toggle_shared/<id>", methods=["POST"])

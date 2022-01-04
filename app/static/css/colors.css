@@ -79,10 +79,13 @@
     color: var(--color-green);
 }
 
-.color-wheat {
-    color: #f5deb3;
+.color-light-yellow {
+    color: var(--admin-yellow);
 }
 
+.color-light-greenish {
+    color: var(--pale-spring-bud);
+}
 
 
 /* Background colors */
@@ -126,6 +129,10 @@
     background-color: var(--admin-yellow);
 }
 
+.bg-color-light-greenish {
+    background-color: var(--pale-spring-bud);
+}
+
 .bg-color-light-red {
     background-color: var(--palette-orange);
 }
@@ -148,4 +155,11 @@
 
 .opacity-50 {
     opacity: 0.7;
+}
+
+
+/* Border color */
+
+.border-color-dark-green {
+    border-color: var(--hunter-green);
 }

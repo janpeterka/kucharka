@@ -1,10 +1,36 @@
-<turbo-frame id="ingredient-category-{{ category.id }}">
-  <li class="editing">
-    <div>
-      <label></label>
-    </div>
-    <form method="PUT" action="{{ url_for('IngredientCategoriesView:put', id=category.id) }}" data-turbo-frame="all">
-      <input type="text" name="ingredient-category" value="{{ category.name }}" class="edit" autofocus>
+{% from "macros/turbo.html.j2" import button_to %}
+
+<tr id="ingredient-category-edit-{{ category.id }}" data-stream-enter-class="animate-row-in" data-stream-exit-class="animate-row-out">
+  <td colspan="3">
+    <form class="row row-cols-auto g-3 align-items-center" action="{{ url_for('IngredientCategoriesView:post_edit', id=category.id) }}" method="POST">
+      <div class="col-12 col-md-3">
+        <input type="text" name="name" value="{{ category.name }}" class="form-control" autofocus>
+      </div>
+
+      <div class="col-12 col-md-3">
+        <input type="text" name="description" value="{{ category.description | default('',True)}}" class="form-control">
+      </div>
+
+      <div class="col-12 col-md-3">
+        <input type="checkbox" name="is_lasting" {% if category.is_lasting %}checked{% endif %} class="form-check-input">
+        <label for="is_lasting" class="form-check-label">Trvanlivá?</label>
+      </div>
+      
+      <div class="col-12 col-md-2">
+        <button type="submit" class="btn btn-warning"> Uložit </button>
+      </div>
+
     </form>
-  </li>
-</turbo-frame>
+  </td>
+
+  <td></td>
+  
+  <td>
+    {{ button_to(url_for('IngredientCategoriesView:delete', id=category.id), class="btn btn-danger", method="DELETE", value="Smazat") }}
+  </td>
+  
+  <td>
+    {{ button_to(url_for('IngredientCategoriesView:hide_edit', id=category.id), class="btn btn-secondary", value="Zrušit") }}
+  </td>
+  
+</tr>

@@ -17,9 +17,9 @@
     
     <hr>
 
-    <div class="mb-5 text-end row">
-    <div class="col d-sm-none d-md-block"></div>
-	    <div class="col-md-8 col-sm-12">              
+    <div class="mb-5 text-center row">
+        {# <div class="col d-sm-none d-md-block"></div> #}
+	    <div>              
 	        <h4 class="color-dark-green text-uppercase font-comfortaa-b mt-4">Přidávání vlastních surovin</h4>
 	        Kromě základních surovin, které mají k dispozici všichni, si můžete vytvořit vlastní seznam surovin, které běžně používáte.
 	        <h4 class="color-dark-green text-uppercase font-comfortaa-b mt-4">Ukládání receptů</h4>
@@ -37,71 +37,19 @@
 	<hr>
     
     <div class="color-light-blue text-uppercase text-center font-comfortaa-b mb-5">
-        <span class="float-start ms-5"><a href="{{ url_for_security('login') }}"> Přihlašte se! </a></span>
-        <span class="float-end me-5"><a href="{{ url_for_security('register') }}"> Zaregistrujte se! </a></span>
+        <div class="row">
+            <div class="col-sm-12 col-md-6 text-sm-center text-md-start">
+                <a href="{{ url_for_security('login') }}"> Přihlašte se! </a>
+            </div>            
+            <div class="col-sm-12 col-md-6 text-sm-center text-md-end">
+                <a href="{{ url_for_security('register') }}"> Zaregistrujte se! </a>
+            </div>            
+        </div>
     </div>
 </div>
 
-{# <div class="container font-montserrat">
-        <div class="mb-5 text-center">
-            <p class="mb-2">
-                <h2 class="mt-2 text-uppercase color-dark-green font-comfortaa-bb">Co je ketokalkulačka?</h2>
-                Ketokalkulačka vznikla, aby usnadnila život lidem s ketogenní dietou.<br>
-                Kalkulačka je a bude vždy zdarma!<br>
-            </p>
-            <p>
-                <h2 class="mt-2 text-uppercase color-dark-green font-comfortaa-bb">Co umí ketokalkulačka?</h2>
-            </p>
-        </div>
-
-        <div class="mb-5 text-start">
-            <div class="row mb-2 row">
-                <div class="col-md-8 col-sm-12">
-                    <h3 class="color-dark-green text-uppercase font-comfortaa-bb mt-2">Bez registrace</h3>
-                    Do kalkulačky se nemusíte hned registrovat.<br>
-                    Můžete si nejdřív vyzkoušet, jak počítá recepty, nebo použít ruční nastavení receptu
-                    <h4 class="color-dark-green text-uppercase font-comfortaa-b mt-2">Ukázkové automatické počítání receptu</h4>
-                    Funkce, která má za cíl ušetřit nejvíce práce, je automatický výpočet receptu.<br>
-                    Jednoduše vyberete 3 a více surovin, ze kterých chcete jídlo složit, a kalkulačka vám pro danou dietu spočítá množství jednotlivých ingrediencí.<br>
-                    Podívejte se na ukázku výpočtu <a href="{{ url_for('TrialRecipesView:index') }}">tady</a>.<br>
-                    Bez registrace probíhá výpočet pro dietu 3,5:1 a lze použít jen sdílené suroviny. Pokud se <a href="{{ url_for('RegisterView:show') }}">zaregistrujete</a>, můžete si vytvořit vlastní diety i suroviny, a všechno mít navždy v aplikaci uložené.
-                    <h4 class="color-dark-green text-uppercase font-comfortaa-b mt-2">Ruční vytvoření receptu</h4>
-                    Kromě toho si můžete <a href="{{ url_for('SimpleCalculatorView:index') }}">vytvořit vlastní recept ručně</a> - vybrat si u ingrediencí jejich množství a nechat si spočítat výsledné poměry a množství.<br>
-                    I tady můžete bez registrace používat veřejné suroviny, po registraci pak i svoje a recepty ukládat.
-                </div>
-                <div class="col d-sm-none d-md-block"></div>
-            </div>
-
-            <div class="mb-5 text-end row">
-                <div class="col d-sm-none d-md-block"></div>
-                <div class="col-md-8 col-sm-12">              
-                    <h3 class="color-dark-green text-uppercase font-comfortaa-bb mt-2">S registrací</h3>
-                    Pokud se zaregistrujete, můžete používat spoustu dalších funkcí:
-                    <h4 class="color-dark-green text-uppercase font-comfortaa-b mt-2">Přidávání vlastních surovin</h4>
-                    Kromě základních surovin, které mají k dispozici všichni, si můžete vytvořit vlastní seznam surovin, které běžně v domácnosti používáte.
-                    <h4 class="color-dark-green text-uppercase font-comfortaa-b mt-2">Nastavení diety</h4>
-                    Vytvořte si dietu s vaším poměrem a ukládejte k ní recepty ve správném složení a množství.
-                    <h4 class="color-dark-green text-uppercase font-comfortaa-b mt-2">Ukládání receptů</h4>
-                    Všechny jednou spočítané recepty už máte navždy uložené ve svém účtu.<br>
-                    Můžete mezi nimi hledat (a to i přes suroviny), tisknout je, zobrazovat si je v různém poměru k denní porci.
-                    <h4 class="color-dark-green text-uppercase font-comfortaa-b mt-2">Sdílení receptů</h4>
-                    Můžete sdílet své recepty s ostatními a zároveň se jejich recepty <a href="{{ url_for('CookbookView:index') }}">inspirovat</a>.<br>
-                    Velmi užitečné zejména, pokud s dietou začínáte.
-                    <h4 class="color-dark-green text-uppercase font-comfortaa-b mt-2">Denní plány</h4>
-                    Udělejte si <a href="{{ url_for('DailyPlansView:index') }}">plán vaření</a> třeba na týden dopředu!<br>
-                    Denní plán umožňuje Vaše recepty přidat k danému dni ve vybraném množství.<br>
-                    Můžete tedy rovnou vidět, že Vám jídla naplní denní potřeby nutrientů, nebo můžete seznam receptů využít při tvorbě nákupního seznamu.
-                </div>
-            </div>
-
-            <div class="color-light-blue text-uppercase text-center font-comfortaa-b mb-5">
-                <p><a href="{{ url_for('RegisterView:show') }}">Zaregistrujte se!</a>
-                <p><a href="{{ url_for('LoginView:show') }}">Přihlašte se!</a>
-            </div>
-        </div>
-    </div> #}
 <footer class="footer">
-    s radostí vyrobil <a href="mailto:obr+kucharka@skaut.cz">Obr</a>
+    s 💚 vyrobil <a href="https://jpeterka.cz" target="_blank">Obr</a> pro <a href="https://fons.skauting.cz" target="_blank">Fons Beníšky</a>
 </div>
 
 {% endblock %}

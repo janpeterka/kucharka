@@ -2,7 +2,7 @@ from flask import flash, request, redirect, url_for
 
 
 from flask_classful import route
-from flask_security import login_required, current_user, roles_accepted, roles_required
+from flask_security import login_required, current_user, permissions_required
 
 from app.helpers.form import save_form_to_session, create_form
 from app.helpers.helper_flask_view import HelperFlaskView
@@ -45,7 +45,10 @@ class IngredientsView(HelperFlaskView):
         ]
 
     def before_index(self):
+        from unidecode import unidecode
+
         self.ingredients = current_user.personal_ingredients
+        self.ingredients.sort(key=lambda x: unidecode(x.name.lower()))
 
     def new(self):
         return self.template()
@@ -100,14 +103,9 @@ class IngredientsView(HelperFlaskView):
             flash("Tato surovina je použita, nelze smazat", "error")
             return redirect(url_for("IngredientsView:show", id=self.ingredient.id))
 
-    @roles_accepted("admin", "application_manager")
-    @route("publish/<id>", methods=["POST"])
-    def publish(self, id):
-        self.ingredient.publish()
-        return redirect(url_for("IngredientsView:show", id=self.ingredient.id))
+    @permissions_required("manage-application")
+    @route("toggle_public/<id>", methods=["POST"])
+    def toggle_public(self, id):
+        self.ingredient.toggle_public()
 
-    @roles_required("admin", "application_manager")
-    @route("unpublish/<id>", methods=["POST"])
-    def unpublish(self, id):
-        self.ingredient.unpublish()
         return redirect(url_for("IngredientsView:show", id=self.ingredient.id))

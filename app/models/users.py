@@ -117,10 +117,7 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin):
 
     @property
     def role_event_recipes(self):
-        recipes = []
-        for event in self.role_events:
-            recipes.append(event.recipes)
-
+        recipes = [event.recipes for event in self.role_events]
         return flatten(recipes)
 
     # ROLES

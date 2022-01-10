@@ -20,6 +20,7 @@
     {% endfor %}
 </table>
 
+{% if current_user.role_events %}
 <details open>
     <summary> Sdílené akce </summary>
     <table class="table">
@@ -30,6 +31,7 @@
         {% endfor %}
     </table>
 </details>
+{% endif %}
 
 
 {% if current_user.archived_events %}

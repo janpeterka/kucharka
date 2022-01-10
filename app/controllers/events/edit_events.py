@@ -53,4 +53,12 @@ class EditEventView(HelperFlaskView):
         # self.event.delete_old_daily_plans()
         self.event.add_new_daily_plans()
 
+        if turbo.can_push():
+            turbo.push(
+                turbo.update(
+                    "⚠️ Událost byla změněna, aktualizujte pro zobrazení změn.",
+                    target=f"event-{event_id}-update-warning",
+                )
+            )
+
         return redirect(url_for("EventsView:show", id=self.event.id))

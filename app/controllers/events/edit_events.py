@@ -1,7 +1,7 @@
 from flask import request, redirect, url_for
 
 from flask_classful import route
-from flask_security import login_required
+from flask_security import login_required, current_user
 
 from app import turbo
 
@@ -62,12 +62,16 @@ class EditEventView(HelperFlaskView):
         self.event.add_new_daily_plans()
 
         if turbo.can_push():
-            turbo.push(
-                turbo.update(
-                    "⚠️ Událost byla změněna, aktualizujte pro zobrazení změn.",
-                    target=f"event-{event_id}-update-warning",
+            try:
+                turbo.push(
+                    turbo.update(
+                        "⚠️ Událost byla změněna, aktualizujte pro zobrazení změn.",
+                        target=f"event-{event_id}-update-warning",
+                    ),
+                    to=self.event.other_user_ids,
                 )
-            )
+            except Exception:
+                pass
 
         return redirect(url_for("EventsView:show", id=self.event.id))
 
@@ -110,3 +114,8 @@ class EditEventView(HelperFlaskView):
         flash("Odebrali jsme uživatele.", "success")
 
         return redirect(url_for("EventsView:show", id=event_id))
+
+
+@turbo.user_id
+def get_user_id():
+    return current_user.id

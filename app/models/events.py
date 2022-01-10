@@ -242,6 +242,17 @@ class Event(BaseModel, ItemMixin):
         else:
             raise Warning("User has multiple roles on this event")
 
+    @property
+    def other_user_ids(self):
+        user_ids = [user.id for user in self.shared_with]
+        user_ids.append(self.author.id)
+        user_ids.remove(current_user.id)
+
+        if len(user_ids) == 1:
+            user_ids = user_ids[0]
+
+        return user_ids
+
     def add_user_role(self, user, role):
         event_role = UserHasEventRole(event=self, user=user, role=role)
         event_role.save()

@@ -4,6 +4,7 @@ from flask_security import hash_password
 from app import db, BaseModel
 
 from app.helpers.base_mixin import BaseMixin
+from app.helpers.general import flatten
 
 from app.modules.calendar.models.calendar_user_mixin import CalendarUserMixin
 
@@ -24,6 +25,12 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin):
     recipes = db.relationship("Recipe", order_by="Recipe.name", back_populates="author")  # type: ignore
 
     events = db.relationship("Event", back_populates="author")  # type: ignore
+    role_events = db.relationship(
+        "Event",
+        secondary="users_have_event_roles",
+        primaryjoin="User.id == UserHasEventRole.user_id",
+        viewonly=True,
+    )
 
     @staticmethod
     def create(email, password, do_hash=True, **kwargs):
@@ -107,6 +114,11 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin):
     @property
     def ingredients_without_measurement(self):
         return [i for i in self.personal_ingredients if i.without_measurement]
+
+    @property
+    def role_event_recipes(self):
+        recipes = [event.recipes for event in self.role_events]
+        return flatten(recipes)
 
     # ROLES
     # @property

@@ -26,7 +26,7 @@
         {% set fa_class_ = 'fas fa-pencil-alt' %}
     {% elif name=="delete" %}
         {% set fa_class_ = 'fas fa-trash' %}
-    {% elif name=="archive" %}
+    {% elif name=="archive" or name=="archived" %}
         {% set fa_class_ = 'fas fa-archive' %}
     {% elif name=="unarchive" %}
         {% set fa_class_ = 'fas fa-archive' %}
@@ -57,6 +57,15 @@
         {% set fa_class_ = 'far fa-heart color-red' %}
     {% elif name=="heart_full" %}
         {% set fa_class_ = 'fas fa-heart color-red' %}
+    
+    {% elif name=="collaborator" %}
+        {% set fa_class_ = 'fas fa-user-edit' %}
+        {% if not tooltip %} {% set tooltip="editace" %} {% endif %}
+        {% set with_tooltip = True %}
+    {% elif name=="viewer" %}
+        {% set fa_class_ = 'far fa-eye' %}
+        {% if not tooltip %} {% set tooltip="prohlížení" %} {% endif %}
+        {% set with_tooltip = True %}
 
     {# Misc #}
     {% elif name=="recipe_database" %}

@@ -4,8 +4,21 @@ def empty_object():
     return types.SimpleNamespace()
 
 
-def list_without_duplicated(array):
+def list_without_duplicated(array) -> list:
     return list(dict.fromkeys(array))
+
+
+def flatten(array) -> list:
+    return [item for sublist in array for item in sublist]
+
+
+def power_flatten(array) -> list:
+    while has_sublists(array):
+        array = flatten(array)
+
+
+def has_sublists(array) -> bool:
+    return bool([item for item in array if type(item) == list])
 
 
 def slugify(value, allow_unicode=False):
@@ -30,3 +43,12 @@ def slugify(value, allow_unicode=False):
         )
     value = re.sub(r"[^\w\s-]", "", value.lower())
     return re.sub(r"[-\s]+", "-", value).strip("-_")
+
+
+def placeholder_day(date):
+    from app.helpers.formaters import week_day
+
+    day = empty_object()
+    day.date = date
+    day.weekday = week_day(date)
+    return day

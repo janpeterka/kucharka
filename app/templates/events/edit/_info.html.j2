@@ -1,18 +1,81 @@
 {% from "macros/render_field.html.j2" import render_field, render_floating_field %}
+{% from "macros/icons.html.j2" import icon %}
 
 <div id="event-info">
 <form method="POST" action="{{ url_for('EditEventView:post', event_id=event.id) }}">
     {{ form.csrf_token }}
-
-    {{ render_floating_field(form.name) }}
-
-    <div class="row mt-2">
-        <div class="col-md-6 col-sm-12"> {{ render_floating_field(form.date_from) }} </div>
-        <div class="col-md-6 col-sm-12"> {{ render_floating_field(form.date_to) }} </div>
+    <div class="ms-2 me-2">
+        {{ render_floating_field(form.name) }}
     </div>
-	
-	{{ render_floating_field(form.people_count) }}
 
-    {{ render_field(form.submit, value="Uložit změny") }}
+    <hr>
+
+    <div class="row ms-2 me-2" data-controller="set-duration">
+
+        <div class="col-12 col-sm">
+            <div class="row">
+                    <div class="col mb-0 mt-0 me-1 p-1">
+                        {{ render_floating_field(form.date_from,
+                                                 data_set_duration_target="dateFrom",
+                                                 data_action="change->set-duration#update_duration") }}
+                    </div>
+
+                    <div class="col mb-0 mt-0 p-1">
+                        {{ render_floating_field(form.date_to,
+                                                 data_set_duration_target="dateTo",
+                                                 data_action="change->set-duration#update_duration") }}
+                    </div>
+                </div>
+        </div>
+
+        <div class="col-12 col-sm">
+            <div class="mb-0 mt-0 p-1">
+                <div class="form-floating">
+                    <input type="text" name="duration" class="form-control" value="{{ event.duration }} dnů" disabled data-set-duration-target="duration">
+                    <label for="shared"> Trvání </label>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row ms-2 me-2">
+        <div class="col-12 col-sm">
+            <div class="row">
+                <div class="col mb-0 mt-0 me-1 p-1">
+                    {{ render_floating_field(form.people_count) }}
+                </div>
+                <div class="col mb-0 mt-0 p-1">
+                    {% if event.is_shared or event.is_archived %}
+                      <div class="form-floating">
+                        {% set value="" %}
+                        {% if event.is_shared %}
+                            {% set value = value~"  " %}
+                        {% endif %}
+                        {% if event.is_archived %}
+                            {% set value =value~"  " %}
+                        {% endif %}
+                        <input type="text" name="shared" class="form-control font-fa"  value="{{value}}" disabled>
+                        <label for="shared">Další informace</label>
+                      </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col mt-2">
+            <div class="row">
+                
+            <div class="col">
+                {{ render_field(form.submit, value="Uložit změny", class="w-100 btn-warning mt-0 pt-3 pb-3") }}
+            </div>
+            <div class="col">
+                <a href="{{ url_for('EventsView:show', id=event.id) }}" class="btn btn-secondary w-100 mt-0 pt-3 pb-3"> Zrušit změny </a>
+            </div>
+            </div>
+        </div>
+
+    </div>
+
 </form>
 </div>

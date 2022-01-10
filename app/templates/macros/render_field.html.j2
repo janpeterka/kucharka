@@ -86,10 +86,10 @@
   
   {% set label = kwargs.pop('label', field.label.text) %}
 
-<div class="form-floating">
-  {{ render_field(field, has_label=False, **kwargs) }}
+  <div class="form-floating">
+    {{ render_field(field, has_label=False, **kwargs) }}
 
-  {{ field.label(label) }}
-</div>
+    {{ field.label(label) }}
+  </div>
 
 {% endmacro %}

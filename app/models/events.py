@@ -1,10 +1,15 @@
+import datetime
 from datetime import timedelta
+
+from flask_security import current_user
 
 from app import db, BaseModel
 
+from app.helpers.general import list_without_duplicated, placeholder_day
 from app.helpers.item_mixin import ItemMixin
 
 from app.models.daily_plans import DailyPlan
+from app.models.users_have_event_roles import UserHasEventRole
 
 
 class Event(BaseModel, ItemMixin):
@@ -25,6 +30,22 @@ class Event(BaseModel, ItemMixin):
 
     created_by = db.Column(db.ForeignKey(("users.id")), nullable=False, index=True)
     author = db.relationship("User", uselist=False, back_populates="events")
+
+    # collaborators = db.relationship(
+    #     "User",
+    #     secondary="users_have_event_roles",
+    #     primaryjoin="and_(Event.id == UserHasEventRole.event_id, UserHasEventRole.role =='collaborator')",
+    #     viewonly=True,
+    # )
+
+    shared_with = db.relationship(
+        "User",
+        secondary="users_have_event_roles",
+        primaryjoin="Event.id == UserHasEventRole.event_id",
+        viewonly=True,
+    )
+
+    user_roles = db.relationship("UserHasEventRole")
 
     daily_plans = db.relationship(
         "DailyPlan",
@@ -49,13 +70,13 @@ class Event(BaseModel, ItemMixin):
 
     def share_all_used_recipes(self):
         for recipe in self.recipes:
-            recipe.toggle_shared()
+            recipe.share()
 
-    def delete_old_daily_plans(self):
-        for daily_plan in self.daily_plans:
-            if not (self.date_from <= daily_plan.date <= self.date_to):
-                # daily_plan.delete()
-                pass
+    # def delete_old_daily_plans(self):
+    #     for daily_plan in self.daily_plans:
+    #         if not (self.date_from <= daily_plan.date <= self.date_to):
+    #             # daily_plan.delete()
+    #             pass
 
     def add_new_daily_plans(self):
         for date in self.days:
@@ -69,13 +90,20 @@ class Event(BaseModel, ItemMixin):
 
     @property
     def in_future(self):
-        import datetime
-
         return self.date_to >= datetime.date.today()
 
     @property
     def duration(self):
-        return (self.date_to - self.date_from).days
+        return (self.date_to - self.date_from).days + 1
+
+    @property
+    def duration_label(self):
+        if self.duration == 1:
+            return "den"
+        elif self.duration in [1, 2, 3, 4]:
+            return "dny"
+        else:
+            return "dnů"
 
     @property
     def days(self):
@@ -88,13 +116,49 @@ class Event(BaseModel, ItemMixin):
         return any(dp.date == date for dp in self.daily_plans)
 
     @property
-    def active_daily_plans(self):
+    def active_daily_plans(self) -> list:
         return [
             dp for dp in self.daily_plans if (self.date_from <= dp.date <= self.date_to)
         ]
 
     @property
-    def recipes(self):
+    def weeks(self) -> list:
+        weeks = [dp.week for dp in self.active_daily_plans]
+
+        return list_without_duplicated(weeks)
+
+    def days_of_week(self, week) -> list:
+        return [dp for dp in self.active_daily_plans if dp.week == week]
+
+    def days_of_week_extended(self, week) -> list:
+        base_days = [dp for dp in self.active_daily_plans if dp.week == week]
+        week_length = len(base_days)
+        missing_day_count = 7 - week_length
+        if week_length == 7:
+            return base_days
+
+        if base_days[-1].weekday == "neděle":
+            first_date = base_days[0].date
+            # add missing days
+            for i in range(missing_day_count):
+                base_days.insert(
+                    0, placeholder_day(first_date + timedelta(days=-(i + 1)))
+                )
+
+        elif base_days[0].weekday == "pondělí":
+            last_date = base_days[-1].date
+            # add missing days
+            for i in range(missing_day_count):
+                base_days.append(placeholder_day(last_date + timedelta(days=i + 1)))
+
+        return base_days
+
+    @property
+    def days_by_week(self) -> list:
+        return [self.days_of_week_extended(week) for week in self.weeks]
+
+    @property
+    def recipes(self) -> list:
         recipes = []
         for daily_plan in self.daily_plans:
             recipes += daily_plan.real_recipes
@@ -102,9 +166,15 @@ class Event(BaseModel, ItemMixin):
         return recipes
 
     @property
-    def recipes_without_duplicated(self):
-        from app.helpers.general import list_without_duplicated
+    def active_recipes(self) -> list:
+        recipes = []
+        for daily_plan in self.active_daily_plans:
+            recipes += daily_plan.real_recipes
 
+        return recipes
+
+    @property
+    def recipes_without_duplicated(self):
         return list_without_duplicated(self.recipes)
 
     @property
@@ -137,23 +207,23 @@ class Event(BaseModel, ItemMixin):
 
     @property
     def zero_amount_ingredient_recipes(self):
-        return [r for r in self.recipes if r.has_zero_amount_ingredient]
+        return [r for r in self.active_recipes if r.has_zero_amount_ingredient]
 
     @property
     def no_measurement_ingredient_recipes(self):
-        return [r for r in self.recipes if r.has_no_measurement_ingredient]
+        return [r for r in self.active_recipes if r.has_no_measurement_ingredient]
 
     @property
     def recipes_without_category(self):
-        return [r for r in self.recipes if r.without_category]
+        return [r for r in self.active_recipes if r.without_category]
 
     @property
     def no_category_ingredient_recipes(self):
-        return [r for r in self.recipes if r.has_no_category_ingredient]
+        return [r for r in self.active_recipes if r.has_no_category_ingredient]
 
     @property
     def empty_recipes(self):
-        return [r for r in self.recipes if r.is_draft]
+        return [r for r in self.active_recipes if r.is_draft]
 
     @property
     def starts_at(self):
@@ -163,8 +233,59 @@ class Event(BaseModel, ItemMixin):
     def ends_at(self):
         return self.date_to
 
-    @property
-    def url(self):
-        from flask import url_for
+    def user_role(self, user):
+        roles = [user_role for user_role in self.user_roles if user_role.user == user]
+        if not roles:
+            return None
+        elif len(roles) == 1:
+            return roles[0].role
+        else:
+            raise Warning("User has multiple roles on this event")
 
-        return f"https://skautskakucharka.cz{url_for('EventsView:show', id=self.id)}"
+    def add_user_role(self, user, role):
+        event_role = UserHasEventRole(event=self, user=user, role=role)
+        event_role.save()
+
+    def change_user_role(self, user, role):
+        event_role = UserHasEventRole.load_by_event_and_user(event=self, user=user)
+        event_role.role = role
+        event_role.save()
+
+    def remove_user_role(self, user):
+        event_role = UserHasEventRole.load_by_event_and_user(event=self, user=user)
+        event_role.delete()
+
+    @property
+    def current_user_role(self):
+        return self.user_role(current_user)
+
+    # @property
+    # def url(self):
+    #     from flask import url_for
+
+    #     return f"https://skautskakucharka.cz{url_for('EventsView:show', id=self.id)}"
+
+    # PERMISSIONS
+    def can_view(self, user) -> bool:
+        return (
+            self.is_author(user)
+            or self.user_role(user) in ["viewer", "collaborator"]
+            or self.is_public
+            or (user.is_authenticated and user.has_permission("see-other"))
+        )
+
+    def can_edit(self, user) -> bool:
+        return (
+            self.is_author(user)
+            or self.user_role(user) == "collaborator"
+            or (user.is_authenticated and user.has_permission("edit-other"))
+        )
+
+    def can_share(self, user) -> bool:
+        return self.is_author(user) or (
+            user.is_authenticated and user.has_permission("edit-other")
+        )
+
+    @property
+    def can_current_user_share(self) -> bool:
+        return self.can_share(current_user)

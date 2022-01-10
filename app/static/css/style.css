@@ -5,6 +5,7 @@
 /*@import "texts.css";*/
 
 /* Elements  */
+@import "components.css";
 @import "lists.css";
 @import "forms.css";
 @import "details.css";
@@ -69,5 +70,5 @@ div.warning li {
 }
 
 div.warning li:before {
-  content: "!";
+  content: "⚠️";
 }

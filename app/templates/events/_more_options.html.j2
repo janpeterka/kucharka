@@ -1,0 +1,40 @@
+<div class="row ms-0 mb-2 opacity-75" id="event-more-options">
+    <div class="row" id="event-more-options-button-row">
+        <div class="col-12 col-md-3 mb-1">
+            {% if event.is_shared %}
+                {% set share_text = "Zneveřejnit" + icon("unshare") %}
+            {% else %}
+                {% set share_text = "Zveřejnit" + icon("share") %}
+            {% endif %}
+
+            {{ button_to(url_for('EventsView:toggle_shared', id=event.id),
+                class="btn btn-secondary w-100 ", value=share_text) }}
+        </div>
+
+        <div class="col-12 col-md-3 mb-1">   
+            {{ button_to(url_for('EditEventView:show_share_with_user', event_id=event.id),
+                class="btn btn-secondary w-100 ", value="Sdílet dalším lidem"+ icon('share')) }}
+        </div>
+ 
+        {# <div class="col-12 col-md-3 mb-1">   
+            {{ button_to(url_for('EventsView:share_all_used_recipes', id=event.id),
+                class="btn btn-secondary w-100 ", value="Zveřejnit použité recepty"+ icon('share')) }}
+        </div> #}
+
+        <div class="col-12 col-md-3 mb-1">
+            {% if not event.is_archived %}
+                {% set archive_text = "Archivovat" + icon("archive") %}
+            {% else %}
+                {% set archive_text = "Aktivovat" + icon("unarchive") %}
+            {% endif %}
+
+            {{ button_to(url_for('EventsView:toggle_archived', id=event.id),
+                class="btn btn-warning w-100 ", value=archive_text) }}
+        </div>
+
+        <div class="col-12 col-md-3 mb-1">  
+            {{ button_to(url_for('EventsView:delete', id=event.id),
+                class="btn btn-danger w-100 ", value="Smazat akci " ~ icon("delete"), confirmation="Opravdu chcete smazat akci?") }}  
+        </div>
+    </div>
+</div>

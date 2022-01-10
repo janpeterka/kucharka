@@ -1,3 +1,5 @@
+{% from "macros/render_day_badge.html.j2" import render_day_badge with context %} 
+
 {% extends "base/base.html.j2" %}
 {% block title %} {{ event.name }} {% endblock %}
 {% block links %}
@@ -5,34 +7,42 @@
     {{ turbo() }}
 {% endblock %}
 
+{% block scripts_after %}
+    {{ stimulus("clicker", "set-duration") }}
+{% endblock %}
+
 {% block content %}
 
 <div class="mb-3">
-{% include "events/_info.html.j2" %}
+    {% include "events/_info.html.j2" %}
 </div>
 
 <hr>
 
-<div>
-<ul>
-    {% for day in event.active_daily_plans %}
-        <li>{{ link_to(day) }}
-            {% if day.daily_recipes %}
-                ({{ day.daily_recipes | length }})
-            {% endif %}
-        </li>
+<div class="row ms-0" data-controller="clicker" data-clicker-target="area">
+    {% for week in event.days_by_week %}
+        <div class="row">
+        {% for day in week %}
+            {{ render_day_badge(day) }}
+        {% endfor %}
+        </div>
     {% endfor %}
-</ul>
 </div>
 
-{% if event.can_current_user_edit %}
-    {% include "events/_delete_or_edit.html.j2" %}
-{% endif %}
+<hr>
 
-{% include "events/_export.html.j2" %}
+{% if event.can_current_user_edit %}
+    {% include "events/_more_options.html.j2" %}
+{% endif %}
 
 {% if event.can_current_user_edit %}
     <turbo-frame id="event-warnings" src="{{ url_for('EventsView:warnings', id=event.id) }}"></turbo-frame>
 {% endif %}
+
+{% if event.can_current_user_edit %}
+    {% include "events/_sharing.html.j2" %}
+{% endif %}
+
+{% include "events/_export.html.j2" %}
 
 {% endblock %}

@@ -25,7 +25,7 @@
 </ul>
 </div>
 
-{% include "events/_delete_or_edit.html.j2" %}
+{% include "events/_more_options.html.j2" %}
 {% include "events/_export.html.j2" %}
 
 <turbo-frame id="event-warnings" src="{{ url_for('EventsView:warnings', id=event.id) }}">

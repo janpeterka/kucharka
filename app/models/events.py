@@ -9,6 +9,7 @@ from app.helpers.general import list_without_duplicated, placeholder_day
 from app.helpers.item_mixin import ItemMixin
 
 from app.models.daily_plans import DailyPlan
+from app.models.users_have_event_roles import UserHasEventRole
 
 
 class Event(BaseModel, ItemMixin):
@@ -29,10 +30,18 @@ class Event(BaseModel, ItemMixin):
 
     created_by = db.Column(db.ForeignKey(("users.id")), nullable=False, index=True)
     author = db.relationship("User", uselist=False, back_populates="events")
-    collaborators = db.relationship(
+
+    # collaborators = db.relationship(
+    #     "User",
+    #     secondary="users_have_event_roles",
+    #     primaryjoin="and_(Event.id == UserHasEventRole.event_id, UserHasEventRole.role =='collaborator')",
+    #     viewonly=True,
+    # )
+
+    shared_with = db.relationship(
         "User",
         secondary="users_have_event_roles",
-        primaryjoin="and_(Event.id == UserHasEventRole.event_id, UserHasEventRole.role =='collaborator')",
+        primaryjoin="Event.id == UserHasEventRole.event_id",
         viewonly=True,
     )
 
@@ -232,6 +241,19 @@ class Event(BaseModel, ItemMixin):
             return roles[0].role
         else:
             raise Warning("User has multiple roles on this event")
+
+    def add_user_role(self, user, role):
+        event_role = UserHasEventRole(event=self, user=user, role=role)
+        event_role.save()
+
+    def change_user_role(self, user, role):
+        event_role = UserHasEventRole.load_by_event_and_user(event=self, user=user)
+        event_role.role = role
+        event_role.save()
+
+    def remove_user_role(self, user):
+        event_role = UserHasEventRole.load_by_event_and_user(event=self, user=user)
+        event_role.delete()
 
     @property
     def current_user_role(self):

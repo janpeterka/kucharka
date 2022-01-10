@@ -127,13 +127,19 @@ def log_request(exception=None):
         item_type = DataHandler.get_additional_request_data("item_type")
         item_id = DataHandler.get_additional_request_data("item_id")
 
+        start_time = getattr(g, "log_request_start_time", None)
+        if start_time:
+            duration = time.time() - start_time
+        else:
+            duration = None
+
         log = RequestLog(
             url=request.path,
             user_id=user_id,
             remote_addr=request.environ["REMOTE_ADDR"],
             item_type=item_type,
             item_id=item_id,
-            duration=time.time() - g.log_request_start_time,
+            duration=duration,
         )
         log.save()
 

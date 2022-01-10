@@ -17,3 +17,9 @@ class UserHasEventRole(BaseModel, BaseMixin):
 
     user = db.relationship("User", backref="user_event_roles")
     event = db.relationship("Event", backref="event_user_roles")
+
+    @staticmethod
+    def load_by_event_and_user(event, user):
+        return UserHasEventRole.query.filter_by(
+            event_id=event.id, user_id=user.id
+        ).first()

@@ -1,21 +1,41 @@
-<details open class="colored">
-<summary>Exporty</summary>
+<details class="colored mb-2" open>
+<summary> Exporty </summary>
 <div>
-	<a class="btn btn-secondary me-2 mt-1 mt-lg-0" href="{{ url_for('EventExporterView:show_shopping_list', event_id=event.id) }}"> {{ icon("shopping") }} nákupní seznam </a>
-	<a data-turbo="false" class="btn btn-secondary me-2 mt-1 mt-lg-0" href="{{ url_for('EventExporterView:show_ingredient_list', event_id=event.id) }}"> {{ icon("list") }} nákupní seznam (s recepty) </a>
-	<a class="btn btn-secondary me-2 mt-1 mt-lg-0" href="{{ url_for('EventExporterView:show_recipe_list', event_id=event.id) }}"> {{ icon("food") }} jídelníček </a>
-	<a class="btn btn-secondary me-2 mt-1 mt-lg-0" href="{{ url_for('EventExporterView:show_recipe_list_visual', event_id=event.id) }}"> {{ icon("food") }} jídelníček (kanban) </a>
-	<a class="btn btn-secondary me-2 mt-1 mt-lg-0" href="{{ url_for('EventExporterView:show_cookbook', event_id=event.id) }}"> {{ icon("cookbook") }} kuchařka </a>
-</div>
-</details>
+	<div class="row mb-2">
+		<div class="row">
+		<div class="col-12 col-sm-3">
+			<a class="btn btn-secondary me-2 mt-1 mt-lg-0 w-100" href="{{ url_for('EventExporterView:show_shopping_list', event_id=event.id) }}"> {{ icon("shopping") }} nákupní seznam </a>
+		</div>
+		<div class="col-12 col-sm-3">
+			<a data-turbo="false" class="btn btn-secondary me-2 mt-1 mt-lg-0 w-100" href="{{ url_for('EventExporterView:show_ingredient_list', event_id=event.id) }}"> {{ icon("list") }} nákupní seznam (s recepty) </a>
+		</div>
+		<div class="col-12 col-sm-2">
+			<a class="btn btn-secondary me-2 mt-1 mt-lg-0 w-100" href="{{ url_for('EventExporterView:show_recipe_list', event_id=event.id) }}"> {{ icon("food") }} jídelníček </a>
+		</div>
+		<div class="col-12 col-sm-2">
+			<a class="btn btn-secondary me-2 mt-1 mt-lg-0 w-100" href="{{ url_for('EventExporterView:show_recipe_list_visual', event_id=event.id) }}"> {{ icon("food") }} jídelníček (kanban) </a>
+		</div>
+		<div class="col-12 col-sm-2">
+			<a class="btn btn-secondary me-2 mt-1 mt-lg-0 w-100" href="{{ url_for('EventExporterView:show_cookbook', event_id=event.id) }}"> {{ icon("cookbook") }} kuchařka </a>
+		</div>
+		</div>
+	</div>
 
-<details class="colored">
-<summary>Export do {{ icon("pdf", style="font-size: 0.7rem;") }}</summary>
-<div>
-	<a class="btn btn-secondary me-2 mt-1 mt-lg-0" href="{{ url_for('EventExporterView:show_shopping_list_pdf', event_id=event.id) }}" target="_blank"> {{ icon("pdf") }} nákupní seznam </a>
-	<a class="btn btn-secondary me-2 mt-1 mt-lg-0" href="{{ url_for('EventExporterView:show_ingredient_list_pdf', event_id=event.id) }}" target="_blank"> {{ icon("pdf") }} nákupní seznam (s recepty)  </a>
-	<a class="btn btn-secondary me-2 mt-1 mt-lg-0" href="{{ url_for('EventExporterView:show_recipe_list_pdf', event_id=event.id) }}" target="_blank"> {{ icon("pdf") }} jídelníček  </a>
-	{# <a class="btn btn-secondary me-2 mt-1 mt-lg-0" href="{{ url_for('EventExporterView:show_recipe_list_visual_pdf', event_id=event.id) }}"> {{ icon("food") }} jídelníček (kanban) {{ icon("pdf") }} </a> #}
-	<a class="btn btn-secondary me-2 mt-1 mt-lg-0" href="{{ url_for('EventExporterView:show_cookbook_pdf', event_id=event.id) }}" target="_blank"> {{ icon("pdf") }} kuchařka </a>
+	<div class="row mb-2">
+		<div class="row">
+		<div class="col-12 col-sm-3">
+			<a class="btn btn-secondary me-2 mt-1 mt-lg-0 w-100" href="{{ url_for('EventExporterView:show_shopping_list_pdf', event_id=event.id) }}" target="_blank"> {{ icon("pdf") }} nákupní seznam </a>
+		</div>
+		<div class="col-12 col-sm-3">
+			<a class="btn btn-secondary me-2 mt-1 mt-lg-0 w-100" href="{{ url_for('EventExporterView:show_ingredient_list_pdf', event_id=event.id) }}" target="_blank"> {{ icon("pdf") }} nákupní seznam (s recepty)  </a>
+		</div>
+		<div class="col-12 col-sm-4">
+			<a class="btn btn-secondary me-2 mt-1 mt-lg-0 w-100" href="{{ url_for('EventExporterView:show_recipe_list_pdf', event_id=event.id) }}" target="_blank"> {{ icon("pdf") }} jídelníček  </a>
+		</div>
+		<div class="col-12 col-sm-2">
+			<a class="btn btn-secondary me-2 mt-1 mt-lg-0 w-100" href="{{ url_for('EventExporterView:show_cookbook_pdf', event_id=event.id) }}" target="_blank"> {{ icon("pdf") }} kuchařka </a>
+		</div>
+		</div>
+	</div>
 </div>
 </details>

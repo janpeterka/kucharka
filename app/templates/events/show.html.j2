@@ -39,7 +39,7 @@
     <turbo-frame id="event-warnings" src="{{ url_for('EventsView:warnings', id=event.id) }}"></turbo-frame>
 {% endif %}
 
-<details open class="colored">
+<details class="colored mb-2">
     <summary > Sdílení </summary>
     <div>
     {% for event_role in event.user_roles %}

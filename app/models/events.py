@@ -9,6 +9,7 @@ from app.helpers.general import list_without_duplicated, placeholder_day
 from app.helpers.item_mixin import ItemMixin
 
 from app.models.daily_plans import DailyPlan
+from app.models.users_have_event_roles import UserHasEventRole
 
 
 class Event(BaseModel, ItemMixin):
@@ -242,17 +243,17 @@ class Event(BaseModel, ItemMixin):
             raise Warning("User has multiple roles on this event")
 
     def add_user_role(self, user, role):
-        from app.models.users_have_event_roles import UserHasEventRole
-
         event_role = UserHasEventRole(event=self, user=user, role=role)
         event_role.save()
 
     def change_user_role(self, user, role):
-        from app.models.users_have_event_roles import UserHasEventRole
-
         event_role = UserHasEventRole.load_by_event_and_user(event=self, user=user)
         event_role.role = role
         event_role.save()
+
+    def remove_user_role(self, user):
+        event_role = UserHasEventRole.load_by_event_and_user(event=self, user=user)
+        event_role.delete()
 
     @property
     def current_user_role(self):

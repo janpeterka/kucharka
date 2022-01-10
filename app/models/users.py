@@ -4,6 +4,7 @@ from flask_security import hash_password
 from app import db, BaseModel
 
 from app.helpers.base_mixin import BaseMixin
+from app.helpers.general import flatten
 
 from app.modules.calendar.models.calendar_user_mixin import CalendarUserMixin
 
@@ -113,6 +114,14 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin):
     @property
     def ingredients_without_measurement(self):
         return [i for i in self.personal_ingredients if i.without_measurement]
+
+    @property
+    def role_event_recipes(self):
+        recipes = []
+        for event in self.role_events:
+            recipes.append(event.recipes)
+
+        return flatten(recipes)
 
     # ROLES
     # @property

@@ -25,6 +25,9 @@ class EditEventView(HelperFlaskView):
 
     @route("/edit/<event_id>", methods=["POST"])
     def edit(self, event_id):
+        if not self.event.can_current_user_edit:
+            return redirect(url_for("EventsView:show", id=event_id))
+
         self.form = EventsForm(obj=self.event)
 
         if turbo.can_stream():
@@ -35,6 +38,9 @@ class EditEventView(HelperFlaskView):
             return redirect(url_for("EventsView:edit", id=self.event.id))
 
     def post(self, event_id):
+        if not self.event.can_current_user_edit:
+            return redirect(url_for("EventsView:show", id=event_id))
+
         self.form = EventsForm(request.form)
 
         if not self.form.validate_on_submit():
@@ -68,6 +74,8 @@ class EditEventView(HelperFlaskView):
 
     @route("/share-with-user/<event_id>", methods=["POST"])
     def share_with_user(self, event_id):
+        if not self.event.can_current_user_edit:
+            return redirect(url_for("EventsView:show", id=event_id))
 
         form = request.form
 

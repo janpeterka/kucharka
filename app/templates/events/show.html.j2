@@ -39,6 +39,17 @@
     <turbo-frame id="event-warnings" src="{{ url_for('EventsView:warnings', id=event.id) }}"></turbo-frame>
 {% endif %}
 
+<details open class="colored">
+    <summary > Sdílení </summary>
+    <div>
+    {% for event_role in event.user_roles %}
+        <div>
+        {{ event_role.user.email }} {{ icon(event_role.role) }}
+        </div>
+    {% endfor %}
+    </div>
+</details>
+
 {% include "events/_export.html.j2" %}
 
 

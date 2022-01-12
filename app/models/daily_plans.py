@@ -109,3 +109,6 @@ class DailyPlan(BaseModel, ItemMixin, DailyPlanLoaderMixin, DailyPlanRecipeMixin
             return self.daily_recipes[-1]
         else:
             return None
+
+    def can_edit(self, user):
+        return self.event.can_edit(user)

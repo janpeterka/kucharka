@@ -1,4 +1,4 @@
-from flask import request, redirect, url_for, flash
+from flask import request, redirect, url_for
 from flask_classful import route
 from flask_security import login_required
 
@@ -9,6 +9,7 @@ from app.models.daily_plans_have_recipes import DailyPlanHasRecipe
 from app.models.recipes import Recipe
 
 from app.helpers.helper_flask_view import HelperFlaskView
+from app.helpers.turbo_flash import turbo_flash as flash
 
 
 class DailyPlansEditView(HelperFlaskView):
@@ -33,6 +34,11 @@ class DailyPlansEditView(HelperFlaskView):
     @route("daily_plans/add_recipe/<daily_plan_id>", methods=["POST"])
     def add_recipe(self, daily_plan_id):
         self.recipe = Recipe.load(request.form["recipe_id"])
+
+        if not self.recipe or not self.recipe.can_current_user_view:
+            flash("Tento recept nemůžete přidat.")
+            return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
+
         self.daily_recipe = self.daily_plan.add_recipe(self.recipe)
 
         if turbo.can_stream():
@@ -46,8 +52,7 @@ class DailyPlansEditView(HelperFlaskView):
 
     @route("daily_plans/add_shopping/<daily_plan_id>", methods=["POST"])
     def add_shopping(self, daily_plan_id):
-        recipe = Recipe.load_by_name("Nákup")
-        self.daily_recipe = self.daily_plan.add_recipe(recipe)
+        self.daily_recipe = self.daily_plan.add_recipe(Recipe.load_shopping())
         self.daily_recipe.meal_type = "nákup"
         self.daily_recipe.save()
 

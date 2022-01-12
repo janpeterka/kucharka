@@ -70,8 +70,10 @@ class EditEventView(HelperFlaskView):
                     ),
                     to=self.event.other_user_ids,
                 )
-            except Exception:
-                pass
+            except Exception as e:
+                from sentry_sdk import capture_exception
+
+                capture_exception(e)
 
         return redirect(url_for("EventsView:show", id=self.event.id))
 

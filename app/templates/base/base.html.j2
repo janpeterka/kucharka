@@ -69,7 +69,10 @@
     {% block style %}{% endblock %}
     {% block script %}{% endblock %}
 
-    <title> {% block title %}{% endblock %} </title>
+    <title>
+        {% if config.APP_STATE == "development" %} 🚧 DEV -  {% endif %}
+        {% block title %}{% endblock %}
+    </title>
 {% endblock head %}
 </head>
 <body>

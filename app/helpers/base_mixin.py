@@ -176,6 +176,7 @@ class BaseMixin(object):
             self == user  # for User
             or self.is_public
             or self.is_author(user)
+            or self.can_edit(user)
             or (user.is_authenticated and user.has_permission("see-other"))
         )
 

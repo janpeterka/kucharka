@@ -139,6 +139,10 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         recipes = Recipe.load_by_ingredient(ingredient)
         return [r for r in recipes if r.author == user]
 
+    @staticmethod
+    def load_shopping():
+        return Recipe.load_by_name("Nákup")
+
     # Operations
 
     def create_and_save(self, recipe_ingredients):

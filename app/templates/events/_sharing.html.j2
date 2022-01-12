@@ -7,8 +7,10 @@
             {{ event_role.user.email }} {{ icon(event_role.role) }}
             </div>
             <div class="col-2">
-            {{ button_to(url_for('EditEventView:remove_sharing', event_id=event.id, user_id=event_role.user.id),
+                {% if event.can_current_user_share %}    
+                {{ button_to(url_for('EditEventView:remove_sharing', event_id=event.id, user_id=event_role.user.id),
                 class="btn btn-danger", value="Odebrat práva" ~ icon('delete')) }}
+                {% endif %}
             </div>
         </div>
         <hr>

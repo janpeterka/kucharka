@@ -8,12 +8,16 @@
             {% endif %}
 
             {{ button_to(url_for('EventsView:toggle_shared', id=event.id),
-                class="btn btn-secondary w-100 ", value=share_text) }}
+                class="btn btn-secondary w-100", value=share_text) }}
         </div>
 
         <div class="col-12 col-md-3 mb-1">   
+            {% if event.can_current_user_share %}
             {{ button_to(url_for('EditEventView:show_share_with_user', event_id=event.id),
-                class="btn btn-secondary w-100 ", value="Sdílet dalším lidem"+ icon('share')) }}
+                class="btn btn-secondary w-100", value="Sdílet dalším lidem"+ icon('share')) }}
+            {% else %}
+            <button class="btn btn-secondary w-100" disabled> Nemáte práva na sdílení </button>
+            {% endif %}
         </div>
  
         {# <div class="col-12 col-md-3 mb-1">   

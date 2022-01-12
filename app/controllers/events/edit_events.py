@@ -65,7 +65,7 @@ class EditEventView(HelperFlaskView):
             try:
                 turbo.push(
                     turbo.update(
-                        "⚠️ Událost byla změněna, aktualizujte pro zobrazení změn.",
+                        self.template(template_name="_update_warning"),
                         target=f"event-{event_id}-update-warning",
                     ),
                     to=self.event.other_user_ids,

@@ -8,12 +8,12 @@
 {% endblock %}
 
 {% block scripts_after %}
-    {{ stimulus("clicker", "set-duration") }}
+    {{ stimulus("clicker", "set-duration", "refresh") }}
 {% endblock %}
 
 {% block content %}
 
-<div id="event-{{event.id}}-update-warning" class="text-center"></div>
+<div id="event-{{event.id}}-update-warning" class="text-center cursor-clickable" data-controller="refresh" data-action="click->refresh#refresh"></div>
 
 
 <div class="mb-3">

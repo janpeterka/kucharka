@@ -40,12 +40,18 @@
         {% if daily_plan.can_current_user_edit %}
             {% if daily_recipe.is_shopping %}
                 <form method="POST" class="text-end me-3" action="{{ url_for('DailyPlansEditView:remove_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
-                    <button type="submit" class="btn btn-danger"> Smazat </button>
+                    <button type="submit" class="btn btn-danger w-100"> Smazat </button>
                 </form>
             {% else %}
-                <form method="POST" class="text-end me-3 {% if editing %}visibility-hidden{% endif %}" action="{{ url_for('DailyPlansEditView:show_edit_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
-                    <button type="submit" class="btn bg-color-light-greenish"> Upravit </button>
-                </form>
+                {% if not editing %}
+                    <form method="POST" class="text-end me-3" action="{{ url_for('DailyPlansEditView:show_edit_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
+                        <button type="submit" class="btn bg-color-light-greenish w-100"> Upravit </button>
+                    </form>
+                {% else %}
+                    <form method="POST" class="text-end me-3" action="{{ url_for('DailyPlansEditView:hide_edit_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
+                        <button type="submit" class="btn btn-secondary w-100"> Zrušit </button>
+                    </form>
+                {% endif %}
             {% endif %}
         {% endif %}
     </td>

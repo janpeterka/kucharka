@@ -61,6 +61,10 @@ class DailyPlan(BaseModel, ItemMixin, DailyPlanLoaderMixin, DailyPlanRecipeMixin
         return week_day(self.date)
 
     @property
+    def week(self) -> int:
+        return int(self.date.strftime("%V"))
+
+    @property
     def name(self) -> str:
         return self.weekday
 

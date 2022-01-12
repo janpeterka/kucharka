@@ -50,6 +50,10 @@
 	font-family: 'Roboto';
 }*/
 
+.font-fa {
+	font-family: FontAwesome;
+}
+
 .font-montserrat {
 	font-family: 'MontSerrat', serif;
 }

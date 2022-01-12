@@ -46,6 +46,8 @@ class Config(object):
 
     STORAGE_SYSTEM = os.environ.get("STORAGE_SYSTEM")
 
+    DROPZONE_MAX_FILE_SIZE = 20
+
     SENTRY_MONITORING = True
     INFO_USED_DB = "production db"
 

@@ -1,0 +1,45 @@
+{% macro render_day_badge(day) %}
+
+{% if not day.is_active %}
+	{% set color = "light-grey" %}
+{% elif day.weekday == "neděle"  %}
+	{% set color = "light-yellow" %}
+{% else %}
+	{% set color = "light-green"%}
+{% endif %}
+
+{% if not day.is_active %}
+	{% set class = "opacity-50 d-none d-md-inline-block cursor-default" %}
+{% elif day.is_active %}
+	{% set class = "day-badge" %}
+{% endif %}
+
+<div
+	{% if day.is_active %} data-action="click->clicker#activateLink" {% endif %}
+	class="col-12 col-md p-2 mb-2 mb-md-3 ms-2 me-2 bg-color-{{ color }} rounded text-center text-nobreak {{ class }} lh-2 text-truncate">
+	<div>
+		{% if not day.is_active %}
+			{{ day.weekday }}
+		{% else %}
+			{{ link_to(day) }}
+		{% endif %}
+	</div>
+	
+	{% if day.is_active %}
+		
+		<hr class="mt-1">
+
+		{% for recipe in day.recipes %}
+		<div class="text-truncate">
+			{% if not recipe.is_shopping %}
+				{{ link_to(recipe) }}
+			{% else %}
+				<span class="color-grey"> nákup </span>
+			{% endif %}
+		</div>
+		{% endfor %}
+	
+	{% endif %}
+</div>
+
+{% endmacro %}

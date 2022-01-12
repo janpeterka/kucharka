@@ -182,6 +182,11 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         new.save()
         return new
 
+    def share(self):
+        if not self.is_shared:
+            self.is_shared = True
+            self.edit()
+
     def toggle_shared(self):
         self.is_shared = not self.is_shared
         self.edit()
@@ -193,6 +198,7 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         return (
             self.is_shared
             or self.is_in_shared_event
+            or self in user.role_event_recipes
             or user == self.author
             or (user.is_authenticated and user.has_permission("see-other"))
         )

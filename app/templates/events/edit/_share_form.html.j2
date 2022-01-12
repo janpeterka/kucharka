@@ -1,0 +1,23 @@
+<div class="row" style="margin-left: auto; margin-right: auto; width: 40rem;">
+
+	<form method="POST" class="row row-cols-auto g-3 align-items-center" action="{{ url_for('EditEventView:share_with_user', event_id=event.id) }}">
+        <div class="col">
+        	<input type="email" class="form-control" name="email" placeholder="email">
+        </div>
+
+
+        <div class="col">
+            <select name="role" id="role" class="form-control">
+                    <option disabled selected value> Druh sdílení: </option>
+                    <option value="collaborator"> Úpravy </option>
+                    <option value="viewer"> Prohlížení </option>
+            </select>
+        </div>
+        
+        <div class="col">
+        	<button type="submit" class="btn btn-secondary"> Pozvat </button>
+        </div>
+    </form>
+
+
+</div>

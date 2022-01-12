@@ -15,10 +15,7 @@ from app import db
 # Custom methods for all my classes
 class BaseMixin(object):
     def __str__(self):
-        if hasattr(self, "name"):
-            return self.name
-        else:
-            return self.__str__
+        return self.name if hasattr(self, "name") else self.__str__
 
     def set_defaults(self, **kwargs):
         if self.created_by is None:
@@ -67,10 +64,7 @@ class BaseMixin(object):
     @classmethod
     def load_by_attribute(cls, attribute, value):
         elements = cls.load_all_by_attribute(attribute, value)
-        if elements:
-            return elements[0]
-        else:
-            return None
+        return elements[0] if elements else None
 
     # OTHER LOADING
     @classmethod
@@ -155,10 +149,7 @@ class BaseMixin(object):
     # PROPERTIES
 
     def is_author(self, user) -> bool:
-        if hasattr(self, "author"):
-            return self.author == user  # type: ignore
-        else:
-            return False
+        return self.author == user if hasattr(self, "author") else False
 
     @property
     def is_current_user_author(self) -> bool:
@@ -166,10 +157,7 @@ class BaseMixin(object):
 
     @hybrid_property
     def is_public(self) -> bool:
-        if hasattr(self, "is_shared"):
-            return self.is_shared  # type: ignore
-        else:
-            return False
+        return self.is_shared if hasattr(self, "is_shared") else False
 
     # PERMISSIONS
     def can_view(self, user) -> bool:

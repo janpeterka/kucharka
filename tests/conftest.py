@@ -5,8 +5,6 @@ import datetime
 from app import create_app
 from app import db as _db
 
-# from tests.data_helpers import create_user
-
 
 @pytest.fixture
 def app(scope="session"):
@@ -135,3 +133,30 @@ def db_fill():
 
     for user in users:
         user.save()
+
+    from app.models.ingredients import Ingredient
+
+    ingredients = [
+        Ingredient(name="první surovina", created_by=users[0].id),
+        Ingredient(name="druhá surovina", created_by=users[0].id),
+        Ingredient(name="třetí surovina", created_by=users[0].id),
+    ]
+
+    for ingredient in ingredients:
+        ingredient.save()
+
+    from app.models.recipes import Recipe
+
+    recipe = Recipe(
+        name="první recept", created_by=users[0].id, portion_count=1, is_shared=False
+    )
+    recipe.add_ingredient(ingredients[0], amount=20)
+    recipe.add_ingredient(ingredients[2], amount=10)
+    recipe.save()
+
+    recipe_2 = Recipe(
+        name="veřejný recept", created_by=users[0].id, portion_count=1, is_shared=True
+    )
+    recipe_2.add_ingredient(ingredients[0], amount=20)
+    recipe_2.add_ingredient(ingredients[2], amount=10)
+    recipe_2.save()

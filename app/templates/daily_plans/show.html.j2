@@ -16,8 +16,8 @@
 
 <div>
     {% if not daily_plan.is_active %}
-        <div class="bg-color-light-red m-2 p-2 rounded-pill text-center">
-            <strong> Pozor, tento den je mimo zadané rozmezí akce! </strong><br>
+        <div class='rounded bg-color-light-yellow mb-2 p-2 opacity-75 text-center'>
+            <strong> ⚠️ Pozor, tento den je mimo zadané rozmezí akce! </strong><br>
             Nezobrazuje se v exportech a přehledu akce.
         </div>
     {% endif %}
@@ -51,7 +51,6 @@
             </span>
             {% endif %}
         </div>
-
     
     </div>
 

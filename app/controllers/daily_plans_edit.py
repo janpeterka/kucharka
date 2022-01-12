@@ -72,18 +72,23 @@ class DailyPlansEditView(HelperFlaskView):
             return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
 
         if self.daily_plan.remove_daily_recipe(self.daily_recipe):
-            if turbo.can_stream():
-                return turbo.stream(
+            return (
+                turbo.stream(
                     [
                         turbo.remove(target=f"daily-recipe-{daily_recipe_id}"),
-                        turbo.remove(target=f"daily-recipe-edit-{daily_recipe_id}"),
+                        turbo.remove(
+                            target=f"daily-recipe-edit-{daily_recipe_id}"
+                        ),
                     ]
                 )
-            else:
-                return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
-        else:
-            flash("Tento recept nemůžete odebrat.", "error")
-            return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
+                if turbo.can_stream()
+                else redirect(
+                    url_for("DailyPlansView:show", id=self.daily_plan.id)
+                )
+            )
+
+        flash("Tento recept nemůžete odebrat.", "error")
+        return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
 
     @route("daily_plans/show_edit_recipe/<daily_recipe_id>", methods=["POST"])
     def show_edit_daily_recipe(self, daily_recipe_id):

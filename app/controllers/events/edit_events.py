@@ -88,7 +88,8 @@ class EditEventView(HelperFlaskView):
 
     @route("/share-with-user/<event_id>", methods=["POST"])
     def share_with_user(self, event_id):
-        if not self.event.can_current_user_edit:
+        if not self.event.can_current_user_share:
+            flash("Nemáte práva přidávat uživatele.", "warning")
             return redirect(url_for("EventsView:show", id=event_id))
 
         form = request.form
@@ -109,7 +110,8 @@ class EditEventView(HelperFlaskView):
 
     @route("/remove-sharing/<event_id>/<user_id>", methods=["POST"])
     def remove_sharing(self, event_id, user_id):
-        if not self.event.can_current_user_edit:
+        if not self.event.can_current_user_share:
+            flash("Nemáte práva odebrat uživatele.", "warning")
             return redirect(url_for("EventsView:show", id=event_id))
 
         self.event.remove_user_role(User.load(user_id))

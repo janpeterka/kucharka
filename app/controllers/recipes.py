@@ -8,6 +8,8 @@ from flask_security import login_required, permissions_required, current_user
 
 from flask_classful import route
 
+from flask_weasyprint import render_pdf, HTML
+
 from app.modules.files import PhotoForm
 
 from app.helpers.turbo_flash import turbo_flash as flash
@@ -80,7 +82,6 @@ class RecipesView(HelperFlaskView):
         return self.template(template_name="show", print=True)
 
     def pdf(self, id):
-        from flask_weasyprint import render_pdf, HTML
 
         return render_pdf(HTML(string=self.template(template_name="show", print=True)))
 

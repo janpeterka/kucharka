@@ -33,41 +33,24 @@ def get_portion_count(request):
 class RecipesView(HelperFlaskView):
     def before_request(self, name, id=None, **kwargs):
         self.recipe = Recipe.load(id)
+
         if current_user.is_authenticated:
             self.validate_operation(id, self.recipe)
 
-        if name in ["index"] and current_user.is_authenticated:
-            self.recipes = sorted(
-                current_user.visible_recipes,
-                key=lambda x: unidecode(x.name.lower()),
-            )
-
-    @login_required
-    def before_edit(self, id):
-        self.form = create_form(RecipesForm, obj=self.recipe)
-
-        self.personal_ingredients = sorted(
-            self.recipe.unused_personal_ingredients,
-            key=lambda x: unidecode(x.name.lower()),
-        )
-
-        self.public_ingredients = sorted(
-            self.recipe.unused_public_ingredients,
-            key=lambda x: unidecode(x.name.lower()),
-        )
-
-    @login_required
-    def before_new(self):
-        self.form = create_form(RecipesForm)
-
     @login_required
     def index(self):
+        self.recipes = sorted(
+            current_user.visible_recipes,
+            key=lambda x: unidecode(x.name.lower()),
+        )
+
         return self.template()
 
     @login_required
     @permissions_required("manage-application")
     def all(self):
         self.recipes = Recipe.load_all()
+
         return self.template()
 
     # @login_required
@@ -108,10 +91,24 @@ class RecipesView(HelperFlaskView):
 
     @login_required
     def edit(self, id):
+        self.form = create_form(RecipesForm, obj=self.recipe)
+
+        self.personal_ingredients = sorted(
+            self.recipe.unused_personal_ingredients,
+            key=lambda x: unidecode(x.name.lower()),
+        )
+
+        self.public_ingredients = sorted(
+            self.recipe.unused_public_ingredients,
+            key=lambda x: unidecode(x.name.lower()),
+        )
+
         return self.template()
 
     @login_required
     def new(self):
+        self.form = create_form(RecipesForm)
+
         return self.template()
 
     @login_required

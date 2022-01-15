@@ -68,18 +68,20 @@ class RecipesForm(FlaskForm):
     def set_dietary_labels(form):
         from app.models.labels import Label
 
-        option_attr = {}
-        for i, label in enumerate(Label.load_dietary()):
-            option_attr[f"dietary_labels-{i}"] = {"data-color": label.color}
+        option_attr = {
+            f"dietary_labels-{i}": {"data-color": label.color}
+            for i, label in enumerate(Label.load_dietary())
+        }
 
         form.dietary_labels.option_attr = option_attr
 
     def set_difficulty_label(form):
         from app.models.labels import Label
 
-        option_attr = {}
-        for i, label in enumerate(Label.load_difficulty()):
-            option_attr[f"difficulty_label-{i+1}"] = {"data-color": label.color}
+        option_attr = {
+            f"difficulty_label-{i+1}": {"data-color": label.color}
+            for i, label in enumerate(Label.load_difficulty())
+        }
 
         form.difficulty_label.option_attr = option_attr
 

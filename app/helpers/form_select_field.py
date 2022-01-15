@@ -2,7 +2,7 @@ from wtforms.widgets import html_params
 from flask import Markup
 
 
-class CustomSelect:
+class ExtendedSelectWidget:
     """
     Renders a select field allowing custom attributes for options.
     Expects the field to be an iterable object of Option fields.

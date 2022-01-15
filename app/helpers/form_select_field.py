@@ -16,17 +16,23 @@ class ExtendedSelectWidget:
     def __init__(self, multiple=False):
         self.multiple = multiple
 
-    def __call__(self, field, option_attr=None, **kwargs):
-        if option_attr is None:
-            option_attr = {}
+    def __call__(self, field, option_attr={}, **kwargs):
+
         kwargs.setdefault("id", field.id)
+
         if self.multiple:
             kwargs["multiple"] = True
+
         if "required" not in kwargs and "required" in getattr(field, "flags", []):
             kwargs["required"] = True
+
         html = ["<select %s>" % html_params(name=field.name, **kwargs)]
+
         for option in field:
-            attr = option_attr.get(option.id, {})
-            html.append(option(**attr))
+            # option.id - id of field. Example: 'custom_select-0'
+            attributes = option_attr.get(option.id, {})
+            html.append(option(**attributes))
+
         html.append("</select>")
+
         return Markup("".join(html))

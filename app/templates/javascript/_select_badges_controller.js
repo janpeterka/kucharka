@@ -32,8 +32,8 @@ Stimulus.register("select-badges", class extends Controller {
     var badge = document.createElement("span")
     badge.className = "select-badge lh-3 ms-1 me-1 p-2 cursor-clickable rounded-pill text-nobreak"
     
-    if (option.dataset.color == undefined) {
-      badge.dataset.color = this.selectedClass
+    if (option.dataset.color == "None" || option.dataset.color.length === 0 || option.dataset.color == null) {
+      badge.dataset.color = this.selectedClass.replace("bg-color-", "")
     } else {
       badge.dataset.color = option.dataset.color
     }

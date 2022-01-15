@@ -28,7 +28,8 @@
                      data-select-badges-unselected-class="bg-color-grey">
                     {{ form.dietary_labels.label(class_="me-1 col-sm-2 col-form-label") }}
                     <div class="col-sm-9">
-                        {{ render_field(form.dietary_labels, has_label=False, data_select_badges_target="select") }}
+                        {# {{ render_field(form.dietary_labels, has_label=False, data_select_badges_target="select") }} #}
+                        {{ form.dietary_labels(data_select_badges_target="select", option_attr=form.dietary_labels.option_attr)}}
                         <div data-select-badges-target="badges" class="text-overflow-break"></div>
                     </div>
                 </div>
@@ -38,7 +39,7 @@
                      data-select-badges-unselected-class="bg-color-grey">
                     {{ form.difficulty_label.label(class_="me-1 col-sm-2 col-form-label") }}
                     <div class="col-sm-9">
-                        {{ form.difficulty_label(data_select_badges_target="select", option_attr={"difficulty_label-0": {"data-color": "light-grey"} })}}
+                        {{ form.difficulty_label(data_select_badges_target="select", option_attr=form.difficulty_label.option_attr)}}
                         <div data-select-badges-target="badges" class="text-overflow-break"></div>
                     </div>
                 </div>

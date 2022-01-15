@@ -45,7 +45,7 @@ class RecipesForm(FlaskForm):
     )
 
     dietary_labels = QuerySelectMultipleField(
-        "Dietní omezení", query_factory=dietary_labels
+        "Dietní omezení", query_factory=dietary_labels, widget=CustomSelect()
     )
 
     difficulty_label = QuerySelectField(
@@ -62,6 +62,26 @@ class RecipesForm(FlaskForm):
     def __init__(self, formdata=None, obj=None, **kwargs):
         super().__init__(formdata=formdata, obj=obj, **kwargs)
         self.set_labels()
+        self.set_difficulty_label()
+        self.set_dietary_labels()
+
+    def set_dietary_labels(form):
+        from app.models.labels import Label
+
+        option_attr = {}
+        for i, label in enumerate(Label.load_dietary()):
+            option_attr[f"dietary_labels-{i}"] = {"data-color": label.color}
+
+        form.dietary_labels.option_attr = option_attr
+
+    def set_difficulty_label(form):
+        from app.models.labels import Label
+
+        option_attr = {}
+        for i, label in enumerate(Label.load_difficulty()):
+            option_attr[f"difficulty_label-{i+1}"] = {"data-color": label.color}
+
+        form.difficulty_label.option_attr = option_attr
 
     def set_labels(form):
         from app.models.label_categories import LabelCategory

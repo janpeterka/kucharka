@@ -69,6 +69,8 @@ class DevConfig(LocalProdConfig):
     SQLALCHEMY_DATABASE_URI = os.environ.get("LOCAL_DB_STRING")
     SENTRY_MONITORING = False
 
+    SKAUTIS_TEST = True
+
     INFO_USED_DB = "local db"
     FLASK_DEBUG = True
     # SQLALCHEMY_ECHO = True

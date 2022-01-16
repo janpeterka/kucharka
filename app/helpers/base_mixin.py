@@ -152,6 +152,9 @@ class BaseMixin(object):
             application.logger.error("Refresh error: {}".format(e))
             return False
 
+    def reload(self):
+        return type(self).load(self.id)
+
     # PROPERTIES
 
     def is_author(self, user) -> bool:

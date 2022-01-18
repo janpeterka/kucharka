@@ -139,6 +139,10 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         recipes = Recipe.load_by_ingredient(ingredient)
         return [r for r in recipes if r.author == user]
 
+    @staticmethod
+    def load_shopping():
+        return Recipe.load_by_name("Nákup")
+
     # Operations
 
     def create_and_save(self, recipe_ingredients):
@@ -198,7 +202,7 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         return (
             self.is_shared
             or self.is_in_shared_event
-            or self in user.role_event_recipes
+            or (user.is_authenticated and self in user.role_event_recipes)
             or user == self.author
             or (user.is_authenticated and user.has_permission("see-other"))
         )

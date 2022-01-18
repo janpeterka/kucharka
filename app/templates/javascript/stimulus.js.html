@@ -28,6 +28,8 @@ window.Stimulus = Application.start()
 		{% include 'javascript/_clipboard_controller.js' %}
 	{% elif controller == "clicker" %}		
 		{% include 'javascript/_clicker_controller.js' %}
+	{% elif controller == "refresh" %}		
+		{% include 'javascript/_refresh_controller.js' %}
 	{% else %}
 		console.log("Tento Stimulus controller neexistuje:")
 		console.log(controller)

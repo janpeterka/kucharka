@@ -21,7 +21,8 @@ class BaseMixin(object):
             return self.__str__
 
     def set_defaults(self, **kwargs):
-        self.created_by = current_user.id
+        if self.created_by is None:
+            self.created_by = current_user.id
 
     def fill(self, form):
         form.populate_obj(self)
@@ -151,6 +152,9 @@ class BaseMixin(object):
             application.logger.error("Refresh error: {}".format(e))
             return False
 
+    def reload(self):
+        return type(self).load(self.id)
+
     # PROPERTIES
 
     def is_author(self, user) -> bool:
@@ -176,6 +180,7 @@ class BaseMixin(object):
             self == user  # for User
             or self.is_public
             or self.is_author(user)
+            or self.can_edit(user)
             or (user.is_authenticated and user.has_permission("see-other"))
         )
 

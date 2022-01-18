@@ -30,7 +30,7 @@ class Config(object):
     SECURITY_SEND_PASSWORD_RESET_NOTICE_EMAIL = False
     # SECURITY_EMAIL_SUBJECT_PASSWORD_NOTICE = "Vaše heslo do Skautské kuchařky bylo resetováno."
 
-    TURBO_WEBSOCKET_ROUTE = None
+    # TURBO_WEBSOCKET_ROUTE = None
 
     MAIL_SERVER = "smtp.googlemail.com"
     MAIL_PORT = 465

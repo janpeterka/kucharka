@@ -1,7 +1,7 @@
 from flask import request, redirect, url_for
 
 from flask_classful import route
-from flask_security import login_required
+from flask_security import login_required, current_user
 
 from app import turbo
 
@@ -61,6 +61,20 @@ class EditEventView(HelperFlaskView):
         # self.event.delete_old_daily_plans()
         self.event.add_new_daily_plans()
 
+        if turbo.can_push():
+            try:
+                turbo.push(
+                    turbo.update(
+                        self.template(template_name="_update_warning"),
+                        target=f"event-{event_id}-update-warning",
+                    ),
+                    to=self.event.other_user_ids,
+                )
+            except Exception as e:
+                from sentry_sdk import capture_exception
+
+                capture_exception(e)
+
         return redirect(url_for("EventsView:show", id=self.event.id))
 
     @route("/show-share-with-user/<event_id>", methods=["POST"])
@@ -74,7 +88,8 @@ class EditEventView(HelperFlaskView):
 
     @route("/share-with-user/<event_id>", methods=["POST"])
     def share_with_user(self, event_id):
-        if not self.event.can_current_user_edit:
+        if not self.event.can_current_user_share:
+            flash("Nemáte práva přidávat uživatele.", "warning")
             return redirect(url_for("EventsView:show", id=event_id))
 
         form = request.form
@@ -95,10 +110,16 @@ class EditEventView(HelperFlaskView):
 
     @route("/remove-sharing/<event_id>/<user_id>", methods=["POST"])
     def remove_sharing(self, event_id, user_id):
-        if not self.event.can_current_user_edit:
+        if not self.event.can_current_user_share:
+            flash("Nemáte práva odebrat uživatele.", "warning")
             return redirect(url_for("EventsView:show", id=event_id))
 
         self.event.remove_user_role(User.load(user_id))
         flash("Odebrali jsme uživatele.", "success")
 
         return redirect(url_for("EventsView:show", id=event_id))
+
+
+@turbo.user_id
+def get_user_id():
+    return current_user.id

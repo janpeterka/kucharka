@@ -139,22 +139,27 @@ class EditRecipeView(HelperFlaskView):
         form.populate_obj(self.recipe)
 
         self.recipe.edit()
+        self.recipe.reload()
 
         if turbo.can_stream():
             return turbo.stream(
-                turbo.replace(
-                    self.template("_info", message="Upraveno", form=form),
-                    target="recipe-info",
-                )
+                [
+                    turbo.replace(
+                        self.template("_info", message="Upraveno", form=form),
+                        target="recipe-info",
+                    ),
+                    turbo.replace(
+                        self.template("_ingredient_table"),
+                        target="recipe-ingredient-table",
+                    ),
+                ]
             )
         else:
             return redirect(url_for("RecipesView:edit", id=self.recipe.id))
 
     @route("description/<recipe_id>/", methods=["POST"])
     def post_description(self, recipe_id):
-        description = request.form["description"]
-
-        self.recipe.description = description
+        self.recipe.description = request.form["description"]
         self.recipe.edit()
 
         if turbo.can_stream():

@@ -45,7 +45,7 @@ class Event(BaseModel, ItemMixin):
         viewonly=True,
     )
 
-    user_roles = db.relationship("UserHasEventRole")
+    user_roles = db.relationship("UserHasEventRole", viewonly=True)
 
     daily_plans = db.relationship(
         "DailyPlan",
@@ -241,6 +241,17 @@ class Event(BaseModel, ItemMixin):
             return roles[0].role
         else:
             raise Warning("User has multiple roles on this event")
+
+    @property
+    def other_user_ids(self):
+        user_ids = [user.id for user in self.shared_with]
+        user_ids.append(self.author.id)
+        user_ids.remove(current_user.id)
+
+        if len(user_ids) == 1:
+            user_ids = user_ids[0]
+
+        return user_ids
 
     def add_user_role(self, user, role):
         event_role = UserHasEventRole(event=self, user=user, role=role)

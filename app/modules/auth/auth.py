@@ -88,4 +88,4 @@ def _generate_password():
     import string
 
     alphabet = string.ascii_letters + string.digits
-    return "".join(secrets.choice(alphabet) for i in range(80))
+    return "".join(secrets.choice(alphabet) for _ in range(80))

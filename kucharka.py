@@ -107,7 +107,6 @@ def set_feature_flags():
     if not (request.path.endswith("css") or request.path.endswith("js")):
         for arg, value in request.args.to_dict().items():
             if arg.startswith("ff_"):
-                print(f"{arg} = {bool(int(value))}")
                 application.config[arg.upper()] = bool(int(value))
 
 

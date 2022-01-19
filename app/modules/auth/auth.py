@@ -32,6 +32,7 @@ def google_logged_in(blueprint, token):
     user_id = info["id"]
     first_name = info.get("given_name", None)
     last_name = info.get("family_name", None)
+
     if first_name and last_name:
         full_name = f"{first_name} {last_name}"
     else:

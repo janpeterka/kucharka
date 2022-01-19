@@ -101,6 +101,17 @@ def session_management():
 
 
 @application.before_request
+def set_feature_flags():
+    from flask import request
+
+    if not (request.path.endswith("css") or request.path.endswith("js")):
+        for arg, value in request.args.to_dict().items():
+            if arg.startswith("ff_"):
+                print(f"{arg} = {bool(int(value))}")
+                application.config[arg.upper()] = bool(int(value))
+
+
+@application.before_request
 def log_request_start():
     from flask import g
     import time

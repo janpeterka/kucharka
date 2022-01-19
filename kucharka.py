@@ -138,11 +138,7 @@ def log_request(exception=None):
         item_id = DataHandler.get_additional_request_data("item_id")
 
         start_time = getattr(g, "log_request_start_time", None)
-        if start_time:
-            duration = time.time() - start_time
-        else:
-            duration = None
-
+        duration = time.time() - start_time if start_time else None
         log = RequestLog(
             url=request.path,
             user_id=user_id,

@@ -312,3 +312,9 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
             return main[0]
 
         return self.images[0]
+
+    @property
+    def slugified_name(self):
+        from app.helpers.general import slugify
+
+        return slugify(self.name)

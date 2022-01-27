@@ -74,14 +74,9 @@ class RecipesView(HelperFlaskView):
         return render_pdf(HTML(string=self.template(template_name="show", print=True)))
 
     def pdf_download(self, id):
-        from flask_weasyprint import render_pdf, HTML
-        from app.helpers.general import slugify
-
-        filename = slugify(self.recipe.name)
-
         return render_pdf(
             HTML(string=self.template(template_name="show", print=True)),
-            download_filename=f"{filename}.pdf",
+            download_filename=f"{self.recipe.slugified_name}.pdf",
         )
 
     @route("show_with_portion_count/<id>/", methods=["POST"])

@@ -233,6 +233,12 @@ class Event(BaseModel, ItemMixin):
     def ends_at(self):
         return self.date_to
 
+    @property
+    def slugified_name(self):
+        from app.helpers.general import slugify
+
+        return slugify(self.name)
+
     def user_role(self, user):
         roles = [user_role for user_role in self.user_roles if user_role.user == user]
         if not roles:

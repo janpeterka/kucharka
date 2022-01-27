@@ -180,7 +180,7 @@ class EventExporterView(HelperFlaskView):
                 continue
             section_ids = [dr.id for dr in section]
             shopping = Shopping()
-            shopping.daily_recipes = [dr for dr in section]
+            shopping.daily_recipes = list(section)
             shopping.date = section[0].daily_plan.date
             shopping.is_shopping = section[0].is_shopping
 

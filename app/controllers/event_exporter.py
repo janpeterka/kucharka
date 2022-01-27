@@ -1,6 +1,6 @@
 from unidecode import unidecode
 
-from flask import redirect, url_for
+from flask import redirect, url_for, request
 from flask import render_template as template
 from flask_security import login_required
 from flask_weasyprint import render_pdf, HTML
@@ -17,6 +17,9 @@ class EventExporterView(HelperFlaskView):
     template_folder = "event_exporter"
 
     def before_request(self, name, event_id=None, *args, **kwargs):
+        self.is_print = request.args.get("is_print", False) == "True"
+        self.is_print = request.args.get("is_download", False) == "True"
+
         self.event = Event.load(event_id)
         self.validate_view(self.event)
 
@@ -33,17 +36,18 @@ class EventExporterView(HelperFlaskView):
     def show_list_pdf(self, event_id, show_type):
         return self._show_list(event_id, show_type, is_print=True)
 
-    def show_list_pdf_download(self, event_id, show_type):
+    def download_list_pdf(self, event_id, show_type):
         return render_pdf(
             HTML(
-                url_for(
-                    "EventExporterView:show_list_pdf",
+                string=self.show_list_pdf(
                     event_id=event_id,
                     show_type=show_type,
                 )
             ),
             download_filename=f"{self.event.slugified_name}.pdf",
         )
+
+    # Shopping list export
 
     def show_shopping_list(self, event_id):
         return redirect(
@@ -57,6 +61,17 @@ class EventExporterView(HelperFlaskView):
             )
         )
 
+    def download_shopping_list_pdf(self, event_id):
+        return redirect(
+            url_for(
+                "EventExporterView:download_list_pdf",
+                event_id=event_id,
+                show_type="table",
+            )
+        )
+
+    # Ingredient list export
+
     def show_ingredient_list(self, event_id):
         return redirect(
             url_for("EventExporterView:show_list", event_id=event_id, show_type="list")
@@ -69,41 +84,53 @@ class EventExporterView(HelperFlaskView):
             )
         )
 
+    def download_ingredient_list_pdf(self, event_id):
+        return redirect(
+            url_for(
+                "EventExporterView:download_list_pdf",
+                event_id=event_id,
+                show_type="list",
+            )
+        )
+
+    # Recipe list export
+
     def show_recipe_list(self, event_id):
-        return self.template(template_name="recipe_list")
+        return self._recipe_list()
 
     def show_recipe_list_pdf(self, event_id):
+        return render_pdf(HTML(string=self._recipe_list(is_print=True)))
+
+    def download_recipe_list_pdf(self, event_id):
         return render_pdf(
-            HTML(string=self.template(template_name="recipe_list", print=True))
+            HTML(string=self._recipe_list(is_print=True)),
+            download_filename=f"{self.event.slugified_name}.pdf",
         )
+
+    def _recipe_list(self, is_print=False):
+        return self.template(template_name="recipe_list", print=is_print)
+
+    # Recipe list kanban export
 
     def show_recipe_list_visual(self, event_id):
         return self.template(template_name="recipe_list_visual")
 
-    def show_recipe_list_visual_pdf(self, event_id):
-        return render_pdf(
-            HTML(string=self.template(template_name="recipe_list_visual", print=True))
-        )
+    # Cookbook export
 
-    def show_cookbook(self, event_id):
-        partial_templates = []
-        for daily_plan in self.daily_plans:
-            for daily_recipe in daily_plan.daily_recipes:
-                recipe = daily_recipe.recipe
-                if recipe.is_shopping:
-                    continue
-                recipe.reload()
-                recipe.portion_count = daily_recipe.portion_count
-                recipe_template = template(
-                    "recipes/_show_simple.html.j2", recipe=recipe
-                )
-                partial_templates.append(recipe_template)
-
-        self.recipes_html = "".join(partial_templates)
-
-        return self.template(template_name="cookbook")
+    def show_cookbook(self, event_id, **kwargs):
+        return self._cookbook()
 
     def show_cookbook_pdf(self, event_id):
+        return render_pdf(HTML(string=self._cookbook(is_print=True)))
+
+    def download_cookbook_pdf(self, event_id):
+        return render_pdf(
+            HTML(string=self._cookbook(is_print=True)),
+            download_filename=f"{self.event.slugified_name}.pdf",
+        )
+
+    def _cookbook(self, is_print=False):
+        print(is_print)
         partial_templates = []
         for daily_plan in self.daily_plans:
             for daily_recipe in daily_plan.daily_recipes:
@@ -113,14 +140,15 @@ class EventExporterView(HelperFlaskView):
                 recipe.reload()
                 recipe.portion_count = daily_recipe.portion_count
                 recipe_template = template(
-                    "recipes/_show_simple.html.j2", recipe=recipe, print=True
+                    "recipes/_show_simple.html.j2", recipe=recipe, print=is_print
                 )
                 partial_templates.append(recipe_template)
 
         self.recipes_html = "".join(partial_templates)
-        return render_pdf(
-            HTML(string=self.template(template_name="cookbook", print=True))
-        )
+
+        return self.template(template_name="cookbook", print=is_print)
+
+    # INTERNAL
 
     def _show_list(self, event_id, show_type, is_print=False, is_download=False):
         self._set_shoppings()

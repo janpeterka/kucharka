@@ -32,7 +32,11 @@ class EventExporterView(HelperFlaskView):
 
     def show_list_pdf(self, event_id, show_type):
         string = self._show_list(event_id, show_type, is_print=True)
-        return render_pdf(HTML(string=string))
+        return render_pdf(
+            HTML(string=string),
+            download_filename=f"{self.event.slugified_name}--nakupni-seznam.pdf",
+            automatic_download=False,
+        )
 
     def download_list_pdf(self, event_id, show_type):
         string = self._show_list(event_id, show_type, is_print=True)
@@ -93,7 +97,11 @@ class EventExporterView(HelperFlaskView):
         return self._recipe_list()
 
     def show_recipe_list_pdf(self, event_id):
-        return render_pdf(HTML(string=self._recipe_list(is_print=True)))
+        return render_pdf(
+            HTML(string=self._recipe_list(is_print=True)),
+            download_filename=f"{self.event.slugified_name}--recepty.pdf",
+            automatic_download=False,
+        )
 
     def download_recipe_list_pdf(self, event_id):
         return render_pdf(
@@ -106,8 +114,8 @@ class EventExporterView(HelperFlaskView):
 
     # Recipe list kanban export
 
-    def show_recipe_list_visual(self, event_id):
-        return self.template(template_name="recipe_list_visual")
+    # def show_recipe_list_visual(self, event_id):
+    #     return self.template(template_name="recipe_list_visual")
 
     # Cookbook export
 
@@ -115,7 +123,11 @@ class EventExporterView(HelperFlaskView):
         return self._cookbook()
 
     def show_cookbook_pdf(self, event_id):
-        return render_pdf(HTML(string=self._cookbook(is_print=True)))
+        return render_pdf(
+            HTML(string=self._cookbook(is_print=True)),
+            download_filename=f"{self.event.slugified_name}--kucharka.pdf",
+            automatic_download=False,
+        )
 
     def download_cookbook_pdf(self, event_id):
         return render_pdf(

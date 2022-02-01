@@ -29,6 +29,8 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     portion_count = db.Column(db.Integer)
 
+    # source = db.Column(db.Text)
+
     # recipe is not yet saved
     # is_draft = db.Column(db.Boolean, default=False)
 
@@ -205,6 +207,14 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
             or (user.is_authenticated and self in user.role_event_recipes)
             or user == self.author
             or (user.is_authenticated and user.has_permission("see-other"))
+        )
+
+    @property
+    def can_current_user_react(self) -> bool:
+        return (
+            current_user.is_authenticated
+            and self.is_shared
+            and not self.is_current_user_author
         )
 
     # PROPERTIES

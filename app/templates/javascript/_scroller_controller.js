@@ -18,7 +18,7 @@ Stimulus.register("scroller", class extends Controller {
   _down_symbol(){
     return '\
     <i class="fas fa-chevron-circle-down" \
-       style="position: fixed; bottom:2rem; right:2rem; font-size:3rem; opacity: 0.5; z-index:100;" \
+       style="position: fixed; bottom:2rem; right:2rem; font-size:2.5rem; opacity: 0.5; z-index:100;" \
        data-action="click->scroller#scrollToBottom"> \
     </i>'
   }
@@ -26,7 +26,7 @@ Stimulus.register("scroller", class extends Controller {
   _up_symbol(){
     return '\
     <i class="fas fa-chevron-circle-up" \
-       style="position: fixed; bottom:6rem; right:2rem; font-size:3rem; opacity: 0.5; z-index:100;" \
+       style="position: fixed; bottom:5rem; right:2rem; font-size:2.5rem; opacity: 0.5; z-index:100;" \
        data-action="click->scroller#scrollToTop"> \
     </i>'
   }

@@ -11,6 +11,8 @@ from flask_dropzone import Dropzone
 from flask_sqlalchemy.model import DefaultMeta  # noqa: E402
 from sqlalchemy import MetaData
 
+from app.helpers.skautis import SkautisApi
+
 convention = {
     "ix": "ix_%(column_0_label)s",
     "uq": "uq_%(table_name)s_%(column_0_name)s",
@@ -37,6 +39,7 @@ turbo = Turbo()
 mail = Mail()
 security = Security()
 dropzone = Dropzone()
+skautis = SkautisApi()
 
 
 def create_app(config_name="default"):
@@ -65,6 +68,7 @@ def create_app(config_name="default"):
     turbo.init_app(application)
     mail.init_app(application)
     dropzone.init_app(application)
+    skautis.init_app(application)
 
     if application.config["SENTRY_MONITORING"]:
         import sentry_sdk
@@ -96,7 +100,9 @@ def create_app(config_name="default"):
 
     # MODULES
     from app.modules.auth.auth import blueprint as google_oauth_bp
+    from app.modules.auth.skautis import skautis_blueprint
 
     application.register_blueprint(google_oauth_bp, url_prefix="/oauth/")
+    application.register_blueprint(skautis_blueprint, url_prefix="/skautis/")
 
     return application

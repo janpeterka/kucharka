@@ -42,6 +42,8 @@ class Config(object):
     GOOGLE_OAUTH_CLIENT_ID = os.environ.get("GOOGLE_OAUTH_CLIENT_ID")
     GOOGLE_OAUTH_CLIENT_SECRET = os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET")
 
+    SKAUTIS_APPID = os.environ.get("SKAUTIS_APPID")
+
     STORAGE_SYSTEM = os.environ.get("STORAGE_SYSTEM")
 
     DROPZONE_MAX_FILE_SIZE = 20
@@ -51,6 +53,8 @@ class Config(object):
 
     FF_GALLERY = os.getenv("FF_GALLERY", False)
     FF_GOOGLE_OAUTH = os.getenv("FF_GOOGLE_OAUTH", True)
+    FF_SKAUTIS_OAUTH = os.getenv("FF_SKAUTIS_OAUTH", False)
+    FF_OAUTHS = FF_GOOGLE_OAUTH or FF_SKAUTIS_OAUTH
 
     SYSTEM_MESSAGE = os.getenv("SYSTEM_MESSAGE", None)
 
@@ -64,6 +68,8 @@ class DevConfig(LocalProdConfig):
     TEMPLATES_AUTO_RELOAD = True
     SQLALCHEMY_DATABASE_URI = os.environ.get("LOCAL_DB_STRING")
     SENTRY_MONITORING = False
+
+    SKAUTIS_TEST = True
 
     INFO_USED_DB = "local db"
     FLASK_DEBUG = True

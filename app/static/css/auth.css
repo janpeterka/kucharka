@@ -34,3 +34,13 @@
 .loginBtn--google:focus {
   background-color: #E74B37;
 }
+
+/* SkautIS */
+.loginBtn--skautis {
+  /*font-family: "Roboto", Roboto, arial, sans-serif;*/
+  background-color: grey;
+}
+.loginBtn--skautis:hover,
+.loginBtn--skautis:focus {
+  background-color: grey;
+}

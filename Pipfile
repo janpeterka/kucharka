@@ -27,6 +27,7 @@ icalendar = "*"
 sentry-sdk = {extras = [ "sqlalchemy",]}
 flask-dropzone = "*"
 flask-dance = "*"
+skautis-py = "*"
 
 [dev-packages]
 mypy = "*"

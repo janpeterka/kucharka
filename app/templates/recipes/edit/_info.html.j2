@@ -1,4 +1,4 @@
-{% from "macros/render_field.html.j2" import render_field %}
+{% from "macros/render_field.html.j2" import render_field, render_floating_field %}
 
 <div id="recipe-info">
     <form action="{{ url_for('EditRecipeView:post', recipe_id=recipe.id) }}" method="post" accept-charset="utf-8">
@@ -14,10 +14,19 @@
             {{ form.category.label }}
         </div>
 
-        <div class="form-floating">
-            {{ render_field(form.portion_count, has_label=False) }}
-            {{ form.portion_count.label }}
+        <div class="row">
+            <div class="col">    
+                <div class="form-floating">
+                    {{ render_field(form.portion_count, has_label=False) }}
+                    {{ form.portion_count.label }}
+                </div>
+            </div>
+            <div class="col">  
+                {{ render_floating_field(form.source) }}
+            </div>
+            
         </div>
+
 
         <details open class="colored">
             <summary>Další informace</summary>

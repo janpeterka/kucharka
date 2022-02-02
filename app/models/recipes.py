@@ -29,7 +29,7 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     portion_count = db.Column(db.Integer)
 
-    # source = db.Column(db.Text)
+    source = db.Column(db.Text)
 
     # recipe is not yet saved
     # is_draft = db.Column(db.Boolean, default=False)

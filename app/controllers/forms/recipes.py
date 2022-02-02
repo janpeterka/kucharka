@@ -68,8 +68,7 @@ class RecipesForm(FlaskForm):
             else:
                 attr_name = f"{category.name}_label"
 
-            field = getattr(form, attr_name, None)
-            if field:
+            if field := getattr(form, attr_name, None):
                 specific_labels = field.data
                 if not specific_labels:
                     continue

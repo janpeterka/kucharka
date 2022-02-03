@@ -10,7 +10,8 @@ from flask_classful import route
 from flask_security import login_required, current_user
 
 from app.helpers.helper_flask_view import HelperFlaskView
-from app.helpers.turbo_flash import turbo_flash
+
+# from app.helpers.turbo_flash import turbo_flash
 
 from app.controllers.forms.public_recipes import PublicRecipeFilterForm
 
@@ -30,8 +31,6 @@ class PublicRecipesView(HelperFlaskView):
     def toggle_reaction(self, recipe_id, refresh=False):
         recipe = Recipe.load(recipe_id)
         recipe.toggle_reaction()
-
-        turbo_flash("Reakce byla zaznamenána.", "success")
 
         if turbo.can_stream() and not refresh:
             return turbo.stream(

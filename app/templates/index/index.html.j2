@@ -39,16 +39,23 @@
 	
 	<hr>
     
-    <div class="color-light-blue text-uppercase text-center font-comfortaa-b mb-5">
+    <div class="mb-5">
         <div class="row">
             <div class="col-sm-12 col-md-6 text-sm-center text-md-start">
-                <a href="{{ url_for_security('login') }}"> Přihlašte se! </a>
+                <a class="me-2" target="_blank" title="sledujte na facebooku" href="{{ url_for('SupportView:facebook_redirect') }}"> {{ icon("facebook") }} </a>
+                <a class="color-black" href="https://github.com/janmpeterka/kucharka" target="_blank"> {{ icon("github") }} </a>
+
             </div>            
             <div class="col-sm-12 col-md-6 text-sm-center text-md-end">
-                <a href="{{ url_for_security('register') }}"> Zaregistrujte se! </a>
+                <a class="small" href="{{ url_for('SupportView:terms') }}"> podmínky použití | </a>
+                <a class="small" href="{{ url_for('SupportView:privacy') }}"> osobní data </a>
             </div>            
         </div>
     </div>
+</div>
+
+<div>
+
 </div>
 
 <footer class="footer">

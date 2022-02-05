@@ -51,6 +51,10 @@
     color: white;
 }
 
+.color-black {
+    color: black;
+}
+
 .color-red {
     color: var(--error);
 }

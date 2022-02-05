@@ -29,7 +29,8 @@
 /* other */
 
 a {
-  color: #007bff;
+  color: black;
+  font-weight: 500;
   text-decoration: none;
 }
 

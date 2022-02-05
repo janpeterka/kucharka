@@ -15,7 +15,7 @@ input {
 }
 
 form ul.errors li.warning{
-  color: var(--palette-orange);
+  color: var(--primary-action);
   font-weight: bold;
 }
 

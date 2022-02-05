@@ -42,7 +42,7 @@
 		<div class="col">
 		    {% if event.can_current_user_edit %}
 				<form method="POST" action="{{ url_for('EditEventView:edit', event_id=event.id) }}">
-					<button type="submit" class="btn btn-warning w-100 pb-2 pt-2"> Upravit {{ icon("edit") }} </button>
+					<button type="submit" class="btn bg-color-primary-action color-white w-100 pb-2 pt-2" style=""> Upravit {{ icon("edit") }} </button>
 				</form>
 		    {% endif %}
 		</div>

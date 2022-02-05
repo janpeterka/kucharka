@@ -37,15 +37,15 @@
         <input type="text" name="" value="{{ url_for('UserCalendarsView:ical', calendar_hash=user.calendar_hash, _external=True) }}" readonly data-clipboard-target="source" class="form-control me-4">
     </div>
     <div class="col-4">
-        <button data-action="click->clipboard#copy" class="btn btn-secondary col-"> Zkopírovat adresu </button>
+        <button data-action="click->clipboard#copy" class="btn bg-color-secondary-action color-white col-"> Zkopírovat adresu </button>
     </div>
 </div>
     
     {{ button_to(url_for('UserCalendarsView:create_calendar'),
-       class="btn btn-secondary", value="Přegenerovat adresu") }}
+       class="btn bg-color-secondary-action color-white", value="Přegenerovat adresu") }}
 {% else %}
     {{ button_to(url_for('UserCalendarsView:create_calendar'),
-       class="btn btn-secondary", value="Vygenerovat URL kalendáře") }}
+       class="btn bg-color-secondary-action color-white", value="Vygenerovat URL kalendáře") }}
 {% endif %}
 </div>
 <hr>
@@ -69,18 +69,18 @@
 
 
 <div>
-    <a href="{{ url_for('UsersView:edit') }}" class="btn btn-secondary">{{ texts.edit }} {{ icon("edit") }}</a>
+    <a href="{{ url_for('UsersView:edit') }}" class="btn bg-color-secondary-action color-white">{{ texts.edit }} {{ icon("edit") }}</a>
     {% if user.has_password %}
-        <a href="{{ url_for_security('change_password') }}" class="btn btn-secondary"> Změnit heslo {{ icon("edit") }}</a>
+        <a href="{{ url_for_security('change_password') }}" class="btn bg-color-secondary-action color-white"> Změnit heslo {{ icon("edit") }}</a>
     {% else %}
-        <a href="{{ url_for('UsersView:set_password') }}" class="btn btn-secondary"> Nastavit heslo </a>
+        <a href="{{ url_for('UsersView:set_password') }}" class="btn bg-color-secondary-action color-white"> Nastavit heslo </a>
     {% endif %}
 </div>
 
 {#
 {% if current_user.has_role("manage-application") %}
     <div class="admin-field">
-        <a href="{{ url_for('RecipesView:make_all_public_for_user', user_id=user.id) }}" class="btn btn-secondary">Zveřejnit všechny recepty uživatele</a>
+        <a href="{{ url_for('RecipesView:make_all_public_for_user', user_id=user.id) }}" class="btn bg-color-secondary-action color-white">Zveřejnit všechny recepty uživatele</a>
     </div>
 {% endif %}
 #}

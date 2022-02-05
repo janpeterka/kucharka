@@ -2,10 +2,10 @@
 
 {% if not day.is_active %}
 	{% set color = "light-grey" %}
-{% elif day.weekday == "neděle"  %}
-	{% set color = "light-yellow" %}
+{% elif day.weekday in ["neděle"]  %}
+	{% set color = "secondary-highlighted" %}
 {% else %}
-	{% set color = "light-green"%}
+	{% set color = "secondary" %}
 {% endif %}
 
 {% if not day.is_active %}

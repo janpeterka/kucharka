@@ -16,7 +16,7 @@
 
 <div>
     {% if not daily_plan.is_active %}
-        <div class='rounded bg-color-light-yellow mb-2 p-2 opacity-75 text-center'>
+        <div class='rounded bg-color-primary-action mb-2 p-2 text-center'>
             <strong> ⚠️ Pozor, tento den je mimo zadané rozmezí akce! </strong><br>
             Nezobrazuje se v exportech a přehledu akce.
         </div>
@@ -28,7 +28,7 @@
         <div class="col">
             {% if daily_plan.has_previous %}
             <span class="float-start" >
-                <a href="{{ url_for('DailyPlansView:previous', daily_plan_id=daily_plan.id) }}" class="color-dark-green">
+                <a href="{{ url_for('DailyPlansView:previous', daily_plan_id=daily_plan.id) }}" class="color-primary">
                     {{ icon("previous", cursor_class="pointer") }}
                 </a>
             </span>
@@ -45,7 +45,7 @@
         <div class="col">
             {% if daily_plan.has_next %}
             <span class="float-end" >
-                <a href="{{ url_for('DailyPlansView:next', daily_plan_id=daily_plan.id) }}" class="color-dark-green">
+                <a href="{{ url_for('DailyPlansView:next', daily_plan_id=daily_plan.id) }}" class="color-primary">
                     {{ icon("next", cursor_class="pointer") }}
                 </a>
             </span>
@@ -83,12 +83,12 @@
                 </select>
             </div>
 
-            <input type="submit" class="form-control btn btn-primary" value="Přidat recept">
+            <input type="submit" class="form-control btn bg-color-primary-action color-white" value="Přidat recept">
         </form>
     </div>
 
     <div class="row mt-5">
-        {{ button_to(url_for('DailyPlansEditView:add_shopping', daily_plan_id=daily_plan.id), class="btn btn-secondary", value="Přidat nákup <i class='fas fa-shopping-basket'></i>") }}
+        {{ button_to(url_for('DailyPlansEditView:add_shopping', daily_plan_id=daily_plan.id), class="btn bg-color-secondary-action color-white", value="Přidat nákup <i class='fas fa-shopping-basket'></i>") }}
     </div>
 
     {% endif %}

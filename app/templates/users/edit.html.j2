@@ -34,7 +34,7 @@
                         {{ render_field(user_form.full_name, has_label=False) }}
                     </td>
                     <td>
-                        {{ render_field(user_form.submit, class="btn btn-warning", has_label=False, value=texts.edit_confirm) }}
+                        {{ render_field(user_form.submit, class="btn bg-color-secondary-action color-white", has_label=False, value=texts.edit_confirm) }}
                     </td>
                 </tr>
             </tbody>
@@ -43,7 +43,7 @@
 </div>
 
 <div>
-    <a href="{{ url_for('UsersView:show') }}" class="btn btn-secondary">{{ texts.edit_cancel }} {{ icon("edit") }}</a>
+    <a href="{{ url_for('UsersView:show') }}" class="btn bg-color-secondary-action color-white">{{ texts.edit_cancel }} {{ icon("edit") }}</a>
 </div>
 
 {% endblock %}

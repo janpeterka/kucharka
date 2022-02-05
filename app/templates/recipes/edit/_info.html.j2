@@ -20,12 +20,12 @@
         </div>
 
         <details open class="colored">
-            <summary>Další informace</summary>
+            <summary> Další informace </summary>
             <div>
                 <div class="row mt-2" data-controller="select-badges"
                      data-select-badges-type-value="multiple"
-                     data-select-badges-selected-class="bg-color-light-green"
-                     data-select-badges-unselected-class="bg-color-grey">
+                     data-select-badges-selected-class="bg-color-highlight"
+                     data-select-badges-unselected-class="bg-color-light-grey">
                     {{ form.dietary_labels.label(class_="me-1 col-sm-2 col-form-label") }}
                     <div class="col-sm-9">
                         {# {{ render_field(form.dietary_labels, has_label=False, data_select_badges_target="select") }} #}
@@ -35,8 +35,8 @@
                 </div>
 
                 <div class="row mt-2" data-controller="select-badges"
-                     data-select-badges-selected-class="bg-color-light-green"
-                     data-select-badges-unselected-class="bg-color-grey">
+                     data-select-badges-selected-class="bg-color-highlight"
+                     data-select-badges-unselected-class="bg-color-light-grey">
                     {{ form.difficulty_label.label(class_="me-1 col-sm-2 col-form-label") }}
                     <div class="col-sm-9">
                         {{ form.difficulty_label(data_select_badges_target="select", option_attr=form.difficulty_label.option_attr)}}
@@ -47,7 +47,7 @@
         </details>
 
         <div class="mt-4 pb-2">
-            <input type="submit" value="{{ texts.recipe_edit }}" class="btn btn-warning">
+            <input type="submit" value="{{ texts.recipe_edit }}" class="btn bg-color-secondary-action color-white">
             <span class="float-end me-5 color-success animate-fadeout">{{ message }}</span>
         </div>
     </form>

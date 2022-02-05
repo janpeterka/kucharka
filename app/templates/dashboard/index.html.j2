@@ -9,7 +9,7 @@
 {% block content %}
 
 <div class="row" id="welcome">
-    <div class="text-center bg-color-light-green p-3 border-color-dark-green" style="border-radius: 1.5rem;">
+    <div class="text-center bg-color-secondary p-3" style="border-radius: 1.5rem;">
         <h3 class="mb-3"> Vítejte! </h3>
         <hr>
         <div class="row">
@@ -31,7 +31,7 @@
 </div>
 
 {#
-<div class="row mt-4 text-center bg-color-light-green p-3" id="current" style="border-radius: 1.5rem;">
+<div class="row mt-4 text-center bg-color-secondary p-3" id="current" style="border-radius: 1.5rem;">
     <h5> Aktuální </h5>
     <hr>
     <turbo-frame id="current" src="{{ url_for('DashboardView:current') }}" loading="lazy" class="row">
@@ -40,7 +40,7 @@
 </div>
 #}
 
-<div class="row mt-4 text-center bg-color-light-green p-3" id="tasks" style="border-radius: 1.5rem;">
+<div class="row mt-4 text-center bg-color-secondary p-3" id="tasks" style="border-radius: 1.5rem;">
 
     <h5> K vyřešení </h5>
     <hr>

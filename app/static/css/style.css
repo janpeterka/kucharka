@@ -34,23 +34,17 @@ a {
   text-decoration: none;
 }
 
-
-a.info {
-  color: var(--color-grey);
-}
-
-a.info:hover {
-  color: var(--logo-blue);
+a:hover{
+  color: var(--primary-action);
 }
 
 a.color-hover-black:hover {
   color: black;
 }
 
-/*.navbar div.navbar-divider {
-  width: 2rem;
+.btn:hover {
+  filter: brightness(1.3);
 }
-*/
 
 table.table > tbody > tr > td {
   vertical-align: middle;
@@ -62,7 +56,7 @@ abbr {
 }
 
 div.warning {
-  background-color: var(--warning);
+  border: solid 0.3rem var(--primary-action);
   border-radius: 0.5rem;
 }
 

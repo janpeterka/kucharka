@@ -28,6 +28,11 @@
 
 /* other */
 
+::selection {
+  color: white;
+  background: var(--highlight);
+}
+
 a {
   color: black;
   font-weight: 500;

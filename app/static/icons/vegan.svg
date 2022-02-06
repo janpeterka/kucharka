@@ -7,54 +7,51 @@
 </g>
 <g id="icons">
 	<g id="organic-food_2_">
-		<circle id="label_5_" fill="#A4BFBF" stroke="#4D5152" stroke-width="4" stroke-miterlimit="10" cx="129.5" cy="144.06" r="75"/>
-		<g id="plate_1_">
-			<circle id="plate_4_" fill="#FFFFFF" cx="129.5" cy="144.06" r="46"/>
-		</g>
+		<circle id="label_5_" fill="#E9F2F1" stroke="#4D5152" stroke-width="4" stroke-miterlimit="10" cx="129.5" cy="144.06" r="75"/>
 		<g id="leaves_fork_2_">
 			<g>
-				<path fill="#A66A6A" stroke="#4D5152" stroke-width="4" stroke-miterlimit="10" d="M135.073,120.272L135.073,120.272
-					c-3.223,3.226-8.452,3.226-11.677,0c-8.697-8.698,5.484-24.213,5.484-24.213S145.294,110.054,135.073,120.272z"/>
+				<path fill="#A66A6A" stroke="#4D5152" stroke-width="4" stroke-miterlimit="10" d="M136.905,112.454L136.905,112.454
+					c-4.282,4.286-11.23,4.286-15.515,0c-11.556-11.557,7.287-32.171,7.287-32.171S150.485,98.877,136.905,112.454z"/>
 				<g>
-					<path fill="#A66A6A" stroke="#4D5152" stroke-width="4" stroke-miterlimit="10" d="M109.887,146.351L109.887,146.351
-						c4.561,0,8.258-3.697,8.258-8.258c0-12.301-22.709-14.451-22.709-14.451S95.436,146.351,109.887,146.351z"/>
+					<path fill="#A66A6A" stroke="#4D5152" stroke-width="4" stroke-miterlimit="10" d="M103.44,147.104L103.44,147.104
+						c6.06,0,10.972-4.912,10.972-10.972c0-16.344-30.173-19.201-30.173-19.201S84.239,147.104,103.44,147.104z"/>
 					
-						<line fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="107.927" y1="136.134" x2="115.726" y2="143.931"/>
+						<line fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="100.836" y1="133.528" x2="111.198" y2="143.889"/>
 					
-						<line fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="116.081" y1="144.286" x2="128.469" y2="156.673"/>
+						<line fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="111.671" y1="144.36" x2="128.13" y2="160.818"/>
 				</g>
 				<g>
-					<path fill="#A66A6A" stroke="#4D5152" stroke-width="4" stroke-miterlimit="10" d="M149.113,146.351L149.113,146.351
-						c-4.561,0-8.26-3.697-8.26-8.258c0-12.301,22.711-14.451,22.711-14.451S163.564,146.351,149.113,146.351z"/>
+					<path fill="#A66A6A" stroke="#4D5152" stroke-width="4" stroke-miterlimit="10" d="M155.56,147.104L155.56,147.104
+						c-6.06,0-10.975-4.912-10.975-10.972c0-16.344,30.176-19.201,30.176-19.201S174.761,147.104,155.56,147.104z"/>
 					
-						<line fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="151.5" y1="136.06" x2="143.273" y2="143.931"/>
+						<line fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="158.73" y1="133.43" x2="147.801" y2="143.889"/>
 					
-						<line fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="142.919" y1="144.286" x2="130.251" y2="157.31"/>
+						<line fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="147.33" y1="144.36" x2="130.498" y2="161.664"/>
 				</g>
 			</g>
 			<g>
 				
-					<line fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="129.5" y1="113.06" x2="129.5" y2="192.06"/>
-				<path fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" d="M138.928,192.06v-17.93
-					c0-3.035-4.242-5.518-9.428-5.518l0,0c-5.186,0-9.428,2.482-9.428,5.518v17.93"/>
+					<line fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="129.5" y1="102.871" x2="129.5" y2="207.836"/>
+				<path fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" d="M142.026,207.836
+					v-23.822c0-4.033-5.637-7.331-12.526-7.331l0,0c-6.89,0-12.526,3.298-12.526,7.331v23.822"/>
 			</g>
 			<g>
 				
-					<line fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="135.917" y1="143.56" x2="135.917" y2="150.394"/>
+					<line fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="138.026" y1="143.396" x2="138.026" y2="152.476"/>
 				
-					<line fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="144.418" y1="152.394" x2="135.584" y2="152.394"/>
+					<line fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="149.321" y1="155.133" x2="137.584" y2="155.133"/>
 			</g>
 			<g>
 				
-					<line fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="123.084" y1="143.56" x2="123.084" y2="150.394"/>
+					<line fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="120.976" y1="143.396" x2="120.976" y2="152.476"/>
 				
-					<line fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="114.584" y1="152.394" x2="123.418" y2="152.394"/>
+					<line fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="109.682" y1="155.133" x2="121.419" y2="155.133"/>
 			</g>
 			<g>
 				
-					<line fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="123.371" y1="129.021" x2="128.203" y2="133.851"/>
+					<line fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="121.356" y1="124.077" x2="127.777" y2="130.495"/>
 				
-					<line fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="135.629" y1="129.255" x2="129.383" y2="135.501"/>
+					<line fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" x1="137.644" y1="124.389" x2="129.345" y2="132.688"/>
 			</g>
 		</g>
 	</g>

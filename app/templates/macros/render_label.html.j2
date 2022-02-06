@@ -1,5 +1,7 @@
 {% macro render_label(label) %}
 
+{% set size = kwargs.pop('size', 4) %}
+
 {% if label.color %}
 	{# TODO: nějak dát dopořádku #}
 	{# {% set color = label.color %} #}
@@ -15,7 +17,9 @@
 
 {% if label.category.name == "dietary" %}
 
-	<img src="{{ url_for('static', filename='icons/' + label.name +'.svg') }}" style="height: 7rem;">
+	<img src="{{ url_for('static', filename='icons/' + label.name +'.svg') }}"
+	     style="height: {{size}}rem;"
+	>
 
 {% else %}
 

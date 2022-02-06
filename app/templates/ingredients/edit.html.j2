@@ -29,8 +29,13 @@
             
             <hr>
 
-            <button type="submit" class="btn bg-color-secondary-action color-white">{{ texts.edit_confirm }} {{ icon("edit") }}</button>
-            <a class="btn bg-color-secondary-action color-white" href="{{ url_for('IngredientsView:show', id=ingredient.id) }}">{{ texts.edit_cancel }} {{ icon("edit") }}</a>
+            <button type="submit" class="btn bg-color-primary-action color-white me-3">
+                Uložit změnu {{ icon("edit") }}
+            </button>
+            
+            <a class="btn bg-color-secondary-action color-white" href="{{ url_for('IngredientsView:show', id=ingredient.id) }}">
+                Zrušit úpravy {{ icon("edit") }}
+            </a>
             
         </form>
     </div>

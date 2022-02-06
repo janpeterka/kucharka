@@ -6,7 +6,7 @@
         {% if daily_plan.can_current_user_edit %}
         <form method="POST" class="text-start me-3" action="{{ url_for('DailyPlansEditView:remove_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
             {# <button type="submit" class="destroy icon"></button> #}
-            <button type="submit" class="btn btn-danger"> Smazat </button>
+            <button type="submit" class="btn bg-color-secondary-action color-white"> Smazat </button>
         </form>
         {% endif %}
 	</td>

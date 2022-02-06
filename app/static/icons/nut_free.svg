@@ -8,8 +8,14 @@
 <g id="icons">
 	<g id="nut-free">
 		<g id="label">
-			<circle fill="#A4BFBF" stroke="#4D5152" stroke-width="4" stroke-miterlimit="10" cx="125.787" cy="139.912" r="75"/>
-			<line fill="none" stroke="#4D5152" stroke-width="4" stroke-miterlimit="10" x1="74.063" y1="88.188" x2="177.51" y2="191.636"/>
+			<g>
+				<g>
+					<circle fill="#E9F2F1" cx="125.787" cy="139.912" r="75"/>
+					<circle fill="none" stroke="#4D5152" stroke-width="4" stroke-miterlimit="10" cx="125.787" cy="139.912" r="75"/>
+				</g>
+				
+					<line fill="#E9F2F1" stroke="#4D5152" stroke-width="4" stroke-miterlimit="10" x1="74.063" y1="88.188" x2="177.51" y2="191.636"/>
+			</g>
 		</g>
 		<g id="hazelnut">
 			<path fill="#A66A6A" stroke="#4D5152" stroke-width="4" stroke-miterlimit="10" d="M158.398,125.834v23.421

@@ -4,17 +4,17 @@
     <form action="{{ url_for('EditRecipeView:post', recipe_id=recipe.id) }}" method="post" accept-charset="utf-8">
         {{ form.csrf_token }}
 
-        <div class="form-floating">
+        <div class="form-floating mb-2">
             {{ render_field(form.name, has_label=False) }}
             {{ form.name.label }}
         </div>
 
-        <div class="form-floating">
+        <div class="form-floating mb-2">
             {{ render_field(form.category, has_label=False) }}
             {{ form.category.label }}
         </div>
 
-        <div class="form-floating">
+        <div class="form-floating mb-2">
             {{ render_field(form.portion_count, has_label=False) }}
             {{ form.portion_count.label }}
         </div>

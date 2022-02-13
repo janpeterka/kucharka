@@ -21,7 +21,8 @@
   
   <div>  
 
-    {{ render_floating_field(register_user_form.email, label="Přihlašovací e-mail", placeholder="") }}
+    {{ render_floating_field(register_user_form.email, label="Přihlašovací e-mail", placeholder="", class="mb-2") }}
+    
     <div class="row">
       <div class="col-6">
         {{ render_floating_field(register_user_form.password, label="Heslo", placeholder="") }}

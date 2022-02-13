@@ -8,25 +8,25 @@
 	{% set color = "highlight" %}
 {% else %}
 	{% if label.category.name == "dietary" %}
-		{% set color = "light-green"%}
+		{% set color = "highlight"%}
 	{% else %}
 		{% set color = "highlight" %}
 	{% endif %}	
 {% endif %}
 
 
-{% if label.category.name == "dietary" %}
+{# {% if label.category.name == "dietary" %}
 
 	<img src="{{ url_for('static', filename='icons/' + label.name +'.svg') }}"
 	     style="height: {{size}}rem;"
 	>
 
-{% else %}
+{% else %} #}
 
 	<span class="p-2 m-1 bg-color-{{color}} rounded-pill lh-3 text-nobreak">
 		{{ label }}
 	</span>
 
-{% endif %}
+{# {% endif %} #}
 
 {% endmacro %}

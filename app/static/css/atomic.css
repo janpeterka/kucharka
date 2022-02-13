@@ -13,7 +13,8 @@
 
 /* lists */
 .no-list {
-  list-style: none
+  list-style: none;
+  padding: 0;
 }
 
 .no-click {

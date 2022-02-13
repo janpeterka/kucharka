@@ -4,9 +4,9 @@ Stimulus.register("clicker", class extends Controller {
     }
 
   connect() {
-    for (let i = 0, badge; badge = this.areaTarget.querySelectorAll(".day-badge")[i]; i++) {
+    for (let i = 0, item; item = this.areaTarget.querySelectorAll(".clickable")[i]; i++) {
       // if (badge.value > 0) {
-        badge.classList.add("cursor-clickable")
+        item.classList.add("cursor-clickable")
       // }
     }
   }

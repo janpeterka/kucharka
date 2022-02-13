@@ -54,17 +54,11 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin):
 
     @property
     def name(self):
-        if self.full_name:
-            return self.full_name
-        else:
-            return ""
+        return self.full_name or ""
 
     @property
     def name_or_email(self):
-        if self.full_name:
-            return self.full_name
-        else:
-            return self.email
+        return self.full_name or self.email
 
     @property
     def has_password(self):

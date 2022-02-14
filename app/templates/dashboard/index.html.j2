@@ -15,7 +15,7 @@
 <hr>
         
 <div class="row mb-5" data-controller="clicker" data-clicker-target="area" >
-    <div class="col-12 col-md-4 text-center mb-1 mb-md-0 clicker" data-action="click->clicker#activateLink">
+    <div class="col-12 col-md-4 text-center mb-2 mb-md-0 clicker" data-action="click->clicker#activateLink">
         <div class="container bg-color-secondary p-3 dashboard-badge" >
         {% if current_user.all_closest_future_event %}
             Podívejte se na svou nejbližší akci - {{ link_to(current_user.all_closest_future_event) }}
@@ -25,23 +25,34 @@
         </div>
     </div>
 
-    <div class="col-12 col-md-4 text-center mb-1 mb-md-0">
+    <div class="col-12 col-md-4 text-center mb-2 mb-md-0 clicker">
         <div class="container bg-color-secondary p-3 dashboard-badge" data-action="click->clicker#activateLink">
         Inspirujte se v <a href="{{ url_for('PublicRecipesView:index') }}"> databázi receptů </a>
         </div>
     </div>
     
-    <div class="col-12 col-md-4 text-center mb-1 mb-md-0">
+    <div class="col-12 col-md-4 text-center mb-2 mb-md-0 clicker">
         <div class="container bg-color-secondary p-3 dashboard-badge" data-action="click->clicker#activateLink">
         Přidejte <a href="{{url_for('RecipesView:new')}}"> nový recept </a>
         </div>
     </div>
 </div>    
 
-<h2 class="font-comfortaa text-uppercase text-center"> K vyřešení </h2>
+
+{# <div class="row mt-4 text-center bg-color-light-green p-3" id="current" style="border-radius: 1.5rem;">
+    <h5> Aktuální </h5>
+    <hr>
+    <turbo-frame id="current" src="{{ url_for('DashboardView:current') }}" loading="lazy" class="row">
+        {{ loader() }}
+    </turbo-frame>
+</div>
 
 <hr>
+ #}
 
+
+<h2 class="font-comfortaa text-uppercase text-center"> K vyřešení </h2>
+<hr>
 <div class="mt-4 text-center" style="border-radius: 1.5rem;">
 
     <turbo-frame id="tasks" src="{{ url_for('DashboardView:tasks') }}" loading="lazy">

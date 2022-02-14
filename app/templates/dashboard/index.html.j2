@@ -41,9 +41,9 @@
 <h2 class="font-comfortaa text-uppercase text-center"> K vyřešení </h2>
 <hr>
 
-<div class="row mt-4 text-center" id="tasks" style="border-radius: 1.5rem;">
+<div class="mt-4 text-center" style="border-radius: 1.5rem;">
 
-    <turbo-frame id="tasks" src="{{ url_for('DashboardView:tasks') }}" loading="lazy" class="row">
+    <turbo-frame id="tasks" src="{{ url_for('DashboardView:tasks') }}" loading="lazy">
         {{ loader() }}
     </turbo-frame>
 

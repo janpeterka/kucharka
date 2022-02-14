@@ -92,18 +92,14 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin):
         if not self.active_future_events:
             return None
 
-        closest_event = min(self.active_future_events, key=attrgetter("date_from"))
-
-        return closest_event
+        return min(self.active_future_events, key=attrgetter("date_from"))
 
     @property
     def all_closest_future_event(self):
         if not self.all_active_future_events:
             return None
 
-        closest_event = min(self.all_active_future_events, key=attrgetter("date_from"))
-
-        return closest_event
+        return min(self.all_active_future_events, key=attrgetter("date_from"))
 
     @property
     def archived_events(self):

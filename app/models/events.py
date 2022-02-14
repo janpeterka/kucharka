@@ -45,7 +45,7 @@ class Event(BaseModel, ItemMixin):
         viewonly=True,
     )
 
-    user_roles = db.relationship("UserHasEventRole", viewonly=True)
+    user_roles = db.relationship("UserHasEventRole", cascade="all, delete")
 
     daily_plans = db.relationship(
         "DailyPlan",

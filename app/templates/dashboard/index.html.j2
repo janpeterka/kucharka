@@ -17,8 +17,8 @@
 <div class="row mb-5" data-controller="clicker" data-clicker-target="area" >
     <div class="col-12 col-md-4 text-center mb-1 mb-md-0 clicker" data-action="click->clicker#activateLink">
         <div class="container bg-color-secondary p-3 dashboard-badge" >
-        {% if current_user.closest_future_event %}
-            Podívejte se na svou nejbližší akci - {{ link_to(current_user.closest_future_event) }}
+        {% if current_user.all_closest_future_event %}
+            Podívejte se na svou nejbližší akci - {{ link_to(current_user.all_closest_future_event) }}
         {% else %}
             Založte <a href="{{url_for('EventsView:new')}}"> novou událost </a>
         {% endif %}

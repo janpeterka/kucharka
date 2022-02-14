@@ -25,5 +25,7 @@ class EventsForm(FlaskForm):
     def __init__(self, formdata=None, obj=None, **kwargs):
         super().__init__(formdata=formdata, obj=obj, **kwargs)
 
-        self.date_from.data = datetime.today()
-        self.date_to.data = datetime.today() + timedelta(days=14)
+        if not self.date_from.data:
+            self.date_from.data = datetime.today()
+        if not self.date_to.data:
+            self.date_to.data = datetime.today() + timedelta(days=14)

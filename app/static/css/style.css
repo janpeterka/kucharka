@@ -72,3 +72,10 @@ div.warning li {
 div.warning li:before {
   content: "⚠️";
 }
+
+/*.select-badge:hover {
+  border-color: var(--highlight);
+  border-width: 0.2rem;
+  padding: 0;
+  border-style: solid;
+}*/

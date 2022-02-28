@@ -15,7 +15,7 @@
 <hr>
         
 <div class="row mb-5" data-controller="clicker" data-clicker-target="area" >
-    <div class="col-12 col-md-4 text-center mb-2 mb-md-0 clicker" data-action="click->clicker#activateLink">
+    <div class="col-12 col-md-4 text-center mb-2 mb-md-0 clickable" data-action="click->clicker#activateLink">
         <div class="container bg-color-secondary p-3 dashboard-badge" >
         {% if current_user.all_closest_future_event %}
             Podívejte se na svou nejbližší akci - {{ link_to(current_user.all_closest_future_event) }}
@@ -25,13 +25,13 @@
         </div>
     </div>
 
-    <div class="col-12 col-md-4 text-center mb-2 mb-md-0 clicker">
+    <div class="col-12 col-md-4 text-center mb-2 mb-md-0 clickable">
         <div class="container bg-color-secondary p-3 dashboard-badge" data-action="click->clicker#activateLink">
         Inspirujte se v <a href="{{ url_for('PublicRecipesView:index') }}"> databázi receptů </a>
         </div>
     </div>
     
-    <div class="col-12 col-md-4 text-center mb-2 mb-md-0 clicker">
+    <div class="col-12 col-md-4 text-center mb-2 mb-md-0 clickable">
         <div class="container bg-color-secondary p-3 dashboard-badge" data-action="click->clicker#activateLink">
         Přidejte <a href="{{url_for('RecipesView:new')}}"> nový recept </a>
         </div>

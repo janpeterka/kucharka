@@ -4,13 +4,13 @@
   <td> {{ category.name }} </td>
   <td> {{ category.description | default("", True)}} </td>
   <td> {% if category.is_lasting %}
-      <span class="select-badge lh-3 ms-1 me-1 p-2 bg-color-light-green rounded-pill text-nobreak"> Trvanlivá </span>
+      <span class="select-badge lh-3 ms-1 me-1 p-2 bg-color-secondary rounded-pill text-nobreak"> Trvanlivá </span>
       {% endif %}
   </td>
   <td> {{ category.count }} </td>
 
   <td colspan="3" class="text-end me-3">
     {% if editing %}{% set form_class="visibility-hidden"%}{% endif %}
-      {{ button_to(url_for('IngredientCategoriesView:show_edit', id=category.id), form_class=form_class, value="Upravit", class="btn btn-warning hover-animate-fadein") }}
+      {{ button_to(url_for('IngredientCategoriesView:show_edit', id=category.id), form_class=form_class, value="Upravit", class="btn bg-color-secondary-action color-white hover-animate-fadein") }}
   </td>
 </tr>

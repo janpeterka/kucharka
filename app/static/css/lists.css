@@ -1,3 +1,7 @@
+.list-undecorated {
+	list-style-type: none;
+}
+
 .new-item,
 .edit {
 	position: relative;

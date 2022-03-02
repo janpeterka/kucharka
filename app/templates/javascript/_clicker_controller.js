@@ -4,18 +4,15 @@ Stimulus.register("clicker", class extends Controller {
     }
 
   connect() {
-    for (let i = 0, badge; badge = this.areaTarget.querySelectorAll(".day-badge")[i]; i++) {
-      // if (badge.value > 0) {
-        badge.classList.add("cursor-clickable")
-      // }
+    for (let i = 0, item; item = this.areaTarget.querySelectorAll(".clickable")[i]; i++) {
+      item.classList.add("cursor-clickable")
     }
   }
 
   activateLink(event) {
-    // console.log(document.elementFromPoint(event.clientX, event.clientY))
-    var first_child_link = event.target.getElementsByTagName("a")[0];
-    // console.log(first_child_link)
-    first_child_link.click();
+    var clickable_parent = event.target.closest(".clickable")
+    var first_link = clickable_parent.getElementsByTagName("a")[0];
+    first_link.click();
   }
 
 })

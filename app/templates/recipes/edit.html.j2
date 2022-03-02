@@ -16,7 +16,7 @@
 
 {% block content %}
 
-<a class="btn btn-secondary ms-2 mb-3" href="{{ url_for('RecipesView:show', id=recipe.id) }}">{{ texts.edit_finish }} {{ icon("edit") }}</a>
+<a class="btn bg-color-secondary-action color-white ms-2 mb-3" href="{{ url_for('RecipesView:show', id=recipe.id) }}">{{ texts.edit_finish }} {{ icon("edit") }}</a>
 
 <details open class="form-control mb-3">
 <summary> Upravit recept </summary>
@@ -40,6 +40,6 @@
     {% include "recipes/edit/_description.html.j2" %}
 </details>
 
-<a class="btn btn-secondary ms-2 mb-5" href="{{ url_for('RecipesView:show', id=recipe.id) }}">{{ texts.edit_finish }} {{ icon("edit") }}</a>
+<a class="btn bg-color-secondary-action color-white ms-2 mb-5" href="{{ url_for('RecipesView:show', id=recipe.id) }}">{{ texts.edit_finish }} {{ icon("edit") }}</a>
 
 {% endblock %}

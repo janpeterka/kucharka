@@ -7,6 +7,8 @@ from flask_wtf import FlaskForm
 
 from wtforms_sqlalchemy.fields import QuerySelectField, QuerySelectMultipleField
 
+from app.helpers.form_select_field import ExtendedSelectWidget
+
 
 def categories():
     from app.models.recipe_categories import RecipeCategory
@@ -29,24 +31,30 @@ def dietary_labels():
 def difficulty_labels():
     from app.models.labels import Label
 
-    return Label.load_by_category_name("difficulty")
+    return Label.load_difficulty()
 
 
 class RecipesForm(FlaskForm):
-    name = StringField("Název receptu", [InputRequired("Název musí být vyplněn")])
+    name = StringField("název receptu", [InputRequired("název musí být vyplněn")])
 
     # description = StringField("Popis", widget=TextArea())
 
-    category = QuerySelectField("Kategorie", query_factory=categories, allow_blank=True)
+    category = QuerySelectField("kategorie", query_factory=categories, allow_blank=True)
     portion_count = IntegerField(
-        "Počet porcí", [NumberRange(message="Musí být alespoň jedna porce", min=1)]
+        "počet porcí", [NumberRange(message="musí být alespoň jedna porce", min=1)]
     )
 
     dietary_labels = QuerySelectMultipleField(
-        "Dietní omezení", query_factory=dietary_labels
+        "dietní omezení",
+        query_factory=dietary_labels,
+        widget=ExtendedSelectWidget(multiple=True),
     )
+
     difficulty_label = QuerySelectField(
-        "Obtížnost přípravy", query_factory=difficulty_labels, allow_blank=True
+        "obtížnost přípravy",
+        query_factory=difficulty_labels,
+        allow_blank=True,
+        widget=ExtendedSelectWidget(),
     )
 
     labels = HiddenField()
@@ -56,6 +64,28 @@ class RecipesForm(FlaskForm):
     def __init__(self, formdata=None, obj=None, **kwargs):
         super().__init__(formdata=formdata, obj=obj, **kwargs)
         self.set_labels()
+        self.set_difficulty_label()
+        self.set_dietary_labels()
+
+    def set_dietary_labels(form):
+        from app.models.labels import Label
+
+        option_attr = {
+            f"dietary_labels-{i}": {"data-color": label.color}
+            for i, label in enumerate(Label.load_dietary())
+        }
+
+        form.dietary_labels.option_attr = option_attr
+
+    def set_difficulty_label(form):
+        from app.models.labels import Label
+
+        option_attr = {
+            f"difficulty_label-{i+1}": {"data-color": label.color}
+            for i, label in enumerate(Label.load_difficulty())
+        }
+
+        form.difficulty_label.option_attr = option_attr
 
     def set_labels(form):
         from app.models.label_categories import LabelCategory

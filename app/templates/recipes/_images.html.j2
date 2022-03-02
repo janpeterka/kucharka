@@ -17,7 +17,7 @@
         {{ dropzone.config() }}
         {{ dropzone.config(redirect_url=url_for('RecipesView:show', id=recipe.id), default_message="Přetáhni fotku nebo klikni pro výběr.") }}
 
-        {# {{ button_to(url_for('EditRecipeView:delete_all_photos', recipe_id=recipe.id), class="btn btn-danger", value='Smazat všechny soubory') }} #}
+        {# {{ button_to(url_for('EditRecipeView:delete_all_photos', recipe_id=recipe.id), class="btn bg-color-secondary-action color-white", value='Smazat všechny soubory') }} #}
 
 
     {% endif %}

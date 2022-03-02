@@ -7,12 +7,16 @@ Stimulus.register("clipboard", class extends Controller {
   }
 
   copy() {
-    // this.sourceTarget.select()
-    // document.execCommand("copy")
-    let text = this.sourceTarget.value
+    let text = null
+    if (this.sourceTarget instanceof HTMLAnchorElement) {
+      text = this.sourceTarget.href
+    } else if (this.sourceTarget instanceof HTMLInputElement) {
+      text = this.sourceTarget.value
+    } else {
+      text = this.sourceTarget.innerHTML
+    }
 
     this._copyTextToClipboard(text);
-
   }
 
   _fallbackCopyTextToClipboard(text) {

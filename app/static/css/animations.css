@@ -9,6 +9,15 @@
   to { opacity: 0; }
 }
 
+@keyframes visibility-fade-in {
+  99% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+
 @keyframes slide-in {
   from { transform: translateX(2rem); }
   to { transform: translateX(0); }
@@ -71,5 +80,13 @@
     animation: fade-in 0.5s;
     animation-fill-mode: forwards;
     /*transition: opacity 1s ease-in-out;*/
+}
+
+.animate-visibility-fadein {
+  animation: visibility-fade-in 2s;
+  animation-fill-mode: forwards;
+
+  visibility: hidden;
+  /*transition: opacity 1s ease-in-out;*/
 }
 

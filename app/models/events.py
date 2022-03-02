@@ -47,7 +47,7 @@ class Event(BaseModel, ItemMixin):
         viewonly=True,
     )
 
-    user_roles = db.relationship("UserHasEventRole", viewonly=True)
+    user_roles = db.relationship("UserHasEventRole", cascade="all, delete")
 
     daily_plans = db.relationship(
         "DailyPlan",
@@ -105,7 +105,7 @@ class Event(BaseModel, ItemMixin):
         elif self.duration in [1, 2, 3, 4]:
             return "dny"
         else:
-            return "dnů"
+            return "dní"
 
     @property
     def days(self):

@@ -3,7 +3,7 @@ details.colored {
 }
 
 details.colored > summary {
-  background-color: var(--pale-spring-bud);
+  background-color: var(--details);
   border-radius: 0.4rem; 
   cursor: pointer;
   padding: .5rem 0.5rem;
@@ -18,7 +18,7 @@ details.colored > summary > * {
 }
 
 details.colored > div {
-  border: 2px solid var(--pale-spring-bud);
+  border: 2px solid var(--details);
   border-radius: 0 0 0.4rem 0.4rem;
   padding: 1rem;
 }

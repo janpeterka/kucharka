@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="259px"
+	 height="281.949px" viewBox="0 0 259 281.949" enable-background="new 0 0 259 281.949" xml:space="preserve">
+<g id="background_1_">
+</g>
+<g id="icons">
+	<g id="dairy-free_2_">
+		<g id="label_7_">
+			<g>
+				<g>
+					<path fill="#E9F2F1" d="M205.251,147.083c0,41.42-33.58,75-75,75c-41.418,0-75-33.58-75-75c0-41.419,33.582-75,75-75
+						C171.671,72.083,205.251,105.664,205.251,147.083z"/>
+					<path fill="none" stroke="#4D5152" stroke-width="4" stroke-miterlimit="10" d="M205.251,147.083c0,41.42-33.58,75-75,75
+						c-41.418,0-75-33.58-75-75c0-41.419,33.582-75,75-75C171.671,72.083,205.251,105.664,205.251,147.083z"/>
+				</g>
+				
+					<line fill="#E9F2F1" stroke="#4D5152" stroke-width="4" stroke-miterlimit="10" x1="78.526" y1="95.359" x2="181.976" y2="198.807"/>
+			</g>
+		</g>
+		<g id="milk_2_">
+			<g id="milk-icon_1_">
+				<path fill="#FFFFFF" d="M147.731,114.146c-1.656-2.292-2.697-3.732-3.24-4.496h-30.396l2.859,4.346
+					c2.371,3.604,5.338,8.11,6.404,9.735h0.461h30.807C152.763,121.109,149.966,117.238,147.731,114.146z"/>
+				<path fill="#FFFFFF" d="M121.825,125.731l-0.844,69.352c1.818,0,34.93,0,36.748,0c0-1.895,0-67.459,0-69.352
+					C156.042,125.731,121.825,125.731,121.825,125.731z"/>
+				<path fill="#FFFFFF" d="M113.204,99.083c0,1.261,0,7.307,0,8.567c1.818,0,32.113,0,33.926,0c0-1.261,0-7.307,0-8.567
+					C145.317,99.083,115.022,99.083,113.204,99.083z"/>
+			</g>
+			<path fill="#FFFFFF" d="M123.819,123.731h-0.461c-1.066-1.625-4.033-6.132-6.404-9.735l-2.859-4.346h30.396
+				c0.543,0.764,1.584,2.204,3.24,4.496c2.234,3.092,5.031,6.963,6.895,9.585H123.819z"/>
+			<path fill="#FFFFFF" d="M120.981,195.083c1.818,0,34.93,0,36.748,0c0-1.895,0-67.459,0-69.352c-1.688,0-35.904,0-35.904,0"/>
+			<g>
+				<path fill="#A66A6A" stroke="#4D5152" stroke-width="4" stroke-miterlimit="10" d="M156.585,170.249
+					c-10.889-9.18-22.777,9.18-33.666,0c0-9,0-18,0-27c10.889,9.181,22.777-9.181,33.666,0
+					C156.585,152.249,156.585,161.249,156.585,170.249z"/>
+				<path fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" d="M121.919,142.249
+					c10.889,9.181,23.777-8.181,34.666,1"/>
+				<path fill="none" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" d="M156.585,170.249
+					c-10.889-9.18-23.777,9.18-34.666,0"/>
+				
+					<circle fill="#FFFDE3" stroke="#4D5152" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" cx="139.919" cy="156.121" r="7.5"/>
+			</g>
+			<path fill="none" stroke="#4D5152" stroke-width="4" stroke-miterlimit="10" d="M120.981,195.083c1.818,0,34.93,0,36.748,0
+				c0-1.895,0-67.459,0-69.352c-1.688,0-35.904,0-35.904,0"/>
+			<path fill="#FFFFFF" stroke="#4D5152" stroke-width="4" stroke-miterlimit="10" d="M147.13,99.083c-1.813,0-32.107,0-33.926,0
+				c0,1.261,0,7.307,0,8.567c1.818,0,32.113,0,33.926,0C147.13,106.39,147.13,100.344,147.13,99.083z"/>
+			<path fill="none" stroke="#4D5152" stroke-width="4" stroke-miterlimit="10" d="M158.138,125.271
+				c-1.602-2.432-11.906-16.568-12.402-17.328"/>
+			<path fill="#E6E6E6" stroke="#4D5152" stroke-width="4" stroke-miterlimit="10" d="M121.804,125.007
+				c-1.504-2.291-8.328-12.655-9.586-14.57c-1.258,1.915-8.344,12.454-9.854,14.747"/>
+			<path fill="#E6E6E6" stroke="#4D5152" stroke-width="4" stroke-miterlimit="10" d="M121.819,125.731h-9.85h-9.359
+				c0,0,0,67.457,0,69.352c1.709,0,17.5,0,19.209,0C121.819,193.188,121.819,125.731,121.819,125.731z"/>
+		</g>
+	</g>
+</g>
+<g id="titles">
+</g>
+<g id="header_1_">
+</g>
+</svg>

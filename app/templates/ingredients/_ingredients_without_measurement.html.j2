@@ -1,14 +1,17 @@
 {% if current_user.ingredients_without_measurement %}
 
-<div id="ingredients-without-measurement" class="mt-3 col-12 col-sm-6 col-md-4">
-    <h6> Přidat míru surovinám </h6>
+<div id="ingredients-without-measurement" class="mt-3 col-12">
+    <div class="container bg-color-secondary p-3 dashboard-badge">
 
-    <ul class="no-list">
-    {% for ingredient in current_user.ingredients_without_measurement %}
-        <li>{{ link_to(ingredient, link_type="edit") }}</li>
-    {% endfor %}
-    </ul>
+        <h6 class="font-comfortaa text-uppercase"> Přidat míru surovinám </h6>
 
+        <ul class="no-list">
+        {% for ingredient in current_user.ingredients_without_measurement %}
+            <li>{{ link_to(ingredient, link_type="edit") }}</li>
+        {% endfor %}
+        </ul>
+
+    </div>
 </div>
 
 {% endif %}

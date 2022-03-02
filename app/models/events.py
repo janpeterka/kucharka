@@ -150,8 +150,10 @@ class Event(BaseModel, ItemMixin):
         elif base_days[0].weekday == "pondělí":
             last_date = base_days[-1].date
             # add missing days
-            for i in range(missing_day_count):
-                base_days.append(placeholder_day(last_date + timedelta(days=i + 1)))
+            base_days.extend(
+                placeholder_day(last_date + timedelta(days=i + 1))
+                for i in range(missing_day_count)
+            )
 
         return base_days
 
@@ -193,9 +195,9 @@ class Event(BaseModel, ItemMixin):
         split_recipes = []
 
         shopping_indexes = [0]
-        for i, recipe in enumerate(daily_recipes):
-            if recipe.is_shopping:
-                shopping_indexes.append(i)
+        shopping_indexes.extend(
+            i for i, recipe in enumerate(daily_recipes) if recipe.is_shopping
+        )
 
         shopping_indexes.append(len(daily_recipes))
 
@@ -247,11 +249,10 @@ class Event(BaseModel, ItemMixin):
 
         if not self.is_shared:
             return None
-        else:
-            hash_value = obscure(str(self.id).encode())
-            return url_for(
-                "SharedEventsView:show", hash_value=hash_value, _external=True
-            )
+        hash_value = obscure(str(self.id).encode())
+        return url_for(
+            "SharedEventsView:show", hash_value=hash_value, _external=True
+        )
 
     def user_role(self, user):
         roles = [user_role for user_role in self.user_roles if user_role.user == user]

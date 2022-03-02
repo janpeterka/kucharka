@@ -23,26 +23,26 @@ def measurements():
 
 class IngredientsForm(FlaskForm):
 
-    name = StringField("Název suroviny", [InputRequired("Název musí být vyplněn")])
+    name = StringField("název suroviny", [InputRequired("název musí být vyplněn")])
 
-    description = StringField("Popis", widget=TextArea())
+    description = StringField("popis", widget=TextArea())
 
     measurement = QuerySelectField(
-        "Počítané v", query_factory=measurements, allow_blank=True
+        "počítané v", query_factory=measurements, allow_blank=True
     )
-    category = QuerySelectField("Kategorie", query_factory=categories, allow_blank=True)
+    category = QuerySelectField("kategorie", query_factory=categories, allow_blank=True)
 
     protein = ComaFloatField(
-        "Bílkoviny / 100 g",
-        [Optional(), NumberRange(0, 100, "Musí být mezi 0 a 100")],
+        "bílkoviny / 100 g",
+        [Optional(), NumberRange(0, 100, "musí být mezi 0 a 100")],
     )
     sugar = ComaFloatField(
-        "Sacharidy / 100 g",
-        [Optional(), NumberRange(0, 100, "Musí být mezi 0 a 100")],
+        "sacharidy / 100 g",
+        [Optional(), NumberRange(0, 100, "musí být mezi 0 a 100")],
     )
     fat = ComaFloatField(
-        "Tuky / 100 g",
-        [Optional(), NumberRange(0, 100, "Musí být mezi 0 a 100")],
+        "tuky / 100 g",
+        [Optional(), NumberRange(0, 100, "musí být mezi 0 a 100")],
     )
-    calorie = ComaFloatField("Energie (kJ) / 100 g", [Optional()])
+    calorie = ComaFloatField("energie (kJ) / 100 g", [Optional()])
     submit = SubmitField("Přidat surovinu")

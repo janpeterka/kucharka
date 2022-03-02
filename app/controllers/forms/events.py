@@ -7,15 +7,15 @@ from flask_wtf import FlaskForm
 
 
 class EventsForm(FlaskForm):
-    name = StringField("Název akce", [InputRequired("Název musí být vyplněn")])
+    name = StringField("název akce", [InputRequired("název musí být vyplněn")])
 
-    date_from = DateField("Od")
-    date_to = DateField("Do")
+    date_from = DateField("od")
+    date_to = DateField("do")
 
     people_count = IntegerField(
-        "Počet lidí",
+        "počet lidí",
         [
-            InputRequired("Počet lidí musí být vyplněn"),
+            InputRequired("počet lidí musí být vyplněn"),
             NumberRange(min=1),
         ],
     )

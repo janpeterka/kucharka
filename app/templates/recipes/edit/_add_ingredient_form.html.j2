@@ -1,3 +1,5 @@
+{% from "macros/icons.html.j2" import icon %}
+
 <turbo-frame id="add_ingredient_form">	
 
 <form method="post" action="{{ url_for('EditRecipeView:add_ingredient', recipe_id=recipe.id) }}" data-controller="enable-select2" class="row row-cols-lg-auto g-3 align-items-center">
@@ -12,7 +14,7 @@
 	</div>
 	
 	<div class="col-12 ms-5">	
-		<a class="" href="{{ url_for('FastAddIngredientsView:new', recipe_id=recipe.id) }}"> Přidat chybějící surovinu </a>
+		<a class="" href="{{ url_for('FastAddIngredientsView:new', recipe_id=recipe.id) }}"> {{ icon("add") }} Přidat chybějící surovinu </a>
 	</div>	
 </form>
 

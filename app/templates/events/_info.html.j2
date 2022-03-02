@@ -9,11 +9,11 @@
 		<div class="col-12 col-sm">
 			<div class="row">
 				<div class="col mb-1 me-1 p-2 info-badge">
-					Od {{ human_format_date(event.date_from, with_relative=False, with_weekday=False) }}
+					od {{ human_format_date(event.date_from, with_relative=False, with_weekday=False) }}
 				</div>
 
 				<div class="col mb-1 p-2 info-badge">
-					Do {{ human_format_date(event.date_to, with_relative=False, with_weekday=False) }}
+					do {{ human_format_date(event.date_to, with_relative=False, with_weekday=False) }}
 				</div>
 			</div>
 		</div>
@@ -30,7 +30,7 @@
 		<div class="col-12 col-sm">
 			<div class="row">
 				<div class="col mb-1 me-1 p-2 info-badge">
-					Pro {{ event.people_count }} lidí
+					pro {{ event.people_count }} lidí
 				</div>
 				<div class="col col mb-1 p-2 info-badge">
 				    {% if event.is_shared %}   <span class="me-2"> {{ icon("shared") }}   </span> {% endif %}
@@ -42,7 +42,7 @@
 		<div class="col">
 		    {% if event.can_current_user_edit %}
 				<form method="POST" action="{{ url_for('EditEventView:edit', event_id=event.id) }}">
-					<button type="submit" class="btn bg-color-primary-action color-white w-100 pb-2 pt-2" style=""> Upravit {{ icon("edit") }} </button>
+					<button type="submit" class="btn bg-color-primary-action color-white w-100 pb-2 pt-2" style=""> upravit {{ icon("edit") }} </button>
 				</form>
 		    {% endif %}
 		</div>

@@ -2,9 +2,9 @@
     <div class="row" id="event-more-options-button-row">
         <div class="col-12 col-md-3 mb-1">
             {% if event.is_shared %}
-                {% set share_text = "Zneveřejnit" + icon("unshare") %}
+                {% set share_text = "zneveřejnit" + icon("unshare") %}
             {% else %}
-                {% set share_text = "Zveřejnit" + icon("share") %}
+                {% set share_text = "zveřejnit" + icon("share") %}
             {% endif %}
 
             {{ button_to(url_for('EventsView:toggle_shared', id=event.id),
@@ -14,9 +14,9 @@
         <div class="col-12 col-md-3 mb-1">   
             {% if event.can_current_user_share %}
             {{ button_to(url_for('EditEventView:show_share_with_user', event_id=event.id),
-                class="btn bg-color-secondary-action color-white w-100", value="Sdílet dalším lidem" + icon('share')) }}
+                class="btn bg-color-secondary-action color-white w-100", value="sdílet dalším lidem" + icon('share')) }}
             {% else %}
-            <button class="btn bg-color-secondary-action color-white w-100" disabled> Nemůžete sdílet </button>
+            <button class="btn bg-color-secondary-action color-white w-100" disabled> nemůžete sdílet </button>
             {% endif %}
         </div>
  
@@ -27,9 +27,9 @@
 
         <div class="col-12 col-md-3 mb-1">
             {% if not event.is_archived %}
-                {% set archive_text = "Archivovat" + icon("archive") %}
+                {% set archive_text = "archivovat" + icon("archive") %}
             {% else %}
-                {% set archive_text = "Aktivovat" + icon("unarchive") %}
+                {% set archive_text = "aktivovat" + icon("unarchive") %}
             {% endif %}
 
             {{ button_to(url_for('EventsView:toggle_archived', id=event.id),
@@ -38,7 +38,7 @@
 
         <div class="col-12 col-md-3 mb-1">  
             {{ button_to(url_for('EventsView:delete', id=event.id),
-                class="btn bg-color-secondary-action color-white w-100 ", value="Smazat akci " ~ icon("delete"), confirmation="Opravdu chcete smazat akci?") }}  
+                class="btn bg-color-secondary-action color-white w-100 ", value="smazat akci " ~ icon("delete"), confirmation="Opravdu chcete smazat akci?") }}  
         </div>
     </div>
 </div>

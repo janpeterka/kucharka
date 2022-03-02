@@ -263,6 +263,13 @@ class Event(BaseModel, ItemMixin):
             raise Warning("User has multiple roles on this event")
 
     @property
+    def connected_users(self):
+        users = self.shared_with
+        users.append(self.author)
+
+        return users
+
+    @property
     def other_user_ids(self):
         user_ids = [user.id for user in self.shared_with]
         user_ids.append(self.author.id)

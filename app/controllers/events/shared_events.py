@@ -1,7 +1,3 @@
-# from flask import redirect, url_for, request, flash
-# from flask_classful import route
-# from flask_security import login_required
-
 from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models.events import Event

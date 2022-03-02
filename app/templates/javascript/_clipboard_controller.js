@@ -11,6 +11,10 @@ Stimulus.register("clipboard", class extends Controller {
     // document.execCommand("copy")
     let text = this.sourceTarget.value
 
+    if (text==undefined) {
+      text = this.sourceTarget.innerHTML
+    }
+
     this._copyTextToClipboard(text);
 
   }

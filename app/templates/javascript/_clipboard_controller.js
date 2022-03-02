@@ -10,8 +10,10 @@ Stimulus.register("clipboard", class extends Controller {
     let text = null
     if (this.sourceTarget instanceof HTMLAnchorElement) {
       text = this.sourceTarget.href
-    } else {
+    } else if (this.sourceTarget instanceof HTMLInputElement) {
       text = this.sourceTarget.value
+    } else {
+      text = this.sourceTarget.innerHTML
     }
 
     this._copyTextToClipboard(text);

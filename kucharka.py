@@ -137,8 +137,7 @@ def log_request(exception=None):
         item_type = DataHandler.get_additional_request_data("item_type")
         item_id = DataHandler.get_additional_request_data("item_id")
 
-        start_time = getattr(g, "log_request_start_time", None)
-        if start_time:
+        if start_time := getattr(g, "log_request_start_time", None):
             duration = time.time() - start_time
         else:
             duration = None

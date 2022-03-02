@@ -16,4 +16,11 @@
         <hr>
         {% endfor %}
     </div>
+    {% if event.is_shared %}
+    <hr>
+    <div data-controller="clipboard">
+        <a href="{{ event.public_url }}" data-clipboard-target="source"> odkaz pro veřejné sdílení </a>
+        <button data-action="click->clipboard#copy" class="btn btn-secondary col"> {{ icon('clipboard')}} zkopírovat adresu </button>
+    </div>
+    {% endif %}
 </details>

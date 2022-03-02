@@ -42,7 +42,7 @@
     <turbo-frame id="event-warnings" src="{{ url_for('EventsView:warnings', id=event.id) }}"></turbo-frame>
 {% endif %}
 
-{% if event.can_current_user_edit %}
+{% if event.can_current_user_edit and (event.is_shared or event.shared_with)%}
     {% include "events/_sharing.html.j2" %}
 {% endif %}
 

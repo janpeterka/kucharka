@@ -1,5 +1,5 @@
 <details class="colored mb-2">
-    <summary > Sdílení </summary>
+    <summary > sdílení </summary>
     <div>
         {% for event_role in event.user_roles %}
         <div class="col-12 row mb-2">
@@ -9,7 +9,7 @@
             <div class="col-2">
                 {% if event.can_current_user_share %}    
                 {{ button_to(url_for('EditEventView:remove_sharing', event_id=event.id, user_id=event_role.user.id),
-                class="btn btn-danger", value="Odebrat práva" ~ icon('delete')) }}
+                class="btn", style="color:white; background-color: #A66A6A", value="odebrat práva" ~ icon('delete')) }}
                 {% endif %}
             </div>
         </div>

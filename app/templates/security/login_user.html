@@ -8,31 +8,33 @@
   <div class="text-center mt-2"> 
     <a class="no-decoration" href="{{ url_for('google.login') }}">
       <button type="button" class="btn btn-social btn-google loginBtn--google loginBtn">
-          <span class="fab fa-google"></span> Přihlásit se pomocí Googlu
+          <span class="fab fa-google"></span> přihlásit se pomocí Google
       </button>
     </a>
   </div>
 
   <hr>
-  <div class="smaller text-center color-grey"> nebo </div>
+  <div class="smaller text-center color-grey mb-1"> nebo </div>
   {% endif %}
 
-  <div class="row">
+  <div class="row mb-1">
     <div class="col-6">
-      {{ render_floating_field(login_user_form.email, label="Přihlašovací e-mail", placeholder="", with_errors=True) }}
+      {{ render_floating_field(login_user_form.email, label="přihlašovací e-mail", placeholder="", with_errors=True) }}
     </div>
     <div class="col-6">
-      {{ render_floating_field(login_user_form.password, label="Heslo", placeholder="") }}
+      {{ render_floating_field(login_user_form.password, label="heslo", placeholder="") }}
     </div>
   </div>
   
-  {{ render_field(login_user_form.remember, label="Pamatovat si", with_errors=False) }}
+  <div class="ms-1">
+  {{ render_field(login_user_form.remember, label="pamatovat si přihlášení", with_errors=False) }}
+  </div>
   
       <div class="text-center mt-2">
       {{ render_field(login_user_form.submit, value="Přihlásit se", class="p-2 ps-4 pe-4") }}
     </div>
   
-  <a class="mt-2 float-end" href="{{ url_for_security('forgot_password')}}">Zapomněli jste heslo?</a>
+  <a class="mt-2 float-end" href="{{ url_for_security('forgot_password')}}"> zapomněli jste heslo? </a>
 </form>
 
 {% endblock %}

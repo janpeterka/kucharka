@@ -35,23 +35,23 @@ def difficulty_labels():
 
 
 class RecipesForm(FlaskForm):
-    name = StringField("Název receptu", [InputRequired("Název musí být vyplněn")])
+    name = StringField("název receptu", [InputRequired("název musí být vyplněn")])
 
     # description = StringField("Popis", widget=TextArea())
 
-    category = QuerySelectField("Kategorie", query_factory=categories, allow_blank=True)
+    category = QuerySelectField("kategorie", query_factory=categories, allow_blank=True)
     portion_count = IntegerField(
-        "Počet porcí", [NumberRange(message="Musí být alespoň jedna porce", min=1)]
+        "počet porcí", [NumberRange(message="musí být alespoň jedna porce", min=1)]
     )
 
     dietary_labels = QuerySelectMultipleField(
-        "Dietní omezení",
+        "dietní omezení",
         query_factory=dietary_labels,
         widget=ExtendedSelectWidget(multiple=True),
     )
 
     difficulty_label = QuerySelectField(
-        "Obtížnost přípravy",
+        "obtížnost přípravy",
         query_factory=difficulty_labels,
         allow_blank=True,
         widget=ExtendedSelectWidget(),

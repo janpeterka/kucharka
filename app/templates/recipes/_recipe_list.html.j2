@@ -1,13 +1,13 @@
 {% from "macros/icons.html.j2" import icon %}
 
 <div class="col">
-    <label for="recipes"><h3>{{ texts.recipe_list }}</h3></label>
+    <label for="recipes"><h3> moje recepty se surovinou </h3></label>
 
     {% include "recipes/_recipes.html.j2" %}
 
     {% if current_user.has_permission("manage-application") and all_recipes %}
     <div class="admin-field">
-	    <label><h3>Všechny recepty</h3></label>
+	    <label><h3> všechny recepty se surovinou </h3></label>
 
         <turbo-frame id="all-recipes">
 	    <ul>

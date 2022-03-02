@@ -1,3 +1,5 @@
+from operator import attrgetter
+
 from flask_security.models.fsqla_v2 import FsUserMixin as UserMixin
 from flask_security import hash_password
 
@@ -25,6 +27,7 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin):
     recipes = db.relationship("Recipe", order_by="Recipe.name", back_populates="author")  # type: ignore
 
     events = db.relationship("Event", back_populates="author")  # type: ignore
+
     role_events = db.relationship(
         "Event",
         secondary="users_have_event_roles",
@@ -54,34 +57,49 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin):
 
     @property
     def name(self):
-        if self.full_name:
-            return self.full_name
-        else:
-            return ""
+        return self.full_name or ""
+
+    @property
+    def name_or_email(self):
+        return self.full_name or self.email
 
     @property
     def has_password(self):
         return self.password != "x"
 
     @property
+    def all_events(self):
+        return self.events + self.role_events
+
+    @property
     def active_events(self):
         return [e for e in self.events if e.is_active]
+
+    @property
+    def all_active_events(self):
+        return [e for e in self.all_events if e.is_active]
 
     @property
     def active_future_events(self):
         return [e for e in self.active_events if e.in_future]
 
     @property
+    def all_active_future_events(self):
+        return [e for e in self.all_active_events if e.in_future]
+
+    @property
     def closest_future_event(self):
         if not self.active_future_events:
             return None
 
-        closest_event = self.active_future_events[0]
-        for event in self.active_future_events:
-            if event.date_from > closest_event.date_from:
-                closest_event = event
+        return min(self.active_future_events, key=attrgetter("date_from"))
 
-        return closest_event
+    @property
+    def all_closest_future_event(self):
+        if not self.all_active_future_events:
+            return None
+
+        return min(self.all_active_future_events, key=attrgetter("date_from"))
 
     @property
     def archived_events(self):

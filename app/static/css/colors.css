@@ -1,148 +1,117 @@
 :root {
-    /* Old colors */
+    --primary:  #33403E;
+
+    --secondary:  #E9F2F1;
+    --secondary-highlighted:  #c9e0dd;
+
+    --primary-action:  #A66A6A;
+    --secondary-action:  #657371;
+
+    --details:  #A4BFBF;
+
+    --highlight: #6aa6a6;
+    --strong-highlight: #A66A6A;
+
+
+    --inactive: grey;
+
+    --color-light-grey: lightgrey;
+
+    /* Flash signals */
     --error: #CC0000;
     --success: #007E33;
-    --warning: #FF8800; 
+    --warning: #A66A6A; 
     --info: grey;
     --debug: pink;
 
-    /*--icon_remove: #8b0000;*/
-    /*--icon_disapprove: #8b0000;*/
-    /*--icon_approve: #00C851;*/
-
-    --inactive: grey;
-    --inactive-bg: lightgrey;
 
     /* Ketocalc colors */
-    /* From logo */
-    --logo-blue: #0177EA;
-    --logo-light-blue: #ABF2FD;
-    --logo-light-green: #D0E3D6;
-    --logo-white: #F8FEFF;
 
     /* Added based on logo-blue*/
     --palette-orange: #EA7401;
-    --palette-middle-blue: #2090FE;
-    --palette-purple: #0103EA;
-    --palette-cyan: #01EAE9;
 
-    /* Other */
-    --color-green: #2FAC03;
 
-    /* Kucharka colors */
-    --hunter-green: #386641ff;
-    --lapis-lazuli: #1c5d99ff;
-    --pale-spring-bud: #dde0bdff;
-    --pale-spring-bud-2: #d0d1acff;
-
+/*
+    navbar
+    #33403E
+    rámečky pozadí (dash, karty dní)
+    #E9F2F1
+    primary button, zvýraznění
+    #A66A6A
+    secondary button
+    #657371
+    details 
+    #A4BFBF
+    
+    #6aa6a6 nikde, potenciálně další tlačítka
+    
+    neděle
+    #c9e0dd
+*/
     /* Other colors */
     --admin-yellow: #FFE766;
-    --color-light-grey: lightgrey;
+
     --color-grey: #C1C2C4;
 }
 
 /* Colors */
 
-.color-dark-green {
-    color: var(--hunter-green);
+.color-primary {
+    color: var(--primary);
+}
+
+.bg-color-primary {
+    background-color: var(--primary);
+}
+
+.bg-color-secondary {
+    background-color: var(--secondary);
+}
+
+.bg-color-secondary-highlighted {
+    background-color: var(--secondary-highlighted);
+}
+
+
+.color-highlight {
+    color: var(--highlight);
+}
+
+.bg-color-highlight {
+    background-color: var(--highlight);
+}
+
+.bg-color-strong-highlight {
+    background-color: var(--strong-highlight);
+}
+
+.bg-color-primary-action {
+    background-color: var(--primary-action);
+}
+
+.bg-color-secondary-action {
+    background-color: var(--secondary-action);
 }
 
 .color-white {
     color: white;
 }
 
-.color-red {
-    color: var(--error);
-}
-
-.color-light-blue {
-    color: var(--logo-light-blue);
-}
-
-.color-blue {
-    color: var(--logo-blue);
-}
-
-.color-light-green {
-    color: var(--logo-light-green);
-}
-
-.color-orange {
-    color: var(--palette-orange);
-}
-
-.color-purple {
-    color: var(--palette-purple);
-}
-
-.color-green {
-    color: var(--color-green);
-}
-
-.color-light-yellow {
-    color: var(--admin-yellow);
-}
-
-.color-light-greenish {
-    color: var(--pale-spring-bud);
-}
-
-
-/* Background colors */
-.bg-color-red {
-    background-color: var(--error);
-}
-
-.bg-color-light-blue {
-    background-color: var(--logo-light-blue);
-}
-
-.bg-color-blue {
-    background-color: var(--lapis-lazuli);
-}
-
-.bg-color-light-green {
-    background-color: var(--logo-light-green);
-}
-
-.bg-color-orange  {
-    background-color: var(--palette-orange);
-}
-
-.bg-color-purple {
-    background-color: var(--palette-purple);
-}
-
-.bg-color-dark-green {
-    background-color: var(--hunter-green);
-}
-
-.bg-color-grey {
-    background-color: var(--color-grey);
+.color-black {
+    color: black;
 }
 
 .bg-color-light-grey {
     background-color: var(--color-light-grey);
 }
 
-.bg-color-light-yellow {
-    background-color: var(--admin-yellow);
-}
-
-.bg-color-light-greenish {
-    background-color: var(--pale-spring-bud);
-}
-
-.bg-color-light-red {
-    background-color: var(--palette-orange);
-}
 
 /* Color signals */
-.color-inactive{
+.color-inactive {
     color: var(--inactive);
 }
 
-.color-grey{
+.color-grey {
     color: var(--inactive);
 }
 
@@ -155,11 +124,4 @@
 
 .opacity-50 {
     opacity: 0.7;
-}
-
-
-/* Border color */
-
-.border-color-dark-green {
-    border-color: var(--hunter-green);
 }

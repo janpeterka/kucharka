@@ -4,18 +4,12 @@ button.invisible-button {
   border: none;
 }
 
-input {
-	margin-top: 0.3rem;
-	margin-bottom: 0.3rem;
-}
-
-
 .form-inline > * {
  margin: 5px 3px;
 }
 
 form ul.errors li.warning{
-  color: var(--palette-orange);
+  color: var(--primary-action);
   font-weight: bold;
 }
 

@@ -12,10 +12,14 @@
     {{ form.csrf_token }}
 
     {{ render_floating_field(form.name) }}
-    {{ render_floating_field(form.category) }}
-    {{ render_floating_field(form.portion_count) }}
 
-    {{ render_field(form.submit) }}
+    <div class="row mt-2">
+        <div class="col-md-6 col-sm-12"> {{ render_floating_field(form.category) }} </div>
+        <div class="col-md-6 col-sm-12"> {{ render_floating_field(form.portion_count) }} </div>
+    </div>
+
+    {{ render_field(form.submit, class="mt-2") }}
+
 </form>
 
 

@@ -24,14 +24,14 @@
       </div>
     
       <div class="col-12 col-md-3"> 
-        <button type="submit" class="btn btn-warning"> Uložit </button>
+        <button type="submit" class="btn bg-color-secondary-action color-white"> Uložit </button>
       </div>
     
     </form>
 
   </td>
   <td>
-    {{ button_to(url_for('PublicIngredientsView:hide_edit', id=ingredient.id), class="btn btn-secondary float-end", value="Zrušit") }}
+    {{ button_to(url_for('PublicIngredientsView:hide_edit', id=ingredient.id), class="btn bg-color-secondary-action color-white float-end", value="Zrušit") }}
     </form>
   </td>
 

@@ -4,6 +4,9 @@
 {% block links %}
     {{ super() }}
     {{ turbo() }}
+{% endblock %}
+
+{% block scripts_after %}
     {{ stimulus("clicker") }}
 {% endblock %}
 

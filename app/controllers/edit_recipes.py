@@ -97,7 +97,7 @@ class EditRecipeView(HelperFlaskView):
                     public_ingredients=unused_public_ingredients,
                     recipe=recipe,
                 ),
-                target="add_ingredient_form",
+                target="add-ingredient-form",
             )
         ]
 

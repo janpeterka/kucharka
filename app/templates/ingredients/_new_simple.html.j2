@@ -1,14 +1,25 @@
 {% from "macros/render_field.html.j2" import render_field %} 
+{% from "macros/turbo.html.j2" import button_to %} 
 
-<turbo-frame id="add-ingredient-simple">
+<div id="add-ingredient-simple" class="row mt-2">
 
-<div class="form-control mt-2">    
-<form method="post" action="{{ url_for('FastAddIngredientsView:post', recipe_id=recipe.id) }}" class="row row-cols-lg-auto g-3 align-items-center" accept-charset="UTF-8">
-    {{ form.csrf_token }}
-    <div class="col-12">{{ render_field(form.name, has_label=False) }}</div>
-    <div class="col-12">{{ render_field(form.measurement, has_label=False) }}</div>
-    <div class="col-12">{{ render_field(form.submit, value="Uložit a přidat") }}</div>
-</form>
+    <div class="col-7">
+        
+        <div class="form-control">    
+            <form method="post" action="{{ url_for('FastAddIngredientsView:post', recipe_id=recipe.id) }}" class="row row-cols-lg-auto g-3 align-items-center" accept-charset="UTF-8">
+                {{ form.csrf_token }}
+                <div class="col-12">{{ render_field(form.name, has_label=False) }}</div>
+                <div class="col-12">{{ render_field(form.measurement, has_label=False) }}</div>
+                <div class="col-12">{{ render_field(form.submit, value="Uložit a přidat") }}</div>
+            </form>
+                
+        </div>
+        
+    </div>
+    <div class="col-4 mt-2 text-end">
+        
+        {{ button_to(url_for('FastAddIngredientsView:hide', recipe_id=recipe.id), class="btn color-white bg-color-secondary-action", value="Zrušit") }}
+
+    </div>
+
 </div>
-
-</turbo-frame>

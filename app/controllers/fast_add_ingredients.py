@@ -27,7 +27,7 @@ class FastAddIngredientsView(HelperFlaskView):
                 self.template(
                     template_name="_new_simple", recipe=Recipe.load(recipe_id)
                 ),
-                target="add-ingredient-simple",
+                target="add-ingredient-form",
             )
         )
 

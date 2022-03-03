@@ -47,11 +47,11 @@
             {% else %}
                 {% if not editing %}
                     <form method="POST" class="text-end me-3" action="{{ url_for('DailyPlansEditView:show_edit_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
-                        <button type="submit" class="btn bg-color-secondary-action w-100"> Upravit </button>
+                        <button type="submit" class="btn color-white bg-color-secondary-action w-100"> Upravit </button>
                     </form>
                 {% else %}
                     <form method="POST" class="text-end me-3" action="{{ url_for('DailyPlansEditView:hide_edit_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
-                        <button type="submit" class="btn bg-color-secondary-action w-100"> Zrušit </button>
+                        <button type="submit" class="btn color-white bg-color-secondary-action w-100"> Zrušit </button>
                     </form>
                 {% endif %}
             {% endif %}

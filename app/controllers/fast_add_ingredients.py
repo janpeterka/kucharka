@@ -65,10 +65,25 @@ class FastAddIngredientsView(HelperFlaskView):
 
         if turbo.can_stream():
             return turbo.stream(
-                [turbo.remove(target="add-ingredient-simple")]
-                + EditRecipeIngredientsView().add_ingredient_to_recipe(
-                    recipe, ingredient
-                )
+                [
+                    turbo.remove(target="add-ingredient-simple"),
+                    turbo.prepend(
+                        self.template(
+                            template_name="recipes/edit/ingredient/_row.html.j2",
+                            ingredient=ingredient,
+                            recipe=recipe,
+                        ),
+                        target="ingredients",
+                    ),
+                    turbo.after(
+                        self.template(
+                            template_name="recipes/edit/ingredient/_edit.html.j2",
+                            ingredient=ingredient,
+                            recipe=recipe,
+                        ),
+                        target=f"ingredient-{ingredient.id}",
+                    ),
+                ]
                 + EditRecipeIngredientsView().update_usable_ingredients(recipe)
             )
         else:

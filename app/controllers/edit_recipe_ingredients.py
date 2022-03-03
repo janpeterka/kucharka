@@ -41,6 +41,8 @@ class EditRecipeIngredientsView(HelperFlaskView, AdminViewMixin):
         self.ingredient = Ingredient.load(request.form["ingredient_option"])
         self.ingredient.is_measured = True
 
+        self.add_ingredient_to_recipe(self.recipe, self.ingredient)
+
         self.recipe.add_ingredient(self.ingredient)
 
         if turbo.can_stream():
@@ -50,25 +52,16 @@ class EditRecipeIngredientsView(HelperFlaskView, AdminViewMixin):
                         self.template(template_name="_row"),
                         target="ingredients",
                     ),
+                    turbo.after(
+                        self.template(template_name="_edit"),
+                        target=f"ingredient-{self.ingredient.id}",
+                    ),
                     turbo.remove(target="add-ingredient-simple"),
                 ]
                 + self.update_usable_ingredients(self.recipe)
             )
         else:
             return redirect(url_for("RecipesView:edit", id=self.recipe.id))
-
-    def add_ingredient_to_recipe(self, recipe, ingredient):
-        recipe.add_ingredient(ingredient)
-        return [
-            turbo.append(
-                self.template(
-                    template_name="_row",
-                    ingredient=ingredient,
-                    recipe=recipe,
-                ),
-                target="ingredients",
-            )
-        ]
 
     @route("post_edit/<recipe_id>/<ingredient_id>", methods=["POST"])
     def post_edit(self, recipe_id, ingredient_id):

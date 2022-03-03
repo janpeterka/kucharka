@@ -41,15 +41,13 @@ class EditRecipeIngredientsView(HelperFlaskView, AdminViewMixin):
         self.ingredient = Ingredient.load(request.form["ingredient_option"])
         self.ingredient.is_measured = True
 
-        self.add_ingredient_to_recipe(self.recipe, self.ingredient)
-
         self.recipe.add_ingredient(self.ingredient)
 
         if turbo.can_stream():
             return turbo.stream(
                 [
                     turbo.prepend(
-                        self.template(template_name="_row"),
+                        self.template(template_name="_row", editing=True),
                         target="ingredients",
                     ),
                     turbo.after(

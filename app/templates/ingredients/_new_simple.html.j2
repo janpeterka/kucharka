@@ -2,10 +2,11 @@
 {% from "macros/turbo.html.j2" import button_to %} 
 
 <div id="add-ingredient-simple" class="row mt-2">
+    <hr>
 
     <div class="col-7">
         
-        <div class="form-control">    
+        <div class="">    
             <form method="post" action="{{ url_for('FastAddIngredientsView:post', recipe_id=recipe.id) }}" class="row row-cols-lg-auto g-3 align-items-center" accept-charset="UTF-8">
                 {{ form.csrf_token }}
                 <div class="col-12">{{ render_field(form.name, has_label=False) }}</div>
@@ -16,7 +17,7 @@
         </div>
         
     </div>
-    <div class="col-4 mt-2 text-end">
+    <div class="col-5 mt-2 text-end">
         
         {{ button_to(url_for('FastAddIngredientsView:hide', recipe_id=recipe.id), class="btn color-white bg-color-secondary-action", value="Zrušit") }}
 

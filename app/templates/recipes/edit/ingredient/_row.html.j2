@@ -24,7 +24,13 @@
     </td>
 
     <td class="text-end me-3">
-        {% if editing %}{% set form_class="visibility-hidden"%}{% endif %}
-    	{{ button_to(url_for('EditRecipeIngredientsView:show_edit', recipe_id=recipe.id, ingredient_id=ingredient.id), form_class=form_class, value="Upravit", class="btn btn-warning") }}
+        {% if not editing %}
+    	   {{ button_to(url_for('EditRecipeIngredientsView:show_edit', recipe_id=recipe.id, ingredient_id=ingredient.id), form_class=form_class, value="Upravit", class="btn color-white bg-color-secondary-action") }}
+        {% else %}
+            {{ button_to(url_for('EditRecipeIngredientsView:hide_edit',
+                        recipe_id=recipe.id, ingredient_id=ingredient.id),
+                        class="btn color-white bg-color-secondary-action", value="Zrušit") }}
+    </td>
+        {% endif %}
     </td>
 </tr>

@@ -12,9 +12,9 @@
                         <label for="ingredient-amount-{{ingredient.id}}" class="ms-2">{{ ingredient.measurement.name }}</label>
                     </div>
                     <div class="el-switch col-12 col-md-6 mt-4 mb-4 mb-md-0 ms-3 ms-md-0 me-3">
-                        {# <span class="">Baba</span> #}
-                        <input id="ingredient-measured-{{ingredient.id}}" type="checkbox" name="check" {% if ingredient.is_measured is true %}checked{% endif %}>
-                        <label for="ingredient-measured-{{ingredient.id}}" class="el-switch-style"> Měřená? </label>
+                        <span class=""> měřená? </span>
+                        <input id="ingredient-measured-{{ingredient.id}}" type="checkbox" name="is-measured" {% if ingredient.is_measured is true %}checked{% endif %}>
+                        <label for="ingredient-measured-{{ingredient.id}}" class="el-switch-style">.</label>
                     </div>
                 {# </div> #}
                 {# <div class="row row-cols-lg-auto"> #}

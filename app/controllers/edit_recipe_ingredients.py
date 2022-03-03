@@ -49,7 +49,8 @@ class EditRecipeIngredientsView(HelperFlaskView, AdminViewMixin):
                     turbo.prepend(
                         self.template(template_name="_row"),
                         target="ingredients",
-                    )
+                    ),
+                    turbo.remove(target="add-ingredient-simple"),
                 ]
                 + self.update_usable_ingredients(self.recipe)
             )
@@ -73,13 +74,14 @@ class EditRecipeIngredientsView(HelperFlaskView, AdminViewMixin):
     def post_edit(self, recipe_id, ingredient_id):
         self.ingredient = Ingredient.load(ingredient_id)
 
+        is_measured = "is-measured" in request.form
+
         amount = request.form["amount"]
         if not amount:
             amount = 0
         amount_for_portion = float(amount) / float(self.recipe.portion_count)
 
         comment = request.form["comment"]
-        is_measured = "is_measured" in request.form
 
         self.recipe.change_ingredient_amount(self.ingredient, amount_for_portion)
         self.recipe.change_ingredient_comment(self.ingredient, comment)
@@ -95,16 +97,16 @@ class EditRecipeIngredientsView(HelperFlaskView, AdminViewMixin):
             flash("Tato surovina už byla smazána.", "error")
             return redirect(url_for("RecipesView:edit", id=self.recipe.id))
 
-        return super().delete()
-
-    # @route("refresh_usable_ingredients/<recipe_id>", methods=["POST"])
-    # def refresh_usable_ingredients(self, recipe_id):
-    #     response = self.update_usable_ingredients(self.recipe)
-
-    #     if turbo.can_stream():
-    #         return turbo.stream(response)
-    #     else:
-    #         return redirect(url_for("RecipesView:edit", id=self.recipe.id))
+        if turbo.can_stream():
+            return turbo.stream(
+                [
+                    turbo.remove(target=f"ingredient-{ingredient_id}"),
+                    turbo.remove(target=f"ingredient-edit-{ingredient_id}"),
+                ]
+                + EditRecipeIngredientsView().update_usable_ingredients(self.recipe)
+            )
+        else:
+            return redirect(url_for(f"{self.name}:index"))
 
     def update_usable_ingredients(self, recipe):
         unused_personal_ingredients = [

@@ -26,8 +26,12 @@
 <details open class="form-control mb-3">
 <summary> Upravit suroviny </summary>
 
-<div class="m-3">
+<div class="m-3" id="add-ingredient">
     {% include "recipes/edit/_add_ingredient_form.html.j2" %}
+    {% if show_fast_add %}
+        {% set form=ingredient_form %}
+        {% include "ingredients/_new_simple.html.j2" %}
+    {% endif %}
 </div>
 
 <table class="table">
@@ -48,7 +52,7 @@
 </details>
 
 
-<details class="form-control mb-3">
+<details class="form-control mb-3" open>
 <summary> Upravit návod </summary>
     {% include "recipes/edit/_description.html.j2" %}
 </details>

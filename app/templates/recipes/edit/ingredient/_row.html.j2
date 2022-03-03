@@ -9,13 +9,13 @@
     <td class="align-middle"> {{ link_to(ingredient) }} </td>
     
     <td> 
-    	{% if ingredient.amount %}
+        {% if not ingredient.is_measured %}
+            <span class="fst-italic font-weight-light"> - </span>
+    	{% elif ingredient.amount %}
         	{{ amount }}
             <span class="fst-italic font-weight-light">
                 ({{ formatted_amount(ingredient.amount) }} {{ ingredient.measurement.name }} na porci)
             </span>
-        {% elif not ingredient.is_measured %}
-            <span class="fst-italic font-weight-light"> - </span>
         {% endif %}
     </td>
 

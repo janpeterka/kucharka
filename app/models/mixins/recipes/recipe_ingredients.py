@@ -19,6 +19,7 @@ class RecipeIngredientMixin:
             rhi.save()
 
         ingredient.amount = amount
+        ingredient.refresh()
 
     def change_ingredient_comment(self, ingredient, comment):
         rhi = RecipeHasIngredient.load_by_recipe_and_ingredient(self, ingredient)
@@ -27,6 +28,7 @@ class RecipeIngredientMixin:
             rhi.save()
 
         ingredient.comment = comment
+        ingredient.refresh()
 
     def change_ingredient_measured(self, ingredient, is_measured):
         rhi = RecipeHasIngredient.load_by_recipe_and_ingredient(self, ingredient)
@@ -37,6 +39,7 @@ class RecipeIngredientMixin:
             rhi.save()
 
         ingredient.is_measured = is_measured
+        ingredient.refresh()
 
     def remove_ingredient(self, ingredient):
         rhi = RecipeHasIngredient.load_by_recipe_and_ingredient(self, ingredient)

@@ -1,8 +1,7 @@
 from flask import request, redirect, url_for
-from flask import render_template as template
 
 from flask_classful import route
-from flask_security import login_required, current_user
+from flask_security import login_required
 
 
 from app import turbo
@@ -12,9 +11,7 @@ from app.helpers.form import save_form_to_session
 # from app.helpers.turbo_flash import turbo_flash as flash
 from app.helpers.helper_flask_view import HelperFlaskView
 
-from app.models.recipes import Recipe
-from app.models.ingredients import Ingredient
-from app.models.files import RecipeImageFile
+from app.models import Recipe, RecipeImageFile
 
 from app.controllers.forms.recipes import RecipesForm
 
@@ -73,33 +70,14 @@ class EditRecipeView(HelperFlaskView):
         else:
             return redirect(url_for("RecipesView:edit", id=self.recipe.id))
 
-    @route("refresh_usable_ingredients/<recipe_id>", methods=["POST"])
-    def refresh_usable_ingredients(self, recipe_id):
-        if turbo.can_stream():
-            return turbo.stream(self.update_usable_ingredients(self.recipe))
-        else:
-            return redirect(url_for("RecipesView:edit", id=self.recipe.id))
-
-    def update_usable_ingredients(self, recipe):
-        unused_personal_ingredients = [
-            i for i in current_user.personal_ingredients if i not in recipe.ingredients
-        ]
-
-        unused_public_ingredients = [
-            i for i in Ingredient.load_all_public() if i not in recipe.ingredients
-        ]
-
-        return [
-            turbo.replace(
-                template(
-                    "recipes/edit/_add_ingredient_form.html.j2",
-                    personal_ingredients=unused_personal_ingredients,
-                    public_ingredients=unused_public_ingredients,
-                    recipe=recipe,
-                ),
-                target="add-ingredient-form",
-            )
-        ]
+    # @route("refresh_usable_ingredients/<recipe_id>", methods=["POST"])
+    # def refresh_usable_ingredients(self, recipe_id):
+    #     if turbo.can_stream():
+    #         return turbo.stream(
+    #             EditRecipeIngredientsView().update_usable_ingredients(self.recipe)
+    #         )
+    #     else:
+    #         return redirect(url_for("RecipesView:edit", id=self.recipe.id))
 
     @route("/upload-photo/<recipe_id>", methods=["POST"])
     def upload_photo(self, recipe_id):

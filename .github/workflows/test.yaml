@@ -37,6 +37,8 @@ jobs:
         pipenv run pytest
 
     - name: Start server
+      env:
+          APP_STATE: "development"
       run: |
         pipenv run flask run
 

@@ -43,7 +43,7 @@ class Config(object):
     GOOGLE_OAUTH_CLIENT_ID = os.environ.get("GOOGLE_OAUTH_CLIENT_ID")
     GOOGLE_OAUTH_CLIENT_SECRET = os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET")
 
-    STORAGE_SYSTEM = os.environ.get("STORAGE_SYSTEM")
+    STORAGE_SYSTEM = os.getenv("STORAGE_SYSTEM", "LOCAL")
 
     DROPZONE_MAX_FILE_SIZE = 20
 

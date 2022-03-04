@@ -7,6 +7,17 @@ env = os.environ.get("APP_STATE", "default")
 application = create_app(config_name=env)
 
 
+@application.cli.command("set-testing-data")
+def import_data():
+    from app.helpers.tests.fill_db import db_fill
+    from app import db
+
+    with application.app_context():
+        db.create_all()
+
+    db_fill()
+
+
 @application.context_processor
 def inject_globals():
     from app.data import template_data

@@ -23,22 +23,10 @@ jobs:
     - name: Test with pytest
       env:
           APP_STATE: "testing"
-
-          TESTING_SECRET_KEY: "justtesting"
-          TESTING_DB_STRING: "sqlite://"
-
-          SECRET_KEY: "justtesting"
-          SQLALCHEMY_DATABASE_URI: "sqlite://"
-          
-          SENTRY_MONITORING: False
-          STORAGE_SYSTEM: "LOCAL"
-
       run: |
         pipenv run pytest
 
-    # - name: Start dev server
-
-      
+  
     - name: Run cypress tests
       uses: cypress-io/github-action@v2
       with:
@@ -46,12 +34,6 @@ jobs:
         start: npm run start-server
         wait-on: 'http://localhost:5000'
       env:
-          APP_STATE: "development"
-
-          SECRET_KEY: "github-action"
-          SQLALCHEMY_DATABASE_URI: "sqlite://"
-
-          SENTRY_MONITORING: False
-          STORAGE_SYSTEM: "LOCAL"
+          APP_STATE: "testing"
 
 

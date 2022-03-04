@@ -2,6 +2,7 @@
 scripts/
 app/files/
 app/static/node_modules/*
+app/static/cypress/*
 
 # Sublime
 *.sublime-*

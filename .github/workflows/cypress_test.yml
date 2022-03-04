@@ -13,6 +13,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          cd: cd app/static 
+          working-directory: app/static 
           build: npm run build
           start: npm start
+

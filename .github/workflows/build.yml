@@ -18,6 +18,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install pylint
+        pipenv install --dev
 
     # - name: pylinter
     #   uses: alexanderdamiani/pylinter@v1.3.0

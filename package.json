@@ -9,7 +9,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm install",
-    "start": "npm install",
     "cypress:run": "cypress run",
     "cypress:open": "cypress open"
   },

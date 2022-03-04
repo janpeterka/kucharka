@@ -18,6 +18,7 @@ class Config(object):
 
     SECURITY_REGISTERABLE = True
     SECURITY_SEND_REGISTER_EMAIL = False
+
     SECURITY_CONFIRMABLE = False
 
     SECURITY_CHANGEABLE = True

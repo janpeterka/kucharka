@@ -2,6 +2,9 @@ name: tests
 
 on: [push]
 
+env:
+  APP_STATE: "testing"
+
 jobs:
   build:
 
@@ -9,6 +12,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:

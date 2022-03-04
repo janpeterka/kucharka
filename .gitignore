@@ -1,8 +1,9 @@
 # Custom
 scripts/
-app/files/
+app/files/*
 app/static/node_modules/*
 app/static/cypress/*
+node_modules/*
 
 # Sublime
 *.sublime-*

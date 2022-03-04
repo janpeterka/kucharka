@@ -1,0 +1,25 @@
+{
+  "name": "kucharka",
+  "version": "1.0.0",
+  "description": "Webová aplikace pro (nejen) skautské kuchaře, která má pomoct s tvorbou a správou jídelníčku, receptů a čehokoli dalšího při vaření na táborech, kurzech a dalších akcích (zejména) pro větší množství účastníků.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/janmpeterka/kucharka.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/janmpeterka/kucharka/issues"
+  },
+  "homepage": "https://github.com/janmpeterka/kucharka#readme",
+  "devDependencies": {
+    "cypress": "^9.5.1"
+  }
+}

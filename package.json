@@ -9,6 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm install",
+    "start-server": "pipenv run flask run",
     "cypress:run": "cypress run",
     "cypress:open": "cypress open"
   },

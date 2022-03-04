@@ -12,6 +12,8 @@ def import_data():
     from app.helpers.tests.fill_db import db_fill
     from app import db
 
+    print(application.config["SQLALCHEMY_DATABASE_URI"])
+
     with application.app_context():
         db.create_all()
 

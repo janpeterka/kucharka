@@ -21,11 +21,8 @@ jobs:
         pipenv install --dev
 
     - name: Test with pytest
-      env:
-          APP_STATE: "testing"
       run: |
         pipenv run pytest
-
   
     - name: Run cypress tests
       uses: cypress-io/github-action@v2

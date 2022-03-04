@@ -36,15 +36,15 @@ jobs:
       run: |
         pipenv run pytest
 
-    - name: Start dev server
-      env:
-          APP_STATE: "development"
+    # - name: Start dev server
+    #   env:
+    #       APP_STATE: "development"
 
-          SECRET_KEY: "github-action"
-          SQLALCHEMY_DATABASE_URI: "sqlite://"
+    #       SECRET_KEY: "github-action"
+    #       SQLALCHEMY_DATABASE_URI: "sqlite://"
 
-          SENTRY_MONITORING: False
-          STORAGE_SYSTEM: "LOCAL"
+    #       SENTRY_MONITORING: False
+    #       STORAGE_SYSTEM: "LOCAL"
 
       
     - name: Run cypress tests

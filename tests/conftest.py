@@ -8,7 +8,7 @@ from app import db as _db
 
 @pytest.fixture
 def app(scope="session"):
-    app = create_app(config_name="test")
+    app = create_app(config_name="testing")
 
     @app.context_processor
     def inject_globals():

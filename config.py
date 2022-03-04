@@ -73,6 +73,8 @@ class DevConfig(LocalProdConfig):
 
 
 class TestConfig(Config):
+    APP_STATE = "testing"
+
     TESTING = True
     WTF_CSRF_ENABLED = False
     SENTRY_MONITORING = False

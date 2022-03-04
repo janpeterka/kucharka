@@ -4,6 +4,7 @@ from app import create_app
 
 
 env = os.environ.get("APP_STATE", "default")
+print(env)
 application = create_app(config_name=env)
 
 

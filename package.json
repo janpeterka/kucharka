@@ -9,7 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "install-npm": "npm install",
-    "start-server": "export APP_STATE=\"testing\";pipenv run flask run"
+    "start-server": "pipenv run flask run"
   },
   "repository": {
     "type": "git",

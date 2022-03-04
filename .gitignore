@@ -1,6 +1,7 @@
 # Custom
 scripts/
 app/files/
+app/static/node_modules/*
 
 # Sublime
 *.sublime-*

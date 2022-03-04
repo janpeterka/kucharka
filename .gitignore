@@ -4,7 +4,10 @@ app/files/*
 app/static/node_modules/*
 app/static/cypress/*
 node_modules/*
-cypress
+/cypress
+tests/cypress/examples/
+tests/cypress/videos/
+tests/cypress/screenshots/
 
 # Sublime
 *.sublime-*

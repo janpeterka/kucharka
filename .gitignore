@@ -4,6 +4,7 @@ app/files/*
 app/static/node_modules/*
 app/static/cypress/*
 node_modules/*
+cypress
 
 # Sublime
 *.sublime-*

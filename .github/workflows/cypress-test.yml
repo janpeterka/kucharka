@@ -1,0 +1,42 @@
+name: End-to-end tests
+
+on: [push]
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+  
+    # - name: Install dependencies
+    #   run: |
+    #     python -m pip install --upgrade pip
+    #     pip install pylint
+    #     pip install pipenv
+    #     pipenv install --dev
+
+    # - name: Set testing environment
+    #   env:
+    #       TESTING_SECRET_KEY: "justtesting"
+    #       TESTING_DB_STRING: "sqlite://"
+
+    #       SECRET_KEY: "justtesting"
+    #       SQLALCHEMY_DATABASE_URI: "sqlite://"
+          
+    #       SENTRY_MONITORING: False
+    #       STORAGE_SYSTEM: "LOCAL"
+
+    # - name: Run server
+    #   run: |
+    #     pipenv run flask run
+
+    # - name: Run cypress tests
+    #   uses: cypress-io/github-action@v2
+    #   with:
+    #     build: npm run build
+    #     wait-on: 'http://localhost:5000'

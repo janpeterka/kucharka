@@ -1,6 +1,8 @@
 import datetime
 from datetime import timedelta
 
+from flask import url_for
+
 from flask_security import current_user
 
 from app import db, BaseModel
@@ -45,7 +47,7 @@ class Event(BaseModel, ItemMixin):
         viewonly=True,
     )
 
-    user_roles = db.relationship("UserHasEventRole", viewonly=True)
+    user_roles = db.relationship("UserHasEventRole", cascade="all, delete")
 
     daily_plans = db.relationship(
         "DailyPlan",
@@ -103,7 +105,7 @@ class Event(BaseModel, ItemMixin):
         elif self.duration in [1, 2, 3, 4]:
             return "dny"
         else:
-            return "dnů"
+            return "dní"
 
     @property
     def days(self):
@@ -238,6 +240,18 @@ class Event(BaseModel, ItemMixin):
         from app.helpers.general import slugify
 
         return slugify(self.name)
+
+    @property
+    def public_url(self):
+        from app.helpers.general import obscure
+
+        if not self.is_shared:
+            return None
+        else:
+            hash_value = obscure(str(self.id).encode())
+            return url_for(
+                "SharedEventsView:show", hash_value=hash_value, _external=True
+            )
 
     def user_role(self, user):
         roles = [user_role for user_role in self.user_roles if user_role.user == user]

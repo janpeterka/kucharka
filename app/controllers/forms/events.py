@@ -7,15 +7,15 @@ from flask_wtf import FlaskForm
 
 
 class EventsForm(FlaskForm):
-    name = StringField("Název akce", [InputRequired("Název musí být vyplněn")])
+    name = StringField("název akce", [InputRequired("název musí být vyplněn")])
 
-    date_from = DateField("Od")
-    date_to = DateField("Do")
+    date_from = DateField("od")
+    date_to = DateField("do")
 
     people_count = IntegerField(
-        "Počet lidí",
+        "počet lidí",
         [
-            InputRequired("Počet lidí musí být vyplněn"),
+            InputRequired("počet lidí musí být vyplněn"),
             NumberRange(min=1),
         ],
     )
@@ -25,5 +25,7 @@ class EventsForm(FlaskForm):
     def __init__(self, formdata=None, obj=None, **kwargs):
         super().__init__(formdata=formdata, obj=obj, **kwargs)
 
-        self.date_from.data = datetime.today()
-        self.date_to.data = datetime.today() + timedelta(days=14)
+        if not self.date_from.data:
+            self.date_from.data = datetime.now()
+        if not self.date_to.data:
+            self.date_to.data = datetime.now() + timedelta(days=14)

@@ -47,7 +47,7 @@
       {% set class_ = class_ + ' form-control' %}
 
     {% elif field.type == 'SubmitField' %}
-      {% set class_ = class_ + ' btn btn-primary' %}
+      {% set class_ = class_ + ' btn bg-color-primary-action color-white' %}
 
     {# Our custom button fields #}
     {% elif field.type == 'ButtonField' %}
@@ -55,11 +55,11 @@
     {% elif field.type == 'AddButtonField' %}
       {% set class_ = class_ + ' btn btn-success' %}
     {% elif field.type == 'CancelButtonField' %}
-      {% set class_ = class_ + ' btn btn-secondary' %}
+      {% set class_ = class_ + ' btn bg-color-secondary-action color-white' %}
     {% elif field.type == 'EditButtonField' %}
-      {% set class_ = class_ + ' btn btn-primary' %}
+      {% set class_ = class_ + ' btn bg-color-primary-action color-white' %}
     {% elif field.type == 'DeleteButtonField' %}
-      {% set class_ = class_ + ' btn btn-warning' %}
+      {% set class_ = class_ + ' btn bg-color-secondary-action color-white' %}
     {% endif %}
 
     {% if field.type in SELECT_FIELDS %}

@@ -5,6 +5,7 @@ from .event_exporter import EventExporterView
 
 from .events.events import EventsView
 from .events.edit_events import EditEventView
+from .events.shared_events import SharedEventsView
 
 from .errors import ErrorsView
 from .index import IndexView
@@ -39,6 +40,7 @@ __all__ = [
     "EventExporterView",
     "EventsView",
     "EditEventView",
+    "SharedEventsView",
     "ErrorsView",
     "IndexView",
     "SupportView",
@@ -71,6 +73,7 @@ def register_all_controllers(application):
 
     EventsView.register(application, base_class=HelperFlaskView)
     EditEventView.register(application, base_class=HelperFlaskView)
+    SharedEventsView.register(application, base_class=HelperFlaskView)
 
     EventExporterView.register(application, base_class=HelperFlaskView)
 

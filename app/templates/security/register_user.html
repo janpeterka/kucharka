@@ -10,18 +10,19 @@
   <div class="text-center mt-2"> 
     <a class="no-decoration" href="{{ url_for('google.login') }}">
       <button type="button" class="btn btn-social btn-google loginBtn--google loginBtn">
-          <span class="fab fa-google"></span> Registrovat (nebo přihlásit) se pomocí Googlu
+          <span class="fab fa-google"></span> Registrovat se pomocí Google
       </button>
     </a>
   </div>
 
   <hr>
-  <div class="smaller text-center color-grey"> nebo </div>
+  <div class="smaller text-center color-grey mb-1"> nebo </div>
   {% endif %}
   
   <div>  
 
-    {{ render_floating_field(register_user_form.email, label="Přihlašovací e-mail", placeholder="") }}
+    {{ render_floating_field(register_user_form.email, label="Přihlašovací e-mail", placeholder="", class="mb-2") }}
+    
     <div class="row">
       <div class="col-6">
         {{ render_floating_field(register_user_form.password, label="Heslo", placeholder="") }}
@@ -35,7 +36,7 @@
     
     </div>
     
-    <div class="text-center mt-2">
+    <div class="text-center mt-3">
       {{ render_field(register_user_form.submit, value="Registrovat", class="p-2 ps-4 pe-4") }}
     </div>
   

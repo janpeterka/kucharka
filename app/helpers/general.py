@@ -52,3 +52,17 @@ def placeholder_day(date):
     day.date = date
     day.weekday = week_day(date)
     return day
+
+
+def obscure(data: bytes) -> bytes:
+    import zlib
+    from base64 import urlsafe_b64encode as b64e
+
+    return b64e(zlib.compress(data, 9))
+
+
+def unobscure(obscured: bytes) -> bytes:
+    import zlib
+    from base64 import urlsafe_b64decode as b64d
+
+    return zlib.decompress(b64d(obscured))

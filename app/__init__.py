@@ -40,6 +40,7 @@ dropzone = Dropzone()
 
 
 def create_app(config_name="default"):
+    print(config_name)
     application = Flask(__name__, instance_relative_config=True)
 
     from jinja2 import select_autoescape

@@ -89,6 +89,7 @@ class TestConfig(Config):
 
 class ProdConfig(Config):
     INFO_USED_DB = "production db"
+    FLASK_ENV = "production"
 
 
 configs = {

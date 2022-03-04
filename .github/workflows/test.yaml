@@ -34,5 +34,3 @@ jobs:
           APP_STATE: "testing"
           SECRET_KEY: "justtesting"
           DB_STRING: "sqlite://"
-
-

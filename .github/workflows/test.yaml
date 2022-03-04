@@ -37,11 +37,6 @@ jobs:
         pipenv run pytest
 
     - name: Start dev server
-
-      
-
-    - name: Run cypress tests
-      uses: cypress-io/github-action@v2
       env:
           APP_STATE: "development"
 
@@ -50,6 +45,10 @@ jobs:
 
           SENTRY_MONITORING: False
           STORAGE_SYSTEM: "LOCAL"
+
+      
+    - name: Run cypress tests
+      uses: cypress-io/github-action@v2
       with:
         build: npm run build
         start: npm run start-server

@@ -36,6 +36,6 @@ jobs:
       env:
           APP_STATE: "testing"
           SECRET_KEY: "justtesting"
-          SQLALCHEMY_DATABASE_URI: "sqlite://"
+          DB_STRING: "sqlite://"
 
 

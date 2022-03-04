@@ -1,4 +1,5 @@
 def db_fill():
+    print("🚧 filling db with testing data...")
     # from flask_security import create_user, create_role
     from app import security
 
@@ -34,8 +35,6 @@ def db_fill():
     for user in users:
         user.save()
 
-    print(users[0])
-
     from app.models.ingredients import Ingredient
 
     ingredients = [
@@ -62,3 +61,5 @@ def db_fill():
     recipe_2.add_ingredient(ingredients[0], amount=20)
     recipe_2.add_ingredient(ingredients[2], amount=10)
     recipe_2.save()
+
+    print("✅ database ready for testing.")

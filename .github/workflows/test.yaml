@@ -35,5 +35,6 @@ jobs:
         wait-on: 'http://localhost:5000'
       env:
           APP_STATE: "testing"
+          SECRET_KEY: "justtesting"
 
 

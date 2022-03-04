@@ -36,7 +36,11 @@ jobs:
       run: |
         pipenv run pytest
 
-    - name: Start server
+    - name: Start dev server
+
+      
+
+    - name: Run cypress tests
       env:
           APP_STATE: "development"
 
@@ -45,13 +49,11 @@ jobs:
 
           SENTRY_MONITORING: False
           STORAGE_SYSTEM: "LOCAL"
-      run: |
-        pipenv run flask run
-
-    - name: Run cypress tests
       uses: cypress-io/github-action@v2
       with:
         build: npm run build
+        run: |
+          pipenv run flask run
         wait-on: 'http://localhost:5000'
 
 

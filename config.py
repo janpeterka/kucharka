@@ -92,6 +92,7 @@ class ProdConfig(Config):
 configs = {
     "development": DevConfig,
     "test": TestConfig,
+    "testing": TestConfig,
     "production": ProdConfig,
     "local_production": LocalProdConfig,
     "default": DevConfig,

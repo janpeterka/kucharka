@@ -30,7 +30,7 @@ jobs:
     - name: Run cypress tests
       uses: cypress-io/github-action@v2
       with:
-        build: npm run build
+        build: npm run install-npm
         start: npm run start-server
         wait-on: 'http://localhost:5000'
       env:

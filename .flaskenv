@@ -1,9 +1,9 @@
 # For testing in github
 
-APP_STATE: "development"
+export APP_STATE="development"
 
-SECRET_KEY: "github-action"
-SQLALCHEMY_DATABASE_URI: "sqlite://"
+export SECRET_KEY="github-action"
+export SQLALCHEMY_DATABASE_URI="sqlite://"
 
-SENTRY_MONITORING: False
-STORAGE_SYSTEM: "LOCAL"
+export SENTRY_MONITORING=False
+export STORAGE_SYSTEM="LOCAL"

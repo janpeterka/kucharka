@@ -32,7 +32,9 @@ jobs:
         echo DB_STRING="sqlite://" >> .env
         echo TESTING=True >> .env
         echo DEBUG=True >> .env
+        echo SECURITY_PASSWORD_SALT: "justtesting" >> .env
         cat .env
+        ls
 
     - name: Run flask testing server
       run: |
@@ -43,6 +45,7 @@ jobs:
           DB_STRING: "sqlite://"
           TESTING: True
           DEBUG: True
+          SECURITY_PASSWORD_SALT: "justtesting"
 
 
     - name: Run cypress tests

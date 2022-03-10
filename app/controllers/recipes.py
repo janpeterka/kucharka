@@ -21,11 +21,11 @@ from app.models.recipes import Recipe
 from app.controllers.forms.recipes import RecipesForm
 
 
-def get_portion_count(request):
-    request_portion_count = request.args.get("portion_count", "1")
+def get_portion_count(recipe, request):
+    request_portion_count = request.args.get("portion_count", None)
 
     if not request_portion_count:
-        request_portion_count = 1
+        request_portion_count = recipe.portion_count
 
     return int(request_portion_count)
 
@@ -55,7 +55,7 @@ class RecipesView(HelperFlaskView):
 
     # @login_required
     def show(self, id):
-        self.recipe.portion_count = get_portion_count(request)
+        self.recipe.portion_count = get_portion_count(self.recipe, request)
         self.photo_form = PhotoForm()
 
         if not current_user.is_authenticated:
@@ -65,11 +65,12 @@ class RecipesView(HelperFlaskView):
         return self.template()
 
     def show_pdf(self, id):
-        self.recipe.portion_count = get_portion_count(request)
+        self.recipe.portion_count = get_portion_count(self.recipe, request)
+
         return self.template(template_name="show", print=True)
 
     def pdf(self, id):
-        self.recipe.portion_count = get_portion_count(request)
+        self.recipe.portion_count = get_portion_count(self.recipe, request)
 
         return render_pdf(HTML(string=self.template(template_name="show", print=True)))
 

@@ -28,8 +28,8 @@ jobs:
       run: |
         touch .env
         echo APP_STATE="testing" > .env
-        echo SECRET_KEY="justtesting" > .env
-        echo DB_STRING="sqlite://" > .env
+        echo SECRET_KEY="justtesting" >> .env
+        echo DB_STRING="sqlite://" >> .env
         cat .env
 
     - name: Run flask testing server

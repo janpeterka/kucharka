@@ -1,0 +1,21 @@
+{
+  "name": "cypress",
+  "version": "1.0.0",
+  "description": "Cypress tests for skautskakucharka.cz",
+  "main": "index.js",
+  "scripts": {
+    "compile": "tsc --noEmit",
+    "open": "cypress open",
+    "test": "cypress run --spec \"**/*.feature\"",
+    "test:all": "cypress run --spec \"**/*.features\"",
+    "docs": "typedoc --stripInternal",
+    "full-docs": "typedoc",
+    "checkLint": "eslint '*/**/*.{js,ts,tsx}'",
+    "lint": "tsc --noEmit && eslint '*/**/*.{js,ts,tsx}' --quiet --fix"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^9.5.1"
+  }
+}

@@ -33,8 +33,9 @@ jobs:
           DB_STRING: "sqlite://"
 
     - name: Run cypress tests
-      uses: cypress-io/github-action@v2
-      with:
-        build: npm install
-        wait-on: 'http://localhost:5000'
+      # uses: cypress-io/github-action@v2
+      run: |
+        cd cypress-testing
+        npm install
+        npm run test
 

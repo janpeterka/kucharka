@@ -24,6 +24,14 @@ jobs:
         pip install pipenv
         pipenv install --dev
 
+    - name: Create .env file
+      run: |
+        touch .env
+        echo APP_STATE="testing" > .env
+        echo SECRET_KEY="justtesting" > .env
+        echo DB_STRING="sqlite://" > .env
+        cat .env
+
     - name: Run flask testing server
       run: |
         nohup pipenv run flask run 2>&1 &
@@ -35,7 +43,7 @@ jobs:
     - name: Run cypress tests
       # uses: cypress-io/github-action@v2
       run: |
-        cd cypress-testing
+        cd cypress
         npm install
         npm run test
 

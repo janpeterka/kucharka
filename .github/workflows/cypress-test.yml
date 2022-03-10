@@ -26,8 +26,8 @@ jobs:
 
     - name: Create .env file
       run: |
+        cp flaskenv.testing .flaskenv
         cp env.testing .env
-        cat .env
 
     - name: Run flask testing server
       run: |

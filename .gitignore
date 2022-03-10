@@ -1,13 +1,14 @@
 # Custom
 scripts/
 app/files/*
-app/static/node_modules/*
-app/static/cypress/*
-node_modules/*
-/cypress
-tests/cypress/examples/
-tests/cypress/videos/
-tests/cypress/screenshots/
+# app/static/node_modules/*
+# app/static/cypress/*
+node_modules
+# /cypress
+# tests/cypress/examples/
+# tests/cypress/videos/
+# tests/cypress/screenshots/
+nohup.out
 
 # Sublime
 *.sublime-*

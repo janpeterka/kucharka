@@ -1,4 +1,4 @@
-name: tests
+name: Unit tests
 
 on: [push]
 
@@ -28,13 +28,3 @@ jobs:
       run: |
         pipenv run pytest
   
-    - name: Run cypress tests
-      uses: cypress-io/github-action@v2
-      with:
-        build: npm run install-npm
-        start: npm run start-server
-        wait-on: 'http://localhost:5000'
-      env:
-          APP_STATE: "testing"
-          SECRET_KEY: "justtesting"
-          DB_STRING: "sqlite://"

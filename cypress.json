@@ -1,5 +1,0 @@
-{
-  "baseUrl": "http://127.0.0.1:5000",
-  "projectId": "5tcy92",
-  "integrationFolder": "tests/cypress/integration"
-}

@@ -98,5 +98,5 @@ configs = {
     "testing": TestConfig,
     "production": ProdConfig,
     "local_production": LocalProdConfig,
-    "default": DevConfig,
+    "default": ProdConfig,
 }

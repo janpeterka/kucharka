@@ -1,0 +1,42 @@
+name: End-to-end tests
+
+on: [push]
+
+env:
+  APP_STATE: "testing"
+  TESTING: True
+  DEBUG: True
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+  
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pipenv
+        pipenv install --dev
+
+    - name: Create .env file
+      run: |
+        cp flaskenv.testing .flaskenv
+        cp env.testing .env
+
+    - name: Run flask testing server
+      run: |
+        nohup pipenv run flask run 2>&1 &
+
+    - name: Run cypress tests
+      # uses: cypress-io/github-action@v2
+      run: |
+        cd cypress
+        npm install
+        npm run test
+

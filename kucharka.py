@@ -2,7 +2,6 @@ import os
 
 from app import create_app
 
-
 env = os.getenv("APP_STATE", "default")
 application = create_app(config_name=env)
 

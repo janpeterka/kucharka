@@ -1,3 +1,6 @@
+from flask import redirect, url_for
+from flask_security import current_user
+
 from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models.events import Event
@@ -13,6 +16,9 @@ class SharedEventsView(HelperFlaskView):
         self.event = Event.load(event_id)
 
         self.validate_operation(event_id, self.event)
+
+        if current_user in self.event.connected_users:
+            return redirect(url_for("EventsView:show", id=event_id))
 
     def show(self, hash_value):
         return self.template()

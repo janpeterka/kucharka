@@ -7,7 +7,8 @@
 
     <td>
         {% if not daily_recipe.is_shopping %}
-            {{ link_to(daily_recipe.recipe) }}
+            <a href="{{ url_for('RecipesView:show', id=daily_recipe.recipe.id, portion_count=daily_recipe.portion_count) }}"> {{ daily_recipe.recipe.name }} </a>
+            {# {{ link_to(daily_recipe.recipe) }} #}
         {% else %}
             {{ daily_recipe.recipe.name }}
         {% endif %}

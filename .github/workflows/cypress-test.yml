@@ -30,6 +30,8 @@ jobs:
         echo APP_STATE="testing" > .env
         echo SECRET_KEY="justtesting" >> .env
         echo DB_STRING="sqlite://" >> .env
+        echo TESTING=True >> .env
+        echo DEBUG=True >> .env
         cat .env
 
     - name: Run flask testing server
@@ -39,6 +41,9 @@ jobs:
           APP_STATE: "testing"
           SECRET_KEY: "justtesting"
           DB_STRING: "sqlite://"
+          TESTING: True
+          DEBUG: True
+
 
     - name: Run cypress tests
       # uses: cypress-io/github-action@v2

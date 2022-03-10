@@ -40,7 +40,6 @@ dropzone = Dropzone()
 
 
 def create_app(config_name="default"):
-    print(config_name)
     application = Flask(__name__, instance_relative_config=True)
 
     from jinja2 import select_autoescape
@@ -57,8 +56,6 @@ def create_app(config_name="default"):
     application.config.from_object(configs[config_name])
 
     print(f"DB INFO: using {application.config['INFO_USED_DB']}")
-    print(f"DB INFO: using {application.config['SQLALCHEMY_DATABASE_URI']}")
-    print(f"APP INFO: {application.config['APP_STATE']}")
 
     # APPS
     db.init_app(application)
@@ -102,13 +99,13 @@ def create_app(config_name="default"):
 
     application.register_blueprint(google_oauth_bp, url_prefix="/oauth/")
 
-    if application.config["APP_STATE"] in ("test", "testing"):
-        from app.helpers.tests.fill_db import db_fill
+    # if application.config["APP_STATE"] in ("test", "testing"):
+    #     from app.helpers.tests.fill_db import db_fill
 
-        with application.app_context():
-            db.create_all()
-            print("Created database")
+    #     with application.app_context():
+    #         db.create_all()
+    #         print("Created database")
 
-            db_fill()
+    #         db_fill()
 
     return application

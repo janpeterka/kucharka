@@ -110,6 +110,15 @@ def set_feature_flags():
 
 
 @application.before_request
+def sentry_add_user():
+    from sentry_sdk import set_user
+    from flask_security import current_user
+
+    if current_user.is_authenticated:
+        set_user({"id": current_user.id, "username": current_user.name_or_email})
+
+
+@application.before_request
 def log_request_start():
     from flask import g
     import time

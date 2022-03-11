@@ -67,10 +67,12 @@ def utility_processor():
             # if number is in ones, return with one decimal
             formatted_amount = round(amount, 1)
             # if first decimal is zero
-            if int(formatted_amount) == formatted_amount:
-                return int(formatted_amount)
-            else:
-                return formatted_amount
+            return (
+                int(formatted_amount)
+                if int(formatted_amount) == formatted_amount
+                else formatted_amount
+            )
+
         elif digits in (2, 3):
             # if number is in tens or hundereds, return without decimals
             return round(amount)
@@ -145,8 +147,7 @@ def log_request(exception=None):
         item_type = DataHandler.get_additional_request_data("item_type")
         item_id = DataHandler.get_additional_request_data("item_id")
 
-        start_time = getattr(g, "log_request_start_time", None)
-        if start_time:
+        if start_time := getattr(g, "log_request_start_time", None):
             duration = time.time() - start_time
         else:
             duration = None

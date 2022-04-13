@@ -1,6 +1,9 @@
 # Custom
 scripts/
-app/files/
+app/files/*
+node_modules
+# app/static/node_modules/*
+nohup.out
 
 # Sublime
 *.sublime-*

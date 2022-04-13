@@ -23,7 +23,7 @@
 
 	<div class="{{ div_class }}">
     {% if with_delete and image.recipe.can_current_user_edit %}
-		{{ button_to(url_for('FilesView:delete', id=image.id), class="image-icon delete-icon", value="&times", style="opacity: 0.76", confirmation="Opravdu chcete smazat fotku?") }}
+		{{ button_to(url_for('FilesView:delete', id=image.id), class="image-icon image-delete-icon", value="&times", style="opacity: 0.76", confirmation="Opravdu chcete smazat fotku?") }}
     {% endif %}
     
     {% if with_pin and not image.is_main and image.recipe.can_current_user_edit %}

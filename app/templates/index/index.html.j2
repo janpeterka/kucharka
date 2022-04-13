@@ -30,13 +30,13 @@
         <h2 class="color-primary font-comfortaa-bb"> s čím ti pomůže? </h2>
 	    <div>
             <div class="row">
-                <div class="col-6">
+                <div class="col-12 col-md-6">
                     <h4 class="color-primary font-comfortaa-b mt-4"> poskládej si jídelníček </h4>
         	        poskládej si jídelníček akce a měj kompletní přehled.<br>
                     exportuj si seznam receptů nebo plán na táborový den.
                 </div>
 
-                <div class="col-6">
+                <div class="col-12 col-md-6">
                     <img src="{{ url_for('static', filename='public/event.png') }}" class="img-fluid">
                 </div>
             </div>
@@ -44,23 +44,26 @@
             <hr>
 
             <div class="row">
-                <div class="col-6">
+                <div class="col-12 col-md-6 d-none d-md-block">
                     <img src="{{ url_for('static', filename='public/shopping_list.png') }}" class="img-fluid">
                 </div>
-                <div class="col-6">
+                <div class="col-12 col-md-6">
                     <h4 class="color-primary font-comfortaa-b mt-4"> jdi na nákup </h4>
                     <em>navařit</em> ti vytvoří nákupní seznam.
+                </div>
+                <div class="col-12 col-md-6 d-md-none">
+                    <img src="{{ url_for('static', filename='public/shopping_list.png') }}" class="img-fluid">
                 </div>
             </div>
 
             <hr>
 
             <div class="row">
-                <div class="col-6">
+                <div class="col-12 col-md-6">
                     <h4 class="color-primary font-comfortaa-b mt-4"> tvoje zásobárna receptů </h4>
                     měj po ruce svoje osvědčené recepty.
                 </div>
-                <div class="col-6">
+                <div class="col-12 col-md-6">
                     <img src="{{ url_for('static', filename='public/my_recipes.png') }}" class="img-fluid">
                 </div>
             </div>
@@ -68,12 +71,15 @@
             <hr>
 
             <div class="row">
-                <div class="col-6">
+                <div class="col-12 col-md-6 d-none d-md-block">
                     <img src="{{ url_for('static', filename='public/recipes.png') }}" class="img-fluid">
                 </div>
-                <div class="col-6">
+                <div class="col-12 col-md-6">
                     <h4 class="color-primary font-comfortaa-b mt-4"> nech se inspirovat </h4>
                     nebo použij recepty ze <a href="{{ url_for('PublicRecipesView:public_index') }}" style="font-weight: 550;"> společné databáze</a>. 
+                </div>
+                <div class="col-12 col-md-6 d-md-none">
+                    <img src="{{ url_for('static', filename='public/recipes.png') }}" class="img-fluid">
                 </div>
             </div>
 	    </div>
@@ -83,12 +89,12 @@
     
     <div class="mb-5">
         <div class="row">
-            <div class="col-sm-12 col-md-6 text-sm-center text-md-start">
+            <div class="col-sm-12 col-md-6 text-center text-md-start">
                 <a class="me-2" target="_blank" title="sledujte na facebooku" href="{{ url_for('SupportView:facebook_redirect') }}"> {{ icon("facebook", cursor_class="cursor-clicable") }} </a>
                 <a class="color-black" href="https://github.com/janmpeterka/kucharka" target="_blank"> {{ icon("github", cursor_class="cursor-clicable") }} </a>
 
             </div>            
-            <div class="col-sm-12 col-md-6 text-sm-center text-md-end">
+            <div class="col-sm-12 col-md-6 text-center text-md-end">
                 <a class="small" href="{{ url_for('SupportView:terms') }}" > podmínky použití | </a>
                 <a class="small" href="{{ url_for('SupportView:privacy') }}"> osobní data </a>
             </div>            

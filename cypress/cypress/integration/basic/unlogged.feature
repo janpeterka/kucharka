@@ -1,7 +1,7 @@
 describe('try unlogged things',() => {
   it('shows public index', () => {
       cy.visit('http://127.0.0.1:5000/')
-      cy.get('body').should('contain', 'Vítejte na stránkách skautské kuchařky.')
+      cy.get('body').should('contain', 's čím ti pomůže?')
   })
 
   it('doesn\'t show recipes', () => {
@@ -21,7 +21,7 @@ describe('try unlogged things',() => {
 
   it('can logout', () => {
       cy.visit('http://127.0.0.1:5000/logout')
-      cy.get('body').should('contain', 'Vítejte na stránkách skautské kuchařky.')
+      cy.get('body').should('contain', 's čím ti pomůže?')
   })
 
   it('can\'t register with existing', () => {

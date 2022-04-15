@@ -43,10 +43,13 @@ class DailyPlan(BaseModel, ItemMixin, DailyPlanLoaderMixin, DailyPlanRecipeMixin
     def duplicate(self):
         daily_plan = DailyPlan()
         daily_plan.date = self.date
-        for daily_recipe in self.daily_recipes:
-            daily_recipe.duplicate()
 
         daily_plan.save()
+
+        for old_daily_recipe in self.daily_recipes:
+            daily_recipe = old_daily_recipe.duplicate()
+            daily_recipe.daily_plan_id = daily_plan.id
+            daily_recipe.edit()
 
         return daily_plan
 

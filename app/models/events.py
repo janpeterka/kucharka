@@ -75,12 +75,8 @@ class Event(BaseModel, ItemMixin):
 
         for old_plan in self.daily_plans:
             plan = old_plan.duplicate()
-            plan.event_id = event.ids
+            plan.event_id = event.id
             plan.edit()
-
-            for daily_recipe in plan.daily_recipes:
-                daily_recipe.event_id = plan.event_id
-                daily_recipe.edit()
 
         return event
 

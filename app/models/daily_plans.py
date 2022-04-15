@@ -40,6 +40,16 @@ class DailyPlan(BaseModel, ItemMixin, DailyPlanLoaderMixin, DailyPlanRecipeMixin
         super().__init__(**kwargs)
         super().set_defaults()
 
+    def duplicate(self):
+        daily_plan = DailyPlan()
+        daily_plan.date = self.date
+        for daily_recipe in self.daily_recipes:
+            daily_recipe.duplicate()
+
+        daily_plan.save()
+
+        return daily_plan
+
     # @staticmethod
     # def create_if_not_exists(date):
     #     DailyPlan.load_by_date_or_create(date)

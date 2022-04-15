@@ -60,6 +60,30 @@ class Event(BaseModel, ItemMixin):
         super().__init__(**kwargs)
         super().set_defaults()
 
+    def duplicate(self):
+        event = Event()
+
+        event.name = f"{self.name} (kopie)"
+        event.date_from = self.date_from
+        event.date_to = self.date_to
+
+        event.people_count = self.people_count
+
+        event.daily_plans = []
+
+        event.save()
+
+        for old_plan in self.daily_plans:
+            plan = old_plan.duplicate()
+            plan.event_id = event.ids
+            plan.edit()
+
+            for daily_recipe in plan.daily_recipes:
+                daily_recipe.event_id = plan.event_id
+                daily_recipe.edit()
+
+        return event
+
     def toggle_archived(self):
         self.is_archived = not self.is_archived
         self.edit()

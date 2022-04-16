@@ -44,12 +44,6 @@ def create_app(config_name="default"):
 
     from jinja2 import select_autoescape
 
-    application.jinja_options = {
-        "autoescape": select_autoescape(
-            enabled_extensions=("html", "html.j2", "xml"),
-        )
-    }
-
     # CONFIG
     from config import configs
 
@@ -106,5 +100,11 @@ def create_app(config_name="default"):
             print("Created database")
 
             # db_fill()
+
+    application.jinja_options = {
+        "autoescape": select_autoescape(enabled_extensions=("html", "html.j2", "xml")),
+        "line_statement_prefix": "#",
+        "line_comment_prefix": "##",
+    }
 
     return application

@@ -7,20 +7,16 @@
     <div class="mb-5 text-center" >
         <p class="mb-2">
             <h2 class="mt-2 color-primary font-comfortaa-bb">
-                navařit.
+                navařit
             </h2>
+            <h3 class="text-muted font-comfortaa-b text-smaller">
+                skautská kuchařka
+            </h3>
 
             tvůj pomocník při vaření pro hodně lidí. <br>
             <i>nebo i málo lidí.</i> <br>
             na táboře, kurzu, víkendovce nebo doma. <br>
-        </p>
-        <p class="text-muted">
-            <em>
-                počkej, kam se poděla Skautská kuchařka? <br>
-                věděli jsme, že tohle můžeme nabídnou i neskautům. <br>
-                tak jsme hledali lepší název <br>
-                a vzniklo <strong>navařit.</strong>
-            </em>
+            pro skauty i neskauty <br>
         </p>
     </div>
     
@@ -43,22 +39,19 @@
 
             <hr>
 
-            <div class="row">
-                <div class="col-12 col-md-6 d-none d-md-block">
-                    <img src="{{ url_for('static', filename='public/shopping_list.png') }}" class="img-fluid">
-                </div>
+            <div class="row mt-2">
                 <div class="col-12 col-md-6">
                     <h4 class="color-primary font-comfortaa-b mt-4"> jdi na nákup </h4>
                     <em>navařit</em> ti vytvoří nákupní seznam.
                 </div>
-                <div class="col-12 col-md-6 d-md-none">
+                <div class="col-12 col-md-6 d-none d-md-block">
                     <img src="{{ url_for('static', filename='public/shopping_list.png') }}" class="img-fluid">
                 </div>
             </div>
 
             <hr>
 
-            <div class="row">
+            <div class="row mt-2">
                 <div class="col-12 col-md-6">
                     <h4 class="color-primary font-comfortaa-b mt-4"> tvoje zásobárna receptů </h4>
                     měj po ruce svoje osvědčené recepty.
@@ -70,15 +63,12 @@
 
             <hr>
 
-            <div class="row">
-                <div class="col-12 col-md-6 d-none d-md-block">
-                    <img src="{{ url_for('static', filename='public/recipes.png') }}" class="img-fluid">
-                </div>
+            <div class="row mt-2">
                 <div class="col-12 col-md-6">
                     <h4 class="color-primary font-comfortaa-b mt-4"> nech se inspirovat </h4>
                     nebo použij recepty ze <a href="{{ url_for('PublicRecipesView:public_index') }}" style="font-weight: 550;"> společné databáze</a>. 
                 </div>
-                <div class="col-12 col-md-6 d-md-none">
+                <div class="col-12 col-md-6 d-none d-md-block">
                     <img src="{{ url_for('static', filename='public/recipes.png') }}" class="img-fluid">
                 </div>
             </div>
@@ -92,7 +82,6 @@
             <div class="col-sm-12 col-md-6 text-center text-md-start">
                 <a class="me-2" target="_blank" title="sledujte na facebooku" href="{{ url_for('SupportView:facebook_redirect') }}"> {{ icon("facebook", cursor_class="cursor-clicable") }} </a>
                 <a class="color-black" href="https://github.com/janmpeterka/kucharka" target="_blank"> {{ icon("github", cursor_class="cursor-clicable") }} </a>
-
             </div>            
             <div class="col-sm-12 col-md-6 text-center text-md-end">
                 <a class="small" href="{{ url_for('SupportView:terms') }}" > podmínky použití | </a>

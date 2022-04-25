@@ -9,26 +9,27 @@
 
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="/"> navařit. | </a>
+          <a class="nav-link" href="/"> navařit.</a>
         </li>
 
+        <li class="nav-item ms-5">
+          <a class="nav-link" href="{{ url_for('PublicRecipesView:public_index') }}"> {{ icon("recipe_database")}} sdílené recepty </a>
+        </li>
+        
+        {% if config.FF_GALLERY %}
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for_security('register') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}"> registrovat se | </a>
+            <a class="nav-link" href="{{ url_for('PublicRecipesView:gallery') }}"> {{icon("image")}} galerie receptů </a>
           </li>
-
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('PublicRecipesView:public_index') }}"> {{ icon("recipe_database")}} sdílené recepty </a>
-          </li>
-          {% if config.FF_GALLERY %}
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('PublicRecipesView:gallery') }}"> {{icon("image")}} galerie receptů </a>
-            </li>
-          {% endif %}
+        {% endif %}
       </ul>
 
       {# <div class="navbar-divider"></div> #}
 
       <ul class="nav navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for_security('register') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}"> registrovat se | </a>
+          </li>
+          
           <li class="nav-item">
             <a class="nav-link font-weight-bold " href="{{ url_for_security('login') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}"> | přihlásit se </a>
           </li>

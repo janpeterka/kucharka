@@ -11,10 +11,11 @@
 {% endblock %}
 
 {% block script %}
-    {{ stimulus("select2", "editor", "select-badges") }}
+    {{ stimulus("select2", "editor", "select-badges", "scroller") }}
 {% endblock %}
 
 {% block content %}
+<span data-controller="scroller" data-scroller-target="scroller"></span>
 
 <a class="btn bg-color-secondary-action color-white ms-2 mb-3" href="{{ url_for('RecipesView:show', id=recipe.id) }}"> zavřít úpravy</a>
 

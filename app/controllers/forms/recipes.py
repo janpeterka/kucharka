@@ -37,7 +37,7 @@ def difficulty_labels():
 class RecipesForm(FlaskForm):
     name = StringField("název receptu", [InputRequired("název musí být vyplněn")])
 
-    # description = StringField("Popis", widget=TextArea())
+    source = StringField("Zdroj")
 
     category = QuerySelectField("kategorie", query_factory=categories, allow_blank=True)
     portion_count = IntegerField(

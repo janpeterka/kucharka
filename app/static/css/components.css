@@ -1,10 +1,14 @@
 .info-badge {
 	border-radius: 0.2rem;
-	border-color: var(--logo-light-green);
+	border-color: var(--secondary-highlighted);
 	border-style: solid;
 	border-width: 0.1rem;
 
 	display: inline-flex;
   	align-items: center; 
   	width: 100%;
+}
+
+.dashboard-badge {
+	border-radius: 1rem;
 }

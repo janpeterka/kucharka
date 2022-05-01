@@ -13,7 +13,7 @@
 # register
 def test_register_valid(app, db, client):
     response = _register(client, "random@mail.com", "somepassword")
-    assert b"V\xc3\xadtejte!" in response.data
+    assert b"v\xc3\xadtej!" in response.data
 
 
 # register - already existing user
@@ -31,7 +31,7 @@ def test_register_invalid(app, db, client):
 # login user
 def test_login(app, db, client):
     response = _login(client, "admin@sk.cz", "pass123")
-    assert b"V\xc3\xadtejte!" in response.data
+    assert b"v\xc3\xadtej!" in response.data
 
 
 def _register(client, email, password):

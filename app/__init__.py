@@ -44,12 +44,6 @@ def create_app(config_name="default"):
 
     from jinja2 import select_autoescape
 
-    application.jinja_options = {
-        "autoescape": select_autoescape(
-            enabled_extensions=("html", "html.j2", "xml"),
-        )
-    }
-
     # CONFIG
     from config import configs
 
@@ -74,7 +68,7 @@ def create_app(config_name="default"):
         sentry_sdk.init(
             dsn="https://e50dbd5c633a43dda2d9d4d0ae2475ad@o457759.ingest.sentry.io/5776351",
             integrations=[FlaskIntegration(), SqlalchemyIntegration()],
-            traces_sample_rate=0.2,
+            traces_sample_rate=1.0,
         )
     else:
         print("No Sentry monitoring.")
@@ -98,5 +92,19 @@ def create_app(config_name="default"):
     from app.modules.auth.auth import blueprint as google_oauth_bp
 
     application.register_blueprint(google_oauth_bp, url_prefix="/oauth/")
+
+    if application.config["APP_STATE"] in ("test", "testing"):
+        with application.app_context():
+            # from app.helpers.tests.fill_db import db_fill
+            db.create_all()
+            print("Created database")
+
+            # db_fill()
+
+    application.jinja_options = {
+        "autoescape": select_autoescape(enabled_extensions=("html", "html.j2", "xml")),
+        "line_comment_prefix": "##",
+        "line_statement_prefix": "#",
+    }
 
     return application

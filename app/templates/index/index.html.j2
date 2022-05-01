@@ -1,54 +1,98 @@
 {% extends "base/base.html.j2" %}
-{% block title %} Skautská kuchařka {% endblock %}
+{% block title %} navařit {% endblock %}
 
 {% block content %}
 
 <div class="font-montserrat text-larger">
     <div class="mb-5 text-center" >
         <p class="mb-2">
-            <h2 class="mt-2 text-uppercase color-dark-green font-comfortaa-bb">
-                Vítejte na stránkách skautské kuchařky.
+            <h2 class="mt-2 color-primary font-comfortaa-bb">
+                navařit
             </h2>
-            
-            Kuchařka má pomoci kuchařům zejména na skautských táborech a kurzech.<br>
-            Umožňuje generování nákupních seznamů, správu a sdílení receptů nebo výpočty nutričních hodnot jídel.<br>
-        </p>
-        <p>
-            <h2 class="mt-5 text-uppercase color-dark-green font-comfortaa-bb">Co umí skautská kuchařka?</h2>
+            <h3 class="text-muted font-comfortaa-b text-smaller">
+                skautská kuchařka
+            </h3>
+
+            tvůj pomocník při vaření pro hodně lidí. <br>
+            <i>nebo i málo lidí.</i> <br>
+            na táboře, kurzu, víkendovce nebo doma. <br>
+            pro skauty i neskauty <br>
         </p>
     </div>
     
     <hr>
 
     <div class="mb-5 text-center row">
-        {# <div class="col d-sm-none d-md-block"></div> #}
-	    <div>              
-	        <h4 class="color-dark-green text-uppercase font-comfortaa-b mt-4">Přidávání vlastních surovin</h4>
-	        Kromě základních surovin, které mají k dispozici všichni, si můžete vytvořit vlastní seznam surovin, které běžně používáte.
-	        <h4 class="color-dark-green text-uppercase font-comfortaa-b mt-4">Ukládání receptů</h4>
-	        Všechny jednou zadané recepty už máte navždy uložené ve svém účtu.<br>
-	        Můžete mezi nimi hledat (a to i přes suroviny), tisknout je a přidávat do jídelníčky
-	        <h4 class="color-dark-green text-uppercase font-comfortaa-b mt-4">Sdílení receptů</h4>
-	        Můžete sdílet své recepty s ostatními a zároveň se jejich recepty <a href="{{ url_for('PublicRecipesView:public_index') }}">inspirovat</a>.<br>
-	        <h4 class="color-dark-green text-uppercase font-comfortaa-b mt-4">Jídelníček</h4>
-	        Poskládejte si jídelníček akce a mějte kompletní přehled.<br>
-            <h4 class="color-dark-green text-uppercase font-comfortaa-b mt-4">Export jídelníčku</h4>
-            Z vytvořeného jídelníčku si pak můžete vyexportovat seznam receptů a nákupní seznam s množstvím jednotlivých surovin podle zadaného počtu strávníků.
+        <h2 class="color-primary font-comfortaa-bb"> s čím ti pomůže? </h2>
+	    <div>
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <h4 class="color-primary font-comfortaa-b mt-4"> poskládej si jídelníček </h4>
+        	        poskládej si jídelníček akce a měj kompletní přehled.<br>
+                    exportuj si seznam receptů nebo plán na táborový den.
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <img src="{{ url_for('static', filename='public/event.png') }}" class="img-fluid">
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row mt-2">
+                <div class="col-12 col-md-6">
+                    <h4 class="color-primary font-comfortaa-b mt-4"> jdi na nákup </h4>
+                    <em>navařit</em> ti vytvoří nákupní seznam.
+                </div>
+                <div class="col-12 col-md-6 d-none d-md-block">
+                    <img src="{{ url_for('static', filename='public/shopping_list.png') }}" class="img-fluid">
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row mt-2">
+                <div class="col-12 col-md-6">
+                    <h4 class="color-primary font-comfortaa-b mt-4"> tvoje zásobárna receptů </h4>
+                    měj po ruce svoje osvědčené recepty.
+                </div>
+                <div class="col-12 col-md-6">
+                    <img src="{{ url_for('static', filename='public/my_recipes.png') }}" class="img-fluid">
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row mt-2">
+                <div class="col-12 col-md-6">
+                    <h4 class="color-primary font-comfortaa-b mt-4"> nech se inspirovat </h4>
+                    nebo použij recepty ze <a href="{{ url_for('PublicRecipesView:public_index') }}" style="font-weight: 550;"> společné databáze</a>. 
+                </div>
+                <div class="col-12 col-md-6 d-none d-md-block">
+                    <img src="{{ url_for('static', filename='public/recipes.png') }}" class="img-fluid">
+                </div>
+            </div>
 	    </div>
 	</div>
 	
 	<hr>
     
-    <div class="color-light-blue text-uppercase text-center font-comfortaa-b mb-5">
+    <div class="mb-5">
         <div class="row">
-            <div class="col-sm-12 col-md-6 text-sm-center text-md-start">
-                <a href="{{ url_for_security('login') }}"> Přihlašte se! </a>
+            <div class="col-sm-12 col-md-6 text-center text-md-start">
+                <a class="me-2" target="_blank" title="sledujte na facebooku" href="{{ url_for('SupportView:facebook_redirect') }}"> {{ icon("facebook", cursor_class="cursor-clicable") }} </a>
+                <a class="color-black" href="https://github.com/janmpeterka/kucharka" target="_blank"> {{ icon("github", cursor_class="cursor-clicable") }} </a>
             </div>            
-            <div class="col-sm-12 col-md-6 text-sm-center text-md-end">
-                <a href="{{ url_for_security('register') }}"> Zaregistrujte se! </a>
+            <div class="col-sm-12 col-md-6 text-center text-md-end">
+                <a class="small" href="{{ url_for('SupportView:terms') }}" > podmínky použití | </a>
+                <a class="small" href="{{ url_for('SupportView:privacy') }}"> osobní data </a>
             </div>            
         </div>
     </div>
+</div>
+
+<div>
+
 </div>
 
 <footer class="footer">

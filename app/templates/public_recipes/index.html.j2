@@ -1,5 +1,9 @@
 {% extends "base/base.html.j2" %}
-{% block title %} Databáze receptů {% endblock %}
+{% block title %} databáze receptů {% endblock %}
+
+{% block meta %}
+    <meta name="turbo-visit-control" content="reload">
+{% endblock %}
 
 {% block links %}
 	{{ super() }}
@@ -31,7 +35,10 @@
 
     <div class="row mt-2">
     
-      <div class="row mt-2" data-controller="select-badges" data-select-badges-type-value="multiple" data-select-badges-selected-class="bg-color-light-green" data-select-badges-unselected-class="bg-color-grey">
+      <div class="row mt-2" data-controller="select-badges"
+        data-select-badges-type-value="multiple"
+        data-select-badges-selected-class="bg-color-highlight"
+        data-select-badges-unselected-class="bg-color-light-grey">
         {{ form.dietary_labels.label(class_="me-1 col-sm-2 col-form-label") }}
         <div class="col-sm-9">
             {{ render_field(form.dietary_labels, has_label=False, data_select_badges_target="select") }}
@@ -39,7 +46,10 @@
         </div>
       </div>
       
-      <div class="row mt-2" data-controller="select-badges" data-select-badges-type-value="multiple" data-select-badges-selected-class="bg-color-light-green" data-select-badges-unselected-class="bg-color-grey">
+      <div class="row mt-2" data-controller="select-badges"
+        data-select-badges-type-value="multiple"
+        data-select-badges-selected-class="bg-color-highlight"
+        data-select-badges-unselected-class="bg-color-light-grey">
         {{ form.difficulty_labels.label(class_="me-1 col-sm-2 col-form-label") }}
         <div class="col-sm-9">
           {{ render_field(form.difficulty_labels, has_label=False, data_select_badges_target="select") }}
@@ -54,7 +64,7 @@
     </div>
 
     <div class="text-end">
-      {{ form.submit(class_='btn bg-color-light-green ms-3') }}
+      {{ form.submit(class_='btn bg-color-primary-action color-white ms-3') }}
     </div>
 
   </form>

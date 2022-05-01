@@ -1,14 +1,15 @@
 <table class="table" id="recipe-ingredient-table">
     <thead>
         <tr>
-            <th> Název </th>
-            <th> Množství (na {{ recipe.portion_count }} porcí) </th>
-            <th colspan="4"></th>
+            <th style="width:20%"> název </th>
+            <th style="width:20%"> množství <em>(na {{ recipe.portion_count }} porcí)</em> </th>
+            <th> poznámky </th>
+            <th style="width:20%"></th>
         </tr>
     </thead>
     <tbody id="ingredients">
     {% for ingredient in recipe.ingredients: %}
-        {% include "recipes/edit/_edit_ingredient.html.j2" %}
+        {% include "recipes/edit/ingredient/_row.html.j2" %}
     {% endfor %}
     </tbody>
 </table>

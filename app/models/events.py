@@ -1,6 +1,8 @@
 import datetime
 from datetime import timedelta
 
+from flask import url_for
+
 from flask_security import current_user
 
 from app import db, BaseModel
@@ -45,7 +47,7 @@ class Event(BaseModel, ItemMixin):
         viewonly=True,
     )
 
-    user_roles = db.relationship("UserHasEventRole", viewonly=True)
+    user_roles = db.relationship("UserHasEventRole", cascade="all, delete")
 
     daily_plans = db.relationship(
         "DailyPlan",
@@ -57,6 +59,26 @@ class Event(BaseModel, ItemMixin):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         super().set_defaults()
+
+    def duplicate(self):
+        event = Event()
+
+        event.name = f"{self.name} (kopie)"
+        event.date_from = self.date_from
+        event.date_to = self.date_to
+
+        event.people_count = self.people_count
+
+        event.daily_plans = []
+
+        event.save()
+
+        for old_plan in self.daily_plans:
+            plan = old_plan.duplicate()
+            plan.event_id = event.id
+            plan.edit()
+
+        return event
 
     def toggle_archived(self):
         self.is_archived = not self.is_archived
@@ -103,7 +125,7 @@ class Event(BaseModel, ItemMixin):
         elif self.duration in [1, 2, 3, 4]:
             return "dny"
         else:
-            return "dnů"
+            return "dní"
 
     @property
     def days(self):
@@ -239,6 +261,18 @@ class Event(BaseModel, ItemMixin):
 
         return slugify(self.name)
 
+    @property
+    def public_url(self):
+        from app.helpers.general import obscure
+
+        if not self.is_shared:
+            return None
+        else:
+            hash_value = obscure(str(self.id).encode())
+            return url_for(
+                "SharedEventsView:show", hash_value=hash_value, _external=True
+            )
+
     def user_role(self, user):
         roles = [user_role for user_role in self.user_roles if user_role.user == user]
         if not roles:
@@ -247,6 +281,13 @@ class Event(BaseModel, ItemMixin):
             return roles[0].role
         else:
             raise Warning("User has multiple roles on this event")
+
+    @property
+    def connected_users(self):
+        users = self.shared_with
+        users.append(self.author)
+
+        return users
 
     @property
     def other_user_ids(self):

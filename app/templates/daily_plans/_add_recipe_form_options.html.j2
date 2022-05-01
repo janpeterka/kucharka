@@ -1,8 +1,8 @@
 {% from "macros/general.html.j2" import option, options %}
 
-<optgroup label="Moje recepty">
+<optgroup label="moje recepty">
     {{ options(current_user.visible_recipes) }}
 </optgroup>
-<optgroup label="Veřejné recepty">
+<optgroup label="veřejné recepty">
     {{ options(public_recipes) }}
 </optgroup>

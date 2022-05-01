@@ -1,4 +1,4 @@
-<nav class="navbar fixed-top navbar-dark bg-color-dark-green navbar-expand-lg" >
+<nav class="navbar fixed-top navbar-dark bg-color-primary navbar-expand-lg" >
   <div class="container">
     {# {% include '_navbar_brand.html.j2' %} #}
     
@@ -11,13 +11,13 @@
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav navbar-center">
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('DashboardView:index') }}"> Domů | </a>
+          <a class="nav-link" href="{{ url_for('DashboardView:index') }}"> domů | </a>
         </li>
 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdd" role="button"
              data-bs-toggle="dropdown" aria-expanded="false">
-            Přidat
+            přidat
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownAdd">
             <li><a class="dropdown-item" href="{{ url_for('RecipesView:new') }}"> recept </a></li>
@@ -29,7 +29,7 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownList" role="button"
              data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Seznam
+            seznam
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownList">
             <a class="dropdown-item" href="{{ url_for('RecipesView:index') }}"> receptů </a>
@@ -37,13 +37,13 @@
             {# <a class="dropdown-item" href="{{ url_for('PublicIngredientsView:index') }}"> veřejných surovin </a> #}
           </div>
         </li>
-        <a class="nav-link" href="{{ url_for('EventsView:index') }}">{{ icon("daily") }} Akce </a>
+        <a class="nav-link" href="{{ url_for('EventsView:index') }}"> {{ icon("daily") }} akce </a>
 
-        <a class="nav-link" href="{{ url_for('PublicRecipesView:index') }}"> {{ icon("recipe_database")}} Databáze receptů </a>
+        <a class="nav-link" href="{{ url_for('PublicRecipesView:index') }}"> {{ icon("recipe_database")}} databáze receptů </a>
         
         {% if config['FF_GALLERY'] %}
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('PublicRecipesView:gallery') }}"> {{icon("image")}} Galerie receptů </a>
+            <a class="nav-link" href="{{ url_for('PublicRecipesView:gallery') }}"> {{icon("image")}} galerie receptů </a>
           </li>
         {% endif %}
 
@@ -60,7 +60,7 @@
           </a>
 
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ url_for('TipsView:index') }}"> Tipy a triky </a>
+            <a class="dropdown-item" href="{{ url_for('TipsView:index') }}"> tipy a triky </a>
           </div>
         </li>
         
@@ -71,8 +71,8 @@
           </a>
 
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ url_for('SupportView:terms') }}"> Podmínky použití </a>
-            <a class="dropdown-item" href="{{ url_for('SupportView:privacy') }}"> Osobní data </a>
+            <a class="dropdown-item" href="{{ url_for('SupportView:terms') }}"> podmínky použití </a>
+            <a class="dropdown-item" href="{{ url_for('SupportView:privacy') }}"> osobní data </a>
             <a class="dropdown-item" href="https://github.com/janmpeterka/kucharka" target="_blank"> {{ icon("github") }} </a>
             <a class="dropdown-item" href="{{ url_for('SupportView:facebook_redirect') }}" target="_blank" > {{ icon("facebook") }} </a>
           </div>
@@ -85,8 +85,8 @@
           </a>
 
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ url_for('UsersView:show') }}"> Profil </a>
-            <a class="dropdown-item" href="{{ url_for_security('logout') }}"> Odhlásit se </a>
+            <a class="dropdown-item" href="{{ url_for('UsersView:show') }}"> profil </a>
+            <a class="dropdown-item" href="{{ url_for_security('logout') }}"> odhlásit se </a>
           </div>
         </li>
 

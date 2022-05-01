@@ -62,6 +62,12 @@ class EventsView(HelperFlaskView):
 
         return redirect(url_for("EventsView:index"))
 
+    @route("duplicate/<id>", methods=["POST"])
+    def duplicate(self, id):
+        new_event = self.event.duplicate()
+
+        return redirect(url_for("EventsView:show", id=new_event.id))
+
     @route("events/toggle_archived/<id>", methods=["POST"])
     def toggle_archived(self, id):
         self.event.toggle_archived()

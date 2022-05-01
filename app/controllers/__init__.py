@@ -5,6 +5,7 @@ from .event_exporter import EventExporterView
 
 from .events.events import EventsView
 from .events.edit_events import EditEventView
+from .events.shared_events import SharedEventsView
 
 from .errors import ErrorsView
 from .index import IndexView
@@ -22,6 +23,7 @@ from .admin import AdminView
 
 from .recipes import RecipesView
 from .edit_recipes import EditRecipeView
+from .edit_recipe_ingredients import EditRecipeIngredientsView
 from .public_recipes import PublicRecipesView
 from .public_ingredients import PublicIngredientsView
 
@@ -39,6 +41,7 @@ __all__ = [
     "EventExporterView",
     "EventsView",
     "EditEventView",
+    "SharedEventsView",
     "ErrorsView",
     "IndexView",
     "SupportView",
@@ -52,6 +55,7 @@ __all__ = [
     "AdminView",
     "RecipesView",
     "EditRecipeView",
+    "EditRecipeIngredientsView",
     "PublicRecipesView",
     "PublicIngredientsView",
     "UsersView",
@@ -71,6 +75,7 @@ def register_all_controllers(application):
 
     EventsView.register(application, base_class=HelperFlaskView)
     EditEventView.register(application, base_class=HelperFlaskView)
+    SharedEventsView.register(application, base_class=HelperFlaskView)
 
     EventExporterView.register(application, base_class=HelperFlaskView)
 
@@ -95,6 +100,7 @@ def register_all_controllers(application):
 
     RecipesView.register(application, base_class=HelperFlaskView)
     EditRecipeView.register(application, base_class=HelperFlaskView)
+    EditRecipeIngredientsView.register(application, base_class=HelperFlaskView)
     PublicRecipesView.register(application, base_class=HelperFlaskView)
 
     UsersView.register(application, base_class=HelperFlaskView)

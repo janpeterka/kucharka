@@ -1,48 +1,49 @@
 {% from "macros/render_field.html.j2" import render_field, render_floating_field %}
 
 <div id="recipe-info">
-    <form action="{{ url_for('EditRecipeView:post', recipe_id=recipe.id) }}" method="post" accept-charset="utf-8">
+    <form action="{{ url_for('EditRecipeView:post', recipe_id=recipe.id) }}" method="post" accept-charset="utf-8" class="mt-2">
         {{ form.csrf_token }}
 
-        <div class="form-floating">
-            {{ render_field(form.name, has_label=False) }}
-            {{ form.name.label }}
-        </div>
-
-        <div class="form-floating">
-            {{ render_field(form.category, has_label=False) }}
-            {{ form.category.label }}
-        </div>
-
-        <div class="row">
-            <div class="col">    
-                <div class="form-floating">
-                    {{ render_field(form.portion_count, has_label=False) }}
-                    {{ form.portion_count.label }}
-                </div>
+        <div class="row mb-2">
+            <div class="mb-2 mb-md-0 col-12 col-md-4">
+                {{ render_floating_field(form.name) }}
             </div>
-            <div class="col">  
+
+            <div class="mb-2 mb-md-0 col-12 col-md-4 col-3">
+                {{ render_floating_field(form.category) }}
+            </div>
+
+            <div class="mb-2 mb-md-0 col-12 col-md-4 col-3">
+                {{ render_floating_field(form.portion_count) }}
+            </div>
+
+            <div class="mb-2 mb-md-0 col-12 col-md-4 col-3">
                 {{ render_floating_field(form.source) }}
             </div>
-            
         </div>
 
 
         <details open class="colored">
-            <summary>Další informace</summary>
+            <summary> další informace </summary>
             <div>
-                <div class="row mt-2" data-controller="select-badges" data-select-badges-type-value="multiple" data-select-badges-selected-class="bg-color-light-green" data-select-badges-unselected-class="bg-color-grey">
+                <div class="row mt-2" data-controller="select-badges"
+                     data-select-badges-type-value="multiple"
+                     data-select-badges-selected-class="bg-color-highlight"
+                     data-select-badges-unselected-class="bg-color-light-grey">
                     {{ form.dietary_labels.label(class_="me-1 col-sm-2 col-form-label") }}
                     <div class="col-sm-9">
-                        {{ render_field(form.dietary_labels, has_label=False, data_select_badges_target="select") }}
+                        {# {{ render_field(form.dietary_labels, has_label=False, data_select_badges_target="select") }} #}
+                        {{ form.dietary_labels(data_select_badges_target="select", option_attr=form.dietary_labels.option_attr) }}
                         <div data-select-badges-target="badges" class="text-overflow-break"></div>
                     </div>
                 </div>
 
-                <div class="row mt-2" data-controller="select-badges" data-select-badges-selected-class="bg-color-light-green" data-select-badges-unselected-class="bg-color-grey">
+                <div class="row mt-2" data-controller="select-badges"
+                     data-select-badges-selected-class="bg-color-highlight"
+                     data-select-badges-unselected-class="bg-color-light-grey">
                     {{ form.difficulty_label.label(class_="me-1 col-sm-2 col-form-label") }}
                     <div class="col-sm-9">
-                        {{ render_field(form.difficulty_label, has_label=False, data_select_badges_target="select") }}
+                        {{ form.difficulty_label(data_select_badges_target="select", option_attr=form.difficulty_label.option_attr)}}
                         <div data-select-badges-target="badges" class="text-overflow-break"></div>
                     </div>
                 </div>
@@ -50,7 +51,7 @@
         </details>
 
         <div class="mt-4 pb-2">
-            <input type="submit" value="{{ texts.recipe_edit }}" class="btn btn-warning">
+            <input type="submit" value="upravit recept" class="btn bg-color-secondary-action color-white">
             <span class="float-end me-5 color-success animate-fadeout">{{ message }}</span>
         </div>
     </form>

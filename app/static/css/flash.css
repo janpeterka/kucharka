@@ -19,22 +19,22 @@ div.flashes ul li{
     color: #101010;
 }
 
-div.flashes ul li.error{
+div.flashes ul li.error {
     color: var(--error);
 }
 
-div.flashes ul li.success{
+div.flashes ul li.success {
     color: var(--success);
 }
 
-div.flashes ul li.info{
+div.flashes ul li.info {
     color: var(--info);
 }
 
-div.flashes ul li.warning{
+div.flashes ul li.warning {
     color: var(--warning);
 }
 
-div.flashes ul li.debug{
+div.flashes ul li.debug {
     color: var(--debug);
 }

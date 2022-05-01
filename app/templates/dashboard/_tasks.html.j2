@@ -1,7 +1,11 @@
 <turbo-frame id="tasks">
-    
+
 {% if not current_user.full_name %}
-    <a data-turbo="false" href="{{ url_for('UsersView:edit') }}" class="text-uppercase font-comfortaa"> Přidat uživatelské jméno</a>
+    <div id="ingredients-without-category" class="mt-3 col-12 ps-5 pe-5">
+        <div class="container p-3 bg-color-secondary dashboard-badge">
+            <a data-turbo="false" href="{{ url_for('UsersView:edit') }}" class="font-comfortaa font-weight-bold"> nastav si uživatelské jméno </a>
+        </div>
+    </div>
 {% endif %}
 
 {% include "recipes/_draft_recipes.html.j2" %}

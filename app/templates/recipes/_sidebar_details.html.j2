@@ -53,12 +53,12 @@
 
     <hr>
 
-    <div class="{% if print %}hidden{% endif %}">
-        {% from "macros/render_label.html.j2" import render_label %}
-        {% for label in recipe.labels %}
-            {{ render_label(label) }}
-        {% endfor %}
-    </div>
+<div class="{% if print %} hidden {% endif %}">
+    {% from "macros/render_label.html.j2" import render_label %}
+    {% for label in recipe.labels %}
+        {{ render_label(label, size=7) }}
+    {% endfor %}
+</div>
 
 {% endif %}
 

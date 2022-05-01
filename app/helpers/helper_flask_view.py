@@ -26,6 +26,9 @@ class HelperFlaskView(FlaskView):
 
         return True
 
+    def validate_show(self, instance):
+        return self.validate_operation(instance.id, instance)
+
     def validate_edit(self, instance):
         if not instance.can_current_user_edit:
             abort(403)

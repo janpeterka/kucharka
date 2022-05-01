@@ -18,6 +18,7 @@ class Config(object):
 
     SECURITY_REGISTERABLE = True
     SECURITY_SEND_REGISTER_EMAIL = False
+
     SECURITY_CONFIRMABLE = False
 
     SECURITY_CHANGEABLE = True
@@ -42,7 +43,7 @@ class Config(object):
     GOOGLE_OAUTH_CLIENT_ID = os.environ.get("GOOGLE_OAUTH_CLIENT_ID")
     GOOGLE_OAUTH_CLIENT_SECRET = os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET")
 
-    STORAGE_SYSTEM = os.environ.get("STORAGE_SYSTEM")
+    STORAGE_SYSTEM = os.getenv("STORAGE_SYSTEM", "LOCAL")
 
     DROPZONE_MAX_FILE_SIZE = 20
 
@@ -72,12 +73,14 @@ class DevConfig(LocalProdConfig):
 
 
 class TestConfig(Config):
+    APP_STATE = "testing"
+
     TESTING = True
     WTF_CSRF_ENABLED = False
     SENTRY_MONITORING = False
     FLASK_DEBUG = False
 
-    SQLALCHEMY_DATABASE_URI = os.environ.get("TESTING_DB_STRING", "sqlite://")
+    SQLALCHEMY_DATABASE_URI = "sqlite://"
     SECRET_KEY = "justtesting"  # nosec
     SECURITY_PASSWORD_SALT = "justtesting"  # nosec
 
@@ -86,11 +89,13 @@ class TestConfig(Config):
 
 class ProdConfig(Config):
     INFO_USED_DB = "production db"
+    FLASK_ENV = "production"
 
 
 configs = {
     "development": DevConfig,
     "test": TestConfig,
+    "testing": TestConfig,
     "production": ProdConfig,
     "local_production": LocalProdConfig,
     "default": ProdConfig,

@@ -1,11 +1,14 @@
 {% from "macros/icons.html.j2" import icon %}
 {% from "macros/turbo.html.j2" import button_to %}
 
-<tr id="daily-recipe-{{ daily_recipe.id }}" {% if daily_recipe.is_shopping %} class="bg-color-grey opacity-50" {% endif %} class="align-middle" style="line-height: 2.5rem;">
+<tr id="daily-recipe-{{ daily_recipe.id }}"
+    {% if daily_recipe.is_shopping %} class="bg-color-ligh-grey opacity-50" {% endif %}
+    class="align-middle" style="line-height: 2.5rem;">
 
     <td>
         {% if not daily_recipe.is_shopping %}
-            {{ link_to(daily_recipe.recipe) }}
+            <a href="{{ url_for('RecipesView:show', id=daily_recipe.recipe.id, portion_count=daily_recipe.portion_count) }}"> {{ daily_recipe.recipe.name }} </a>
+            {# {{ link_to(daily_recipe.recipe) }} #}
         {% else %}
             {{ daily_recipe.recipe.name }}
         {% endif %}
@@ -40,16 +43,24 @@
         {% if daily_plan.can_current_user_edit %}
             {% if daily_recipe.is_shopping %}
                 <form method="POST" class="text-end me-3" action="{{ url_for('DailyPlansEditView:remove_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
-                    <button type="submit" class="btn btn-danger w-100"> Smazat </button>
+                    <button type="submit" class="btn color-white bg-color-secondary-action w-100"> Smazat </button>
                 </form>
             {% else %}
                 {% if not editing %}
-                    <form method="POST" class="text-end me-3" action="{{ url_for('DailyPlansEditView:show_edit_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
-                        <button type="submit" class="btn bg-color-light-greenish w-100"> Upravit </button>
+                <div class="row">
+                    <div class="col-9">
+                    <form method="POST" class="text-end" action="{{ url_for('DailyPlansEditView:show_edit_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
+                        <button type="submit" class="btn color-white bg-color-secondary-action w-100"> Upravit </button>
                     </form>
+                    </div>
+
+                    <div class="col-1 pe-2">
+                        {{ button_to(url_for('DailyPlansEditView:remove_daily_recipe', daily_recipe_id=daily_recipe.id), icon=True, value="&times", style="font-size:2rem; color:red;", confirmation="Opravdu chcete smazat recept z jídelníčku?") }}
+                    </div>
+                </div>
                 {% else %}
                     <form method="POST" class="text-end me-3" action="{{ url_for('DailyPlansEditView:hide_edit_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
-                        <button type="submit" class="btn btn-secondary w-100"> Zrušit </button>
+                        <button type="submit" class="btn color-white bg-color-secondary-action w-100"> Zrušit </button>
                     </form>
                 {% endif %}
             {% endif %}

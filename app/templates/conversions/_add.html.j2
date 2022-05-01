@@ -1,10 +1,10 @@
 {% from "macros/general.html.j2" import options %}
 
 <form class="form form-inline" action="{{ url_for('ConversionsView:add', ingredient_id=ingredient.id) }}" method="POST" id="conversion-create-form">
-	<input type="number" name="amount_from" class="form-control" placeholder="Množství v původní ({{ ingredient.measurement.name }})">
+	<input type="number" name="amount_from" class="form-control" placeholder="množství v původní ({{ ingredient.measurement.name }})">
 	<select class="form-control" name="new_measurement_id">
 		{{ options(possible_alternative_measurements) }}
 	</select>
-	<input type="number" name="amount_to" class="form-control" placeholder="Množství v nové">
-	<button type="submit" class="btn btn-primary">Přidat</button>
+	<input type="number" name="amount_to" class="form-control" placeholder="množství v nové">
+	<button type="submit" class="btn bg-color-primary-action color-white"> přidat </button>
 </form>

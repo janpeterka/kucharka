@@ -1,34 +1,46 @@
 {% extends "base/base.html.j2" %}
-{% block title %} Vítejte {{ current_user.email }} {% endblock %}
+{% block title %} navařit {% endblock %}
 
 {% block links %}
     {{ super() }}
     {{ turbo() }}
 {% endblock %}
 
+{% block scripts_after %}
+    {{ stimulus("clicker") }}
+{% endblock %}
+
 {% block content %}
 
-<div class="row" id="welcome">
-    <div class="text-center bg-color-light-green p-3 border-color-dark-green" style="border-radius: 1.5rem;">
-        <h3 class="mb-3"> Vítejte! </h3>
-        <hr>
-        <div class="row">
-            <div class="col-12 col-md-4 mb-3">
-            {% if current_user.closest_future_event %}
-                Podívejte se na svou nejbližší akci - {{ link_to(current_user.closest_future_event) }}
-            {% else %}
-                Založte <a href="{{url_for('EventsView:new')}}"> novou událost </a>
-            {% endif %}
-            </div>
-            <div class="col-12 col-md-4 mb-3">
-                Inspirujte se v <a href="{{ url_for('PublicRecipesView:index') }}"> databázi receptů </a>
-            </div>
-            <div class="col-12 col-md-4 mb-3">
-                Přidejte <a href="{{url_for('RecipesView:new')}}"> nový recept </a>
-            </div>
-        </div>    
+
+<h1 class="mb-3 font-comfortaa text-center"> vítej! </h1>
+
+<hr>
+        
+<div class="row mb-5" data-controller="clicker" data-clicker-target="area" >
+    <div class="col-12 col-md-4 text-center mb-2 mb-md-0 clickable" data-action="click->clicker#activateLink">
+        <div class="container bg-color-secondary p-3 dashboard-badge" >
+        {% if current_user.all_closest_future_event %}
+            podívej se na svou nejbližší akci - {{ link_to(current_user.all_closest_future_event) }}
+        {% else %}
+            založ <a href="{{url_for('EventsView:new')}}"> novou událost </a>
+        {% endif %}
+        </div>
     </div>
-</div>
+
+    <div class="col-12 col-md-4 text-center mb-2 mb-md-0 clickable">
+        <div class="container bg-color-secondary p-3 dashboard-badge" data-action="click->clicker#activateLink">
+            inspiruj se v <a href="{{ url_for('PublicRecipesView:index') }}"> databázi receptů </a>
+        </div>
+    </div>
+    
+    <div class="col-12 col-md-4 text-center mb-2 mb-md-0 clickable">
+        <div class="container bg-color-secondary p-3 dashboard-badge" data-action="click->clicker#activateLink">
+            přidej <a href="{{url_for('RecipesView:new')}}"> nový recept </a>
+        </div>
+    </div>
+</div>    
+
 
 {#
 <div class="row mt-4 text-center bg-color-light-green p-3" id="current" style="border-radius: 1.5rem;">
@@ -38,14 +50,16 @@
         {{ loader() }}
     </turbo-frame>
 </div>
+
+<hr>
 #}
 
-<div class="row mt-4 text-center bg-color-light-green p-3" id="tasks" style="border-radius: 1.5rem;">
 
-    <h5> K vyřešení </h5>
-    <hr>
+<h2 class="font-comfortaa text-center"> k vyřešení </h2>
+<hr>
+<div class="mt-4 text-center" style="border-radius: 1.5rem;">
 
-    <turbo-frame id="tasks" src="{{ url_for('DashboardView:tasks') }}" loading="lazy" class="row">
+    <turbo-frame id="tasks" src="{{ url_for('DashboardView:tasks') }}" loading="lazy">
         {{ loader() }}
     </turbo-frame>
 

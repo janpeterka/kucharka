@@ -20,12 +20,13 @@
         {% set fa_class_ = 'far fa-image' %}
 
 
-
     {# Operations #}
     {% elif name=="edit" %}
         {% set fa_class_ = 'fas fa-pencil-alt' %}
     {% elif name=="delete" %}
         {% set fa_class_ = 'fas fa-trash' %}
+    {% elif name=="duplicate" %}
+        {% set fa_class_ = 'far fa-clone' %}
     {% elif name=="archive" or name=="archived" %}
         {% set fa_class_ = 'fas fa-archive' %}
     {% elif name=="unarchive" %}
@@ -33,11 +34,16 @@
 
     {% elif name=="remove" %}
         {% set value = '×' %}
+    {% elif name=="add" %}
+        {% set fa_class_ = 'fas fa-plus' %}
+
 
     {% elif name=="previous" %}
         {% set fa_class_ = 'fas fa-chevron-left' %}
     {% elif name=="next" %}
         {% set fa_class_ = 'fas fa-chevron-right' %}
+    {% elif name=="clipboard" %}
+        {% set fa_class_ = 'fa fa-clipboard' %}
 
 
     {# Sharing, publishing,... #}
@@ -54,9 +60,9 @@
         {% if not tooltip %} {% set tooltip="z veřejných" %} {% endif %}
         {% set with_tooltip = True %}
     {% elif name=="heart_empty" %}
-        {% set fa_class_ = 'far fa-heart color-red' %}
+        {% set fa_class_ = 'far fa-heart color-highlight' %}
     {% elif name=="heart_full" %}
-        {% set fa_class_ = 'fas fa-heart color-red' %}
+        {% set fa_class_ = 'fas fa-heart color-highlight' %}
     
     {% elif name=="collaborator" %}
         {% set fa_class_ = 'fas fa-user-edit' %}
@@ -88,47 +94,15 @@
     {% elif name=="down" %}
         {% set fa_class_ = 'fas fa-sort-down' %}
 
-
-    {# Food types #}
-{#     {% elif name=="vegan" %}
-        {% set fa_class_ = 'fas fa-seedling color-green' %}
-        {% if not tooltip %} {% set tooltip="veganské" %} {% endif %}
-        {% set with_tooltip = True %}
-    {% elif name=="vegetarian" %}
-        {% set fa_class_ = 'fas fa-leaf color-green' %}
-        {% if not tooltip %} {% set tooltip="vegetariánské" %} {% endif %}
-        {% set with_tooltip = True %}
-    {% elif name=="lactose_free" or name=="without_lactose" %}
-        {% set fa_class_ = 'fas fa-ban color-light-blue' %}
-        {% if not tooltip %} {% set tooltip="bez laktózy" %} {% endif %}
-        {% set with_tooltip = True %}
-    {% elif name=="gluten_free" or name=="gluten_free" %}
-        {% set fa_class_ = 'fas fa-ban color-wheat' %}
-        {% if not tooltip %} {% set tooltip="bez lepku" %} {% endif %}
-        {% set with_tooltip = True %} #}
-
-
     {# Brands #}
     {% elif name=="github" %}
         {% set fa_class_ = 'fab fa-github' %}
     {% elif name=="facebook" %}
         {% set fa_class_ = 'fab fa-facebook-square' %}
     {% elif name=="pdf" %}
-        {% set fa_class_ = 'fas fa-file-pdf color-red' %}
+        {% set fa_class_ = 'fas fa-file-pdf' %}
         {% if not tooltip %} {% set tooltip="pdf" %} {% endif %}
         {% set with_tooltip = True %}
-
-    {# Other, currently unused #}
-    {#
-    "print": '<i class="fas fa-print"></i>',
- 
-    "google": '<i class="fab fa-google"></i>',
-    "list": '<i class="fas fa-list-ul"></i>',
-    "photo": '<i class="far fa-image"></i>',
-    
-    "facebook_small": '<a target="_blank" title="sledujte na facebooku" href="/support/facebook"><img alt="follow me on facebook" src="https://c866088.ssl.cf3.rackcdn.com/assets/facebook30x30.png" style="width: 1.5rem; height: auto; margin-top: 0.3rem" border=0></a>',
-    "facebook": '<a target="_blank" title="sledujte na facebooku" href="/support/facebook"><img alt="follow me on facebook" src="https://c866088.ssl.cf3.rackcdn.com/assets/facebook40x40.png" border=0></a>',
-    #}
 
     {% else %}
         {% set fa_class_ = '' %}

@@ -53,9 +53,22 @@ class EditEventView(HelperFlaskView):
             else:
                 return redirect(url_for("EventsView:edit", id=self.event.id))
 
+        old_people_count = None
+        new_people_count = None
+        if self.event.people_count != self.form.people_count.data:
+            old_people_count = self.event.people_count
+            new_people_count = int(self.form.people_count.data)
+
         self.form.populate_obj(self.event)
 
         self.event.edit()
+
+        if old_people_count and new_people_count:
+            for daily_plan in self.event.daily_plans:
+                for daily_recipe in daily_plan.daily_recipes:
+                    if daily_recipe.portion_count == old_people_count:
+                        daily_recipe.portion_count = new_people_count
+                        daily_recipe.edit()
 
         # TODO: do this only if date changed (70)
         # self.event.delete_old_daily_plans()

@@ -1,13 +1,17 @@
 {% if current_user.recipes_without_category %}
 
-<div id="recipes-without-category" class="mt-3 col-12 col-sm-6 col-md-4">
-    <h6> Přidat kategorie receptům </h6>
+<div id="recipes-without-category" class="mt-3 col-12">
+    <div class="container bg-color-secondary p-3 dashboard-badge">
+    
+        <h6 class="font-comfortaa text-uppercase"> přidat kategorie receptům </h6>
 
-    <ul class="no-list">
-    {% for recipe in current_user.recipes_without_category %}
-        <li>{{ link_to(recipe, link_type="edit") }}</li>
-    {% endfor %}
-    </ul>
+        <ul class="no-list p-0">
+        {% for recipe in current_user.recipes_without_category %}
+            <li>{{ link_to(recipe, link_type="edit") }}</li>
+        {% endfor %}
+        </ul>
+
+    </div>
 
 </div>
 

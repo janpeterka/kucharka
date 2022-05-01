@@ -2,8 +2,7 @@ import os
 
 from app import create_app
 
-
-env = os.environ.get("APP_STATE", "default")
+env = os.getenv("APP_STATE", "default")
 application = create_app(config_name=env)
 
 
@@ -108,6 +107,15 @@ def set_feature_flags():
         for arg, value in request.args.to_dict().items():
             if arg.startswith("ff_"):
                 application.config[arg.upper()] = bool(int(value))
+
+
+@application.before_request
+def sentry_add_user():
+    from sentry_sdk import set_user
+    from flask_security import current_user
+
+    if current_user.is_authenticated:
+        set_user({"id": current_user.id, "username": current_user.name_or_email})
 
 
 @application.before_request

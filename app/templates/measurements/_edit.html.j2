@@ -13,7 +13,7 @@
       </div>
       
       <div class="col-12 col-md-2">
-        <button type="submit" class="btn btn-warning"> Uložit </button>
+        <button type="submit" class="btn bg-color-secondary-action color-white"> Uložit </button>
       </div>
 
     </form>
@@ -22,11 +22,11 @@
   <td></td>
   
   <td>
-    {{ button_to(url_for('MeasurementsView:delete', id=measurement.id), class="btn btn-danger", method="DELETE", value="Smazat") }}
+    {{ button_to(url_for('MeasurementsView:delete', id=measurement.id), class="btn bg-color-secondary-action color-white", method="DELETE", value="Smazat") }}
   </td>
   
   <td>
-    {{ button_to(url_for('MeasurementsView:hide_edit', id=measurement.id), class="btn btn-secondary", value="Zrušit") }}
+    {{ button_to(url_for('MeasurementsView:hide_edit', id=measurement.id), class="btn bg-color-secondary-action color-white", value="Zrušit") }}
   </td>
   
 </tr>

@@ -16,7 +16,7 @@ describe('try unlogged things',() => {
       cy.get('input#password').type('kucharky')
       cy.get('input#password_confirm').type('kucharky')
       cy.get('input#submit').click()
-      cy.get('body').should('contain', 'Vítejte!')
+      cy.get('body').should('contain', 'vítej!')
   })
 
   it('can logout', () => {
@@ -40,7 +40,7 @@ describe('try unlogged things',() => {
       cy.get('input#email').type('admin@skautskakucharka.cz')
       cy.get('input#password').type('kucharky')
       cy.get('input#submit').click()
-      cy.get('body').should('contain', 'Vítejte!')
+      cy.get('body').should('contain', 'vítej!')
   })
 
   // TODO:

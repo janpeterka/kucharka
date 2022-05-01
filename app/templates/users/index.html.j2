@@ -1,22 +1,35 @@
 {% extends "base/base.html.j2" %}
 {% block title %} admin - všichni uživatelé {% endblock %}
 
+{% block style %}
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
+{% endblock %}
+
+{% block script %}
+    <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+{% endblock %}
+
 {% block content %}
 
-{% for user in users %}
-    <div class="row">
-        {{ user.email }} - {{ user }}
-        <details>
-            <summary> recepty </summary>
-            {% for recipe in user.recipes %}
-                {{ link_to(recipe) }} <br>
-            {% endfor %}
-
-
-        </details>
-
-    </div>
-{% endfor %}
+<table class="table table-striped"
+       data-filter-control="true" data-toggle="table" data-search="true" data-pagination="true" data-sort-order="desc">
+    <thead>
+        <th data-field="name" data-sortable="true"> jméno </th>
+        <th data-field="email" data-sortable="true"> email </th>
+        <th data-field="created" data-sortable="true"> vznik </th>
+        <th data-field="recipe-count" data-sortable="true"> počet receptů </th>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td> {{ user }} </td>            
+            <td> {{ user.email }} </td>            
+            <td> {{ user.created_at }} </td>
+            <td> {{ user.recipes | length }} </td>            
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
 {% endblock %}
 

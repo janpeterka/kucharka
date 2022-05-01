@@ -3,27 +3,27 @@
 {% from "macros/turbo.html.j2" import button_to %}
 
 <div id="add-ingredient-form" class="row p-2 dashboard-badge">
-	<div class="col-9">
+	<div class="col-12 col-md-9">
 
 		<form method="post" action="{{ url_for('EditRecipeIngredientsView:add_ingredient', recipe_id=recipe.id) }}" data-controller="enable-select2" class="row row-cols-lg-auto g-3 align-items-center">
 			<div class="col-6">
 			    <select class="form-control" name="ingredient_option" id="ingredient_select" data-enable-select2-target="select">
-					<optgroup label="Moje suroviny">
+					<optgroup label="moje suroviny">
 					    {{ options(personal_ingredients) }}
 					</optgroup>
-					<optgroup label="Veřejné suroviny">
+					<optgroup label="veřejné suroviny">
 					    {{ options(public_ingredients) }}
 					</optgroup>
 			    </select>
 			</div>
 
 			<div class="col-6">	
-		    	<button type="submit" class="btn bg-color-primary-action color-white"> Přidat do receptu </button>
+		    	<button type="submit" class="btn bg-color-primary-action color-white"> přidat do receptu </button>
 			</div>
 		</form>
 	</div>
 		
-	<div class="col-3 text-end">
-		{{ button_to(url_for('FastAddIngredientsView:show', recipe_id=recipe.id), value=icon('add') + "Přidat chybějící surovinu", class="btn") }}
+	<div class="col-12 col-md-3 text-end">
+		{{ button_to(url_for('FastAddIngredientsView:show', recipe_id=recipe.id), value=icon('add') + "přidat chybějící surovinu", class="btn") }}
 	</div>
 </div>

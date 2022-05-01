@@ -16,34 +16,34 @@
 
 {% block content %}
 
-<a class="btn bg-color-secondary-action color-white ms-2 mb-3" href="{{ url_for('RecipesView:show', id=recipe.id) }}">{{ texts.edit_finish }} {{ icon("edit") }}</a>
+<a class="btn bg-color-secondary-action color-white ms-2 mb-3" href="{{ url_for('RecipesView:show', id=recipe.id) }}"> zavřít úpravy</a>
 
-<details class="form-control mb-3" open>
-<summary> Upravit recept </summary>
+<div class="form-control mb-3">
+    <h3 class="text-center"> recept </h3>
     {% include "recipes/edit/_info.html.j2" %}
-</details>
-
-<details class="form-control mb-3" open>
-<summary> Upravit suroviny </summary>
-
-<div class="m-3" id="add-ingredient">
-    {% include "recipes/edit/_add_ingredient_form.html.j2" %}
-    {% if show_fast_add %}
-        {% set form=ingredient_form %}
-        {% include "ingredients/_new_simple.html.j2" %}
-    {% endif %}
 </div>
 
-{% include "recipes/edit/_ingredient_table.html.j2" %}
+<div class="form-control mb-3">
+    <h3 class="text-center"> suroviny </h3>
+    
+    <div class="m-3" id="add-ingredient">
+        {% include "recipes/edit/_add_ingredient_form.html.j2" %}
+        {% if show_fast_add %}
+            {% with form=ingredient_form %}
+                {% include "ingredients/_new_simple.html.j2" %}
+            {% endwith %}
+        {% endif %}
+    </div>
 
-</details>
+    {% include "recipes/edit/_ingredient_table.html.j2" %}
+</div>
 
 
-<details class="form-control mb-3" open>
-<summary> Upravit návod </summary>
+<div class="form-control mb-3">
+    <h3 class="text-center"> návod </h3>
     {% include "recipes/edit/_description.html.j2" %}
-</details>
+</div>
 
-<a class="btn bg-color-secondary-action color-white ms-2 mb-5" href="{{ url_for('RecipesView:show', id=recipe.id) }}">{{ texts.edit_finish }} {{ icon("edit") }}</a>
+<a class="btn bg-color-secondary-action color-white ms-2 mb-5" href="{{ url_for('RecipesView:show', id=recipe.id) }}"> zavřít úpravy </a>
 
 {% endblock %}

@@ -59,7 +59,7 @@ class RecipesForm(FlaskForm):
 
     labels = HiddenField()
 
-    submit = SubmitField("Přidat recept")
+    submit = SubmitField("přidat recept")
 
     def __init__(self, formdata=None, obj=None, **kwargs):
         super().__init__(formdata=formdata, obj=obj, **kwargs)

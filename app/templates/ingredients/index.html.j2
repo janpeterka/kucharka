@@ -12,9 +12,11 @@
 {% endblock %}
 
 <div class="row">
-    <h1 class="float-start col"> Moje suroviny </h1>
     <div class="col">
-        <a href="{{ url_for('IngredientsView:new') }}" class="btn bg-color-secondary-action color-white float-end mt-2"> Přidat surovinu
+        <h1 class="font-comfortaa"> moje suroviny </h1>
+    </div>
+    <div class="col">
+        <a href="{{ url_for('IngredientsView:new') }}" class="btn bg-color-secondary-action color-white float-end"> {{ icon("add") }} surovinu
         </a>
     </div>
 </div>

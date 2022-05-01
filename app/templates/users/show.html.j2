@@ -21,7 +21,7 @@
         </tr>
         <tr>
             <td> {{ user.email }} </td>
-            <td> {{ user.full_name }} </td>
+            <td> {{ user.full_name | default("", True) }} </td>
         </tr>
      </table>
 </div>

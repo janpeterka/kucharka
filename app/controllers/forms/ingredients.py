@@ -45,4 +45,4 @@ class IngredientsForm(FlaskForm):
         [Optional(), NumberRange(0, 100, "musí být mezi 0 a 100")],
     )
     calorie = ComaFloatField("energie (kJ) / 100 g", [Optional()])
-    submit = SubmitField("Přidat surovinu")
+    submit = SubmitField("přidat surovinu")

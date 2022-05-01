@@ -1,64 +1,168 @@
 {% extends "base/base.html.j2" %}
-{% block title %} Kuchařské tipy a triky {% endblock %}
+{% block title %} tipy, triky, návody {% endblock %}
 
 {% block content %}
 
-<div class="font-montserrat ">
-	<h1 class="text-uppercase text-center color-primary font-comfortaa-bb mb-3"> Tipy a triky </h1>
-    {# <hr> #}
+<div class="font-montserrat">
+	<h1 class="text-center color-primary font-comfortaa-bb mb-3"> tipy a návody </h1>
     
-    <h2 class="text-uppercase color-primary font-comfortaa-bb"> Množství surovin </h2>
-    
-    <table class="table">
-        <thead>
-            <th> Co </th>
-            <th> Kolik </th>
-        </thead>
-        <tbody>
-            <tr>
-                <td> Těstoviny (suché) </td>
-                <td> ~ 100g jako hlavní, ~70g jako příloha </td>
-            </tr>
-            <tr>
-                <td> Rýže (suchá) </td>
-                <td> ~ 100g jako hlavní, ~70g jako příloha </td>
-            </tr>
-            <tr>
-                <td> Brambory </td>
-                <td> ~ 250-300g jako hlavní, ~150g jako příloha </td>
-            </tr>
-        </tbody>
-    </table>
-    <h3 class="text-uppercase color-primary font-comfortaa-bb"> Zdroje pro inspiraci </h3>
-    <div class="mb-2">
+    <div>
+        <h2 class="color-primary text-center font-comfortaa"> množství surovin </h2>
+        
+        <div class="text-center"> hmotnosti jsou uvedeny ve stavu před zpracováním </div>.
+
+        <h3 class="text-center"> přílohy </h3>
+
+        <table class="table">
+            <thead>
+                <th> co </th>
+                <th> malá porce </th>
+                <th> velká porce </th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td> brambory </td>
+                    <td> 315g </td>
+                    <td> 375g </td>
+                </tr>
+                <tr>
+                    <td> rýže </td>
+                    <td> 70g </td>
+                    <td> 100g </td>
+                </tr>
+                <tr>
+                    <td> těstoviny </td>
+                    <td> 70g </td>
+                    <td> 100g </td>
+                </tr>
+                <tr>
+                    <td> kuskus </td>
+                    <td> 45g </td>
+                    <td> 60g </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3  class="text-center"> přílohy jako hlavní chod </h3>
+        <table class="table">
+            <thead>
+                <th> co </th>
+                <th> malá porce </th>
+                <th> velká porce </th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td> brambory </td>
+                    <td> 400g </td>
+                    <td> 450g </td>
+                </tr>
+                <tr>
+                    <td> rýže </td>
+                    <td> 100g </td>
+                    <td> 130g </td>
+                </tr>
+                <tr>
+                    <td> těstoviny </td>
+                    <td> 90g </td>
+                    <td> 120g </td>
+                </tr>
+                <tr>
+                    <td> kuskus </td>
+                    <td> 65g </td>
+                    <td> 80g </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 class="text-center"> maso (syrové) </h3>
+        <table class="table">
+            <thead>
+                <th> co </th>
+                <th> malá porce </th>
+                <th> velká porce </th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td> kuřecí prsní řízek </td>
+                    <td> 130g </td>
+                    <td> 180g </td>
+                </tr>
+                <tr>
+                    <td> vepřové </td>
+                    <td> 130g </td>
+                    <td> 180g </td>
+                </tr>
+                <tr>
+                    <td> mleté maso </td>
+                    <td> 150g </td>
+                    <td> 190g </td>
+                </tr>
+                <tr>
+                    <td> rybí </td>
+                    <td> 150g</td>
+                    <td> 170g </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 class="text-center"> ostatní </h3>
+            <table class="table">
+            <thead>
+                <th> co </th>
+                <th> malá porce </th>
+                <th> velká porce </th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td> krupice (na kaši) </td>
+                    <td> 50g / 150ml</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td> polévka </td>
+                    <td> 0,33l </td>
+                    <td> </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+        
+    <div class="mt-4 text-center">
+    <h3 class="color-primary text-center font-comfortaa"> zdroje pro inspiraci </h3>
     <a href="https://docs.google.com/document/d/1YKm31Gvgaz7rew0mOeaXhX6wD1erBIapd118OzzmAGs/edit?fbclid=IwAR0IuuVWHzteEyqxA8kGgleI7BVt9u1WsdMLzOJkC3vpDRCi9zPPaKuQTZs#heading=h.777dlp6jb1yy" target="_blank"> Kuchyně ČLK Hrádek </a> (díky Barbora Trojak) <br>
     <a href="https://docs.google.com/document/d/12wiyv8-8510Gn7dFCJe3bCWFvOfL8yVDdJQH5Cb9lFg/edit?fbclid=IwAR0xjl9CdYBS1rDRVOTkiL28zP7zZx5rjS6DMwWnrip7EHlrxog0vD867zY" target="_blank">Kuchařka osvědčených receptů na Brontosauřích akcích </a> (díky Eva Pavlíková) <br>
     <a href="https://docs.google.com/document/d/1ovGKm99X98W6NDCf4L3Czaxl7kvTVVmp-OhianCZd50/edit?fbclid=IwAR0CU-LW1x0JXxmnAH6Js8ixG3vnPYEDEYJofP0mU9AKnULmq63XbSJ6eeo" target="_blank"> Inspirace pro vaření na táboře </a> (díky Richard Dobřichovský) <br>
     </div>
 
-    <h3 class="text-uppercase color-primary font-comfortaa-bb"> Další tipy a triky </h3>
+    <div class="mt-4">
+    <h3 class="color-primary text-center font-comfortaa"> další tipy a triky </h3>
     <ul>
         <li>Aby se mezi potraviny nenastěhovali mravenci, vložíme mezi ně nakrájený citrón.</li>
         <li>Jídlo uchováme déle teplé, když nádobu po sejmutí z ohně i s pokličkou zabalíme do utěrky a do peřin.</li>
         <li>Pokud přepepříme nějaký pokrm, stačí nakrájet dvě jablka na větší kousky, vložit je do jídla a krátce povařit. Ostrost jídla se tím zmírní.</li>
         <li>Přesolená zelenina: do přesolené zeleniny přidáme žloutek rozšlehaný ve smetaně nebo mléce.</li>
     </ul>
+    </div>
 
-    <h3 class="text-uppercase color-primary font-comfortaa-bb"> Tipy od vás </h3>
+    <div class="mt-4">
+    <h3 class="color-primary text-center font-comfortaa"> tipy od vás </h3>
     <ul>
         {% for tip in tips %}
             <li> {{tip.description}} <em>(přidal*a {{ tip.author.full_name }})</em></li>
         {% endfor %}
     </ul>
+    </div>
 
 
     {% if current_user.is_authenticated %}
     <div class="mt-4">
         <hr>
-        <h3 class="font-comfortaa text-uppercase">Přidat vlastní tip</h3>
+        <h3 class="font-comfortaa"> přidat vlastní tip </h3>
         <form action="{{ url_for('TipsView:add_tip') }}" method="POST" class="form">
             <textarea name="description" class="form-control mb-2"></textarea>
-            <button type="submit" class="btn bg-color-primary-action color-white">Přidat</button>
+            <button type="submit" class="btn bg-color-primary-action color-white"> přidat </button>
         </form>
     </div>
     {% endif %}

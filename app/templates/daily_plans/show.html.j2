@@ -28,7 +28,7 @@
         <div class="col">
             {% if daily_plan.has_previous %}
             <span class="float-start" >
-                <a href="{{ url_for('DailyPlansView:previous', daily_plan_id=daily_plan.id) }}" class="color-primary">
+                <a href="{{ url_for('DailyPlansView:previous', id=daily_plan.id) }}" class="color-primary">
                     {{ icon("previous", cursor_class="pointer") }}
                 </a>
             </span>
@@ -45,7 +45,7 @@
         <div class="col">
             {% if daily_plan.has_next %}
             <span class="float-end" >
-                <a href="{{ url_for('DailyPlansView:next', daily_plan_id=daily_plan.id) }}" class="color-primary">
+                <a href="{{ url_for('DailyPlansView:next', id=daily_plan.id) }}" class="color-primary">
                     {{ icon("next", cursor_class="pointer") }}
                 </a>
             </span>

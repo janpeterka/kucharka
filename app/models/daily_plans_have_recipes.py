@@ -38,6 +38,18 @@ class DailyPlanHasRecipe(BaseModel, BaseMixin):
     daily_plan = db.relationship("DailyPlan")
     recipe = db.relationship("Recipe", backref="daily_plan_recipes")
 
+    def duplicate(self):
+        daily_recipe = DailyPlanHasRecipe()
+        daily_recipe.recipe_id = self.recipe_id
+        daily_recipe.daily_plan_id = self.daily_plan_id
+        daily_recipe.order_index = self.order_index
+        daily_recipe.portion_count = self.portion_count
+        daily_recipe.meal_type = self.meal_type
+
+        daily_recipe.save()
+
+        return daily_recipe
+
     def change_order(self, order_type):
         coef = 1 if order_type == "up" else -1
 

@@ -48,4 +48,8 @@
 
 {% include "events/_export.html.j2" %}
 
+{% if event.can_current_user_edit %}
+    {% include "events/_other_options.html.j2" %}
+{% endif %}
+
 {% endblock %}

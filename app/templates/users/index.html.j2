@@ -1,5 +1,10 @@
 {% extends "base/base.html.j2" %}
+
 {% block title %} admin - všichni uživatelé {% endblock %}
+
+{% block meta %}
+    <meta name="turbo-visit-control" content="reload">
+{% endblock %}
 
 {% block style %}
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">

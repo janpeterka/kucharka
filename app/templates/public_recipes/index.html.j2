@@ -1,5 +1,9 @@
 {% extends "base/base.html.j2" %}
-{% block title %} Databáze receptů {% endblock %}
+{% block title %} databáze receptů {% endblock %}
+
+{% block meta %}
+    <meta name="turbo-visit-control" content="reload">
+{% endblock %}
 
 {% block links %}
 	{{ super() }}

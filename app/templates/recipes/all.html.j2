@@ -1,5 +1,9 @@
 {% extends "base/base.html.j2" %}
-{% block title %} {{ texts.recipe_all }} {% endblock %}
+{% block title %} správce - recepty {% endblock %}
+
+{% block meta %}
+    <meta name="turbo-visit-control" content="reload">
+{% endblock %}
 
 {% block style %}
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
@@ -12,7 +16,7 @@
 {% block content %}
 
 <div class="row">
-    <h1 class="float-start col"> Všechny recepty </h1>
+    <h1 class="float-start col"> všechny recepty </h1>
 </div>
 
 <hr>

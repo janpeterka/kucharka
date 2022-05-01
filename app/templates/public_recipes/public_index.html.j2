@@ -1,5 +1,9 @@
 {% extends "base/base.html.j2" %}
-{% block title %} Databáze receptů - pro nepřihlášené {% endblock %}
+{% block title %} databáze receptů {% endblock %}
+
+{% block meta %}
+    <meta name="turbo-visit-control" content="reload">
+{% endblock %}
 
 {% block style %}
 	<link href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css" rel="stylesheet">

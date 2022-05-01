@@ -103,8 +103,8 @@ def create_app(config_name="default"):
 
     application.jinja_options = {
         "autoescape": select_autoescape(enabled_extensions=("html", "html.j2", "xml")),
-        "line_statement_prefix": "#",
         "line_comment_prefix": "##",
+        "line_statement_prefix": "#",
     }
 
     return application

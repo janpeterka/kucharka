@@ -16,12 +16,12 @@
 <div>
     <table class="table">
         <tr>
-            <th> {{ texts.user.username }} </th>
-            <th> Jméno </th>
+            <th> přihlašovací e-mail </th>
+            <th> jméno </th>
         </tr>
         <tr>
             <td> {{ user.email }} </td>
-            <td> {{ user.full_name }} </td>
+            <td> {{ user.full_name | default("", True) }} </td>
         </tr>
      </table>
 </div>

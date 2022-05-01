@@ -44,15 +44,6 @@ texts = {
     "recipe_share_all": "Zveřejnit všechny moje recepty",
     "recipe_unshare": "Zneveřejnit recept",
     "recipes": "Recepty",
-    # Diet
-    "diet": "Dieta",
-    "diet_all": "Všechny diety",
-    "diet_new": "Nová dieta",
-    "diet_active": "Aktivní",
-    "diet_add": "Přidat dietu",
-    "diet_delete": "Smazat dietu",
-    "diet_name": "Název diety",
-    "diet_recipes_count": "Receptů:",
     # Ingredient
     "ingredient": "Surovina",
     "ingredient_add": "Přidat surovinu",

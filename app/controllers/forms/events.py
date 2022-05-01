@@ -20,7 +20,7 @@ class EventsForm(FlaskForm):
         ],
     )
 
-    submit = SubmitField("Přidat akci")
+    submit = SubmitField("přidat akci")
 
     def __init__(self, formdata=None, obj=None, **kwargs):
         super().__init__(formdata=formdata, obj=obj, **kwargs)

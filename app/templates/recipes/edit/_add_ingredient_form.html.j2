@@ -1,29 +1,29 @@
+{% from "macros/general.html.j2" import option, options %}
 {% from "macros/icons.html.j2" import icon %}
+{% from "macros/turbo.html.j2" import button_to %}
 
-<turbo-frame id="add_ingredient_form">	
+<div id="add-ingredient-form" class="row p-2 dashboard-badge">
+	<div class="col-12 col-md-9">
 
-<form method="post" action="{{ url_for('EditRecipeView:add_ingredient', recipe_id=recipe.id) }}" data-controller="enable-select2" class="row row-cols-lg-auto g-3 align-items-center">
-	<div class="col-12">
-	    <select class="form-control" name="ingredient_option" id="ingredient_select" data-enable-select2-target="select">
-	        {% include "recipes/edit/_add_ingredient_form_options.html.j2" %}
-	    </select>
+		<form method="post" action="{{ url_for('EditRecipeIngredientsView:add_ingredient', recipe_id=recipe.id) }}" data-controller="enable-select2" class="row row-cols-lg-auto g-3 align-items-center">
+			<div class="col-6">
+			    <select class="form-control" name="ingredient_option" id="ingredient_select" data-enable-select2-target="select">
+					<optgroup label="moje suroviny">
+					    {{ options(personal_ingredients) }}
+					</optgroup>
+					<optgroup label="veřejné suroviny">
+					    {{ options(public_ingredients) }}
+					</optgroup>
+			    </select>
+			</div>
+
+			<div class="col-6">	
+		    	<button type="submit" class="btn bg-color-primary-action color-white"> přidat do receptu </button>
+			</div>
+		</form>
 	</div>
-
-	<div class="col-12">	
-    	<button type="submit" class="btn bg-color-primary-action color-white"> Přidat do receptu </button>
+		
+	<div class="col-12 col-md-3 text-end">
+		{{ button_to(url_for('FastAddIngredientsView:show', recipe_id=recipe.id), value=icon('add') + "přidat chybějící surovinu", class="btn") }}
 	</div>
-	
-	<div class="col-12 ms-5">	
-		<a class="" href="{{ url_for('FastAddIngredientsView:new', recipe_id=recipe.id) }}"> {{ icon("add") }} Přidat chybějící surovinu </a>
-	</div>	
-</form>
-
-<turbo-frame id="add-ingredient-simple"></turbo-frame>
-
-{# {% if recipe %}
-<form method="POST" action="{{ url_for('RecipesView:refresh_usable_ingredients', recipe_id=recipe.id) }}">
-    <button type="submit" class="icon mt-2">&#8635;</button>
-</form>
-{%endif%} #}
-
-</turbo-frame>
+</div>

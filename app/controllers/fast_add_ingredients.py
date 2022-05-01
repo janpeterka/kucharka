@@ -7,10 +7,9 @@ from app import turbo
 
 from app.helpers.helper_flask_view import HelperFlaskView
 
-from app.models.ingredients import Ingredient
-from app.models.recipes import Recipe
+from app.models import Recipe, Ingredient
 
-from app.controllers.edit_recipes import EditRecipeView
+from app.controllers.edit_recipe_ingredients import EditRecipeIngredientsView
 
 from app.controllers.forms.ingredients import IngredientsForm
 
@@ -19,19 +18,38 @@ class FastAddIngredientsView(HelperFlaskView):
     decorators = [login_required]
     template_folder = "ingredients"
 
-    def new(self, recipe_id):
+    @route("/show/<recipe_id>", methods=["POST"])
+    def show(self, recipe_id):
         self.form = IngredientsForm()
-        # TODO: make it work without turbo (80)
-        return turbo.stream(
-            turbo.replace(
-                self.template(
-                    template_name="_new_simple", recipe=Recipe.load(recipe_id)
-                ),
-                target="add-ingredient-simple",
-            )
-        )
 
-    @route("ingredients/fast/post/<recipe_id>", methods=["POST"])
+        if turbo.can_stream():
+            return turbo.stream(
+                turbo.append(
+                    self.template(
+                        template_name="_new_simple", recipe=Recipe.load(recipe_id)
+                    ),
+                    target="add-ingredient",
+                ),
+            )
+        else:
+            return redirect(
+                url_for("RecipesView:edit", id=recipe_id, show_fast_add=True)
+            )
+
+    @route("/hide/<recipe_id>", methods=["POST"])
+    def hide(self, recipe_id):
+        self.form = IngredientsForm()
+
+        if turbo.can_stream():
+            return turbo.stream(
+                turbo.remove(
+                    target="add-ingredient-simple",
+                ),
+            )
+        else:
+            return redirect(url_for("RecipesView:edit", id=recipe_id))
+
+    @route("/post/<recipe_id>", methods=["POST"])
     def post(self, recipe_id):
         recipe = Recipe.load(recipe_id)
 
@@ -47,9 +65,26 @@ class FastAddIngredientsView(HelperFlaskView):
 
         if turbo.can_stream():
             return turbo.stream(
-                [turbo.remove(target="add-ingredient-simple")]
-                + EditRecipeView().add_ingredient_to_recipe(recipe, ingredient)
-                + EditRecipeView().update_usable_ingredients(recipe)
+                [
+                    turbo.remove(target="add-ingredient-simple"),
+                    turbo.prepend(
+                        self.template(
+                            template_name="recipes/edit/ingredient/_row.html.j2",
+                            ingredient=ingredient,
+                            recipe=recipe,
+                        ),
+                        target="ingredients",
+                    ),
+                    turbo.after(
+                        self.template(
+                            template_name="recipes/edit/ingredient/_edit.html.j2",
+                            ingredient=ingredient,
+                            recipe=recipe,
+                        ),
+                        target=f"ingredient-{ingredient.id}",
+                    ),
+                ]
+                + EditRecipeIngredientsView().update_usable_ingredients(recipe)
             )
         else:
             return redirect(url_for("RecipesView:edit", id=recipe_id))

@@ -5,7 +5,9 @@ Stimulus.register("enable-select2", class extends Controller {
 
   connect() {
     if (this.hasSelectTarget) {
-      $(this.selectTarget).select2();
+      $(this.selectTarget).select2(
+        {theme: 'bootstrap-5'}
+      );
     }
 
   }

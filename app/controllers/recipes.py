@@ -19,6 +19,7 @@ from app.helpers.form import save_form_to_session, create_form
 from app.models.recipes import Recipe
 
 from app.controllers.forms.recipes import RecipesForm
+from app.controllers.forms.ingredients import IngredientsForm
 
 
 def get_portion_count(recipe, request):
@@ -87,6 +88,9 @@ class RecipesView(HelperFlaskView):
 
     @login_required
     def edit(self, id):
+        self.show_fast_add = request.args.get("show_fast_add", False)
+        self.ingredient_form = IngredientsForm()
+
         self.form = create_form(RecipesForm, obj=self.recipe)
 
         self.personal_ingredients = sorted(

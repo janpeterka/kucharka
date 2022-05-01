@@ -59,7 +59,7 @@ class RecipesForm(FlaskForm):
 
     labels = HiddenField()
 
-    submit = SubmitField("Přidat recept")
+    submit = SubmitField("přidat recept")
 
     def __init__(self, formdata=None, obj=None, **kwargs):
         super().__init__(formdata=formdata, obj=obj, **kwargs)
@@ -67,7 +67,7 @@ class RecipesForm(FlaskForm):
         self.set_difficulty_label()
         self.set_dietary_labels()
 
-    def set_dietary_labels(form):
+    def set_dietary_labels(self):
         from app.models.labels import Label
 
         option_attr = {
@@ -75,9 +75,9 @@ class RecipesForm(FlaskForm):
             for i, label in enumerate(Label.load_dietary())
         }
 
-        form.dietary_labels.option_attr = option_attr
+        self.dietary_labels.option_attr = option_attr
 
-    def set_difficulty_label(form):
+    def set_difficulty_label(self):
         from app.models.labels import Label
 
         option_attr = {
@@ -85,12 +85,12 @@ class RecipesForm(FlaskForm):
             for i, label in enumerate(Label.load_difficulty())
         }
 
-        form.difficulty_label.option_attr = option_attr
+        self.difficulty_label.option_attr = option_attr
 
-    def set_labels(form):
+    def set_labels(self):
         from app.models.label_categories import LabelCategory
 
-        form.labels.data = []
+        self.labels.data = []
 
         for category in LabelCategory.load_all():
             if category.allow_multiple:
@@ -98,12 +98,11 @@ class RecipesForm(FlaskForm):
             else:
                 attr_name = f"{category.name}_label"
 
-            field = getattr(form, attr_name, None)
-            if field:
+            if field := getattr(self, attr_name, None):
                 specific_labels = field.data
                 if not specific_labels:
                     continue
                 elif type(specific_labels) == list:
-                    form.labels.data.extend(specific_labels)
+                    self.labels.data.extend(specific_labels)
                 else:
-                    form.labels.data.append(specific_labels)
+                    self.labels.data.append(specific_labels)

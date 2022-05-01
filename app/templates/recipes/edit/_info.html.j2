@@ -1,26 +1,25 @@
-{% from "macros/render_field.html.j2" import render_field %}
+{% from "macros/render_field.html.j2" import render_field, render_floating_field %}
 
 <div id="recipe-info">
-    <form action="{{ url_for('EditRecipeView:post', recipe_id=recipe.id) }}" method="post" accept-charset="utf-8">
+    <form action="{{ url_for('EditRecipeView:post', recipe_id=recipe.id) }}" method="post" accept-charset="utf-8" class="mt-2">
         {{ form.csrf_token }}
 
-        <div class="form-floating mb-2">
-            {{ render_field(form.name, has_label=False) }}
-            {{ form.name.label }}
-        </div>
+        <div class="row mb-2">
+            <div class="mb-2 mb-md-0 col-12 col-md-4">
+                {{ render_floating_field(form.name) }}
+            </div>
 
-        <div class="form-floating mb-2">
-            {{ render_field(form.category, has_label=False) }}
-            {{ form.category.label }}
-        </div>
+            <div class="mb-2 mb-md-0 col-12 col-md-4 col-4">
+                {{ render_floating_field(form.category) }}
+            </div>
 
-        <div class="form-floating mb-2">
-            {{ render_field(form.portion_count, has_label=False) }}
-            {{ form.portion_count.label }}
+            <div class="mb-2 mb-md-0 col-12 col-md-4 col-4">
+                {{ render_floating_field(form.portion_count) }}
+            </div>
         </div>
 
         <details open class="colored">
-            <summary> Další informace </summary>
+            <summary> další informace </summary>
             <div>
                 <div class="row mt-2" data-controller="select-badges"
                      data-select-badges-type-value="multiple"
@@ -47,7 +46,7 @@
         </details>
 
         <div class="mt-4 pb-2">
-            <input type="submit" value="{{ texts.recipe_edit }}" class="btn bg-color-secondary-action color-white">
+            <input type="submit" value="upravit recept" class="btn bg-color-secondary-action color-white">
             <span class="float-end me-5 color-success animate-fadeout">{{ message }}</span>
         </div>
     </form>

@@ -14,32 +14,21 @@
           <a class="nav-link" href="{{ url_for('DashboardView:index') }}"> domů | </a>
         </li>
 
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdd" role="button"
-             data-bs-toggle="dropdown" aria-expanded="false">
-            přidat
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdownAdd">
-            <li><a class="dropdown-item" href="{{ url_for('RecipesView:new') }}"> recept </a></li>
-            <li><a class="dropdown-item" href="{{ url_for('IngredientsView:new') }}"> surovinu </a></li>
-            <li><a class="dropdown-item" href="{{ url_for('EventsView:new') }}"> akci </a></li>
-          </ul>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('IngredientsView:index') }}"> {{ icon("seedling") }} suroviny </a>
         </li>
 
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownList" role="button"
-             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            seznam
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownList">
-            <a class="dropdown-item" href="{{ url_for('RecipesView:index') }}"> receptů </a>
-            <a class="dropdown-item" href="{{ url_for('IngredientsView:index') }}"> surovin </a>
-            {# <a class="dropdown-item" href="{{ url_for('PublicIngredientsView:index') }}"> veřejných surovin </a> #}
-          </div>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('RecipesView:index') }}"> {{ icon("food") }} recepty </a>
         </li>
-        <a class="nav-link" href="{{ url_for('EventsView:index') }}"> {{ icon("daily") }} akce </a>
 
-        <a class="nav-link" href="{{ url_for('PublicRecipesView:index') }}"> {{ icon("recipe_database")}} databáze receptů </a>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('EventsView:index') }}"> {{ icon("daily") }} akce </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('PublicRecipesView:index') }}"> {{ icon("recipe_database")}} databáze receptů </a>
+        </li>
         
         {% if config['FF_GALLERY'] %}
           <li class="nav-item">
@@ -53,15 +42,8 @@
       </ul>
 
       <ul class="nav navbar-nav ms-auto">
-        <li class="nav-item dropdown">
-          <a class="nav-link" href="#" id="navbarDropdown" role="button"
-             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-             {{ icon("more", cursor_class="cursor-clickable") }}
-          </a>
-
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ url_for('TipsView:index') }}"> tipy a triky </a>
-          </div>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('TipsView:index') }}"> {{ icon("info-circle") }} tipy a triky </a>
         </li>
         
         <li class="nav-item dropdown me-3">

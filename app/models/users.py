@@ -3,7 +3,7 @@ from operator import attrgetter
 from flask_security.models.fsqla_v2 import FsUserMixin as UserMixin
 from flask_security import hash_password
 
-from app import db, BaseModel
+from app import db, BaseModel, turbo
 
 from app.helpers.base_mixin import BaseMixin
 from app.helpers.general import flatten
@@ -137,6 +137,12 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin):
     def role_event_recipes(self):
         recipes = [event.recipes for event in self.role_events]
         return flatten(recipes)
+
+    @turbo.user_id
+    def get_user_id():
+        from flask_security import current_user
+
+        return current_user.id
 
     # ROLES
     # @property

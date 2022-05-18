@@ -23,6 +23,7 @@ db = SQLAlchemy(
     session_options={"autoflush": False},
     metadata=MetaData(naming_convention=convention),
 )
+turbo = Turbo()
 
 BaseModel: DefaultMeta = db.Model
 
@@ -33,7 +34,6 @@ user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 
 migrate = Migrate()
 babel = Babel()
-turbo = Turbo()
 mail = Mail()
 security = Security()
 dropzone = Dropzone()

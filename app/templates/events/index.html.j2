@@ -1,5 +1,5 @@
 {% extends "base/base.html.j2" %}
-{% block title %} Akce {% endblock %}
+{% block title %} akce {% endblock %}
 
 {% block content %}
 
@@ -22,7 +22,7 @@
 
 {% if current_user.role_events %}
 <details open>
-    <summary> Sdílené akce </summary>
+    <summary> sdílené akce </summary>
     <table class="table">
         {% for event in current_user.role_events %}
             {% if event.is_active %}
@@ -33,10 +33,9 @@
 </details>
 {% endif %}
 
-
 {% if current_user.archived_events %}
 <details>
-    <summary>Archivované akce</summary>
+    <summary> archivované akce </summary>
     <table class="table">
     {% for event in current_user.events: %}
         {% if event.is_archived %}

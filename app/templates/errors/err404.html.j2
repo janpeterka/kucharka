@@ -1,11 +1,11 @@
 {% extends "base/base.html.j2" %}
-{% block title %} Tato stránka neexistuje {% endblock %}
+{% block title %} tato stránka neexistuje {% endblock %}
 
 {% block content %}
     <div class="container text-center font-montserrat">
-    	<h1 class="mt-2 text-uppercase color-primary font-comfortaa-bb">Tato stránka neexistuje.</h1>
+    	<h1 class="mt-2 text-uppercase color-primary font-comfortaa-bb"> tato stránka neexistuje. </h1>
         {# Jste si jistí, že jste chtěli být tady? Pokud ano, <a href="{{ url_for('SupportView:feedback') }}">napište mi</a> a já to zkusím rychle opravit. #}
-        <p>Zatím se můžete vrátit na <a href="{{ url_for('IndexView:index') }}">hlavní stránku</a></p>
+        <p> radši se vrať na <a href="{{ url_for('IndexView:index') }}">hlavní stránku</a></p>
     </div>
 {% endblock %}
 

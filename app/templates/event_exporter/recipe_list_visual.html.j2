@@ -1,10 +1,10 @@
 {% extends "base/base.html.j2" %}
-{% block title %} Jídelníček {% endblock %}
+{% block title %} jídelníček {% endblock %}
 
 {% block content %}
 
 <h1 class="text-uppercase font-comfortaa text-center mb-3" > {{ link_or_name(event) }} </h1>
-<h2 class="text-uppercase font-comfortaa text-center">Recepty</h2>
+<h2 class="text-uppercase font-comfortaa text-center"> recepty </h2>
 
 <div class="row">
     {% for daily_plan in daily_plans %}

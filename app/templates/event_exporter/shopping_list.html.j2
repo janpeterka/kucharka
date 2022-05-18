@@ -1,5 +1,5 @@
 {% extends "base/base.html.j2" %}
-{% block title %} Nákupní seznam {% endblock %}
+{% block title %} nákupní seznam {% endblock %}
 
 {% block content %}
 
@@ -8,9 +8,9 @@
 {% if show_type == "list" %}
     <span data-controller="toggle-details" data-turbo="false" data-toggle-details-target="buttons" class="float-end"></span>
 {% endif %}
-<h2 class="text-uppercase font-comfortaa">Suroviny (pro {{ event.people_count }} lidí)</h2>
+<h2 class="text-uppercase font-comfortaa"> suroviny (pro {{ event.people_count }} lidí) </h2>
 
-<h3>Trvanlivé</h3>
+<h3> trvanlivé </h3>
 {% with groups=lasting_ingredients_shopping.grouped_shopping_list, ingredients=lasting_ingredients, amounts=lasting_ingredients_shopping.recipe_ingredient_amounts %}
     {% if show_type == "list" %}
         {% include 'event_exporter/_ingredient_list.html.j2' %}

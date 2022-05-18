@@ -25,26 +25,26 @@
             </div>
             
             <div>
-                <span class="fst-italic"> Kategorie: {{ ingredient.category.name }} </span>
+                <span class="fst-italic"> kategorie: {{ ingredient.category.name }} </span>
             </div>
         </div>
 
         <hr>
 
         <details class="mb-3 mt-2">
-        <summary>Nutriční hodnoty</summary>
+        <summary> nutriční hodnoty </summary>
             <table class="table">
             <tr>
-                <th>{{ texts.energy_100 }}</th>
-                <th>{{ texts.protein_100 }}</th>
-                <th>{{ texts.fat_100 }}</th>
-                <th>{{ texts.sugar_100 }}</th>
+                <th> energie (kJ) / 100g </th>
+                <th> bílkoviny / 100g </th>
+                <th> tuky / 100g </th>
+                <th> sacharidy / 100g </th>
             </tr>
             <tr>
-                <td>{{ ingredient.calorie }}</td>
-                <td>{{ ingredient.protein }}</td>
-                <td>{{ ingredient.fat }}</td>
-                <td>{{ ingredient.sugar }}</td>
+                <td> {{ ingredient.calorie }} </td>
+                <td> {{ ingredient.protein }} </td>
+                <td> {{ ingredient.fat }} </td>
+                <td> {{ ingredient.sugar }} </td>
             </tr>
             </table>
         </details>
@@ -52,14 +52,14 @@
         {% if ingredient.alternative_measurements %}
         
             <details class="mb-3 mt-2">
-            <summary> Konverze mezi druhy měření </summary>
+            <summary> konverze mezi druhy měření </summary>
             {% for conversion in ingredient.alternative_measurements %}
                 <li>{{ conversion.amount_from }} {{ conversion.ingredient.measurement.name }} → {{ conversion.amount_to }} {{ conversion.to_measurement.name }}</li>
             {% endfor %}
 
             {% if current_user.has_permission("manage-application") %}
             <div class="admin-field mt-3">
-                <h4> Přidat alternativní měření </h4>
+                <h4> přidat alternativní měření </h4>
                 {% include ('conversions/_add.html.j2') %}
             </div>
             {% endif %}
@@ -68,10 +68,10 @@
         {% else %}
             {% if current_user.has_permission("manage-application") %}
             <details class="mb-3 mt-2 admin-field">
-            <summary> Konverze mezi druhy měření </summary>
+            <summary> konverze mezi druhy měření </summary>
 
             <div class="mt-3">
-                <h4> Přidat alternativní měření </h4>
+                <h4> přidat alternativní měření </h4>
                 {% include ('conversions/_add.html.j2') %}
             </div>
             </details>    
@@ -83,13 +83,13 @@
 
             {% if from_new %}
             <div class="row">
-                <a href="{{ url_for('IngredientsView:new') }}"><button class="btn bg-color-primary-action color-white mt-3 ms-0">Přidat další surovinu</button></a>
+                <a href="{{ url_for('IngredientsView:new') }}"><button class="btn bg-color-primary-action color-white mt-3 ms-0"> přidat další surovinu </button></a>
             </div>
             {% endif %}
 
             {% if current_user.has_permission("manage-application") %}
             <div class="mt-4 admin-field">
-                {% if ingredient.is_public %} {% set value="Vyřadit z veřejných" %} {% else %} {% set value="Zařadit mezi veřejné" %} {% endif %}
+                {% if ingredient.is_public %} {% set value="Vyřadit z veřejných" %} {% else %} {% set value="zařadit mezi veřejné" %} {% endif %}
                 
                 {{ button_to(url_for('IngredientsView:toggle_public', id=ingredient.id), class="btn bg-color-secondary-action color-white", value=value) }}
             </div>

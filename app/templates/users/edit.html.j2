@@ -1,9 +1,9 @@
 {% extends "base/base.html.j2" %}
 {% block title %}
     {% if current_user.has_permission("manage-users") and user != current_user %}
-        Profil [{{ user.id }} | {{ user.username }}]   
+        profil [{{ user.id }} | {{ user.username }}]   
     {% else %}
-        Profil
+        profil
     {% endif %}
 {% endblock %}
 
@@ -34,7 +34,7 @@
                         {{ render_field(user_form.full_name, has_label=False) }}
                     </td>
                     <td>
-                        {{ render_field(user_form.submit, class="btn bg-color-primary-action color-white", has_label=False, value="Uložit změnu") }}
+                        {{ render_field(user_form.submit, class="btn bg-color-primary-action color-white", has_label=False, value="uložit změnu") }}
                     </td>
                 </tr>
             </tbody>
@@ -43,7 +43,7 @@
 </div>
 
 <div>
-    <a href="{{ url_for('UsersView:show') }}" class="btn bg-color-secondary-action color-white"> Zrušit úpravy </a>
+    <a href="{{ url_for('UsersView:show') }}" class="btn bg-color-secondary-action color-white"> zrušit úpravy </a>
 </div>
 
 {% endblock %}

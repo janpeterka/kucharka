@@ -6,6 +6,6 @@
   <td colspan> {{ measurement.count }}</td>
   <td colspan="3" class="text-end me-3">
     {% if editing %}{% set form_class="visibility-hidden"%}{% endif %}
-    {{ button_to(url_for('MeasurementsView:show_edit', id=measurement.id), form_class=form_class, value="Upravit", class="btn btn-warning hover-animate-fadein") }}
+    {{ button_to(url_for('MeasurementsView:show_edit', id=measurement.id), form_class=form_class, value="upravit", class="btn btn-warning hover-animate-fadein") }}
   </td>
 </tr>

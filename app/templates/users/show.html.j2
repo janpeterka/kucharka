@@ -71,11 +71,11 @@
 
 
 <div>
-    <a href="{{ url_for('UsersView:edit') }}" class="btn bg-color-secondary-action color-white">{{ texts.edit }} {{ icon("edit") }}</a>
+    <a href="{{ url_for('UsersView:edit') }}" class="btn bg-color-secondary-action color-white"> upravit {{ icon("edit") }}</a>
     {% if user.has_password %}
-        <a href="{{ url_for_security('change_password') }}" class="btn bg-color-secondary-action color-white"> Změnit heslo {{ icon("edit") }}</a>
+        <a href="{{ url_for_security('change_password') }}" class="btn bg-color-secondary-action color-white"> změnit heslo {{ icon("edit") }}</a>
     {% else %}
-        <a href="{{ url_for('UsersView:set_password') }}" class="btn bg-color-secondary-action color-white"> Nastavit heslo </a>
+        <a href="{{ url_for('UsersView:set_password') }}" class="btn bg-color-secondary-action color-white"> nastavit heslo </a>
     {% endif %}
 </div>
 

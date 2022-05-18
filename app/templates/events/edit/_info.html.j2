@@ -67,10 +67,10 @@
             <div class="row">
                 
             <div class="col">
-                {{ render_field(form.submit, value="Uložit změny", class="w-100 bg-color-secondary-action color-white mt-0 pt-3 pb-3") }}
+                {{ render_field(form.submit, value="uložit změny", class="w-100 bg-color-secondary-action color-white mt-0 pt-3 pb-3") }}
             </div>
             <div class="col">
-                <a href="{{ url_for('EventsView:show', id=event.id) }}" class="btn bg-color-secondary-action color-white w-100 mt-0 pt-3 pb-3"> Zrušit změny </a>
+                <a href="{{ url_for('EventsView:show', id=event.id) }}" class="btn bg-color-secondary-action color-white w-100 mt-0 pt-3 pb-3"> zrušit změny </a>
             </div>
             </div>
         </div>

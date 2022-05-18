@@ -28,7 +28,6 @@ from .public_recipes import PublicRecipesView
 from .public_ingredients import PublicIngredientsView
 
 from .users import UsersView
-from .user_statistics import UserStatisticsView
 from .user_calendars import UserCalendarsView
 
 from .files import FilesView
@@ -59,7 +58,6 @@ __all__ = [
     "PublicRecipesView",
     "PublicIngredientsView",
     "UsersView",
-    "UserStatisticsView",
     "UserCalendarsView",
     "FilesView",
 ]
@@ -104,7 +102,6 @@ def register_all_controllers(application):
     PublicRecipesView.register(application, base_class=HelperFlaskView)
 
     UsersView.register(application, base_class=HelperFlaskView)
-    UserStatisticsView.register(application, base_class=HelperFlaskView)
     UserCalendarsView.register(application, base_class=HelperFlaskView)
 
     FilesView.register(application, base_class=HelperFlaskView)

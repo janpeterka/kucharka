@@ -55,7 +55,7 @@ class RecipesView(HelperFlaskView):
         self.photo_form = PhotoForm()
 
         if not current_user.is_authenticated:
-            self.validate_view(self.recipe)
+            self.validate_show(self.recipe)
             return self.template("show", public=True)
 
         return self.template()

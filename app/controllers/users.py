@@ -1,14 +1,12 @@
 from flask import request, url_for, redirect, flash
-
-from flask_security import login_required, current_user
 from flask_classful import route
+from flask_security import login_required, current_user
 
 from app.helpers.form import create_form, save_form_to_session
 from app.helpers.helper_flask_view import HelperFlaskView
 
-from app.models.users import User
-
-from app.controllers.forms.users import UsersForm, SetPasswordForm
+from app.models import User
+from app.forms import UsersForm, SetPasswordForm
 
 
 class UsersView(HelperFlaskView):

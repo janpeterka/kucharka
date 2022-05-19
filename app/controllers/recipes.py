@@ -1,13 +1,9 @@
 from unidecode import unidecode
 
-# from flask import render_template as template
 from flask import request, redirect, url_for
 from flask import current_app as application
-
-from flask_security import login_required, permissions_required, current_user
-
 from flask_classful import route
-
+from flask_security import login_required, permissions_required, current_user
 from flask_weasyprint import render_pdf, HTML
 
 from app.modules.files import PhotoForm
@@ -16,10 +12,9 @@ from app.helpers.turbo_flash import turbo_flash as flash
 from app.helpers.helper_flask_view import HelperFlaskView
 from app.helpers.form import save_form_to_session, create_form
 
-from app.models.recipes import Recipe
+from app.models import Recipe
 
-from app.controllers.forms.recipes import RecipesForm
-from app.controllers.forms.ingredients import IngredientsForm
+from app.forms import RecipesForm, IngredientsForm
 
 
 def get_portion_count(recipe, request):

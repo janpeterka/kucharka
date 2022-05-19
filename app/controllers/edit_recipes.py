@@ -13,7 +13,7 @@ from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models import Recipe, RecipeImageFile
 
-from app.controllers.forms.recipes import RecipesForm
+from app.forms import RecipesForm
 
 
 class EditRecipeView(HelperFlaskView):

@@ -1,17 +1,13 @@
 from flask import flash, request, redirect, url_for
-
-
 from flask_classful import route
 from flask_security import login_required, current_user, permissions_required
 
 from app.helpers.form import save_form_to_session, create_form
 from app.helpers.helper_flask_view import HelperFlaskView
 
-from app.models.ingredients import Ingredient
-from app.models.recipes import Recipe
-from app.models.measurements import Measurement
+from app.models import Ingredient, Recipe, Measurement
 
-from app.controllers.forms.ingredients import IngredientsForm
+from app.forms import IngredientsForm
 
 
 class IngredientsView(HelperFlaskView):

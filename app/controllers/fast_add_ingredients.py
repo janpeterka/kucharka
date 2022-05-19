@@ -1,5 +1,4 @@
 from flask import request, redirect, url_for
-
 from flask_classful import route
 from flask_security import login_required
 
@@ -8,10 +7,8 @@ from app import turbo
 from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models import Recipe, Ingredient
-
-from app.controllers.edit_recipe_ingredients import EditRecipeIngredientsView
-
-from app.controllers.forms.ingredients import IngredientsForm
+from app.controllers import EditRecipeIngredientsView
+from app.forms import IngredientsForm
 
 
 class FastAddIngredientsView(HelperFlaskView):

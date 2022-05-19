@@ -7,7 +7,7 @@ from flask import render_template as template
 from flask_classful import FlaskView
 
 from app.models import *  # noqa: F401, F403, F406
-from app.controllers.forms import *  # noqa: F401, F403, F406
+from app.forms import *  # noqa: F401, F403, F406
 
 
 class HelperFlaskView(FlaskView):

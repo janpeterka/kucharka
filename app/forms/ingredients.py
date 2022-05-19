@@ -6,7 +6,7 @@ from wtforms_sqlalchemy.fields import QuerySelectField
 
 from wtforms.widgets import TextArea
 
-from app.controllers.forms.custom import ComaFloatField
+from app.forms.custom import ComaFloatField
 
 
 def categories():

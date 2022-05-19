@@ -1,18 +1,15 @@
-from app.models.recipes import Recipe
-
-from app import turbo
-
-from flask import render_template as template
-
 from flask import redirect, url_for, request
-
+from flask import render_template as template
 from flask_classful import route
 from flask_security import login_required, current_user
+
+from app import turbo
 
 from app.helpers.helper_flask_view import HelperFlaskView
 from app.helpers.turbo_flash import turbo_flash
 
-from app.controllers.forms.public_recipes import PublicRecipeFilterForm
+from app.models import Recipe
+from app.forms import PublicRecipeFilterForm
 
 
 class PublicRecipesView(HelperFlaskView):

@@ -7,10 +7,8 @@ from app import turbo
 from app.helpers.form import save_form_to_session
 from app.helpers.helper_flask_view import HelperFlaskView
 
-from app.controllers.forms.events import EventsForm
-
-from app.models.daily_plans import DailyPlan
-from app.models.events import Event
+from app.models import DailyPlan, Event
+from app.forms import EventsForm
 
 
 class EventsView(HelperFlaskView):

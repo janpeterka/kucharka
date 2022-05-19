@@ -24,7 +24,7 @@ class EditRecipeIngredientView(HelperFlaskView, AdminViewMixin):
     @login_required
     def before_request(self, name, recipe_id, **kwargs):
         self.recipe = Recipe.load(recipe_id)
-        self.validate_operation(recipe_id, self.recipe)
+        self.validate_edit(self.recipe)
 
     @route("show_edit/<recipe_id>/<ingredient_id>", methods=["POST"])
     def show_edit(self, recipe_id, ingredient_id):

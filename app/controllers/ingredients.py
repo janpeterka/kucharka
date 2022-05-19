@@ -17,7 +17,8 @@ class IngredientView(HelperFlaskView):
     @login_required
     def before_request(self, name, id=None, *args, **kwargs):
         self.ingredient = Ingredient.load(id)
-        self.validate_operation(id, self.ingredient)
+        if self.ingredient:
+            self.validate_show(self.ingredient)
 
     def before_new(self):
         self.form = create_form(IngredientForm)

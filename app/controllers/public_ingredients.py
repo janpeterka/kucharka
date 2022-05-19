@@ -18,7 +18,6 @@ class PublicIngredientView(HelperFlaskView):
 
     def before_request(self, name, id=None, *args, **kwargs):
         self.ingredient = Ingredient.load(id)
-        self.validate_operation(id, self.ingredient)
 
         self.measurements = Measurement.load_all()
         self.categories = IngredientCategory.load_all()

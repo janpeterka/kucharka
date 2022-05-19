@@ -21,22 +21,26 @@ class UserView(HelperFlaskView):
         if not self.user:
             self.user = current_user
 
-        self.validate_operation(id, self.user)
+    def before_show(self, **kwargs):
+        self.validate_show(self.user)
 
     def before_edit(self):
-        self.user_form = create_form(UserForm, obj=self.user)
+        self.validate_edit(self.user)
 
     def index(self):
         if not current_user.has_permission("manage-users"):
             return redirect(url_for("UserView:show"))
 
         self.users = User.load_all()
+
         return self.template()
 
     def show(self, **kwargs):
         return self.template()
 
     def edit(self):
+        self.user_form = create_form(UserForm, obj=self.user)
+
         return self.template()
 
     def post(self, page_type=None):

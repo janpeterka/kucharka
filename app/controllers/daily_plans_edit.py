@@ -28,7 +28,6 @@ class DailyPlansEditView(HelperFlaskView):
             self.daily_recipe = DailyPlanHasRecipe.load(daily_recipe_id)
             self.daily_plan = self.daily_recipe.daily_plan
 
-        self.validate_operation(daily_plan_id, self.daily_plan)
         self.validate_edit(self.daily_plan)
 
     @route("daily_plans/add_recipe/<daily_plan_id>", methods=["POST"])

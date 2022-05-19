@@ -16,7 +16,6 @@ class TipView(HelperFlaskView):
     @login_required
     def before_request(self, name, id=None, *args, **kwargs):
         self.tip = Tip.load(id)
-        self.validate_operation(id, self.tip)
 
     def before_manage(self):
         self.tips = Tip.load_all()

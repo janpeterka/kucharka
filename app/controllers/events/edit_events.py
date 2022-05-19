@@ -19,7 +19,7 @@ class EditEventView(HelperFlaskView):
     @login_required
     def before_request(self, name, event_id, **kwargs):
         self.event = Event.load(event_id)
-        self.validate_operation(event_id, self.event)
+        self.validate_edit(self.event)
 
     @route("/show-share-with-user/<event_id>", methods=["POST"])
     def show_share_with_user(self, event_id):

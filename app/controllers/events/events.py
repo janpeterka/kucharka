@@ -16,13 +16,10 @@ class EventView(HelperFlaskView):
 
     @login_required
     def before_request(self, name, id=None):
-        event_id = id
-        self.event = Event.load(event_id)
+        self.event = Event.load(id)
 
-        self.validate_operation(event_id, self.event)
-
-    def before_new(self):
-        self.form = EventForm()
+    def before_show(self):
+        self.validate_show(self.event)
 
     def before_edit(self, id):
         self.validate_edit(self.event)
@@ -33,15 +30,17 @@ class EventView(HelperFlaskView):
     def index(self):
         return self.template()
 
+    def show(self, id):
+        return self.template()
+
     def new(self):
+        self.form = EventForm()
+
         return self.template()
 
     def edit(self, id):
         self.form = EventForm(obj=self.event)
 
-        return self.template()
-
-    def show(self, id):
         return self.template()
 
     def post(self):

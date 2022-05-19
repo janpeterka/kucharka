@@ -16,7 +16,6 @@ class MeasurementView(HelperFlaskView, AdminViewMixin):
     @login_required
     def before_request(self, name, id=None, *args, **kwargs):
         self.measurement = Measurement.load(id)
-        self.validate_operation(id, self.measurement)
 
     def before_index(self):
         self.measurements = Measurement.load_all()

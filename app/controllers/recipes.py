@@ -30,8 +30,8 @@ class RecipeView(HelperFlaskView):
     def before_request(self, name, id=None, **kwargs):
         self.recipe = Recipe.load(id)
 
-        if current_user.is_authenticated:
-            self.validate_operation(id, self.recipe)
+        if current_user.is_authenticated and self.recipe:
+            self.validate_show(self.recipe)
 
     @login_required
     def index(self):

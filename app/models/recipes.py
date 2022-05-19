@@ -4,18 +4,18 @@ from flask_security import current_user
 
 from app import db, BaseModel
 
-from app.helpers.item_mixin import ItemMixin
+from app.helpers.base_mixin import BaseMixin
 from app.helpers.general import list_without_duplicated
 
-from app.models.ingredients import Ingredient
-from app.models.recipes_have_ingredients import RecipeHasIngredient
-from app.models.label_categories import LabelCategory
+from app.presenters import ItemPresenter
 
 from app.models.mixins.recipes.recipe_reactions import RecipeReactionMixin
 from app.models.mixins.recipes.recipe_ingredients import RecipeIngredientMixin
 
 
-class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
+class Recipe(
+    BaseModel, BaseMixin, RecipeReactionMixin, RecipeIngredientMixin, ItemPresenter
+):
     __tablename__ = "recipes"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -98,6 +98,8 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     @staticmethod
     def load(recipe_id):
+        from app.models import LabelCategory
+
         recipe = Recipe.query.filter_by(id=recipe_id).first()
         if recipe is None:
             return None
@@ -130,6 +132,8 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     @staticmethod
     def load_by_ingredient(ingredient):
+        from app.models import Ingredient
+
         return Recipe.query.filter(
             Recipe.ingredients.any(Ingredient.id == ingredient.id)
         ).all()
@@ -159,6 +163,8 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         return self.id
 
     def remove(self):
+        from app.models import RecipeHasIngredient
+
         # TODO: to improve w/ orphan cascade (80)
         recipe_ingredients = RecipeHasIngredient.query.filter(
             RecipeHasIngredient.recipe_id == self.id
@@ -249,6 +255,8 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     @property
     def unused_public_ingredients(self) -> list:
+        from app.models import Ingredient
+
         return [i for i in Ingredient.load_all_public() if i not in self.ingredients]
 
     @property
@@ -314,7 +322,7 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         return self.images[0]
 
     @property
-    def slugified_name(self):
+    def slugified_name(self) -> str:
         from app.helpers.general import slugify
 
         return slugify(self.name)

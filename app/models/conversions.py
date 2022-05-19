@@ -1,9 +1,10 @@
 from app import db, BaseModel
 
 from app.helpers.base_mixin import BaseMixin
+from app.presenters import BasePresenter
 
 
-class Conversion(BaseModel, BaseMixin):
+class Conversion(BaseModel, BaseMixin, BasePresenter):
 
     __tablename__ = "measurements_to_measurements"
 

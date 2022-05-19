@@ -6,11 +6,12 @@ from flask_login import current_user
 from app import db
 
 from app.helpers.base_mixin import BaseMixin
+from app.presenters import BasePresenter
 
 from app.modules.files import FileHandler, ImageHandler
 
 
-class File(db.Model, BaseMixin):
+class File(db.Model, BaseMixin, BasePresenter):
     __tablename__ = "files"
 
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)

@@ -2,7 +2,9 @@ import datetime
 
 from app import db, BaseModel
 
-from app.helpers.item_mixin import ItemMixin
+from app.helpers.base_mixin import BaseMixin
+
+from app.presenters import ItemPresenter
 
 from app.models.daily_plans_have_recipes import DailyPlanHasRecipe
 
@@ -10,7 +12,9 @@ from app.models.mixins.daily_plans.daily_plan_loaders import DailyPlanLoaderMixi
 from app.models.mixins.daily_plans.daily_plan_recipes import DailyPlanRecipeMixin
 
 
-class DailyPlan(BaseModel, ItemMixin, DailyPlanLoaderMixin, DailyPlanRecipeMixin):
+class DailyPlan(
+    BaseModel, BaseMixin, DailyPlanLoaderMixin, DailyPlanRecipeMixin, ItemPresenter
+):
     __tablename__ = "daily_plans"
 
     id = db.Column(db.Integer, primary_key=True)

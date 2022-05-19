@@ -1,11 +1,11 @@
 from sqlalchemy.sql import func
 
 from app import db, BaseModel
-
 from app.helpers.base_mixin import BaseMixin
+from app.presenters import BasePresenter
 
 
-class RequestLog(BaseModel, BaseMixin):
+class RequestLog(BaseModel, BaseMixin, BasePresenter):
     __tablename__ = "request_logs"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -20,12 +20,3 @@ class RequestLog(BaseModel, BaseMixin):
 
     user_id = db.Column(db.ForeignKey(("users.id")), index=True)
     user = db.relationship("User")
-
-    # @staticmethod
-    # def load_by_like(attribute=None, pattern=None):
-    #     if not hasattr(RequestLog, attribute):
-    #         raise AttributeError
-
-    #     return RequestLog.query.filter(
-    #         getattr(RequestLog, attribute).like(f"%{pattern}%")
-    #     ).all()

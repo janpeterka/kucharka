@@ -2,11 +2,12 @@
 from app import db, BaseModel
 
 from app.helpers.base_mixin import BaseMixin
+from app.presenters import BasePresenter
 
 # from sqlalchemy.ext.hybrid import hybrid_property
 
 
-class DailyPlanHasRecipe(BaseModel, BaseMixin):
+class DailyPlanHasRecipe(BaseModel, BaseMixin, BasePresenter):
     __tablename__ = "daily_plans_have_recipes"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

@@ -1,11 +1,10 @@
 from app import db, BaseModel
 
-# from flask_security import current_user
-
 from app.helpers.base_mixin import BaseMixin
+from app.presenters import BasePresenter
 
 
-class RecipeHasLabel(BaseModel, BaseMixin):
+class RecipeHasLabel(BaseModel, BaseMixin, BasePresenter):
     __tablename__ = "recipes_have_labels"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

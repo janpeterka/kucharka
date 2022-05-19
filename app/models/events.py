@@ -6,15 +6,16 @@ from flask import url_for
 from flask_security import current_user
 
 from app import db, BaseModel
+from app.helpers.base_mixin import BaseMixin
 
 from app.helpers.general import list_without_duplicated, placeholder_day
-from app.helpers.item_mixin import ItemMixin
 
-from app.models.daily_plans import DailyPlan
-from app.models.users_have_event_roles import UserHasEventRole
+from app.presenters import ItemPresenter
+
+from app.models import DailyPlan
 
 
-class Event(BaseModel, ItemMixin):
+class Event(BaseModel, BaseMixin, ItemPresenter):
     __tablename__ = "events"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -301,15 +302,21 @@ class Event(BaseModel, ItemMixin):
         return user_ids
 
     def add_user_role(self, user, role):
+        from app.models import UserHasEventRole
+
         event_role = UserHasEventRole(event=self, user=user, role=role)
         event_role.save()
 
     def change_user_role(self, user, role):
+        from app.models import UserHasEventRole
+
         event_role = UserHasEventRole.load_by_event_and_user(event=self, user=user)
         event_role.role = role
         event_role.save()
 
     def remove_user_role(self, user):
+        from app.models import UserHasEventRole
+
         event_role = UserHasEventRole.load_by_event_and_user(event=self, user=user)
         event_role.delete()
 

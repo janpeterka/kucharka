@@ -4,14 +4,15 @@ from flask_security.models.fsqla_v2 import FsUserMixin as UserMixin
 from flask_security import hash_password
 
 from app import db, BaseModel, turbo
+from app.helpers.general import flatten
 
 from app.helpers.base_mixin import BaseMixin
-from app.helpers.general import flatten
+from app.presenters import BasePresenter
 
 from app.modules.calendar.models.calendar_user_mixin import CalendarUserMixin
 
 
-class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin):
+class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin, BasePresenter):
     from app.models.users_have_roles import users_have_roles
 
     __tablename__ = "users"

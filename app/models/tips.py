@@ -1,9 +1,10 @@
 from app import db, BaseModel
 
 from app.helpers.base_mixin import BaseMixin
+from app.presenters import BasePresenter
 
 
-class Tip(BaseModel, BaseMixin):
+class Tip(BaseModel, BaseMixin, BasePresenter):
     __tablename__ = "tips"
 
     id = db.Column(db.Integer, primary_key=True)

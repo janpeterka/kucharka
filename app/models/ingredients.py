@@ -3,12 +3,11 @@ from unidecode import unidecode
 from flask_security import current_user
 
 from app import db, BaseModel
+from app.helpers.base_mixin import BaseMixin
+from app.presenters import ItemPresenter
 
-from app.helpers.item_mixin import ItemMixin
-from app.models.recipes_have_ingredients import RecipeHasIngredient
 
-
-class Ingredient(BaseModel, ItemMixin):
+class Ingredient(BaseModel, BaseMixin, ItemPresenter):
     __tablename__ = "ingredients"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -99,18 +98,24 @@ class Ingredient(BaseModel, ItemMixin):
         return ingredients
 
     def load_amount_by_recipe(self, recipe) -> float:
+        from app.models import RecipeHasIngredient
+
         rhi = RecipeHasIngredient.query.filter_by(
             recipe_id=recipe.id, ingredient_id=self.id
         ).first()
         return rhi.amount
 
     def load_comment_by_recipe(self, recipe):
+        from app.models import RecipeHasIngredient
+
         rhi = RecipeHasIngredient.query.filter_by(
             recipe_id=recipe.id, ingredient_id=self.id
         ).first()
         return rhi.comment
 
     def load_measured_by_recipe(self, recipe):
+        from app.models import RecipeHasIngredient
+
         rhi = RecipeHasIngredient.query.filter_by(
             recipe_id=recipe.id, ingredient_id=self.id
         ).first()
@@ -194,12 +199,16 @@ class IngredientCopy:
         self.recipes = ingredient.recipes
 
     def load_amount_by_recipe(self, recipe) -> float:
+        from app.models import RecipeHasIngredient
+
         rhi = RecipeHasIngredient.query.filter_by(
             recipe_id=recipe.id, ingredient_id=self.id
         ).first()
         return rhi.amount
 
     def load_comment_by_recipe(self, recipe):
+        from app.models import RecipeHasIngredient
+
         rhi = RecipeHasIngredient.query.filter_by(
             recipe_id=recipe.id, ingredient_id=self.id
         ).first()

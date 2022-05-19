@@ -37,7 +37,7 @@ class DailyPlansEditView(HelperFlaskView):
 
         if not self.recipe or not self.recipe.can_current_user_view:
             flash("Tento recept nemůžete přidat.")
-            return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
+            return redirect(url_for("DailyPlanView:show", id=self.daily_plan.id))
 
         self.daily_recipe = self.daily_plan.add_recipe(self.recipe)
 
@@ -48,7 +48,7 @@ class DailyPlansEditView(HelperFlaskView):
                 )
             )
         else:
-            return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
+            return redirect(url_for("DailyPlanView:show", id=self.daily_plan.id))
 
     @route("daily_plans/add_shopping/<daily_plan_id>", methods=["POST"])
     def add_shopping(self, daily_plan_id):
@@ -63,13 +63,13 @@ class DailyPlansEditView(HelperFlaskView):
                 )
             )
         else:
-            return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
+            return redirect(url_for("DailyPlanView:show", id=self.daily_plan.id))
 
     @route("daily_plans/remove_recipe/<daily_recipe_id>", methods=["POST"])
     def remove_daily_recipe(self, daily_recipe_id):
         if not self.daily_recipe:
             flash("Tento recept už je smazán.", "error")
-            return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
+            return redirect(url_for("DailyPlanView:show", id=self.daily_plan.id))
 
         if self.daily_plan.remove_daily_recipe(self.daily_recipe):
             if turbo.can_stream():
@@ -80,10 +80,10 @@ class DailyPlansEditView(HelperFlaskView):
                     ]
                 )
             else:
-                return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
+                return redirect(url_for("DailyPlanView:show", id=self.daily_plan.id))
         else:
             flash("Tento recept nemůžete odebrat.", "error")
-            return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
+            return redirect(url_for("DailyPlanView:show", id=self.daily_plan.id))
 
     @route("daily_plans/show_edit_recipe/<daily_recipe_id>", methods=["POST"])
     def show_edit_daily_recipe(self, daily_recipe_id):
@@ -139,14 +139,14 @@ class DailyPlansEditView(HelperFlaskView):
                 ]
             )
         else:
-            return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
+            return redirect(url_for("DailyPlanView:show", id=self.daily_plan.id))
 
     @route("sort/up/<daily_recipe_id>", methods=["POST"])
     def sort_up(self, daily_recipe_id):
         self.daily_recipe.change_order(order_type="up")
-        return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
+        return redirect(url_for("DailyPlanView:show", id=self.daily_plan.id))
 
     @route("sort/down/<daily_recipe_id>", methods=["POST"])
     def sort_down(self, daily_recipe_id):
         self.daily_recipe.change_order(order_type="down")
-        return redirect(url_for("DailyPlansView:show", id=self.daily_plan.id))
+        return redirect(url_for("DailyPlanView:show", id=self.daily_plan.id))

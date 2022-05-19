@@ -6,12 +6,12 @@
 
 <tr id="ingredient-edit-{{ingredient.id}}">
     <td>
-        {{ button_to(url_for('EditRecipeIngredientsView:delete',
+        {{ button_to(url_for('EditRecipeIngredientView:delete',
             recipe_id=recipe.id, ingredient_id=ingredient.id),
             class="btn color-white bg-color-secondary-action", method="DELETE", value="smazat") }}
     </td>
     <td colspan="3">
-        <form action="{{ url_for('EditRecipeIngredientsView:update', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" method="post" class="row row-cols-auto g-3 align-items-center">
+        <form action="{{ url_for('EditRecipeIngredientView:update', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" method="post" class="row row-cols-auto g-3 align-items-center">
                 <div class="col-12 col-md-3 form-floating">
                     <input id="ingredient-amount-{{ingredient.id}}" type="number" class="form-control" name="amount" step="1" min="0" value="{{ amount }}">
                     <label for="ingredient-amount-{{ingredient.id}}" class="ms-2">{{ ingredient.measurement.name }}</label>

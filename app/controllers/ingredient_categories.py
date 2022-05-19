@@ -9,7 +9,7 @@ from app.helpers.helper_flask_view import HelperFlaskView
 from app.helpers.admin_view_mixin import AdminViewMixin
 
 
-class IngredientCategoriesView(HelperFlaskView, AdminViewMixin):
+class IngredientCategorieView(HelperFlaskView, AdminViewMixin):
     decorators = [login_required, permissions_required("manage-application")]
     template_folder = "ingredient_categories"
     attribute_name = "ingredient-category"
@@ -61,7 +61,7 @@ class IngredientCategoriesView(HelperFlaskView, AdminViewMixin):
 
         if self.category.is_used:
             turbo_flash("Už je někde použité, nelze smazat!", category="error")
-            return redirect(url_for("IngredientCategoriesView:index"), code="303")
+            return redirect(url_for("IngredientCategorieView:index"), code="303")
 
         self.category.delete()
         return super().delete()

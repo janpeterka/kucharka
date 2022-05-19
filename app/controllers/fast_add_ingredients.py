@@ -7,11 +7,11 @@ from app import turbo
 from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models import Recipe, Ingredient
-from app.controllers import EditRecipeIngredientsView
+from app.controllers import EditRecipeIngredientView
 from app.forms import IngredientForm
 
 
-class FastAddIngredientsView(HelperFlaskView):
+class FastAddIngredientView(HelperFlaskView):
     decorators = [login_required]
     template_folder = "ingredients"
 
@@ -30,7 +30,7 @@ class FastAddIngredientsView(HelperFlaskView):
             )
         else:
             return redirect(
-                url_for("RecipesView:edit", id=recipe_id, show_fast_add=True)
+                url_for("RecipeView:edit", id=recipe_id, show_fast_add=True)
             )
 
     @route("/hide/<recipe_id>", methods=["POST"])
@@ -44,7 +44,7 @@ class FastAddIngredientsView(HelperFlaskView):
                 ),
             )
         else:
-            return redirect(url_for("RecipesView:edit", id=recipe_id))
+            return redirect(url_for("RecipeView:edit", id=recipe_id))
 
     @route("/post/<recipe_id>", methods=["POST"])
     def post(self, recipe_id):
@@ -81,7 +81,7 @@ class FastAddIngredientsView(HelperFlaskView):
                         target=f"ingredient-{ingredient.id}",
                     ),
                 ]
-                + EditRecipeIngredientsView().update_usable_ingredients(recipe)
+                + EditRecipeIngredientView().update_usable_ingredients(recipe)
             )
         else:
-            return redirect(url_for("RecipesView:edit", id=recipe_id))
+            return redirect(url_for("RecipeView:edit", id=recipe_id))

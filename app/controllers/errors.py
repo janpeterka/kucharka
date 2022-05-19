@@ -5,7 +5,7 @@ from flask_security import permissions_required
 from flask_classful import FlaskView
 
 
-class ErrorsView(FlaskView):
+class ErrorView(FlaskView):
     def wrongpage(self):
         abort(405)
 

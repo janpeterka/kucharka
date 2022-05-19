@@ -83,7 +83,7 @@
 
             {% if from_new %}
             <div class="row">
-                <a href="{{ url_for('IngredientsView:new') }}"><button class="btn bg-color-primary-action color-white mt-3 ms-0"> přidat další surovinu </button></a>
+                <a href="{{ url_for('IngredientView:new') }}"><button class="btn bg-color-primary-action color-white mt-3 ms-0"> přidat další surovinu </button></a>
             </div>
             {% endif %}
 
@@ -91,7 +91,7 @@
             <div class="mt-4 admin-field">
                 {% if ingredient.is_public %} {% set value="Vyřadit z veřejných" %} {% else %} {% set value="zařadit mezi veřejné" %} {% endif %}
                 
-                {{ button_to(url_for('IngredientsView:toggle_public', id=ingredient.id), class="btn bg-color-secondary-action color-white", value=value) }}
+                {{ button_to(url_for('IngredientView:toggle_public', id=ingredient.id), class="btn bg-color-secondary-action color-white", value=value) }}
             </div>
             {% endif %}
 

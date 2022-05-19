@@ -11,7 +11,7 @@ from app.models import DailyPlan, Event
 from app.forms import EventForm
 
 
-class EventsView(HelperFlaskView):
+class EventView(HelperFlaskView):
     decorators = [login_required]
 
     @login_required
@@ -49,7 +49,7 @@ class EventsView(HelperFlaskView):
 
         if not form.validate_on_submit():
             save_form_to_session(request.form)
-            return redirect(url_for("EventsView:new"))
+            return redirect(url_for("EventView:new"))
 
         event = Event()
         form.populate_obj(event)
@@ -59,7 +59,7 @@ class EventsView(HelperFlaskView):
             day_plan = DailyPlan(date=day, event=event)
             day_plan.save()
 
-        return redirect(url_for("EventsView:show", id=event.id))
+        return redirect(url_for("EventView:show", id=event.id))
 
     @route("update/<id>", methods=["POST"])
     def update(self, id):
@@ -100,25 +100,25 @@ class EventsView(HelperFlaskView):
 
                 capture_exception(e)
 
-        return redirect(url_for("EventsView:show", id=self.event.id))
+        return redirect(url_for("EventView:show", id=self.event.id))
 
     @route("events/delete/<id>", methods=["POST"])
     def delete(self, id):
         self.event.delete()
 
-        return redirect(url_for("EventsView:index"))
+        return redirect(url_for("EventView:index"))
 
     @route("duplicate/<id>", methods=["POST"])
     def duplicate(self, id):
         new_event = self.event.duplicate()
 
-        return redirect(url_for("EventsView:show", id=new_event.id))
+        return redirect(url_for("EventView:show", id=new_event.id))
 
     @route("events/toggle_archived/<id>", methods=["POST"])
     def toggle_archived(self, id):
         self.event.toggle_archived()
 
-        return redirect(url_for("EventsView:show", id=self.event.id))
+        return redirect(url_for("EventView:show", id=self.event.id))
 
     @route("toggle_shared/<id>", methods=["POST"])
     def toggle_shared(self, id):
@@ -127,13 +127,13 @@ class EventsView(HelperFlaskView):
             flash("Akce byla zveřejněna.", "success")
         else:
             flash("Akce byla skryta před veřejností.", "success")
-        return redirect(url_for("EventsView:show", id=self.event.id))
+        return redirect(url_for("EventView:show", id=self.event.id))
 
     @route("share_all_used_recipes/<id>", methods=["POST"])
     def share_all_used_recipes(self, id):
         self.event.share_all_used_recipes()
         flash("Všechny recepty byly zveřejněny.", "success")
-        return redirect(url_for("EventsView:show", id=self.event.id))
+        return redirect(url_for("EventView:show", id=self.event.id))
 
     def warnings(self, id):
         return self.template(template_name="_warnings")

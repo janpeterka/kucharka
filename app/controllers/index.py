@@ -25,18 +25,18 @@ class IndexView(FlaskView):
     @route("recepty")
     @route("recepty/")
     def public_recipes(self):
-        return redirect(url_for("PublicRecipesView:public_index"))
+        return redirect(url_for("PublicRecipeView:public_index"))
 
     @route("galerie")
     @route("galerie/")
     @route("recepty/")
     def gallery_public_recipes(self):
-        return redirect(url_for("PublicRecipesView:gallery"))
+        return redirect(url_for("PublicRecipeView:gallery"))
 
     @route("tips")
     @route("tipy")
     def tips(self):
-        return redirect(url_for("TipsView:index"))
+        return redirect(url_for("TipView:index"))
 
     @route("uptime")
     def uptime(self):

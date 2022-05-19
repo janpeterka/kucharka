@@ -3,7 +3,7 @@
 {% if order == "up" %}
 	<a
 		{% if not is_first %}
-			href="{{ url_for('DailyPlansView:sort_up', daily_recipe_id=daily_recipe.id, date=dates['active']) }}"
+			href="{{ url_for('DailyPlanView:sort_up', daily_recipe_id=daily_recipe.id, date=dates['active']) }}"
 		{% endif %}
 	>
 		{% if not is_first %}
@@ -16,7 +16,7 @@
 {% elif order == "down" %}
     <a
 		{% if not is_last %}
-    		href="{{ url_for('DailyPlansView:sort_down', daily_recipe_id=daily_recipe.id, date=dates['active']) }}"
+    		href="{{ url_for('DailyPlanView:sort_down', daily_recipe_id=daily_recipe.id, date=dates['active']) }}"
 		{% endif %}
 	>
 		{% if not is_last %}

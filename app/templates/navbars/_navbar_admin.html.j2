@@ -19,7 +19,7 @@
 		<a class="dropdown-item" href="{{ url_for('AdminView:files') }}"> soubory </a>
 		
 		{% if current_user.has_permission("manage-users") %}
-			<a class="dropdown-item" href="{{ url_for('UsersView:index') }}">
+			<a class="dropdown-item" href="{{ url_for('UserView:index') }}">
 			uživatelé </a>
 		{% endif %}
 

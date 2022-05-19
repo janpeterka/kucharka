@@ -15,24 +15,24 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('IngredientsView:index') }}"> {{ icon("seedling") }} suroviny </a>
+          <a class="nav-link" href="{{ url_for('IngredientView:index') }}"> {{ icon("seedling") }} suroviny </a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('RecipesView:index') }}"> {{ icon("food") }} recepty </a>
+          <a class="nav-link" href="{{ url_for('RecipeView:index') }}"> {{ icon("food") }} recepty </a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('EventsView:index') }}"> {{ icon("daily") }} akce </a>
+          <a class="nav-link" href="{{ url_for('EventView:index') }}"> {{ icon("daily") }} akce </a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('PublicRecipesView:index') }}"> {{ icon("recipe_database")}} databáze receptů </a>
+          <a class="nav-link" href="{{ url_for('PublicRecipeView:index') }}"> {{ icon("recipe_database")}} databáze receptů </a>
         </li>
         
         {% if config['FF_GALLERY'] %}
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('PublicRecipesView:gallery') }}"> {{icon("image")}} galerie receptů </a>
+            <a class="nav-link" href="{{ url_for('PublicRecipeView:gallery') }}"> {{icon("image")}} galerie receptů </a>
           </li>
         {% endif %}
 
@@ -43,7 +43,7 @@
 
       <ul class="nav navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('TipsView:index') }}"> {{ icon("info-circle") }} tipy a triky </a>
+          <a class="nav-link" href="{{ url_for('TipView:index') }}"> {{ icon("info-circle") }} tipy a triky </a>
         </li>
         
         <li class="nav-item dropdown me-3">
@@ -67,7 +67,7 @@
           </a>
 
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ url_for('UsersView:show') }}"> profil </a>
+            <a class="dropdown-item" href="{{ url_for('UserView:show') }}"> profil </a>
             <a class="dropdown-item" href="{{ url_for_security('logout') }}"> odhlásit se </a>
           </div>
         </li>

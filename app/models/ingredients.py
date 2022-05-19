@@ -214,7 +214,7 @@ class IngredientCopy:
     def link_to(self):
         from flask import url_for, Markup, escape
 
-        self_view_name = "IngredientsView:show"
+        self_view_name = "IngredientView:show"
         return Markup(
             f"<a data-turbo='false' href='{url_for(self_view_name, id=self.id)}'>{escape(self.name)}</a>"
         )

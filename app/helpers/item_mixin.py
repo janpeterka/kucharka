@@ -25,14 +25,14 @@ class ItemMixin(BaseMixin):
     def url(self):
         from flask import url_for
 
-        self_view_name = f"{type(self).__name__}sView:show"
+        self_view_name = f"{type(self).__name__}View:show"
         return url_for(self_view_name, id=self.id)
 
     @property
     def link_to(self):
         from flask import url_for, Markup, escape
 
-        self_view_name = f"{type(self).__name__}sView:show"
+        self_view_name = f"{type(self).__name__}View:show"
         return Markup(
             f"<a data-turbo='false' href='{url_for(self_view_name, id=self.id)}'> {escape(self.name)} </a>"
         )
@@ -41,7 +41,7 @@ class ItemMixin(BaseMixin):
     def link_to_edit(self):
         from flask import url_for, Markup, escape
 
-        self_view_name = f"{type(self).__name__}sView:edit"
+        self_view_name = f"{type(self).__name__}View:edit"
 
         return Markup(
             f"<a data-turbo='false' href='{url_for(self_view_name, id=self.id)}'> {escape(self.name)} </a>"

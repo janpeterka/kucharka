@@ -9,7 +9,7 @@ from app.models import User
 from app.forms import UserForm, SetPasswordForm
 
 
-class UsersView(HelperFlaskView):
+class UserView(HelperFlaskView):
     decorators = [login_required]
 
     @login_required
@@ -28,7 +28,7 @@ class UsersView(HelperFlaskView):
 
     def index(self):
         if not current_user.has_permission("manage-users"):
-            return redirect(url_for("UsersView:show"))
+            return redirect(url_for("UserView:show"))
 
         self.users = User.load_all()
         return self.template()
@@ -45,7 +45,7 @@ class UsersView(HelperFlaskView):
 
         if not form.validate_on_submit():
             save_form_to_session(request.form)
-            return redirect(url_for("UsersView:edit"))
+            return redirect(url_for("UserView:edit"))
 
         self.user.full_name = form.full_name.data
 
@@ -54,7 +54,7 @@ class UsersView(HelperFlaskView):
         else:
             flash("Nepovedlo se změnit uživatele", "error")
 
-        return redirect(url_for("UsersView:show"))
+        return redirect(url_for("UserView:show"))
 
     def set_password(self):
         self.form = SetPasswordForm()
@@ -66,7 +66,7 @@ class UsersView(HelperFlaskView):
         self.user.set_password(self.form.password.data)
         self.user.save()
         flash("Heslo nastaveno")
-        return redirect(url_for("UsersView:show"))
+        return redirect(url_for("UserView:show"))
 
     # @permissions_required("login-as")
     # def login_as(self, user_id, back=False):

@@ -12,7 +12,7 @@ from app.models import Recipe
 from app.forms import PublicRecipeFilterForm
 
 
-class PublicRecipesView(HelperFlaskView):
+class PublicRecipeView(HelperFlaskView):
     template_folder = "public_recipes"
 
     def before_request(self, name, *args, **kwargs):
@@ -79,7 +79,7 @@ class PublicRecipesView(HelperFlaskView):
     @route("public-index/")
     def public_index(self):
         if current_user.is_authenticated:
-            return redirect(url_for("PublicRecipesView:index"))
+            return redirect(url_for("PublicRecipeView:index"))
 
         return self.template(template_name="public_index")
 

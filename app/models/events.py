@@ -270,7 +270,7 @@ class Event(BaseModel, ItemMixin):
         else:
             hash_value = obscure(str(self.id).encode())
             return url_for(
-                "SharedEventsView:show", hash_value=hash_value, _external=True
+                "SharedEventView:show", hash_value=hash_value, _external=True
             )
 
     def user_role(self, user):
@@ -321,7 +321,7 @@ class Event(BaseModel, ItemMixin):
     # def url(self):
     #     from flask import url_for
 
-    #     return f"https://skautskakucharka.cz{url_for('EventsView:show', id=self.id)}"
+    #     return f"https://skautskakucharka.cz{url_for('EventView:show', id=self.id)}"
 
     # PERMISSIONS
     def can_view(self, user) -> bool:

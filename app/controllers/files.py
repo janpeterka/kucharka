@@ -12,7 +12,7 @@ from app.models.files import File
 from app.modules.files import show_file, download_file, all_files
 
 
-class FilesView(HelperFlaskView):
+class FileView(HelperFlaskView):
     @permissions_required("manage-application")
     def index(self):
         return template("files/index.html.j2", files=all_files())

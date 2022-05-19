@@ -11,6 +11,6 @@
 
   <td colspan="3" class="text-end me-3">
     {% if editing %}{% set form_class="visibility-hidden"%}{% endif %}
-      {{ button_to(url_for('IngredientCategoriesView:show_edit', id=category.id), form_class=form_class, value="upravit", class="btn bg-color-secondary-action color-white hover-animate-fadein") }}
+      {{ button_to(url_for('IngredientCategorieView:show_edit', id=category.id), form_class=form_class, value="upravit", class="btn bg-color-secondary-action color-white hover-animate-fadein") }}
   </td>
 </tr>

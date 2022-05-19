@@ -7,7 +7,7 @@
     <div class="col-7">
         
         <div class="">    
-            <form method="post" action="{{ url_for('FastAddIngredientsView:post', recipe_id=recipe.id) }}" class="row row-cols-lg-auto g-3 align-items-center" accept-charset="UTF-8">
+            <form method="post" action="{{ url_for('FastAddIngredientView:post', recipe_id=recipe.id) }}" class="row row-cols-lg-auto g-3 align-items-center" accept-charset="UTF-8">
                 {{ form.csrf_token }}
                 <div class="col-12">{{ render_floating_field(form.name) }}</div>
                 <div class="col-12">{{ render_floating_field(form.measurement) }}</div>
@@ -19,7 +19,7 @@
     </div>
     <div class="col-5 mt-2 text-end">
         
-        {{ button_to(url_for('FastAddIngredientsView:hide', recipe_id=recipe.id), class="btn color-white bg-color-secondary-action", value="zrušit") }}
+        {{ button_to(url_for('FastAddIngredientView:hide', recipe_id=recipe.id), class="btn color-white bg-color-secondary-action", value="zrušit") }}
 
     </div>
 

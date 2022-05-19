@@ -75,9 +75,7 @@ class HelperFlaskView(FlaskView):
     @property
     def _model_name(self):
         # e.g. User
-        if type(self).__name__.endswith("sView"):
-            model_name = type(self).__name__.replace("sView", "")
-        elif type(self).__name__.endswith("View"):
+        if type(self).__name__.endswith("View"):
             model_name = type(self).__name__.replace("View", "")
         else:
             raise AttributeError("Controller name not ending with 'View'")

@@ -2,7 +2,7 @@
 
 <tr id="ingredient-category-edit-{{ category.id }}" data-stream-enter-class="animate-row-in" data-stream-exit-class="animate-row-out">
   <td colspan="3">
-    <form class="row row-cols-auto g-3 align-items-center" action="{{ url_for('IngredientCategoriesView:update', id=category.id) }}" method="POST">
+    <form class="row row-cols-auto g-3 align-items-center" action="{{ url_for('IngredientCategorieView:update', id=category.id) }}" method="POST">
       <div class="col-12 col-md-3">
         <input type="text" name="name" value="{{ category.name }}" class="form-control" autofocus>
       </div>
@@ -26,11 +26,11 @@
   <td></td>
   
   <td>
-    {{ button_to(url_for('IngredientCategoriesView:delete', id=category.id), class="btn bg-color-secondary-action color-white", method="DELETE", value="smazat") }}
+    {{ button_to(url_for('IngredientCategorieView:delete', id=category.id), class="btn bg-color-secondary-action color-white", method="DELETE", value="smazat") }}
   </td>
   
   <td>
-    {{ button_to(url_for('IngredientCategoriesView:hide_edit', id=category.id), class="btn bg-color-secondary-action color-white", value="zrušit") }}
+    {{ button_to(url_for('IngredientCategorieView:hide_edit', id=category.id), class="btn bg-color-secondary-action color-white", value="zrušit") }}
   </td>
   
 </tr>

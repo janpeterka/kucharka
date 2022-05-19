@@ -7,7 +7,7 @@
                 {% set share_text = "zveřejnit" + icon("share") %}
             {% endif %}
 
-            {{ button_to(url_for('EventsView:toggle_shared', id=event.id),
+            {{ button_to(url_for('EventView:toggle_shared', id=event.id),
                 class="btn bg-color-secondary-action color-white w-100", value=share_text) }}
         </div>
 
@@ -21,7 +21,7 @@
         </div>
  
         {# <div class="col-12 col-md-3 mb-1">   
-            {{ button_to(url_for('EventsView:share_all_used_recipes', id=event.id),
+            {{ button_to(url_for('EventView:share_all_used_recipes', id=event.id),
                 class="btn bg-color-secondary-action color-white w-100 ", value="Zveřejnit použité recepty"+ icon('share')) }}
         </div> #}
 
@@ -32,12 +32,12 @@
                 {% set archive_text = "aktivovat" + icon("unarchive") %}
             {% endif %}
 
-            {{ button_to(url_for('EventsView:toggle_archived', id=event.id),
+            {{ button_to(url_for('EventView:toggle_archived', id=event.id),
                 class="btn bg-color-secondary-action color-white w-100 ", value=archive_text) }}
         </div>
 
         <div class="col-12 col-md-3 mb-1">  
-            {{ button_to(url_for('EventsView:delete', id=event.id),
+            {{ button_to(url_for('EventView:delete', id=event.id),
                 class="btn bg-color-secondary-action color-white w-100 ", value="smazat akci " ~ icon("delete"), confirmation="Opravdu chcete smazat akci?") }}  
         </div>
     </div>

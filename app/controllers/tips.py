@@ -10,7 +10,7 @@ from app.helpers.helper_flask_view import HelperFlaskView
 from app.helpers.turbo_flash import turbo_flash as flash
 
 
-class TipsView(HelperFlaskView):
+class TipView(HelperFlaskView):
     decorators = [login_required]
 
     @login_required
@@ -46,7 +46,7 @@ class TipsView(HelperFlaskView):
         else:
             flash("Něco se nepovedlo.", "error")
 
-        return redirect(url_for("TipsView:index"))
+        return redirect(url_for("TipView:index"))
 
     @permissions_required("manage-application")
     @route("/approve/<id>", methods=["POST"])
@@ -63,7 +63,7 @@ class TipsView(HelperFlaskView):
                 ]
             )
         else:
-            return redirect(url_for("TipsView:index"))
+            return redirect(url_for("TipView:index"))
 
     @permissions_required("manage-application")
     @route("/disapprove/<id>", methods=["POST"])
@@ -80,4 +80,4 @@ class TipsView(HelperFlaskView):
                 ]
             )
         else:
-            return redirect(url_for("TipsView:index"))
+            return redirect(url_for("TipView:index"))

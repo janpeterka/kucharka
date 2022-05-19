@@ -26,7 +26,7 @@ def get_portion_count(recipe, request):
     return int(request_portion_count)
 
 
-class RecipesView(HelperFlaskView):
+class RecipeView(HelperFlaskView):
     def before_request(self, name, id=None, **kwargs):
         self.recipe = Recipe.load(id)
 
@@ -79,7 +79,7 @@ class RecipesView(HelperFlaskView):
     @route("show_with_portion_count/<id>/", methods=["POST"])
     def show_with_portion_count(self, id):
         portion_count = request.form["portion_count"]
-        return redirect(url_for("RecipesView:show", id=id, portion_count=portion_count))
+        return redirect(url_for("RecipeView:show", id=id, portion_count=portion_count))
 
     @login_required
     def edit(self, id):
@@ -111,7 +111,7 @@ class RecipesView(HelperFlaskView):
     def delete(self, id):
         if self.recipe.is_used:
             flash("Recept je použit, nelze smazat.", "error")
-            return redirect(url_for("RecipesView:show", id=id))
+            return redirect(url_for("RecipeView:show", id=id))
 
         self.recipe.delete()
         flash("Recept byl smazán.", "success")
@@ -123,9 +123,9 @@ class RecipesView(HelperFlaskView):
                 if response.status_code == 200:
                     return redirect(prev_path)
                 else:
-                    return redirect(url_for("RecipesView:index"))
+                    return redirect(url_for("RecipeView:index"))
             except Exception:
-                return redirect(url_for("RecipesView:index"))
+                return redirect(url_for("RecipeView:index"))
 
     @login_required
     def post(self):
@@ -133,19 +133,19 @@ class RecipesView(HelperFlaskView):
 
         if not form.validate_on_submit():
             save_form_to_session(request.form)
-            return redirect(url_for("RecipesView:new"))
+            return redirect(url_for("RecipeView:new"))
 
         recipe = Recipe(author=current_user)
         recipe.fill(form)
         recipe.save()
 
-        return redirect(url_for("RecipesView:edit", id=recipe.id))
+        return redirect(url_for("RecipeView:edit", id=recipe.id))
 
     @login_required
     def duplicate(self, id):
         new_recipe = self.recipe.duplicate()
         method = "edit" if self.recipe.is_current_user_author else "show"
-        return redirect(url_for(f"RecipesView:{method}", id=new_recipe.id))
+        return redirect(url_for(f"RecipeView:{method}", id=new_recipe.id))
 
     @login_required
     @route("toggle_shared/<id>", methods=["POST"])
@@ -155,7 +155,7 @@ class RecipesView(HelperFlaskView):
             flash("Recept byl zveřejněn.", "success")
         else:
             flash("Recept byl skryt před veřejností.", "success")
-        return redirect(url_for("RecipesView:show", id=self.recipe.id))
+        return redirect(url_for("RecipeView:show", id=self.recipe.id))
 
     @login_required
     @route("delete_drafts", methods=["POST"])

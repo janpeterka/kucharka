@@ -7,7 +7,7 @@ from app.models.recipes import Recipe
 from app.helpers.helper_flask_view import HelperFlaskView
 
 
-class DailyPlansView(HelperFlaskView):
+class DailyPlanView(HelperFlaskView):
     decorators = [login_required]
     template_folder = "daily_plans"
 
@@ -27,9 +27,9 @@ class DailyPlansView(HelperFlaskView):
     def next(self, id):
         daily_plan = DailyPlan.load(id)
 
-        return redirect(url_for("DailyPlansView:show", id=daily_plan.next.id))
+        return redirect(url_for("DailyPlanView:show", id=daily_plan.next.id))
 
     def previous(self, id):
         daily_plan = DailyPlan.load(id)
 
-        return redirect(url_for("DailyPlansView:show", id=daily_plan.previous.id))
+        return redirect(url_for("DailyPlanView:show", id=daily_plan.previous.id))

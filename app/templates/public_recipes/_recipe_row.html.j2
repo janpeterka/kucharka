@@ -15,7 +15,7 @@
     {% if current_user.is_authenticated %}
         
 	<td>
-		<form method="post" action="{{ url_for('PublicRecipesView:toggle_reaction', recipe_id=recipe.id) }}">
+		<form method="post" action="{{ url_for('PublicRecipeView:toggle_reaction', recipe_id=recipe.id) }}">
 			<button type="submit" class="invisible-button">
 				{% if recipe.has_reaction %}
 					<span>{{ icon("heart_full", action="click->recipe-reactions#empty") }}</span>

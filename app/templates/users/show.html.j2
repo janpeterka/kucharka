@@ -1,9 +1,8 @@
 {% extends "base/base.html.j2" %}
 {% block title %}
+    profil
     {% if current_user.has_permission("manage-users") and user != current_user %}
-        Profil [{{ user.id }} | {{ user.username }}]   
-    {% else %}
-        Profil
+        [{{ user.id }} | {{ user.username }}]   
     {% endif %}
 {% endblock %}
 
@@ -34,7 +33,7 @@
     {% if user.calendar_hash %}
     <div data-controller="clipboard" class="row row-cols-lg-auto g-3 align-items-center mb-2">
         <div class="col-10 me-3">
-            <input type="text" name="" value="{{ url_for('UserCalendarsView:ical', calendar_hash=user.calendar_hash, _external=True) }}" readonly data-clipboard-target="source" class="form-control me-4">
+            <input type="text" name="" value="{{ url_for('UserCalendarView:ical', calendar_hash=user.calendar_hash, _external=True) }}" readonly data-clipboard-target="source" class="form-control me-4">
         </div>
         <div class="col-4">
             <button data-action="click->clipboard#copy" class="btn btn-secondary col"> Zkopírovat adresu </button>
@@ -43,10 +42,10 @@
     <div class="col-4">
         <button data-action="click->clipboard#copy" class="btn bg-color-secondary-action color-white col-"> Zkopírovat adresu </button>
     </div>        
-        {{ button_to(url_for('UserCalendarsView:create_calendar'),
+        {{ button_to(url_for('UserCalendarView:create_calendar'),
            class="btn bg-color-secondary-action color-white", value="Přegenerovat adresu") }}
     {% else %}
-        {{ button_to(url_for('UserCalendarsView:create_calendar'),
+        {{ button_to(url_for('UserCalendarView:create_calendar'),
            class="btn bg-color-secondary-action color-white", value="Vygenerovat URL kalendáře") }}
     {% endif %}
 </div>
@@ -71,18 +70,18 @@
 
 
 <div>
-    <a href="{{ url_for('UsersView:edit') }}" class="btn bg-color-secondary-action color-white"> upravit {{ icon("edit") }}</a>
+    <a href="{{ url_for('UserView:edit') }}" class="btn bg-color-secondary-action color-white"> upravit {{ icon("edit") }}</a>
     {% if user.has_password %}
         <a href="{{ url_for_security('change_password') }}" class="btn bg-color-secondary-action color-white"> změnit heslo {{ icon("edit") }}</a>
     {% else %}
-        <a href="{{ url_for('UsersView:set_password') }}" class="btn bg-color-secondary-action color-white"> nastavit heslo </a>
+        <a href="{{ url_for('UserView:set_password') }}" class="btn bg-color-secondary-action color-white"> nastavit heslo </a>
     {% endif %}
 </div>
 
 {#
 {% if current_user.has_role("manage-application") %}
     <div class="admin-field">
-        <a href="{{ url_for('RecipesView:make_all_public_for_user', user_id=user.id) }}" class="btn bg-color-secondary-action color-white">Zveřejnit všechny recepty uživatele</a>
+        <a href="{{ url_for('RecipeView:make_all_public_for_user', user_id=user.id) }}" class="btn bg-color-secondary-action color-white">Zveřejnit všechny recepty uživatele</a>
     </div>
 {% endif %}
 #}

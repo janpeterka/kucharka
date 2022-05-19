@@ -10,7 +10,7 @@ from app.helpers.helper_flask_view import HelperFlaskView
 from app.helpers.admin_view_mixin import AdminViewMixin
 
 
-class MeasurementsView(HelperFlaskView, AdminViewMixin):
+class MeasurementView(HelperFlaskView, AdminViewMixin):
     decorators = [login_required, permissions_required("manage-application")]
 
     @login_required
@@ -49,7 +49,7 @@ class MeasurementsView(HelperFlaskView, AdminViewMixin):
     def delete(self, id):
         if self.measurement.is_used:
             turbo_flash("Už je někde použité, nelze smazat!")
-            return redirect(url_for("MeasurementsView:index"), code=303)
+            return redirect(url_for("MeasurementView:index"), code=303)
 
         self.measurement.delete()
 

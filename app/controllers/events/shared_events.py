@@ -6,7 +6,7 @@ from app.helpers.helper_flask_view import HelperFlaskView
 from app.models.events import Event
 
 
-class SharedEventsView(HelperFlaskView):
+class SharedEventView(HelperFlaskView):
     template_folder = "events"
 
     def before_request(self, name, hash_value):
@@ -18,7 +18,7 @@ class SharedEventsView(HelperFlaskView):
         self.validate_show(self.event)
 
         if current_user in self.event.connected_users:
-            return redirect(url_for("EventsView:show", id=event_id))
+            return redirect(url_for("EventView:show", id=event_id))
 
     def show(self, hash_value):
         return self.template()

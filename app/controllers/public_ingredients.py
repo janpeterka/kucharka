@@ -12,7 +12,7 @@ from app.models.ingredient_categories import IngredientCategory
 from app.models.measurements import Measurement
 
 
-class PublicIngredientsView(HelperFlaskView):
+class PublicIngredientView(HelperFlaskView):
     decorators = [login_required, permissions_required("manage-application")]
     template_folder = "ingredients/public"
 
@@ -45,7 +45,7 @@ class PublicIngredientsView(HelperFlaskView):
             )
         else:
             return redirect(
-                url_for("PublicIngredientsView:index", edit_id=self.ingredient.id)
+                url_for("PublicIngredientView:index", edit_id=self.ingredient.id)
             )
 
     @route("ingredients/hide_edit/<id>", methods=["POST"])
@@ -63,7 +63,7 @@ class PublicIngredientsView(HelperFlaskView):
                 ]
             )
         else:
-            return redirect(url_for("PublicIngredientsView:index"))
+            return redirect(url_for("PublicIngredientView:index"))
 
     @route("update/<id>", methods=["POST"])
     def update(self, id):
@@ -83,4 +83,4 @@ class PublicIngredientsView(HelperFlaskView):
                 ]
             )
         else:
-            return redirect(url_for("PublicIngredientsView:index"))
+            return redirect(url_for("PublicIngredientView:index"))

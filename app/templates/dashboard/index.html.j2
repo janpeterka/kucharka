@@ -23,20 +23,20 @@
         {% if current_user.all_closest_future_event %}
             podívej se na svou nejbližší akci - {{ link_to(current_user.all_closest_future_event) }}
         {% else %}
-            založ <a href="{{url_for('EventsView:new')}}"> novou událost </a>
+            založ <a href="{{url_for('EventView:new')}}"> novou událost </a>
         {% endif %}
         </div>
     </div>
 
     <div class="col-12 col-md-4 text-center mb-2 mb-md-0 clickable">
         <div class="container bg-color-secondary p-3 dashboard-badge" data-action="click->clicker#activateLink">
-            inspiruj se v <a href="{{ url_for('PublicRecipesView:index') }}"> databázi receptů </a>
+            inspiruj se v <a href="{{ url_for('PublicRecipeView:index') }}"> databázi receptů </a>
         </div>
     </div>
     
     <div class="col-12 col-md-4 text-center mb-2 mb-md-0 clickable">
         <div class="container bg-color-secondary p-3 dashboard-badge" data-action="click->clicker#activateLink">
-            přidej <a href="{{url_for('RecipesView:new')}}"> nový recept </a>
+            přidej <a href="{{url_for('RecipeView:new')}}"> nový recept </a>
         </div>
     </div>
 </div>    

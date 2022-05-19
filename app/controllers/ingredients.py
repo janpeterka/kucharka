@@ -10,7 +10,7 @@ from app.models import Ingredient, Recipe, Measurement
 from app.forms import IngredientForm
 
 
-class IngredientsView(HelperFlaskView):
+class IngredientView(HelperFlaskView):
     decorators = [login_required]
     template_folder = "ingredients"
 
@@ -63,15 +63,13 @@ class IngredientsView(HelperFlaskView):
 
         if not form.validate_on_submit():
             save_form_to_session(request.form)
-            return redirect(url_for("IngredientsView:new"))
+            return redirect(url_for("IngredientView:new"))
 
         ingredient = Ingredient(author=current_user)
         form.populate_obj(ingredient)
         ingredient.save()
 
-        return redirect(
-            url_for("IngredientsView:show", id=ingredient.id, from_new=True)
-        )
+        return redirect(url_for("IngredientView:show", id=ingredient.id, from_new=True))
 
     @route("update/<id>", methods=["POST"])
     def update(self, id):
@@ -82,26 +80,26 @@ class IngredientsView(HelperFlaskView):
 
         if not form.validate_on_submit():
             save_form_to_session(request.form)
-            return redirect(url_for("IngredientsView:edit", id=self.ingredient.id))
+            return redirect(url_for("IngredientView:edit", id=self.ingredient.id))
 
         form.populate_obj(self.ingredient)
         self.ingredient.edit()
 
-        return redirect(url_for("IngredientsView:show", id=self.ingredient.id))
+        return redirect(url_for("IngredientView:show", id=self.ingredient.id))
 
     @route("delete/<id>", methods=["POST"])
     def delete(self, id):
         if self.ingredient.can_be_deleted:
             self.ingredient.delete()
             flash("Surovina byla smazána", "success")
-            return redirect(url_for("IngredientsView:index"))
+            return redirect(url_for("IngredientView:index"))
         else:
             flash("Tato surovina je použita, nelze smazat", "error")
-            return redirect(url_for("IngredientsView:show", id=self.ingredient.id))
+            return redirect(url_for("IngredientView:show", id=self.ingredient.id))
 
     @permissions_required("manage-application")
     @route("toggle_public/<id>", methods=["POST"])
     def toggle_public(self, id):
         self.ingredient.toggle_public()
 
-        return redirect(url_for("IngredientsView:show", id=self.ingredient.id))
+        return redirect(url_for("IngredientView:show", id=self.ingredient.id))

@@ -11,8 +11,6 @@ from app.helpers.turbo_flash import turbo_flash as flash
 from app.models.events import Event
 from app.models.users import User
 
-from app.controllers.forms.events import EventsForm
-
 
 class EditEventView(HelperFlaskView):
     decorators = [login_required]
@@ -22,73 +20,6 @@ class EditEventView(HelperFlaskView):
     def before_request(self, name, event_id, **kwargs):
         self.event = Event.load(event_id)
         self.validate_operation(event_id, self.event)
-
-    @route("/edit/<event_id>", methods=["POST"])
-    def edit(self, event_id):
-        if not self.event.can_current_user_edit:
-            return redirect(url_for("EventsView:show", id=event_id))
-
-        self.form = EventsForm(obj=self.event)
-
-        if turbo.can_stream():
-            return turbo.stream(
-                turbo.replace(self.template(template_name="_info"), target="event-info")
-            )
-        else:
-            return redirect(url_for("EventsView:edit", id=self.event.id))
-
-    def post(self, event_id):
-        if not self.event.can_current_user_edit:
-            return redirect(url_for("EventsView:show", id=event_id))
-
-        self.form = EventsForm(request.form)
-
-        if not self.form.validate_on_submit():
-            if turbo.can_stream():
-                return turbo.stream(
-                    turbo.replace(
-                        self.template(template_name="_info"), target="event-info"
-                    )
-                )
-            else:
-                return redirect(url_for("EventsView:edit", id=self.event.id))
-
-        old_people_count = None
-        new_people_count = None
-        if self.event.people_count != self.form.people_count.data:
-            old_people_count = self.event.people_count
-            new_people_count = int(self.form.people_count.data)
-
-        self.form.populate_obj(self.event)
-
-        self.event.edit()
-
-        if old_people_count and new_people_count:
-            for daily_plan in self.event.daily_plans:
-                for daily_recipe in daily_plan.daily_recipes:
-                    if daily_recipe.portion_count == old_people_count:
-                        daily_recipe.portion_count = new_people_count
-                        daily_recipe.edit()
-
-        # TODO: do this only if date changed (70)
-        # self.event.delete_old_daily_plans()
-        self.event.add_new_daily_plans()
-
-        if turbo.can_push():
-            try:
-                turbo.push(
-                    turbo.update(
-                        self.template(template_name="_update_warning"),
-                        target=f"event-{event_id}-update-warning",
-                    ),
-                    to=self.event.other_user_ids,
-                )
-            except Exception as e:
-                from sentry_sdk import capture_exception
-
-                capture_exception(e)
-
-        return redirect(url_for("EventsView:show", id=self.event.id))
 
     @route("/show-share-with-user/<event_id>", methods=["POST"])
     def show_share_with_user(self, event_id):

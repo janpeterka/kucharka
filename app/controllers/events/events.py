@@ -2,6 +2,8 @@ from flask import redirect, url_for, request, flash
 from flask_classful import route
 from flask_security import login_required
 
+from app import turbo
+
 from app.helpers.form import save_form_to_session
 from app.helpers.helper_flask_view import HelperFlaskView
 
@@ -25,7 +27,10 @@ class EventsView(HelperFlaskView):
         self.form = EventsForm()
 
     def before_edit(self, id):
-        self.form = EventsForm(obj=self.event)
+        self.validate_edit(self.event)
+
+    def before_update(self, id):
+        self.validate_edit(self.event)
 
     def index(self):
         return self.template()
@@ -34,6 +39,8 @@ class EventsView(HelperFlaskView):
         return self.template()
 
     def edit(self, id):
+        self.form = EventsForm(obj=self.event)
+
         return self.template()
 
     def show(self, id):
@@ -55,6 +62,47 @@ class EventsView(HelperFlaskView):
             day_plan.save()
 
         return redirect(url_for("EventsView:show", id=event.id))
+
+    @route("update/<id>", methods=["POST"])
+    def update(self, id):
+        self.form = EventsForm(request.form)
+
+        old_people_count = None
+        new_people_count = None
+        if self.event.people_count != self.form.people_count.data:
+            old_people_count = self.event.people_count
+            new_people_count = int(self.form.people_count.data)
+
+        self.form.populate_obj(self.event)
+
+        self.event.edit()
+
+        if old_people_count and new_people_count:
+            for daily_plan in self.event.daily_plans:
+                for daily_recipe in daily_plan.daily_recipes:
+                    if daily_recipe.portion_count == old_people_count:
+                        daily_recipe.portion_count = new_people_count
+                        daily_recipe.edit()
+
+        # TODO: do this only if date changed (70)
+        # self.event.delete_old_daily_plans()
+        self.event.add_new_daily_plans()
+
+        if turbo.can_push():
+            try:
+                turbo.push(
+                    turbo.update(
+                        self.template(template_name="_update_warning"),
+                        target=f"event-{id}-update-warning",
+                    ),
+                    to=self.event.other_user_ids,
+                )
+            except Exception as e:
+                from sentry_sdk import capture_exception
+
+                capture_exception(e)
+
+        return redirect(url_for("EventsView:show", id=self.event.id))
 
     @route("events/delete/<id>", methods=["POST"])
     def delete(self, id):

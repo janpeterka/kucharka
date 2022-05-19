@@ -2,7 +2,7 @@
 {% from "macros/icons.html.j2" import icon %}
 
 <div id="event-info">
-<form method="POST" action="{{ url_for('EditEventView:post', event_id=event.id) }}">
+<form method="POST" action="{{ url_for('EventsView:update', id=event.id) }}">
     {{ form.csrf_token }}
     <div class="ms-2 me-2">
         {{ render_floating_field(form.name) }}

@@ -8,7 +8,7 @@ from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models import Recipe, Ingredient
 from app.controllers import EditRecipeIngredientsView
-from app.forms import IngredientsForm
+from app.forms import IngredientForm
 
 
 class FastAddIngredientsView(HelperFlaskView):
@@ -17,7 +17,7 @@ class FastAddIngredientsView(HelperFlaskView):
 
     @route("/show/<recipe_id>", methods=["POST"])
     def show(self, recipe_id):
-        self.form = IngredientsForm()
+        self.form = IngredientForm()
 
         if turbo.can_stream():
             return turbo.stream(
@@ -35,7 +35,7 @@ class FastAddIngredientsView(HelperFlaskView):
 
     @route("/hide/<recipe_id>", methods=["POST"])
     def hide(self, recipe_id):
-        self.form = IngredientsForm()
+        self.form = IngredientForm()
 
         if turbo.can_stream():
             return turbo.stream(
@@ -50,7 +50,7 @@ class FastAddIngredientsView(HelperFlaskView):
     def post(self, recipe_id):
         recipe = Recipe.load(recipe_id)
 
-        form = IngredientsForm(request.form)
+        form = IngredientForm(request.form)
 
         ingredient = Ingredient()
         form.populate_obj(ingredient)

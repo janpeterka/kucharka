@@ -14,7 +14,7 @@ from app.helpers.form import save_form_to_session, create_form
 
 from app.models import Recipe
 
-from app.forms import RecipesForm, IngredientsForm
+from app.forms import RecipeForm, IngredientForm
 
 
 def get_portion_count(recipe, request):
@@ -84,9 +84,9 @@ class RecipesView(HelperFlaskView):
     @login_required
     def edit(self, id):
         self.show_fast_add = request.args.get("show_fast_add", False)
-        self.ingredient_form = IngredientsForm()
+        self.ingredient_form = IngredientForm()
 
-        self.form = create_form(RecipesForm, obj=self.recipe)
+        self.form = create_form(RecipeForm, obj=self.recipe)
 
         self.personal_ingredients = sorted(
             self.recipe.unused_personal_ingredients,
@@ -102,7 +102,7 @@ class RecipesView(HelperFlaskView):
 
     @login_required
     def new(self):
-        self.form = create_form(RecipesForm)
+        self.form = create_form(RecipeForm)
 
         return self.template()
 
@@ -129,7 +129,7 @@ class RecipesView(HelperFlaskView):
 
     @login_required
     def post(self):
-        form = RecipesForm(request.form)
+        form = RecipeForm(request.form)
 
         if not form.validate_on_submit():
             save_form_to_session(request.form)

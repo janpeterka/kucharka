@@ -6,7 +6,7 @@ from app.helpers.form import create_form, save_form_to_session
 from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models import User
-from app.forms import UsersForm, SetPasswordForm
+from app.forms import UserForm, SetPasswordForm
 
 
 class UsersView(HelperFlaskView):
@@ -24,7 +24,7 @@ class UsersView(HelperFlaskView):
         self.validate_operation(id, self.user)
 
     def before_edit(self):
-        self.user_form = create_form(UsersForm, obj=self.user)
+        self.user_form = create_form(UserForm, obj=self.user)
 
     def index(self):
         if not current_user.has_permission("manage-users"):
@@ -40,7 +40,7 @@ class UsersView(HelperFlaskView):
         return self.template()
 
     def post(self, page_type=None):
-        form = UsersForm(request.form)
+        form = UserForm(request.form)
         del form.username
 
         if not form.validate_on_submit():

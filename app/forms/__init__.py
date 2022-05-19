@@ -1,16 +1,16 @@
-from .events import EventsForm
-from .ingredients import IngredientsForm
+from .events import EventForm
+from .ingredients import IngredientForm
 from .public_recipes import PublicRecipeFilterForm
-from .recipes import RecipesForm
+from .recipes import RecipeForm
 from .support import FeedbackForm
-from .users import UsersForm, SetPasswordForm
+from .users import UserForm, SetPasswordForm
 
 __all__ = [
-    "IngredientsForm",
-    "EventsForm",
-    "RecipesForm",
+    "IngredientForm",
+    "EventForm",
+    "RecipeForm",
     "PublicRecipeFilterForm",
     "FeedbackForm",
-    "UsersForm",
+    "UserForm",
     "SetPasswordForm",
 ]

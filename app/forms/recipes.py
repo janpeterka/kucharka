@@ -34,7 +34,7 @@ def difficulty_labels():
     return Label.load_difficulty()
 
 
-class RecipesForm(FlaskForm):
+class RecipeForm(FlaskForm):
     name = StringField("název receptu", [InputRequired("název musí být vyplněn")])
 
     # description = StringField("Popis", widget=TextArea())

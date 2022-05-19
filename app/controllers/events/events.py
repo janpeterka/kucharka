@@ -8,7 +8,7 @@ from app.helpers.form import save_form_to_session
 from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models import DailyPlan, Event
-from app.forms import EventsForm
+from app.forms import EventForm
 
 
 class EventsView(HelperFlaskView):
@@ -22,7 +22,7 @@ class EventsView(HelperFlaskView):
         self.validate_operation(event_id, self.event)
 
     def before_new(self):
-        self.form = EventsForm()
+        self.form = EventForm()
 
     def before_edit(self, id):
         self.validate_edit(self.event)
@@ -37,7 +37,7 @@ class EventsView(HelperFlaskView):
         return self.template()
 
     def edit(self, id):
-        self.form = EventsForm(obj=self.event)
+        self.form = EventForm(obj=self.event)
 
         return self.template()
 
@@ -45,7 +45,7 @@ class EventsView(HelperFlaskView):
         return self.template()
 
     def post(self):
-        form = EventsForm(request.form)
+        form = EventForm(request.form)
 
         if not form.validate_on_submit():
             save_form_to_session(request.form)
@@ -63,7 +63,7 @@ class EventsView(HelperFlaskView):
 
     @route("update/<id>", methods=["POST"])
     def update(self, id):
-        self.form = EventsForm(request.form)
+        self.form = EventForm(request.form)
 
         old_people_count = None
         new_people_count = None

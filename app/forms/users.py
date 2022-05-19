@@ -4,7 +4,7 @@ from wtforms.validators import InputRequired
 from flask_wtf import FlaskForm
 
 
-class UsersForm(FlaskForm):
+class UserForm(FlaskForm):
     username = StringField(
         "Přihlašovací email", [InputRequired("E-mail musí být vyplněn")]
     )

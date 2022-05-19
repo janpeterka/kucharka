@@ -96,7 +96,7 @@ class HelperFlaskView(FlaskView):
 
     @property
     def _form_klass(self):
-        # e.g. class <UsersForm>
+        # e.g. class <UserForm>
         try:
             form_klass = globals()[self._form_name]
         except KeyError:

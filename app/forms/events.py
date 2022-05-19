@@ -6,7 +6,7 @@ from wtforms.validators import InputRequired, NumberRange
 from flask_wtf import FlaskForm
 
 
-class EventsForm(FlaskForm):
+class EventForm(FlaskForm):
     name = StringField("název akce", [InputRequired("název musí být vyplněn")])
 
     date_from = DateField("od")

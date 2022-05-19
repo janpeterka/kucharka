@@ -13,7 +13,7 @@ from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models import Recipe, RecipeImageFile
 
-from app.forms import RecipesForm
+from app.forms import RecipeForm
 
 
 class EditRecipeView(HelperFlaskView):
@@ -28,7 +28,7 @@ class EditRecipeView(HelperFlaskView):
 
     @route("info/<recipe_id>", methods=["POST"])
     def post(self, recipe_id):
-        form = RecipesForm(request.form)
+        form = RecipeForm(request.form)
 
         if not form.validate_on_submit():
             save_form_to_session(request.form)

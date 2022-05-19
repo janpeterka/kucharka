@@ -7,7 +7,7 @@ from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models import Ingredient, Recipe, Measurement
 
-from app.forms import IngredientsForm
+from app.forms import IngredientForm
 
 
 class IngredientsView(HelperFlaskView):
@@ -20,10 +20,10 @@ class IngredientsView(HelperFlaskView):
         self.validate_operation(id, self.ingredient)
 
     def before_new(self):
-        self.form = create_form(IngredientsForm)
+        self.form = create_form(IngredientForm)
 
     def before_edit(self, id):
-        self.form = create_form(IngredientsForm, obj=self.ingredient)
+        self.form = create_form(IngredientForm, obj=self.ingredient)
 
         self.recipes = Recipe.load_by_ingredient_and_user(self.ingredient, current_user)
         self.all_recipes = Recipe.load_by_ingredient(self.ingredient)
@@ -59,7 +59,7 @@ class IngredientsView(HelperFlaskView):
         return self.template()
 
     def post(self):
-        form = IngredientsForm(request.form)
+        form = IngredientForm(request.form)
 
         if not form.validate_on_submit():
             save_form_to_session(request.form)
@@ -75,7 +75,7 @@ class IngredientsView(HelperFlaskView):
 
     @route("update/<id>", methods=["POST"])
     def update(self, id):
-        form = IngredientsForm(request.form)
+        form = IngredientForm(request.form)
 
         if not self.ingredient.can_edit_measurement:
             del form.measurement

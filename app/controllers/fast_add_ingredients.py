@@ -7,7 +7,6 @@ from app import turbo
 from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models import Recipe, Ingredient
-from app.controllers import EditRecipeIngredientView
 from app.forms import IngredientForm
 
 
@@ -48,6 +47,8 @@ class FastAddIngredientView(HelperFlaskView):
 
     @route("/post/<recipe_id>", methods=["POST"])
     def post(self, recipe_id):
+        from app.controllers import EditRecipeIngredientView
+
         recipe = Recipe.load(recipe_id)
 
         form = IngredientForm(request.form)

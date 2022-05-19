@@ -17,7 +17,7 @@ from app.models.roles import Role
 from app.models.tips import Tip
 from app.models.users import User
 from app.models.users_have_event_roles import UserHasEventRole
-from app.models.users_have_recipes_reactions import UserHasRecipeReaction
+from app.models.users_have_recipes_reaction import UserHasRecipeReaction
 from app.models.users_have_roles import users_have_roles  # noqa: F401
 
 

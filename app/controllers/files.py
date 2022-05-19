@@ -13,12 +13,15 @@ from app.modules.files import show_file, download_file, all_files
 
 
 class FilesView(HelperFlaskView):
-    def show(self, hash_value):
+    @permissions_required("manage-application")
+    def index(self):
+        return template("files/index.html.j2", files=all_files())
 
+    def show(self, hash_value):
         file = File.load_by_attribute("hash", hash_value)
         thumbnail = request.args.get("thumbnail", False) == "True"
 
-        self.validate_operation(hash_value, file)
+        self.validate_show(file)
 
         return show_file(file, thumbnail)
 
@@ -34,10 +37,6 @@ class FilesView(HelperFlaskView):
 
     def download(self, id):
         file = File.load(id)
-        self.validate_operation(id, file)
+        self.validate_show(file)
 
         return download_file(file)
-
-    @permissions_required("manage-application")
-    def index(self):
-        return template("files/index.html.j2", files=all_files())

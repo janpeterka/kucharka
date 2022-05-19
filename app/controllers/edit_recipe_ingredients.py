@@ -61,8 +61,8 @@ class EditRecipeIngredientsView(HelperFlaskView, AdminViewMixin):
         else:
             return redirect(url_for("RecipesView:edit", id=self.recipe.id))
 
-    @route("post_edit/<recipe_id>/<ingredient_id>", methods=["POST"])
-    def post_edit(self, recipe_id, ingredient_id):
+    @route("update/<recipe_id>/<ingredient_id>", methods=["POST"])
+    def update(self, recipe_id, ingredient_id):
         self.ingredient = Ingredient.load(ingredient_id)
 
         is_measured = "is-measured" in request.form
@@ -78,7 +78,7 @@ class EditRecipeIngredientsView(HelperFlaskView, AdminViewMixin):
         self.recipe.change_ingredient_comment(self.ingredient, comment)
         self.recipe.change_ingredient_measured(self.ingredient, is_measured)
 
-        return super().post_edit()
+        return super().update()
 
     # @route("delete/<recipe_id>/<ingredient_id>", methods=["POST"])
     def delete(self, recipe_id, ingredient_id):

@@ -36,7 +36,7 @@ class AdminViewMixin:
         else:
             return redirect(url_for(f"{self.name}:index"))
 
-    def post_edit(self):
+    def update(self):
         if turbo.can_stream():
             return turbo.stream(
                 [

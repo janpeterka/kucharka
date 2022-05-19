@@ -25,7 +25,7 @@ class FilesView(HelperFlaskView):
 
         return show_file(file, thumbnail)
 
-    @route("/<id>/delete", methods=["POST"])
+    @route("delete/<id>", methods=["POST"])
     def delete(self, id):
         file = File.load(id)
         if self.validate_edit(file):

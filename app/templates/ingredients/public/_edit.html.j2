@@ -9,7 +9,7 @@
   <td></td>
   <td colspan="3">
       
-    <form method="POST" class="row row-cols-auto g-3 align-items-center" action="{{ url_for('PublicIngredientsView:post_edit', id=ingredient.id) }}">
+    <form method="POST" class="row row-cols-auto g-3 align-items-center" action="{{ url_for('PublicIngredientsView:update', id=ingredient.id) }}">
 
       <div class="col-12 col-md-3">     
         <select name="measurement_id" class="form-control">

@@ -73,8 +73,8 @@ class IngredientsView(HelperFlaskView):
             url_for("IngredientsView:show", id=ingredient.id, from_new=True)
         )
 
-    @route("edit/<id>", methods=["POST"])
-    def post_edit(self, id):
+    @route("update/<id>", methods=["POST"])
+    def update(self, id):
         form = IngredientsForm(request.form)
 
         if not self.ingredient.can_edit_measurement:

@@ -65,8 +65,8 @@ class PublicIngredientsView(HelperFlaskView):
         else:
             return redirect(url_for("PublicIngredientsView:index"))
 
-    @route("ingredients/edit/<id>", methods=["POST"])
-    def post_edit(self, id):
+    @route("update/<id>", methods=["POST"])
+    def update(self, id):
         self.ingredient.category = IngredientCategory.load(request.form["category_id"])
         self.ingredient.measurement = Measurement.load(request.form["measurement_id"])
 

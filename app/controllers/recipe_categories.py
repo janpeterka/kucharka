@@ -33,13 +33,13 @@ class RecipeCategoriesView(HelperFlaskView, AdminViewMixin):
     def hide_edit(self, id):
         return super().hide_edit()
 
-    @route("/post_edit/<id>", methods=["POST"])
-    def post_edit(self, id):
+    @route("/update/<id>", methods=["POST"])
+    def update(self, id):
         self.category.name = request.form["name"]
         self.category.description = request.form["description"]
         self.category.save()
 
-        return super().post_edit()
+        return super().update()
 
     @route("/edit/<id>", methods=["POST"])
     def edit(self, id):

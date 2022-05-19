@@ -27,23 +27,23 @@ class IngredientCategoriesView(HelperFlaskView, AdminViewMixin):
         self.edit_id = request.args.get("edit_id", None)
         return self.template()
 
-    @route("/show_edit/<id>", methods=["POST"])
+    @route("show_edit/<id>", methods=["POST"])
     def show_edit(self, id):
         return super().show_edit()
 
-    @route("/hide_edit/<id>", methods=["POST"])
+    @route("hide_edit/<id>", methods=["POST"])
     def hide_edit(self, id):
         return super().hide_edit()
 
-    @route("/post_edit/<id>", methods=["POST"])
-    def post_edit(self, id):
+    @route("update/<id>", methods=["POST"])
+    def update(self, id):
         self.category.name = request.form["name"]
         self.category.description = request.form["description"]
         self.category.save()
 
-        return super().post_edit()
+        return super().update()
 
-    @route("/edit/<id>", methods=["POST"])
+    @route("edit/<id>", methods=["POST"])
     def edit(self, id):
         self.category.name = request.form["ingredient-category"]
         self.category.save()

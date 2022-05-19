@@ -3,7 +3,7 @@
 <tr id="measurement-edit-{{ measurement.id }}" data-stream-enter-class="animate-row-in" data-stream-exit-class="animate-row-out">
 
   <td colspan="3">
-    <form class="row row-cols-auto g-3 align-items-center" action="{{ url_for('MeasurementsView:post_edit', id=measurement.id) }}" method="POST">
+    <form class="row row-cols-auto g-3 align-items-center" action="{{ url_for('MeasurementsView:update', id=measurement.id) }}" method="POST">
       <div class="col-12 col-md-4">
         <input type="text" name="name" value="{{ measurement.name }}" class="form-control" autofocus>
       </div>

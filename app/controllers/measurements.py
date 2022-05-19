@@ -32,13 +32,13 @@ class MeasurementsView(HelperFlaskView, AdminViewMixin):
     def hide_edit(self, id):
         return super().hide_edit()
 
-    @route("measurements/post_edit/<id>", methods=["POST"])
-    def post_edit(self, id):
+    @route("measurements/update/<id>", methods=["POST"])
+    def update(self, id):
         self.measurement.name = request.form["name"]
         self.measurement.description = request.form["description"]
         self.measurement.save()
 
-        return super().post_edit()
+        return super().update()
 
     def post(self):
         self.measurement = Measurement(name=request.form["measurement"])

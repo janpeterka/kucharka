@@ -5,9 +5,9 @@
       <div> {{ tip.description }} (přidal*a {{ tip.author.full_name }} {{ human_format_date(tip.created_at, with_weekday=False) }}) </div>
     {% if not edit_id %}
       {% if not tip.is_approved %}
-        {{ button_to(url_for('TipsView:approve', id=tip.id), class="approve", data="all") }}
+        {{ button_to(url_for('TipView:approve', id=tip.id), class="approve", data="all") }}
       {% endif %}
-      {{ button_to(url_for('TipsView:disapprove', id=tip.id), class="destroy") }}
+      {{ button_to(url_for('TipView:disapprove', id=tip.id), class="destroy") }}
     {% endif %}
   </li>
 </turbo-frame>

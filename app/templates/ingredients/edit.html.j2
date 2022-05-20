@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col-md-8 col-sm-12" style="margin-bottom:2rem">
-        <form action="{{ url_for('IngredientsView:post_edit', id=ingredient.id) }}" class="form-group" method="post" accept-charset="utf-8">
+        <form action="{{ url_for('IngredientView:update', id=ingredient.id) }}" class="form-group" method="post" accept-charset="utf-8">
             {{ form.csrf_token }}
 
             {{ render_floating_field(form.name) }}
@@ -33,7 +33,7 @@
                 uložit změnu {{ icon("edit") }}
             </button>
             
-            <a class="btn bg-color-secondary-action color-white" href="{{ url_for('IngredientsView:show', id=ingredient.id) }}">
+            <a class="btn bg-color-secondary-action color-white" href="{{ url_for('IngredientView:show', id=ingredient.id) }}">
                 zrušit úpravy {{ icon("edit") }}
             </a>
             

@@ -1,6 +1,6 @@
 <div>
-    <a class="btn bg-color-secondary-action color-white me-3 d-inline-flex" href="{{ url_for('IngredientsView:edit', id=ingredient.id) }}"> upravit {{ icon("edit", class="ps-1 mt-1") }}</a>
-    <form class="d-inline form" action="{{ url_for('IngredientsView:delete', id=ingredient.id) }}" onsubmit="return confirm('opravdu chcete smazat surovinu?');" method="post" accept-charset="utf-8">
+    <a class="btn bg-color-secondary-action color-white me-3 d-inline-flex" href="{{ url_for('IngredientView:edit', id=ingredient.id) }}"> upravit {{ icon("edit", class="ps-1 mt-1") }}</a>
+    <form class="d-inline form" action="{{ url_for('IngredientView:delete', id=ingredient.id) }}" onsubmit="return confirm('opravdu chcete smazat surovinu?');" method="post" accept-charset="utf-8">
         {% if ingredient.is_used == False %}
             <button type="submit" class="btn bg-color-secondary-action color-white"> smazat {{ icon("delete") }}</button>
         {% else %}

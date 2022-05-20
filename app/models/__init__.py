@@ -1,22 +1,46 @@
-# This is needed for Flask-Migrate to work
-# import all tables that are not classes (only raw M:N relationship tables)
-# this file imports automatically (because it's __init__.py file)
-
-from app.models.users_have_roles import users_have_roles  # noqa: F401
-from app.models.request_logs import RequestLog  # noqa: F401
-
-from app.models.conversions import Conversion  # noqa: F401
-
-from app.models.recipes import Recipe
+from app.models.conversions import Conversion
+from app.models.daily_plans import DailyPlan
+from app.models.daily_plans_have_recipes import DailyPlanHasRecipe
+from app.models.events import Event
 from app.models.files import File, RecipeImageFile
+from app.models.ingredient_categories import IngredientCategory
 from app.models.ingredients import Ingredient
+from app.models.label_categories import LabelCategory
+from app.models.labels import Label
+from app.models.measurements import Measurement
+from app.models.oauth import OAuth
+from app.models.recipes import Recipe
+from app.models.recipes_have_ingredients import RecipeHasIngredient
+from app.models.recipes_have_labels import RecipeHasLabel
+from app.models.request_logs import RequestLog
+from app.models.roles import Role
+from app.models.tips import Tip
+from app.models.users import User
+from app.models.users_have_event_roles import UserHasEventRole
+from app.models.users_have_recipes_reaction import UserHasRecipeReaction
+from app.models.users_have_roles import users_have_roles  # noqa: F401
 
-from app.models.label_categories import LabelCategory  # noqa: F401
-from app.models.labels import Label  # noqa: F401
-from app.models.recipes_have_labels import RecipeHasLabel  # noqa: F401
-from app.models.oauth import OAuth  # noqa: F401
 
-from app.models.users_have_event_roles import UserHasEventRole  # noqa: F401
-
-
-__all__ = ["Recipe", "RecipeImageFile", "File", "Ingredient"]
+__all__ = [
+    "Conversion",
+    "DailyPlan",
+    "DailyPlanHasRecipe",
+    "Event",
+    "IngredientCategory",
+    "Label",
+    "LabelCategory",
+    "Measurement",
+    "OAuth",
+    "RecipeHasIngredient",
+    "RecipeHasLabel",
+    "RequestLog",
+    "Role",
+    "Tip",
+    "User",
+    "UserHasEventRole",
+    "UserHasRecipeReaction",
+    "Recipe",
+    "RecipeImageFile",
+    "File",
+    "Ingredient",
+]

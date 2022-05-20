@@ -32,7 +32,7 @@
 
 <hr>
 
-<form method="post" action="{{ url_for('PublicRecipesView:toggle_reaction', recipe_id=recipe.id, refresh=True) }}">
+<form method="post" action="{{ url_for('PublicRecipeView:toggle_reaction', recipe_id=recipe.id, refresh=True) }}">
     <button type="submit" class="invisible-button">
         {% if recipe.has_reaction %}
             <span> {{ icon("heart_full", action="click->recipe-reactions#empty", cursor_class="cursor-clickable") }} </span>

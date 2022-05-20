@@ -14,7 +14,7 @@ from app.models.ingredients import Ingredient
 from app.models.recipes import Recipe
 
 
-class EditRecipeIngredientsView(HelperFlaskView, AdminViewMixin):
+class EditRecipeIngredientView(HelperFlaskView, AdminViewMixin):
     decorators = [login_required]
     template_folder = "recipes/edit/ingredient"
     attribute_name = "ingredient"
@@ -24,7 +24,7 @@ class EditRecipeIngredientsView(HelperFlaskView, AdminViewMixin):
     @login_required
     def before_request(self, name, recipe_id, **kwargs):
         self.recipe = Recipe.load(recipe_id)
-        self.validate_operation(recipe_id, self.recipe)
+        self.validate_edit(self.recipe)
 
     @route("show_edit/<recipe_id>/<ingredient_id>", methods=["POST"])
     def show_edit(self, recipe_id, ingredient_id):
@@ -59,10 +59,10 @@ class EditRecipeIngredientsView(HelperFlaskView, AdminViewMixin):
                 + self.update_usable_ingredients(self.recipe)
             )
         else:
-            return redirect(url_for("RecipesView:edit", id=self.recipe.id))
+            return redirect(url_for("RecipeView:edit", id=self.recipe.id))
 
-    @route("post_edit/<recipe_id>/<ingredient_id>", methods=["POST"])
-    def post_edit(self, recipe_id, ingredient_id):
+    @route("update/<recipe_id>/<ingredient_id>", methods=["POST"])
+    def update(self, recipe_id, ingredient_id):
         self.ingredient = Ingredient.load(ingredient_id)
 
         is_measured = "is-measured" in request.form
@@ -78,7 +78,7 @@ class EditRecipeIngredientsView(HelperFlaskView, AdminViewMixin):
         self.recipe.change_ingredient_comment(self.ingredient, comment)
         self.recipe.change_ingredient_measured(self.ingredient, is_measured)
 
-        return super().post_edit()
+        return super().update()
 
     # @route("delete/<recipe_id>/<ingredient_id>", methods=["POST"])
     def delete(self, recipe_id, ingredient_id):
@@ -86,7 +86,7 @@ class EditRecipeIngredientsView(HelperFlaskView, AdminViewMixin):
 
         if not self.recipe.remove_ingredient(self.ingredient):
             flash("Tato surovina už byla smazána.", "error")
-            return redirect(url_for("RecipesView:edit", id=self.recipe.id))
+            return redirect(url_for("RecipeView:edit", id=self.recipe.id))
 
         if turbo.can_stream():
             return turbo.stream(
@@ -94,7 +94,7 @@ class EditRecipeIngredientsView(HelperFlaskView, AdminViewMixin):
                     turbo.remove(target=f"ingredient-{ingredient_id}"),
                     turbo.remove(target=f"ingredient-edit-{ingredient_id}"),
                 ]
-                + EditRecipeIngredientsView().update_usable_ingredients(self.recipe)
+                + EditRecipeIngredientView().update_usable_ingredients(self.recipe)
             )
         else:
             return redirect(url_for(f"{self.name}:index"))

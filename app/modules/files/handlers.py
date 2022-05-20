@@ -107,7 +107,7 @@ class LocalFileHandler(object):
     def url(self, file, thumbnail=False):
         from flask import url_for
 
-        return url_for("FilesView:show", hash_value=file.hash, thumbnail=thumbnail)
+        return url_for("FileView:show", hash_value=file.hash, thumbnail=thumbnail)
 
     @property
     def all_files(self):

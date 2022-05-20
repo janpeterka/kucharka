@@ -30,18 +30,18 @@ def public_ingredients():
 
 class PublicRecipeFilterForm(FlaskForm):
     ingredient = QuerySelectField(
-        "Obsahuje surovinu", query_factory=public_ingredients, allow_blank=True
+        "obsahuje surovinu", query_factory=public_ingredients, allow_blank=True
     )
-    category = QuerySelectField("Kategorie", query_factory=categories, allow_blank=True)
-    with_reaction = BooleanField("Moje oblíbené")
+    category = QuerySelectField("kategorie", query_factory=categories, allow_blank=True)
+    with_reaction = BooleanField("moje oblíbené")
 
     dietary_labels = QuerySelectMultipleField(
-        "Dietní omezení", query_factory=dietary_labels
+        "dietní omezení", query_factory=dietary_labels
     )
     difficulty_labels = QuerySelectMultipleField(
-        "Obtížnost přípravy", query_factory=difficulty_labels
+        "obtížnost přípravy", query_factory=difficulty_labels
     )
 
     labels = HiddenField()
 
-    submit = SubmitField("Filtrovat")
+    submit = SubmitField("filtrovat")

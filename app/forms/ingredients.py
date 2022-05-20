@@ -1,28 +1,26 @@
+from flask_wtf import FlaskForm
+
 from wtforms import StringField, SubmitField
 from wtforms.validators import InputRequired, Optional, NumberRange
-
-from flask_wtf import FlaskForm
 from wtforms_sqlalchemy.fields import QuerySelectField
-
 from wtforms.widgets import TextArea
 
-from app.controllers.forms.custom import ComaFloatField
+from app.forms.custom import ComaFloatField
 
 
 def categories():
-    from app.models.ingredient_categories import IngredientCategory
+    from app.models import IngredientCategory
 
     return IngredientCategory.load_all()
 
 
 def measurements():
-    from app.models.measurements import Measurement
+    from app.models import Measurement
 
     return Measurement.load_all()
 
 
-class IngredientsForm(FlaskForm):
-
+class IngredientForm(FlaskForm):
     name = StringField("název suroviny", [InputRequired("název musí být vyplněn")])
 
     description = StringField("popis", widget=TextArea())

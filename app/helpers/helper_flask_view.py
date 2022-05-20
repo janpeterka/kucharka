@@ -7,33 +7,47 @@ from flask import render_template as template
 from flask_classful import FlaskView
 
 from app.models import *  # noqa: F401, F403, F406
-from app.controllers.forms import *  # noqa: F401, F403, F406
+from app.forms import *  # noqa: F401, F403, F406
 
 
 class HelperFlaskView(FlaskView):
-    def validate_operation(self, object_id, instance):
-        if object_id is not None:
-            if instance is None:
-                abort(404)
-            if not instance.can_current_user_view:
-                abort(403)
-
-        return True
-
-    def validate_view(self, instance):
-        if not instance.can_current_user_view:
-            abort(403)
-
-        return True
-
     def validate_show(self, instance):
-        return self.validate_operation(instance.id, instance)
+        self.validate_operation(instance, "show")
 
     def validate_edit(self, instance):
-        if not instance.can_current_user_edit:
-            abort(403)
+        self.validate_operation(instance, "edit")
 
-        return True
+    def validate_create(self, klass):
+        self.validate_operation(klass, "create")
+
+    def validate_delete(self, instance):
+        self.validate_operation(instance, "delete")
+
+    # TODO: Use this only internally, use specific validation in controllers
+    def validate_operation(self, instance_or_klass, operation_type="show"):
+        # if object_id is not None and instance is None:
+        if instance_or_klass is None:
+            abort(404)
+
+        if operation_type == "show":
+            if not instance_or_klass.can_current_user_view:
+                abort(403)
+
+        elif operation_type == "create":
+            # instance_or_klass is class in this case
+            if not instance_or_klass.can_current_user_create():
+                abort(403)
+
+        elif operation_type == "edit":
+            if not instance_or_klass.can_current_user_edit:
+                abort(403)
+
+        elif operation_type == "delete":
+            if not instance_or_klass.can_current_user_delete:
+                abort(403)
+
+        else:
+            raise AttributeError("unknown 'operation_type'")
 
     def template(self, template_name=None, *args, **kwargs):
         # Template name is given from view and method names if not provided
@@ -61,9 +75,7 @@ class HelperFlaskView(FlaskView):
     @property
     def _model_name(self):
         # e.g. User
-        if type(self).__name__.endswith("sView"):
-            model_name = type(self).__name__.replace("sView", "")
-        elif type(self).__name__.endswith("View"):
+        if type(self).__name__.endswith("View"):
             model_name = type(self).__name__.replace("View", "")
         else:
             raise AttributeError("Controller name not ending with 'View'")
@@ -82,7 +94,7 @@ class HelperFlaskView(FlaskView):
 
     @property
     def _form_klass(self):
-        # e.g. class <UsersForm>
+        # e.g. class <UserForm>
         try:
             form_klass = globals()[self._form_name]
         except KeyError:

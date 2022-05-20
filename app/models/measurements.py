@@ -1,9 +1,10 @@
 from app import db, BaseModel
 
 from app.helpers.base_mixin import BaseMixin
+from app.presenters import BasePresenter
 
 
-class Measurement(BaseModel, BaseMixin):
+class Measurement(BaseModel, BaseMixin, BasePresenter):
     __tablename__ = "measurements"
 
     id = db.Column(db.Integer(), primary_key=True)

@@ -12,17 +12,20 @@ from app.models.files import File
 from app.modules.files import show_file, download_file, all_files
 
 
-class FilesView(HelperFlaskView):
-    def show(self, hash_value):
+class FileView(HelperFlaskView):
+    @permissions_required("manage-application")
+    def index(self):
+        return template("files/index.html.j2", files=all_files())
 
+    def show(self, hash_value):
         file = File.load_by_attribute("hash", hash_value)
         thumbnail = request.args.get("thumbnail", False) == "True"
 
-        self.validate_operation(hash_value, file)
+        self.validate_show(file)
 
         return show_file(file, thumbnail)
 
-    @route("/<id>/delete", methods=["POST"])
+    @route("delete/<id>", methods=["POST"])
     def delete(self, id):
         file = File.load(id)
         if self.validate_edit(file):
@@ -34,10 +37,6 @@ class FilesView(HelperFlaskView):
 
     def download(self, id):
         file = File.load(id)
-        self.validate_operation(id, file)
+        self.validate_show(file)
 
         return download_file(file)
-
-    @permissions_required("manage-application")
-    def index(self):
-        return template("files/index.html.j2", files=all_files())

@@ -3,12 +3,11 @@ from unidecode import unidecode
 from flask_security import current_user
 
 from app import db, BaseModel
+from app.helpers.base_mixin import BaseMixin
+from app.presenters import ItemPresenter
 
-from app.helpers.item_mixin import ItemMixin
-from app.models.recipes_have_ingredients import RecipeHasIngredient
 
-
-class Ingredient(BaseModel, ItemMixin):
+class Ingredient(BaseModel, BaseMixin, ItemPresenter):
     __tablename__ = "ingredients"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -99,18 +98,24 @@ class Ingredient(BaseModel, ItemMixin):
         return ingredients
 
     def load_amount_by_recipe(self, recipe) -> float:
+        from app.models import RecipeHasIngredient
+
         rhi = RecipeHasIngredient.query.filter_by(
             recipe_id=recipe.id, ingredient_id=self.id
         ).first()
         return rhi.amount
 
     def load_comment_by_recipe(self, recipe):
+        from app.models import RecipeHasIngredient
+
         rhi = RecipeHasIngredient.query.filter_by(
             recipe_id=recipe.id, ingredient_id=self.id
         ).first()
         return rhi.comment
 
     def load_measured_by_recipe(self, recipe):
+        from app.models import RecipeHasIngredient
+
         rhi = RecipeHasIngredient.query.filter_by(
             recipe_id=recipe.id, ingredient_id=self.id
         ).first()
@@ -141,11 +146,11 @@ class Ingredient(BaseModel, ItemMixin):
         return not self.is_used
 
     @property
-    def without_category(self):
+    def without_category(self) -> bool:
         return self.category is None or self.category.name == "---"
 
     @property
-    def without_measurement(self):
+    def without_measurement(self) -> bool:
         return self.measurement is None or self.measurement.name == "---"
 
     @property
@@ -170,10 +175,6 @@ class Ingredient(BaseModel, ItemMixin):
     def category_name(self):
         return getattr(self.category, "name", "---")
 
-    # @property
-    # def is_in_thousands(self):
-    #     return self.measurement.thousand_fold and self.amount % 1000 != self.amount
-
     # PERMISSIONS
 
     def can_add(self, user) -> bool:
@@ -194,12 +195,16 @@ class IngredientCopy:
         self.recipes = ingredient.recipes
 
     def load_amount_by_recipe(self, recipe) -> float:
+        from app.models import RecipeHasIngredient
+
         rhi = RecipeHasIngredient.query.filter_by(
             recipe_id=recipe.id, ingredient_id=self.id
         ).first()
         return rhi.amount
 
     def load_comment_by_recipe(self, recipe):
+        from app.models import RecipeHasIngredient
+
         rhi = RecipeHasIngredient.query.filter_by(
             recipe_id=recipe.id, ingredient_id=self.id
         ).first()
@@ -214,7 +219,7 @@ class IngredientCopy:
     def link_to(self):
         from flask import url_for, Markup, escape
 
-        self_view_name = "IngredientsView:show"
+        self_view_name = "IngredientView:show"
         return Markup(
             f"<a data-turbo='false' href='{url_for(self_view_name, id=self.id)}'>{escape(self.name)}</a>"
         )

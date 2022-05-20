@@ -1,20 +1,19 @@
 import datetime
 from datetime import timedelta
 
-from flask import url_for
-
 from flask_security import current_user
 
 from app import db, BaseModel
+from app.helpers.base_mixin import BaseMixin
 
 from app.helpers.general import list_without_duplicated, placeholder_day
-from app.helpers.item_mixin import ItemMixin
 
-from app.models.daily_plans import DailyPlan
-from app.models.users_have_event_roles import UserHasEventRole
+from app.presenters import EventPresenter
+
+from app.models import DailyPlan
 
 
-class Event(BaseModel, ItemMixin):
+class Event(BaseModel, BaseMixin, EventPresenter):
     __tablename__ = "events"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -107,28 +106,19 @@ class Event(BaseModel, ItemMixin):
                 day_plan.save()
 
     @property
-    def is_active(self):
+    def is_active(self) -> bool:
         return not self.is_archived
 
     @property
-    def in_future(self):
+    def in_future(self) -> bool:
         return self.date_to >= datetime.date.today()
 
     @property
-    def duration(self):
+    def duration(self) -> int:
         return (self.date_to - self.date_from).days + 1
 
     @property
-    def duration_label(self):
-        if self.duration == 1:
-            return "den"
-        elif self.duration in [1, 2, 3, 4]:
-            return "dny"
-        else:
-            return "dní"
-
-    @property
-    def days(self):
+    def days(self) -> list:
         return [
             self.date_from + timedelta(days=x)
             for x in range((self.date_to - self.date_from).days + 1)
@@ -196,11 +186,11 @@ class Event(BaseModel, ItemMixin):
         return recipes
 
     @property
-    def recipes_without_duplicated(self):
+    def recipes_without_duplicated(self) -> list:
         return list_without_duplicated(self.recipes)
 
     @property
-    def daily_recipes(self):
+    def daily_recipes(self) -> list:
         daily_recipes = []
         for daily_plan in self.active_daily_plans:
             daily_recipes += daily_plan.daily_recipes
@@ -228,23 +218,23 @@ class Event(BaseModel, ItemMixin):
         return split_recipes
 
     @property
-    def zero_amount_ingredient_recipes(self):
+    def zero_amount_ingredient_recipes(self) -> list:
         return [r for r in self.active_recipes if r.has_zero_amount_ingredient]
 
     @property
-    def no_measurement_ingredient_recipes(self):
+    def no_measurement_ingredient_recipes(self) -> list:
         return [r for r in self.active_recipes if r.has_no_measurement_ingredient]
 
     @property
-    def recipes_without_category(self):
+    def recipes_without_category(self) -> list:
         return [r for r in self.active_recipes if r.without_category]
 
     @property
-    def no_category_ingredient_recipes(self):
+    def no_category_ingredient_recipes(self) -> list:
         return [r for r in self.active_recipes if r.has_no_category_ingredient]
 
     @property
-    def empty_recipes(self):
+    def empty_recipes(self) -> list:
         return [r for r in self.active_recipes if r.is_draft]
 
     @property
@@ -254,24 +244,6 @@ class Event(BaseModel, ItemMixin):
     @property
     def ends_at(self):
         return self.date_to
-
-    @property
-    def slugified_name(self):
-        from app.helpers.general import slugify
-
-        return slugify(self.name)
-
-    @property
-    def public_url(self):
-        from app.helpers.general import obscure
-
-        if not self.is_shared:
-            return None
-        else:
-            hash_value = obscure(str(self.id).encode())
-            return url_for(
-                "SharedEventsView:show", hash_value=hash_value, _external=True
-            )
 
     def user_role(self, user):
         roles = [user_role for user_role in self.user_roles if user_role.user == user]
@@ -283,14 +255,14 @@ class Event(BaseModel, ItemMixin):
             raise Warning("User has multiple roles on this event")
 
     @property
-    def connected_users(self):
+    def connected_users(self) -> list:
         users = self.shared_with
         users.append(self.author)
 
         return users
 
     @property
-    def other_user_ids(self):
+    def other_user_ids(self) -> list:
         user_ids = [user.id for user in self.shared_with]
         user_ids.append(self.author.id)
         user_ids.remove(current_user.id)
@@ -301,27 +273,27 @@ class Event(BaseModel, ItemMixin):
         return user_ids
 
     def add_user_role(self, user, role):
+        from app.models import UserHasEventRole
+
         event_role = UserHasEventRole(event=self, user=user, role=role)
         event_role.save()
 
     def change_user_role(self, user, role):
+        from app.models import UserHasEventRole
+
         event_role = UserHasEventRole.load_by_event_and_user(event=self, user=user)
         event_role.role = role
         event_role.save()
 
     def remove_user_role(self, user):
+        from app.models import UserHasEventRole
+
         event_role = UserHasEventRole.load_by_event_and_user(event=self, user=user)
         event_role.delete()
 
     @property
     def current_user_role(self):
         return self.user_role(current_user)
-
-    # @property
-    # def url(self):
-    #     from flask import url_for
-
-    #     return f"https://skautskakucharka.cz{url_for('EventsView:show', id=self.id)}"
 
     # PERMISSIONS
     def can_view(self, user) -> bool:

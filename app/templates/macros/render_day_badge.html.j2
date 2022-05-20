@@ -33,7 +33,7 @@
 		<div class="text-truncate">
 			{% if not daily_recipe.recipe.is_shopping %}
 				{# {{ link_to(recipe) }} #}
-				<a href="{{ url_for('RecipesView:show', id=daily_recipe.recipe.id, portion_count=daily_recipe.portion_count) }}"> {{ daily_recipe.recipe.name }} </a>
+				<a href="{{ url_for('RecipeView:show', id=daily_recipe.recipe.id, portion_count=daily_recipe.portion_count) }}"> {{ daily_recipe.recipe.name }} </a>
 			{% else %}
 				<span class="color-grey"> nákup </span>
 			{% endif %}

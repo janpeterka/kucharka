@@ -1,9 +1,10 @@
 from app import db, BaseModel
 
 from app.helpers.base_mixin import BaseMixin
+from app.presenters import BasePresenter
 
 
-class LabelCategory(BaseModel, BaseMixin):
+class LabelCategory(BaseModel, BaseMixin, BasePresenter):
     __tablename__ = "label_categories"
 
     id = db.Column(db.Integer(), primary_key=True)

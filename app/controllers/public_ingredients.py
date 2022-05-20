@@ -12,13 +12,12 @@ from app.models.ingredient_categories import IngredientCategory
 from app.models.measurements import Measurement
 
 
-class PublicIngredientsView(HelperFlaskView):
+class PublicIngredientView(HelperFlaskView):
     decorators = [login_required, permissions_required("manage-application")]
     template_folder = "ingredients/public"
 
     def before_request(self, name, id=None, *args, **kwargs):
         self.ingredient = Ingredient.load(id)
-        self.validate_operation(id, self.ingredient)
 
         self.measurements = Measurement.load_all()
         self.categories = IngredientCategory.load_all()
@@ -45,7 +44,7 @@ class PublicIngredientsView(HelperFlaskView):
             )
         else:
             return redirect(
-                url_for("PublicIngredientsView:index", edit_id=self.ingredient.id)
+                url_for("PublicIngredientView:index", edit_id=self.ingredient.id)
             )
 
     @route("ingredients/hide_edit/<id>", methods=["POST"])
@@ -63,10 +62,10 @@ class PublicIngredientsView(HelperFlaskView):
                 ]
             )
         else:
-            return redirect(url_for("PublicIngredientsView:index"))
+            return redirect(url_for("PublicIngredientView:index"))
 
-    @route("ingredients/edit/<id>", methods=["POST"])
-    def post_edit(self, id):
+    @route("update/<id>", methods=["POST"])
+    def update(self, id):
         self.ingredient.category = IngredientCategory.load(request.form["category_id"])
         self.ingredient.measurement = Measurement.load(request.form["measurement_id"])
 
@@ -83,4 +82,4 @@ class PublicIngredientsView(HelperFlaskView):
                 ]
             )
         else:
-            return redirect(url_for("PublicIngredientsView:index"))
+            return redirect(url_for("PublicIngredientView:index"))

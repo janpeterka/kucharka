@@ -10,13 +10,12 @@ from app.helpers.helper_flask_view import HelperFlaskView
 from app.helpers.admin_view_mixin import AdminViewMixin
 
 
-class MeasurementsView(HelperFlaskView, AdminViewMixin):
+class MeasurementView(HelperFlaskView, AdminViewMixin):
     decorators = [login_required, permissions_required("manage-application")]
 
     @login_required
     def before_request(self, name, id=None, *args, **kwargs):
         self.measurement = Measurement.load(id)
-        self.validate_operation(id, self.measurement)
 
     def before_index(self):
         self.measurements = Measurement.load_all()
@@ -32,13 +31,13 @@ class MeasurementsView(HelperFlaskView, AdminViewMixin):
     def hide_edit(self, id):
         return super().hide_edit()
 
-    @route("measurements/post_edit/<id>", methods=["POST"])
-    def post_edit(self, id):
+    @route("measurements/update/<id>", methods=["POST"])
+    def update(self, id):
         self.measurement.name = request.form["name"]
         self.measurement.description = request.form["description"]
         self.measurement.save()
 
-        return super().post_edit()
+        return super().update()
 
     def post(self):
         self.measurement = Measurement(name=request.form["measurement"])
@@ -49,7 +48,7 @@ class MeasurementsView(HelperFlaskView, AdminViewMixin):
     def delete(self, id):
         if self.measurement.is_used:
             turbo_flash("Už je někde použité, nelze smazat!")
-            return redirect(url_for("MeasurementsView:index"), code=303)
+            return redirect(url_for("MeasurementView:index"), code=303)
 
         self.measurement.delete()
 

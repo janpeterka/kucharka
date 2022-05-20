@@ -14,12 +14,6 @@ from app import db
 
 # Custom methods for all my classes
 class BaseMixin(object):
-    def __str__(self):
-        if hasattr(self, "name"):
-            return self.name
-        else:
-            return self.__str__
-
     def set_defaults(self, **kwargs):
         if self.created_by is None:
             self.created_by = current_user.id
@@ -66,8 +60,7 @@ class BaseMixin(object):
 
     @classmethod
     def load_by_attribute(cls, attribute, value):
-        elements = cls.load_all_by_attribute(attribute, value)
-        if elements:
+        if elements := cls.load_all_by_attribute(attribute, value):
             return elements[0]
         else:
             return None
@@ -104,7 +97,7 @@ class BaseMixin(object):
             return True
         except Exception as e:
             db.session.rollback()
-            application.logger.error("Edit error: {}".format(e))
+            application.logger.error(f"Edit error: {e}")
             return False
 
     def save(self, **kw):
@@ -116,7 +109,7 @@ class BaseMixin(object):
                 return self.id is not None
         except DatabaseError as e:
             db.session.rollback()
-            application.logger.error("Save error: {}".format(e))
+            application.logger.error(f"Save error: {e}")
             return False
 
     def remove(self, **kw):
@@ -127,7 +120,7 @@ class BaseMixin(object):
             return True
         except DatabaseError as e:
             db.session.rollback()
-            application.logger.error("Remove error: {}".format(e))
+            application.logger.error(f"Remove error: {e}")
             return False
 
     def delete(self, **kw):
@@ -140,7 +133,7 @@ class BaseMixin(object):
             return True
         except Exception as e:
             db.session.rollback()
-            application.logger.error("Expire error: {}".format(e))
+            application.logger.error(f"Expire error: {e}")
             return False
 
     def refresh(self, **kw):
@@ -149,7 +142,7 @@ class BaseMixin(object):
             return True
         except Exception as e:
             db.session.rollback()
-            application.logger.error("Refresh error: {}".format(e))
+            application.logger.error(f"Refresh error: {e}")
             return False
 
     def reload(self):

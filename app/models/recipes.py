@@ -4,18 +4,18 @@ from flask_security import current_user
 
 from app import db, BaseModel
 
-from app.helpers.item_mixin import ItemMixin
+from app.helpers.base_mixin import BaseMixin
 from app.helpers.general import list_without_duplicated
 
-from app.models.ingredients import Ingredient
-from app.models.recipes_have_ingredients import RecipeHasIngredient
-from app.models.label_categories import LabelCategory
+from app.presenters import ItemPresenter
 
 from app.models.mixins.recipes.recipe_reactions import RecipeReactionMixin
 from app.models.mixins.recipes.recipe_ingredients import RecipeIngredientMixin
 
 
-class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
+class Recipe(
+    BaseModel, BaseMixin, RecipeReactionMixin, RecipeIngredientMixin, ItemPresenter
+):
     __tablename__ = "recipes"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -98,6 +98,8 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     @staticmethod
     def load(recipe_id):
+        from app.models import LabelCategory
+
         recipe = Recipe.query.filter_by(id=recipe_id).first()
         if recipe is None:
             return None
@@ -130,6 +132,8 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     @staticmethod
     def load_by_ingredient(ingredient):
+        from app.models import Ingredient
+
         return Recipe.query.filter(
             Recipe.ingredients.any(Ingredient.id == ingredient.id)
         ).all()
@@ -137,6 +141,7 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
     @staticmethod
     def load_by_ingredient_and_user(ingredient, user):
         recipes = Recipe.load_by_ingredient(ingredient)
+
         return [r for r in recipes if r.author == user]
 
     @staticmethod
@@ -144,21 +149,9 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         return Recipe.load_by_name("Nákup")
 
     # Operations
-
-    def create_and_save(self, recipe_ingredients):
-        db.session.add(self)
-        db.session.flush()
-
-        # WIP - tohle je teď asi jinak
-
-        for i in recipe_ingredients:
-            i.recipe_id = self.id
-            db.session.add(i)
-
-        db.session.commit()
-        return self.id
-
     def remove(self):
+        from app.models import RecipeHasIngredient
+
         # TODO: to improve w/ orphan cascade (80)
         recipe_ingredients = RecipeHasIngredient.query.filter(
             RecipeHasIngredient.recipe_id == self.id
@@ -222,12 +215,12 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         return not self.is_draft and not self.is_shopping
 
     @property
-    def events(self):
+    def events(self) -> list:
         events = [dp.event for dp in self.daily_plans]
         return list_without_duplicated(events)
 
     @property
-    def shared_events(self):
+    def shared_events(self) -> list:
         return [event for event in self.events if event.is_shared]
 
     @property
@@ -249,6 +242,8 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
 
     @property
     def unused_public_ingredients(self) -> list:
+        from app.models import Ingredient
+
         return [i for i in Ingredient.load_all_public() if i not in self.ingredients]
 
     @property
@@ -314,7 +309,7 @@ class Recipe(BaseModel, ItemMixin, RecipeReactionMixin, RecipeIngredientMixin):
         return self.images[0]
 
     @property
-    def slugified_name(self):
+    def slugified_name(self) -> str:
         from app.helpers.general import slugify
 
         return slugify(self.name)

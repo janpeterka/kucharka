@@ -3,23 +3,10 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from app import db, BaseModel
 
 from app.helpers.base_mixin import BaseMixin
+from app.presenters import BasePresenter
 
 
-class RecipeHasIngredient(BaseModel, BaseMixin):
-    """Recipe-Ingredient connection class
-
-    Extends:
-        Base
-
-    Variables:
-        __tablename__ {str} -- [description]
-        recipe_id {int} -- [description]
-        ingredient_id {int} -- [description]
-        amount {int} -- [description]
-        ingredients {relationship} -- [description]
-        recipes {relationship} -- [description]
-    """
-
+class RecipeHasIngredient(BaseModel, BaseMixin, BasePresenter):
     __tablename__ = "recipes_have_ingredients"
 
     recipe_id = db.Column(

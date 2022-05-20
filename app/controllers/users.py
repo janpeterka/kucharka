@@ -1,17 +1,15 @@
 from flask import request, url_for, redirect, flash
-
-from flask_security import login_required, current_user
 from flask_classful import route
+from flask_security import login_required, current_user
 
 from app.helpers.form import create_form, save_form_to_session
 from app.helpers.helper_flask_view import HelperFlaskView
 
-from app.models.users import User
+from app.models import User
+from app.forms import UserForm, SetPasswordForm
 
-from app.controllers.forms.users import UsersForm, SetPasswordForm
 
-
-class UsersView(HelperFlaskView):
+class UserView(HelperFlaskView):
     decorators = [login_required]
 
     @login_required
@@ -23,31 +21,35 @@ class UsersView(HelperFlaskView):
         if not self.user:
             self.user = current_user
 
-        self.validate_operation(id, self.user)
+    def before_show(self, **kwargs):
+        self.validate_show(self.user)
 
     def before_edit(self):
-        self.user_form = create_form(UsersForm, obj=self.user)
+        self.validate_edit(self.user)
 
     def index(self):
         if not current_user.has_permission("manage-users"):
-            return redirect(url_for("UsersView:show"))
+            return redirect(url_for("UserView:show"))
 
         self.users = User.load_all()
+
         return self.template()
 
     def show(self, **kwargs):
         return self.template()
 
     def edit(self):
+        self.user_form = create_form(UserForm, obj=self.user)
+
         return self.template()
 
     def post(self, page_type=None):
-        form = UsersForm(request.form)
+        form = UserForm(request.form)
         del form.username
 
         if not form.validate_on_submit():
             save_form_to_session(request.form)
-            return redirect(url_for("UsersView:edit"))
+            return redirect(url_for("UserView:edit"))
 
         self.user.full_name = form.full_name.data
 
@@ -56,7 +58,7 @@ class UsersView(HelperFlaskView):
         else:
             flash("Nepovedlo se změnit uživatele", "error")
 
-        return redirect(url_for("UsersView:show"))
+        return redirect(url_for("UserView:show"))
 
     def set_password(self):
         self.form = SetPasswordForm()
@@ -68,7 +70,7 @@ class UsersView(HelperFlaskView):
         self.user.set_password(self.form.password.data)
         self.user.save()
         flash("Heslo nastaveno")
-        return redirect(url_for("UsersView:show"))
+        return redirect(url_for("UserView:show"))
 
     # @permissions_required("login-as")
     # def login_as(self, user_id, back=False):

@@ -10,13 +10,12 @@ from app.helpers.helper_flask_view import HelperFlaskView
 from app.helpers.turbo_flash import turbo_flash as flash
 
 
-class TipsView(HelperFlaskView):
+class TipView(HelperFlaskView):
     decorators = [login_required]
 
     @login_required
     def before_request(self, name, id=None, *args, **kwargs):
         self.tip = Tip.load(id)
-        self.validate_operation(id, self.tip)
 
     def before_manage(self):
         self.tips = Tip.load_all()
@@ -31,9 +30,9 @@ class TipsView(HelperFlaskView):
     def manage(self):
         return self.template()
 
-    @route("tips")
     def index(self):
         self.tips = Tip.approved_tips()
+
         return self.template()
 
     @route("add-tip", methods=["POST"])
@@ -46,7 +45,7 @@ class TipsView(HelperFlaskView):
         else:
             flash("Něco se nepovedlo.", "error")
 
-        return redirect(url_for("TipsView:index"))
+        return redirect(url_for("TipView:index"))
 
     @permissions_required("manage-application")
     @route("/approve/<id>", methods=["POST"])
@@ -63,7 +62,7 @@ class TipsView(HelperFlaskView):
                 ]
             )
         else:
-            return redirect(url_for("TipsView:index"))
+            return redirect(url_for("TipView:index"))
 
     @permissions_required("manage-application")
     @route("/disapprove/<id>", methods=["POST"])
@@ -80,4 +79,4 @@ class TipsView(HelperFlaskView):
                 ]
             )
         else:
-            return redirect(url_for("TipsView:index"))
+            return redirect(url_for("TipView:index"))

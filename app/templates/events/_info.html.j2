@@ -41,9 +41,7 @@
 
 		<div class="col">
 		    {% if event.can_current_user_edit %}
-				<form method="POST" action="{{ url_for('EditEventView:edit', event_id=event.id) }}">
-					<button type="submit" class="btn bg-color-primary-action color-white w-100 pb-2 pt-2" style=""> upravit {{ icon("edit") }} </button>
-				</form>
+					<a href="{{ url_for('EventView:edit', id=event.id) }}" class="btn bg-color-primary-action color-white w-100 pb-2 pt-2" style=""> upravit {{ icon("edit") }} </a>
 		    {% endif %}
 		</div>
 

@@ -101,6 +101,7 @@ def db(app):
 def db_fill():
     # from flask_security import create_user, create_role
     from app import security
+    from app.models import Ingredient, Recipe
 
     roles = [
         security.datastore.create_role(
@@ -134,8 +135,6 @@ def db_fill():
     for user in users:
         user.save()
 
-    from app.models.ingredients import Ingredient
-
     ingredients = [
         Ingredient(name="první surovina", created_by=users[0].id),
         Ingredient(name="druhá surovina", created_by=users[0].id),
@@ -144,8 +143,6 @@ def db_fill():
 
     for ingredient in ingredients:
         ingredient.save()
-
-    from app.models.recipes import Recipe
 
     recipe = Recipe(
         name="první recept", created_by=users[0].id, portion_count=1, is_shared=False

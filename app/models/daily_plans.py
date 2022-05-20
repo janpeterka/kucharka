@@ -2,7 +2,9 @@ import datetime
 
 from app import db, BaseModel
 
-from app.helpers.item_mixin import ItemMixin
+from app.helpers.base_mixin import BaseMixin
+
+from app.presenters import DailyPlanPresenter
 
 from app.models.daily_plans_have_recipes import DailyPlanHasRecipe
 
@@ -10,7 +12,9 @@ from app.models.mixins.daily_plans.daily_plan_loaders import DailyPlanLoaderMixi
 from app.models.mixins.daily_plans.daily_plan_recipes import DailyPlanRecipeMixin
 
 
-class DailyPlan(BaseModel, ItemMixin, DailyPlanLoaderMixin, DailyPlanRecipeMixin):
+class DailyPlan(
+    BaseModel, BaseMixin, DailyPlanLoaderMixin, DailyPlanRecipeMixin, DailyPlanPresenter
+):
     __tablename__ = "daily_plans"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -68,20 +72,6 @@ class DailyPlan(BaseModel, ItemMixin, DailyPlanLoaderMixin, DailyPlanRecipeMixin
         return self in self.event.active_daily_plans
 
     @property
-    def weekday(self) -> str:
-        from app.helpers.formaters import week_day
-
-        return week_day(self.date)
-
-    @property
-    def week(self) -> int:
-        return int(self.date.strftime("%V"))
-
-    @property
-    def name(self) -> str:
-        return self.weekday
-
-    @property
     def next(self):
         for plan in self.event.active_daily_plans:
             if plan.date == self.date + datetime.timedelta(days=1):
@@ -122,6 +112,8 @@ class DailyPlan(BaseModel, ItemMixin, DailyPlanLoaderMixin, DailyPlanRecipeMixin
             return self.daily_recipes[-1]
         else:
             return None
+
+    # PERMISSIONS
 
     def can_edit(self, user):
         return self.event.can_edit(user)

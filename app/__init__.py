@@ -3,11 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_babel import Babel
 from turbo_flask import Turbo
-
 from flask_security import Security, SQLAlchemyUserDatastore
 from flask_mail import Mail
 from flask_dropzone import Dropzone
-
 from flask_sqlalchemy.model import DefaultMeta  # noqa: E402
 from sqlalchemy import MetaData
 
@@ -23,6 +21,7 @@ db = SQLAlchemy(
     session_options={"autoflush": False},
     metadata=MetaData(naming_convention=convention),
 )
+turbo = Turbo()
 
 BaseModel: DefaultMeta = db.Model
 
@@ -33,7 +32,6 @@ user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 
 migrate = Migrate()
 babel = Babel()
-turbo = Turbo()
 mail = Mail()
 security = Security()
 dropzone = Dropzone()
@@ -103,8 +101,8 @@ def create_app(config_name="default"):
 
     application.jinja_options = {
         "autoescape": select_autoescape(enabled_extensions=("html", "html.j2", "xml")),
-        "line_comment_prefix": "##",
         "line_statement_prefix": "#",
+        "line_comment_prefix": "##",
     }
 
     return application

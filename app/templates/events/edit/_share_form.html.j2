@@ -1,6 +1,6 @@
 <div class="row" style="margin-left: auto; margin-right: auto; width: 40rem;">
 
-	<form method="POST" class="row row-cols-auto g-3 align-items-center" action="{{ url_for('EditEventView:share_with_user', event_id=event.id) }}">
+	<form method="POST" class="row row-cols-auto g-3 align-items-center" action="{{ url_for('ShareEventView:share_with_user', event_id=event.id) }}">
         <div class="col">
         	<input type="email" class="form-control" name="email" placeholder="email">
         </div>

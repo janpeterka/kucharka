@@ -1,16 +1,16 @@
     
 {% if recipe.can_current_user_edit %}
 <div class="mb-5 {{ admin_field_class(in_class=True, obj=recipe) }}">
-    <form action="{{ url_for('RecipesView:delete', id=recipe.id) }}" method="post" class="form-inline" onsubmit="return confirm('opravdu chcete smazat recept?');">
+    <form action="{{ url_for('RecipeView:delete', id=recipe.id) }}" method="post" class="form-inline" onsubmit="return confirm('opravdu chcete smazat recept?');">
         <input type="hidden" name="previous" value="{{ request.referrer }}">
-        <a class="btn bg-color-secondary-action color-white" href="{{ url_for('RecipesView:edit', id=recipe.id) }}"> upravit {{ icon("edit") }}</a>
+        <a class="btn bg-color-secondary-action color-white" href="{{ url_for('RecipeView:edit', id=recipe.id) }}"> upravit {{ icon("edit") }}</a>
         {% if recipe.is_used %}
             <button type="submit" class="btn bg-color-secondary-action color-white" disabled> nelze smazat, je použit </button>
         {% else %}
             <button type="submit" class="btn bg-color-secondary-action color-white"> smazat recept {{ icon("delete") }}</button>
         {% endif %}
     </form>
-    <form action="{{ url_for('RecipesView:toggle_shared', id=recipe.id) }}" method="post" class="form-inline">
+    <form action="{{ url_for('RecipeView:toggle_shared', id=recipe.id) }}" method="post" class="form-inline">
         {% if recipe.is_shared == True %}
             <button type="submit" class="btn bg-color-secondary-action color-white"> zneveřejnit recept {{ icon("unshare") }} </button>
         {% else %}
@@ -22,7 +22,7 @@
 
 {% if current_user.is_authenticated and not recipe.is_current_user_author %}
 <div class="mt-2 mb-1">
-    <a class="btn bg-color-secondary-action" href="{{ url_for('RecipesView:duplicate', id=recipe.id) }}">
+    <a class="btn bg-color-secondary-action" href="{{ url_for('RecipeView:duplicate', id=recipe.id) }}">
         zkopírovat do mých receptů
     </a>
 </div>
@@ -32,12 +32,12 @@
     <summary> zobrazit pro daný počet porcí </summary>
     <div>
         <div>
-            <a class="btn color-white color-hover-black bg-color-highlight mb-1" href="{{ url_for('RecipesView:show', id=recipe.id, portion_count=1) }}"> jedna porce </a>
-            <a class="btn color-white color-hover-black bg-color-highlight ms-1 mb-1" href="{{ url_for('RecipesView:show', id=recipe.id, portion_count=13) }}"> třináct porcí </a>
-            <a class="btn color-white color-hover-black bg-color-highlight ms-1 mb-1" href="{{ url_for('RecipesView:show', id=recipe.id) }}"> původní </a>
+            <a class="btn color-white color-hover-black bg-color-highlight mb-1" href="{{ url_for('RecipeView:show', id=recipe.id, portion_count=1) }}"> jedna porce </a>
+            <a class="btn color-white color-hover-black bg-color-highlight ms-1 mb-1" href="{{ url_for('RecipeView:show', id=recipe.id, portion_count=13) }}"> třináct porcí </a>
+            <a class="btn color-white color-hover-black bg-color-highlight ms-1 mb-1" href="{{ url_for('RecipeView:show', id=recipe.id) }}"> původní </a>
         </div>
         
-        <form method="POST" action="{{ url_for('RecipesView:show_with_portion_count', id=recipe.id) }}" class="form form-inline">
+        <form method="POST" action="{{ url_for('RecipeView:show_with_portion_count', id=recipe.id) }}" class="form form-inline">
             <input type="number" name="portion_count" min="1" class="form-control" value=1>
             <button type="submit" class="btn bg-color-primary-action color-white"> zobrazit pro daný počet porcí </button>
         </form>
@@ -49,12 +49,12 @@
     <summary> další možnosti </summary>
     <div>
     
-        <a class="btn color-white color-hover-black bg-color-secondary-action d-none d-md-inline-block mb-1" href="{{ url_for('RecipesView:pdf', id=recipe.id, portion_count=recipe.portion_count) }}" target="_blank"> zobrazit jako PDF </a>
+        <a class="btn color-white color-hover-black bg-color-secondary-action d-none d-md-inline-block mb-1" href="{{ url_for('RecipeView:pdf', id=recipe.id, portion_count=recipe.portion_count) }}" target="_blank"> zobrazit jako PDF </a>
 
-        <a class="btn color-white color-hover-black bg-color-secondary-action d-md-none mb-1" href="{{ url_for('RecipesView:pdf_download', id=recipe.id, portion_count=recipe.portion_count) }}" target="_blank"> stáhnout PDF </a>
+        <a class="btn color-white color-hover-black bg-color-secondary-action d-md-none mb-1" href="{{ url_for('RecipeView:pdf_download', id=recipe.id, portion_count=recipe.portion_count) }}" target="_blank"> stáhnout PDF </a>
     
         {% if recipe.is_current_user_author %}
-            <a class="btn bg-color-secondary-action color-white mb-1" href="{{ url_for('RecipesView:duplicate', id=recipe.id) }}">
+            <a class="btn bg-color-secondary-action color-white mb-1" href="{{ url_for('RecipeView:duplicate', id=recipe.id) }}">
                 vytvořit kopii receptu
             </a>
         {% endif %}

@@ -14,7 +14,7 @@
 {% block content %}
 
 <div class="col-12">
-    <form action="{{ url_for('UsersView:post') }}" class="form-group" method="post" accept-charset="utf-8">
+    <form action="{{ url_for('UserView:post') }}" class="form-group" method="post" accept-charset="utf-8">
         {{ user_form.csrf_token }}
         {# {% from "macros/_form_element.html.j2" import render_field %} #}
         <table class="table">
@@ -43,7 +43,7 @@
 </div>
 
 <div>
-    <a href="{{ url_for('UsersView:show') }}" class="btn bg-color-secondary-action color-white"> zrušit úpravy </a>
+    <a href="{{ url_for('UserView:show') }}" class="btn bg-color-secondary-action color-white"> zrušit úpravy </a>
 </div>
 
 {% endblock %}

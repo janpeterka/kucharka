@@ -15,25 +15,25 @@ class AdminView(HelperFlaskView):
         return self.template(template_name="admin/index.html.j2")
 
     def conversion_index(self):
-        return redirect(url_for("ConversionsView:index"))
+        return redirect(url_for("ConversionView:index"))
 
     def measurements_index(self):
-        return redirect(url_for("MeasurementsView:index"))
+        return redirect(url_for("MeasurementView:index"))
 
     def recipe_categories_index(self):
-        return redirect(url_for("RecipeCategoriesView:index"))
+        return redirect(url_for("RecipeCategorieView:index"))
 
     def ingredient_categories_index(self):
-        return redirect(url_for("IngredientCategoriesView:index"))
+        return redirect(url_for("IngredientCategorieView:index"))
 
     def public_ingredients_index(self):
-        return redirect(url_for("PublicIngredientsView:index"))
+        return redirect(url_for("PublicIngredientView:index"))
 
     def tips_index(self):
-        return redirect(url_for("TipsView:manage"))
+        return redirect(url_for("TipView:manage"))
 
     def files(self):
-        return redirect(url_for("FilesView:index"))
+        return redirect(url_for("FileView:index"))
 
     def unapproved_tips_count(self):
         self.notification_count = self._unapproved_tips_count()

@@ -13,12 +13,12 @@
         </li>
 
         <li class="nav-item ms-5">
-          <a class="nav-link" href="{{ url_for('PublicRecipesView:public_index') }}"> {{ icon("recipe_database")}} sdílené recepty </a>
+          <a class="nav-link" href="{{ url_for('PublicRecipeView:public_index') }}"> {{ icon("recipe_database")}} sdílené recepty </a>
         </li>
         
         {% if config.FF_GALLERY %}
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('PublicRecipesView:gallery') }}"> {{icon("image")}} galerie receptů </a>
+            <a class="nav-link" href="{{ url_for('PublicRecipeView:gallery') }}"> {{icon("image")}} galerie receptů </a>
           </li>
         {% endif %}
       </ul>

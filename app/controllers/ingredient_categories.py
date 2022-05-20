@@ -9,7 +9,7 @@ from app.helpers.helper_flask_view import HelperFlaskView
 from app.helpers.admin_view_mixin import AdminViewMixin
 
 
-class IngredientCategoriesView(HelperFlaskView, AdminViewMixin):
+class IngredientCategorieView(HelperFlaskView, AdminViewMixin):
     decorators = [login_required, permissions_required("manage-application")]
     template_folder = "ingredient_categories"
     attribute_name = "ingredient-category"
@@ -27,23 +27,23 @@ class IngredientCategoriesView(HelperFlaskView, AdminViewMixin):
         self.edit_id = request.args.get("edit_id", None)
         return self.template()
 
-    @route("/show_edit/<id>", methods=["POST"])
+    @route("show_edit/<id>", methods=["POST"])
     def show_edit(self, id):
         return super().show_edit()
 
-    @route("/hide_edit/<id>", methods=["POST"])
+    @route("hide_edit/<id>", methods=["POST"])
     def hide_edit(self, id):
         return super().hide_edit()
 
-    @route("/post_edit/<id>", methods=["POST"])
-    def post_edit(self, id):
+    @route("update/<id>", methods=["POST"])
+    def update(self, id):
         self.category.name = request.form["name"]
         self.category.description = request.form["description"]
         self.category.save()
 
-        return super().post_edit()
+        return super().update()
 
-    @route("/edit/<id>", methods=["POST"])
+    @route("edit/<id>", methods=["POST"])
     def edit(self, id):
         self.category.name = request.form["ingredient-category"]
         self.category.save()
@@ -61,7 +61,7 @@ class IngredientCategoriesView(HelperFlaskView, AdminViewMixin):
 
         if self.category.is_used:
             turbo_flash("Už je někde použité, nelze smazat!", category="error")
-            return redirect(url_for("IngredientCategoriesView:index"), code="303")
+            return redirect(url_for("IngredientCategorieView:index"), code="303")
 
         self.category.delete()
         return super().delete()

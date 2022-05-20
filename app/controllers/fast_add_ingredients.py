@@ -1,5 +1,4 @@
 from flask import request, redirect, url_for
-
 from flask_classful import route
 from flask_security import login_required
 
@@ -8,52 +7,20 @@ from app import turbo
 from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models import Recipe, Ingredient
-
-from app.controllers.edit_recipe_ingredients import EditRecipeIngredientsView
-
-from app.controllers.forms.ingredients import IngredientsForm
+from app.forms import IngredientForm
 
 
-class FastAddIngredientsView(HelperFlaskView):
+class FastAddIngredientView(HelperFlaskView):
     decorators = [login_required]
     template_folder = "ingredients"
 
-    @route("/show/<recipe_id>", methods=["POST"])
-    def show(self, recipe_id):
-        self.form = IngredientsForm()
-
-        if turbo.can_stream():
-            return turbo.stream(
-                turbo.append(
-                    self.template(
-                        template_name="_new_simple", recipe=Recipe.load(recipe_id)
-                    ),
-                    target="add-ingredient",
-                ),
-            )
-        else:
-            return redirect(
-                url_for("RecipesView:edit", id=recipe_id, show_fast_add=True)
-            )
-
-    @route("/hide/<recipe_id>", methods=["POST"])
-    def hide(self, recipe_id):
-        self.form = IngredientsForm()
-
-        if turbo.can_stream():
-            return turbo.stream(
-                turbo.remove(
-                    target="add-ingredient-simple",
-                ),
-            )
-        else:
-            return redirect(url_for("RecipesView:edit", id=recipe_id))
-
     @route("/post/<recipe_id>", methods=["POST"])
     def post(self, recipe_id):
+        from app.controllers import EditRecipeIngredientView
+
         recipe = Recipe.load(recipe_id)
 
-        form = IngredientsForm(request.form)
+        form = IngredientForm(request.form)
 
         ingredient = Ingredient()
         form.populate_obj(ingredient)
@@ -84,7 +51,7 @@ class FastAddIngredientsView(HelperFlaskView):
                         target=f"ingredient-{ingredient.id}",
                     ),
                 ]
-                + EditRecipeIngredientsView().update_usable_ingredients(recipe)
+                + EditRecipeIngredientView().update_usable_ingredients(recipe)
             )
         else:
-            return redirect(url_for("RecipesView:edit", id=recipe_id))
+            return redirect(url_for("RecipeView:edit", id=recipe_id))

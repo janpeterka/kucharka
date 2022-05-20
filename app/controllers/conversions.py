@@ -11,7 +11,7 @@ from app.models.ingredients import Ingredient
 from app.helpers.helper_flask_view import HelperFlaskView
 
 
-class ConversionsView(HelperFlaskView):
+class ConversionView(HelperFlaskView):
     decorators = [login_required, permissions_required("manage-application")]
 
     def index(self):
@@ -33,4 +33,4 @@ class ConversionsView(HelperFlaskView):
         )
         conversion.save()
 
-        return redirect(url_for("IngredientsView:show", id=ingredient_id))
+        return redirect(url_for("IngredientView:show", id=ingredient_id))

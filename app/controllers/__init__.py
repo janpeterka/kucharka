@@ -1,113 +1,110 @@
 from .dashboard import DashboardView
-from .daily_plans import DailyPlansView
+from .daily_plans import DailyPlanView
 from .daily_plans_edit import DailyPlansEditView
 from .event_exporter import EventExporterView
 
-from .events.events import EventsView
-from .events.edit_events import EditEventView
-from .events.shared_events import SharedEventsView
+from .events.events import EventView
+from .events.share_events import ShareEventView
+from .events.published_events import PublishedEventView
 
-from .errors import ErrorsView
+from .errors import ErrorView
 from .index import IndexView
 from .support import SupportView
 
-from .ingredients import IngredientsView
-from .fast_add_ingredients import FastAddIngredientsView
+from .ingredients import IngredientView
+from .fast_add_ingredients import FastAddIngredientView
 
-from .ingredient_categories import IngredientCategoriesView
-from .recipe_categories import RecipeCategoriesView
-from .measurements import MeasurementsView
-from .conversions import ConversionsView
-from .tips import TipsView
+from .ingredient_categories import IngredientCategorieView
+from .recipe_categories import RecipeCategorieView
+from .measurements import MeasurementView
+from .conversions import ConversionView
+from .tips import TipView
 from .admin import AdminView
 
-from .recipes import RecipesView
+from .recipes import RecipeView
 from .edit_recipes import EditRecipeView
-from .edit_recipe_ingredients import EditRecipeIngredientsView
-from .public_recipes import PublicRecipesView
-from .public_ingredients import PublicIngredientsView
+from .edit_recipe_ingredients import EditRecipeIngredientView
+from .public_recipes import PublicRecipeView
+from .public_ingredients import PublicIngredientView
 
-from .users import UsersView
-from .user_statistics import UserStatisticsView
-from .user_calendars import UserCalendarsView
+from .users import UserView
+from .user_calendars import UserCalendarView
 
-from .files import FilesView
+from .files import FileView
 
 
 __all__ = [
     "DashboardView",
-    "DailyPlansView",
+    "DailyPlanView",
     "DailyPlansEditView",
     "EventExporterView",
-    "EventsView",
-    "EditEventView",
-    "SharedEventsView",
-    "ErrorsView",
+    "EventView",
+    "ShareEventView",
+    "PublishedEventView",
+    "ErrorView",
     "IndexView",
     "SupportView",
-    "IngredientsView",
-    "FastAddIngredientsView",
-    "IngredientCategoriesView",
-    "RecipeCategoriesView",
-    "MeasurementsView",
-    "ConversionsView",
-    "TipsView",
+    "IngredientView",
+    "FastAddIngredientView",
+    "IngredientCategorieView",
+    "RecipeCategorieView",
+    "MeasurementView",
+    "ConversionView",
+    "TipView",
     "AdminView",
-    "RecipesView",
+    "RecipeView",
     "EditRecipeView",
-    "EditRecipeIngredientsView",
-    "PublicRecipesView",
-    "PublicIngredientsView",
-    "UsersView",
-    "UserStatisticsView",
-    "UserCalendarsView",
-    "FilesView",
+    "EditRecipeIngredientView",
+    "PublicRecipeView",
+    "PublicIngredientView",
+    "UserView",
+    "UserCalendarView",
+    "FileView",
 ]
 
 
 def register_all_controllers(application):
     from app.helpers.helper_flask_view import HelperFlaskView
 
-    DailyPlansView.register(application, base_class=HelperFlaskView)
+    DailyPlanView.register(application, base_class=HelperFlaskView)
     DailyPlansEditView.register(application, base_class=HelperFlaskView)
 
     DashboardView.register(application, base_class=HelperFlaskView)
 
-    EventsView.register(application, base_class=HelperFlaskView)
-    EditEventView.register(application, base_class=HelperFlaskView)
-    SharedEventsView.register(application, base_class=HelperFlaskView)
+    EventView.register(application, base_class=HelperFlaskView)
+    ShareEventView.register(application, base_class=HelperFlaskView)
+    PublishedEventView.register(application, base_class=HelperFlaskView)
 
     EventExporterView.register(application, base_class=HelperFlaskView)
 
-    ErrorsView.register(application)
+    ErrorView.register(application)
     SupportView.register(application)
 
     IndexView.register(application)
 
-    IngredientsView.register(application, base_class=HelperFlaskView)
-    FastAddIngredientsView.register(application)
-    PublicIngredientsView.register(application, base_class=HelperFlaskView)
+    IngredientView.register(application, base_class=HelperFlaskView)
+    FastAddIngredientView.register(application)
+    PublicIngredientView.register(application, base_class=HelperFlaskView)
 
-    IngredientCategoriesView.register(application, base_class=HelperFlaskView)
+    IngredientCategorieView.register(application, base_class=HelperFlaskView)
 
-    MeasurementsView.register(application, base_class=HelperFlaskView)
-    ConversionsView.register(application, base_class=HelperFlaskView)
+    MeasurementView.register(application, base_class=HelperFlaskView)
+    ConversionView.register(application, base_class=HelperFlaskView)
 
-    TipsView.register(application, base_class=HelperFlaskView)
+    TipView.register(application, base_class=HelperFlaskView)
     AdminView.register(application, base_class=HelperFlaskView)
 
-    RecipeCategoriesView.register(application, base_class=HelperFlaskView)
+    RecipeCategorieView.register(application, base_class=HelperFlaskView)
 
-    RecipesView.register(application, base_class=HelperFlaskView)
+    RecipeView.register(application, base_class=HelperFlaskView)
     EditRecipeView.register(application, base_class=HelperFlaskView)
-    EditRecipeIngredientsView.register(application, base_class=HelperFlaskView)
-    PublicRecipesView.register(application, base_class=HelperFlaskView)
+    EditRecipeIngredientView.register(application, base_class=HelperFlaskView)
+    PublicRecipeView.register(application, base_class=HelperFlaskView)
 
-    UsersView.register(application, base_class=HelperFlaskView)
-    UserStatisticsView.register(application, base_class=HelperFlaskView)
-    UserCalendarsView.register(application, base_class=HelperFlaskView)
+    UserView.register(application, base_class=HelperFlaskView)
+    UserCalendarView.register(application, base_class=HelperFlaskView)
 
-    FilesView.register(application, base_class=HelperFlaskView)
+    FileView.register(application, base_class=HelperFlaskView)
 
 
 def register_error_handlers(application):

@@ -3,15 +3,16 @@ from operator import attrgetter
 from flask_security.models.fsqla_v2 import FsUserMixin as UserMixin
 from flask_security import hash_password
 
-from app import db, BaseModel
+from app import db, BaseModel, turbo
+from app.helpers.general import flatten
 
 from app.helpers.base_mixin import BaseMixin
-from app.helpers.general import flatten
+from app.presenters import BasePresenter
 
 from app.modules.calendar.models.calendar_user_mixin import CalendarUserMixin
 
 
-class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin):
+class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin, BasePresenter):
     from app.models.users_have_roles import users_have_roles
 
     __tablename__ = "users"
@@ -56,35 +57,35 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin):
     # PROPERTIES
 
     @property
-    def name(self):
+    def name(self) -> str:
         return self.full_name or ""
 
     @property
-    def name_or_email(self):
+    def name_or_email(self) -> str:
         return self.full_name or self.email
 
     @property
-    def has_password(self):
+    def has_password(self) -> bool:
         return self.password != "x"
 
     @property
-    def all_events(self):
+    def all_events(self) -> list:
         return self.events + self.role_events
 
     @property
-    def active_events(self):
+    def active_events(self) -> list:
         return [e for e in self.events if e.is_active]
 
     @property
-    def all_active_events(self):
+    def all_active_events(self) -> list:
         return [e for e in self.all_events if e.is_active]
 
     @property
-    def active_future_events(self):
+    def active_future_events(self) -> list:
         return [e for e in self.active_events if e.in_future]
 
     @property
-    def all_active_future_events(self):
+    def all_active_future_events(self) -> list:
         return [e for e in self.all_active_events if e.in_future]
 
     @property
@@ -137,6 +138,12 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin):
     def role_event_recipes(self):
         recipes = [event.recipes for event in self.role_events]
         return flatten(recipes)
+
+    @turbo.user_id
+    def get_user_id():
+        from flask_security import current_user
+
+        return current_user.id
 
     # ROLES
     # @property

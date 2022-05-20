@@ -1,9 +1,10 @@
 from app import db, BaseModel
 
 from app.helpers.base_mixin import BaseMixin
+from app.presenters import BasePresenter
 
 
-class Tip(BaseModel, BaseMixin):
+class Tip(BaseModel, BaseMixin, BasePresenter):
     __tablename__ = "tips"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -21,15 +22,15 @@ class Tip(BaseModel, BaseMixin):
         super().set_defaults()
 
     @staticmethod
-    def approved_tips():
+    def approved_tips() -> list:
         return Tip.query.filter(Tip.is_approved).all()
 
     @staticmethod
-    def disapproved_tips():
+    def disapproved_tips() -> list:
         return Tip.query.filter(Tip.is_hidden).all()
 
     @staticmethod
-    def unapproved_tips():
+    def unapproved_tips() -> list:
         return Tip.query.filter_by(is_approved=False, is_hidden=False).all()
 
     def approve(self):

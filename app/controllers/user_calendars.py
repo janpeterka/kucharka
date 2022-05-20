@@ -10,13 +10,13 @@ from app.helpers.helper_flask_view import HelperFlaskView
 from app.models.users import User
 
 
-class UserCalendarsView(HelperFlaskView):
+class UserCalendarView(HelperFlaskView):
     @login_required
     @route("create-cal", methods=["POST"])
     def create_calendar(self):
         current_user.set_calendar_hash()
 
-        return redirect(url_for("UsersView:show"))
+        return redirect(url_for("UserView:show"))
 
     @route("ical/<calendar_hash>")
     def ical(self, calendar_hash):

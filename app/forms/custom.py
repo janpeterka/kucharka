@@ -8,4 +8,4 @@ class ComaFloatField(FloatField):
                 self.data = float(valuelist[0].replace(",", "."))
             except ValueError:
                 self.data = None
-                raise ValueError(self.gettext("Toto není desetinné číslo"))
+                raise ValueError(self.gettext("toto není desetinné číslo"))

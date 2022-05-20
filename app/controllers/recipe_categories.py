@@ -9,7 +9,7 @@ from app.helpers.helper_flask_view import HelperFlaskView
 from app.helpers.admin_view_mixin import AdminViewMixin
 
 
-class RecipeCategoriesView(HelperFlaskView, AdminViewMixin):
+class RecipeCategorieView(HelperFlaskView, AdminViewMixin):
     decorators = [login_required, permissions_required("manage-application")]
     template_folder = "recipe_categories"
     attribute_name = "recipe-category"
@@ -33,13 +33,13 @@ class RecipeCategoriesView(HelperFlaskView, AdminViewMixin):
     def hide_edit(self, id):
         return super().hide_edit()
 
-    @route("/post_edit/<id>", methods=["POST"])
-    def post_edit(self, id):
+    @route("/update/<id>", methods=["POST"])
+    def update(self, id):
         self.category.name = request.form["name"]
         self.category.description = request.form["description"]
         self.category.save()
 
-        return super().post_edit()
+        return super().update()
 
     @route("/edit/<id>", methods=["POST"])
     def edit(self, id):
@@ -59,7 +59,7 @@ class RecipeCategoriesView(HelperFlaskView, AdminViewMixin):
 
         if self.category.is_used:
             turbo_flash("Už je někde použité, nelze smazat!")
-            return redirect(url_for("RecipeCategoriesView:index"), code=303)
+            return redirect(url_for("RecipeCategorieView:index"), code=303)
 
         self.category.delete()
         return super().delete()

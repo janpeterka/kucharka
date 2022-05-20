@@ -15,4 +15,4 @@ class SupportView(FlaskView):
 
     @route("facebook")
     def facebook_redirect(self):
-        return redirect("https://www.facebook.com/skautskakucharka")
+        return redirect("https://www.facebook.com/navarit.skaut")

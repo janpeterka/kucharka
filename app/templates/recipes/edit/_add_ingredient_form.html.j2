@@ -24,6 +24,6 @@
 	</div>
 		
 	<div class="col-12 col-md-3 text-end">
-		{{ button_to(url_for('FastAddIngredientView:show', recipe_id=recipe.id), value=icon('add') + "přidat chybějící surovinu", class="btn") }}
+		<a class="btn" href="{{ url_for('RecipeView:edit', id=recipe.id, show_fast_add=True) }}"> {{ icon("add") }} přidat chybějící surovinu </a>
 	</div>
 </div>

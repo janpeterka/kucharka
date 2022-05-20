@@ -24,6 +24,7 @@
 <div class="form-control mb-3">
     <h3 class="text-center"> suroviny </h3>
     
+    <turbo-frame id="add-ingredient-form">
     <div class="m-3" id="add-ingredient">
         {% include "recipes/edit/_add_ingredient_form.html.j2" %}
         {% if show_fast_add %}
@@ -32,6 +33,7 @@
             {% endwith %}
         {% endif %}
     </div>
+    </turbo-frame>
 
     {% include "recipes/edit/_ingredient_table.html.j2" %}
 </div>

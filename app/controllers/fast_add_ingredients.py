@@ -14,37 +14,6 @@ class FastAddIngredientView(HelperFlaskView):
     decorators = [login_required]
     template_folder = "ingredients"
 
-    @route("/show/<recipe_id>", methods=["POST"])
-    def show(self, recipe_id):
-        self.form = IngredientForm()
-
-        if turbo.can_stream():
-            return turbo.stream(
-                turbo.append(
-                    self.template(
-                        template_name="_new_simple", recipe=Recipe.load(recipe_id)
-                    ),
-                    target="add-ingredient",
-                ),
-            )
-        else:
-            return redirect(
-                url_for("RecipeView:edit", id=recipe_id, show_fast_add=True)
-            )
-
-    @route("/hide/<recipe_id>", methods=["POST"])
-    def hide(self, recipe_id):
-        self.form = IngredientForm()
-
-        if turbo.can_stream():
-            return turbo.stream(
-                turbo.remove(
-                    target="add-ingredient-simple",
-                ),
-            )
-        else:
-            return redirect(url_for("RecipeView:edit", id=recipe_id))
-
     @route("/post/<recipe_id>", methods=["POST"])
     def post(self, recipe_id):
         from app.controllers import EditRecipeIngredientView

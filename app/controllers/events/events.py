@@ -18,7 +18,7 @@ class EventView(HelperFlaskView):
     def before_request(self, name, id=None):
         self.event = Event.load(id)
 
-    def before_show(self):
+    def before_show(self, id):
         self.validate_show(self.event)
 
     def before_edit(self, id):

@@ -30,9 +30,9 @@ class TipView(HelperFlaskView):
     def manage(self):
         return self.template()
 
-    @route("tips")
     def index(self):
         self.tips = Tip.approved_tips()
+
         return self.template()
 
     @route("add-tip", methods=["POST"])

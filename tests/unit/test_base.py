@@ -15,7 +15,7 @@ def test_public_requests(app, client, db):
     pages = [
         {"path": "/login", "code": 200},
         {"path": "/register", "code": 200},
-        {"path": "/public-recipes/public-index/", "code": 200},
+        {"path": "/public-recipe/public-index/", "code": 200},
         {"path": "recepty", "code": 308},
         {"path": "/dashboard/", "code": 302},
     ]

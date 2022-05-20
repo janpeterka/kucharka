@@ -229,10 +229,7 @@ class Recipe(
 
     @property
     def is_draft(self) -> bool:
-        if self.is_shopping:
-            return False
-
-        return len(self.ingredients) == 0
+        return False if self.is_shopping else len(self.ingredients) == 0
 
     @property
     def unused_personal_ingredients(self) -> list:

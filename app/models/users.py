@@ -57,35 +57,35 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin, BasePresenter):
     # PROPERTIES
 
     @property
-    def name(self):
+    def name(self) -> str:
         return self.full_name or ""
 
     @property
-    def name_or_email(self):
+    def name_or_email(self) -> str:
         return self.full_name or self.email
 
     @property
-    def has_password(self):
+    def has_password(self) -> bool:
         return self.password != "x"
 
     @property
-    def all_events(self):
+    def all_events(self) -> list:
         return self.events + self.role_events
 
     @property
-    def active_events(self):
+    def active_events(self) -> list:
         return [e for e in self.events if e.is_active]
 
     @property
-    def all_active_events(self):
+    def all_active_events(self) -> list:
         return [e for e in self.all_events if e.is_active]
 
     @property
-    def active_future_events(self):
+    def active_future_events(self) -> list:
         return [e for e in self.active_events if e.in_future]
 
     @property
-    def all_active_future_events(self):
+    def all_active_future_events(self) -> list:
         return [e for e in self.all_active_events if e.in_future]
 
     @property

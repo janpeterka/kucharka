@@ -22,15 +22,15 @@ class Tip(BaseModel, BaseMixin, BasePresenter):
         super().set_defaults()
 
     @staticmethod
-    def approved_tips():
+    def approved_tips() -> list:
         return Tip.query.filter(Tip.is_approved).all()
 
     @staticmethod
-    def disapproved_tips():
+    def disapproved_tips() -> list:
         return Tip.query.filter(Tip.is_hidden).all()
 
     @staticmethod
-    def unapproved_tips():
+    def unapproved_tips() -> list:
         return Tip.query.filter_by(is_approved=False, is_hidden=False).all()
 
     def approve(self):

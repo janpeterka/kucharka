@@ -148,20 +148,6 @@ class Recipe(
         return Recipe.load_by_name("Nákup")
 
     # Operations
-
-    def create_and_save(self, recipe_ingredients):
-        db.session.add(self)
-        db.session.flush()
-
-        # WIP - tohle je teď asi jinak
-
-        for i in recipe_ingredients:
-            i.recipe_id = self.id
-            db.session.add(i)
-
-        db.session.commit()
-        return self.id
-
     def remove(self):
         from app.models import RecipeHasIngredient
 
@@ -228,12 +214,12 @@ class Recipe(
         return not self.is_draft and not self.is_shopping
 
     @property
-    def events(self):
+    def events(self) -> list:
         events = [dp.event for dp in self.daily_plans]
         return list_without_duplicated(events)
 
     @property
-    def shared_events(self):
+    def shared_events(self) -> list:
         return [event for event in self.events if event.is_shared]
 
     @property

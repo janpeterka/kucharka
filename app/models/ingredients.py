@@ -146,11 +146,11 @@ class Ingredient(BaseModel, BaseMixin, ItemPresenter):
         return not self.is_used
 
     @property
-    def without_category(self):
+    def without_category(self) -> bool:
         return self.category is None or self.category.name == "---"
 
     @property
-    def without_measurement(self):
+    def without_measurement(self) -> bool:
         return self.measurement is None or self.measurement.name == "---"
 
     @property
@@ -174,10 +174,6 @@ class Ingredient(BaseModel, BaseMixin, ItemPresenter):
     @property
     def category_name(self):
         return getattr(self.category, "name", "---")
-
-    # @property
-    # def is_in_thousands(self):
-    #     return self.measurement.thousand_fold and self.amount % 1000 != self.amount
 
     # PERMISSIONS
 

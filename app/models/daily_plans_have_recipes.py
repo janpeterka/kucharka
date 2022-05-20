@@ -64,13 +64,13 @@ class DailyPlanHasRecipe(BaseModel, BaseMixin, BasePresenter):
                 return
 
     @property
-    def is_shopping(self):
+    def is_shopping(self) -> bool:
         return self.recipe.name == "Nákup" or self.meal_type == "nákup"
 
     @property
-    def is_first_recipe(self):
+    def is_first_recipe(self) -> bool:
         return self == self.daily_plan.first_recipe
 
     @property
-    def is_last_recipe(self):
+    def is_last_recipe(self) -> bool:
         return self == self.daily_plan.last_recipe

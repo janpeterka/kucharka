@@ -24,8 +24,7 @@ class EventPresenter(ItemPresenter):
 
         if not self.is_shared:
             return None
-        else:
-            hash_value = obscure(str(self.id).encode())
-            return url_for(
-                "SharedEventView:show", hash_value=hash_value, _external=True
-            )
+        hash_value = obscure(str(self.id).encode())
+        return url_for(
+            "SharedEventView:show", hash_value=hash_value, _external=True
+        )

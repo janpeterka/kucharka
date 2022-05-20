@@ -18,10 +18,7 @@ class Label(BaseModel, BaseMixin, BasePresenter):
     color = db.Column(db.String(255))
 
     def __str__(self):
-        if self.visible_name:
-            return self.visible_name
-        else:
-            return self.name
+        return self.visible_name or self.name
 
     @staticmethod
     def load_by_category_name(category_name):

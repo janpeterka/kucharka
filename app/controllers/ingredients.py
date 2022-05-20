@@ -30,6 +30,7 @@ class IngredientView(HelperFlaskView):
         self.all_recipes = Recipe.load_by_ingredient(self.ingredient)
 
     def before_show(self, id):
+        self.validate_show(self.ingredient)
         self.from_new = request.args.get("from_new", False)
 
         self.recipes = Recipe.load_by_ingredient_and_user(self.ingredient, current_user)

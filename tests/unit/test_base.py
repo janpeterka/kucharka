@@ -30,19 +30,19 @@ def test_requests_logged_in(app, db, client):
     pages = [
         {"path": "/dashboard", "code": 308, "redirect_path": "/dashboard/"},
         {"path": "/dashboard/", "code": 200},
-        {"path": "/recipes/", "code": 200},
-        {"path": "/ingredients/", "code": 200},
-        {"path": "/public-recipes/", "code": 200},
-        {"path": "/events/", "code": 200},
+        {"path": "/recipe/", "code": 200},
+        {"path": "/ingredient/", "code": 200},
+        {"path": "/public-recipe/", "code": 200},
+        {"path": "/event/", "code": 200},
         {
-            "path": "/public-recipes/public-index/",
+            "path": "/public-recipe/public-index/",
             "code": 302,
-            "redirect_path": "/public-recipes/",
+            "redirect_path": "/public-recipe/",
         },
         {"path": "/login", "code": 302, "redirect_path": "/dashboard/"},
         {"path": "/", "code": 302, "redirect_path": "/dashboard/"},
-        {"path": "/measurements/", "code": 404},
-        {"path": "/files/", "code": 404},
+        {"path": "/measurement/", "code": 404},
+        {"path": "/file/", "code": 404},
     ]
 
     for page in pages:
@@ -53,8 +53,8 @@ def test_requests_admin_logged_in(app, db, client):
     with_authenticated_user(app, username="admin")
 
     pages = [
-        {"path": "/measurements/", "code": 200},
-        {"path": "/files/", "code": 200},
+        {"path": "/measurement/", "code": 200},
+        {"path": "/file/", "code": 200},
     ]
 
     for page in pages:
@@ -65,7 +65,7 @@ def test_requests_app_manager_logged_in(app, db, client):
     with_authenticated_user(app, username="application_manager")
 
     pages = [
-        {"path": "/measurements/", "code": 200},
+        {"path": "/measurement/", "code": 200},
     ]
 
     for page in pages:

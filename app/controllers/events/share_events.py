@@ -12,7 +12,7 @@ from app.models.events import Event
 from app.models.users import User
 
 
-class EditEventView(HelperFlaskView):
+class ShareEventView(HelperFlaskView):
     decorators = [login_required]
     template_folder = "events/edit"
 

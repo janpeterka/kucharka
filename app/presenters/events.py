@@ -27,5 +27,5 @@ class EventPresenter(ItemPresenter):
         else:
             hash_value = obscure(str(self.id).encode())
             return url_for(
-                "SharedEventView:show", hash_value=hash_value, _external=True
+                "PublishedEventView:show", hash_value=hash_value, _external=True
             )

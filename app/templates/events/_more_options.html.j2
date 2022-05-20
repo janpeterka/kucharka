@@ -13,7 +13,7 @@
 
         <div class="col-12 col-md-3 mb-1">   
             {% if event.can_current_user_share %}
-            {{ button_to(url_for('EditEventView:show_share_with_user', event_id=event.id),
+            {{ button_to(url_for('ShareEventView:show_share_with_user', event_id=event.id),
                 class="btn bg-color-secondary-action color-white w-100", value="sdílet dalším lidem" + icon('share')) }}
             {% else %}
             <button class="btn bg-color-secondary-action color-white w-100" disabled> nemůžete sdílet </button>

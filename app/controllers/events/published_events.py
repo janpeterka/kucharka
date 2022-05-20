@@ -6,7 +6,7 @@ from app.helpers.helper_flask_view import HelperFlaskView
 from app.models.events import Event
 
 
-class SharedEventView(HelperFlaskView):
+class PublishedEventView(HelperFlaskView):
     template_folder = "events"
 
     def before_request(self, name, hash_value):

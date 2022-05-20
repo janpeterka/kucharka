@@ -141,6 +141,7 @@ class Recipe(
     @staticmethod
     def load_by_ingredient_and_user(ingredient, user):
         recipes = Recipe.load_by_ingredient(ingredient)
+
         return [r for r in recipes if r.author == user]
 
     @staticmethod

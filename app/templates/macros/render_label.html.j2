@@ -3,9 +3,7 @@
 {% set size = kwargs.pop('size', 4) %}
 
 {% if label.color %}
-	{# TODO: nějak dát dopořádku #}
-	{# {% set color = label.color %} #}
-	{% set color = "highlight" %}
+	{% set color = label.color %}
 {% else %}
 	{% if label.category.name == "dietary" %}
 		{% set color = "highlight"%}

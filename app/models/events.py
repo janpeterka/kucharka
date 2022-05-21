@@ -160,8 +160,10 @@ class Event(BaseModel, BaseMixin, EventPresenter):
         elif base_days[0].weekday == "pondělí":
             last_date = base_days[-1].date
             # add missing days
-            for i in range(missing_day_count):
-                base_days.append(placeholder_day(last_date + timedelta(days=i + 1)))
+            base_days.extend(
+                placeholder_day(last_date + timedelta(days=i + 1))
+                for i in range(missing_day_count)
+            )
 
         return base_days
 
@@ -203,9 +205,9 @@ class Event(BaseModel, BaseMixin, EventPresenter):
         split_recipes = []
 
         shopping_indexes = [0]
-        for i, recipe in enumerate(daily_recipes):
-            if recipe.is_shopping:
-                shopping_indexes.append(i)
+        shopping_indexes.extend(
+            i for i, recipe in enumerate(daily_recipes) if recipe.is_shopping
+        )
 
         shopping_indexes.append(len(daily_recipes))
 

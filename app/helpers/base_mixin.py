@@ -177,10 +177,6 @@ class BaseMixin(object):
             or (user.is_authenticated and user.has_permission("see-other"))
         )
 
-    @property
-    def can_current_user_view(self) -> bool:
-        return self.can_view(user=current_user)
-
     def can_edit(self, user) -> bool:
         return (
             self == user
@@ -188,6 +184,17 @@ class BaseMixin(object):
             or (user.is_authenticated and user.has_permission("edit-other"))
         )
 
+    def can_delete(self, user) -> bool:
+        return self.can_edit(user)
+
+    @property
+    def can_current_user_view(self) -> bool:
+        return self.can_view(user=current_user)
+
     @property
     def can_current_user_edit(self) -> bool:
         return self.can_edit(user=current_user)
+
+    @property
+    def can_current_user_delete(self) -> bool:
+        return self.can_delete(user=current_user)

@@ -27,6 +27,9 @@ class EventView(HelperFlaskView):
     def before_update(self, id):
         self.validate_edit(self.event)
 
+    def before_delete(self, id):
+        self.validate_delete(self.event)
+
     def index(self):
         return self.template()
 

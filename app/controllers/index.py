@@ -16,7 +16,7 @@ class IndexView(FlaskView):
 
     @route("about")
     @route("about/")
-    @route("o-kalkulacce")
+    @route("o-kucharce")
     def about(self):
         return template("index/index.html.j2")
 

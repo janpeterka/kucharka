@@ -12,6 +12,7 @@
 @import "images.css";
 @import "footer.css";
 @import "checkbox.css";
+@import "borders.css";
 /*@import "tables.css";*/
 
 /* Functions */
@@ -73,6 +74,7 @@ div.warning li {
 div.warning li:before {
   content: "⚠️";
 }
+
 
 /*.select-badge:hover {
   border-color: var(--highlight);

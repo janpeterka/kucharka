@@ -54,8 +54,8 @@
     --color-grey: #C1C2C4;
 }
 
-/* Colors */
 
+/* Primary */
 .color-primary {
     color: var(--primary);
 }
@@ -64,14 +64,27 @@
     background-color: var(--primary);
 }
 
+.b-color-primary {
+    border-color: var(--primary);
+}
+
+/* Secondary */
+
 .bg-color-secondary {
     background-color: var(--secondary);
 }
+
+.b-color-secondary {
+    border-color: var(--secondary);
+}
+
+/* Secondary highlighted */
 
 .bg-color-secondary-highlighted {
     background-color: var(--secondary-highlighted);
 }
 
+/* Hightlight */
 
 .color-highlight {
     color: var(--highlight);
@@ -85,17 +98,37 @@
     background-color: var(--strong-highlight);
 }
 
+.b-color-highlight {
+    border-color: var(--highlight);
+}
+
+.b-color-strong-highlight {
+    border-color: var(--strong-highlight);
+}
+
+
+/* Actions */
+
 .bg-color-primary-action {
     background-color: var(--primary-action);
+}
+
+.b-color-primary-action {
+    border-color: var(--primary-action);
 }
 
 .bg-color-secondary-action {
     background-color: var(--secondary-action);
 }
 
+.b-color-secondary-action {
+    border-color: var(--secondary-action);
+}
+
 .color-white {
     color: white;
 }
+
 
 .color-black {
     color: black;
@@ -105,6 +138,9 @@
     background-color: var(--color-light-grey);
 }
 
+.b-color-light-grey {
+    border-color: var(--color-light-grey);
+}
 
 /* Color signals */
 .color-inactive {

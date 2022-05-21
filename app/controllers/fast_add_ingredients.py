@@ -39,6 +39,7 @@ class FastAddIngredientView(HelperFlaskView):
                             template_name="recipes/edit/ingredient/_row.html.j2",
                             ingredient=ingredient,
                             recipe=recipe,
+                            editing=True,
                         ),
                         target="ingredients",
                     ),

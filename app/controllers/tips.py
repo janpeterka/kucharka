@@ -1,13 +1,10 @@
-from flask import redirect, url_for, request
+from flask import redirect, url_for, request, flash
 from flask_security import login_required, permissions_required
 from flask_classful import route
-
-from app import turbo
 
 from app.models.tips import Tip
 
 from app.helpers.helper_flask_view import HelperFlaskView
-from app.helpers.turbo_flash import turbo_flash as flash
 
 
 class TipView(HelperFlaskView):
@@ -41,9 +38,9 @@ class TipView(HelperFlaskView):
         tip.description = request.form["description"]
 
         if tip.save():
-            flash("Tip byl přidán ke schválení, děkujeme!", "success")
+            flash("tip byl přidán ke schválení, děkujeme!", "success")
         else:
-            flash("Něco se nepovedlo.", "error")
+            flash("něco se nepovedlo.", "error")
 
         return redirect(url_for("TipView:index"))
 
@@ -52,31 +49,11 @@ class TipView(HelperFlaskView):
     def approve(self, id):
         self.tip.approve()
 
-        if turbo.can_stream():
-            return turbo.stream(
-                [
-                    turbo.remove(target=f"tip-{id}"),
-                    turbo.prepend(
-                        self.template(template_name="_tip"), target="approved-tips"
-                    ),
-                ]
-            )
-        else:
-            return redirect(url_for("TipView:index"))
+        return redirect(url_for("TipView:manage"))
 
     @permissions_required("manage-application")
     @route("/disapprove/<id>", methods=["POST"])
     def disapprove(self, id):
         self.tip.disapprove()
 
-        if turbo.can_stream():
-            return turbo.stream(
-                [
-                    turbo.remove(target=f"tip-{id}"),
-                    turbo.prepend(
-                        self.template(template_name="_tip"), target="disapproved-tips"
-                    ),
-                ]
-            )
-        else:
-            return redirect(url_for("TipView:index"))
+        return redirect(url_for("TipView:manage"))

@@ -18,8 +18,8 @@
     --color-light-grey: lightgrey;
 
     /* Flash signals */
-    --error: #CC0000;
-    --success: #007E33;
+    --error: #A66A6A;
+    --success: #6aa6a6;
     --warning: #A66A6A; 
     --info: grey;
     --debug: pink;

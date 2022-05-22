@@ -1,4 +1,4 @@
-from flask import request, redirect, url_for
+from flask import request, redirect, url_for, flash
 
 from flask_classful import route
 from flask_security import login_required
@@ -6,7 +6,6 @@ from flask_security import login_required
 from app import turbo
 
 from app.helpers.helper_flask_view import HelperFlaskView
-from app.helpers.turbo_flash import turbo_flash as flash
 
 from app.models.events import Event
 from app.models.users import User
@@ -23,6 +22,7 @@ class ShareEventView(HelperFlaskView):
 
     @route("/show-share-with-user/<event_id>", methods=["POST"])
     def show_share_with_user(self, event_id):
+        # TODO: This should be made without turbo - with arg presumably
         return turbo.stream(
             turbo.after(
                 self.template(template_name="_share_form"),
@@ -33,7 +33,7 @@ class ShareEventView(HelperFlaskView):
     @route("/share-with-user/<event_id>", methods=["POST"])
     def share_with_user(self, event_id):
         if not self.event.can_current_user_share:
-            flash("Nemáte práva přidávat uživatele.", "warning")
+            flash("nemáte práva přidávat uživatele.", "warning")
             return redirect(url_for("EventView:show", id=event_id))
 
         form = request.form
@@ -43,12 +43,12 @@ class ShareEventView(HelperFlaskView):
 
         if self.event.user_role(user):
             self.event.change_user_role(user, role)
-            flash("Změnili jsme uživateli práva.", "success")
+            flash("změnili jsme uživateli práva.", "success")
         elif user:
             self.event.add_user_role(user, role)
-            flash("Pozvali jsme uživatele.", "success")
+            flash("pozvali jsme uživatele.", "success")
         else:
-            flash("Tohoto uživatele nemůžeme přidat.", "error")
+            flash("tohoto uživatele nemůžeme přidat.", "error")
 
         return redirect(url_for("EventView:show", id=event_id))
 

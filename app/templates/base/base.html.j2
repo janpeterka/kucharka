@@ -79,6 +79,8 @@
         {{ turbo() }}
     {% endblock %}
 
+    {{ stimulus('visibility', 'flashing') }}
+
     {% block style %}{% endblock %}
     {% block script %}{% endblock %}
 
@@ -88,7 +90,11 @@
     </title>
 {% endblock head %}
 </head>
-<body>
+<body data-controller="flashing"
+      data-action="turbo:render@document->flashing#getMessage
+                   turbo:frame-load@document->flashing#getMessage 
+                   turbo:before-stream-render@document->flashing#getMessage">
+
     {% if not print %}
         
     {% block navbar %}            
@@ -99,29 +105,15 @@
         {% endif %}
     {% endblock %}
 
-    {% block flashing %}
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% include('base/_flashing.html.j2') %}
-        {% endwith %}
-    {% endblock %}
 
     {% block dev %}
-        {% if config.APP_STATE == "development" %}
-            {% set env="dev" %}
-            {% include('admin/_env_badge.html.j2') with context %}
-        {% elif config.APP_STATE == "local_production" %}
-            {% set env="prod" %}
-            {% include('admin/_env_badge.html.j2') with context %}
-        {% endif %}
-
-        {% if current_user.has_role("admin") %}
-            {% include('admin/_admin_warning.html.j2') %}
-        {% endif %}
+        {% include "base/_dev_badge.html.j2" %}
     {% endblock %}
 
     {% endif %}
 
-    <div id="content" class="container pt-6 mb-5">
+    <div class="container mb-4">
+        {% include('base/_flashing.html.j2') %}
         {% include('base/_system_message.html.j2') %}
         {% block content %}{% endblock %}
     </div>

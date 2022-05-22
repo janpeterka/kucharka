@@ -2,7 +2,7 @@
 <!-- {% from "macros/render_field.html.j2" import render_field %} -->
 
 {% block content %}
-<h1 class="text-center font-comfortaa text-uppercase">{{ _('Zaregistrovat se') }}</h1>
+<h1 class="text-center font-comfortaa text-uppercase">{{ _('zaregistrovat se') }}</h1>
 <form action="{{ url_for_security('register') }}" class="form-control" method="POST" name="register_user_form">
   {{ register_user_form.hidden_tag() }}
 
@@ -10,7 +10,7 @@
   <div class="text-center mt-2"> 
     <a class="no-decoration" href="{{ url_for('google.login') }}">
       <button type="button" class="btn btn-social btn-google loginBtn--google loginBtn">
-          <span class="fab fa-google"></span> Registrovat se pomocí Google
+          <span class="fab fa-google"></span> registrovat se pomocí Google
       </button>
     </a>
   </div>
@@ -21,23 +21,23 @@
   
   <div>  
 
-    {{ render_floating_field(register_user_form.email, label="Přihlašovací e-mail", placeholder="", class="mb-2") }}
+    {{ render_floating_field(register_user_form.email, label="přihlašovací e-mail", placeholder="", class="mb-2") }}
     
     <div class="row">
       <div class="col-6">
-        {{ render_floating_field(register_user_form.password, label="Heslo", placeholder="") }}
+        {{ render_floating_field(register_user_form.password, label="heslo", placeholder="") }}
       </div>
       
       {% if register_user_form.password_confirm %}
       <div class="col-6">
-        {{ render_floating_field(register_user_form.password_confirm, label="Heslo znovu", placeholder="") }}
+        {{ render_floating_field(register_user_form.password_confirm, label="heslo znovu", placeholder="") }}
       </div>
       {% endif %}
     
     </div>
     
     <div class="text-center mt-3">
-      {{ render_field(register_user_form.submit, value="Registrovat", class="p-2 ps-4 pe-4") }}
+      {{ render_field(register_user_form.submit, value="registrovat", class="p-2 ps-4 pe-4") }}
     </div>
   
   </div>

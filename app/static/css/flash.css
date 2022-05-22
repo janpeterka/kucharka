@@ -1,40 +1,34 @@
 /*Flashes*/
 
-div.flashes {
-    position: absolute;
-    width: 100%;
-    margin-left: 15%;
-    margin-right: auto;
-    top: 0.7rem;
-    height: 3rem;
+div.flash {
     z-index: 10000;
-    background-color: rgba(255, 255, 255, 0.6);
-    /*pointer-events: none;*/
+    position: absolute;
     cursor: pointer;
 }
 
-div.flashes ul li{
+div.flash ul li{
     list-style-type: none;
     text-align: center; 
     color: #101010;
 }
 
-div.flashes ul li.error {
-    color: var(--error);
+div.flash.alert-error {
+    color: white;
+    background-color: var(--error);
 }
 
-div.flashes ul li.success {
+div.flash .alert-success {
     color: var(--success);
 }
 
-div.flashes ul li.info {
+div.flash .alert-info {
     color: var(--info);
 }
 
-div.flashes ul li.warning {
+div.flash .alert-warning {
     color: var(--warning);
 }
 
-div.flashes ul li.debug {
+div.flash .alert-debug {
     color: var(--debug);
 }

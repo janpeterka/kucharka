@@ -7,8 +7,6 @@ from flask_security import login_required
 from app import turbo
 
 from app.helpers.form import save_form_to_session
-
-# from app.helpers.turbo_flash import turbo_flash as flash
 from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models import Recipe, RecipeImageFile

@@ -1,4 +1,4 @@
-from flask import request, redirect, url_for
+from flask import request, redirect, url_for, flash
 from flask_classful import route
 from flask_security import login_required
 
@@ -7,7 +7,6 @@ from app.models.daily_plans_have_recipes import DailyPlanHasRecipe
 from app.models.recipes import Recipe
 
 from app.helpers.helper_flask_view import HelperFlaskView
-from app.helpers.turbo_flash import turbo_flash as flash
 
 
 class DailyPlanRecipeView(HelperFlaskView):
@@ -33,7 +32,6 @@ class DailyPlanRecipeView(HelperFlaskView):
         self.recipe = Recipe.load(request.form["recipe_id"])
 
         if not self.recipe or not self.recipe.can_current_user_view:
-            flash("Tento recept nemůžete přidat.")
             return redirect(url_for("DailyPlanView:show", id=self.daily_plan.id))
 
         self.daily_recipe = self.daily_plan.add_recipe(self.recipe)
@@ -51,11 +49,11 @@ class DailyPlanRecipeView(HelperFlaskView):
     @route("daily_plans/remove_recipe/<daily_recipe_id>", methods=["POST"])
     def remove_daily_recipe(self, daily_recipe_id):
         if not self.daily_recipe:
-            flash("Tento recept už je smazán.", "error")
+            flash("tento recept už je smazán.", "error")
             return redirect(url_for("DailyPlanView:show", id=self.daily_plan.id))
 
         if not self.daily_plan.remove_daily_recipe(self.daily_recipe):
-            flash("Tento recept nemůžete odebrat.", "error")
+            flash("tento recept nemůžete odebrat.", "error")
 
         return redirect(url_for("DailyPlanView:show", id=self.daily_plan.id))
 

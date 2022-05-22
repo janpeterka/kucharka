@@ -1,11 +1,10 @@
-from flask import request, redirect, url_for
+from flask import request, redirect, url_for, flash
 from flask_security import login_required, permissions_required
 
 from flask_classful import route
 
 from app.models.measurements import Measurement
 
-from app.helpers.turbo_flash import turbo_flash
 from app.helpers.helper_flask_view import HelperFlaskView
 from app.helpers.admin_view_mixin import AdminViewMixin
 
@@ -47,7 +46,7 @@ class MeasurementView(HelperFlaskView, AdminViewMixin):
 
     def delete(self, id):
         if self.measurement.is_used:
-            turbo_flash("Už je někde použité, nelze smazat!")
+            flash("už je někde použité, nelze smazat!")
             return redirect(url_for("MeasurementView:index"), code=303)
 
         self.measurement.delete()

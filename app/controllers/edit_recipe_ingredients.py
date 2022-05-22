@@ -85,7 +85,7 @@ class EditRecipeIngredientView(HelperFlaskView, AdminViewMixin):
         self.ingredient = Ingredient.load(ingredient_id)
 
         if not self.recipe.remove_ingredient(self.ingredient):
-            flash("Tato surovina už byla smazána.", "error")
+            flash("tato surovina už byla smazána.", "error")
             return redirect(url_for("RecipeView:edit", id=self.recipe.id))
 
         if turbo.can_stream():

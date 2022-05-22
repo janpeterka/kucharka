@@ -11,7 +11,7 @@ describe('try unlogged things',() => {
 
   it('can register', () => {
       cy.visit('http://127.0.0.1:5000/register')
-      cy.get('body').should('contain', 'Zaregistrovat se')
+      cy.get('body').should('contain', 'zaregistrovat se')
       cy.get('input#email').type('admin@skautskakucharka.cz')
       cy.get('input#password').type('kucharky')
       cy.get('input#password_confirm').type('kucharky')
@@ -26,7 +26,7 @@ describe('try unlogged things',() => {
 
   it('can\'t register with existing', () => {
       cy.visit('http://127.0.0.1:5000/register')
-      cy.get('body').should('contain', 'Zaregistrovat se')
+      cy.get('body').should('contain', 'zaregistrovat se')
       cy.get('input#email').type('admin@skautskakucharka.cz')
       cy.get('input#password').type('kucharky')
       cy.get('input#password_confirm').type('kucharky')
@@ -36,7 +36,7 @@ describe('try unlogged things',() => {
 
   it('can login', () => {
       cy.visit('http://127.0.0.1:5000/login')
-      cy.get('body').should('contain', 'Přihlásit se')
+      cy.get('body').should('contain', 'přihlásit se')
       cy.get('input#email').type('admin@skautskakucharka.cz')
       cy.get('input#password').type('kucharky')
       cy.get('input#submit').click()

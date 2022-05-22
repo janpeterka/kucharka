@@ -54,9 +54,9 @@ class UserView(HelperFlaskView):
         self.user.full_name = form.full_name.data
 
         if self.user.edit() is not None:
-            flash("Uživatel byl upraven", "success")
+            flash("uživatel byl upraven", "success")
         else:
-            flash("Nepovedlo se změnit uživatele", "error")
+            flash("nepovedlo se změnit uživatele", "error")
 
         return redirect(url_for("UserView:show"))
 
@@ -69,7 +69,7 @@ class UserView(HelperFlaskView):
         form = SetPasswordForm(request.form)
         self.user.set_password(form.password.data)
         self.user.save()
-        flash("Heslo nastaveno")
+        flash("heslo nastaveno", "success")
         return redirect(url_for("UserView:show"))
 
     # @permissions_required("login-as")

@@ -93,10 +93,10 @@ class IngredientView(HelperFlaskView):
     def delete(self, id):
         if self.ingredient.can_be_deleted:
             self.ingredient.delete()
-            flash("Surovina byla smazána", "success")
+            flash("surovina byla smazána", "success")
             return redirect(url_for("IngredientView:index"))
         else:
-            flash("Tato surovina je použita, nelze smazat", "error")
+            flash("tato surovina je použita, nelze smazat", "error")
             return redirect(url_for("IngredientView:show", id=self.ingredient.id))
 
     @permissions_required("manage-application")

@@ -25,6 +25,7 @@ class IngredientCategorieView(HelperFlaskView, AdminViewMixin):
 
     def index(self, edit_id=None):
         self.edit_id = request.args.get("edit_id", None)
+
         return self.template()
 
     @route("show_edit/<id>", methods=["POST"])

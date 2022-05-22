@@ -1,4 +1,4 @@
-from flask import redirect, url_for
+from flask import redirect, url_for, request
 from flask_security import login_required
 
 from app.models.daily_plans import DailyPlan
@@ -18,6 +18,7 @@ class DailyPlanView(HelperFlaskView):
         self.validate_show(self.daily_plan)
 
     def show(self, id):
+        self.editing_id = int(request.args.get("editing_id", 0))
         self.public_recipes = Recipe.load_all_public(exclude_mine=True)
         self.daily_recipes = self.daily_plan.daily_recipes
         self.daily_recipes.sort(key=lambda x: x.order_index)

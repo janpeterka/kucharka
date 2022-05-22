@@ -1,5 +1,3 @@
-{% from "macros/turbo.html.j2" import button_to %}
-
 {% extends "base/base.html.j2" %}
 {% block title %} denní přehled {% endblock %}
 
@@ -54,6 +52,7 @@
     
     </div>
 
+    <turbo-frame id="daily-plan-{{daily_plan.id}}-recipes">
     <div class="row">
         <table class="table table-striped">
             <thead>
@@ -67,11 +66,16 @@
             </thead>
             <tbody id="daily_recipes">
             {% for daily_recipe in daily_recipes %}
-                {% include "daily_plans/_recipe_row.html.j2"%}
+                {% if editing_id == daily_recipe.id %}
+                    {% include "daily_plans/_edit_recipe_row.html.j2" %}
+                {% else %}
+                    {% include "daily_plans/_recipe_row.html.j2" %}
+                {% endif %}
             {% endfor %}
             </tbody>
         </table>
     </div>
+    </turbo-frame>
 
     {% if daily_plan.can_current_user_edit %}
 

@@ -43,7 +43,7 @@ class UserView(HelperFlaskView):
 
         return self.template()
 
-    def post(self, page_type=None):
+    def post(self):
         form = UserForm(request.form)
         del form.username
 
@@ -66,8 +66,8 @@ class UserView(HelperFlaskView):
 
     @route("set-password", methods=["POST"])
     def set_new_password(self):
-        self.form = SetPasswordForm(request.form)
-        self.user.set_password(self.form.password.data)
+        form = SetPasswordForm(request.form)
+        self.user.set_password(form.password.data)
         self.user.save()
         flash("Heslo nastaveno")
         return redirect(url_for("UserView:show"))

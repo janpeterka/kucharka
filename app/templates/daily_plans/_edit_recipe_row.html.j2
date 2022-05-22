@@ -1,7 +1,11 @@
 {% from "macros/icons.html.j2" import icon %}
 {% from "macros/turbo.html.j2" import button_to %}
 
-<tr id="daily-recipe-edit-{{ daily_recipe.id }}">
+{% with editing=True %}
+    {% include "daily_plans/_recipe_row.html.j2"%}
+{% endwith %}
+
+<tr id="daily-recipe-{{ daily_recipe.id }}">
     <td></td>
     <td colspan="4">
         {% if not daily_recipe.is_shopping %}
@@ -18,8 +22,7 @@
                     <div class="col-4">
                     	<input type="number" class="form-control" name="portion-count" value="{{ daily_recipe.portion_count}}" placeholder="počet porcí" required>
                     </div>
-                    <div class="col-1"></div>
-                    <div class="col-3 text-end pe-4">
+                    <div class="col-4 text-center">
                     	<button type="submit" class="btn color-white bg-color-secondary-action"> uložit změny </button>
                     </div>
                 </form>

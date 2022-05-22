@@ -24,7 +24,7 @@ class EditRecipeView(HelperFlaskView):
     @login_required
     def before_request(self, name, recipe_id, **kwargs):
         self.recipe = Recipe.load(recipe_id)
-        self.validate_edit(recipe_id, self.recipe)
+        self.validate_edit(self.recipe)
 
     @route("info/<recipe_id>", methods=["POST"])
     def post(self, recipe_id):
@@ -69,15 +69,6 @@ class EditRecipeView(HelperFlaskView):
             )
         else:
             return redirect(url_for("RecipeView:edit", id=self.recipe.id))
-
-    # @route("refresh_usable_ingredients/<recipe_id>", methods=["POST"])
-    # def refresh_usable_ingredients(self, recipe_id):
-    #     if turbo.can_stream():
-    #         return turbo.stream(
-    #             EditRecipeIngredientView().update_usable_ingredients(self.recipe)
-    #         )
-    #     else:
-    #         return redirect(url_for("RecipeView:edit", id=self.recipe.id))
 
     @route("/upload-photo/<recipe_id>", methods=["POST"])
     def upload_photo(self, recipe_id):

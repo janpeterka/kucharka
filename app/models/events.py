@@ -311,6 +311,11 @@ class Event(BaseModel, BaseMixin, EventPresenter):
             or (user.is_authenticated and user.has_permission("edit-other"))
         )
 
+    def can_delete(self, user) -> bool:
+        return self.is_author(user) or (
+            user.is_authenticated and user.has_permission("edit-other")
+        )
+
     def can_share(self, user) -> bool:
         return self.is_author(user) or (
             user.is_authenticated and user.has_permission("edit-other")

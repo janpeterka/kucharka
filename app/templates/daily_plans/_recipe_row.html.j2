@@ -31,38 +31,46 @@
         {% endif %}
     </td>
 
-    <td >
+    <td>
         {% if daily_plan.can_current_user_edit %}
         {{ button_to(url_for('DailyPlansEditView:sort_up', daily_recipe_id=daily_recipe.id), class="icon float-start", value='<i class="fas fa-sort-up"></i>') }}
         {{ button_to(url_for('DailyPlansEditView:sort_down', daily_recipe_id=daily_recipe.id), class="icon float-end", value='<i class="fas fa-sort-down"></i>') }}
         {% endif %}
     </td>
 
-    <td class="ps-5">
+    <td>
         {% if daily_plan.can_current_user_edit %}
-            {% if daily_recipe.is_shopping %}
-                <form method="POST" class="text-end me-3" action="{{ url_for('DailyPlansEditView:remove_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
-                    <button type="submit" class="btn color-white bg-color-secondary-action w-100"> smazat </button>
-                </form>
-            {% else %}
-                {% if not editing %}
-                <div class="row">
-                    <div class="col-9">
-                    <form method="POST" class="text-end" action="{{ url_for('DailyPlansEditView:show_edit_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
-                        <button type="submit" class="btn color-white bg-color-secondary-action w-100"> upravit </button>
-                    </form>
+            <div class="row ps-4">
+                {% if daily_recipe.is_shopping %}
+                    <div class="col-8"></div>
+                    <div class="col-2 pe-2 me-2">
+                        {{ button_to(url_for('DailyPlansEditView:remove_daily_recipe', daily_recipe_id=daily_recipe.id), icon=True, value="&times", form_class="me-2 text-end", style="font-size:2rem; color:red;")}}
+                    </div>
+                {% else %}
+                    {% if not editing %}
+                    <div class="col-8">
+                    <a class="btn color-white bg-color-secondary-action w-100" href="{{ url_for('DailyPlanView:show', id=daily_recipe.daily_plan.id, editing_id=daily_recipe.id) }}">
+                        upravit
+                    </a>
                     </div>
 
-                    <div class="col-1 pe-2 me-2">
+                    <div class="col-2 pe-2 me-2">
                         {{ button_to(url_for('DailyPlansEditView:remove_daily_recipe', daily_recipe_id=daily_recipe.id), icon=True, value="&times", form_class="me-2", style="font-size:2rem; color:red;", confirmation="opravdu chcete smazat recept z jídelníčku?") }}
                     </div>
-                </div>
-                {% else %}
-                    <form method="POST" class="text-end me-3" action="{{ url_for('DailyPlansEditView:hide_edit_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
-                        <button type="submit" class="btn color-white bg-color-secondary-action w-100"> zrušit </button>
-                    </form>
+                    {% else %}
+                    <div class="col-8">
+                        <a class="w-100 me-3 btn color-white bg-color-secondary-action" href="{{ url_for('DailyPlanView:show', id=daily_recipe.daily_plan.id) }}" target="daily-plan-{{daily_recipe.daily_plan.id}}-recipes">
+                            zrušit
+                        </a>
+                    </div>
+                    <div class="col-2">
+                        <div class="col-2 pe-2 me-2">
+                        {{ button_to(url_for('DailyPlansEditView:remove_daily_recipe', daily_recipe_id=daily_recipe.id), icon=True, value="&times", form_class="me-2", style="font-size:2rem; color:red;", confirmation="opravdu chcete smazat recept z jídelníčku?") }}
+                        </div>
+                    </div>
+                    {% endif %}
                 {% endif %}
-            {% endif %}
+            </div>
         {% endif %}
     </td>
 

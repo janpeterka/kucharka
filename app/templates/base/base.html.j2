@@ -76,6 +76,7 @@
         {% if print %}
             <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/print.css') }}">
         {% endif %}
+        {{ turbo() }}
     {% endblock %}
 
     {% block style %}{% endblock %}

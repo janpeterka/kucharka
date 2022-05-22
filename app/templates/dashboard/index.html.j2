@@ -1,17 +1,11 @@
 {% extends "base/base.html.j2" %}
 {% block title %} navařit {% endblock %}
 
-{% block links %}
-    {{ super() }}
-    {{ turbo() }}
-{% endblock %}
-
 {% block scripts_after %}
     {{ stimulus("clicker") }}
 {% endblock %}
 
 {% block content %}
-
 
 <h1 class="mb-3 font-comfortaa text-center"> vítej! </h1>
 

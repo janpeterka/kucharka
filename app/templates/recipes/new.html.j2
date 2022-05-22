@@ -1,10 +1,5 @@
 {% extends "base/base.html.j2" %}
-{% block title %} Vytvořit recept {% endblock %}
-
-{% block links %}
-    {{ super() }}
-    {{ turbo() }}
-{% endblock %}
+{% block title %} přidat recept {% endblock %}
 
 {% block content %}
 
@@ -19,8 +14,6 @@
     </div>
 
     {{ render_field(form.submit, class="mt-2") }}
-
 </form>
-
 
 {% endblock %}

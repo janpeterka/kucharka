@@ -1,11 +1,6 @@
 {% extends "base/base.html.j2" %}
 {% block title %} denní přehled {% endblock %}
 
-{% block links %}
-    {{ super() }}
-    {{ turbo() }}
-{% endblock %}
-
 {% block script %}
     {{ stimulus("select2") }}
 {% endblock %}
@@ -80,7 +75,7 @@
     {% if daily_plan.can_current_user_edit %}
 
     <div class="row float-end mt-5" data-controller="enable-select2">
-        <form class="form" action="{{ url_for('DailyPlansEditView:add_recipe', daily_plan_id=daily_plan.id) }}" method="post">
+        <form class="form" action="{{ url_for('DailyPlanRecipeView:add_recipe', daily_plan_id=daily_plan.id) }}" method="post">
             <div class="form-group form-inline">
                 <select name="recipe_id" id="recipe_select" class="form-control" data-enable-select2-target="select">
                     {% include "daily_plans/_add_recipe_form_options.html.j2" %}
@@ -92,7 +87,7 @@
     </div>
 
     <div class="row mt-5">
-        {{ button_to(url_for('DailyPlansEditView:add_shopping', daily_plan_id=daily_plan.id), class="btn bg-color-secondary-action color-white", value="přidat nákup <i class='fas fa-shopping-basket'></i>") }}
+        {{ button_to(url_for('DailyPlanRecipeView:add_shopping', daily_plan_id=daily_plan.id), class="btn bg-color-secondary-action color-white", value="přidat nákup <i class='fas fa-shopping-basket'></i>") }}
     </div>
 
     {% endif %}

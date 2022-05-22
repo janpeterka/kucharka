@@ -10,7 +10,7 @@
     <td colspan="4">
         {% if not daily_recipe.is_shopping %}
             {% if daily_plan.can_current_user_edit %}
-                <form method="POST" class="row row-cols-auto g-3 align-items-center" action="{{ url_for('DailyPlansEditView:edit_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
+                <form method="POST" class="row row-cols-auto g-3 align-items-center" action="{{ url_for('DailyPlanRecipeView:edit_daily_recipe', daily_recipe_id=daily_recipe.id) }}">
                     <div class="col-4">
 	                    <select name="meal-type" id="meal-type" class="form-control">
 	                        <option disabled {% if not daily_recipe.meal_type %}selected{% endif %} value> typ jídla: </option>

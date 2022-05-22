@@ -10,7 +10,7 @@ from app.helpers.helper_flask_view import HelperFlaskView
 from app.helpers.turbo_flash import turbo_flash as flash
 
 
-class DailyPlansEditView(HelperFlaskView):
+class DailyPlanRecipeView(HelperFlaskView):
     decorators = [login_required]
     template_folder = "daily_plans"
     route_prefix = "daily-plans"

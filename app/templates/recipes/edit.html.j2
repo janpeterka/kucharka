@@ -1,26 +1,25 @@
 {% extends "base/base.html.j2" %}
 {% block title %} recept {% endblock %}
 
- {% block links %}
-    {{ super() }}
-    {{ turbo() }}
+{% block links %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.25.1/trumbowyg.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.25.1/ui/trumbowyg.min.css" rel="stylesheet">
 {% endblock %}
 
-{% block script %}
+{% block scripts_after %}
     {{ stimulus("select2", "editor", "select-badges") }}
 {% endblock %}
 
 {% block content %}
 
-<a class="btn bg-color-secondary-action color-white ms-2 mb-3" href="{{ url_for('RecipeView:show', id=recipe.id) }}"> zavřít úpravy</a>
+<a class="btn bg-color-secondary-action color-white ms-2 mb-3" href="{{ url_for('RecipeView:show', id=recipe.id) }}"> zavřít úpravy </a>
 
 <div class="form-control mb-3">
     <h3 class="text-center"> recept </h3>
     {% include "recipes/edit/_info.html.j2" %}
 </div>
 
+<turbo-frame id="recipe-{{recipe.id}}-ingredients">
 <div class="form-control mb-3">
     <h3 class="text-center"> suroviny </h3>
     
@@ -37,6 +36,7 @@
 
     {% include "recipes/edit/_ingredient_table.html.j2" %}
 </div>
+</turbo-frame>
 
 
 <div class="form-control mb-3">

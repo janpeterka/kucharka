@@ -1,18 +1,11 @@
-{% if messages %}
-  
-<div id="flashes" class="flashes container alert alert-light animate-fadeout" role="alert"
-     onclick="hide_on_click(this)">
-  <ul id="flashes_list">
-  {% for category, message in messages %}
-    {% include "base/_flash.html.j2" %}    
-  {% endfor %}
-  </ul>
+<div class="row">
+  <div class="col-10"></div>
+  <div class="col-2" id="flashes" data-flashing-target="flashes">
+      
+    {% for category, message in messages %}
+      {% include "_flash.html.j2" %}
+    {% endfor %}
+
+  </div>
+
 </div>
-
-<script type="text/javascript">
-  function hide_on_click(element) {
-    element.classList.add('hidden')
-}
-</script>
-
-{% endif %}

@@ -6,7 +6,6 @@ from flask_security import login_required, current_user
 from app import turbo
 
 from app.helpers.helper_flask_view import HelperFlaskView
-from app.helpers.turbo_flash import turbo_flash
 
 from app.models import Recipe
 from app.forms import PublicRecipeFilterForm
@@ -23,13 +22,12 @@ class PublicRecipeView(HelperFlaskView):
         self.form = PublicRecipeFilterForm()
 
     @login_required
-    @route("/toggleReaction/<recipe_id>", methods=["POST"])
+    @route("/react/<recipe_id>", methods=["POST"])
     def toggle_reaction(self, recipe_id, refresh=False):
         recipe = Recipe.load(recipe_id)
         recipe.toggle_reaction()
 
-        turbo_flash("Reakce byla zaznamenána.", "success")
-
+        # TODO: This should be made without turbo, but problem with Bootstrap table
         if turbo.can_stream() and not refresh:
             return turbo.stream(
                 turbo.replace(
@@ -39,7 +37,6 @@ class PublicRecipeView(HelperFlaskView):
             )
 
         return redirect(request.referrer)
-        # return "", 204
 
     @login_required
     @route("/", methods=["GET", "POST"])
@@ -66,6 +63,7 @@ class PublicRecipeView(HelperFlaskView):
                 r for r in self.recipes if r.has_any_of_labels(difficulty_labels)
             ]
 
+        # TODO: This should be made without turbo, but problem with Bootstrap table
         if turbo.can_stream():
             return turbo.stream(
                 turbo.replace(
@@ -86,4 +84,5 @@ class PublicRecipeView(HelperFlaskView):
     @route("gallery/")
     def gallery(self):
         self.recipes = Recipe.load_all_public_with_image()
+
         return self.template()

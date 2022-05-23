@@ -1,6 +1,6 @@
 from unidecode import unidecode
 
-from flask import request, redirect, url_for
+from flask import request, redirect, url_for, flash
 from flask import current_app as application
 from flask_classful import route
 from flask_security import login_required, permissions_required, current_user
@@ -8,7 +8,6 @@ from flask_weasyprint import render_pdf, HTML
 
 from app.modules.files import PhotoForm
 
-from app.helpers.turbo_flash import turbo_flash as flash
 from app.helpers.helper_flask_view import HelperFlaskView
 from app.helpers.form import save_form_to_session, create_form
 
@@ -82,7 +81,8 @@ class RecipeView(HelperFlaskView):
         return redirect(url_for("RecipeView:show", id=id, portion_count=portion_count))
 
     @login_required
-    def edit(self, id):
+    def edit(self, id, **kwargs):
+        self.editing_id = int(request.args.get("editing_id", 0))
         self.show_fast_add = request.args.get("show_fast_add", False)
         self.ingredient_form = IngredientForm()
 
@@ -110,11 +110,11 @@ class RecipeView(HelperFlaskView):
     @route("delete/<id>/", methods=["POST"])
     def delete(self, id):
         if self.recipe.is_used:
-            flash("Recept je použit, nelze smazat.", "error")
+            flash("recept je použit, nelze smazat.", "error")
             return redirect(url_for("RecipeView:show", id=id))
 
         self.recipe.delete()
-        flash("Recept byl smazán.", "success")
+        flash("recept byl smazán.", "success")
         prev_path = request.form["previous"]
 
         with application.test_client() as tc:
@@ -152,9 +152,9 @@ class RecipeView(HelperFlaskView):
     def toggle_shared(self, id):
         toggled = self.recipe.toggle_shared()
         if toggled is True:
-            flash("Recept byl zveřejněn.", "success")
+            flash("recept byl zveřejněn.", "success")
         else:
-            flash("Recept byl skryt před veřejností.", "success")
+            flash("recept byl skryt před veřejností.", "success")
         return redirect(url_for("RecipeView:show", id=self.recipe.id))
 
     @login_required

@@ -17,8 +17,6 @@ class DailyPlanRecipeMixin:
         return daily_recipe
 
     def remove_daily_recipe(self, daily_recipe):
-        if not self.can_current_user_edit:
-            return False
         if daily_recipe not in self.daily_recipes:
             return False
 

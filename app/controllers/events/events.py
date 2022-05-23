@@ -126,15 +126,15 @@ class EventView(HelperFlaskView):
     def toggle_shared(self, id):
         toggled = self.event.toggle_shared()
         if toggled is True:
-            flash("Akce byla zveřejněna.", "success")
+            flash("akce byla zveřejněna.", "success")
         else:
-            flash("Akce byla skryta před veřejností.", "success")
+            flash("akce byla skryta před veřejností.", "success")
         return redirect(url_for("EventView:show", id=self.event.id))
 
     @route("share_all_used_recipes/<id>", methods=["POST"])
     def share_all_used_recipes(self, id):
         self.event.share_all_used_recipes()
-        flash("Všechny recepty byly zveřejněny.", "success")
+        flash("všechny recepty byly zveřejněny.", "success")
         return redirect(url_for("EventView:show", id=self.event.id))
 
     def warnings(self, id):

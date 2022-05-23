@@ -2,6 +2,8 @@
 scripts/
 app/files/*
 node_modules
+cypress/cypress/videos/
+cypress/cypress/screenshots/
 # app/static/node_modules/*
 nohup.out
 

@@ -1,6 +1,6 @@
 from .dashboard import DashboardView
 from .daily_plans import DailyPlanView
-from .daily_plans_edit import DailyPlansEditView
+from .daily_plan_recipes import DailyPlanRecipeView
 from .event_exporter import EventExporterView
 
 from .events.events import EventView
@@ -36,7 +36,7 @@ from .files import FileView
 __all__ = [
     "DashboardView",
     "DailyPlanView",
-    "DailyPlansEditView",
+    "DailyPlanRecipeView",
     "EventExporterView",
     "EventView",
     "ShareEventView",
@@ -67,7 +67,7 @@ def register_all_controllers(application):
     from app.helpers.helper_flask_view import HelperFlaskView
 
     DailyPlanView.register(application, base_class=HelperFlaskView)
-    DailyPlansEditView.register(application, base_class=HelperFlaskView)
+    DailyPlanRecipeView.register(application, base_class=HelperFlaskView)
 
     DashboardView.register(application, base_class=HelperFlaskView)
 

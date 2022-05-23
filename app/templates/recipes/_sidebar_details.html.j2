@@ -32,6 +32,7 @@
 
 <hr>
 
+<turbo-frame id="recipe-{{recipe.id}}-reaction">
 <form method="post" action="{{ url_for('PublicRecipeView:toggle_reaction', recipe_id=recipe.id, refresh=True) }}">
     <button type="submit" class="invisible-button">
         {% if recipe.has_reaction %}
@@ -41,6 +42,7 @@
         {% endif %}
     </button>
 </form>
+</turbo-frame>
 {% endif %}
 
 

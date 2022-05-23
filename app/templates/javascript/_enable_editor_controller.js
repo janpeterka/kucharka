@@ -6,8 +6,6 @@ Stimulus.register("enable-editor", class extends Controller {
   connect() {
     if (this.hasEditorTarget) {
       $(this.editorTarget).trumbowyg();
-
-
     }
   }
 

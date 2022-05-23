@@ -11,12 +11,6 @@ def app(scope="session"):
     app = create_app(config_name="testing")
 
     @app.context_processor
-    def inject_globals():
-        from app.data import template_data
-
-        return dict(texts=template_data.texts)
-
-    @app.context_processor
     def utility_processor():
         def human_format_date(date, with_weekday=True, with_relative=True):
             formatted_date = date.strftime("%d.%m.%Y")

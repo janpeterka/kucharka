@@ -2,10 +2,7 @@
 
 {% extends "base/base.html.j2" %}
 {% block title %} {{ event.name }} {% endblock %}
-{% block links %}
-    {{ super() }}
-    {{ turbo() }}
-{% endblock %}
+
 
 {% block scripts_after %}
     {{ stimulus("clicker", "set-duration", "refresh", "clipboard") }}

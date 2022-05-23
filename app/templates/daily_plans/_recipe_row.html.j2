@@ -33,8 +33,8 @@
 
     <td>
         {% if daily_plan.can_current_user_edit %}
-        {{ button_to(url_for('DailyPlansEditView:sort_up', daily_recipe_id=daily_recipe.id), class="icon float-start", value='<i class="fas fa-sort-up"></i>') }}
-        {{ button_to(url_for('DailyPlansEditView:sort_down', daily_recipe_id=daily_recipe.id), class="icon float-end", value='<i class="fas fa-sort-down"></i>') }}
+        {{ button_to(url_for('DailyPlanRecipeView:sort_up', daily_recipe_id=daily_recipe.id), class="icon float-start", value='<i class="fas fa-sort-up"></i>') }}
+        {{ button_to(url_for('DailyPlanRecipeView:sort_down', daily_recipe_id=daily_recipe.id), class="icon float-end", value='<i class="fas fa-sort-down"></i>') }}
         {% endif %}
     </td>
 
@@ -44,7 +44,7 @@
                 {% if daily_recipe.is_shopping %}
                     <div class="col-8"></div>
                     <div class="col-2 pe-2 me-2">
-                        {{ button_to(url_for('DailyPlansEditView:remove_daily_recipe', daily_recipe_id=daily_recipe.id), icon=True, value="&times", form_class="me-2 text-end", style="font-size:2rem; color:red;")}}
+                        {{ button_to(url_for('DailyPlanRecipeView:remove_daily_recipe', daily_recipe_id=daily_recipe.id), icon=True, value="&times", form_class="me-2 text-end", style="font-size:2rem; color:red;")}}
                     </div>
                 {% else %}
                     {% if not editing %}
@@ -55,7 +55,7 @@
                     </div>
 
                     <div class="col-2 pe-2 me-2">
-                        {{ button_to(url_for('DailyPlansEditView:remove_daily_recipe', daily_recipe_id=daily_recipe.id), icon=True, value="&times", form_class="me-2", style="font-size:2rem; color:red;", confirmation="opravdu chcete smazat recept z jídelníčku?") }}
+                        {{ button_to(url_for('DailyPlanRecipeView:remove_daily_recipe', daily_recipe_id=daily_recipe.id), icon=True, value="&times", form_class="me-2", style="font-size:2rem; color:red;", confirmation="opravdu chcete smazat recept z jídelníčku?") }}
                     </div>
                     {% else %}
                     <div class="col-8">
@@ -65,7 +65,7 @@
                     </div>
                     <div class="col-2">
                         <div class="col-2 pe-2 me-2">
-                        {{ button_to(url_for('DailyPlansEditView:remove_daily_recipe', daily_recipe_id=daily_recipe.id), icon=True, value="&times", form_class="me-2", style="font-size:2rem; color:red;", confirmation="opravdu chcete smazat recept z jídelníčku?") }}
+                        {{ button_to(url_for('DailyPlanRecipeView:remove_daily_recipe', daily_recipe_id=daily_recipe.id), icon=True, value="&times", form_class="me-2", style="font-size:2rem; color:red;", confirmation="opravdu chcete smazat recept z jídelníčku?") }}
                         </div>
                     </div>
                     {% endif %}

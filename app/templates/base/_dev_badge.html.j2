@@ -1,0 +1,13 @@
+{% if config.APP_STATE == "development" %}
+    {% with env="dev" %}
+ 	   {% include('admin/_env_badge.html.j2') with context %}
+    {% endwith %}
+{% elif config.APP_STATE == "local_production" %}
+    {% with env="prod" %}
+    	{% include('admin/_env_badge.html.j2') %}
+    {% endwith %}
+{% endif %}
+
+{% if current_user.has_role("admin") %}
+    {% include('admin/_admin_warning.html.j2') %}
+{% endif %}

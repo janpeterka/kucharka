@@ -1,7 +1,7 @@
 {% extends "security/base.html" %}
 
 {% block content %}
-<h1 class="text-center font-comfortaa text-uppercase"> {{ _('Přihlásit se') }} </h1>
+<h1 class="text-center font-comfortaa text-uppercase"> {{ _('přihlásit se') }} </h1>
 <form action="{{ url_for_security('login') }}" class="form-control" method="POST" name="login_user_form" data-turbo="false">
   {{ login_user_form.hidden_tag() }}
   {% if config.FF_GOOGLE_OAUTH %}
@@ -31,7 +31,7 @@
   </div>
   
       <div class="text-center mt-2">
-      {{ render_field(login_user_form.submit, value="Přihlásit se", class="p-2 ps-4 pe-4") }}
+      {{ render_field(login_user_form.submit, value="přihlásit se", class="p-2 ps-4 pe-4") }}
     </div>
   
   <a class="mt-2 float-end" href="{{ url_for_security('forgot_password')}}"> zapomněli jste heslo? </a>

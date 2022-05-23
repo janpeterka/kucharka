@@ -6,7 +6,7 @@ describe('try unlogged things',() => {
 
   it('doesn\'t show recipes', () => {
       cy.visit('http://127.0.0.1:5000/recipe/')
-      cy.get('body').should('contain', 'Please log in to access this page.')
+      cy.get('body').should('contain', 'přihlásit se')
   })
 
   it('can register', () => {

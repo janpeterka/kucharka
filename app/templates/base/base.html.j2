@@ -24,66 +24,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {% block meta %}{% endblock %} 
 
-    {% block links %}
-        {% if config["SENTRY_MONITORING"] %}
-            {% include "javascript/_sentry.js.html" %}
-        {% else %}
-            <script type="text/javascript">console.log("No Sentry monitoring")</script>
-        {% endif %}
-        {# <link rel="icon" href="{{ url_for('static', filename='img/icon_space.png') }}"> #}
+    {% if config["SENTRY_MONITORING"] %}
+        {% include "javascript/_sentry.js.html" %}
+    {% else %}
+        <script type="text/javascript">console.log("No Sentry monitoring")</script>
+    {% endif %}
+    {# <link rel="icon" href="{{ url_for('static', filename='img/icon_space.png') }}"> #}
 
-        <!-- Bootstrap -->
-        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap-5.1.3/css/bootstrap.min.css') }}">
-        <script src="{{ url_for('static', filename='bootstrap-5.1.3/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- Bootstrap -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap-5.1.3/css/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='bootstrap-5.1.3/js/bootstrap.bundle.min.js') }}"></script>
 
-        <!-- jQuery library -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-        <!-- Select 2 -->
-        {# <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" /> #}
-        {# <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script> #}
+    <!-- Select 2 -->
+    {# <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" /> #}
+    {# <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script> #}
 
-        <!-- Styles -->
-        {# <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" /> #}
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.2.0/dist/select2-bootstrap-5-theme.min.css" />
-        <!-- Or for RTL support -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.2.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
+    <!-- Styles -->
+    {# <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" /> #}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.2.0/dist/select2-bootstrap-5-theme.min.css" />
+    <!-- Or for RTL support -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.2.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
 
-        <!-- Scripts -->
-        {# <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script> #}
-        {# <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script> #}
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+    <!-- Scripts -->
+    {# <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script> #}
+    {# <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script> #}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
 
-        <!-- Font Awesome Icons -->
-        {# <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous"> #}
-        <script src="https://kit.fontawesome.com/4ffc18f632.js" crossorigin="anonymous"></script>
+    <!-- Font Awesome Icons -->
+    {# <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous"> #}
+    <script src="https://kit.fontawesome.com/4ffc18f632.js" crossorigin="anonymous"></script>
 
-        
-        <!-- Bootstrap Social -->
-        <!-- <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap-social.css') }}"> -->
-       
-        <!-- My style -->
-        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
-       
-        <!-- reCaptcha -->
-        <script src='https://www.google.com/recaptcha/api.js?hl=cs'></script>
+    
+    <!-- Bootstrap Social -->
+    <!-- <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap-social.css') }}"> -->
+   
+    <!-- My style -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
+   
+    <!-- reCaptcha -->
+    <script src='https://www.google.com/recaptcha/api.js?hl=cs'></script>
 
-        <!-- cookieconsent -->
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
-        <!-- custom fonts -->
-        <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' type='text/css'>
-        {% if print %}
-            <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/print.css') }}">
-        {% endif %}
-        {{ turbo() }}
-    {% endblock %}
+    <!-- cookieconsent -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+    <!-- custom fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' type='text/css'>
+    {% if print %}
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/print.css') }}">
+    {% endif %}
+    {{ turbo() }}
 
-    {{ stimulus('visibility', 'flashing') }}
 
+    {% block links %}{% endblock %}
     {% block style %}{% endblock %}
     {% block script %}{% endblock %}
 
+    {{ stimulus('visibility', 'flashing') }}
     <title>
         {% if config.APP_STATE == "development" %} 🚧 DEV -  {% endif %}
         {% block title %}{% endblock %}

@@ -6,9 +6,11 @@
 
 <tr id="ingredient-edit-{{ingredient.id}}">
     <td>
+        <turbo-frame id="recipe-{{recipe.id}}-delete-ingredient-{{ingredient.id}}" target="recipe-{{recipe.id}}-ingredients">
         {{ button_to(url_for('EditRecipeIngredientView:delete',
             recipe_id=recipe.id, ingredient_id=ingredient.id),
-            class="btn color-white bg-color-secondary-action", method="DELETE", value="smazat") }}
+            class="btn color-white bg-color-secondary-action", value="smazat") }}
+        </turbo-frame>
     </td>
     <td colspan="3">
         <form action="{{ url_for('EditRecipeIngredientView:update', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" method="post" class="row row-cols-auto g-3 align-items-center">

@@ -25,11 +25,9 @@
 
     <td class="text-end me-3">
         {% if not editing %}
-    	   {{ button_to(url_for('EditRecipeIngredientView:show_edit', recipe_id=recipe.id, ingredient_id=ingredient.id), form_class=form_class, value="upravit", class="btn color-white bg-color-secondary-action") }}
+            <a href="{{url_for('RecipeView:edit', id=recipe.id, editing_id=ingredient.id)}}" class="btn color-white bg-color-secondary-action"> upravit </a>
         {% else %}
-            {{ button_to(url_for('EditRecipeIngredientView:hide_edit',
-                        recipe_id=recipe.id, ingredient_id=ingredient.id),
-                        class="btn color-white bg-color-secondary-action", value="zrušit") }}
+            <a href="{{url_for('RecipeView:edit', id=recipe.id)}}" class="btn color-white bg-color-secondary-action"> zrušit </a>
     </td>
         {% endif %}
     </td>

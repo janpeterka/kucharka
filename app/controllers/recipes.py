@@ -81,7 +81,8 @@ class RecipeView(HelperFlaskView):
         return redirect(url_for("RecipeView:show", id=id, portion_count=portion_count))
 
     @login_required
-    def edit(self, id):
+    def edit(self, id, **kwargs):
+        self.editing_id = int(request.args.get("editing_id", 0))
         self.show_fast_add = request.args.get("show_fast_add", False)
         self.ingredient_form = IngredientForm()
 

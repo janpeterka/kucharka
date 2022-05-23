@@ -26,16 +26,6 @@ class EditRecipeIngredientView(HelperFlaskView, AdminViewMixin):
         self.recipe = Recipe.load(recipe_id)
         self.validate_edit(self.recipe)
 
-    @route("show_edit/<recipe_id>/<ingredient_id>", methods=["POST"])
-    def show_edit(self, recipe_id, ingredient_id):
-        self.ingredient = Ingredient.load(ingredient_id)
-        return super().show_edit()
-
-    @route("hide_edit/<recipe_id>/<ingredient_id>", methods=["POST"])
-    def hide_edit(self, recipe_id, ingredient_id):
-        self.ingredient = Ingredient.load(ingredient_id)
-        return super().hide_edit()
-
     @route("add_ingredient/<recipe_id>", methods=["POST"])
     def add_ingredient(self, recipe_id):
         self.ingredient = Ingredient.load(request.form["ingredient_option"])
@@ -43,23 +33,9 @@ class EditRecipeIngredientView(HelperFlaskView, AdminViewMixin):
 
         self.recipe.add_ingredient(self.ingredient)
 
-        if turbo.can_stream():
-            return turbo.stream(
-                [
-                    turbo.prepend(
-                        self.template(template_name="_row", editing=True),
-                        target="ingredients",
-                    ),
-                    turbo.after(
-                        self.template(template_name="_edit"),
-                        target=f"ingredient-{self.ingredient.id}",
-                    ),
-                    turbo.remove(target="add-ingredient-simple"),
-                ]
-                + self.update_usable_ingredients(self.recipe)
-            )
-        else:
-            return redirect(url_for("RecipeView:edit", id=self.recipe.id))
+        return redirect(
+            url_for("RecipeView:edit", id=self.recipe.id, editing_id=self.ingredient.id)
+        )
 
     @route("update/<recipe_id>/<ingredient_id>", methods=["POST"])
     def update(self, recipe_id, ingredient_id):
@@ -80,7 +56,7 @@ class EditRecipeIngredientView(HelperFlaskView, AdminViewMixin):
 
         return super().update()
 
-    # @route("delete/<recipe_id>/<ingredient_id>", methods=["POST"])
+    @route("delete/<recipe_id>/<ingredient_id>", methods=["POST"])
     def delete(self, recipe_id, ingredient_id):
         self.ingredient = Ingredient.load(ingredient_id)
 
@@ -88,16 +64,7 @@ class EditRecipeIngredientView(HelperFlaskView, AdminViewMixin):
             flash("tato surovina už byla smazána.", "error")
             return redirect(url_for("RecipeView:edit", id=self.recipe.id))
 
-        if turbo.can_stream():
-            return turbo.stream(
-                [
-                    turbo.remove(target=f"ingredient-{ingredient_id}"),
-                    turbo.remove(target=f"ingredient-edit-{ingredient_id}"),
-                ]
-                + EditRecipeIngredientView().update_usable_ingredients(self.recipe)
-            )
-        else:
-            return redirect(url_for(f"{self.name}:index"))
+        return redirect(url_for("RecipeView:edit", id=self.recipe.id))
 
     def update_usable_ingredients(self, recipe):
         unused_personal_ingredients = [

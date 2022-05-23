@@ -20,12 +20,11 @@ class SupportView(FlaskView):
     def flashing(self):
         from flask import get_flashed_messages, render_template, jsonify
 
-        flashes = []
-        for category, message in get_flashed_messages(with_categories=True):
-            flashes.append(
-                render_template(
-                    "base/_flash.html.j2", category=category, message=message
-                )
+        flashes = [
+            render_template(
+                "base/_flash.html.j2", category=category, message=message
             )
+            for category, message in get_flashed_messages(with_categories=True)
+        ]
 
         return jsonify(flashes)

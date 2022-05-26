@@ -9,6 +9,7 @@ from app.models.label_categories import LabelCategory
 from app.models.labels import Label
 from app.models.measurements import Measurement
 from app.models.oauth import OAuth
+from app.models.recipe_tasks import RecipeTask
 from app.models.recipes import Recipe
 from app.models.recipes_have_ingredients import RecipeHasIngredient
 from app.models.recipes_have_labels import RecipeHasLabel
@@ -26,21 +27,22 @@ __all__ = [
     "DailyPlan",
     "DailyPlanHasRecipe",
     "Event",
+    "File",
+    "Ingredient",
     "IngredientCategory",
     "Label",
     "LabelCategory",
     "Measurement",
     "OAuth",
+    "Recipe",
     "RecipeHasIngredient",
     "RecipeHasLabel",
+    "RecipeImageFile",
+    "RecipeTask",
     "RequestLog",
     "Role",
     "Tip",
     "User",
     "UserHasEventRole",
     "UserHasRecipeReaction",
-    "Recipe",
-    "RecipeImageFile",
-    "File",
-    "Ingredient",
 ]

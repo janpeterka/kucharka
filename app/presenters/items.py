@@ -26,13 +26,11 @@ class ItemPresenter(BasePresenter):
     def _view_name(self):
         return f"{type(self).__name__}View"
 
-    @property
-    def _show_path(self):
-        return url_for(f"{self._view_name}:show", id=self.id)
+    def _show_path(self, **kwargs):
+        return url_for(f"{self._view_name}:show", id=self.id, **kwargs)
 
-    @property
-    def _edit_path(self):
-        return url_for(f"{self._view_name}:edit", id=self.id)
+    def _edit_path(self, **kwargs):
+        return url_for(f"{self._view_name}:edit", id=self.id, **kwargs)
 
     @property
     def url(self):
@@ -40,14 +38,12 @@ class ItemPresenter(BasePresenter):
 
         return url_for(f"{self._view_name}:show", id=self.id)
 
-    @property
-    def link_to(self):
+    def link_to(self, **kwargs):
         return Markup(
-            f"<a data-turbo='false' href='{self._show_path}'>{escape(self.name)}</a>"
+            f"<a data-turbo='false' href='{self._show_path(**kwargs)}'>{escape(self.name)}</a>"
         )
 
-    @property
-    def link_to_edit(self):
+    def link_to_edit(self, **kwargs):
         return Markup(
-            f"<a data-turbo='false' href='{self._edit_path}'>{escape(self.name)}</a>"
+            f"<a data-turbo='false' href='{self._edit_path(**kwargs)}'>{escape(self.name)}</a>"
         )

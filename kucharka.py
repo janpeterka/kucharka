@@ -33,16 +33,18 @@ def utility_processor():
 
         return formatted_date
 
-    def link_to(obj, link_type="show"):
+    def link_to(obj, **kwargs):
         try:
-            if link_type == "show":
-                return obj.link_to
-            elif link_type == "edit":
-                return obj.link_to_edit
+            return obj.link_to(**kwargs)
+        except Exception:
+            raise NotImplementedError("This object link_to is probably not implemented")
 
+    def link_to_edit(obj, **kwargs):
+        try:
+            return obj.link_to_edit(**kwargs)
         except Exception:
             raise NotImplementedError(
-                f"This object link_to (with {link_type}) is probably not implemented"
+                "This object link_to_edit is probably not implemented"
             )
 
     def formatted_amount(amount):
@@ -73,6 +75,7 @@ def utility_processor():
     return dict(
         human_format_date=human_format_date,
         link_to=link_to,
+        link_to_edit=link_to_edit,
         formatted_amount=formatted_amount,
     )
 

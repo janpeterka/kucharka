@@ -4,7 +4,7 @@ cd /home/kucharka/kucharka
 
 # ensure to get origin's data and discard any local change
 git fetch
-git reset origin/master --hard
+git reset origin/production --hard
 git pull
 
 # install packages

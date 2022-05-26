@@ -72,6 +72,12 @@
     </div>
     </turbo-frame>
 
+    <h3>úkoly</h3>
+    {% for task in daily_plan.tasks %}
+        {{ link_to(task) }}
+    {% endfor %}
+        
+
     {% if daily_plan.can_current_user_edit %}
 
     <div class="row float-end mt-5" data-controller="enable-select2">

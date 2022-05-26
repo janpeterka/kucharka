@@ -1,5 +1,3 @@
-{% macro render_day_badge(day) %}
-
 {% if not day.is_active %}
 	{% set color = "light-grey" %}
 {% elif day.weekday in ["neděle"]  %}
@@ -38,13 +36,6 @@
 			{% endif %}
 		</div>
 		{% endfor %}
-
-		{% for task in day.tasks %}
-		    {{ task }}
-		{% endfor %}
-		    
 	
 	{% endif %}
 </div>
-
-{% endmacro %}

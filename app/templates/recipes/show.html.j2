@@ -34,11 +34,16 @@
     {% if not print %}
     <div class="col-md-2 col-sm-12 border-start">
         {% include("recipes/_sidebar_details.html.j2") %}
+        <hr>
+        <strong> úkoly <a href="{{ url_for('RecipeTaskView:new', recipe_id=recipe.id) }}"> ➕ </a> </strong>
+        <ul>
+        {% for task in recipe.tasks %}
+            <li> {{ link_to(task) }} </li>
+        {% endfor %}
+        </ul>
     </div>
     {% endif %}
 </div>
-
-<a href="{{ url_for('RecipeTaskView:new', recipe_id=recipe.id) }}"> přidat úkol </a>
 
 {% if recipe.description %}
     {% include "recipes/_description.html.j2" %}

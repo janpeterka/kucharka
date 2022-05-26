@@ -1,0 +1,9 @@
+{% extends "base/base.html.j2" %}
+{% block title %} {{ task.name }} {% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <h3> {{task}} (v receptu {{link_to(task.recipe)}}) </h3>
+    {{ task.days_before_cooking }} dní před vařením
+</div>
+{% endblock %}

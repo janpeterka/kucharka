@@ -15,4 +15,4 @@ class RecipeTask(BaseModel, BaseMixin, ItemPresenter):
 
     recipe_id = db.Column(db.ForeignKey("recipes.id"), nullable=False)
 
-    recipe = db.relationship("Recipe", uselist=False)
+    recipe = db.relationship("Recipe", backref="tasks", uselist=False)

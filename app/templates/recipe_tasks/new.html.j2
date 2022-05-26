@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<form action="{{ url_for('RecipeTaskView:post') }}" class="form-group" method="post"  accept-charset="UTF-8">
+<form action="{{ url_for('RecipeTaskView:post', recipe_id=recipe.id) }}" class="form-group" method="post"  accept-charset="UTF-8">
     {{ form.csrf_token }}
 
     {{ render_floating_field(form.name, class="mb-2", placeholder="např. Naložit fazole") }}
@@ -11,6 +11,8 @@
     {{ render_floating_field(form.days_before_cooking, class="mb-2") }}
 
     {{ render_field(form.submit) }}
+
+    <a href="{{request.referrer}}" class="ms-2"> zrušit </a>
 </form>
 
 {% endblock %}

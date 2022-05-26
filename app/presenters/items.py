@@ -1,3 +1,5 @@
+from flask import url_for, Markup, escape
+
 from app.presenters import BasePresenter
 
 
@@ -21,27 +23,31 @@ class ItemPresenter(BasePresenter):
     # CONTEXT PROCESSOR UTILITIES
 
     @property
+    def _view_name(self):
+        return f"{type(self).__name__}View"
+
+    @property
+    def _show_path(self):
+        return url_for(f"{self._view_name}:show", id=self.id)
+
+    @property
+    def _edit_path(self):
+        return url_for(f"{self._view_name}:edit", id=self.id)
+
+    @property
     def url(self):
         from flask import url_for
 
-        self_view_name = f"{type(self).__name__}View:show"
-        return url_for(self_view_name, id=self.id)
+        return url_for(f"{self._view_name}:show", id=self.id)
 
     @property
     def link_to(self):
-        from flask import url_for, Markup, escape
-
-        self_view_name = f"{type(self).__name__}View:show"
         return Markup(
-            f"<a data-turbo='false' href='{url_for(self_view_name, id=self.id)}'> {escape(self.name)} </a>"
+            f"<a data-turbo='false' href='{self._show_path}'>{escape(self.name)}</a>"
         )
 
     @property
     def link_to_edit(self):
-        from flask import url_for, Markup, escape
-
-        self_view_name = f"{type(self).__name__}View:edit"
-
         return Markup(
-            f"<a data-turbo='false' href='{url_for(self_view_name, id=self.id)}'> {escape(self.name)} </a>"
+            f"<a data-turbo='false' href='{self._edit_path}'>{escape(self.name)}</a>"
         )

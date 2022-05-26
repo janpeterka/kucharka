@@ -30,11 +30,14 @@ class RecipeTaskView(HelperFlaskView):
             save_form_to_session(request.form)
             return redirect(url_for("RecipeTaskView:new", recipe_id=recipe_id))
 
-        task = RecipeTask()
+        task = RecipeTask(recipe=self.recipe)
         form.populate_obj(task)
         task.save()
 
-        return redirect(request.referrer)
+        return redirect(url_for("RecipeView:show", id=recipe_id))
+
+    def show(self, id):
+        return self.template()
 
     def edit(self, id):
         self.form = create_form(RecipeTaskForm, obj=self.recipe)
@@ -52,7 +55,7 @@ class RecipeTaskView(HelperFlaskView):
         form.populate_obj(self.task)
         self.task.edit()
 
-        return redirect(request.referrer)
+        return redirect(url_for("RecipeView:show", id=self.task.recipe.id))
 
     @route("delete/<id>", methods=["POST"])
     def delete(self, id):

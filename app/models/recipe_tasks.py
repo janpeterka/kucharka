@@ -10,7 +10,7 @@ class RecipeTask(BaseModel, BaseMixin, ItemPresenter):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(255), nullable=False)
-    description = db.Column(db.String())
+    description = db.Column(db.Text())
     days_before_cooking = db.Column(db.Integer)
 
     recipe_id = db.Column(db.ForeignKey("recipes.id"), nullable=False)

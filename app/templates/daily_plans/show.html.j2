@@ -72,10 +72,12 @@
     </div>
     </turbo-frame>
 
-    <h3>úkoly</h3>
-    {% for task in daily_plan.tasks %}
-        {{ link_to(task) }}
-    {% endfor %}
+    {% if daily_plan.tasks %}    
+        <h3>úkoly</h3>
+        {% for task in daily_plan.tasks %}
+            {{ link_to(task) }}
+        {% endfor %}
+    {% endif %}
         
 
     {% if daily_plan.can_current_user_edit %}

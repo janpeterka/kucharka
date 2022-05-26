@@ -1,10 +1,6 @@
-import datetime
-
 from flask import current_app as application
 
 from flask_security import current_user
-
-from sqlalchemy.sql import func
 
 from sqlalchemy.exc import DatabaseError
 from sqlalchemy.ext.hybrid import hybrid_property
@@ -26,26 +22,23 @@ class BaseMixin(object):
     @classmethod
     def load(cls, *args, **kwargs):
         object_id = kwargs.get("id", args[0])
+
         return cls.query.filter_by(id=object_id).first()
 
     @classmethod
-    def load_all(cls, ordered_by_name=True):
+    def load_by(cls, **kwargs):
+        return cls.query.filter_by(**kwargs).first()
+
+    @classmethod
+    def load_all(cls, ordered_by_name=True, **kwargs):
         from unidecode import unidecode
 
-        objects = cls.query.all()
+        objects = cls.query.filter_by(**kwargs).all()
 
         if ordered_by_name and hasattr(cls, "name"):
             objects.sort(key=lambda x: unidecode(x.name.lower()))
 
         return objects
-
-    @classmethod
-    def load_last(cls):
-        return cls.query.all()[-1]
-
-    @classmethod
-    def load_all_by_name(cls, name):
-        return cls.query.filter_by(name=name).all()
 
     @classmethod
     def load_by_name(cls, name):
@@ -58,36 +51,29 @@ class BaseMixin(object):
 
         return cls.query.filter_by(**{attribute: value}).all()
 
-    @classmethod
-    def load_by_attribute(cls, attribute, value):
-        if elements := cls.load_all_by_attribute(attribute, value):
-            return elements[0]
-        else:
-            return None
-
     # OTHER LOADING
-    @classmethod
-    def created_at_date(cls, date):
-        if hasattr(cls, "created_at"):
-            attr = "created_at"
-        else:
-            raise AttributeError('No "created_at" for created_recently')
+    # @classmethod
+    # def created_at_date(cls, date):
+    #     if hasattr(cls, "created_at"):
+    #         attr = "created_at"
+    #     else:
+    #         raise AttributeError('No "created_at" for created_at_date')
 
-        return cls.query.filter(func.DATE(getattr(cls, attr)) == date).all()
+    #     return cls.query.filter(func.DATE(getattr(cls, attr)) == date).all()
 
-    @classmethod
-    def created_recently(cls, days=30):
-        date_from = datetime.date.today() - datetime.timedelta(days=days)
-        if hasattr(cls, "created_at"):
-            attr = "created_at"
-        else:
-            raise AttributeError('No "created_at" for created_recently')
+    # @classmethod
+    # def created_recently(cls, days=30):
+    #     date_from = datetime.date.today() - datetime.timedelta(days=days)
+    #     if hasattr(cls, "created_at"):
+    #         attr = "created_at"
+    #     else:
+    #         raise AttributeError('No "created_at" for created_recently')
 
-        return cls.query.filter(getattr(cls, attr) > date_from).all()
+    #     return cls.query.filter(getattr(cls, attr) > date_from).all()
 
-    @classmethod
-    def created_in_last_30_days(cls):
-        return cls.created_recently(days=30)
+    # @classmethod
+    # def created_in_last_30_days(cls):
+    #     return cls.created_recently(days=30)
 
     # DATABASE OPERATIONS
 

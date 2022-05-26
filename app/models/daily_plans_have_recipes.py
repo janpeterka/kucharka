@@ -38,10 +38,12 @@ class DailyPlanHasRecipe(BaseModel, BaseMixin, BasePresenter):
 
     daily_plan = db.relationship("DailyPlan")
     recipe = db.relationship("Recipe", backref="daily_plan_recipes")
-    tasks = db.relationship(
-        "RecipeTask",
-        primaryjoin="DailyPlanHasRecipe.recipe_id == foreign(RecipeTask.recipe_id)",
-    )
+
+    @property
+    def tasks(self):
+        from app.models import RecipeTask
+
+        return RecipeTask.load_all(recipe_id=self.recipe_id)
 
     def duplicate(self):
         daily_recipe = DailyPlanHasRecipe()

@@ -26,24 +26,32 @@ class ItemPresenter(BasePresenter):
     def _view_name(self):
         return f"{type(self).__name__}View"
 
-    def _show_path(self, **kwargs):
+    def _path_to_show(self, **kwargs):
         return url_for(f"{self._view_name}:show", id=self.id, **kwargs)
 
-    def _edit_path(self, **kwargs):
+    def _path_to_edit(self, **kwargs):
         return url_for(f"{self._view_name}:edit", id=self.id, **kwargs)
 
     @property
+    def _default_value(self):
+        return escape(self.name)
+
+    @property
     def url(self):
-        from flask import url_for
+        return self._path_to_show()
 
-        return url_for(f"{self._view_name}:show", id=self.id)
+    def link_to(self, value=None, **kwargs):
+        if not value:
+            value = self._default_value
 
-    def link_to(self, **kwargs):
         return Markup(
-            f"<a data-turbo='false' href='{self._show_path(**kwargs)}'>{escape(self.name)}</a>"
+            f"<a data-turbo='false' href='{self._path_to_show(**kwargs)}'>{value}</a>"
         )
 
-    def link_to_edit(self, **kwargs):
+    def link_to_edit(self, value=None, **kwargs):
+        if not value:
+            value = self._default_value
+
         return Markup(
-            f"<a data-turbo='false' href='{self._edit_path(**kwargs)}'>{escape(self.name)}</a>"
+            f"<a data-turbo='false' href='{self._path_to_edit(**kwargs)}'>{value}</a>"
         )

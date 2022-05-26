@@ -38,7 +38,7 @@ class ShareEventView(HelperFlaskView):
 
         form = request.form
 
-        user = User.load_by_attribute("email", form["email"])
+        user = User.load_by(email=form["email"])
         role = form["role"]
 
         if self.event.user_role(user):

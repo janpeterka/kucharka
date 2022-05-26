@@ -52,7 +52,7 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin, BasePresenter):
 
     @staticmethod
     def load_by_username(username):
-        return User.load_by_attribute("username", username)
+        return User.load_by(username=username)
 
     # PROPERTIES
 

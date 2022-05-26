@@ -25,14 +25,14 @@ class UserHasRecipeReaction(BaseModel, BaseMixin):
 
     @staticmethod
     def load_by_recipe(recipe):
-        return UserHasRecipeReaction.load_all_by_attribute("recipe_id", recipe.id)
+        return UserHasRecipeReaction.load_all(recipe_id=recipe.id)
 
     @staticmethod
     def load_by_recipe_and_user(recipe, user):
-        return UserHasRecipeReaction.query.filter_by(
-            recipe_id=recipe.id, user_id=user.id
-        ).first()
+        return UserHasRecipeReaction.load_by(recipe_id=recipe.id, user_id=user.id)
 
     @staticmethod
     def load_by_recipe_and_current_user(recipe):
-        return UserHasRecipeReaction.load_by_recipe_and_user(recipe, current_user)
+        return UserHasRecipeReaction.load_by(
+            recipe_id=recipe.id, user_id=current_user.id
+        )

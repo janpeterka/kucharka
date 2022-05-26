@@ -156,11 +156,3 @@ class RecipeView(HelperFlaskView):
         else:
             flash("recept byl skryt před veřejností.", "success")
         return redirect(url_for("RecipeView:show", id=self.recipe.id))
-
-    @login_required
-    @route("delete_drafts", methods=["POST"])
-    def delete_drafts(self):
-        for draft in current_user.draft_recipes:
-            draft.delete()
-
-        return redirect(url_for("DashboardView:index"))

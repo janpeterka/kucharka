@@ -13,7 +13,7 @@ from app.modules.files import show_file, download_file, all_files
 
 class FileView(HelperFlaskView):
     def before_show(self, hash_value):
-        self.file = File.load_by_attribute("hash", hash_value)
+        self.file = File.load_by(hash=hash_value)
         self.validate_show(self.file)
 
     def before_delete(self, id):

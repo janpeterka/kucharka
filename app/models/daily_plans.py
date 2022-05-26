@@ -64,7 +64,7 @@ class DailyPlan(
         tasks = []
 
         for daily_plan in self.event.daily_plans:
-            if daily_plan.date > self.date:
+            if daily_plan.date >= self.date:
                 for daily_recipe in daily_plan.daily_recipes:
                     for task in daily_recipe.tasks:
                         if (

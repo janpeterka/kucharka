@@ -38,6 +38,8 @@
     {% endif %}
 </div>
 
+<a href="{{ url_for('RecipeTaskView:new', recipe_id=recipe.id) }}"> přidat úkol </a>
+
 {% if recipe.description %}
     {% include "recipes/_description.html.j2" %}
 {% endif %}

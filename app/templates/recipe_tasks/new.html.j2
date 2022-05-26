@@ -1,0 +1,17 @@
+{% extends "base/base.html.j2" %}
+{% block title %} nový úkol {% endblock %}
+
+{% block content %}
+
+<form action="{{ url_for('RecipeTaskView:post') }}" class="form-group" method="post"  accept-charset="UTF-8">
+    {{ form.csrf_token }}
+
+    {{ render_floating_field(form.name, class="mb-2", placeholder="např. Naložit fazole") }}
+    {{ render_floating_field(form.description, class="mb-2", placeholder="např. Naložit fazole") }}
+    {{ render_floating_field(form.days_before_cooking, class="mb-2") }}
+
+    {{ render_field(form.submit) }}
+</form>
+
+{% endblock %}
+

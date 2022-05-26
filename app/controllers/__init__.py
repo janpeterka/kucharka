@@ -22,6 +22,7 @@ from .tips import TipView
 from .admin import AdminView
 
 from .recipes import RecipeView
+from .recipe_tasks import RecipeTaskView
 from .edit_recipes import EditRecipeView
 from .edit_recipe_ingredients import EditRecipeIngredientView
 from .public_recipes import PublicRecipeView
@@ -53,6 +54,7 @@ __all__ = [
     "TipView",
     "AdminView",
     "RecipeView",
+    "RecipeTaskView",
     "EditRecipeView",
     "EditRecipeIngredientView",
     "PublicRecipeView",
@@ -97,6 +99,7 @@ def register_all_controllers(application):
     RecipeCategorieView.register(application, base_class=HelperFlaskView)
 
     RecipeView.register(application, base_class=HelperFlaskView)
+    RecipeTaskView.register(application, base_class=HelperFlaskView)
     EditRecipeView.register(application, base_class=HelperFlaskView)
     EditRecipeIngredientView.register(application, base_class=HelperFlaskView)
     PublicRecipeView.register(application, base_class=HelperFlaskView)

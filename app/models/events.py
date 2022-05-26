@@ -198,7 +198,7 @@ class Event(BaseModel, BaseMixin, EventPresenter):
         return daily_recipes
 
     @property
-    def daily_recipes_split_by_shopping(self):
+    def daily_recipes_split_by_shopping(self) -> list:
         daily_recipes = self.daily_recipes
         split_recipes = []
 

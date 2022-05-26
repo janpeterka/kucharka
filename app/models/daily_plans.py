@@ -23,10 +23,12 @@ class DailyPlan(
     created_by = db.Column(db.ForeignKey(("users.id")), nullable=False, index=True)
     author = db.relationship("User", uselist=False, back_populates="daily_plans")
 
+    event_id = db.Column(db.ForeignKey(("events.id")))
+
     daily_recipes = db.relationship(
         "DailyPlanHasRecipe",
         back_populates="daily_plan",
-        cascade="all,delete",
+        cascade="all, delete",
         order_by=DailyPlanHasRecipe.order_index,
     )
 
@@ -37,7 +39,6 @@ class DailyPlan(
         order_by=DailyPlanHasRecipe.order_index,
     )
 
-    event_id = db.Column(db.ForeignKey(("events.id")))
     event = db.relationship("Event", back_populates="daily_plans")
 
     def __init__(self, **kwargs):
@@ -57,9 +58,23 @@ class DailyPlan(
 
         return daily_plan
 
-    # @staticmethod
-    # def create_if_not_exists(date):
-    #     DailyPlan.load_by_date_or_create(date)
+    # DATA
+    @property
+    def tasks(self) -> list:
+        tasks = []
+
+        for daily_plan in self.event.daily_plans:
+            if daily_plan.date > self.date:
+                for daily_recipe in daily_plan.daily_recipes:
+                    for task in daily_recipe.tasks:
+                        if (
+                            self.date
+                            == daily_recipe.daily_plan.date
+                            - datetime.timedelta(task.days_before_cooking)
+                        ):
+                            tasks.append(task)
+
+        return tasks
 
     # PROPERTIES
 

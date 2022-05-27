@@ -60,7 +60,7 @@ class DailyPlan(
 
     # DATA
     @property
-    def tasks(self) -> list:
+    def all_tasks(self) -> list:
         tasks = []
 
         for daily_plan in self.event.daily_plans:
@@ -74,6 +74,7 @@ class DailyPlan(
                         ):
                             tasks.append(task)
 
+        tasks.extend(self.tasks)
         return tasks
 
     # PROPERTIES

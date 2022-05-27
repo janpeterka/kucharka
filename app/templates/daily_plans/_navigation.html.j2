@@ -1,0 +1,28 @@
+<h4> {{ link_to(daily_plan.event) }} </h4>
+
+<div class="col">
+    {% if daily_plan.has_previous %}
+    <span class="float-start" >
+        <a href="{{ url_for('DailyPlanView:previous', id=daily_plan.id) }}" class="color-primary">
+            {{ icon("previous", cursor_class="pointer") }}
+        </a>
+    </span>
+    {% endif %}
+</div>
+
+
+<div class="col">
+    <span style="font-size: 1.5rem">
+        {{ human_format_date(daily_plan.date, with_relative=False) }}
+    </span>
+</div>
+
+<div class="col">
+    {% if daily_plan.has_next %}
+    <span class="float-end" >
+        <a href="{{ url_for('DailyPlanView:next', id=daily_plan.id) }}" class="color-primary">
+            {{ icon("next", cursor_class="pointer") }}
+        </a>
+    </span>
+    {% endif %}
+</div>

@@ -1,0 +1,8 @@
+{% extends "base/base.html.j2" %}
+{% block title %} {{ task.name }} {% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <h3> {{task}} (ve dni {{link_to(task.daily_plan)}}) </h3>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+<h3>
+    úkoly
+    <a class="btn bg-color-secondary-action color-white" href="{{url_for('DailyPlanTaskView:new', daily_plan_id=daily_plan.id)}}">
+    	{{ icon("add") }} úkol
+    </a>
+</h3>
+
+{% for task in daily_plan.all_tasks %}
+    {{ link_to(task) }}
+    {% if task.recipe %} <i> ({{ link_to(task.recipe) }}) </i> {% endif %}
+    <br>
+{% endfor %}

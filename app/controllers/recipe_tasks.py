@@ -59,6 +59,6 @@ class RecipeTaskView(HelperFlaskView):
 
     @route("delete/<id>", methods=["POST"])
     def delete(self, id):
-        self.recipe.remove()
+        self.task.remove()
 
         return redirect(request.referrer)

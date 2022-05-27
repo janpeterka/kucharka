@@ -37,7 +37,13 @@
 		</div>
 		{% endfor %}
 
-		{{ list_of_links(day.all_tasks) }}		    
 	
+	{% endif %}
+
+	{% if day.all_tasks %}
+			<hr>
+	    {% for task in day.all_tasks %}
+	        {{ task }} <br>
+	    {% endfor %}
 	{% endif %}
 </div>

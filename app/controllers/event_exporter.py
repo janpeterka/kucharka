@@ -93,48 +93,26 @@ class EventExporterView(HelperFlaskView):
 
     # Recipe list export
 
+    def _recipe_list(self):
+        return self.template(template_name="recipe_list")
+
     def show_recipe_list(self, event_id):
         return self._recipe_list()
 
     def show_recipe_list_pdf(self, event_id):
         return render_pdf(
-            HTML(string=self._recipe_list(is_print=True)),
+            HTML(string=self._recipe_list()),
             download_filename=f"{self.event.slugified_name}--recepty.pdf",
             automatic_download=False,
         )
 
     def download_recipe_list_pdf(self, event_id):
         return render_pdf(
-            HTML(string=self._recipe_list(is_print=True)),
+            HTML(string=self._recipe_list()),
             download_filename=f"{self.event.slugified_name}--recepty.pdf",
         )
 
-    def _recipe_list(self, is_print=False):
-        return self.template(template_name="recipe_list", print=is_print)
-
-    # Recipe list kanban export
-
-    # def show_recipe_list_visual(self, event_id):
-    #     return self.template(template_name="recipe_list_visual")
-
     # Cookbook export
-
-    def show_cookbook(self, event_id, **kwargs):
-        return self._cookbook()
-
-    def show_cookbook_pdf(self, event_id):
-        return render_pdf(
-            HTML(string=self._cookbook(is_print=True)),
-            download_filename=f"{self.event.slugified_name}--kucharka.pdf",
-            automatic_download=False,
-        )
-
-    def download_cookbook_pdf(self, event_id):
-        return render_pdf(
-            HTML(string=self._cookbook(is_print=True)),
-            download_filename=f"{self.event.slugified_name}--kucharka.pdf",
-        )
-
     def _cookbook(self, is_print=False):
         partial_templates = []
         for daily_plan in self.daily_plans:
@@ -152,6 +130,22 @@ class EventExporterView(HelperFlaskView):
         self.recipes_html = "".join(partial_templates)
 
         return self.template(template_name="cookbook", print=is_print)
+
+    def show_cookbook(self, event_id, **kwargs):
+        return self._cookbook()
+
+    def show_cookbook_pdf(self, event_id):
+        return render_pdf(
+            HTML(string=self._cookbook(is_print=True)),
+            download_filename=f"{self.event.slugified_name}--kucharka.pdf",
+            automatic_download=False,
+        )
+
+    def download_cookbook_pdf(self, event_id):
+        return render_pdf(
+            HTML(string=self._cookbook(is_print=True)),
+            download_filename=f"{self.event.slugified_name}--kucharka.pdf",
+        )
 
     # INTERNAL
 

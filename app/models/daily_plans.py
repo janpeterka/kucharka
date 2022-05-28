@@ -6,7 +6,7 @@ from app.helpers.base_mixin import BaseMixin
 
 from app.presenters import DailyPlanPresenter
 
-from app.models.daily_plans_have_recipes import DailyPlanHasRecipe
+from app.models.daily_plans_have_recipes import DailyPlanRecipe
 
 from app.models.mixins.daily_plans.daily_plan_loaders import DailyPlanLoaderMixin
 from app.models.mixins.daily_plans.daily_plan_recipes import DailyPlanRecipeMixin
@@ -26,17 +26,17 @@ class DailyPlan(
     event_id = db.Column(db.ForeignKey(("events.id")))
 
     daily_recipes = db.relationship(
-        "DailyPlanHasRecipe",
+        "DailyPlanRecipe",
         back_populates="daily_plan",
         cascade="all, delete",
-        order_by=DailyPlanHasRecipe.order_index,
+        order_by=DailyPlanRecipe.order_index,
     )
 
     recipes = db.relationship(
         "Recipe",
         secondary="daily_plans_have_recipes",
         viewonly=True,
-        order_by=DailyPlanHasRecipe.order_index,
+        order_by=DailyPlanRecipe.order_index,
     )
 
     event = db.relationship("Event", back_populates="daily_plans")
@@ -128,6 +128,10 @@ class DailyPlan(
             return self.daily_recipes[-1]
         else:
             return None
+
+    @property
+    def daily_recipes_without_meal_type(self) -> list:
+        return [dr for dr in self.daily_recipes if dr.meal_type is None]
 
     # PERMISSIONS
 

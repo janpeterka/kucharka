@@ -1,7 +1,7 @@
 from app.models.conversions import Conversion
 from app.models.daily_plans import DailyPlan
 from app.models.daily_plan_tasks import DailyPlanTask
-from app.models.daily_plans_have_recipes import DailyPlanHasRecipe
+from app.models.daily_plans_have_recipes import DailyPlanRecipe
 from app.models.events import Event
 from app.models.files import File, RecipeImageFile
 from app.models.ingredient_categories import IngredientCategory
@@ -27,7 +27,7 @@ __all__ = [
     "Conversion",
     "DailyPlan",
     "DailyPlanTask",
-    "DailyPlanHasRecipe",
+    "DailyPlanRecipe",
     "Event",
     "File",
     "Ingredient",

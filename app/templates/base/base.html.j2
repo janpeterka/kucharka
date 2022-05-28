@@ -72,9 +72,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
     <!-- custom fonts -->
     <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' type='text/css'>
-    {% if print %}
-        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/print.css') }}">
-    {% endif %}
+
     {{ turbo() }}
 
 
@@ -94,7 +92,6 @@
                    turbo:frame-load@document->flashing#getMessage 
                    turbo:before-stream-render@document->flashing#getMessage">
 
-    {% if not print %}
         
     {% block navbar %}            
         {% if current_user.is_authenticated %}
@@ -108,8 +105,6 @@
     {% block dev %}
         {% include "base/_dev_badge.html.j2" %}
     {% endblock %}
-
-    {% endif %}
 
     <div class="container mb-4">
         {% include('base/_flashing.html.j2') %}

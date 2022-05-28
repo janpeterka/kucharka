@@ -52,11 +52,15 @@ def link_to(obj, **kwargs):
     try:
         return obj.link_to(**kwargs)
     except Exception:
-        raise NotImplementedError(f"{obj} doesn't have `link_to` implemented")
+        raise NotImplementedError(
+            f"{obj}({obj.__class__}) doesn't have `link_to` implemented"
+        )
 
 
 def link_to_edit(obj, **kwargs):
     try:
         return obj.link_to_edit(**kwargs)
     except Exception:
-        raise NotImplementedError(f"{obj} doesn't have `link_to_edit` implemented")
+        raise NotImplementedError(
+            f"{obj}({obj.__class__}) doesn't have `link_to_edit` implemented"
+        )

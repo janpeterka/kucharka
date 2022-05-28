@@ -185,7 +185,7 @@ class Ingredient(BaseModel, BaseMixin, ItemPresenter):
         return self.can_add(current_user)
 
 
-class IngredientCopy:
+class IngredientCopy(ItemPresenter):
     def __init__(self, ingredient):
         self.id = ingredient.id
         self.name = ingredient.name
@@ -214,12 +214,9 @@ class IngredientCopy:
     def category_name(self):
         return getattr(self.category, "name", "---")
 
-    # CONTEXT PROCESSOR UTILITIES
     @property
-    def link_to(self):
-        from flask import url_for, Markup, escape
+    def _ingredient(self):
+        return Ingredient.load(self.id)
 
-        self_view_name = "IngredientView:show"
-        return Markup(
-            f"<a data-turbo='false' href='{url_for(self_view_name, id=self.id)}'>{escape(self.name)}</a>"
-        )
+    def link_to(self, **kwargs):
+        return self._ingredient.link_to(**kwargs)

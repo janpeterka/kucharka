@@ -63,7 +63,8 @@
     <!-- <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap-social.css') }}"> -->
    
     <!-- My style -->
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel=stylesheet href="{{ url_for('static', filename='css/style.css') }}">
+    {# <link rel=stylesheet href="{{ url_for('static', filename='css/print.css') }}"> #}
    
     <!-- reCaptcha -->
     <script src='https://www.google.com/recaptcha/api.js?hl=cs'></script>
@@ -106,11 +107,13 @@
         {% include "base/_dev_badge.html.j2" %}
     {% endblock %}
 
+    {% block content_container %}
     <div class="container mb-4">
         {% include('base/_flashing.html.j2') %}
         {% include('base/_system_message.html.j2') %}
         {% block content %}{% endblock %}
     </div>
+    {% endblock %}
 
 </body>
 {% block scripts_after %}{% endblock %}

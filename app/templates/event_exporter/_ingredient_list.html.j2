@@ -6,15 +6,15 @@
         	<li>
         		<details>
         			<summary class="row">
-            			<span class="col font-weight-bold">
+            			<div class="col font-weight-bold">
                             {{ link_or_name(ingredient) }}
-                        </span>
+                        </div>
                             {% if ingredient.measurement.thousand_fold and ingredient.amount % 1000 != ingredient.amount %}
-                                <span class="col font-weight-bold"> {{ formatted_amount(ingredient.amount/1000) }} </span>
-                                <span class="col font-weight-bold"> {{ ingredient.measurement.thousand_fold }} </span>
+                                <div class="col font-weight-bold"> {{ formatted_amount(ingredient.amount/1000) }} </div>
+                                <div class="col font-weight-bold"> {{ ingredient.measurement.thousand_fold }} </div>
                             {% else %}
-                                <span class="col font-weight-bold"> {{ formatted_amount(ingredient.amount) }} </span>
-                                <span class="col font-weight-bold"> {{ ingredient.measurement.name }} </span>
+                                <div class="col font-weight-bold"> {{ formatted_amount(ingredient.amount) }} </div>
+                                <div class="col font-weight-bold"> {{ ingredient.measurement.name }} </div>
                             {% endif %}
         			</summary>
 
@@ -24,13 +24,13 @@
                         {% set comment = amounts[ingredient.id]["recipes"][recipe.id]["comment"] %}
 
                         <li class="row"> 
-                            <span class="col"> {{ link_or_name(recipe) }} {% if occurences > 1 %}({{ occurences }}x){% endif %} </span>
+                            <div class="col"> {{ link_or_name(recipe) }} {% if occurences > 1 %}({{ occurences }}x){% endif %} </div>
                             {% if ingredient.measurement.thousand_fold and amount % 1000 != amount %}
-                                <span class="col"> {{ formatted_amount(amount/1000) }}  {% if comment %} <em> - {{ comment }} </em>{% endif %}  </span>
-                                <span class="col"> {{ ingredient.measurement.thousand_fold }}</span>
+                                <div class="col"> {{ formatted_amount(amount/1000) }}  {% if comment %} <em> - {{ comment }} </em>{% endif %}  </div>
+                                <div class="col"> {{ ingredient.measurement.thousand_fold }} </div>
                             {% else %}
-                                <span class="col"> {{ formatted_amount(amount) }}  {% if comment %} <em> - {{ comment }} </em>{% endif %} </span>
-                                <span class="col"> {{ ingredient.measurement.name }} </span>
+                                <div class="col"> {{ formatted_amount(amount) }}  {% if comment %} <em> - {{ comment }} </em>{% endif %} </div>
+                                <div class="col"> {{ ingredient.measurement.name }} </div>
                             {% endif %}
                         </li>
     		    	{% endfor %}

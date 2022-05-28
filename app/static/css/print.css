@@ -1,24 +1,6 @@
-/*@page { size: A4; margin: 1cm }*/
 @media print {
-	.no-print {
-		display: none;
-	}
-	
-	a {
-		text-decoration: none;
-		color: black;
-	};
-
-/*	td div, th div, .vessel, .column-1, .column-2, .column-3, .column-4, .column-5, .column-6, .column-7, .column-8, .column-9, .column-10, .column-11, .column-12, .series {
-		break-inside: avoid !important;
-	}
-*/
-	.no-print-break {
-		break-inside: avoid !important;
-	}
-
 	body {
-		font-family: "Open Sans", Calibri, Candara, Arial, sans-serif;
+		font-family: "Open Sans", Arial, sans-serif;
 	}
 
 	.font-comfortaa {
@@ -28,10 +10,27 @@
 	.font-montserrat {
 		font-family: "Open Sans", Arial, sans-serif;
 	}
+
+	a {
+		text-decoration: none;
+		color: black;
+	}
+
+	.d-print-none {
+		display: none;
+	}
+	
+	.print-break-none {
+        width: 100%;
+		break-inside: avoid;
+	}
 }
 
 @page {
-    /*size: A4;*/
+    size: A4;
+    margin-top: 1cm;
+    margin: 1.3cm;
+
     counter-increment: page;
 
     @bottom-center {
@@ -39,5 +38,5 @@
     	width: 100%;
     }
 
-	font-family: "Open Sans", Calibri, Candara, Arial, sans-serif;
+	font-family: Calibri, Candara, Arial, sans-serif;
 }

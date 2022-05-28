@@ -12,29 +12,28 @@
 	{% set class = "day-badge" %}
 {% endif %}
 
-<div class="col-3">
+<div class="col-4">
 	<div
-		class="col-12 h-100 lh-2 p-1 me-2 bg-color-{{ color }} b-1 b-color-highlight rounded text-center {{ class }} no-print-break">
-		{{ day.weekday }}
+		class="col-12 h-100 lh-2 p-1 me-2 bg-color-{{ color }} b-1 b-color-highlight rounded {{ class }} print-break-none"
+	>
+		<span> {{ day.weekday }} </span>
 		
 		<hr class="mt-1">
 			
 		{% for meal, daily_recipes in day.daily_recipes | rejectattr("meal_type", "none") | groupby("meal_type") %}
-			<strong>{{ meal }}</strong>:
-			{{ daily_recipes | map(attribute="recipe") | join(", ", attribute="name") }}
-			<br>
+			<div> <strong>{{ meal }}:</strong> </div>
+			<span> {{ daily_recipes | map(attribute="recipe") | join(", ", attribute="name") }} </span>
 		{% endfor %}
 
 		{% if day.daily_recipes_without_meal_type %}
-			<strong>ostatní</strong>:
+			<div> ostatní </div>
 			{{ day.daily_recipes_without_meal_type | map(attribute="recipe") | join(", ", attribute="name") }}
-			<br>
 		{% endif %}
 
 		{% if day.all_tasks %}
 			<hr>
 		    {% for task in day.all_tasks %}
-		        {{ task }} <br>
+		        <input type="checkbox"> {{ task }} <br>
 		    {% endfor %}
 		{% endif %}
 	</div>

@@ -7,7 +7,7 @@
         		<details>
         			<summary class="row">
             			<div class="col font-weight-bold">
-                            {{ link_or_name(ingredient) }}
+                            {{ link_to(ingredient) }}
                         </div>
                             {% if ingredient.measurement.thousand_fold and ingredient.amount % 1000 != ingredient.amount %}
                                 <div class="col font-weight-bold"> {{ formatted_amount(ingredient.amount/1000) }} </div>

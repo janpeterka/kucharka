@@ -50,7 +50,7 @@
 
 <hr>
 
-<div class="{% if print %} hidden {% endif %}">
+<div class="d-print-none">
     {% from "macros/render_label.html.j2" import render_label %}
     {% for label in recipe.labels %}
         {{ render_label(label, size=7) }}

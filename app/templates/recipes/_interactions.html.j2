@@ -1,32 +1,35 @@
-    
 {% if recipe.can_current_user_edit %}
-<div class="mb-5 {{ admin_field_class(in_class=True, obj=recipe) }}">
-    <form action="{{ url_for('RecipeView:delete', id=recipe.id) }}" method="post" class="form-inline" onsubmit="return confirm('opravdu chcete smazat recept?');">
-        <input type="hidden" name="previous" value="{{ request.referrer }}">
-        <a class="btn bg-color-secondary-action color-white" href="{{ url_for('RecipeView:edit', id=recipe.id) }}"> upravit {{ icon("edit") }}</a>
-        {% if recipe.is_used %}
-            <button type="submit" class="btn bg-color-secondary-action color-white" disabled> nelze smazat, je použit </button>
-        {% else %}
-            <button type="submit" class="btn bg-color-secondary-action color-white"> smazat recept {{ icon("delete") }}</button>
-        {% endif %}
-    </form>
-    <form action="{{ url_for('RecipeView:toggle_shared', id=recipe.id) }}" method="post" class="form-inline">
-        {% if recipe.is_shared == True %}
-            <button type="submit" class="btn bg-color-secondary-action color-white"> zneveřejnit recept {{ icon("unshare") }} </button>
-        {% else %}
-            <button type="submit" class="btn bg-color-secondary-action color-white"> zveřejnit recept {{ icon("share") }} </button>
-        {% endif %}
-    </form>
+<div class="row ms-1 mb-5 {{ admin_field_class(in_class=True, obj=recipe) }}">
+    <div class="col-3 me-2">
+        <form action="{{ url_for('RecipeView:delete', id=recipe.id) }}" method="post" class="row row-cols-auto g-3 align-items-center" onsubmit="return confirm('opravdu chcete smazat recept?');">
+            <input type="hidden" name="previous" value="{{ request.referrer }}">
+            <a class="btn bg-color-secondary-action color-white" href="{{ url_for('RecipeView:edit', id=recipe.id) }}"> upravit {{ icon("edit") }}</a>
+            {% if recipe.is_used %}
+                <button type="submit" class="btn bg-color-secondary-action color-white ms-2" disabled> nelze smazat, je použit </button>
+            {% else %}
+                <button type="submit" class="btn bg-color-secondary-action color-white ms-2"> smazat recept {{ icon("delete") }}</button>
+            {% endif %}
+        </form>
+    </div>
+    <div class="col-3 me-2">
+        <form action="{{ url_for('RecipeView:toggle_shared', id=recipe.id) }}" method="post" class="row row-cols-auto g-3 align-items-center">
+            {% if recipe.is_shared == True %}
+                <button type="submit" class="btn bg-color-secondary-action color-white"> zneveřejnit recept {{ icon("unshare") }} </button>
+            {% else %}
+                <button type="submit" class="btn bg-color-secondary-action color-white"> zveřejnit recept {{ icon("share") }} </button>
+            {% endif %}
+        </form>
+    </div>
+    {% if true or current_user.is_authenticated and not recipe.is_current_user_author %}
+    <div class="col">
+        <a class="btn bg-color-secondary-action color-white" href="{{ url_for('RecipeView:duplicate', id=recipe.id) }}">
+            zkopírovat do mých receptů {{ icon("duplicate") }}
+        </a>
+    </div>
+    {% endif %}
 </div>
 {% endif %}
 
-{% if current_user.is_authenticated and not recipe.is_current_user_author %}
-<div class="mt-2 mb-1">
-    <a class="btn bg-color-secondary-action" href="{{ url_for('RecipeView:duplicate', id=recipe.id) }}">
-        zkopírovat do mých receptů
-    </a>
-</div>
-{% endif %}
 
 <details class="colored">
     <summary> zobrazit pro daný počet porcí </summary>

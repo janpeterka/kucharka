@@ -33,13 +33,6 @@
 
     <div class="col-md-2 col-sm-12 border-start d-print-none">
         {% include("recipes/_sidebar_details.html.j2") %}
-        <hr>
-        <strong> úkoly <a href="{{ url_for('RecipeTaskView:new', recipe_id=recipe.id) }}"> ➕ </a> </strong>
-        <ul>
-        {% for task in recipe.tasks %}
-            <li> {{ link_to(task) }} </li>
-        {% endfor %}
-        </ul>
     </div>
 </div>
 
@@ -48,7 +41,6 @@
 {% endif %}
 
 <div class="d-print-none">
-    <hr>
     <div>
         {% include("recipes/_interactions.html.j2") %} 
         {% include("recipes/_images.html.j2") %} 

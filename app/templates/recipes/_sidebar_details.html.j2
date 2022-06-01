@@ -60,10 +60,3 @@
 
 <hr>
 
-<strong> úkoly <a href="{{ url_for('RecipeTaskView:new', recipe_id=recipe.id) }}"> {{ icon("add", cursor_class="pointer") }} </a> </strong>
-<ul>
-{% for task in recipe.tasks %}
-    <li> {{ link_to(task) }} </li>
-{% endfor %}
-</ul>
-

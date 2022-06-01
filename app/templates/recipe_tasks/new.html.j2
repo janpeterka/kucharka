@@ -3,17 +3,30 @@
 
 {% block content %}
 
-<form action="{{ url_for('RecipeTaskView:post', recipe_id=recipe.id) }}" class="form-group" method="post"  accept-charset="UTF-8">
+<turbo-frame id="new-recipe-task">
+<turbo-frame id="new-recipe-{{recipe.id}}-task" target="recipe-{{recipe.id}}-tasks">
+
+<h3> přidat úkol k receptu {{link_to(recipe)}} </h3>
+<form action="{{ url_for('RecipeTaskView:post', recipe_id=recipe.id) }}" class="row row-cols-auto g-3 align-items-center" method="post"  accept-charset="UTF-8">
     {{ form.csrf_token }}
 
-    {{ render_floating_field(form.name, class="mb-2", placeholder="např. Naložit fazole") }}
-    {{ render_floating_field(form.description, class="mb-2", placeholder="např. Naložit fazole") }}
-    {{ render_floating_field(form.days_before_cooking, class="mb-2") }}
-
-    {{ render_field(form.submit) }}
-
-    <a href="{{request.referrer}}" class="ms-2"> zrušit </a>
+    <div class="col-6">
+        {{ render_floating_field(form.name, class="mb-2", placeholder="např. Naložit fazole") }}
+    </div>
+    <div class="col-6">
+        {{ render_floating_field(form.description, class="mb-2", placeholder="např. Naložit fazole") }}
+    </div>
+    <div class="col-6">
+        {{ render_floating_field(form.days_before_cooking, class="mb-2") }}
+    </div>
+    <div class="col-6">
+        {{ render_field(form.submit) }}
+        <a href="{{request.referrer}}" class="ms-2"> zrušit </a>
+    </div>
 </form>
+
+</turbo-frame>
+</turbo-frame>
 
 {% endblock %}
 

@@ -11,6 +11,8 @@ from app.forms import RecipeTaskForm
 class RecipeTaskView(HelperFlaskView):
     def before_request(self, name, id=None, *args, **kwargs):
         self.task = RecipeTask.load(id)
+        if self.task:
+            self.recipe = self.task.recipe
 
     def before_new(self, recipe_id):
         self.recipe = Recipe.load(recipe_id)
@@ -40,7 +42,7 @@ class RecipeTaskView(HelperFlaskView):
         return self.template()
 
     def edit(self, id):
-        self.form = create_form(RecipeTaskForm, obj=self.recipe)
+        self.form = create_form(RecipeTaskForm, obj=self.task)
 
         return self.template()
 

@@ -36,9 +36,18 @@
     </div>
 </div>
 
-{% if recipe.description %}
-    {% include "recipes/_description.html.j2" %}
-{% endif %}
+<div class="row">
+    <div class="col-12 col-md-7">
+        {% include "recipes/_description.html.j2" %}
+    </div>
+        
+    <div class="col-12 col-md-5">
+        {% include "recipes/_tasks.html.j2" %}
+    </div>
+</div>
+
+
+<hr>
 
 <div class="d-print-none">
     <div>

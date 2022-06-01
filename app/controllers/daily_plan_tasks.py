@@ -12,6 +12,9 @@ class DailyPlanTaskView(HelperFlaskView):
     def before_request(self, name, id=None, *args, **kwargs):
         self.task = DailyPlanTask.load(id)
 
+        if self.task:
+            self.daily_plan = self.task.daily_plan
+
     def before_new(self, daily_plan_id):
         self.daily_plan = DailyPlan.load(daily_plan_id)
 
@@ -42,7 +45,7 @@ class DailyPlanTaskView(HelperFlaskView):
         return self.template()
 
     def edit(self, id):
-        self.form = create_form(DailyPlanTaskForm, obj=self.daily_plan)
+        self.form = create_form(DailyPlanTaskForm, obj=self.task)
 
         return self.template()
 

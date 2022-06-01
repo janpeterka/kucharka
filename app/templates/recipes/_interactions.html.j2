@@ -3,7 +3,7 @@
     <div class="col-12 col-md-3 mt-2">
         <form action="{{ url_for('RecipeView:delete', id=recipe.id) }}" method="post" class="row row-cols-auto g-3 align-items-center" onsubmit="return confirm('opravdu chcete smazat recept?');">
             <input type="hidden" name="previous" value="{{ request.referrer }}">
-            <a class="btn bg-color-secondary-action color-white" href="{{ url_for('RecipeView:edit', id=recipe.id) }}"> upravit {{ icon("edit") }}</a>
+            {{ link_to_edit(recipe, value="upravit"+icon("edit"), class="btn bg-color-secondary-action color-white") }}
             {% if recipe.is_used %}
                 <button type="submit" class="btn bg-color-secondary-action color-white ms-2" disabled> nelze smazat, je použit </button>
             {% else %}
@@ -40,9 +40,13 @@
             <a class="btn color-white color-hover-black bg-color-highlight ms-1 mb-1" href="{{ url_for('RecipeView:show', id=recipe.id) }}"> původní </a>
         </div>
         
-        <form method="POST" action="{{ url_for('RecipeView:show_with_portion_count', id=recipe.id) }}" class="form form-inline">
-            <input type="number" name="portion_count" min="1" class="form-control" value=1>
-            <button type="submit" class="btn bg-color-primary-action color-white"> zobrazit pro daný počet porcí </button>
+        <form method="POST" action="{{ url_for('RecipeView:show_with_portion_count', id=recipe.id) }}" class="row row-cols-auto g-3 align-items-center">
+            <div class="col">
+                <input type="number" name="portion_count" min="1" class="form-control" value=1>
+            </div>
+            <div class="col">
+                <button type="submit" class="btn bg-color-primary-action color-white"> zobrazit pro daný počet porcí </button>
+            </div>
         </form>
     
     </div>

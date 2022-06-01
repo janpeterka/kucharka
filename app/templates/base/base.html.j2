@@ -108,11 +108,13 @@
     {% endblock %}
 
     {% block content_container %}
+    <turbo-frame id="container">
     <div class="container mb-4">
         {% include('base/_flashing.html.j2') %}
         {% include('base/_system_message.html.j2') %}
         {% block content %}{% endblock %}
     </div>
+    </turbo-frame>
     {% endblock %}
 
 </body>

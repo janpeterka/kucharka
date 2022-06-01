@@ -21,49 +21,7 @@
 
     <div class="row mt-2">
         <div class="col-12 col-md-9">
-            <turbo-frame id="daily-plan-{{daily_plan.id}}-recipes">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th style="width: 30%"> název </th>
-                            <th style="width: 20%"> typ jídla </th>
-                            <th style="width: 23%"> počet porcí </th>
-                            <th style="width: 7%"></th>
-                            <th style="width: 20%;"></th>
-                        </tr>
-                    </thead>
-                    <tbody id="daily_recipes">
-                    {% for daily_recipe in daily_recipes %}
-                        {% if editing_id == daily_recipe.id %}
-                            {% include "daily_plans/_edit_recipe_row.html.j2" %}
-                        {% else %}
-                            {% include "daily_plans/_recipe_row.html.j2" %}
-                        {% endif %}
-                    {% endfor %}
-                        <tr>
-                            <td>
-                                {{ button_to(url_for('DailyPlanRecipeView:add_shopping', daily_plan_id=daily_plan.id), class="btn bg-color-secondary-action color-white", form_class="mt-2 mb-2 ms-2", value="přidat nákup <i class='fas fa-shopping-basket'></i>") }}
-                            </td>
-                            <td colspan="4">
-                                <div class="float-end mt-2 mb-2 me-2" data-controller="enable-select2">
-                                    <form class="form" action="{{ url_for('DailyPlanRecipeView:add_recipe', daily_plan_id=daily_plan.id) }}" method="post">
-                                        <div class="row">
-                                            <div class="col">
-                                                <select name="recipe_id" id="recipe_select" class="form-control" data-enable-select2-target="select">
-                                                    {% include "daily_plans/_add_recipe_form_options.html.j2" %}
-                                                </select>
-                                            </div>
-                                            <div class="col">
-                                                <input type="submit" class="form-control btn bg-color-primary-action color-white" value="přidat recept">
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </turbo-frame>
+            {% include "daily_plans/_recipes.html.j2" %}
         </div>
 
         <div class="col-12 col-md-3 mt-4">
@@ -72,7 +30,6 @@
 
     </div>
     
-        
 
     {% if daily_plan.can_current_user_edit %}
 

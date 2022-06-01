@@ -44,10 +44,7 @@ class ItemPresenter(BasePresenter):
         if not value:
             value = self._default_value
 
-        class_ = ""
-        if "class" in kwargs:
-            class_ = f"class=\"{kwargs['class']}\""
-
+        class_ = f"class=\"{kwargs['class']}\"" if "class" in kwargs else ""
         return Markup(
             f"<a data-turbo='false' {class_} href='{self._path_to_show(**kwargs)}'>{value}</a>"
         )
@@ -56,10 +53,7 @@ class ItemPresenter(BasePresenter):
         if not value:
             value = self._default_value
 
-        class_ = ""
-        if "class" in kwargs:
-            class_ = f"class=\"{kwargs['class']}\""
-
+        class_ = f"class=\"{kwargs['class']}\"" if "class" in kwargs else ""
         return Markup(
             f"<a data-turbo='false' {class_} href='{self._path_to_edit(**kwargs)}'>{value}</a>"
         )

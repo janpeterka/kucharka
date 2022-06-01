@@ -78,6 +78,7 @@ class RecipeView(HelperFlaskView):
     @route("show_with_portion_count/<id>/", methods=["POST"])
     def show_with_portion_count(self, id):
         portion_count = request.form["portion_count"]
+
         return redirect(url_for("RecipeView:show", id=id, portion_count=portion_count))
 
     @login_required

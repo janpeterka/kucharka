@@ -1,6 +1,10 @@
 {% extends "base/base.html.j2" %}
 {% block title %} recept {% endblock %}
 
+{% block meta %}
+    <meta name="turbo-visit-control" content="reload">
+{% endblock %}
+
 {% block links %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.25.1/trumbowyg.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.25.1/ui/trumbowyg.min.css" rel="stylesheet">

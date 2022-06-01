@@ -11,14 +11,26 @@ from app.forms import RecipeTaskForm
 class RecipeTaskView(HelperFlaskView):
     def before_request(self, name, id=None, *args, **kwargs):
         self.task = RecipeTask.load(id)
+
         if self.task:
             self.recipe = self.task.recipe
 
     def before_new(self, recipe_id):
         self.recipe = Recipe.load(recipe_id)
+        self.validate_edit(self.recipe)
 
     def before_post(self, recipe_id):
         self.recipe = Recipe.load(recipe_id)
+        self.validate_edit(self.recipe)
+
+    def before_edit(self, id):
+        self.validate_edit(self.task)
+
+    def before_update(self, id):
+        self.validate_edit(self.task)
+
+    def before_delete(self, id):
+        self.validate_delete(self.task)
 
     def new(self, recipe_id):
         self.form = create_form(RecipeTaskForm)

@@ -17,9 +17,20 @@ class DailyPlanTaskView(HelperFlaskView):
 
     def before_new(self, daily_plan_id):
         self.daily_plan = DailyPlan.load(daily_plan_id)
+        self.validate_edit(self.daily_plan)
 
     def before_post(self, daily_plan_id):
         self.daily_plan = DailyPlan.load(daily_plan_id)
+        self.validate_edit(self.daily_plan)
+
+    def before_edit(self, id):
+        self.validate_edit(self.task)
+
+    def before_update(self, id):
+        self.validate_edit(self.task)
+
+    def before_delete(self, id):
+        self.validate_delete(self.task)
 
     def new(self, daily_plan_id):
         self.form = create_form(DailyPlanTaskForm)

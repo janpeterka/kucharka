@@ -66,13 +66,15 @@ class DailyPlan(
         for daily_plan in self.event.daily_plans:
             if daily_plan.date >= self.date:
                 for daily_recipe in daily_plan.daily_recipes:
-                    for task in daily_recipe.tasks:
+                    tasks.extend(
+                        task
+                        for task in daily_recipe.tasks
                         if (
                             self.date
                             == daily_recipe.daily_plan.date
                             - datetime.timedelta(task.days_before_cooking)
-                        ):
-                            tasks.append(task)
+                        )
+                    )
 
         tasks.extend(self.tasks)
         return tasks
@@ -89,11 +91,14 @@ class DailyPlan(
 
     @property
     def next(self):
-        for plan in self.event.active_daily_plans:
-            if plan.date == self.date + datetime.timedelta(days=1):
-                return plan
-
-        return None
+        return next(
+            (
+                plan
+                for plan in self.event.active_daily_plans
+                if plan.date == self.date + datetime.timedelta(days=1)
+            ),
+            None,
+        )
 
     @property
     def has_next(self) -> bool:
@@ -101,11 +106,14 @@ class DailyPlan(
 
     @property
     def previous(self):
-        for plan in self.event.active_daily_plans:
-            if plan.date == self.date - datetime.timedelta(days=1):
-                return plan
-
-        return None
+        return next(
+            (
+                plan
+                for plan in self.event.active_daily_plans
+                if plan.date == self.date - datetime.timedelta(days=1)
+            ),
+            None,
+        )
 
     @property
     def has_previous(self) -> bool:
@@ -117,17 +125,11 @@ class DailyPlan(
 
     @property
     def first_recipe(self):
-        if self.daily_recipes:
-            return self.daily_recipes[0]
-        else:
-            return None
+        return self.daily_recipes[0] if self.daily_recipes else None
 
     @property
     def last_recipe(self):
-        if self.daily_recipes:
-            return self.daily_recipes[-1]
-        else:
-            return None
+        return self.daily_recipes[-1] if self.daily_recipes else None
 
     @property
     def daily_recipes_without_meal_type(self) -> list:

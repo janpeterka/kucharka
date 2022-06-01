@@ -56,10 +56,25 @@ class ItemPresenter(BasePresenter):
         if not value:
             value = self._default_value
 
-        class_ = ""
-        if "class" in kwargs:
-            class_ = f"class=\"{kwargs['class']}\""
+        path = self._path_to_edit(**kwargs)
 
-        return Markup(
-            f"<a data-turbo='false' {class_} href='{self._path_to_edit(**kwargs)}'>{value}</a>"
-        )
+        return link_builder(path, value, **kwargs)
+
+
+def link_builder(path, value=None, **kwargs):
+    html = "<a "
+    if kwargs.get("data_turbo", False) is not True:
+        html += "data-turbo='false' "
+
+    if "class" in kwargs:
+        class_ = f"class=\"{kwargs['class']}\" "
+        html += class_
+
+    html += f'href="{path}"'
+    html += ">"
+
+    html += value
+
+    html += "</a>"
+
+    return Markup(html)

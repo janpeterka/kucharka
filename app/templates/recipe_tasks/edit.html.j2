@@ -16,8 +16,8 @@
         {{ render_floating_field(form.days_before_cooking, class="mb-2") }}
     </div>
     <div class="col-6">
-        {{ render_field(form.submit, value="upravit") }}
-        <a href="{{request.referrer}}" class="ms-2"> zrušit </a>
+        {{ render_field(form.submit, value="upravit", data_turbo="false") }}
+        {{ link_to(task.recipe, value="zrušit", class="ms-2") }}
     </div>
 </form>
 

@@ -75,6 +75,7 @@ class DailyPlanTaskView(HelperFlaskView):
 
     @route("delete/<id>", methods=["POST"])
     def delete(self, id):
+        daily_plan = self.task.daily_plan
         self.task.remove()
 
-        return redirect(request.referrer)
+        return redirect(url_for("DailyPlanView:show", id=daily_plan.id))

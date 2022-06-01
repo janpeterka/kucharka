@@ -56,7 +56,7 @@ class Recipe(
     daily_plans = db.relationship(
         "DailyPlan",
         secondary="daily_plans_have_recipes",
-        primaryjoin="Recipe.id == DailyPlanHasRecipe.recipe_id",
+        primaryjoin="Recipe.id == DailyPlanRecipe.recipe_id",
         viewonly=True,
     )
 

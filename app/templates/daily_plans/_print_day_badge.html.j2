@@ -1,0 +1,40 @@
+{% if not day.is_active %}
+	{% set color = "light-grey" %}
+{% elif day.weekday in ["neděle"]  %}
+	{% set color = "secondary-highlighted" %}
+{% else %}
+	{% set color = "secondary" %}
+{% endif %}
+
+{% if not day.is_active %}
+	{% set class = "opacity-50 d-inline-block" %}
+{% elif day.is_active %}
+	{% set class = "day-badge" %}
+{% endif %}
+
+<div class="col-4">
+	<div
+		class="col-12 h-100 lh-2 p-1 me-2 bg-color-{{ color }} b-1 b-color-highlight rounded {{ class }} print-break-none"
+	>
+		<span> {{ day.weekday }} </span>
+		
+		<hr class="mt-1">
+			
+		{% for meal, daily_recipes in day.daily_recipes | rejectattr("meal_type", "none") | groupby("meal_type") %}
+			<div> <strong>{{ meal }}:</strong> </div>
+			<span> {{ daily_recipes | map(attribute="recipe") | join(", ", attribute="name") }} </span>
+		{% endfor %}
+
+		{% if day.daily_recipes_without_meal_type %}
+			<div> ostatní </div>
+			{{ day.daily_recipes_without_meal_type | map(attribute="recipe") | join(", ", attribute="name") }}
+		{% endif %}
+
+		{% if day.all_tasks %}
+			<hr>
+		    {% for task in day.all_tasks %}
+		        <input type="checkbox"> {{ task }} <br>
+		    {% endfor %}
+		{% endif %}
+	</div>
+</div>

@@ -32,7 +32,7 @@
             <div class="mb-0 mt-0 p-1">
                 <div class="form-floating">
                     <input type="text" name="duration" class="form-control" value="{{ event.duration }} dnů" disabled data-set-duration-target="duration">
-                    <label for="shared"> Trvání </label>
+                    <label for="shared"> trvání </label>
                 </div>
             </div>
         </div>
@@ -67,7 +67,7 @@
             <div class="row">
                 
             <div class="col">
-                {{ render_field(form.submit, value="uložit změny", class="w-100 bg-color-secondary-action color-white mt-0 pt-3 pb-3") }}
+                {{ render_field(form.submit, value="uložit změny", class="w-100 bg-color-primary-action color-white mt-0 pt-3 pb-3") }}
             </div>
             <div class="col">
                 <a href="{{ url_for('EventView:show', id=event.id) }}" class="btn bg-color-secondary-action color-white w-100 mt-0 pt-3 pb-3"> zrušit změny </a>

@@ -31,14 +31,13 @@
     {% for ingredient in recipe.ingredients: %}
         {% set ingredient_amount = ingredient.amount * recipe.portion_count %}
         <tr>
-            {% if not print %}
-                
-            <td>{{ link_to(ingredient) }}
-                {% if ingredient.is_public %} {{ icon("public", class="text-secondary") }} {% endif %}
+            <td>
+                {{ link_to(ingredient) }}
+                <span class="d-print-none">
+                    {% if ingredient.is_public %} {{ icon("public", class="text-secondary") }} {% endif %}
+                    
+                </span>
             </td>
-            {% else %}
-                <td>{{ ingredient.name }}</td>
-            {% endif %}
 
             <td>
             {% if ingredient.is_measured %}

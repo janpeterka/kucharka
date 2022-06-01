@@ -122,7 +122,7 @@ class LocalFileHandler(object):
         files = []
 
         for file in file_names:
-            file = File().load_by_attribute("path", file)
+            file = File.load_by(path=file)
             if file is not None and file.can_current_user_view:
                 files.append(file)
 
@@ -184,7 +184,7 @@ class AWSFileHandler(object):
         aws_files = self._list_files()
         files = []
         for file in aws_files:
-            file = File().load_by_attribute("path", file["Key"])
+            file = File().load_by(path=file["Key"])
             if file is not None and file.can_current_user_view:
                 files.append(file)
 

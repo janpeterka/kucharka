@@ -1,0 +1,33 @@
+<turbo-frame id="daily-plan-{{daily_plan.id}}-tasks">
+
+<turbo-frame id="new-daily-plan-task">
+    <h3> úkoly na tento den
+    <a href="{{ url_for('DailyPlanTaskView:new', daily_plan_id=daily_plan.id) }}" class="d-print-none"> {{ icon("add") }} </a>
+    </h3>
+</turbo-frame>
+
+{% if daily_plan.all_tasks %}
+    <table class="table">
+        <thead>
+            <th> název </th>
+            <th> popis </th>
+        </thead>
+    {% for task in daily_plan.all_tasks %}
+        <tr>
+            <td> {{ task.name }} </td>
+            <td> {{ task.description }} </td>
+            <td> {{ task.days_before_cooking }} </td>
+            {% if task.recipe %}
+                <td colspan="2">
+                    ({{ task.recipe.name }})
+                </td>
+            {% else %}
+                <td> {{ link_to_edit(task, value=icon("edit")) }} </td>
+                <td> {{ button_to(url_for('DailyPlanTaskView:delete',id=task.id), icon=True, value=icon("remove"), form_class="me-2", style="font-size:2rem; color:red;", confirmation="opravdu chcete smazat úkol?") }} </td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+    </table>
+{% else %}
+    <div class="alert alert-secondary text-center"> den nemá úkoly </div>
+{% endif %}

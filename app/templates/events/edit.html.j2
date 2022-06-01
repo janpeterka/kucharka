@@ -1,5 +1,3 @@
-{% from "macros/render_day_badge.html.j2" import render_day_badge with context %} 
-
 {% extends "base/base.html.j2" %}
 {% block title %} {{ event.name }} {% endblock %}
 
@@ -10,7 +8,9 @@
 
 {% block content %}
 
-<div id="event-{{event.id}}-update-warning" class="text-center cursor-clickable" data-controller="refresh" data-action="click->refresh#refresh"></div>
+<div id="event-{{event.id}}-update-warning" class="text-center cursor-clickable"
+     data-controller="refresh" data-action="click->refresh#refresh">
+</div>
 
 <turbo-frame id="event-info">
     {% include "events/edit/_info.html.j2" %}
@@ -22,7 +22,7 @@
     {% for week in event.days_by_week %}
         <div class="row">
         {% for day in week %}
-            {{ render_day_badge(day) }}
+            {% include("daily_plans/_day_badge.html.j2") %}
         {% endfor %}
         </div>
     {% endfor %}
@@ -38,7 +38,7 @@
     <turbo-frame id="event-warnings" src="{{ url_for('EventView:warnings', id=event.id) }}"></turbo-frame>
 {% endif %}
 
-{% if event.can_current_user_edit and (event.is_shared or event.shared_with)%}
+{% if event.can_current_user_edit and (event.is_shared or event.shared_with) %}
     {% include "events/_sharing.html.j2" %}
 {% endif %}
 

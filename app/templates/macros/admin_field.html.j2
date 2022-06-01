@@ -5,7 +5,7 @@
 
 	{# Only show if this wouldn't be visible to current user if they weren't admin #}
 	{# object.author != current_user.username is added because of old and wrong usage of author in Ingredient. #}
-	{% if (current_user.has_permission("edit-other")) and not object.is_current_user_author %}
+	{% if (current_user.is_authenticated and current_user.has_permission("edit-other")) and not object.is_current_user_author %}
 		{% if in_class %}
 			admin-field
 		{% else %}

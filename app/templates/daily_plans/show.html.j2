@@ -15,82 +15,20 @@
         </div>
     {% endif %}
 
-    <div class="row text-center" style="font-size: 1.5rem">
-    <h4> {{ link_to(daily_plan.event) }} </h4>
+    <div class="row text-center" style="font-size: 1.5rem">     
+        {% include "daily_plans/_navigation.html.j2" %}
+    </div>
 
-        <div class="col">
-            {% if daily_plan.has_previous %}
-            <span class="float-start" >
-                <a href="{{ url_for('DailyPlanView:previous', id=daily_plan.id) }}" class="color-primary">
-                    {{ icon("previous", cursor_class="pointer") }}
-                </a>
-            </span>
-            {% endif %}
+    <div class="row mt-2">
+        <div class="col-12 col-md-9">
+            {% include "daily_plans/_recipes.html.j2" %}
         </div>
 
-
-        <div class="col">
-            <span style="font-size: 1.5rem">
-                {{ human_format_date(daily_plan.date, with_relative=False) }}
-            </span>
+        <div class="col-12 col-md-3 mt-4">
+            {% include "daily_plans/_tasks.html.j2" %}
         </div>
 
-        <div class="col">
-            {% if daily_plan.has_next %}
-            <span class="float-end" >
-                <a href="{{ url_for('DailyPlanView:next', id=daily_plan.id) }}" class="color-primary">
-                    {{ icon("next", cursor_class="pointer") }}
-                </a>
-            </span>
-            {% endif %}
-        </div>
-    
     </div>
-
-    <turbo-frame id="daily-plan-{{daily_plan.id}}-recipes">
-    <div class="row">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th style="width: 40%"> název </th>
-                    <th style="width: 20%"> typ jídla </th>
-                    <th style="width: 20%"> počet porcí </th>
-                    <th style="width: 5%"></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody id="daily_recipes">
-            {% for daily_recipe in daily_recipes %}
-                {% if editing_id == daily_recipe.id %}
-                    {% include "daily_plans/_edit_recipe_row.html.j2" %}
-                {% else %}
-                    {% include "daily_plans/_recipe_row.html.j2" %}
-                {% endif %}
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    </turbo-frame>
-
-    {% if daily_plan.can_current_user_edit %}
-
-    <div class="row float-end mt-5" data-controller="enable-select2">
-        <form class="form" action="{{ url_for('DailyPlanRecipeView:add_recipe', daily_plan_id=daily_plan.id) }}" method="post">
-            <div class="form-group form-inline">
-                <select name="recipe_id" id="recipe_select" class="form-control" data-enable-select2-target="select">
-                    {% include "daily_plans/_add_recipe_form_options.html.j2" %}
-                </select>
-            </div>
-
-            <input type="submit" class="form-control btn bg-color-primary-action color-white" value="přidat recept">
-        </form>
-    </div>
-
-    <div class="row mt-5">
-        {{ button_to(url_for('DailyPlanRecipeView:add_shopping', daily_plan_id=daily_plan.id), class="btn bg-color-secondary-action color-white", value="přidat nákup <i class='fas fa-shopping-basket'></i>") }}
-    </div>
-
-    {% endif %}
 </div>
 
 {% endblock %}

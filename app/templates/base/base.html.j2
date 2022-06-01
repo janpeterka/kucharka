@@ -63,7 +63,8 @@
     <!-- <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap-social.css') }}"> -->
    
     <!-- My style -->
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel=stylesheet href="{{ url_for('static', filename='css/style.css') }}">
+    {# <link rel=stylesheet href="{{ url_for('static', filename='css/print.css') }}"> #}
    
     <!-- reCaptcha -->
     <script src='https://www.google.com/recaptcha/api.js?hl=cs'></script>
@@ -72,9 +73,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
     <!-- custom fonts -->
     <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' type='text/css'>
-    {% if print %}
-        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/print.css') }}">
-    {% endif %}
+
     {{ turbo() }}
 
 
@@ -94,7 +93,6 @@
                    turbo:frame-load@document->flashing#getMessage 
                    turbo:before-stream-render@document->flashing#getMessage">
 
-    {% if not print %}
         
     {% block navbar %}            
         {% if current_user.is_authenticated %}
@@ -109,13 +107,15 @@
         {% include "base/_dev_badge.html.j2" %}
     {% endblock %}
 
-    {% endif %}
-
+    {% block content_container %}
+    <turbo-frame id="container">
     <div class="container mb-4">
         {% include('base/_flashing.html.j2') %}
         {% include('base/_system_message.html.j2') %}
         {% block content %}{% endblock %}
     </div>
+    </turbo-frame>
+    {% endblock %}
 
 </body>
 {% block scripts_after %}{% endblock %}

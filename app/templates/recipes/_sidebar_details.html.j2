@@ -1,3 +1,5 @@
+{% from "macros/render_label.html.j2" import render_label %}
+
 {% if recipe.category.name %}
     {% set category_name=recipe.category.name %}
 {% else %}
@@ -50,12 +52,11 @@
 
 <hr>
 
-<div class="{% if print %} hidden {% endif %}">
-    {% from "macros/render_label.html.j2" import render_label %}
-    {% for label in recipe.labels %}
-        {{ render_label(label, size=7) }}
-    {% endfor %}
-</div>
+{% for label in recipe.labels %}
+    {{ render_label(label, size=7) }}
+{% endfor %}
 
 {% endif %}
+
+<hr>
 

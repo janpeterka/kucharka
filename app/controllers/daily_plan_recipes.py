@@ -3,7 +3,7 @@ from flask_classful import route
 from flask_security import login_required
 
 from app.models.daily_plans import DailyPlan
-from app.models.daily_plans_have_recipes import DailyPlanHasRecipe
+from app.models.daily_plans_have_recipes import DailyPlanRecipe
 from app.models.recipes import Recipe
 
 from app.helpers.helper_flask_view import HelperFlaskView
@@ -22,7 +22,7 @@ class DailyPlanRecipeView(HelperFlaskView):
             self.daily_plan = DailyPlan.load(daily_plan_id)
 
         if daily_recipe_id:
-            self.daily_recipe = DailyPlanHasRecipe.load(daily_recipe_id)
+            self.daily_recipe = DailyPlanRecipe.load(daily_recipe_id)
             self.daily_plan = self.daily_recipe.daily_plan
 
         self.validate_edit(self.daily_plan)

@@ -1,5 +1,6 @@
 from .dashboard import DashboardView
 from .daily_plans import DailyPlanView
+from .daily_plan_tasks import DailyPlanTaskView
 from .daily_plan_recipes import DailyPlanRecipeView
 from .event_exporter import EventExporterView
 
@@ -22,6 +23,7 @@ from .tips import TipView
 from .admin import AdminView
 
 from .recipes import RecipeView
+from .recipe_tasks import RecipeTaskView
 from .edit_recipes import EditRecipeView
 from .edit_recipe_ingredients import EditRecipeIngredientView
 from .public_recipes import PublicRecipeView
@@ -36,6 +38,7 @@ from .files import FileView
 __all__ = [
     "DashboardView",
     "DailyPlanView",
+    "DailyPlanTaskView",
     "DailyPlanRecipeView",
     "EventExporterView",
     "EventView",
@@ -53,6 +56,7 @@ __all__ = [
     "TipView",
     "AdminView",
     "RecipeView",
+    "RecipeTaskView",
     "EditRecipeView",
     "EditRecipeIngredientView",
     "PublicRecipeView",
@@ -67,6 +71,7 @@ def register_all_controllers(application):
     from app.helpers.helper_flask_view import HelperFlaskView
 
     DailyPlanView.register(application, base_class=HelperFlaskView)
+    DailyPlanTaskView.register(application, base_class=HelperFlaskView)
     DailyPlanRecipeView.register(application, base_class=HelperFlaskView)
 
     DashboardView.register(application, base_class=HelperFlaskView)
@@ -97,6 +102,7 @@ def register_all_controllers(application):
     RecipeCategorieView.register(application, base_class=HelperFlaskView)
 
     RecipeView.register(application, base_class=HelperFlaskView)
+    RecipeTaskView.register(application, base_class=HelperFlaskView)
     EditRecipeView.register(application, base_class=HelperFlaskView)
     EditRecipeIngredientView.register(application, base_class=HelperFlaskView)
     PublicRecipeView.register(application, base_class=HelperFlaskView)

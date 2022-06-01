@@ -12,7 +12,7 @@
 
 {% block content %}
 
-<a class="btn bg-color-secondary-action color-white ms-2 mb-3" href="{{ url_for('RecipeView:show', id=recipe.id) }}"> zavřít úpravy </a>
+{{ link_to(recipe, class="btn bg-color-secondary-action color-white ms-2 mb-3", value="zavřít úpravy") }}
 
 <div class="form-control mb-3">
     <h3 class="text-center"> recept </h3>

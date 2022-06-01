@@ -49,7 +49,7 @@ def google_logged_in(blueprint, token):
         login_user(oauth.user)
     else:
         # Try finding user with given e-mail in database
-        user = User.load_by_attribute("email", info["email"])
+        user = User.load_by(email=info["email"])
         if not user:
             # Create a new local user account for this user
             user = User.create(

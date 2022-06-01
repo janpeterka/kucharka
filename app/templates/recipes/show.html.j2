@@ -16,8 +16,8 @@
 
 {% block content %}
 
-{% if recipe.main_image and not print %}
-<div class="row mb-2 gradient-transparent d-block cover-photo">
+{% if recipe.main_image %}
+<div class="row mb-2 gradient-transparent d-block cover-photo d-print-none">
     {{ render_image(recipe.main_image, class="w-100", center=True) }} 
 </div>
 {% endif %}
@@ -31,24 +31,30 @@
         {% include("recipes/_show.html.j2") %} 
     </div>
 
-    {% if not print %}
-    <div class="col-md-2 col-sm-12 border-start">
+    <div class="col-md-2 col-sm-12 border-start d-print-none">
         {% include("recipes/_sidebar_details.html.j2") %}
     </div>
-    {% endif %}
 </div>
 
-{% if recipe.description %}
-    {% include "recipes/_description.html.j2" %}
-{% endif %}
+<div class="row">
+    <div class="col-12 col-md-7">
+        {% include "recipes/_description.html.j2" %}
+    </div>
+        
+    <div class="col-12 col-md-5">
+        {% include "recipes/_tasks.html.j2" %}
+    </div>
+</div>
 
-{% if not print %}
+
 <hr>
-<div>
-    {% include("recipes/_interactions.html.j2") %} 
-    {% include("recipes/_images.html.j2") %} 
+
+<div class="d-print-none">
+    <div>
+        {% include("recipes/_interactions.html.j2") %} 
+        {% include("recipes/_images.html.j2") %} 
+    </div>
 </div>
-{% endif %}
 
 {% endblock %}
 

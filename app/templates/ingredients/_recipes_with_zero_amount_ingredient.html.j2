@@ -7,7 +7,7 @@
 
         <ul class="no-list">
         {% for recipe in current_user.recipes_with_zero_amount_ingredient %}
-            <li>{{ link_to(recipe, link_type="edit") }}</li>
+            <li>{{ link_to_edit(recipe) }}</li>
         {% endfor %}
         </ul>
 

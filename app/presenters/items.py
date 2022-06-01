@@ -1,3 +1,5 @@
+from flask import url_for, Markup, escape
+
 from app.presenters import BasePresenter
 
 
@@ -21,27 +23,58 @@ class ItemPresenter(BasePresenter):
     # CONTEXT PROCESSOR UTILITIES
 
     @property
+    def _view_name(self):
+        return f"{type(self).__name__}View"
+
+    def _path_to_show(self, **kwargs):
+        return url_for(f"{self._view_name}:show", id=self.id, **kwargs)
+
+    def _path_to_edit(self, **kwargs):
+        return url_for(f"{self._view_name}:edit", id=self.id, **kwargs)
+
+    @property
+    def _default_value(self):
+        return escape(self.name)
+
+    @property
     def url(self):
-        from flask import url_for
+        return self._path_to_show()
 
-        self_view_name = f"{type(self).__name__}View:show"
-        return url_for(self_view_name, id=self.id)
+    def link_to(self, value=None, **kwargs):
+        if not value:
+            value = self._default_value
 
-    @property
-    def link_to(self):
-        from flask import url_for, Markup, escape
-
-        self_view_name = f"{type(self).__name__}View:show"
-        return Markup(
-            f"<a data-turbo='false' href='{url_for(self_view_name, id=self.id)}'> {escape(self.name)} </a>"
-        )
-
-    @property
-    def link_to_edit(self):
-        from flask import url_for, Markup, escape
-
-        self_view_name = f"{type(self).__name__}View:edit"
+        class_ = ""
+        if "class" in kwargs:
+            class_ = f"class=\"{kwargs['class']}\""
 
         return Markup(
-            f"<a data-turbo='false' href='{url_for(self_view_name, id=self.id)}'> {escape(self.name)} </a>"
+            f"<a data-turbo='false' {class_} href='{self._path_to_show(**kwargs)}'>{value}</a>"
         )
+
+    def link_to_edit(self, value=None, **kwargs):
+        if not value:
+            value = self._default_value
+
+        path = self._path_to_edit(**kwargs)
+
+        return link_builder(path, value, **kwargs)
+
+
+def link_builder(path, value=None, **kwargs):
+    html = "<a "
+    if kwargs.get("data_turbo", False) is not True:
+        html += "data-turbo='false' "
+
+    if "class" in kwargs:
+        class_ = f"class=\"{kwargs['class']}\" "
+        html += class_
+
+    html += f'href="{path}"'
+    html += ">"
+
+    html += value
+
+    html += "</a>"
+
+    return Markup(html)

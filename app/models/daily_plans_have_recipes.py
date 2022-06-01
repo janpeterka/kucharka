@@ -7,7 +7,7 @@ from app.presenters import BasePresenter
 # from sqlalchemy.ext.hybrid import hybrid_property
 
 
-class DailyPlanHasRecipe(BaseModel, BaseMixin, BasePresenter):
+class DailyPlanRecipe(BaseModel, BaseMixin, BasePresenter):
     __tablename__ = "daily_plans_have_recipes"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -39,8 +39,14 @@ class DailyPlanHasRecipe(BaseModel, BaseMixin, BasePresenter):
     daily_plan = db.relationship("DailyPlan")
     recipe = db.relationship("Recipe", backref="daily_plan_recipes")
 
+    @property
+    def tasks(self):
+        from app.models import RecipeTask
+
+        return RecipeTask.load_all(recipe_id=self.recipe_id)
+
     def duplicate(self):
-        daily_recipe = DailyPlanHasRecipe()
+        daily_recipe = DailyPlanRecipe()
         daily_recipe.recipe_id = self.recipe_id
         daily_recipe.daily_plan_id = self.daily_plan_id
         daily_recipe.order_index = self.order_index

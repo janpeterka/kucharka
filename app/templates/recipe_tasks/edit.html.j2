@@ -1,0 +1,25 @@
+{% extends "base/base.html.j2" %}
+{% block title %} úkol {% endblock %}
+
+{% block content %}
+
+<form action="{{ url_for('RecipeTaskView:update', id=task.id) }}" class="row row-cols-auto g-3 align-items-center" method="post"  accept-charset="UTF-8">
+    {{ form.csrf_token }}
+
+    <div class="col-6">
+        {{ render_floating_field(form.name, class="mb-2", placeholder="např. Naložit fazole") }}
+    </div>
+    <div class="col-6">
+        {{ render_floating_field(form.description, class="mb-2", placeholder="např. Naložit fazole") }}
+    </div>
+    <div class="col-6">
+        {{ render_floating_field(form.days_before_cooking, class="mb-2") }}
+    </div>
+    <div class="col-6">
+        {{ render_field(form.submit, value="upravit", data_turbo="false") }}
+        {{ link_to(task.recipe, value="zrušit", class="ms-2") }}
+    </div>
+</form>
+
+{% endblock %}
+

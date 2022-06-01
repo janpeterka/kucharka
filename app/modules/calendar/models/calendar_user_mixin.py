@@ -9,7 +9,7 @@ class CalendarUserMixin:
 
     @classmethod
     def load_by_calendar_hash(cls, hash_value):
-        return cls.load_by_attribute("calendar_hash", hash_value)
+        return cls.load_by(calendar_hash=hash_value)
 
     def set_calendar_hash(self, hash_function=None):
         if not hash_function:

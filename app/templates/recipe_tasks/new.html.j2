@@ -6,7 +6,7 @@
 <turbo-frame id="new-recipe-task">
 <turbo-frame id="new-recipe-{{recipe.id}}-task" target="recipe-{{recipe.id}}-tasks">
 
-<h3> přidat úkol k receptu {{link_to(recipe)}} </h3>
+<h3> přidat úkol </h3>
 <form action="{{ url_for('RecipeTaskView:post', recipe_id=recipe.id) }}" class="row row-cols-auto g-3 align-items-center" method="post"  accept-charset="UTF-8">
     {{ form.csrf_token }}
 

@@ -3,7 +3,6 @@
     {% set tooltip = kwargs.pop('tooltip', None) %}
     {% set value = kwargs.pop('value', None) %}
     {% set class_ = kwargs.pop('class', '') %}
-    {% set cursor_class = kwargs.pop('cursor_class', "cursor-default") %}
     {% set fa_class_ = "" %}
     
     {% set action = kwargs.pop('action', None) %}
@@ -22,25 +21,25 @@
     {# Operations #}
     {% elif name=="add" %}
         {% set fa_class_ = 'fas fa-plus' %}
-        {% set cursor_class = 'cursor-clickable' %}
+        {% set default_cursor_class = 'cursor-clickable' %}
     {% elif name=="edit" %}
         {% set fa_class_ = 'fas fa-pencil-alt' %}
-        {% set cursor_class = 'cursor-clickable' %}
+        {% set default_cursor_class = 'cursor-clickable' %}
     {% elif name=="delete" %}
         {% set fa_class_ = 'fas fa-trash' %}
-        {% set cursor_class = 'cursor-clickable' %}
+        {% set default_cursor_class = 'cursor-clickable' %}
     {% elif name=="remove" %}
         {% set value = '×' %}
-        {% set cursor_class = 'cursor-clickable' %}
+        {% set default_cursor_class = 'cursor-clickable' %}
     {% elif name=="duplicate" %}
         {% set fa_class_ = 'far fa-clone' %}
-        {% set cursor_class = 'cursor-clickable' %}
+        {% set default_cursor_class = 'cursor-clickable' %}
     {% elif name=="archive" or name=="archived" %}
         {% set fa_class_ = 'fas fa-archive' %}
-        {% set cursor_class = 'cursor-clickable' %}
+        {% set default_cursor_class = 'cursor-clickable' %}
     {% elif name=="unarchive" %}
         {% set fa_class_ = 'fas fa-archive' %}
-        {% set cursor_class = 'cursor-clickable' %}
+        {% set default_cursor_class = 'cursor-clickable' %}
 
     {% elif name=="previous" %}
         {% set fa_class_ = 'fas fa-chevron-left' %}
@@ -112,6 +111,12 @@
     {% else %}
         {% set fa_class_ = '' %}
     {% endif %}
+
+    {% if not default_cursor_class %}
+        {% set default_cursor_class="cursor-default" %}
+    {% endif %}
+        
+    {% set cursor_class = kwargs.pop('cursor_class', default_cursor_class) %}
 
     {% set with_tooltip = kwargs.pop('with_tooltip', with_tooltip) %}
     {% set class_ = class_ + " " + cursor_class %}

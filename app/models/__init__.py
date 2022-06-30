@@ -12,6 +12,7 @@ from app.models.measurements import Measurement
 from app.models.oauth import OAuth
 from app.models.recipe_tasks import RecipeTask
 from app.models.recipes import Recipe
+from app.models.recipe_categories import RecipeCategory
 from app.models.recipes_have_ingredients import RecipeHasIngredient
 from app.models.recipes_have_labels import RecipeHasLabel
 from app.models.request_logs import RequestLog
@@ -41,6 +42,7 @@ __all__ = [
     "RecipeHasLabel",
     "RecipeImageFile",
     "RecipeTask",
+    "RecipeCategory",
     "RequestLog",
     "Role",
     "Tip",

@@ -1,0 +1,11 @@
+<turbo-frame id="recipes">
+<div class="row">
+	
+{% for recipe in recipes %}
+	<div class="col-12 col-md-4 mb-3">
+    	{% include "public_recipes/_recipe_card.html.j2" %}
+    </div>
+{% endfor %}
+    
+</div>
+</turbo-frame>

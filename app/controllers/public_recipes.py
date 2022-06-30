@@ -120,7 +120,9 @@ class PublicRecipeView(HelperFlaskView):
             elif sort_by == "author":
                 sorter = Recipe.author_name
             else:
-                sorter = Recipe.name
+                sorter = Recipe.reaction_count.desc()
+        else:
+            sorter = Recipe.reaction_count.desc()
 
             query = query.order_by(sorter)
 

@@ -112,7 +112,17 @@ class PublicRecipeView(HelperFlaskView):
             query = query.filter(or_(*filters))
 
         # sorting
-        query = query.order_by(Recipe.name)
+        if sort_by := request.args.get("sort_by"):
+            if sort_by == "name":
+                sorter = Recipe.name
+            elif sort_by == "reactions":
+                sorter = Recipe.reaction_count.desc()
+            elif sort_by == "author":
+                sorter = Recipe.author_name
+            else:
+                sorter = Recipe.name
+
+            query = query.order_by(sorter)
 
         # pagination
         # pagination = query.paginate(request.args.get("page", default=1), per_page=10)

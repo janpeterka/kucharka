@@ -17,7 +17,7 @@
 
   <form action="{{ url_for('PublicRecipeView:card_index') }}" method="get" accept-charset="UTF-8">
 
-      <div class="row mt-2" data-controller="select-badges"
+      <div class="row mb-2" data-controller="select-badges"
         data-select-badges-selected-class="bg-color-highlight"
         data-select-badges-unselected-class="bg-color-light-grey">
         <h4>{{ form.category.label(class_="me-1 col-sm-2 col-form-label") }}</h4>
@@ -27,7 +27,7 @@
         </div>
       </div>
 
-      <div class="row mt-2">
+      <div class="row">
 
         <div class="col-12 col-md-6">
           <div data-controller="select-badges"

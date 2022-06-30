@@ -27,6 +27,8 @@ class PublicRecipeView(HelperFlaskView):
         recipe = Recipe.load(recipe_id)
         recipe.toggle_reaction()
 
+        refresh = bool(request.args.get("refresh"))
+
         # TODO: This should be made without turbo, but problem with Bootstrap table
         if turbo.can_stream() and not refresh:
             return turbo.stream(

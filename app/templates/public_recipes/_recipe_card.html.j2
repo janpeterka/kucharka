@@ -16,7 +16,8 @@
 				{% else %}
 				    {% set icon= icon("heart_empty", action="click->recipe-reactions#fill") %}
 				{% endif %}
-				{{ icon_button_to(url_for('PublicRecipeView:toggle_reaction', recipe_id=recipe.id), value='<span>' ~ icon ~ '</span>') }}
+				{{ icon_button_to(url_for('PublicRecipeView:toggle_reaction', recipe_id=recipe.id, refresh=True), value='<span>' ~ icon ~ '</span>') }}
+				<span class="ms-1">{{ recipe.reactions | length }}</span>
 			</div>
 			<div class="col text-end">
 				{{ recipe.author }}

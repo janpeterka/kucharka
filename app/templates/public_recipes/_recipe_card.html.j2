@@ -2,14 +2,12 @@
 
 <div class="card h-100">
 	<div class="card-body">
-			{% if false %}
-			<div class="gradient-transparent d-block h-25">
+			<div class="gradient-transparent d-block" style="height: 4rem;">
 				{% if recipe.main_image %}
 		        {{ render_image(recipe.main_image, style="border-radius: 5%;", class="card-image-top") }} 
 				{% endif %}
    	  </div>
-   		{% endif %}
-		<h5 class="card-title"> {{ link_to(recipe) }} </h5>
+		<h5 class="card-title text-center"> {{ link_to(recipe) }} </h5>
 		<div class="row">
 			<div class="col">
 				{{ recipe.category.name | default("") }}

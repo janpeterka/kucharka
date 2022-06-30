@@ -1,0 +1,36 @@
+<turbo-frame id="recipe-{{ recipe.id }}">
+
+<div class="card h-100">
+	<div class="card-body">
+			{% if false %}
+			<div class="gradient-transparent d-block h-25">
+				{% if recipe.main_image %}
+		        {{ render_image(recipe.main_image, style="border-radius: 5%;", class="card-image-top") }} 
+				{% endif %}
+   	  </div>
+   		{% endif %}
+		<h5 class="card-title"> {{ link_to(recipe) }} </h5>
+		<div class="row">
+			<div class="col">
+				{{ recipe.category.name | default("") }}
+				{% if recipe.has_reaction %}
+				    {% set icon= icon("heart_full", action="click->recipe-reactions#empty") %}
+				{% else %}
+				    {% set icon= icon("heart_empty", action="click->recipe-reactions#fill") %}
+				{% endif %}
+				{{ icon_button_to(url_for('PublicRecipeView:toggle_reaction', recipe_id=recipe.id), value='<span>' ~ icon ~ '</span>') }}
+			</div>
+			<div class="col text-end">
+				{{ recipe.author }}
+			</div>
+		</div>
+		<hr>
+		<p class="card-text">
+			<span class="text-smaller">
+				{% for label in recipe.labels %} {{ render_label(label) }} {% endfor %}
+			</span>
+		</p>
+	</div>
+</div>
+
+</turbo-frame>

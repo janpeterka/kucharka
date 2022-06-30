@@ -7,7 +7,7 @@ application = create_app(config_name=env)
 
 
 @application.context_processor
-def utility_processor():
+def context_processors():
     from app.helpers.context_processors import (
         human_format_date,
         link_to,
@@ -17,17 +17,15 @@ def utility_processor():
 
     return dict(
         human_format_date=human_format_date,
+        formatted_amount=formatted_amount,
         link_to=link_to,
         link_to_edit=link_to_edit,
-        formatted_amount=formatted_amount,
     )
 
 
 @application.before_request
 def session_management():
     from flask import request, redirect
-
-    # current_user.logged_from_admin = session.get("logged_from_admin")
 
     if application.config["APP_STATE"] == "shutdown" and request.path not in [
         "/shutdown",
@@ -55,47 +53,3 @@ def sentry_add_user():
 
     if current_user.is_authenticated:
         set_user({"id": current_user.id, "username": current_user.name_or_email})
-
-
-@application.before_request
-def log_request_start():
-    from flask import g
-    import time
-
-    g.log_request_start_time = time.time()
-
-
-@application.teardown_request
-def log_request(exception=None):
-    import re
-    import time
-    from flask import request, g
-    from flask_security import current_user
-    from app import db
-    from app.handlers.data import DataHandler
-    from app.models.request_logs import RequestLog
-
-    db.session.expire_all()
-
-    ignore_pattern = re.compile("/static/")
-
-    if not ignore_pattern.search(request.path):
-        user_id = getattr(current_user, "id", None)
-        item_type = DataHandler.get_additional_request_data("item_type")
-        item_id = DataHandler.get_additional_request_data("item_id")
-
-        start_time = getattr(g, "log_request_start_time", None)
-        if start_time:
-            duration = time.time() - start_time
-        else:
-            duration = None
-
-        log = RequestLog(
-            url=request.path,
-            user_id=user_id,
-            remote_addr=request.environ.get("REMOTE_ADDR", None),
-            item_type=item_type,
-            item_id=item_id,
-            duration=duration,
-        )
-        log.save()

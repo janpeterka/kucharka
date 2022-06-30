@@ -16,8 +16,8 @@
 
 {% block content %}
 
-<details open class="colored" data-turbo="false">
-  <summary> filtrování </summary>
+<details class="colored" data-turbo="false" closed>
+  <summary> pokročilé filtrování </summary>
   <div>
 
   <form action="{{ url_for('PublicRecipeView:index') }}" method="post" accept-charset="UTF-8">
@@ -68,7 +68,7 @@
 
 <hr>
 
-{% include "public_recipes/_recipes_table.html.j2"%}
+{% include "public_recipes/_recipes_table.html.j2" %}
 
 {% endblock %}
 

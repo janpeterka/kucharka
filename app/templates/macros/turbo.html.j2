@@ -3,6 +3,7 @@
   {% set class_ = kwargs.pop('class', "") %}
   {% set style_ = kwargs.pop('style', "") %}
   {% set form_class = kwargs.pop('form_class', "") %}
+  {% set form_style = kwargs.pop('form_style', "") %}
   {% set data = kwargs.pop('data', None) %}
   {% set icon = kwargs.pop('icon', None) %}
   {% set value = kwargs.pop('value', None) %}
@@ -14,6 +15,7 @@
 
 <form method="{{ method | upper }}"
       action="{{ action }}"
+      {% if form_style %} style="{{ form_style }}" {% endif %}
       {% if form_class %} class="{{ form_class }}" {% endif %}
       {% if data %} data-turbo-frame="{{ data }}" {% endif %}
       {% if confirmation %} onsubmit='return confirm("{{ confirmation }}");' {% endif %}
@@ -21,9 +23,8 @@
 
   <button type="submit"
           class="{% if icon %} icon {% endif %} {{ class_ }}"
-          style="{{ style_ }}"
-          {% if disabled %} disabled {% endif %}
-  >
+          {% if style_ %} style="{{ style_ }}" {% endif %}
+          {% if disabled %} disabled {% endif %}>
       
       {% if value %} {{ value | safe }} {% endif %}
   
@@ -31,4 +32,12 @@
 
 </form>
 
+
+{% endmacro %}
+
+{% macro icon_button_to(action) %}
+  {% set class = "fabutton invisible-button text-primary ms-1" ~ kwargs.pop('class', "") %}
+  {% set form_style = "display: inline;" ~ kwargs.pop('form_style', "") %}
+
+  {{ button_to(action, class=class, form_style=form_style, **kwargs) }}
 {% endmacro %}

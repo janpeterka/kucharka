@@ -88,6 +88,7 @@ class PublicRecipeView(HelperFlaskView):
     def card_index(self, *args, **kwargs):
         self.form = PublicRecipeFilterForm(request.args)
 
+        # filter recipe
         if category := RecipeCategory.load(request.args.get("category")):
             self.recipes = [r for r in self.recipes if r.category == category]
 
@@ -104,6 +105,14 @@ class PublicRecipeView(HelperFlaskView):
             self.recipes = [
                 r for r in self.recipes if r.has_any_of_labels(difficulty_labels)
             ]
+
+        if name := request.args.get("name"):
+            self.recipes = [r for r in self.recipes if name in r.name]
+
+        if request.args.get("favorite") == "1":
+            self.recipes = [r for r in self.recipes if r.has_reaction]
+
+        # TODO: sort recipes
 
         return self.template()
 

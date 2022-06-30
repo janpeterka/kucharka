@@ -1,4 +1,4 @@
-from wtforms import SubmitField, BooleanField, HiddenField
+from wtforms import SubmitField, BooleanField, HiddenField, StringField, SelectField
 
 from flask_wtf import FlaskForm
 from wtforms_sqlalchemy.fields import QuerySelectField, QuerySelectMultipleField
@@ -34,6 +34,7 @@ class PublicRecipeFilterForm(FlaskForm):
     )
     category = QuerySelectField("kategorie", query_factory=categories, allow_blank=True)
     with_reaction = BooleanField("moje oblíbené")
+    favorite = SelectField("jenom oblíbené?", choices=[("0", ""), ("1", "ano")])
 
     dietary_labels = QuerySelectMultipleField(
         "dietní omezení", query_factory=dietary_labels
@@ -41,6 +42,7 @@ class PublicRecipeFilterForm(FlaskForm):
     difficulty_labels = QuerySelectMultipleField(
         "obtížnost přípravy", query_factory=difficulty_labels
     )
+    name = StringField("název")
 
     labels = HiddenField()
 

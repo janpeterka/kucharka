@@ -89,16 +89,14 @@ class PublicRecipeView(HelperFlaskView):
         if category := RecipeCategory.load(request.args["category"]):
             self.recipes = [r for r in self.recipes if r.category == category]
 
-        dietary_labels = [
+        if dietary_labels := [
             Label.load(id) for id in request.args.getlist("dietary_labels")
-        ]
-        if dietary_labels:
+        ]:
             self.recipes = [r for r in self.recipes if r.has_labels(dietary_labels)]
 
-        difficulty_labels = [
+        if difficulty_labels := [
             Label.load(id) for id in request.args.getlist("difficulty_labels")
-        ]
-        if difficulty_labels:
+        ]:
             self.recipes = [
                 r for r in self.recipes if r.has_any_of_labels(difficulty_labels)
             ]

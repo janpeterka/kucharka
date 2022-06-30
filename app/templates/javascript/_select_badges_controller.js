@@ -24,8 +24,7 @@ Stimulus.register("select-badges", class extends Controller {
   }
 
   add_badge(option){
-    if (document.getElementById(`badge-${option.value}`)) {
-      // console.log("already exists")
+    if (this.element.querySelector(`#badge-${option.value}`)) {
       return;
     }
 
@@ -58,7 +57,7 @@ Stimulus.register("select-badges", class extends Controller {
 
   toggle(event){
     var value = event.params.value
-    var badge = document.getElementById(`badge-${value}`)
+    var badge = this.element.querySelector(`#badge-${value}`)
     if (badge.dataset.selected == "true") {
       this.unselect_value(value)
     } else {
@@ -68,7 +67,7 @@ Stimulus.register("select-badges", class extends Controller {
 
 
   unselect_value(value){
-    var badge = document.getElementById(`badge-${value}`)
+    var badge = this.element.querySelector(`#badge-${value}`)
 
     if (this.typeValue == "single") {
       this.unselect_all_badges()
@@ -80,7 +79,7 @@ Stimulus.register("select-badges", class extends Controller {
   }
 
   select_value(value){
-    var badge = document.getElementById(`badge-${value}`)
+    var badge = this.element.querySelector(`#badge-${value}`)
 
     if (this.typeValue == "single") {
         this.unselect_all_badges()

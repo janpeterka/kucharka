@@ -102,25 +102,20 @@ class PublicRecipeView(HelperFlaskView):
             for label in dietary_labels:
                 query = query.filter(Recipe.labels.contains(label))
 
-        difficulty_labels = [
+        if difficulty_labels := [
             Label.load(id) for id in request.args.getlist("difficulty_labels")
-        ]
-        if difficulty_labels:
-            filters = tuple(
-                [Recipe.labels.contains(label) for label in difficulty_labels]
-            )
+        ]:
+            filters = tuple(Recipe.labels.contains(label) for label in difficulty_labels)
             query = query.filter(or_(*filters))
 
         # sorting
         if sort_by := request.args.get("sort_by"):
             if sort_by == "name":
                 sorter = Recipe.name
-            elif sort_by == "reactions":
+            elif sort_by == "reactions" or sort_by != "author":
                 sorter = Recipe.reaction_count.desc()
-            elif sort_by == "author":
-                sorter = Recipe.author_name
             else:
-                sorter = Recipe.reaction_count.desc()
+                sorter = Recipe.author_name
         else:
             sorter = Recipe.reaction_count.desc()
 

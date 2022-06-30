@@ -86,7 +86,7 @@ class PublicRecipeView(HelperFlaskView):
     def card_index(self, *args, **kwargs):
         self.form = PublicRecipeFilterForm(request.args)
 
-        if category := RecipeCategory.load(request.args["category"]):
+        if category := RecipeCategory.load(request.args.get("category")):
             self.recipes = [r for r in self.recipes if r.category == category]
 
         dietary_labels = [

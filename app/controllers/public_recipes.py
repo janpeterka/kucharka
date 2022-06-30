@@ -42,7 +42,7 @@ class PublicRecipeView(HelperFlaskView):
 
     @login_required
     @route("/", methods=["GET", "POST"])
-    def index(self):
+    def old_index(self):
         self.recipes = Recipe.load_all_public()
 
         # Filter recipes
@@ -76,16 +76,15 @@ class PublicRecipeView(HelperFlaskView):
         else:
             return self.template()
 
-    @route("public-index/")
+    @route("public")
     def public_index(self):
         if current_user.is_authenticated:
             return redirect(url_for("PublicRecipeView:index"))
 
         return self.template(template_name="public_index")
 
-    @route("cards")
     @login_required
-    def card_index(self, *args, **kwargs):
+    def index(self, *args, **kwargs):
         from sqlalchemy import or_
 
         self.form = PublicRecipeFilterForm(request.args)

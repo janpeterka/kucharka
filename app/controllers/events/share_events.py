@@ -10,6 +10,8 @@ from app.helpers.helper_flask_view import HelperFlaskView
 from app.models.events import Event
 from app.models.users import User
 
+from app.servicers import EventRoleManager
+
 
 class ShareEventView(HelperFlaskView):
     decorators = [login_required]
@@ -42,10 +44,10 @@ class ShareEventView(HelperFlaskView):
         role = form["role"]
 
         if self.event.user_role(user):
-            self.event.change_user_role(user, role)
+            EventRoleManager.change_user_role(self.event, user, role)
             flash("změnili jsme uživateli práva.", "success")
         elif user:
-            self.event.add_user_role(user, role)
+            EventRoleManager.add_user_role(self.event, user, role)
             flash("pozvali jsme uživatele.", "success")
         else:
             flash("tohoto uživatele nemůžeme přidat.", "error")
@@ -58,7 +60,7 @@ class ShareEventView(HelperFlaskView):
             flash("Nemáte práva odebrat uživatele.", "warning")
             return redirect(url_for("EventView:show", id=event_id))
 
-        self.event.remove_user_role(User.load(user_id))
+        EventRoleManager.remove_user_role(self.event, User.load(user_id))
         flash("Odebrali jsme uživatele.", "success")
 
         return redirect(url_for("EventView:show", id=event_id))

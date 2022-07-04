@@ -1,3 +1,4 @@
+from .attendees import AttendeeView
 from .dashboard import DashboardView
 from .daily_plans import DailyPlanView
 from .daily_plan_tasks import DailyPlanTaskView
@@ -36,6 +37,7 @@ from .files import FileView
 
 
 __all__ = [
+    "AttendeeView",
     "DashboardView",
     "DailyPlanView",
     "DailyPlanTaskView",

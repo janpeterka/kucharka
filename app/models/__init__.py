@@ -1,3 +1,4 @@
+from .attendees import Attendee
 from app.models.conversions import Conversion
 from app.models.daily_plans import DailyPlan
 from app.models.daily_plan_tasks import DailyPlanTask
@@ -25,6 +26,7 @@ from app.models.users_have_roles import users_have_roles  # noqa: F401
 
 
 __all__ = [
+    "Attendee",
     "Conversion",
     "DailyPlan",
     "DailyPlanTask",

@@ -4,7 +4,7 @@ from app.presenters import BasePresenter
 
 
 class Attendee(BaseModel, BaseMixin, BasePresenter):
-    _tablename__ = "attendees"
+    __tablename__ = "attendees"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     event_id = db.Column(db.ForeignKey("events.id"), nullable=False, index=True)
@@ -12,4 +12,4 @@ class Attendee(BaseModel, BaseMixin, BasePresenter):
     portion_size_ratio = db.Column(db.Float())
 
     labels = db.relationship("Label", secondary="attendees_have_labels")
-    event = db.relationship("Event", back_populates="attendees")
+    event = db.relationship("Event", backref="attendees")

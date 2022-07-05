@@ -11,5 +11,5 @@ class Attendee(BaseModel, BaseMixin, BasePresenter):
     name = db.Column(db.String(255), nullable=False)
     portion_size_ratio = db.Column(db.Float())
 
-    # dietary_labels =
+    labels = db.relationship("Label", secondary="attendees_have_labels")
     event = db.relationship("Event", back_populates="attendees")

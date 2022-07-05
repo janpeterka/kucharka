@@ -72,6 +72,8 @@ __all__ = [
 def register_all_controllers(application):
     from app.helpers.helper_flask_view import HelperFlaskView
 
+    AttendeeView.register(application, base_class=HelperFlaskView)
+
     DailyPlanView.register(application, base_class=HelperFlaskView)
     DailyPlanTaskView.register(application, base_class=HelperFlaskView)
     DailyPlanRecipeView.register(application, base_class=HelperFlaskView)

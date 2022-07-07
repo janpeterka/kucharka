@@ -41,12 +41,9 @@ class AttendeeView(HelperFlaskView):
 
     @route("update/<attendee_id>", methods=["POST"])
     def update(self, attendee_id):
-        print(attendee_id)
         form = AttendeeForm(request.form)
-        self.attendee.name = form.name.data
-        self.attendee.portion_size_ratio = form.portion_size_ratio.data
-        print(self.attendee)
+
+        self.attendee.fill(form)
         self.attendee.edit()
-        print(self.attendee)
 
         return redirect(url_for("AttendeeView:show", event_id=self.attendee.event.id))

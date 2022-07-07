@@ -30,8 +30,7 @@
 		<div class="col-12 col-sm">
 			<div class="row">
 				<div class="col mb-1 me-1 p-2 info-badge">
-					pro {{ event.people_count }} lidí
-					<a href="{{ url_for("AttendeeView:show", event_id=event.id) }}" target="_top">strávníci</a>
+					<a href="{{ url_for("AttendeeView:show", event_id=event.id) }}" target="_top">pro {{ event.people_count }} lidí</a>
 				</div>
 				<div class="col col mb-1 p-2 info-badge">
 				    {% if event.is_shared %}   <span class="me-2"> {{ icon("shared", cursor_class="cursor-default") }}   </span> {% endif %}

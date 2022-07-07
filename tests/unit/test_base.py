@@ -15,7 +15,7 @@ def test_public_requests(app, client, db):
     pages = [
         {"path": "/login", "code": 200},
         {"path": "/register", "code": 200},
-        {"path": "/public-recipe/public-index/", "code": 200},
+        {"path": "/public-recipe/public", "code": 200},
         {"path": "recepty", "code": 308},
         {"path": "/dashboard/", "code": 302},
     ]
@@ -35,7 +35,7 @@ def test_requests_logged_in(app, db, client):
         {"path": "/public-recipe/", "code": 200},
         {"path": "/event/", "code": 200},
         {
-            "path": "/public-recipe/public-index/",
+            "path": "/public-recipe/public",
             "code": 302,
             "redirect_path": "/public-recipe/",
         },

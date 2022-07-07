@@ -29,7 +29,6 @@ class IndexView(FlaskView):
 
     @route("galerie")
     @route("galerie/")
-    @route("recepty/")
     def gallery_public_recipes(self):
         return redirect(url_for("PublicRecipeView:gallery"))
 

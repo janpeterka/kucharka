@@ -17,7 +17,7 @@ Stimulus.register("select-badges", class extends Controller {
   add_badges(){
     for (let i = 0, option; option = this.selectTarget.options[i]; i++) {
       // this prevents adding None - empty option from allow_blank
-      if (option.value > 0) {
+      if (option.value != "__None" && option.value != "0") {
         this.add_badge(option)
       }
     }

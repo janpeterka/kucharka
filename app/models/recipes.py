@@ -1,5 +1,6 @@
 from unidecode import unidecode
 
+from sqlalchemy.ext.hybrid import hybrid_property
 from flask_security import current_user
 
 from app import db, BaseModel
@@ -313,3 +314,29 @@ class Recipe(
         from app.helpers.general import slugify
 
         return slugify(self.name)
+
+    @hybrid_property
+    def reaction_count(self) -> int:
+        return self.reactions.count()
+
+    @reaction_count.expression
+    def reaction_count(cls):
+        from app.models import UserHasRecipeReaction
+        from sqlalchemy import func, select
+
+        return (
+            select([func.count(UserHasRecipeReaction.recipe_id)])
+            .where(UserHasRecipeReaction.recipe_id == cls.id)
+            .label("reaction_count")
+        )
+
+    @hybrid_property
+    def author_name(self) -> str:
+        return self.author.name
+
+    @author_name.expression
+    def author_name(cls):
+        from app.models import User
+        from sqlalchemy import select
+
+        return select(User.full_name).where(User.id == cls.created_by)

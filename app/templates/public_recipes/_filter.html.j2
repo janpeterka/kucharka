@@ -1,21 +1,8 @@
-{% extends "base/base.html.j2" %}
-{% block title %} databáze receptů {% endblock %}
-
-{% block meta %}
-  <meta name="turbo-visit-control" content="reload">
-{% endblock %}
-
-{% block script %}
-	{{ stimulus("recipe-reaction", "select-badges") }}
-{% endblock %}
-
-{% block content %}
-
 <details open class="colored" data-turbo="false">
   <summary> pokročilé filtrování </summary>
   <div>
 
-  <form action="{{ url_for('PublicRecipeView:card_index') }}" method="get" accept-charset="UTF-8">
+  <form action="{{ url_for('PublicRecipeView:index') }}" method="get" accept-charset="UTF-8">
 
       <div class="row" data-controller="select-badges"
         data-select-badges-selected-class="bg-color-highlight"
@@ -78,12 +65,17 @@
         </div>
       </div>
 
-      {#
-      <div class="col mt-2">
-        <h4>pouze moje oblíbené</h4>
-        {{ render_field(form.with_reaction, has_label=False, class="btn bg-color-highlight") }}
+      <hr>
+
+      <div class="row mt-2">
+        <div data-controller="select-badges"
+            data-select-badges-selected-class="bg-color-highlight"
+            data-select-badges-unselected-class="bg-color-light-grey">
+          <h4>seřadit podle</h4>
+          {{ render_field(form.sort_by, has_label=False, data_select_badges_target="select") }}
+          <div data-select-badges-target="badges" class="text-overflow-break"></div>
+        </div>
       </div>
-      #}
     
 
     <div class="text-end mt-2">
@@ -93,10 +85,3 @@
   </form>
   </div>
 </details>
-
-<hr>
-
-{% include "public_recipes/_recipes_cards.html.j2" %}
-
-{% endblock %}
-

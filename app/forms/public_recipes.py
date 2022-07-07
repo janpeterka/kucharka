@@ -35,6 +35,10 @@ class PublicRecipeFilterForm(FlaskForm):
     category = QuerySelectField("kategorie", query_factory=categories, allow_blank=True)
     with_reaction = BooleanField("moje oblíbené")
     favorite = SelectField("jenom oblíbené?", choices=[("0", ""), ("1", "ano")])
+    sort_by = SelectField(
+        "seřadit",
+        choices=[("reactions", "oblíbenost"), ("name", "jméno"), ("author", "autor")],
+    )
 
     dietary_labels = QuerySelectMultipleField(
         "dietní omezení", query_factory=dietary_labels

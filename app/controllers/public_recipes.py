@@ -42,7 +42,7 @@ class PublicRecipeView(HelperFlaskView):
 
     @login_required
     @route("/", methods=["GET", "POST"])
-    def index(self):
+    def old_index(self):
         self.recipes = Recipe.load_all_public()
 
         # Filter recipes
@@ -76,41 +76,60 @@ class PublicRecipeView(HelperFlaskView):
         else:
             return self.template()
 
-    @route("public-index/")
+    @route("public")
     def public_index(self):
         if current_user.is_authenticated:
             return redirect(url_for("PublicRecipeView:index"))
 
         return self.template(template_name="public_index")
 
-    @route("cards")
     @login_required
-    def card_index(self, *args, **kwargs):
+    def index(self, *args, **kwargs):
+        from sqlalchemy import or_
+
         self.form = PublicRecipeFilterForm(request.args)
 
-        # filter recipe
+        query = Recipe.query.filter(Recipe.is_shared)
+
+        # filters
+
         if category := RecipeCategory.load(request.args.get("category")):
-            self.recipes = [r for r in self.recipes if r.category == category]
+            query = query.filter(Recipe.category == category)
 
         if dietary_labels := [
             Label.load(id) for id in request.args.getlist("dietary_labels")
         ]:
-            self.recipes = [r for r in self.recipes if r.has_labels(dietary_labels)]
+            for label in dietary_labels:
+                query = query.filter(Recipe.labels.contains(label))
 
-        if difficulty_labels := [
+        difficulty_labels = [
             Label.load(id) for id in request.args.getlist("difficulty_labels")
-        ]:
-            self.recipes = [
-                r for r in self.recipes if r.has_any_of_labels(difficulty_labels)
-            ]
+        ]
+        if difficulty_labels:
+            filters = tuple(
+                [Recipe.labels.contains(label) for label in difficulty_labels]
+            )
+            query = query.filter(or_(*filters))
 
-        if name := request.args.get("name"):
-            self.recipes = [r for r in self.recipes if name in r.name]
+        # sorting
+        if sort_by := request.args.get("sort_by"):
+            if sort_by == "name":
+                sorter = Recipe.name
+            elif sort_by == "reactions":
+                sorter = Recipe.reaction_count.desc()
+            elif sort_by == "author":
+                sorter = Recipe.author_name
+            else:
+                sorter = Recipe.reaction_count.desc()
+        else:
+            sorter = Recipe.reaction_count.desc()
 
-        if request.args.get("favorite") == "1":
-            self.recipes = [r for r in self.recipes if r.has_reaction]
+            query = query.order_by(sorter)
 
-        # TODO: sort recipes
+        # pagination
+        # pagination = query.paginate(request.args.get("page", default=1), per_page=10)
+        # print(pagination.total)
+        self.recipes = query.all()
 
         return self.template()
 

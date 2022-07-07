@@ -2,73 +2,20 @@
 {% block title %} databáze receptů {% endblock %}
 
 {% block meta %}
-    <meta name="turbo-visit-control" content="reload">
-{% endblock %}
-
-{% block style %}
-	<link href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css" rel="stylesheet">
+  <meta name="turbo-visit-control" content="reload">
 {% endblock %}
 
 {% block script %}
-	<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
 	{{ stimulus("recipe-reaction", "select-badges") }}
 {% endblock %}
 
 {% block content %}
 
-<details class="colored" data-turbo="false" closed>
-  <summary> pokročilé filtrování </summary>
-  <div>
-
-  <form action="{{ url_for('PublicRecipeView:index') }}" method="post" accept-charset="UTF-8">
-  	{{ form.csrf_token }}
-
-    <div class="row">
-      <div class="col-md-6 col-sm-12">  {{ render_floating_field(form.ingredient) }} </div>
-      <div class="col-md-6 col-sm-12 mt-2 mt-md-0">  {{ render_floating_field(form.category) }} </div>
-    </div>
-
-    <div class="row mt-2">
-    
-      <div class="row mt-2" data-controller="select-badges"
-        data-select-badges-type-value="multiple"
-        data-select-badges-selected-class="bg-color-highlight"
-        data-select-badges-unselected-class="bg-color-light-grey">
-        {{ form.dietary_labels.label(class_="me-1 col-sm-2 col-form-label") }}
-        <div class="col-sm-9">
-            {{ render_field(form.dietary_labels, has_label=False, data_select_badges_target="select") }}
-            <div data-select-badges-target="badges" class="text-overflow-break"></div>
-        </div>
-      </div>
-      
-      <div class="row mt-2" data-controller="select-badges"
-        data-select-badges-type-value="multiple"
-        data-select-badges-selected-class="bg-color-highlight"
-        data-select-badges-unselected-class="bg-color-light-grey">
-        {{ form.difficulty_labels.label(class_="me-1 col-sm-2 col-form-label") }}
-        <div class="col-sm-9">
-          {{ render_field(form.difficulty_labels, has_label=False, data_select_badges_target="select") }}
-          <div data-select-badges-target="badges" class="text-overflow-break"></div>
-        </div>
-      </div>
-
-      <div class="col mt-2">
-        {{ render_field(form.with_reaction, label="pouze moje oblíbené " + icon("heart_full")) }}
-      </div>
-    
-    </div>
-
-    <div class="text-end">
-      {{ form.submit(class_='btn bg-color-primary-action color-white ms-3') }}
-    </div>
-
-  </form>
-  </div>
-</details>
+{% include "public_recipes/_filter.html.j2" %}
 
 <hr>
 
-{% include "public_recipes/_recipes_table.html.j2" %}
+{% include "public_recipes/_recipes_cards.html.j2" %}
 
 {% endblock %}
 

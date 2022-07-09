@@ -5,7 +5,7 @@ from flask_classful import route
 from app.helpers.helper_flask_view import HelperFlaskView
 from app.models.tips import Tip
 
-from app.servicers import TipApprover
+from app.services import TipApprover
 
 
 class TipView(HelperFlaskView):

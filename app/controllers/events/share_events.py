@@ -10,7 +10,7 @@ from app.helpers.helper_flask_view import HelperFlaskView
 from app.models.events import Event
 from app.models.users import User
 
-from app.servicers import EventRoleManager
+from app.services import EventRoleManager
 
 
 class ShareEventView(HelperFlaskView):

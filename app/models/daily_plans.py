@@ -58,7 +58,7 @@ class DailyPlan(
     @staticmethod
     def load_active_by_date_and_event(date, event):
         plan = DailyPlan.load_by_date_and_event(date, event)
-        if plan.is_active:
+        if plan and plan.is_active:
             return plan
         else:
             return None

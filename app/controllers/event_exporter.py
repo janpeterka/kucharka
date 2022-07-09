@@ -5,10 +5,9 @@ from flask_weasyprint import render_pdf, HTML
 
 from app.helpers.helper_flask_view import HelperFlaskView
 
-from app.models.daily_plans import DailyPlan
 from app.models.events import Event
 
-from app.services import ShoppingListConstructor
+from app.services import ShoppingListConstructor, EventTimetableConstructor
 
 
 class EventExporterView(HelperFlaskView):
@@ -18,13 +17,6 @@ class EventExporterView(HelperFlaskView):
     def before_request(self, name, event_id=None, *args, **kwargs):
         self.event = Event.load(event_id)
         self.validate_show(self.event)
-
-        self.daily_plans = self.event.active_daily_plans
-        self.split_recipes = self.event.daily_recipes_split_by_shopping
-
-        self.ingredients = DailyPlan.load_ingredient_amounts_for_daily_plans(
-            [dp.id for dp in self.daily_plans]
-        )
 
     def show_list(self, event_id, show_type):
         return self._show_list(event_id, show_type)
@@ -93,6 +85,8 @@ class EventExporterView(HelperFlaskView):
     # Recipe list export
 
     def _recipe_list(self):
+        self.timetable = EventTimetableConstructor(self.event)
+
         return self.template(template_name="recipe_list")
 
     def show_recipe_list(self, event_id):
@@ -114,7 +108,7 @@ class EventExporterView(HelperFlaskView):
     # Cookbook export
     def _cookbook(self, is_print=False):
         partial_templates = []
-        for daily_plan in self.daily_plans:
+        for daily_plan in self.event.active_daily_plans:
             for daily_recipe in daily_plan.daily_recipes:
                 recipe = daily_recipe.recipe
                 if recipe.is_shopping:

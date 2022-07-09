@@ -4,7 +4,7 @@ from app.helpers.general import list_without_duplicated
 from app.models import EventDay, DailyPlan
 
 
-class TimetableContructor:
+class EventTimetableConstructor:
     def __init__(self, event):
         self.event = event
 

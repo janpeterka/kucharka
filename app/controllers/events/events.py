@@ -9,7 +9,7 @@ from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models import DailyPlan, Event
 from app.forms import EventForm
-from app.services.events.timetable_contructor import TimetableContructor
+from app.services import EventTimetableConstructor
 
 
 class EventView(HelperFlaskView):
@@ -35,7 +35,7 @@ class EventView(HelperFlaskView):
         return self.template()
 
     def show(self, id):
-        self.timetable = TimetableContructor(self.event)
+        self.timetable = EventTimetableConstructor(self.event)
 
         return self.template()
 
@@ -46,7 +46,7 @@ class EventView(HelperFlaskView):
 
     def edit(self, id):
         self.form = EventForm(obj=self.event)
-        self.timetable = TimetableContructor(self.event)
+        self.timetable = EventTimetableConstructor(self.event)
 
         return self.template()
 

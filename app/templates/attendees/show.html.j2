@@ -8,49 +8,57 @@
 
 {% block content %}
   <h1> strávníci na {{ link_to(event) }}</h1>
-  <ul>
-  {% for attendee in event.attendees %}
-      <turbo-frame id="attendee-{{attendee.id}}">
-      
-      {% if edit_id == attendee.id %}
-          <li>
-              <form action="{{ url_for("AttendeeView:update", attendee_id=attendee.id) }}" class="row row-cols-lg-auto g-3 align-items-center" method="POST" target="_top">
-                  {{ form.csrf_token }}
-                  <div class="col-4">
-                      {{ render_floating_field(edit_form.name) }}
-                  </div>
-                  <div class="col-4">
-                      {{ render_field(edit_form.portion_size_ratio) }}
-                  </div>
-                  <div class="col-4 mt-2" data-controller="select-badges"
-                       data-select-badges-type-value="multiple"
-                       data-select-badges-selected-class="bg-color-highlight"
-                       data-select-badges-unselected-class="bg-color-light-grey">
-                      <div class="col-sm-9">
-                          {{ form.labels(data_select_badges_target="select", option_attr=form.labels.option_attr) }}
-                          <div data-select-badges-target="badges" class="text-overflow-break"></div>
-                      </div>
-                  </div>
-                  <div class="col-4">
-                      {{ render_field(edit_form.update) }}
-                      <a href="{{ url_for("AttendeeView:show", event_id=event.id) }}"> zrušit </a>
-                  </div>
-              </form>
-          </li>
-      {% else %}
-      <li>
-          <strong> {{ attendee.name }} </strong> jí na {{ (attendee.portion_size_ratio * 100) | round | int }} %
-          | {% for label in attendee.labels %}
-              {{ render_label(label) }}
-          {% endfor %}
-              
-          | <a href="{{ url_for("AttendeeView:show", event_id=event.id, edit_id=attendee.id) }}"> upravit </a>
-      </li>
-      {% endif %}
+  <table class="table">
+    <thead>
+      <th>strávník</th>
+    </thead>
+    <tbody>
+    {% for attendee in event.attendees %}
+        <tr> <td> <turbo-frame id="attendee-{{attendee.id}}">
+        {% if edit_id == attendee.id %}
+          <form action="{{ url_for("AttendeeView:update", attendee_id=attendee.id) }}" class="row row-cols-lg-auto g-3 align-items-center" method="POST" target="_top">
+            {{ form.csrf_token }}
+            <div class="col-2">
+              {{ render_floating_field(edit_form.name) }}
+            </div>
+            <div class="col-2">
+              {{ render_field(edit_form.portion_size_ratio, has_label=False, class="form-select-lg") }}
+            </div>
+            <div class="col-6" data-controller="select-badges"
+                 data-select-badges-type-value="multiple"
+                 data-select-badges-selected-class="bg-color-highlight"
+                 data-select-badges-unselected-class="bg-color-light-grey">
+              {{ edit_form.labels(data_select_badges_target="select", option_attr=edit_form.labels.option_attr) }}
+              <div data-select-badges-target="badges" class="text-overflow-break"></div>
+            </div>
+            <div class="col-2">
+                {{ render_field(edit_form.update) }}
+                <a href="{{ url_for("AttendeeView:show", event_id=event.id) }}", class="ms-2"> zrušit </a>
+            </div>
+          </form>
+        {% else %}
+        <div class="row">
+          <div class="col-3">
+            <strong> {{ attendee.name }} </strong> jí na {{ (attendee.portion_size_ratio * 100) | round | int }} %
+          </div>
 
-      </turbo-frame>
-  {% endfor %}
-  </ul>
+          <div class="col-3">
+            {% for label in attendee.labels %}
+              {{ render_label(label) }}
+            {% endfor %}
+          </div>
+
+          <div class="col-3">
+            <a href="{{ url_for("AttendeeView:show", event_id=event.id, edit_id=attendee.id) }}"> upravit </a>
+          </div>
+                
+        </div>
+        {% endif %}
+
+        </turbo-frame> </td> </tr>
+    {% endfor %}
+    </tbody>
+  </table>
 
   a dalších {{ event.people_count - event.attendees | length }} lidí, o kterých nic nevíme..
 
@@ -59,34 +67,24 @@
   <hr>
 
   <h3 class="mt-4">přidej strávníka</h3>
-  <form action="{{ url_for("AttendeeView:post", event_id=event.id) }}" class="" method="POST">
-      {{ form.csrf_token }}
-          <div class="row">  
-              <div class="col-3">
-                  {{ render_floating_field(form.name) }}
-              </div>
-              <div class="col-3">
-                  {{ render_field(form.portion_size_ratio, has_label=False) }}
-              </div>
-          </div>    
-
-          <div class="row">
-              <div class="col-6">
-                  <div class="row mt-2" data-controller="select-badges"
-                       data-select-badges-type-value="multiple"
-                       data-select-badges-selected-class="bg-color-highlight"
-                       data-select-badges-unselected-class="bg-color-light-grey">
-                      <div class="col-sm-9">
-                          {{ form.labels(data_select_badges_target="select", option_attr=form.labels.option_attr) }}
-                          <div data-select-badges-target="badges" class="text-overflow-break"></div>
-                      </div>
-                  </div>
-              </div>
-
-              <div class="col-3">
-                  {{ render_field(form.submit) }}
-              </div>
-          </div>
+  <form action="{{ url_for("AttendeeView:post", event_id=event.id) }}" class="row row-cols-lg-auto g-3 align-items-center" method="POST" target="_top">
+    {{ form.csrf_token }}
+    <div class="col-2">
+      {{ render_floating_field(form.name) }}
+    </div>
+    <div class="col-2">
+      {{ render_field(form.portion_size_ratio, has_label=False, class="form-select-lg") }}
+    </div>
+    <div class="col-6" data-controller="select-badges"
+         data-select-badges-type-value="multiple"
+         data-select-badges-selected-class="bg-color-highlight"
+         data-select-badges-unselected-class="bg-color-light-grey">
+      {{ form.labels(data_select_badges_target="select", option_attr=form.labels.option_attr) }}
+      <div data-select-badges-target="badges" class="text-overflow-break"></div>
+    </div>
+    <div class="col-2">
+      {{ render_field(form.submit) }}
+    </div>
   </form>
   {% endif %}
 {% endblock %}

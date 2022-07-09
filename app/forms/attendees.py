@@ -5,6 +5,8 @@ from flask_wtf import FlaskForm
 
 from wtforms_sqlalchemy.fields import QuerySelectMultipleField
 
+from .custom import CancelButtonField, UpdateButtonField
+
 # from app.helpers.form_select_field import ExtendedSelectWidget
 
 
@@ -23,7 +25,8 @@ class AttendeeForm(FlaskForm):
     labels = QuerySelectMultipleField("dietní omezení", query_factory=dietary_labels)
 
     submit = SubmitField("přidat")
-    update = SubmitField("upravit")
+    update = UpdateButtonField("upravit")
+    cancel = CancelButtonField("zrušit")
 
     # def __init__(self, formdata=None, obj=None, **kwargs):
     # super().__init__(formdata=formdata, obj=obj, **kwargs)

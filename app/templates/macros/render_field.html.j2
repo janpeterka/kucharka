@@ -1,6 +1,7 @@
 {% macro render_field(field) %}
 
   {% set SELECT_FIELDS = ['SelectField', 'QuerySelectField', 'QuerySelectMultipleField'] %}
+  {% set BUTTON_FIELDS = ['SubmitField', 'ButtonField', 'CancelButtonField', 'AddButtonField', 'DeleteButtonField', 'UpdateButtonField'] %}
 
   {% set with_errors = kwargs.pop('with_errors', True) %}
   {% set with_label = kwargs.pop('has_label', True) %}
@@ -8,6 +9,10 @@
   {% set placeholder = kwargs.pop('placeholder', label) %}
   {% set class_ = kwargs.pop('class', '') %}
   {% set div_class = kwargs.pop('div_class', '') %}
+
+  {% if field.default_class is defined %}
+    {% set class_ = class_ + " " + field.default_class %}
+  {% endif %}
 
   {% if field.flags.required %}
     {% set class_ = class_ + ' required' %}
@@ -17,7 +22,7 @@
     {% set class_ = class_ + ' is-invalid' %}
   {% endif %}
 
-  {% if field.type in ('SubmitField', 'ButtonField', 'CancelButtonField', 'AddButtonField', 'DeleteButtonField', 'EditButtonField') %}
+  {% if field.type in BUTTON_FIELDS %}
     {% set with_label = False %}
     {% set with_errors = False %}
   {% endif %}
@@ -25,7 +30,7 @@
   {% if with_label and field.type != 'BooleanField' %}
     <label for="{{ field.id }}"
            class="control-label{% if field.flags.required %} required{% endif %}">
-        {{ label }}
+      {{ label }}
     </label>
     {% if "data_toggle" in kwargs and kwargs["data_toggle"] == "tooltip" %}
       <i class="fa fa-question-circle" data-toggle="tooltip" title="{{ kwargs['title'] }}"></i>
@@ -46,22 +51,9 @@
     {% elif field.type == 'FileField' %}
       {% set class_ = class_ + ' form-control-file' %}
     {% elif field.type in SELECT_FIELDS %}
-      {% set class_ = class_ + ' form-control' %}
-
+      {% set class_ = class_ + ' form-select' %}
     {% elif field.type == 'SubmitField' %}
       {% set class_ = class_ + ' btn bg-color-primary-action color-white' %}
-
-    {# Our custom button fields #}
-    {% elif field.type == 'ButtonField' %}
-      {% set class_ = class_ + ' btn' %}
-    {% elif field.type == 'AddButtonField' %}
-      {% set class_ = class_ + ' btn btn-success' %}
-    {% elif field.type == 'CancelButtonField' %}
-      {% set class_ = class_ + ' btn bg-color-secondary-action color-white' %}
-    {% elif field.type == 'EditButtonField' %}
-      {% set class_ = class_ + ' btn bg-color-primary-action color-white' %}
-    {% elif field.type == 'DeleteButtonField' %}
-      {% set class_ = class_ + ' btn bg-color-secondary-action color-white' %}
     {% endif %}
 
     {% if field.type in SELECT_FIELDS %}
@@ -74,6 +66,11 @@
 
   {% endif %}
 
+  {{ render_field_errors(field, with_errors) }}
+
+{% endmacro %}
+
+{% macro render_field_errors(field, with_errors) %}
   {% if with_errors and field.errors %}
     <div class="invalid-feedback">
       <ul class="errors" >
@@ -83,10 +80,7 @@
       </ul>
     </div>
   {% endif %}
-
 {% endmacro %}
-
-
 
 {% macro render_floating_field(field) %}
   

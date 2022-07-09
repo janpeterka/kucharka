@@ -163,9 +163,9 @@ class Event(BaseModel, BaseMixin, EventPresenter):
         split_recipes = []
 
         shopping_indexes = [0]
-        for i, recipe in enumerate(daily_recipes):
-            if recipe.is_shopping:
-                shopping_indexes.append(i)
+        shopping_indexes.extend(
+            i for i, recipe in enumerate(daily_recipes) if recipe.is_shopping
+        )
 
         shopping_indexes.append(len(daily_recipes))
 

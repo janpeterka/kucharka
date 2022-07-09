@@ -58,10 +58,7 @@ class DailyPlan(
     @staticmethod
     def load_active_by_date_and_event(date, event):
         plan = DailyPlan.load_by_date_and_event(date, event)
-        if plan and plan.is_active:
-            return plan
-        else:
-            return None
+        return plan if plan and plan.is_active else None
 
     def duplicate(self):
         daily_plan = DailyPlan()
@@ -82,11 +79,14 @@ class DailyPlan(
 
     @property
     def next(self):
-        for plan in self.event.active_daily_plans:
-            if plan.date == self.date + datetime.timedelta(days=1):
-                return plan
-
-        return None
+        return next(
+            (
+                plan
+                for plan in self.event.active_daily_plans
+                if plan.date == self.date + datetime.timedelta(days=1)
+            ),
+            None,
+        )
 
     @property
     def has_next(self) -> bool:
@@ -94,11 +94,14 @@ class DailyPlan(
 
     @property
     def previous(self):
-        for plan in self.event.active_daily_plans:
-            if plan.date == self.date - datetime.timedelta(days=1):
-                return plan
-
-        return None
+        return next(
+            (
+                plan
+                for plan in self.event.active_daily_plans
+                if plan.date == self.date - datetime.timedelta(days=1)
+            ),
+            None,
+        )
 
     @property
     def has_previous(self) -> bool:
@@ -110,17 +113,11 @@ class DailyPlan(
 
     @property
     def first_recipe(self):
-        if self.daily_recipes:
-            return self.daily_recipes[0]
-        else:
-            return None
+        return self.daily_recipes[0] if self.daily_recipes else None
 
     @property
     def last_recipe(self):
-        if self.daily_recipes:
-            return self.daily_recipes[-1]
-        else:
-            return None
+        return self.daily_recipes[-1] if self.daily_recipes else None
 
     @property
     def daily_recipes_without_meal_type(self) -> list:

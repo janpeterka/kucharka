@@ -29,7 +29,7 @@
 			<a data-turbo="false" class="btn bg-color-secondary-action color-white me-2 mt-1 mt-lg-0 w-100" href="{{ url_for('EventExporterView:show_ingredient_list_pdf', event_id=event.id) }}" target="_blank"> {{ icon("pdf") }} nákupní seznam s recepty  </a>
 		</div>
 		<div class="col-12 col-sm-3">
-			<a data-turbo="false" class="btn bg-color-secondary-action color-white me-2 mt-1 mt-lg-0 w-100" href="{{ url_for('EventTimetableExporterView:show', event_id=event.id) }}" target="_blank"> {{ icon("pdf") }} jídelníček  </a>
+			<a data-turbo="false" class="btn bg-color-secondary-action color-white me-2 mt-1 mt-lg-0 w-100" href="{{ url_for('EventTimetableExporterView:pdf', event_id=event.id) }}" target="_blank"> {{ icon("pdf") }} jídelníček  </a>
 		</div>
 		<div class="col-12 col-sm-3">
 			<a data-turbo="false" class="btn bg-color-secondary-action color-white me-2 mt-1 mt-lg-0 w-100" href="{{ url_for('EventCookbookExporterView:pdf', event_id=event.id) }}" target="_blank"> {{ icon("pdf") }} kuchařka </a>

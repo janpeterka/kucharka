@@ -49,6 +49,20 @@ class DailyPlan(
         super().__init__(**kwargs)
         super().set_defaults()
 
+    @staticmethod
+    def load_by_date_and_event(date, event):
+        from app.models.daily_plans import DailyPlan
+
+        return DailyPlan.query.filter_by(date=date, event_id=event.id).first()
+
+    @staticmethod
+    def load_active_by_date_and_event(date, event):
+        plan = DailyPlan.load_by_date_and_event(date, event)
+        if plan.is_active:
+            return plan
+        else:
+            return None
+
     def duplicate(self):
         daily_plan = DailyPlan()
         daily_plan.date = self.date

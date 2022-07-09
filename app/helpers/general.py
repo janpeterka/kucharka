@@ -5,6 +5,10 @@ def empty_object():
 
 
 def list_without_duplicated(array) -> list:
+    # res = []
+    # [res.append(x) for x in array if x not in res]
+    # return res
+
     return list(dict.fromkeys(array))
 
 

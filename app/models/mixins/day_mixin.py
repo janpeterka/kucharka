@@ -23,6 +23,15 @@ class DayMixin:
 
         return tasks
 
+    @property
+    def tasks_from_this_day(self) -> list:
+        tasks = self.tasks
+
+        for daily_recipe in self.daily_recipes:
+            tasks = tasks + daily_recipe.recipe.tasks
+
+        return tasks
+
     # PROPERTIES
 
     @property

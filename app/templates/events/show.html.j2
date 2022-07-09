@@ -18,7 +18,7 @@
 <hr>
 
 <div class="row ms-0" data-controller="clicker" data-clicker-target="area">
-    {% for week in event.days_by_week %}
+    {% for week in timetable.all_relevant_days_split_by_weeks %}
         <div class="row">
         {% for day in week %}
             {% include("daily_plans/_day_badge.html.j2") %}

@@ -14,6 +14,12 @@ class EventDay(DayMixin):
         self.date = date
         self.weekday = week_day(self.date)
 
+    def __str__(self):
+        return f"Day {self.date} of {self.event}"
+
+    def __repr__(self):
+        return f"Day {self.date} of {self.event}"
+
     def link_to(self):
         return self.weekday
 

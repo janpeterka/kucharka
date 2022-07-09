@@ -130,44 +130,6 @@ class Event(BaseModel, BaseMixin, EventPresenter):
         ]
 
     @property
-    def weeks(self) -> list:
-        weeks = [dp.week for dp in self.active_daily_plans]
-
-        return list_without_duplicated(weeks)
-
-    def days_of_week(self, week) -> list:
-        return [dp for dp in self.active_daily_plans if dp.week == week]
-
-    def days_of_week_extended(self, week) -> list:
-        from app.models import EventDay
-
-        base_days = [dp for dp in self.active_daily_plans if dp.week == week]
-        week_length = len(base_days)
-        missing_day_count = 7 - week_length
-        if week_length == 7:
-            return base_days
-
-        if base_days[-1].weekday == "neděle":
-            first_date = base_days[0].date
-            # add missing days before event
-            for i in range(missing_day_count):
-                day = EventDay(date=first_date + timedelta(days=-(i + 1)), event=self)
-                base_days.insert(0, day)
-
-        elif base_days[0].weekday == "pondělí":
-            last_date = base_days[-1].date
-            # add missing days
-            for i in range(missing_day_count):
-                day = EventDay(date=last_date + timedelta(days=i + 1), event=self)
-                base_days.append(day)
-
-        return base_days
-
-    @property
-    def days_by_week(self) -> list:
-        return [self.days_of_week_extended(week) for week in self.weeks]
-
-    @property
     def recipes(self) -> list:
         recipes = []
         for daily_plan in self.daily_plans:

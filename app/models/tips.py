@@ -32,13 +32,3 @@ class Tip(BaseModel, BaseMixin, BasePresenter):
     @staticmethod
     def unapproved_tips() -> list:
         return Tip.query.filter_by(is_approved=False, is_hidden=False).all()
-
-    def approve(self):
-        self.is_approved = True
-        self.is_hidden = False
-        self.save()
-
-    def disapprove(self):
-        self.is_approved = False
-        self.is_hidden = True
-        self.save()

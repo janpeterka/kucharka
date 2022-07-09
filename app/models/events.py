@@ -232,25 +232,6 @@ class Event(BaseModel, BaseMixin, EventPresenter):
 
         return user_ids
 
-    def add_user_role(self, user, role):
-        from app.models import UserHasEventRole
-
-        event_role = UserHasEventRole(event=self, user=user, role=role)
-        event_role.save()
-
-    def change_user_role(self, user, role):
-        from app.models import UserHasEventRole
-
-        event_role = UserHasEventRole.load_by_event_and_user(event=self, user=user)
-        event_role.role = role
-        event_role.save()
-
-    def remove_user_role(self, user):
-        from app.models import UserHasEventRole
-
-        event_role = UserHasEventRole.load_by_event_and_user(event=self, user=user)
-        event_role.delete()
-
     @property
     def current_user_role(self):
         return self.user_role(current_user)

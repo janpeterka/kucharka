@@ -64,3 +64,23 @@ def link_to_edit(obj, **kwargs):
         raise NotImplementedError(
             f"{obj}({obj.__class__}) doesn't have `link_to_edit` implemented"
         )
+
+
+def inflect(word, value):
+    dictionary = {"den": {0: "dní", 1: "den", 2: "dny", 5: "dní"}}
+
+    if word not in dictionary:
+        raise AttributeError(f"Don't know how to inflect {word}, teach me!")
+
+    word_dictionary = dictionary[word]
+
+    while value >= 0:
+        if value in word_dictionary:
+            return word_dictionary[value]
+
+        value -= 1
+
+    if word not in dictionary:
+        raise AttributeError(
+            f"Don't know how to inflect {word} with value {value}, teach me!"
+        )

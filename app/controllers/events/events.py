@@ -4,11 +4,12 @@ from flask_security import login_required
 
 from app import turbo
 
-from app.helpers.form import save_form_to_session
+from app.helpers.form import save_form_to_session, create_form
 from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models import DailyPlan, Event
 from app.forms import EventForm
+from app.services import EventTimetableConstructor
 
 
 class EventView(HelperFlaskView):
@@ -34,15 +35,18 @@ class EventView(HelperFlaskView):
         return self.template()
 
     def show(self, id):
+        self.timetable = EventTimetableConstructor(self.event)
+
         return self.template()
 
     def new(self):
-        self.form = EventForm()
+        self.form = create_form(EventForm)
 
         return self.template()
 
     def edit(self, id):
         self.form = EventForm(obj=self.event)
+        self.timetable = EventTimetableConstructor(self.event)
 
         return self.template()
 

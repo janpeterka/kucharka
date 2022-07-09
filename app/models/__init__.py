@@ -23,6 +23,8 @@ from app.models.users_have_event_roles import UserHasEventRole
 from app.models.users_have_recipes_reaction import UserHasRecipeReaction
 from app.models.users_have_roles import users_have_roles  # noqa: F401
 
+from .event_days import EventDay
+
 
 __all__ = [
     "Conversion",
@@ -49,4 +51,5 @@ __all__ = [
     "User",
     "UserHasEventRole",
     "UserHasRecipeReaction",
+    "EventDay",
 ]

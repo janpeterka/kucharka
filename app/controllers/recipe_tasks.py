@@ -24,13 +24,13 @@ class RecipeTaskView(HelperFlaskView):
         self.validate_edit(self.recipe)
 
     def before_edit(self, id):
-        self.validate_edit(self.task)
+        self.validate_edit(self.task.recipe)
 
     def before_update(self, id):
-        self.validate_edit(self.task)
+        self.validate_edit(self.task.recipe)
 
     def before_delete(self, id):
-        self.validate_delete(self.task)
+        self.validate_edit(self.task.recipe)
 
     def new(self, recipe_id):
         self.form = create_form(RecipeTaskForm)

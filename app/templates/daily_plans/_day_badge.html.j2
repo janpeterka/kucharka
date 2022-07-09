@@ -16,11 +16,7 @@
 	{% if day.is_active %} data-action="click->clicker#activateLink" {% endif %}
 	class="col-12 col-md p-2 mb-2 mb-md-3 ms-2 me-2 bg-color-{{ color }} rounded text-center text-nobreak {{ class }} lh-2 text-truncate">
 	<div>
-		{% if not day.is_active %}
-			{{ day.weekday }}
-		{% else %}
-			{{ link_to(day) }}
-		{% endif %}
+		{{ link_to(day) }}
 	</div>
 
 	{% if day.is_active %}
@@ -36,7 +32,6 @@
 			{% endif %}
 		</div>
 		{% endfor %}
-
 	
 	{% endif %}
 
@@ -46,4 +41,5 @@
 	        {{ task }} <br>
 	    {% endfor %}
 	{% endif %}
+
 </div>

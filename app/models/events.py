@@ -1,15 +1,11 @@
 import datetime
 from datetime import timedelta
-
 from flask_security import current_user
 
 from app import db, BaseModel
 from app.helpers.base_mixin import BaseMixin
-
-from app.helpers.general import list_without_duplicated, placeholder_day
-
+from app.helpers.general import list_without_duplicated
 from app.presenters import EventPresenter
-
 from app.models import DailyPlan
 
 
@@ -132,42 +128,6 @@ class Event(BaseModel, BaseMixin, EventPresenter):
         return [
             dp for dp in self.daily_plans if (self.date_from <= dp.date <= self.date_to)
         ]
-
-    @property
-    def weeks(self) -> list:
-        weeks = [dp.week for dp in self.active_daily_plans]
-
-        return list_without_duplicated(weeks)
-
-    def days_of_week(self, week) -> list:
-        return [dp for dp in self.active_daily_plans if dp.week == week]
-
-    def days_of_week_extended(self, week) -> list:
-        base_days = [dp for dp in self.active_daily_plans if dp.week == week]
-        week_length = len(base_days)
-        missing_day_count = 7 - week_length
-        if week_length == 7:
-            return base_days
-
-        if base_days[-1].weekday == "neděle":
-            first_date = base_days[0].date
-            # add missing days
-            for i in range(missing_day_count):
-                base_days.insert(
-                    0, placeholder_day(first_date + timedelta(days=-(i + 1)))
-                )
-
-        elif base_days[0].weekday == "pondělí":
-            last_date = base_days[-1].date
-            # add missing days
-            for i in range(missing_day_count):
-                base_days.append(placeholder_day(last_date + timedelta(days=i + 1)))
-
-        return base_days
-
-    @property
-    def days_by_week(self) -> list:
-        return [self.days_of_week_extended(week) for week in self.weeks]
 
     @property
     def recipes(self) -> list:

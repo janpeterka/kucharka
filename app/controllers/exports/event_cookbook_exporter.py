@@ -15,7 +15,22 @@ class EventCookbookExporterView(HelperFlaskView):
         self.event = Event.load(event_id)
         self.validate_show(self.event)
 
-    # Cookbook export
+    def show(self, event_id):
+        return self._cookbook()
+
+    def pdf(self, event_id):
+        return render_pdf(
+            HTML(string=self._cookbook(is_print=True)),
+            download_filename=f"{self.event.slugified_name}--kucharka.pdf",
+            automatic_download=False,
+        )
+
+    def download(self, event_id):
+        return render_pdf(
+            HTML(string=self._cookbook(is_print=True)),
+            download_filename=f"{self.event.slugified_name}--kucharka.pdf",
+        )
+
     def _cookbook(self, is_print=False):
         partial_templates = []
         for daily_plan in self.event.active_daily_plans:
@@ -33,19 +48,3 @@ class EventCookbookExporterView(HelperFlaskView):
         self.recipes_html = "".join(partial_templates)
 
         return self.template(template_name="cookbook", print=is_print)
-
-    def show(self, event_id, **kwargs):
-        return self._cookbook()
-
-    def pdf(self, event_id):
-        return render_pdf(
-            HTML(string=self._cookbook(is_print=True)),
-            download_filename=f"{self.event.slugified_name}--kucharka.pdf",
-            automatic_download=False,
-        )
-
-    def download(self, event_id):
-        return render_pdf(
-            HTML(string=self._cookbook(is_print=True)),
-            download_filename=f"{self.event.slugified_name}--kucharka.pdf",
-        )

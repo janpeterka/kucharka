@@ -6,7 +6,7 @@ from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models.events import Event
 
-from app.services import ShoppingListConstructor, EventTimetableConstructor
+from app.services import ShoppingListConstructor
 
 
 class EventExporterView(HelperFlaskView):
@@ -22,10 +22,10 @@ class EventExporterView(HelperFlaskView):
 
         return self.template(template_name="shopping_list", print=is_print)
 
-    def show_list(self, event_id):
+    def show_ingredient_list(self, event_id):
         return self._show_list(event_id)
 
-    def show_list_pdf(self, event_id):
+    def show_ingredient_list_pdf(self, event_id):
         string = self._show_list(event_id, is_print=True)
 
         return render_pdf(
@@ -34,7 +34,7 @@ class EventExporterView(HelperFlaskView):
             automatic_download=False,
         )
 
-    def download_list_pdf(self, event_id):
+    def download_ingredient_list_pdf(self, event_id):
         string = self._show_list(event_id, is_print=True)
         return render_pdf(
             HTML(string=string),
@@ -79,45 +79,6 @@ class EventExporterView(HelperFlaskView):
                 "EventExporterView:download_table_pdf",
                 event_id=event_id,
             )
-        )
-
-    # Ingredient list export
-
-    def show_ingredient_list(self, event_id):
-        return redirect(url_for("EventExporterView:show_list", event_id=event_id))
-
-    def show_ingredient_list_pdf(self, event_id):
-        return redirect(url_for("EventExporterView:show_list_pdf", event_id=event_id))
-
-    def download_ingredient_list_pdf(self, event_id):
-        return redirect(
-            url_for(
-                "EventExporterView:download_list_pdf",
-                event_id=event_id,
-            )
-        )
-
-    # Recipe list export
-
-    def _recipe_list(self):
-        self.timetable = EventTimetableConstructor(self.event)
-
-        return self.template(template_name="recipe_list")
-
-    def show_recipe_list(self, event_id):
-        return self._recipe_list()
-
-    def show_recipe_list_pdf(self, event_id):
-        return render_pdf(
-            HTML(string=self._recipe_list()),
-            download_filename=f"{self.event.slugified_name}--recepty.pdf",
-            automatic_download=False,
-        )
-
-    def download_recipe_list_pdf(self, event_id):
-        return render_pdf(
-            HTML(string=self._recipe_list()),
-            download_filename=f"{self.event.slugified_name}--recepty.pdf",
         )
 
     # INTERNAL

@@ -25,5 +25,7 @@ def string_to_list(string):
 
 def week_day(date):
     weekdays = ("pondělí", "úterý", "středa", "čtvrtek", "pátek", "sobota", "neděle")
-
-    return weekdays[date.weekday()]
+    try:
+        return weekdays[date.weekday()]
+    except Exception:
+        raise AttributeError(f"Date {date} doesn't have weekday")

@@ -45,15 +45,6 @@ def slugify(value, allow_unicode=False):
     return re.sub(r"[-\s]+", "-", value).strip("-_")
 
 
-def placeholder_day(date):
-    from app.helpers.formaters import week_day
-
-    day = empty_object()
-    day.date = date
-    day.weekday = week_day(date)
-    return day
-
-
 def obscure(data: bytes) -> bytes:
     import zlib
     from base64 import urlsafe_b64encode as b64e

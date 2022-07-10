@@ -3,6 +3,9 @@ from .daily_plans import DailyPlanView
 from .daily_plan_tasks import DailyPlanTaskView
 from .daily_plan_recipes import DailyPlanRecipeView
 from .event_exporter import EventExporterView
+from .exports.event_cookbook_exporter import EventCookbookExporterView
+from .exports.event_timetable_exporter import EventTimetableExporterView
+
 
 from .events.events import EventView
 from .events.share_events import ShareEventView
@@ -42,6 +45,8 @@ __all__ = [
     "DailyPlanRecipeView",
     "EventExporterView",
     "EventView",
+    "EventCookbookExporterView",
+    "EventTimetableExporterView",
     "ShareEventView",
     "PublishedEventView",
     "ErrorView",
@@ -81,6 +86,8 @@ def register_all_controllers(application):
     PublishedEventView.register(application, base_class=HelperFlaskView)
 
     EventExporterView.register(application, base_class=HelperFlaskView)
+    EventCookbookExporterView.register(application, base_class=HelperFlaskView)
+    EventTimetableExporterView.register(application, base_class=HelperFlaskView)
 
     ErrorView.register(application)
     SupportView.register(application)

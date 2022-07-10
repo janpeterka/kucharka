@@ -5,13 +5,11 @@
 
 <h1 class="text-uppercase font-comfortaa text-center mb-3" >{{ link_or_name(event) }}</h1>
 
-<span data-controller="toggle-details" data-turbo="false" data-toggle-details-target="buttons" class="float-end"></span>
-
 <h2 class="text-uppercase font-comfortaa"> suroviny (pro {{ event.people_count }} lidí) </h2>
 
 <h3> trvanlivé </h3>
 {% with groups=lasting_ingredients_shopping.grouped_shopping_list, ingredients=lasting_ingredients, amounts=lasting_ingredients_shopping.recipe_ingredient_amounts %}
-    {% include 'event_exporter/_ingredient_list.html.j2' %}
+    {% include 'event_exporter/_ingredient_table.html.j2' %}
 {% endwith %}
 
 {% for shopping in shoppings %}
@@ -22,7 +20,7 @@
     {% endif %}
 
     {% with groups=shopping.grouped_shopping_list, ingredients=shopping.shopping_list, amounts=shopping.recipe_ingredient_amounts %}
-        {% include 'event_exporter/_ingredient_list.html.j2' %}
+        {% include 'event_exporter/_ingredient_table.html.j2' %}
     {% endwith %}
 {% endfor %}
 

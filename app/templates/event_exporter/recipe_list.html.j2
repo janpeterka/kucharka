@@ -7,7 +7,7 @@
 <h1 class="text-uppercase font-comfortaa text-center mb-3 d-print-none"> {{ link_or_name(event) }} </h1>
 
 <div class="row">
-    {% for day_group in event.active_daily_plans | batch(2) %}
+    {% for day_group in timetable.all_days_with_agenda | batch(2) %}
         <div class="row">
             {% for day in day_group %}
                 {% include("daily_plans/_print_day_badge.html.j2") %}

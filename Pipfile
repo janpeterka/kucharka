@@ -34,6 +34,7 @@ mypy = "*"
 pytest-flask = "*"
 bcrypt = "*"
 betamax = "*"
+factory-boy = "*"
 
 [requires]
 python_version = "3.9"

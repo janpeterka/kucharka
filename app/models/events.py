@@ -51,6 +51,10 @@ class Event(BaseModel, BaseMixin, EventPresenter):
         cascade="all, delete",
     )
 
+    attendees = db.relationship(
+        "Attendee", primaryjoin="Attendee.event_id == Event.id", back_populates="event"
+    )
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         super().set_defaults()
@@ -89,17 +93,18 @@ class Event(BaseModel, BaseMixin, EventPresenter):
         for recipe in self.recipes:
             recipe.share()
 
-    # def delete_old_daily_plans(self):
-    #     for daily_plan in self.daily_plans:
-    #         if not (self.date_from <= daily_plan.date <= self.date_to):
-    #             # daily_plan.delete()
-    #             pass
+    @property
+    def relative_portion_count(self):
+        relative_portion_count = 0
 
-    def add_new_daily_plans(self):
-        for date in self.days:
-            if not self.date_has_daily_plan(date):
-                day_plan = DailyPlan(date=date, event=self)
-                day_plan.save()
+        # count portions of attendees with their portion size
+        for attendee in self.attendees:
+            relative_portion_count += attendee.portion_size_ratio
+
+        # add remaining count
+        relative_portion_count += self.people_count - len(self.attendees)
+
+        return relative_portion_count
 
     @property
     def is_active(self) -> bool:

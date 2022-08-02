@@ -1,8 +1,10 @@
-class DailyPlanLoaderMixin:
+class DailyPlanIngredientCalculator:
     @staticmethod
-    def load_ingredient_amounts_for_daily_recipes(ids):
+    def load_ingredient_amounts_for_daily_recipes(daily_recipes):
         from app import db
         from app.models.ingredients import Ingredient, IngredientCopy
+
+        ids = [dr.id for dr in daily_recipes]
 
         # i need to always have at least two ids for tuple to not have trailing coma
         if len(ids) < 2:
@@ -43,10 +45,12 @@ class DailyPlanLoaderMixin:
         return ingredients
 
     @staticmethod
-    def load_ingredient_amounts_for_daily_plans(ids):
+    def load_ingredient_amounts_for_daily_plans(daily_plans):
         # TODO: move this to ingredient model (90)
         from app import db
         from app.models.ingredients import Ingredient
+
+        ids = [dp.id for dp in daily_plans]
 
         # i need to always have at least two ids for tuple to not have trailing coma
         if len(ids) < 2:

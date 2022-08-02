@@ -1,17 +1,20 @@
 from unidecode import unidecode
 from app.models.shopping import Shopping
-from app.models import DailyPlan
 
 
 class ShoppingListConstructor:
     def __init__(self, event):
+        from app.services import DailyPlanIngredientCalculator
+
         self.event = event
 
         self.daily_plans = self.event.active_daily_plans
         self.split_recipes = self.event.daily_recipes_split_by_shopping
 
-        self.ingredients = DailyPlan.load_ingredient_amounts_for_daily_plans(
-            [dp.id for dp in self.daily_plans]
+        self.ingredients = (
+            DailyPlanIngredientCalculator.load_ingredient_amounts_for_daily_plans(
+                self.daily_plans
+            )
         )
 
     @property
@@ -33,20 +36,24 @@ class ShoppingListConstructor:
         return lasting_ingredients_shopping
 
     def get_shoppings(self):
+        from app.services import DailyPlanIngredientCalculator
+
         # a pak pro každý mezinákupový období
         shoppings = []
         for section in self.split_recipes:
             # If first event day begins with Shopping
             if not section:
                 continue
-            section_ids = [dr.id for dr in section]
+
             shopping = Shopping()
             shopping.daily_recipes = list(section)
             shopping.date = section[0].daily_plan.date
             shopping.is_shopping = section[0].is_shopping
 
-            shopping_list = DailyPlan.load_ingredient_amounts_for_daily_recipes(
-                section_ids
+            shopping_list = (
+                DailyPlanIngredientCalculator.load_ingredient_amounts_for_daily_recipes(
+                    section
+                )
             )
 
             shopping_list = [i for i in shopping_list if not i.is_lasting]

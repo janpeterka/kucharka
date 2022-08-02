@@ -21,7 +21,7 @@ class DailyPlanRecipe(BaseModel, BaseMixin, BasePresenter):
         db.DateTime, nullable=True, default=db.func.current_timestamp()
     )
 
-    portion_count = db.Column(db.Integer, nullable=False, default=0)
+    portion_count = db.Column(db.Float, nullable=False, default=0)
 
     meal_type = db.Column(
         db.Enum(
@@ -56,18 +56,6 @@ class DailyPlanRecipe(BaseModel, BaseMixin, BasePresenter):
         daily_recipe.save()
 
         return daily_recipe
-
-    def change_order(self, order_type):
-        coef = 1 if order_type == "up" else -1
-
-        for daily_recipe in self.daily_plan.daily_recipes:
-            if daily_recipe.order_index == self.order_index - (1 * coef):
-                daily_recipe.order_index += 1 * coef
-                daily_recipe.edit()
-
-                self.order_index -= 1 * coef
-                self.edit()
-                return
 
     @property
     def is_shopping(self) -> bool:

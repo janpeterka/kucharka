@@ -104,6 +104,8 @@ class Event(BaseModel, BaseMixin, EventPresenter):
         # add remaining count
         relative_portion_count += self.people_count - len(self.attendees)
 
+        return relative_portion_count
+
     @property
     def is_active(self) -> bool:
         return not self.is_archived

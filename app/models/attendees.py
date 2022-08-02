@@ -12,4 +12,4 @@ class Attendee(BaseModel, BaseMixin, BasePresenter):
     portion_size_ratio = db.Column(db.Float())
 
     labels = db.relationship("Label", secondary="attendees_have_labels")
-    event = db.relationship("Event", backref="attendees")
+    event = db.relationship("Event", back_populates="attendees")

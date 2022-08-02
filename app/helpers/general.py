@@ -5,6 +5,10 @@ def empty_object():
 
 
 def list_without_duplicated(array) -> list:
+    # res = []
+    # [res.append(x) for x in array if x not in res]
+    # return res
+
     return list(dict.fromkeys(array))
 
 
@@ -43,15 +47,6 @@ def slugify(value, allow_unicode=False):
         )
     value = re.sub(r"[^\w\s-]", "", value.lower())
     return re.sub(r"[-\s]+", "-", value).strip("-_")
-
-
-def placeholder_day(date):
-    from app.helpers.formaters import week_day
-
-    day = empty_object()
-    day.date = date
-    day.weekday = week_day(date)
-    return day
 
 
 def obscure(data: bytes) -> bytes:

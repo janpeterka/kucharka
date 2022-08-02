@@ -5,15 +5,19 @@ from app import db, BaseModel
 from app.helpers.base_mixin import BaseMixin
 
 from app.presenters import DailyPlanPresenter
-
 from app.models.daily_plans_have_recipes import DailyPlanRecipe
-
 from app.models.mixins.daily_plans.daily_plan_loaders import DailyPlanLoaderMixin
 from app.models.mixins.daily_plans.daily_plan_recipes import DailyPlanRecipeMixin
+from .mixins.day_mixin import DayMixin
 
 
 class DailyPlan(
-    BaseModel, BaseMixin, DailyPlanLoaderMixin, DailyPlanRecipeMixin, DailyPlanPresenter
+    BaseModel,
+    BaseMixin,
+    DailyPlanLoaderMixin,
+    DailyPlanRecipeMixin,
+    DayMixin,
+    DailyPlanPresenter,
 ):
     __tablename__ = "daily_plans"
 
@@ -45,6 +49,20 @@ class DailyPlan(
         super().__init__(**kwargs)
         super().set_defaults()
 
+    @staticmethod
+    def load_by_date_and_event(date, event):
+        from app.models.daily_plans import DailyPlan
+
+        return DailyPlan.query.filter_by(date=date, event_id=event.id).first()
+
+    @staticmethod
+    def load_active_by_date_and_event(date, event):
+        plan = DailyPlan.load_by_date_and_event(date, event)
+        if plan and plan.is_active:
+            return plan
+        else:
+            return None
+
     def duplicate(self):
         daily_plan = DailyPlan()
         daily_plan.date = self.date
@@ -58,34 +76,9 @@ class DailyPlan(
 
         return daily_plan
 
-    # DATA
-    @property
-    def all_tasks(self) -> list:
-        tasks = []
-
-        for daily_plan in self.event.daily_plans:
-            if daily_plan.date >= self.date:
-                for daily_recipe in daily_plan.daily_recipes:
-                    for task in daily_recipe.tasks:
-                        if (
-                            self.date
-                            == daily_recipe.daily_plan.date
-                            - datetime.timedelta(task.days_before_cooking)
-                        ):
-                            tasks.append(task)
-
-        tasks.extend(self.tasks)
-        return tasks
-
-    # PROPERTIES
-
     @property
     def is_filled(self) -> bool:
         return len(self.daily_recipes) > 0
-
-    @property
-    def is_active(self) -> bool:
-        return self in self.event.active_daily_plans
 
     @property
     def next(self):

@@ -1,13 +1,4 @@
-from flask_security import current_user
-
-
 class DailyPlanLoaderMixin:
-    @staticmethod
-    def load_by_date(date):
-        from app.models.daily_plans import DailyPlan
-
-        return DailyPlan.query.filter_by(date=date, created_by=current_user.id).first()
-
     @staticmethod
     def load_ingredient_amounts_for_daily_recipes(ids):
         from app import db
@@ -105,15 +96,3 @@ class DailyPlanLoaderMixin:
     #     ).all()
 
     #     return date_plans
-
-    # @staticmethod
-    # def load_by_date_or_create(date):
-    #     from app.models.daily_plans import DailyPlan
-
-    #     daily_plan = DailyPlan.load_by_date(date)
-
-    #     if daily_plan is None:
-    #         daily_plan = DailyPlan(date=date)
-    #         daily_plan.save()
-
-    #     return daily_plan

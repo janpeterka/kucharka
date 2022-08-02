@@ -8,18 +8,13 @@
 
 {% if daily_plan.all_tasks %}
     <table class="table">
-        <thead>
-            <th> název </th>
-            <th> popis </th>
-        </thead>
     {% for task in daily_plan.all_tasks %}
         <tr>
             <td> {{ task.name }} </td>
             <td> {{ task.description }} </td>
-            <td> {{ task.days_before_cooking }} </td>
             {% if task.recipe %}
                 <td colspan="2">
-                    ({{ task.recipe.name }})
+                    ({{ task.recipe.name }} za {{ task.days_before_cooking }} {{ inflect("den", task.days_before_cooking) }})
                 </td>
             {% else %}
                 <td> {{ link_to_edit(task, value=icon("edit")) }} </td>

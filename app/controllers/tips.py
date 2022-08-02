@@ -2,9 +2,10 @@ from flask import redirect, url_for, request, flash
 from flask_security import login_required, permissions_required
 from flask_classful import route
 
+from app.helpers.helper_flask_view import HelperFlaskView
 from app.models.tips import Tip
 
-from app.helpers.helper_flask_view import HelperFlaskView
+from app.services import TipApprover
 
 
 class TipView(HelperFlaskView):
@@ -47,13 +48,13 @@ class TipView(HelperFlaskView):
     @permissions_required("manage-application")
     @route("/approve/<id>", methods=["POST"])
     def approve(self, id):
-        self.tip.approve()
+        TipApprover.approve(self.tip)
 
         return redirect(url_for("TipView:manage"))
 
     @permissions_required("manage-application")
     @route("/disapprove/<id>", methods=["POST"])
     def disapprove(self, id):
-        self.tip.disapprove()
+        TipApprover.disapprove(self.tip)
 
         return redirect(url_for("TipView:manage"))

@@ -13,6 +13,7 @@ def context_processors():
         link_to,
         link_to_edit,
         formatted_amount,
+        inflect,
     )
 
     return dict(
@@ -20,6 +21,7 @@ def context_processors():
         formatted_amount=formatted_amount,
         link_to=link_to,
         link_to_edit=link_to_edit,
+        inflect=inflect,
     )
 
 

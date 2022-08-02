@@ -11,7 +11,7 @@ class DailyPlanManager:
             recipe_id=recipe.id,
             daily_plan_id=self.daily_plan.id,
             order_index=order_index,
-            portion_count=self.daily_plan.event.people_count,
+            portion_count=self.daily_plan.event.relative_portion_count,
         )
 
         daily_recipe.save()

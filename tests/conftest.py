@@ -1,3 +1,5 @@
+from tests.factories import IngredientFactory, RecipeFactory
+
 import pytest
 
 from app import create_app
@@ -75,25 +77,16 @@ def db_fill():
     for user in users:
         user.save()
 
-    ingredients = [
-        Ingredient(name="první surovina", created_by=users[0].id),
-        Ingredient(name="druhá surovina", created_by=users[0].id),
-        Ingredient(name="třetí surovina", created_by=users[0].id),
-    ]
+    IngredientFactory(created_by=users[0].id).save(),
+    IngredientFactory(created_by=users[0].id).save(),
+    IngredientFactory(created_by=users[0].id).save(),
 
-    for ingredient in ingredients:
-        ingredient.save()
-
-    recipe = Recipe(
-        name="první recept", created_by=users[0].id, portion_count=1, is_shared=False
-    )
-    recipe.add_ingredient(ingredients[0], amount=20)
-    recipe.add_ingredient(ingredients[2], amount=10)
+    recipe = RecipeFactory(portion_count=1)
+    recipe.add_ingredient(Ingredient.load_all()[0], amount=20)
+    recipe.add_ingredient(Ingredient.load_all()[2], amount=10)
     recipe.save()
 
-    recipe_2 = Recipe(
-        name="veřejný recept", created_by=users[0].id, portion_count=1, is_shared=True
-    )
-    recipe_2.add_ingredient(ingredients[0], amount=20)
-    recipe_2.add_ingredient(ingredients[2], amount=10)
+    recipe_2 = RecipeFactory(name="veřejný recept", shared=True)
+    recipe_2.add_ingredient(Ingredient.load_all()[0], amount=20)
+    recipe_2.add_ingredient(Ingredient.load_all()[2], amount=10)
     recipe_2.save()

@@ -11,15 +11,15 @@ class UserFactory(factory.alchemy.SQLAlchemyModelFactory):
         model = User
         sqlalchemy_session = db.session
 
+    id = factory.Sequence(lambda n: n)
     email = factory.Sequence(lambda n: f"user{n}@skautskakucharka.cz")
     password = factory.LazyAttribute(lambda a: hash_password("password"))
-    name = factory.Sequence(lambda n: f"User {n}")
-    nickname = factory.Sequence(lambda n: f"User {n}")
+    full_name = factory.Sequence(lambda n: f"User {n}")
+    username = factory.Sequence(lambda n: f"User {n}")
     last_login_at = datetime.utcnow()
     current_login_at = datetime.utcnow()
     last_login_ip = "127.0.0.1"
     current_login_ip = "127.0.0.1"
-    created_by = 1
     login_count = 1
     roles = []
     active = True

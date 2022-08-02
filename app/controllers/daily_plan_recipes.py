@@ -5,7 +5,7 @@ from flask_security import login_required
 from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models import DailyPlan, DailyPlanRecipe, Recipe
-from app.services import DailyPlanManager
+from app.services import DailyPlanManager, DailyRecipeManager
 
 
 class DailyPlanRecipeView(HelperFlaskView):
@@ -71,12 +71,12 @@ class DailyPlanRecipeView(HelperFlaskView):
 
     @route("sort/up/<daily_recipe_id>", methods=["POST"])
     def sort_up(self, daily_recipe_id):
-        self.daily_recipe.change_order(order_type="up")
+        DailyRecipeManager(self.daily_recipe).change_order(order_type="up")
 
         return redirect(url_for("DailyPlanView:show", id=self.daily_plan.id))
 
     @route("sort/down/<daily_recipe_id>", methods=["POST"])
     def sort_down(self, daily_recipe_id):
-        self.daily_recipe.change_order(order_type="down")
+        DailyRecipeManager(self.daily_recipe).change_order(order_type="down")
 
         return redirect(url_for("DailyPlanView:show", id=self.daily_plan.id))

@@ -7,9 +7,9 @@ from app import turbo
 from app.helpers.form import save_form_to_session, create_form
 from app.helpers.helper_flask_view import HelperFlaskView
 
-from app.models import DailyPlan, Event
+from app.models import Event
 from app.forms import EventForm
-from app.services import EventTimetableConstructor
+from app.services import EventTimetableConstructor, EventManager
 
 
 class EventView(HelperFlaskView):
@@ -61,9 +61,7 @@ class EventView(HelperFlaskView):
         form.populate_obj(event)
         event.save()
 
-        for day in event.days:
-            day_plan = DailyPlan(date=day, event=event)
-            day_plan.save()
+        EventManager.add_new_daily_plans()
 
         return redirect(url_for("EventView:show", id=event.id))
 
@@ -90,7 +88,7 @@ class EventView(HelperFlaskView):
 
         # TODO: do this only if date changed (70)
         # self.event.delete_old_daily_plans()
-        self.event.add_new_daily_plans()
+        EventManager(self.event).add_new_daily_plans()
 
         if turbo.can_push():
             try:

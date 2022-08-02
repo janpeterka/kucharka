@@ -89,17 +89,6 @@ class Event(BaseModel, BaseMixin, EventPresenter):
         for recipe in self.recipes:
             recipe.share()
 
-    # def delete_old_daily_plans(self):
-    #     for daily_plan in self.daily_plans:
-    #         if not (self.date_from <= daily_plan.date <= self.date_to):
-    #             # daily_plan.delete()
-    #             pass
-
-    def add_new_daily_plans(self):
-        for date in self.days:
-            if not self.date_has_daily_plan(date):
-                day_plan = DailyPlan(date=date, event=self)
-                day_plan.save()
 
     @property
     def is_active(self) -> bool:

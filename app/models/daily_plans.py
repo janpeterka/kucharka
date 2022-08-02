@@ -6,7 +6,6 @@ from app.helpers.base_mixin import BaseMixin
 
 from app.presenters import DailyPlanPresenter
 from app.models.daily_plans_have_recipes import DailyPlanRecipe
-from app.models.mixins.daily_plans.daily_plan_loaders import DailyPlanLoaderMixin
 from app.models.mixins.daily_plans.daily_plan_recipes import DailyPlanRecipeMixin
 from .mixins.day_mixin import DayMixin
 
@@ -14,7 +13,6 @@ from .mixins.day_mixin import DayMixin
 class DailyPlan(
     BaseModel,
     BaseMixin,
-    DailyPlanLoaderMixin,
     DailyPlanRecipeMixin,
     DayMixin,
     DailyPlanPresenter,

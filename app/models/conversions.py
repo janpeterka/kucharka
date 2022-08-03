@@ -5,7 +5,6 @@ from app.presenters import BasePresenter
 
 
 class Conversion(BaseModel, BaseMixin, BasePresenter):
-
     __tablename__ = "measurements_to_measurements"
 
     # id = db.Column(db.Integer, primary_key=True)

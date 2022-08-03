@@ -68,6 +68,7 @@ class DevConfig(LocalProdConfig):
 
     INFO_USED_DB = "local db"
     FLASK_DEBUG = True
+    DEV_PASSWORD = os.environ.get("DEV_PASSWORD")
     # SQLALCHEMY_ECHO = True
     # EXPLAIN_TEMPLATE_LOADING = True
 

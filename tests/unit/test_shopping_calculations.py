@@ -1,6 +1,6 @@
 from app.services import (
-    ShoppingListConstructor,
-    DailyPlanIngredientCalculator,
+    # ShoppingListConstructor,
+    # DailyPlanIngredientCalculator,
     EventManager,
 )
 

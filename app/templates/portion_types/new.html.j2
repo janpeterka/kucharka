@@ -1,0 +1,24 @@
+{% extends "base/base.html.j2" %}
+{% block title %} nová velikost porce {% endblock %}
+
+{% block content %}
+
+<turbo-frame id="new-portion-type-form">
+<form method="post" action="{{ url_for('PortionTypeView:post') }}" class="form-group" accept-charset="UTF-8">
+  {{ form.csrf_token }}
+
+  <div class="row">
+    <div class="col-6">
+      {{ render_floating_field(form.name, class="mb-2", placeholder="např. Vlče") }}
+    </div>
+    <div class="col-6">
+      {{ render_floating_field(form.size) }}
+    </div>
+  </div>
+  
+  {{ render_field(form.submit) }}
+</form>
+</turbo-frame>
+
+{% endblock %}
+

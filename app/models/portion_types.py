@@ -12,4 +12,4 @@ class PortionType(BaseModel, BaseMixin):
 
     created_by = db.Column(db.ForeignKey(("users.id")), nullable=False, index=True)
 
-    author = db.relationship("User", uselist=False)
+    author = db.relationship("User", uselist=False, back_populates="portion_types")

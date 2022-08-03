@@ -3,6 +3,7 @@ from .daily_plan_tasks import DailyPlanTaskForm
 from .events import EventForm
 from .ingredients import IngredientForm
 from .public_recipes import PublicRecipeFilterForm
+from .portion_types import PortionTypeForm
 from .recipes import RecipeForm
 from .recipe_tasks import RecipeTaskForm
 from .users import UserForm, SetPasswordForm
@@ -14,6 +15,7 @@ __all__ = [
     "EventForm",
     "RecipeForm",
     "RecipeTaskForm",
+    "PortionTypeForm",
     "PublicRecipeFilterForm",
     "UserForm",
     "SetPasswordForm",

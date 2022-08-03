@@ -39,6 +39,7 @@ from .user_calendars import UserCalendarView
 
 from .files import FileView
 
+from .portion_types import PortionTypeView
 
 __all__ = [
     "AttendeeView",
@@ -73,6 +74,7 @@ __all__ = [
     "UserView",
     "UserCalendarView",
     "FileView",
+    "PortionTypeView",
 ]
 
 
@@ -125,6 +127,8 @@ def register_all_controllers(application):
     UserCalendarView.register(application, base_class=HelperFlaskView)
 
     FileView.register(application, base_class=HelperFlaskView)
+
+    PortionTypeView.register(application, base_class=HelperFlaskView)
 
 
 def register_error_handlers(application):

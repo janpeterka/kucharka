@@ -8,15 +8,32 @@
 
 {% block content %}
   <h1> strávníci na {{ link_to(event) }}</h1>
+
+  <details class="colored">
+    <summary>{{ event.people_count - (event.attendees | length) }} strávníků</summary>
+  </details>
+
+  {% for portion_type in current_user.portion_types %}
+    <details class="colored">
+      <summary>{{ portion_type.name }} ({{ portion_type.size *100}}%)</summary>
+    </details>
+  {% endfor %}
+  
+  <turbo-frame id="new-portion-type-form" src="{{ url_for('PortionTypeView:new') }}">
+  </turbo-frame>
+
+
+  <hr>
   <table class="table">
     <thead>
       <th>strávník</th>
     </thead>
+
     <tbody>
     {% for attendee in event.attendees %}
         <tr> <td> <turbo-frame id="attendee-{{attendee.id}}">
         {% if edit_id == attendee.id %}
-          <form action="{{ url_for("AttendeeView:update", attendee_id=attendee.id) }}" class="row row-cols-lg-auto g-3 align-items-center" method="POST" target="_top">
+          <form action="{{ url_for("AttendanceView:update", attendee_id=attendee.id) }}" class="row row-cols-lg-auto g-3 align-items-center" method="POST" target="_top">
             {{ form.csrf_token }}
             <div class="col-2">
               {{ render_floating_field(edit_form.name) }}
@@ -67,7 +84,7 @@
   <hr>
 
   <h3 class="mt-4">přidej strávníka</h3>
-  <form action="{{ url_for("AttendeeView:post", event_id=event.id) }}" class="row row-cols-lg-auto g-3 align-items-center" method="POST" target="_top">
+  <form action="{{ url_for("AttendanceView:post", event_id=event.id) }}" class="row row-cols-lg-auto g-3 align-items-center" method="POST" target="_top">
     {{ form.csrf_token }}
     <div class="col-2">
       {{ render_floating_field(form.name) }}

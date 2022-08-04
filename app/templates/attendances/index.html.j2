@@ -6,11 +6,9 @@
 {% endblock %}
 
 {% block content %}
-  <h1> strávníci na {{ link_to(event) }}</h1>
+  <h1 class="text-center font-comfortaa"> strávníci na {{ link_to(event) }} </h1>
 
-  <details class="colored">
-    <summary>{{ event.people_without_attendee_count}} strávníků se základní porcí</summary>
-  </details>
+  {{ event.people_without_attendee_count}} strávníků se základní porcí, a kromě toho:
 
   {% for portion_type in current_user.portion_types %}
     

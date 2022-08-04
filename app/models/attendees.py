@@ -15,3 +15,8 @@ class Attendee(BaseModel, BaseMixin, BasePresenter):
     labels = db.relationship("Label", secondary="attendees_have_labels")
     event = db.relationship("Event", back_populates="attendees")
     portion_type = db.relationship("PortionType")
+    attendee_labels = db.relationship(
+        "AttendeeHasLabel",
+        cascade="all, delete, delete-orphan",
+        back_populates="attendee",
+    )

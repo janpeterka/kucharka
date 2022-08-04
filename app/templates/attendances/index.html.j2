@@ -10,98 +10,90 @@
   <h1> strávníci na {{ link_to(event) }}</h1>
 
   <details class="colored">
-    <summary>{{ event.people_count - (event.attendees | length) }} strávníků</summary>
+    <summary>{{ event.people_without_attendee_count}} strávníků se základní porcí</summary>
   </details>
 
   {% for portion_type in current_user.portion_types %}
+    
     <details class="colored">
-      <summary>{{ portion_type.name }} ({{ portion_type.size *100}}%)</summary>
+      <summary>
+        {{ portion_type.name }} ({{ (portion_type.size * 100) | int }}%) -
+        {{event.attendees_with_portion_type(portion_type) | length }} {{ inflect("člověk",event.attendees_with_portion_type(portion_type) | length  )}}
+      </summary>
+
+      <turbo-frame id="portion-type-{{portion_type.id}}">
+      <div>
+      
+      <table class="table">
+        <thead>
+          <th>strávník</th>
+        </thead>
+
+        <tbody>
+        {% for attendee in event.attendees_with_portion_type(portion_type) %}
+          <tr> <td> <turbo-frame id="attendee-{{attendee.id}}">
+            {% if edit_id == attendee.id %}
+              <form action="{{ url_for("AttendanceView:update", attendee_id=attendee.id) }}" class="row row-cols-lg-auto g-3 align-items-center" method="POST" target="_top">
+                {{ form.csrf_token }}
+                <div class="col-2">
+                  {{ render_floating_field(edit_form.name) }}
+                </div>
+                <div class="col-6" data-controller="select-badges"
+                     data-select-badges-type-value="multiple"
+                     data-select-badges-selected-class="bg-color-highlight"
+                     data-select-badges-unselected-class="bg-color-light-grey">
+                  {{ edit_form.labels(data_select_badges_target="select", option_attr=edit_form.labels.option_attr) }}
+                  <div data-select-badges-target="badges" class="text-overflow-break"></div>
+                </div>
+                <div class="col-2">
+                    {{ render_field(edit_form.update) }}
+                    <a href="{{ url_for("AttendanceView:index", event_id=event.id) }}", class="ms-2"> zrušit </a>
+                </div>
+              </form>
+            {% else %}
+            <div class="row">
+              <div class="col-3">
+                <strong> {{ attendee.name }} </strong>
+              </div>
+
+              <div class="col-3">
+                {% for label in attendee.labels %}
+                  {{ render_label(label) }}
+                {% endfor %}
+              </div>
+
+              <div class="col-3">
+                <a href="{{ url_for("AttendanceView:index", event_id=event.id, edit_id=attendee.id) }}"> upravit </a>
+                {{ icon_button_to(url_for("AttendanceView:delete", attendee_id=attendee.id), icon=True, value=icon('remove', style="font-size:2rem; color:red;"), form_class="ms-2") }}
+              </div>
+
+            </div>
+            {% endif %}
+
+            </turbo-frame> </td> </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      {% if event.people_without_attendee_count > 0 %}
+        <strong>přidat dalšího strávníka</strong>
+        <turbo-frame target="portion-type-{{portion_type.id}}">
+          {% include "attendances/_new_form.html.j2" %}
+        </turbo-frame>
+      {% endif %}
+    </div>
+    </turbo-frame>
+
     </details>
   {% endfor %}
   
-  <turbo-frame id="new-portion-type-form" src="{{ url_for('PortionTypeView:new') }}">
-  </turbo-frame>
-
-
   <hr>
-  <table class="table">
-    <thead>
-      <th>strávník</th>
-    </thead>
-
-    <tbody>
-    {% for attendee in event.attendees %}
-        <tr> <td> <turbo-frame id="attendee-{{attendee.id}}">
-        {% if edit_id == attendee.id %}
-          <form action="{{ url_for("AttendanceView:update", attendee_id=attendee.id) }}" class="row row-cols-lg-auto g-3 align-items-center" method="POST" target="_top">
-            {{ form.csrf_token }}
-            <div class="col-2">
-              {{ render_floating_field(edit_form.name) }}
-            </div>
-            <div class="col-2">
-              {{ render_field(edit_form.portion_size_ratio, has_label=False, class="form-select-lg") }}
-            </div>
-            <div class="col-6" data-controller="select-badges"
-                 data-select-badges-type-value="multiple"
-                 data-select-badges-selected-class="bg-color-highlight"
-                 data-select-badges-unselected-class="bg-color-light-grey">
-              {{ edit_form.labels(data_select_badges_target="select", option_attr=edit_form.labels.option_attr) }}
-              <div data-select-badges-target="badges" class="text-overflow-break"></div>
-            </div>
-            <div class="col-2">
-                {{ render_field(edit_form.update) }}
-                <a href="{{ url_for("AttendanceView:index", event_id=event.id) }}", class="ms-2"> zrušit </a>
-            </div>
-          </form>
-        {% else %}
-        <div class="row">
-          <div class="col-3">
-            <strong> {{ attendee.name }} </strong> jí na {{ (attendee.portion_size_ratio * 100) | round | int }} %
-          </div>
-
-          <div class="col-3">
-            {% for label in attendee.labels %}
-              {{ render_label(label) }}
-            {% endfor %}
-          </div>
-
-          <div class="col-3">
-            <a href="{{ url_for("AttendanceView:index", event_id=event.id, edit_id=attendee.id) }}"> upravit </a>
-          </div>
-                
-        </div>
-        {% endif %}
-
-        </turbo-frame> </td> </tr>
-    {% endfor %}
-    </tbody>
-  </table>
-
-  a dalších {{ event.people_count - event.attendees | length }} lidí, o kterých nic nevíme..
-
-  {% if (event.people_count - event.attendees | length) > 0 %}
-
-  <hr>
-
-  <h3 class="mt-4">přidej strávníka</h3>
-  <form action="{{ url_for("AttendanceView:post", event_id=event.id) }}" class="row row-cols-lg-auto g-3 align-items-center" method="POST" target="_top">
-    {{ form.csrf_token }}
-    <div class="col-2">
-      {{ render_floating_field(form.name) }}
+  
+  <div class="row">
+    <div class="col"></div>
+    <div class="col">
+      <turbo-frame id="new-portion-type-form" src="{{ url_for('PortionTypeView:new') }}" target="_top"></turbo-frame>
     </div>
-    <div class="col-2">
-      {{ render_field(form.portion_size_ratio, has_label=False, class="form-select-lg") }}
-    </div>
-    <div class="col-6" data-controller="select-badges"
-         data-select-badges-type-value="multiple"
-         data-select-badges-selected-class="bg-color-highlight"
-         data-select-badges-unselected-class="bg-color-light-grey">
-      {{ form.labels(data_select_badges_target="select", option_attr=form.labels.option_attr) }}
-      <div data-select-badges-target="badges" class="text-overflow-break"></div>
-    </div>
-    <div class="col-2">
-      {{ render_field(form.submit) }}
-    </div>
-  </form>
-  {% endif %}
+  </div>
+
+
 {% endblock %}

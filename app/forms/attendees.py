@@ -19,9 +19,6 @@ def dietary_labels():
 class AttendeeForm(FlaskForm):
     name = StringField("jméno", [InputRequired("jméno musí být vyplněno")])
 
-    portion_size_ratio = SelectField(
-        "velikost porce", choices=[(1, "normální porce"), (0.8, "malá porce (80%)")]
-    )
     labels = QuerySelectMultipleField("dietní omezení", query_factory=dietary_labels)
 
     submit = SubmitField("přidat")

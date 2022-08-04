@@ -27,6 +27,7 @@ class PortionTypeView(HelperFlaskView):
 
         portion_type = PortionType(author=current_user)
         portion_type.fill(form)
+        portion_type.size = round(portion_type.size / 100, 2)
         portion_type.save()
 
         return redirect(request.referrer)

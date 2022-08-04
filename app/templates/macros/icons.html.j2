@@ -3,6 +3,7 @@
     {% set tooltip = kwargs.pop('tooltip', None) %}
     {% set value = kwargs.pop('value', None) %}
     {% set class_ = kwargs.pop('class', '') %}
+    {% set style = kwargs.pop('style', '') %}
     {% set fa_class_ = "" %}
     
     {% set action = kwargs.pop('action', None) %}
@@ -65,6 +66,8 @@
         {% set fa_class_ = 'far fa-heart color-highlight' %}
     {% elif name=="heart_full" %}
         {% set fa_class_ = 'fas fa-heart color-highlight' %}
+    {% elif name=="person" %}
+        {% set fa_class_ = 'fa fa-user' %}
     
     {% elif name=="collaborator" %}
         {% set fa_class_ = 'fas fa-user-edit' %}
@@ -125,7 +128,7 @@
         <abbr title="{{ tooltip }}">
     {% endif %}
 
-    <i class="{{ fa_class_ + ' ' + class_ }}" {% if action %}data-action="{{ action }}"{% endif %}>
+    <i class="{{ fa_class_ + ' ' + class_ }}" {% if action %}data-action="{{ action }}"{% endif %} style="{{style}}">
         {% if value %}{{ value }}{% endif %}
     </i>
 

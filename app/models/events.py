@@ -99,7 +99,7 @@ class Event(BaseModel, BaseMixin, EventPresenter):
 
         # count portions of attendees with their portion size
         for attendee in self.attendees:
-            relative_portion_count += attendee.portion_size_ratio
+            relative_portion_count += attendee.portion_type.size
 
         # add remaining count
         relative_portion_count += self.people_count - len(self.attendees)
@@ -181,6 +181,13 @@ class Event(BaseModel, BaseMixin, EventPresenter):
             split_recipes.append(daily_recipes[i_from:i_to])
 
         return split_recipes
+
+    def attendees_with_portion_type(self, portion_type):
+        return [a for a in self.attendees if a.portion_type == portion_type]
+
+    @property
+    def people_without_attendee_count(self):
+        return self.people_count - len(self.attendees)
 
     @property
     def zero_amount_ingredient_recipes(self) -> list:

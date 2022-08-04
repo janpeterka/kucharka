@@ -14,19 +14,25 @@ class AttendanceView(HelperFlaskView):
 
     def before_index(self, event_id):
         self.event = Event.load(event_id)
+        self.validate_show(self.event)
         self.edit_id = int(request.args.get("edit_id", 0))
 
     def before_update(self, attendee_id):
         self.attendee = Attendee.load(attendee_id)
+        self.validate_edit(self.attendee.event)
 
-    def before_post(self, event_id):
+    def before_post(self, event_id, portion_type_id):
         self.event = Event.load(event_id)
+        self.validate_edit(self.event)
 
-    def post(self, event_id):
+    def before_delete(self, attendee_id):
+        self.attendee = Attendee.load(attendee_id)
+        self.validate_edit(self.attendee.event)
+
+    def post(self, event_id, portion_type_id):
         form = AttendeeForm(request.form)
-        attendee = Attendee()
+        attendee = Attendee(event_id=event_id, portion_type_id=portion_type_id)
         attendee.fill(form)
-        attendee.event_id = event_id
         attendee.save()
 
         return redirect(url_for("AttendanceView:index", event_id=event_id))
@@ -49,3 +55,9 @@ class AttendanceView(HelperFlaskView):
         return redirect(
             url_for("AttendanceView:index", event_id=self.attendee.event.id)
         )
+
+    @route("delete/<attendee_id>", methods=["POST"])
+    def delete(self, attendee_id):
+        self.attendee.delete()
+
+        return redirect(request.referrer)

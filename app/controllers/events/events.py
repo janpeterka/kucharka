@@ -61,7 +61,7 @@ class EventView(HelperFlaskView):
         form.populate_obj(event)
         event.save()
 
-        EventManager.add_new_daily_plans()
+        EventManager(event).add_new_daily_plans()
 
         return redirect(url_for("EventView:show", id=event.id))
 

@@ -8,8 +8,9 @@ class Attendee(BaseModel, BaseMixin, BasePresenter):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     event_id = db.Column(db.ForeignKey("events.id"), nullable=False, index=True)
+    portion_type_id = db.Column(db.ForeignKey("portion_types.id"))
     name = db.Column(db.String(255), nullable=False)
-    portion_size_ratio = db.Column(db.Float())
 
     labels = db.relationship("Label", secondary="attendees_have_labels")
     event = db.relationship("Event", back_populates="attendees")
+    portion_type = db.relationship("PortionType")

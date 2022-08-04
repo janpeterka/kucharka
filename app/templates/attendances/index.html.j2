@@ -30,7 +30,7 @@
         {% for attendee in event.attendees_with_portion_type(portion_type) %}
           <tr> <td>
             {% if edit_id == attendee.id %}
-              <form action="{{ url_for("AttendeeView:update", id=attendee.id) }}" class="row row-cols-lg-auto g-3 align-items-center" method="POST" target="_top">
+              <form action="{{ url_for("AttendeeView:update", id=attendee.id) }}" class="row row-cols-lg-auto g-3 align-items-center" method="POST">
                 {% with form=edit_form %}
                   {% include "attendances/_form_fields.html.j2" %}
                 {% endwith %}

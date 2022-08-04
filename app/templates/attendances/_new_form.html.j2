@@ -1,15 +1,5 @@
 <form action="{{ url_for("AttendanceView:post", event_id=event.id, portion_type_id=portion_type.id) }}" class="row row-cols-lg-auto g-3 align-items-center" method="POST" target="_top">
-  {{ form.csrf_token }}
-  <div class="col-2">
-    {{ render_floating_field(form.name) }}
-  </div>
-  <div class="col-6" data-controller="select-badges"
-       data-select-badges-type-value="multiple"
-       data-select-badges-selected-class="bg-color-highlight"
-       data-select-badges-unselected-class="bg-color-light-grey">
-    {{ form.labels(data_select_badges_target="select", option_attr=form.labels.option_attr) }}
-    <div data-select-badges-target="badges" class="text-overflow-break"></div>
-  </div>
+  {% include "attendances/_form_fields.html.j2" %}
   <div class="col-2">
     {{ render_field(form.submit) }}
   </div>

@@ -20,6 +20,10 @@
       </div>
 
       <div class="col-3">
+        {{ attendee.note | default("", True) }}
+      </div>
+
+      <div class="col-3">
         {% for label in attendee.labels %}
           {{ render_label(label) }}
         {% endfor %}

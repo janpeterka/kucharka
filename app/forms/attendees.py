@@ -18,7 +18,7 @@ def dietary_labels():
 
 class AttendeeForm(FlaskForm):
     name = StringField("jméno", [InputRequired("jméno musí být vyplněno")])
-
+    note = StringField("poznámka")
     labels = QuerySelectMultipleField("dietní omezení", query_factory=dietary_labels)
 
     submit = SubmitField("přidat")

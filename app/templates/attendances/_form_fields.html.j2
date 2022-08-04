@@ -1,0 +1,14 @@
+{{ form.csrf_token }}
+<div class="col-2">
+  {{ render_floating_field(form.name) }}
+</div>
+<div class="col-2">
+  {{ render_floating_field(form.note) }}
+</div>
+<div class="col-4" data-controller="select-badges"
+     data-select-badges-type-value="multiple"
+     data-select-badges-selected-class="bg-color-highlight"
+     data-select-badges-unselected-class="bg-color-light-grey">
+  {{ form.labels(data_select_badges_target="select", option_attr=form.labels.option_attr) }}
+  <div data-select-badges-target="badges" class="text-overflow-break"></div>
+</div>

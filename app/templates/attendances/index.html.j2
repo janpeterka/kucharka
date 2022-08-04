@@ -31,20 +31,12 @@
 
         <tbody>
         {% for attendee in event.attendees_with_portion_type(portion_type) %}
-          <tr> <td> <turbo-frame id="attendee-{{attendee.id}}">
+          <tr> <td>
             {% if edit_id == attendee.id %}
               <form action="{{ url_for("AttendanceView:update", attendee_id=attendee.id) }}" class="row row-cols-lg-auto g-3 align-items-center" method="POST" target="_top">
-                {{ form.csrf_token }}
-                <div class="col-2">
-                  {{ render_floating_field(edit_form.name) }}
-                </div>
-                <div class="col-6" data-controller="select-badges"
-                     data-select-badges-type-value="multiple"
-                     data-select-badges-selected-class="bg-color-highlight"
-                     data-select-badges-unselected-class="bg-color-light-grey">
-                  {{ edit_form.labels(data_select_badges_target="select", option_attr=edit_form.labels.option_attr) }}
-                  <div data-select-badges-target="badges" class="text-overflow-break"></div>
-                </div>
+                {% with form=edit_form %}
+                  {% include "attendances/_form_fields.html.j2" %}
+                {% endwith %}
                 <div class="col-2">
                     {{ render_field(edit_form.update) }}
                     <a href="{{ url_for("AttendanceView:index", event_id=event.id) }}", class="ms-2"> zrušit </a>
@@ -54,6 +46,10 @@
             <div class="row">
               <div class="col-3">
                 <strong> {{ attendee.name }} </strong>
+              </div>
+
+              <div class="col-2">
+                {{ attendee.note | default("", True) }}
               </div>
 
               <div class="col-3">
@@ -70,7 +66,7 @@
             </div>
             {% endif %}
 
-            </turbo-frame> </td> </tr>
+            </td> </tr>
         {% endfor %}
         </tbody>
       </table>

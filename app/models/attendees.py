@@ -10,6 +10,7 @@ class Attendee(BaseModel, BaseMixin, BasePresenter):
     event_id = db.Column(db.ForeignKey("events.id"), nullable=False, index=True)
     portion_type_id = db.Column(db.ForeignKey("portion_types.id"))
     name = db.Column(db.String(255), nullable=False)
+    note = db.Column(db.Text)
 
     labels = db.relationship("Label", secondary="attendees_have_labels")
     event = db.relationship("Event", back_populates="attendees")

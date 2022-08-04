@@ -21,6 +21,10 @@ class AttendanceView(HelperFlaskView):
         self.attendee = Attendee.load(attendee_id)
         self.validate_edit(self.attendee.event)
 
+    def before_export(self, event_id):
+        self.event = Event.load(event_id)
+        self.validate_show(self.event)
+
     def before_post(self, event_id, portion_type_id):
         self.event = Event.load(event_id)
         self.validate_edit(self.event)
@@ -43,6 +47,9 @@ class AttendanceView(HelperFlaskView):
         if self.edit_id > 0:
             self.edit_form = AttendeeForm(obj=Attendee.load(self.edit_id))
 
+        return self.template()
+
+    def export(self, event_id):
         return self.template()
 
     @route("update/<attendee_id>", methods=["POST"])

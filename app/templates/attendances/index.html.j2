@@ -89,7 +89,9 @@
   <hr>
   
   <div class="row">
-    <div class="col"></div>
+    <div class="col">
+      souhrn pro tisk <a href="{{ url_for('AttendanceView:export', event_id=event.id) }}" data-turbo="false"> tady </a>
+    </div>
     <div class="col">
       <turbo-frame id="new-portion-type-form" src="{{ url_for('PortionTypeView:new') }}" target="_top"></turbo-frame>
     </div>

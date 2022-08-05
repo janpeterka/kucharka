@@ -10,5 +10,7 @@ class AttendeeHasLabel(BaseModel, BaseMixin):
     attendee_id = db.Column(db.ForeignKey("attendees.id"), nullable=False, index=True)
     label_id = db.Column(db.ForeignKey("labels.id"), nullable=False, index=True)
 
-    attendee = db.relationship("Attendee", back_populates="attendee_labels")
-    label = db.relationship("Label")
+    attendee = db.relationship(
+        "Attendee", back_populates="attendee_labels", viewonly=True
+    )
+    label = db.relationship("Label", viewonly=True)

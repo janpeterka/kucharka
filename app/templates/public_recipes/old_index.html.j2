@@ -2,7 +2,7 @@
 {% block title %} databáze receptů {% endblock %}
 
 {% block meta %}
-    <meta name="turbo-visit-control" content="reload">
+  <meta name="turbo-visit-control" content="reload">
 {% endblock %}
 
 {% block style %}
@@ -10,8 +10,7 @@
 {% endblock %}
 
 {% block script %}
-	<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
-	{{ stimulus("recipe-reaction", "select-badges") }}
+	<script defer src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
 {% endblock %}
 
 {% block content %}

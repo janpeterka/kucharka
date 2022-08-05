@@ -81,19 +81,20 @@
     {% block style %}{% endblock %}
     {% block script %}{% endblock %}
 
-    {{ stimulus('visibility', 'flashing') }}
+    {{ stimulus() }}
+    
     <title>
         {% if config.APP_STATE == "development" %} 🚧 DEV -  {% endif %}
         {% block title %}{% endblock %}
     </title>
 {% endblock head %}
 </head>
+
 <body data-controller="flashing"
       data-action="turbo:render@document->flashing#getMessage
                    turbo:frame-load@document->flashing#getMessage 
                    turbo:before-stream-render@document->flashing#getMessage">
 
-        
     {% block navbar %}            
         {% if current_user.is_authenticated %}
             {% include('navbars/navbar.html.j2') %}

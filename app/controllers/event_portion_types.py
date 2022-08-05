@@ -23,16 +23,19 @@ class EventPortionTypeView(HelperFlaskView):
             )
             self.ept.save()
 
-    @route("add-portions/<event_id>/<portion_type_id>/<count>")
+    @route("add-portions/<event_id>/<portion_type_id>/<int:count>")
     def add_portions(self, event_id, portion_type_id, count):
+        if self.event.people_count_without_portion_type < count:
+            count = self.event.people_count_without_portion_type
         self.ept.count += int(count)
         self.ept.edit()
 
         return redirect(request.referrer)
 
-    @route("substract-portions/<event_id>/<portion_type_id>/<count>")
+    @route("substract-portions/<event_id>/<portion_type_id>/<int:count>")
     def substract_portions(self, event_id, portion_type_id, count):
-        self.ept.count -= int(count)
+
+        self.ept.count -= count
         if self.ept.count < 0:
             self.ept.count = 0
 

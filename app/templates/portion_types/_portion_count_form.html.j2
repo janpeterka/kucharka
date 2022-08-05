@@ -1,10 +1,21 @@
 {% set event_portion_type = event.event_portion_type(portion_type) %}
-<a href="{{ url_for('EventPortionTypeView:substract_portions', event_id=event.id, portion_type_id=portion_type.id, count=5) }}"> -5 </a>
-<a href="{{ url_for('EventPortionTypeView:substract_portions', event_id=event.id, portion_type_id=portion_type.id, count=1) }}"> -1 </a>
 
-{{ event_portion_type.count | default(0, True) }}
+{% set event_portion_type_count = event_portion_type.count | default(0, True) %}
 
-{{ inflect("člověk", event_portion_type.count | default(0, true) )}}
+{% if event_portion_type_count >= 5 %}
+	<a href="{{ url_for('EventPortionTypeView:substract_portions', event_id=event.id, portion_type_id=portion_type.id, count=5) }}"> -5 </a>
+{% endif %}
 
-<a href="{{ url_for('EventPortionTypeView:add_portions', event_id=event.id, portion_type_id=portion_type.id, count=1) }}"> +1 </a>
-<a href="{{ url_for('EventPortionTypeView:add_portions', event_id=event.id, portion_type_id=portion_type.id, count=5) }}"> +5 </a>
+{% if event_portion_type_count >= 1 %}
+	<a href="{{ url_for('EventPortionTypeView:substract_portions', event_id=event.id, portion_type_id=portion_type.id, count=1) }}"> -1 </a>
+{% endif %}
+
+{{ event_portion_type_count }} {{ inflect("člověk", event_portion_type_count )}}
+
+{% if event.people_count_without_portion_type >= 1 %}
+	<a href="{{ url_for('EventPortionTypeView:add_portions', event_id=event.id, portion_type_id=portion_type.id, count=1) }}"> +1 </a>
+{% endif %}
+
+{% if event.people_count_without_portion_type >= 5 %}
+	<a href="{{ url_for('EventPortionTypeView:add_portions', event_id=event.id, portion_type_id=portion_type.id, count=5) }}"> +5 </a>
+{% endif %}

@@ -1,4 +1,4 @@
-from flask import redirect, url_for, request
+from flask import redirect, request
 from flask_security import login_required, current_user
 
 from app.helpers.helper_flask_view import HelperFlaskView
@@ -31,4 +31,3 @@ class PortionTypeView(HelperFlaskView):
         portion_type.save()
 
         return redirect(request.referrer)
-        # return redirect(url_for("PortionTypeView:index"))

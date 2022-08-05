@@ -5,6 +5,7 @@ from .daily_plans import DailyPlan
 from .daily_plan_tasks import DailyPlanTask
 from .daily_plans_have_recipes import DailyPlanRecipe
 from .events import Event
+from .event_portion_types import EventPortionType
 from .files import File, RecipeImageFile
 from .ingredient_categories import IngredientCategory
 from .ingredients import Ingredient
@@ -38,6 +39,7 @@ __all__ = [
     "DailyPlanTask",
     "DailyPlanRecipe",
     "Event",
+    "EventPortionType",
     "File",
     "Ingredient",
     "IngredientCategory",

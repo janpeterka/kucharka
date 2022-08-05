@@ -55,6 +55,13 @@ class Event(BaseModel, BaseMixin, EventPresenter):
         "Attendee", primaryjoin="Attendee.event_id == Event.id", back_populates="event"
     )
 
+    event_portion_types = db.relationship("EventPortionType", back_populates="event")
+
+    def event_portion_type(self, portion_type):
+        from app.models import EventPortionType
+
+        return EventPortionType.load_by_event_and_portion_type(self, portion_type)
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         super().set_defaults()

@@ -8,14 +8,16 @@
 {% block content %}
   <h1 class="text-center font-comfortaa"> strávníci na {{ link_to(event) }} </h1>
 
-  {{ event.people_without_attendee_count}} strávníků se základní porcí, a kromě toho:
+  {{ event.people_without_attendee_count }} strávníků se základní porcí, a kromě toho:
 
   {% for portion_type in current_user.portion_types %}
     
     <details class="colored">
       <summary>
-        {{ portion_type.name }} ({{ (portion_type.size * 100) | int }}%) -
-        {{event.attendees_with_portion_type(portion_type) | length }} {{ inflect("člověk",event.attendees_with_portion_type(portion_type) | length  )}}
+        {{ portion_type.name }} ({{ (portion_type.size * 100) | int }}%)
+        <span class="float-end">
+          {% include "portion_types/_portion_count_form.html.j2" %}      
+        </span>
       </summary>
 
       <turbo-frame id="portion-type-{{portion_type.id}}">

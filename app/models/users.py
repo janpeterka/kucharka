@@ -36,6 +36,12 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin, BasePresenter):
         viewonly=True,
     )
 
+    portion_types = db.relationship(
+        "PortionType",
+        primaryjoin="PortionType.created_by == User.id",
+        back_populates="author",
+    )
+
     @staticmethod
     def create(email, password, do_hash=True, **kwargs):
         from app import user_datastore

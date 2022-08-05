@@ -1,9 +1,11 @@
 import os
 
-from app import create_app
+from app import create_app, cli
 
 env = os.getenv("APP_STATE", "default")
 application = create_app(config_name=env)
+
+cli.register(application)
 
 
 @application.context_processor

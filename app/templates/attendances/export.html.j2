@@ -1,0 +1,37 @@
+{% extends "base/base.html.j2" %}
+{% block title %} strávníci {% endblock %}
+
+{% block content %}
+  <h1> strávníci na {{ link_to(event) }}</h1>
+
+  <div>{{ event.people_without_attendee_count}} strávníků se základní porcí</div>
+
+  {% for portion_type in current_user.portion_types if event.attendees_with_portion_type(portion_type) | length > 0%}
+    <div>
+    <h3> {{ portion_type.name }} ({{ (portion_type.size * 100) | int }}%) -
+        {{event.attendees_with_portion_type(portion_type) | length }} {{ inflect("člověk",event.attendees_with_portion_type(portion_type) | length  )}}
+    </h3>
+    </div>
+
+  {% for attendee in event.attendees_with_portion_type(portion_type) %}
+    <div class="row">
+      <div class="col-3">
+        <strong> {{ attendee.name }} </strong>
+      </div>
+
+      <div class="col-3">
+        {{ attendee.note | default("", True) }}
+      </div>
+
+      <div class="col-3">
+        {% for label in attendee.labels %}
+          {{ render_label(label) }}
+        {% endfor %}
+      </div>
+
+    </div>      
+  {% endfor %}  
+
+  {% endfor %}  
+
+{% endblock %}

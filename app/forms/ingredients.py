@@ -5,7 +5,7 @@ from wtforms.validators import InputRequired, Optional, NumberRange
 from wtforms_sqlalchemy.fields import QuerySelectField
 from wtforms.widgets import TextArea
 
-from app.forms.custom import ComaFloatField
+from .custom import ComaFloatField
 
 
 def categories():

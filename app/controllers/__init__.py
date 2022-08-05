@@ -1,3 +1,5 @@
+from .attendees import AttendeeView
+from .attendance import AttendanceView
 from .dashboard import DashboardView
 from .daily_plans import DailyPlanView
 from .daily_plan_tasks import DailyPlanTaskView
@@ -37,8 +39,11 @@ from .user_calendars import UserCalendarView
 
 from .files import FileView
 
+from .portion_types import PortionTypeView
 
 __all__ = [
+    "AttendeeView",
+    "AttendanceView",
     "DashboardView",
     "DailyPlanView",
     "DailyPlanTaskView",
@@ -69,11 +74,15 @@ __all__ = [
     "UserView",
     "UserCalendarView",
     "FileView",
+    "PortionTypeView",
 ]
 
 
 def register_all_controllers(application):
     from app.helpers.helper_flask_view import HelperFlaskView
+
+    AttendeeView.register(application, base_class=HelperFlaskView)
+    AttendanceView.register(application, base_class=HelperFlaskView)
 
     DailyPlanView.register(application, base_class=HelperFlaskView)
     DailyPlanTaskView.register(application, base_class=HelperFlaskView)
@@ -118,6 +127,8 @@ def register_all_controllers(application):
     UserCalendarView.register(application, base_class=HelperFlaskView)
 
     FileView.register(application, base_class=HelperFlaskView)
+
+    PortionTypeView.register(application, base_class=HelperFlaskView)
 
 
 def register_error_handlers(application):

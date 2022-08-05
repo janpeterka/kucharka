@@ -79,7 +79,7 @@
 
     {% block links %}{% endblock %}
     {% block style %}{% endblock %}
-    {% block script %}{% endblock %}
+    {% block scripts %}{% endblock %}
 
     {{ stimulus() }}
     
@@ -119,7 +119,7 @@
     {% endblock %}
 
 </body>
-{% block scripts_after %}{% endblock %}
+
 <script>
 document.addEventListener("turbo:before-stream-render", function(event) {
   // Add a class to an element we are about to add to the page

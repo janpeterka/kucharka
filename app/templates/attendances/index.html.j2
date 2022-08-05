@@ -8,7 +8,7 @@
 {% block content %}
   <h1 class="text-center font-comfortaa"> strávníci na {{ link_to(event) }} </h1>
 
-  {{ event.people_without_attendee_count }} strávníků se základní porcí, a kromě toho:
+  {{ event.people_count_without_portion_type }} strávníků se základní porcí, a kromě toho:
 
   {% for portion_type in current_user.portion_types %}
     

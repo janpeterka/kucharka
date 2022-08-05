@@ -19,15 +19,3 @@ def register(application):  # noqa: C901
             user.edit()
 
         print("INFO: Password set")
-
-    # ONE-OFFS
-
-    @application.cli.group()
-    def one_offs():
-        pass
-
-    @one_offs.command()
-    def add_base_portion_type():
-        from app.tasks.one_offs.add_base_portion_type import add_base_portion_type
-
-        add_base_portion_type()

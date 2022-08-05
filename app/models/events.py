@@ -193,6 +193,14 @@ class Event(BaseModel, BaseMixin, EventPresenter):
         return [a for a in self.attendees if a.portion_type == portion_type]
 
     @property
+    def people_count_without_portion_type(self):
+        return self.people_count - self.people_with_any_portion_type_count
+
+    @property
+    def people_with_any_portion_type_count(self):
+        return sum([t.count for t in self.event_portion_types])
+
+    @property
     def people_without_attendee_count(self):
         return self.people_count - len(self.attendees)
 

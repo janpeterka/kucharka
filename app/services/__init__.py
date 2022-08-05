@@ -6,6 +6,7 @@ from .tips.approver import TipApprover
 from .daily_plans.manager import DailyPlanManager
 from .daily_plans.ingredient_calculator import DailyPlanIngredientCalculator
 from .daily_recipes.manager import DailyRecipeManager
+from .recipes.ingredient_manager import RecipeIngredientManager
 
 __all__ = [
     "EventManager",
@@ -16,4 +17,5 @@ __all__ = [
     "DailyPlanManager",
     "DailyPlanIngredientCalculator",
     "DailyRecipeManager",
+    "RecipeIngredientManager",
 ]

@@ -12,12 +12,12 @@ from app.helpers.helper_flask_view import HelperFlaskView
 from app.models import Recipe, RecipeImageFile
 
 from app.forms import RecipeForm
+from app.services import RecipeIngredientManager
 
 
 class EditRecipeView(HelperFlaskView):
     decorators = [login_required]
     template_folder = "recipes/edit"
-    excluded_methods = ["add_ingredient_to_recipe", "update_usable_ingredients"]
 
     @login_required
     def before_request(self, name, recipe_id, **kwargs):
@@ -32,9 +32,15 @@ class EditRecipeView(HelperFlaskView):
             save_form_to_session(request.form)
             return redirect(url_for("RecipeView:edit", id=self.recipe.id))
 
-        form.populate_obj(self.recipe)
+        old_portion_count = self.recipe.portion_count
+        new_portion_count = form.portion_count.data
+        RecipeIngredientManager(self.recipe).update_ingredient_amounts(
+            old_portion_count, new_portion_count
+        )
 
+        form.populate_obj(self.recipe)
         self.recipe.edit()
+
         self.recipe.reload()
 
         if turbo.can_stream():

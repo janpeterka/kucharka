@@ -1,7 +1,6 @@
 {% set event_portion_type = event.event_portion_type(portion_type) %}
-
-<a href="{{ url_for('EventPortionTypeView:substract_portions', event_id=event.id, portion_type_id=portion_type.id, count=1) }}"> -1 </a>
 <a href="{{ url_for('EventPortionTypeView:substract_portions', event_id=event.id, portion_type_id=portion_type.id, count=5) }}"> -5 </a>
+<a href="{{ url_for('EventPortionTypeView:substract_portions', event_id=event.id, portion_type_id=portion_type.id, count=1) }}"> -1 </a>
 
 {{ event_portion_type.count | default(0, True) }}
 

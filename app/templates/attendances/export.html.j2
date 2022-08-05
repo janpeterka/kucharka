@@ -4,12 +4,15 @@
 {% block content %}
   <h1> strávníci na {{ link_to(event) }}</h1>
 
+
   <div>{{ event.people_without_attendee_count}} strávníků se základní porcí</div>
 
-  {% for portion_type in current_user.portion_types if event.attendees_with_portion_type(portion_type) | length > 0%}
+  {% for portion_type in current_user.portion_types if event.event_portion_type(portion_type).count > 0 %}
+    {% set event_portion_type = event.event_portion_type(portion_type) %}
+    
     <div>
     <h3> {{ portion_type.name }} ({{ (portion_type.size * 100) | int }}%) -
-        {{event.attendees_with_portion_type(portion_type) | length }} {{ inflect("člověk",event.attendees_with_portion_type(portion_type) | length  )}}
+        {{ event_portion_type.count }} {{ inflect("člověk", event_portion_type.count  )}}
     </h3>
     </div>
 

@@ -1,11 +1,6 @@
 {% extends "base/base.html.j2" %}
 {% block title %} strávníci {% endblock %}
 
-
-{% block script %}
-  {{ stimulus("select-badges") }}
-{% endblock %}
-
 {% block content %}
   {% for portion_type in current_user.portion_types %}
       {{ portion_type.name }}

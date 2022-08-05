@@ -1,10 +1,6 @@
 {% extends "base/base.html.j2" %}
 {% block title %} strávníci {% endblock %}
 
-{% block script %}
-  {{ stimulus("select-badges") }}
-{% endblock %}
-
 {% block content %}
   <h1 class="text-center font-comfortaa"> strávníci ({{event.people_count}}) na {{ link_to(event) }} </h1>
 

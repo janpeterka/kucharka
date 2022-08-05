@@ -19,4 +19,5 @@ class Attendee(BaseModel, BaseMixin, BasePresenter):
         "AttendeeHasLabel",
         cascade="all, delete, delete-orphan",
         back_populates="attendee",
+        overlaps="labels",
     )

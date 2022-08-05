@@ -1,10 +1,6 @@
 {% extends "base/base.html.j2" %}
 {% block title %} {{ event.name }} {% endblock %}
 
-{% block scripts_after %}
-    {{ stimulus("clicker", "set-duration", "refresh", "clipboard") }}
-{% endblock %}
-
 {% block content %}
 
 <div id="event-{{event.id}}-update-warning" class="text-center cursor-clickable" data-controller="refresh" data-action="click->refresh#refresh"></div>

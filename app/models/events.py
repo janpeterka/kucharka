@@ -55,6 +55,13 @@ class Event(BaseModel, BaseMixin, EventPresenter):
         "Attendee", primaryjoin="Attendee.event_id == Event.id", back_populates="event"
     )
 
+    event_portion_types = db.relationship("EventPortionType", back_populates="event")
+
+    def event_portion_type(self, portion_type):
+        from app.models import EventPortionType
+
+        return EventPortionType.load_by_event_and_portion_type(self, portion_type)
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         super().set_defaults()
@@ -184,6 +191,14 @@ class Event(BaseModel, BaseMixin, EventPresenter):
 
     def attendees_with_portion_type(self, portion_type):
         return [a for a in self.attendees if a.portion_type == portion_type]
+
+    @property
+    def people_count_without_portion_type(self):
+        return self.people_count - self.people_with_any_portion_type_count
+
+    @property
+    def people_with_any_portion_type_count(self):
+        return sum([t.count for t in self.event_portion_types])
 
     @property
     def people_without_attendee_count(self):

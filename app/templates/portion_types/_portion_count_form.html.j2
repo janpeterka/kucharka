@@ -1,5 +1,4 @@
 {% set event_portion_type = event.event_portion_type(portion_type) %}
-
 {% set event_portion_type_count = event_portion_type.count | default(0, True) %}
 
 {% if event_portion_type_count >= 5 %}

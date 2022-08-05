@@ -11,6 +11,8 @@
   {{ event.people_count_without_portion_type }} strávníků se základní porcí, a kromě toho:
 
   {% for portion_type in current_user.portion_types %}
+    {% set event_portion_type = event.event_portion_type(portion_type) %}
+    {% set event_portion_type_count = event_portion_type.count | default(0, True) %}
     
     <details class="colored">
       <summary>
@@ -69,7 +71,7 @@
         {% endfor %}
         </tbody>
       </table>
-      {% if event.people_without_attendee_count > 0 %}
+      {% if (event_portion_type_count - event.attendees_with_portion_type(portion_type) | length > 0) %}
         <strong>přidat dalšího strávníka</strong>
         <turbo-frame target="portion-type-{{portion_type.id}}">
           {% include "attendances/_new_form.html.j2" %}

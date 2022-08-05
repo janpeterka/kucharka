@@ -95,11 +95,10 @@ class Event(BaseModel, BaseMixin, EventPresenter):
 
     @property
     def relative_portion_count(self):
-        relative_portion_count = 0
+        relative_portion_count = sum(
+            attendee.portion_type.size for attendee in self.attendees
+        )
 
-        # count portions of attendees with their portion size
-        for attendee in self.attendees:
-            relative_portion_count += attendee.portion_type.size
 
         # add remaining count
         relative_portion_count += self.people_count - len(self.attendees)
@@ -168,9 +167,9 @@ class Event(BaseModel, BaseMixin, EventPresenter):
         split_recipes = []
 
         shopping_indexes = [0]
-        for i, recipe in enumerate(daily_recipes):
-            if recipe.is_shopping:
-                shopping_indexes.append(i)
+        shopping_indexes.extend(
+            i for i, recipe in enumerate(daily_recipes) if recipe.is_shopping
+        )
 
         shopping_indexes.append(len(daily_recipes))
 

@@ -22,7 +22,7 @@ def get_portion_count(recipe, request):
     if not request_portion_count:
         request_portion_count = recipe.portion_count
 
-    return int(request_portion_count)
+    return float(request_portion_count)
 
 
 class RecipeView(HelperFlaskView):

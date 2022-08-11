@@ -234,10 +234,7 @@ class Recipe(BaseModel, BaseMixin, RecipeIngredientMixin, ItemPresenter):
 
     @property
     def is_draft(self) -> bool:
-        if self.is_shopping:
-            return False
-
-        return len(self.ingredients) == 0
+        return False if self.is_shopping else len(self.ingredients) == 0
 
     @property
     def unused_personal_ingredients(self) -> list:
@@ -339,8 +336,8 @@ class Recipe(BaseModel, BaseMixin, RecipeIngredientMixin, ItemPresenter):
         return self.author.name
 
     @author_name.expression
-    def author_name(cls):
+    def author_name(self):
         from app.models import User
         from sqlalchemy import select
 
-        return select(User.full_name).where(User.id == cls.created_by)
+        return select(User.full_name).where(User.id == self.created_by)

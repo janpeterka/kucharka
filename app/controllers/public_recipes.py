@@ -9,6 +9,7 @@ from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models import Recipe, RecipeCategory, Label
 from app.forms import PublicRecipeFilterForm
+from app.services import RecipeReactionManager
 
 
 class PublicRecipeView(HelperFlaskView):
@@ -25,7 +26,8 @@ class PublicRecipeView(HelperFlaskView):
     @route("/react/<recipe_id>", methods=["POST"])
     def toggle_reaction(self, recipe_id, refresh=False):
         recipe = Recipe.load(recipe_id)
-        recipe.toggle_reaction()
+
+        RecipeReactionManager(recipe).toggle_reaction()
 
         refresh = bool(request.args.get("refresh"))
 

@@ -10,13 +10,10 @@ from app.helpers.general import list_without_duplicated
 
 from app.presenters import ItemPresenter
 
-from app.models.mixins.recipes.recipe_reactions import RecipeReactionMixin
 from app.models.mixins.recipes.recipe_ingredients import RecipeIngredientMixin
 
 
-class Recipe(
-    BaseModel, BaseMixin, RecipeReactionMixin, RecipeIngredientMixin, ItemPresenter
-):
+class Recipe(BaseModel, BaseMixin, RecipeIngredientMixin, ItemPresenter):
     __tablename__ = "recipes"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -202,6 +199,13 @@ class Recipe(
         )
 
     # PROPERTIES
+    @property
+    def has_reaction(self) -> bool:
+        from app.models import UserHasRecipeReaction
+
+        reactions = UserHasRecipeReaction.load_by_recipe_and_current_user(self.recipe)
+
+        return bool(reactions)
 
     @property
     def is_shopping(self) -> bool:

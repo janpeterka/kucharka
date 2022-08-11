@@ -7,6 +7,7 @@ from .daily_plans.manager import DailyPlanManager
 from .daily_plans.ingredient_calculator import DailyPlanIngredientCalculator
 from .daily_recipes.manager import DailyRecipeManager
 from .recipes.ingredient_manager import RecipeIngredientManager
+from .recipes.reactions.manager import RecipeReactionManager
 
 __all__ = [
     "EventManager",
@@ -18,4 +19,5 @@ __all__ = [
     "DailyPlanIngredientCalculator",
     "DailyRecipeManager",
     "RecipeIngredientManager",
+    "RecipeReactionManager",
 ]

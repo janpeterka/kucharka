@@ -92,6 +92,8 @@ class PublicRecipeView(HelperFlaskView):
         query = Recipe.query.filter(Recipe.is_shared)
 
         # filters
+        if name := request.args.get("name"):
+            query = query.filter(Recipe.name.like(f"%{name}%"))
 
         if category := RecipeCategory.load(request.args.get("category")):
             query = query.filter(Recipe.category == category)
@@ -124,12 +126,15 @@ class PublicRecipeView(HelperFlaskView):
         else:
             sorter = Recipe.reaction_count.desc()
 
-            query = query.order_by(sorter)
+        query = query.order_by(sorter)
 
         # pagination
         # pagination = query.paginate(request.args.get("page", default=1), per_page=10)
         # print(pagination.total)
         self.recipes = query.all()
+
+        if request.args.get("favorite"):
+            self.recipes = [r for r in self.recipes if r.has_reaction]
 
         return self.template()
 

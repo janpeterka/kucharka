@@ -20,4 +20,5 @@ class RecipeReactionMixin:
     @property
     def has_reaction(self) -> bool:
         reactions = UserHasRecipeReaction.load_by_recipe_and_current_user(self)
+
         return bool(reactions)

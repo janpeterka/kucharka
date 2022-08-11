@@ -138,6 +138,8 @@ class PublicRecipeView(HelperFlaskView):
         if request.args.get("favorite") == "1":
             self.recipes = [r for r in self.recipes if r.has_reaction]
 
+        self.recipes = [r for r in self.recipes if not r.is_shopping]
+
         return self.template()
 
     @route("gallery/")

@@ -135,7 +135,7 @@ class PublicRecipeView(HelperFlaskView):
         # print(pagination.total)
         self.recipes = query.all()
 
-        if request.args.get("favorite"):
+        if request.args.get("favorite") == "1":
             self.recipes = [r for r in self.recipes if r.has_reaction]
 
         return self.template()

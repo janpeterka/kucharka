@@ -9,7 +9,7 @@ class RecipeReactionManager:
     def toggle_reaction(self, user=None):
         user = current_user if user is None else user
 
-        if self.user.has_reaction is True:
+        if self.recipe.has_reaction is True:
             self.remove_reaction(user)
         else:
             self.add_reaction(user)

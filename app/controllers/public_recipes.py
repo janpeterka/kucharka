@@ -9,6 +9,7 @@ from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models import Recipe, RecipeCategory, Label
 from app.forms import PublicRecipeFilterForm
+from app.services import RecipeReactionManager
 
 
 class PublicRecipeView(HelperFlaskView):
@@ -25,7 +26,8 @@ class PublicRecipeView(HelperFlaskView):
     @route("/react/<recipe_id>", methods=["POST"])
     def toggle_reaction(self, recipe_id, refresh=False):
         recipe = Recipe.load(recipe_id)
-        recipe.toggle_reaction()
+
+        RecipeReactionManager(recipe).toggle_reaction()
 
         refresh = bool(request.args.get("refresh"))
 
@@ -92,6 +94,8 @@ class PublicRecipeView(HelperFlaskView):
         query = Recipe.query.filter(Recipe.is_shared)
 
         # filters
+        if name := request.args.get("name"):
+            query = query.filter(Recipe.name.like(f"%{name}%"))
 
         if category := RecipeCategory.load(request.args.get("category")):
             query = query.filter(Recipe.category == category)
@@ -124,12 +128,17 @@ class PublicRecipeView(HelperFlaskView):
         else:
             sorter = Recipe.reaction_count.desc()
 
-            query = query.order_by(sorter)
+        query = query.order_by(sorter)
 
         # pagination
         # pagination = query.paginate(request.args.get("page", default=1), per_page=10)
         # print(pagination.total)
         self.recipes = query.all()
+
+        if request.args.get("favorite") == "1":
+            self.recipes = [r for r in self.recipes if r.has_reaction]
+
+        self.recipes = [r for r in self.recipes if not r.is_shopping]
 
         return self.template()
 

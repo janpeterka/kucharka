@@ -203,7 +203,7 @@ class Recipe(BaseModel, BaseMixin, RecipeIngredientMixin, ItemPresenter):
     def has_reaction(self) -> bool:
         from app.models import UserHasRecipeReaction
 
-        reactions = UserHasRecipeReaction.load_by_recipe_and_current_user(self.recipe)
+        reactions = UserHasRecipeReaction.load_by_recipe_and_current_user(self)
 
         return bool(reactions)
 

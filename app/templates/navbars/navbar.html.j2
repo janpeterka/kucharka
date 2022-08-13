@@ -10,23 +10,23 @@
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav navbar-center">
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('DashboardView:index') }}"> domů | </a>
+          <a class="nav-link active" href="{{ url_for('DashboardView:index') }}"> domů | </a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('IngredientView:index') }}"> {{ icon("seedling") }} suroviny </a>
+          <a class="nav-link active" href="{{ url_for('IngredientView:index') }}"> {{ icon("seedling") }} suroviny </a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('RecipeView:index') }}"> {{ icon("food") }} recepty </a>
+          <a class="nav-link active" href="{{ url_for('RecipeView:index') }}"> {{ icon("food") }} recepty </a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('EventView:index') }}"> {{ icon("daily") }} akce </a>
+          <a class="nav-link active" href="{{ url_for('EventView:index') }}"> {{ icon("daily") }} akce </a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('PublicRecipeView:index') }}"> {{ icon("recipe_database")}} databáze receptů </a>
+          <a class="nav-link active" href="{{ url_for('PublicRecipeView:index') }}"> {{ icon("recipe_database")}} databáze receptů </a>
         </li>
         
         {% if config['FF_GALLERY'] %}
@@ -42,7 +42,7 @@
 
       <ul class="nav navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('TipView:index') }}"> {{ icon("info-circle") }} tipy a triky </a>
+          <a class="nav-link active" href="{{ url_for('TipView:index') }}"> {{ icon("info-circle") }} tipy a triky </a>
         </li>
         
         <li class="nav-item dropdown me-3">
@@ -60,7 +60,7 @@
         </li>
 
         <li class="nav-item dropdown">
-          <a class="nav-link" href="#" id="navbarDropdown" role="button"
+          <a class="nav-link active" href="#" id="navbarDropdown" role="button"
              data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
              {{ icon("user", cursor_class="cursor-clickable", class="text-larger") }}
           </a>

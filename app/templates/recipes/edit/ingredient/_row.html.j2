@@ -1,7 +1,7 @@
 {% from "macros/turbo.html.j2" import button_to %}
 
 {% if ingredient.amount %}
-    {% set amount = (ingredient.amount|float * recipe.portion_count|float) | round | int %}
+    {% set amount = (ingredient.amount * recipe.portion_count) | round(1) %}
 {% endif %}
 
 <tr id="ingredient-{{ingredient.id}}">

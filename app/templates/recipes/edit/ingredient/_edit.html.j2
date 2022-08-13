@@ -1,7 +1,7 @@
 {% from "macros/turbo.html.j2" import button_to %}
 
 {% if ingredient.amount %}
-    {% set amount = (ingredient.amount|float * recipe.portion_count|float) | round | int %}
+    {% set amount = (ingredient.amount|float * recipe.portion_count|float) | round(1) %}
 {% endif %}
 
 <tr id="ingredient-edit-{{ingredient.id}}">
@@ -15,7 +15,7 @@
     <td colspan="3">
         <form action="{{ url_for('EditRecipeIngredientView:update', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" method="post" class="row row-cols-auto g-3 align-items-center">
                 <div class="col-12 col-md-3 form-floating">
-                    <input id="ingredient-amount-{{ingredient.id}}" type="number" class="form-control" name="amount" step="1" min="0" value="{{ amount }}">
+                    <input id="ingredient-amount-{{ingredient.id}}" type="number" class="form-control" name="amount" step="0.1" min="0" value="{{ amount }}">
                     <label for="ingredient-amount-{{ingredient.id}}" class="ms-2">{{ ingredient.measurement.name }}</label>
                 </div>
                 <div class="el-switch col-12 col-md-3 mt-4 mb-4 mb-md-0 ms-3 ms-md-0">

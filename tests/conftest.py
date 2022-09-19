@@ -40,10 +40,20 @@ def db(app):
     return _db
 
 
+def _clear_db(db):
+    meta = db.metadata
+    for table in reversed(meta.sorted_tables):
+        db.session.execute(table.delete())
+    db.session.commit()
+
+
 def db_fill():
-    # from flask_security import create_user, create_role
+    db_set_roles()
+    db_set_data()
+
+
+def db_set_roles():
     from app import security
-    from app.models import Ingredient, Recipe
 
     roles = [
         security.datastore.create_role(
@@ -57,29 +67,41 @@ def db_fill():
     ]
 
     for role in roles:
+        print(role)
+        print(role.permissions)
         role.save()
 
     users = [
         security.datastore.create_user(
-            username="user", email="user@sk.cz", password="pass123"
+            id=1, username="user", email="user@sk.cz", password="pass123"
         ),
         security.datastore.create_user(
+            id=2,
             username="application_manager",
             email="appmanager@sk.cz",
             roles=["application_manager"],
             password="pass123",
         ),
         security.datastore.create_user(
-            username="admin", email="admin@sk.cz", roles=["admin"], password="pass123"
+            id=3,
+            username="admin",
+            email="admin@sk.cz",
+            roles=["admin"],
+            password="pass123",
         ),
     ]
 
     for user in users:
         user.save()
 
-    IngredientFactory(created_by=users[0].id).save(),
-    IngredientFactory(created_by=users[0].id).save(),
-    IngredientFactory(created_by=users[0].id).save(),
+
+def db_set_data():
+    # from flask_security import create_user, create_role
+    from app.models import Ingredient, Recipe, User
+
+    IngredientFactory(created_by=User.load(1).id).save(),
+    IngredientFactory(created_by=User.load(1).id).save(),
+    IngredientFactory(created_by=User.load(1).id).save(),
 
     recipe = RecipeFactory(portion_count=1)
     recipe.add_ingredient(Ingredient.load_all()[0], amount=20)

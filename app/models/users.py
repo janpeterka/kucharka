@@ -96,17 +96,19 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin, BasePresenter):
 
     @property
     def closest_future_event(self):
-        if not self.active_future_events:
-            return None
-
-        return min(self.active_future_events, key=attrgetter("date_from"))
+        return (
+            min(self.active_future_events, key=attrgetter("date_from"))
+            if self.active_future_events
+            else None
+        )
 
     @property
     def all_closest_future_event(self):
-        if not self.all_active_future_events:
-            return None
-
-        return min(self.all_active_future_events, key=attrgetter("date_from"))
+        return (
+            min(self.all_active_future_events, key=attrgetter("date_from"))
+            if self.all_active_future_events
+            else None
+        )
 
     @property
     def archived_events(self):
@@ -149,10 +151,7 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin, BasePresenter):
     def get_user_id():
         from flask_security import current_user
 
-        if not current_user.is_authenticated:
-            return None
-
-        return current_user.id
+        return current_user.id if current_user.is_authenticated else None
 
     # ROLES
     # @property

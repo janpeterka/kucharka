@@ -1,7 +1,7 @@
 from app import db, BaseModel
 
 # from flask_security import RoleMixin
-from flask_security.models.fsqla_v2 import FsRoleMixin as RoleMixin
+from flask_security.models.fsqla_v3 import FsRoleMixin as RoleMixin
 
 from app.helpers.base_mixin import BaseMixin
 from app.presenters import BasePresenter

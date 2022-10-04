@@ -859,11 +859,11 @@
         },
         "turbo-flask": {
             "hashes": [
-                "sha256:565b0d2721ddf0f92c7ace327f83e86fae00b9b84af633e8b16ceb3ab87948d8",
-                "sha256:5f896199184879daeedbe9b0fc61b167263e1aefb7d64c26f85962287b770ad0"
+                "sha256:c98dd0a37dd767359dc2f6278a0c7a248f8642ff01349423140e266d75a0f026",
+                "sha256:ed5c0f28b5325de1b4a65266739ee20e3a6ee773e609576fc5ab54dc3680088e"
             ],
             "index": "pypi",
-            "version": "==0.8.0"
+            "version": "==0.8.1"
         },
         "unidecode": {
             "hashes": [

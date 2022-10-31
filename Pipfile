@@ -27,7 +27,7 @@ sentry-sdk = {extras = [ "sqlalchemy",]}
 flask-dropzone = "*"
 flask-dance = "*"
 gevent = "*"
-werkzeug = "==2.1.2" # until flask-classful is updated (22-09-19)
+werkzeug = "==2.2.2" # until flask-classful is updated (22-09-19)
 
 [dev-packages]
 mypy = "*"

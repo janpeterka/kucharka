@@ -558,11 +558,11 @@
         },
         "icalendar": {
             "hashes": [
-                "sha256:129304fdbad4169acc635d08b658ca22ba449b5b22b5157c3774626bc60072db",
-                "sha256:9748b7c02efcc43e58d0615ae0976ac4f265e90dadee9b4f884de29905c1b395"
+                "sha256:1cdcd27307e55db25bd7f99924b7a31c6b2d123228e7dae6723974a4a1d60258",
+                "sha256:ca60810598681cb239fc3190202e01a3305e4f0389576273892dda31249f25e4"
             ],
             "index": "pypi",
-            "version": "==4.1.0"
+            "version": "==5.0.3"
         },
         "idna": {
             "hashes": [

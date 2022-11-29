@@ -1,5 +1,3 @@
-from tests.factories import IngredientFactory, RecipeFactory
-
 import pytest
 
 from app import create_app
@@ -35,9 +33,14 @@ def db(app):
         _db.drop_all()
         _db.create_all()
         _db.engine.execute("SET FOREIGN_KEY_CHECKS = 1;")
-
-        db_fill(_db)
     return _db
+
+
+@pytest.fixture(autouse=True, scope="function")
+def data(db):
+    _clear_db(db)
+    db_create_roles(db)
+    # db_create_data(db)
 
 
 def _clear_db(db):
@@ -47,12 +50,7 @@ def _clear_db(db):
     db.session.commit()
 
 
-def db_fill(_db):
-    db_set_roles(_db)
-    db_set_data(_db)
-
-
-def db_set_roles(_db):
+def db_create_roles(_db):
     from app import security
 
     roles = [
@@ -91,22 +89,3 @@ def db_set_roles(_db):
 
     for user in users:
         user.save()
-
-
-def db_set_data(_db):
-    # from flask_security import create_user, create_role
-    from app.models import Ingredient, User
-
-    IngredientFactory(created_by=User.load(1).id).save(),
-    IngredientFactory(created_by=User.load(1).id).save(),
-    IngredientFactory(created_by=User.load(1).id).save(),
-
-    recipe = RecipeFactory(portion_count=1)
-    recipe.add_ingredient(Ingredient.load_all()[0], amount=20)
-    recipe.add_ingredient(Ingredient.load_all()[2], amount=10)
-    recipe.save()
-
-    recipe_2 = RecipeFactory(name="veřejný recept", shared=True)
-    recipe_2.add_ingredient(Ingredient.load_all()[0], amount=20)
-    recipe_2.add_ingredient(Ingredient.load_all()[2], amount=10)
-    recipe_2.save()

@@ -1,8 +1,32 @@
+import pytest
 from tests.helpers import with_authenticated_user
 
 
-def test_public_requests(app, client, db):
+@pytest.fixture
+def recipes(db):
+    from app.models import Ingredient, User
+    from tests.factories import IngredientFactory, RecipeFactory
+
+    IngredientFactory(id=1, created_by=User.load(1).id).save(),
+    IngredientFactory(id=2, created_by=User.load(1).id).save(),
+    IngredientFactory(id=3, created_by=User.load(1).id).save(),
+
+    recipe = RecipeFactory(id=1, portion_count=1)
+    recipe.add_ingredient(Ingredient.load_all()[0], amount=20)
+    recipe.add_ingredient(Ingredient.load_all()[2], amount=10)
+    recipe.save()
+
+    recipe_2 = RecipeFactory(id=2, name="veřejný recept", shared=True)
+    recipe_2.add_ingredient(Ingredient.load_all()[0], amount=20)
+    recipe_2.add_ingredient(Ingredient.load_all()[2], amount=10)
+    recipe_2.save()
+
+
+def test_public_requests(app, recipes, client):
     # getting public page responses
+    from flask_security import current_user
+
+    print(current_user)
 
     pages = [
         {"path": "/ingredient/show/1/", "code": 302},  # redirect to login
@@ -14,7 +38,7 @@ def test_public_requests(app, client, db):
         assert client.get(page["path"]) == page["code"], f"path: {page['path']}"
 
 
-def test_requests_logged_in(app, db, client):
+def test_requests_logged_in(app, recipes, client):
     with_authenticated_user(app, username="user")
 
     pages = [

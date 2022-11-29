@@ -48,24 +48,6 @@ def formatted_amount(amount):
     return int(amount)
 
 
-def link_to(obj, **kwargs):
-    try:
-        return obj.link_to(**kwargs)
-    except Exception:
-        raise NotImplementedError(
-            f"{obj}({obj.__class__}) doesn't have `link_to` implemented"
-        )
-
-
-def link_to_edit(obj, **kwargs):
-    try:
-        return obj.link_to_edit(**kwargs)
-    except Exception:
-        raise NotImplementedError(
-            f"{obj}({obj.__class__}) doesn't have `link_to_edit` implemented"
-        )
-
-
 def inflect(word, value):
     dictionary = {
         "den": {0: "dní", 1: "den", 2: "dny", 5: "dní"},

@@ -20,7 +20,11 @@ class EventDay(DayMixin):
     def __repr__(self):
         return f"Day {self.date} of {self.event}"
 
-    def link_to(self):
+    def path_to_show(self):
+        return None
+
+    @property
+    def default_link_value(self):
         return self.weekday
 
     @property

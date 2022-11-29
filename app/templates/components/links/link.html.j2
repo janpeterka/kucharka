@@ -1,0 +1,8 @@
+<a href="{{ path }}"
+   {% if class %} class="{{ class }}"{% endif %}
+   {% if "data" in kwargs %}
+    {% for key, value in kwargs.get("data").items() %}
+        data-{{ key }}={{value}}
+     {% endfor %}
+  {% endif %}
+>{{ value }}</a>

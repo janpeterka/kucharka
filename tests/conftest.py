@@ -12,17 +12,10 @@ def app(scope="session"):
 
     @application.context_processor
     def utility_processor():
-        from app.helpers.context_processors import (
-            human_format_date,
-            link_to,
-            link_to_edit,
-            formatted_amount,
-        )
+        from app.helpers.context_processors import human_format_date, formatted_amount
 
         return dict(
             human_format_date=human_format_date,
-            link_to=link_to,
-            link_to_edit=link_to_edit,
             formatted_amount=formatted_amount,
         )
 
@@ -97,7 +90,7 @@ def db_set_roles():
 
 def db_set_data():
     # from flask_security import create_user, create_role
-    from app.models import Ingredient, Recipe, User
+    from app.models import Ingredient, User
 
     IngredientFactory(created_by=User.load(1).id).save(),
     IngredientFactory(created_by=User.load(1).id).save(),

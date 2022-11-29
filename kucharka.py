@@ -12,8 +12,6 @@ cli.register(application)
 def context_processors():
     from app.helpers.context_processors import (
         human_format_date,
-        link_to,
-        link_to_edit,
         formatted_amount,
         inflect,
     )
@@ -21,8 +19,6 @@ def context_processors():
     return dict(
         human_format_date=human_format_date,
         formatted_amount=formatted_amount,
-        link_to=link_to,
-        link_to_edit=link_to_edit,
         inflect=inflect,
     )
 

@@ -1,5 +1,4 @@
 {% from "macros/render_field.html.j2" import render_field, render_floating_field %}
-{% from "macros/icons.html.j2" import icon %}
 
 <div id="event-info">
 <form method="POST" action="{{ url_for('EventView:update', id=event.id) }}">

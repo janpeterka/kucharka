@@ -97,6 +97,11 @@ def create_app(config_name="default"):
 
     application.register_blueprint(google_oauth_bp, url_prefix="/oauth/")
 
+    # COMPONENTS
+    from app.components import register_all_components
+
+    register_all_components(application)
+
     if application.config["APP_STATE"] in ("test", "testing"):
         with application.app_context():
             # from app.helpers.tests.fill_db import db_fill

@@ -5,6 +5,8 @@ import pytest
 from app import create_app
 from app import db as _db
 
+pytest_plugins = ["fixtures"]
+
 
 @pytest.fixture(scope="session")
 def app():
@@ -26,17 +28,16 @@ def app():
 def db(app):
     # insert default data
     with app.app_context():
+        _db.engine.execute("drop database kucharka_tests;")
+        _db.engine.execute("create schema kucharka_tests;")
+        _db.engine.execute("use kucharka_tests;")
+        _db.engine.execute("SET FOREIGN_KEY_CHECKS = 0;")
         _db.drop_all()
         _db.create_all()
+        _db.engine.execute("SET FOREIGN_KEY_CHECKS = 1;")
 
+        db_fill(_db)
     return _db
-
-
-@pytest.fixture(scope="function")
-def data(db):
-    _clear_db(db)
-    db_set_roles()
-    db_set_data()
 
 
 def _clear_db(db):
@@ -46,7 +47,12 @@ def _clear_db(db):
     db.session.commit()
 
 
-def db_set_roles():
+def db_fill(_db):
+    db_set_roles(_db)
+    db_set_data(_db)
+
+
+def db_set_roles(_db):
     from app import security
 
     roles = [
@@ -87,7 +93,7 @@ def db_set_roles():
         user.save()
 
 
-def db_set_data():
+def db_set_data(_db):
     # from flask_security import create_user, create_role
     from app.models import Ingredient, User
 

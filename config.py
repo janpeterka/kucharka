@@ -81,7 +81,7 @@ class TestConfig(Config):
     SENTRY_MONITORING = False
     FLASK_DEBUG = False
 
-    SQLALCHEMY_DATABASE_URI = "sqlite://"
+    SQLALCHEMY_DATABASE_URI = os.environ.get("TEST_DB_STRING")
     SECRET_KEY = "justtesting"  # nosec
     SECURITY_PASSWORD_SALT = "justtesting"  # nosec
 

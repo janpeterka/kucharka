@@ -1,5 +1,5 @@
 import pytest
-from tests.helpers import with_authenticated_user
+from tests.helpers import with_authenticated_user, without_user
 
 
 @pytest.fixture
@@ -24,9 +24,7 @@ def recipes(db):
 
 def test_public_requests(app, recipes, client):
     # getting public page responses
-    from flask_security import current_user
-
-    print(current_user)
+    without_user(app)
 
     pages = [
         {"path": "/ingredient/show/1/", "code": 302},  # redirect to login

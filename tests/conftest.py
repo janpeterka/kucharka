@@ -6,8 +6,8 @@ from app import create_app
 from app import db as _db
 
 
-@pytest.fixture
-def app(scope="session"):
+@pytest.fixture(scope="session")
+def app():
     application = create_app(config_name="testing")
 
     @application.context_processor
@@ -22,15 +22,21 @@ def app(scope="session"):
     return application
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def db(app):
     # insert default data
     with app.app_context():
+        _db.drop_all()
         _db.create_all()
 
-    db_fill()
-
     return _db
+
+
+@pytest.fixture(scope="function")
+def data(db):
+    _clear_db(db)
+    db_set_roles()
+    db_set_data()
 
 
 def _clear_db(db):
@@ -38,11 +44,6 @@ def _clear_db(db):
     for table in reversed(meta.sorted_tables):
         db.session.execute(table.delete())
     db.session.commit()
-
-
-def db_fill():
-    db_set_roles()
-    db_set_data()
 
 
 def db_set_roles():
@@ -60,8 +61,6 @@ def db_set_roles():
     ]
 
     for role in roles:
-        print(role)
-        print(role.permissions)
         role.save()
 
     users = [

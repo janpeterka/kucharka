@@ -1,4 +1,4 @@
-<a href="{{ path }}"
+<a href="{{ path }}" data-turbo="false"
    {% if class %} class="{{ class }}"{% endif %}
    {% if "data" in kwargs %}
     {% for key, value in kwargs.get("data").items() %}

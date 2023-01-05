@@ -26,13 +26,17 @@ def app():
 def db(app):
     # insert default data
     with app.app_context():
-        _db.engine.execute("drop database kucharka_tests;")
-        _db.engine.execute("create schema kucharka_tests;")
-        _db.engine.execute("use kucharka_tests;")
-        _db.engine.execute("SET FOREIGN_KEY_CHECKS = 0;")
-        _db.drop_all()
-        _db.create_all()
-        _db.engine.execute("SET FOREIGN_KEY_CHECKS = 1;")
+        try:
+            _db.engine.execute("drop database kucharka_tests;")
+            _db.engine.execute("create schema kucharka_tests;")
+            _db.engine.execute("use kucharka_tests;")
+            _db.engine.execute("SET FOREIGN_KEY_CHECKS = 0;")
+            _db.drop_all()
+            _db.create_all()
+            _db.engine.execute("SET FOREIGN_KEY_CHECKS = 1;")
+        except Exception:
+            _db.create_all()
+
     return _db
 
 

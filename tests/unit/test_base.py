@@ -1,4 +1,13 @@
+import pytest
 from tests.helpers import with_authenticated_user
+
+
+@pytest.fixture
+def ingredients(db):
+    from app.models import User
+    from tests.factories import IngredientFactory
+
+    IngredientFactory(id=1, created_by=User.load(1).id).save(),
 
 
 def test_application(app):
@@ -24,7 +33,7 @@ def test_public_requests(app, client, db):
         assert client.get(page["path"]) == page["code"], f"path: {page['path']}"
 
 
-def test_requests_logged_in(app, db, client):
+def test_requests_logged_in(app, ingredients, client):
     with_authenticated_user(app, username="user")
 
     pages = [

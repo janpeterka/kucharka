@@ -4,6 +4,7 @@ on: [push]
 
 env:
   APP_STATE: "testing"
+  TEST_DB_STRING: "sqlite://"
 
 jobs:
   build:

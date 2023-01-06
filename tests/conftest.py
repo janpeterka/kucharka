@@ -1,13 +1,13 @@
-from tests.factories import IngredientFactory, RecipeFactory
-
 import pytest
 
 from app import create_app
 from app import db as _db
 
+pytest_plugins = ["fixtures"]
 
-@pytest.fixture
-def app(scope="session"):
+
+@pytest.fixture(scope="session")
+def app():
     application = create_app(config_name="testing")
 
     @application.context_processor
@@ -22,15 +22,29 @@ def app(scope="session"):
     return application
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def db(app):
     # insert default data
     with app.app_context():
-        _db.create_all()
-
-    db_fill()
+        try:
+            _db.engine.execute("drop database kucharka_tests;")
+            _db.engine.execute("create schema kucharka_tests;")
+            _db.engine.execute("use kucharka_tests;")
+            _db.engine.execute("SET FOREIGN_KEY_CHECKS = 0;")
+            _db.drop_all()
+            _db.create_all()
+            _db.engine.execute("SET FOREIGN_KEY_CHECKS = 1;")
+        except Exception:
+            _db.create_all()
 
     return _db
+
+
+@pytest.fixture(autouse=True, scope="function")
+def data(db):
+    _clear_db(db)
+    db_create_roles(db)
+    # db_create_data(db)
 
 
 def _clear_db(db):
@@ -40,12 +54,7 @@ def _clear_db(db):
     db.session.commit()
 
 
-def db_fill():
-    db_set_roles()
-    db_set_data()
-
-
-def db_set_roles():
+def db_create_roles(_db):
     from app import security
 
     roles = [
@@ -60,8 +69,6 @@ def db_set_roles():
     ]
 
     for role in roles:
-        print(role)
-        print(role.permissions)
         role.save()
 
     users = [
@@ -86,22 +93,3 @@ def db_set_roles():
 
     for user in users:
         user.save()
-
-
-def db_set_data():
-    # from flask_security import create_user, create_role
-    from app.models import Ingredient, User
-
-    IngredientFactory(created_by=User.load(1).id).save(),
-    IngredientFactory(created_by=User.load(1).id).save(),
-    IngredientFactory(created_by=User.load(1).id).save(),
-
-    recipe = RecipeFactory(portion_count=1)
-    recipe.add_ingredient(Ingredient.load_all()[0], amount=20)
-    recipe.add_ingredient(Ingredient.load_all()[2], amount=10)
-    recipe.save()
-
-    recipe_2 = RecipeFactory(name="veřejný recept", shared=True)
-    recipe_2.add_ingredient(Ingredient.load_all()[0], amount=20)
-    recipe_2.add_ingredient(Ingredient.load_all()[2], amount=10)
-    recipe_2.save()

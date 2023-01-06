@@ -23,7 +23,7 @@ class Recipe(BaseModel, BaseMixin, RecipeIngredientMixin, ItemPresenter):
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     last_updated_at = db.Column(db.DateTime, onupdate=db.func.current_timestamp())
 
-    description = db.Column(db.String())
+    description = db.Column(db.String(255))
 
     portion_count = db.Column(db.Integer)
 

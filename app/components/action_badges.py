@@ -2,8 +2,6 @@ from flask import Markup, url_for
 from app.components.buttons import ButtonTo
 from app.components.links import Link
 
-VALUES = {}
-
 
 class PillLink(Link):
     folder = "links"

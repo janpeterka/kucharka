@@ -1,10 +1,6 @@
 {% extends "base/base.html.j2" %}
 {% block title %} {{ recipe.name }} {% endblock %}
 
-{% block meta %}
-    <meta name="turbo-visit-control" content="reload">
-{% endblock %}
-
 {% block scripts %}
     {{ dropzone.load_js() }}
 {% endblock %}
@@ -41,11 +37,13 @@
         {% include "recipes/_description.html.j2" %}
     </div>
         
+</div>
+
+<div>
     <div class="col-12 col-md-5">
         {% include "recipes/_tasks.html.j2" %}
     </div>
 </div>
-
 
 <hr>
 

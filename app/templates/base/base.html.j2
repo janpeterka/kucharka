@@ -89,11 +89,7 @@
 {% endblock head %}
 </head>
 
-<body data-controller="flashing"
-      data-action="turbo:render@document->flashing#getMessage
-                   turbo:frame-load@document->flashing#getMessage 
-                   turbo:before-stream-render@document->flashing#getMessage">
-
+<body>
     {% block navbar %}            
         {% if current_user.is_authenticated %}
             {% include('navbars/navbar.html.j2') %}
@@ -108,13 +104,16 @@
     {% endblock %}
 
     {% block content_container %}
-    <turbo-frame id="container">
-    <div class="container mb-4">
-        {% include('base/_flashing.html.j2') %}
-        {% include('base/_system_message.html.j2') %}
-        {% block content %}{% endblock %}
-    </div>
-    </turbo-frame>
+        <div class="container mb-4">
+            {% block flashing %}
+                <div id="flashes" class="flash-panel position-fixed end-0 mt-0 me-2 me-md-5" style="max-width: 20rem; top: 6rem;">
+                  {% include('base/_flashing.html.j2') %}
+                </div>
+            {% endblock %}
+            
+            {% include('base/_system_message.html.j2') %}
+            {% block content %}{% endblock %}
+        </div>
     {% endblock %}
 
 </body>

@@ -15,11 +15,13 @@ def context_processors():
         formatted_amount,
         inflect,
     )
+    from app.models import all_dict as models
 
     return dict(
         human_format_date=human_format_date,
         formatted_amount=formatted_amount,
         inflect=inflect,
+        **models
     )
 
 
@@ -53,3 +55,19 @@ def sentry_add_user():
 
     if current_user.is_authenticated:
         set_user({"id": current_user.id, "username": current_user.name_or_email})
+
+
+@application.after_request
+def after_request(response):
+    from flask import render_template
+    from app import turbo
+
+    # if the response has the turbo-stream content type, then append one more
+    # stream with the contents of the alert section of the page
+    if response.headers["Content-Type"].startswith("text/vnd.turbo-stream.html"):
+        response.response.append(
+            turbo.update(render_template("_flashing.html.j2"), "flashes").encode()
+        )
+        if response.content_length:
+            response.content_length += len(response.response[-1])
+    return response

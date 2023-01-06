@@ -63,3 +63,27 @@ __all__ = [
     # non-db models
     "EventDay",
 ]
+
+all_dict = {
+    "Attendee": Attendee,
+    "Conversion": Conversion,
+    "DailyPlan": DailyPlan,
+    "DailyPlanTask": DailyPlanTask,
+    "DailyPlanRecipe": DailyPlanRecipe,
+    "Event": Event,
+    "EventPortionType": EventPortionType,
+    "File": File,
+    "Ingredient": Ingredient,
+    "IngredientCategory": IngredientCategory,
+    "Label": Label,
+    "LabelCategory": LabelCategory,
+    "Measurement": Measurement,
+    "PortionType": PortionType,
+    "Recipe": Recipe,
+    "RecipeImageFile": RecipeImageFile,
+    "RecipeTask": RecipeTask,
+    "RecipeCategory": RecipeCategory,
+    "Role": Role,
+    "Tip": Tip,
+    "User": User,
+}

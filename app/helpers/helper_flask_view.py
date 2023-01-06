@@ -11,43 +11,34 @@ from app.forms import *  # noqa: F401, F403, F406
 
 
 class HelperFlaskView(FlaskView):
+    def validate_create(self, klass):
+        self._validate_operation(klass)
+
+        if not klass.can_current_user_create():
+            abort(403)
+
     def validate_show(self, instance):
-        self.validate_operation(instance, "show")
+        self._validate_operation(instance)
+
+        if not instance.can_current_user_view:
+            abort(403)
 
     def validate_edit(self, instance):
-        self.validate_operation(instance, "edit")
+        self._validate_operation(instance)
 
-    def validate_create(self, klass):
-        self.validate_operation(klass, "create")
+        if not instance.can_current_user_edit:
+            abort(403)
 
     def validate_delete(self, instance):
-        self.validate_operation(instance, "delete")
+        self._validate_operation(instance)
 
-    # TODO: Use this only internally, use specific validation in controllers
-    def validate_operation(self, instance_or_klass, operation_type="show"):
+        if not instance.can_current_user_delete:
+            abort(403)
+
+    def _validate_operation(self, instance_or_klass):
         # if object_id is not None and instance is None:
         if instance_or_klass is None:
             abort(404)
-
-        if operation_type == "show":
-            if not instance_or_klass.can_current_user_view:
-                abort(403)
-
-        elif operation_type == "create":
-            # instance_or_klass is class in this case
-            if not instance_or_klass.can_current_user_create():
-                abort(403)
-
-        elif operation_type == "edit":
-            if not instance_or_klass.can_current_user_edit:
-                abort(403)
-
-        elif operation_type == "delete":
-            if not instance_or_klass.can_current_user_delete:
-                abort(403)
-
-        else:
-            raise AttributeError("unknown 'operation_type'")
 
     def template(self, template_name=None, *args, **kwargs):
         # Template name is given from view and method names if not provided

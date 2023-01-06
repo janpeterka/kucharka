@@ -1,0 +1,25 @@
+<form method="{{ method | upper }}"
+      action="{{ path }}"
+      {% if form_style %} style="{{ form_style }}" {% endif %}
+      {% if form_class %} class="{{ form_class }}" {% endif %}
+      {% if data %} data-turbo-frame="{{ data }}" {% endif %}
+      {% if confirmation %} data-turbo-confirm="{{ confirmation }}" {% endif %}
+>
+
+  <button type="submit"
+          class="{% if icon %} icon {% endif %} {{ class }}"
+          {% if style %} style="{{ style }}" {% endif %}
+          {% if disabled %} disabled {% endif %}
+          {% if data %}
+              {% for key, value in data.items() %}
+                  data-{{ key }}="{{value}}"
+              {% endfor %}
+                  
+          {% endif %}
+  >
+      
+      {% if value %} {{ value }} {% endif %}
+  
+  </button>
+
+</form>

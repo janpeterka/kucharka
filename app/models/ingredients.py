@@ -217,6 +217,3 @@ class IngredientCopy(ItemPresenter):
     @property
     def _ingredient(self):
         return Ingredient.load(self.id)
-
-    def link_to(self, **kwargs):
-        return self._ingredient.link_to(**kwargs)

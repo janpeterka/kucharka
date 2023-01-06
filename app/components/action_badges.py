@@ -40,9 +40,6 @@ def action_badge(  # noqa: C901
         icon_name = None
 
     if obj and action:
-        print(obj)
-        print(obj.link_info)
-
         if hasattr(obj, "link_info") and action in obj.link_info:
             method = obj.link_info[action].get("method", method)
             value_text = obj.link_info[action].get("value", value)

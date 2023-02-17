@@ -25,7 +25,7 @@ icalendar = "*"
 flask-dropzone = "*"
 flask-dance = "*"
 gevent = "*"
-werkzeug = "==2.1.2" # until flask-classful is updated (22-09-19)
+werkzeug = "==2.2.3" # until flask-classful is updated (22-09-19)
 sentry-sdk = {extras = [ "sqlalchemy",]}
 
 [dev-packages]

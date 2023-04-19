@@ -52,13 +52,14 @@ def create_app(config_name="default"):
 
     application.config.from_object(configs[config_name])
 
-    print(f"DB INFO: using {application.config['INFO_USED_DB']}")
+    print(
+        f"DB INFO: using {application.config['INFO_USED_DB']}, connected as {application.config['SQLALCHEMY_DATABASE_URI']}"
+    )
 
     # APPS
     db.init_app(application)
     migrate.init_app(application, db)
     security.init_app(application, user_datastore)
-    babel.init_app(application)
     turbo.init_app(application)
     mail.init_app(application)
     dropzone.init_app(application)

@@ -1,4 +1,4 @@
-from flask import url_for, Markup, escape
+from flask import url_for, escape
 
 from app.presenters import BasePresenter
 
@@ -39,27 +39,3 @@ class ItemPresenter(BasePresenter):
     @property
     def url(self):
         return self._path_to_show()
-
-    def link_to(self, value=None, **kwargs):
-        if not value:
-            value = self._default_value
-
-        class_ = ""
-        if "class" in kwargs:
-            class_ = f"class=\"{kwargs['class']}\""
-
-        return Markup(
-            f"<a data-turbo='false' {class_} href='{self._path_to_show(**kwargs)}'>{value}</a>"
-        )
-
-    def link_to_edit(self, value=None, **kwargs):
-        if not value:
-            value = self._default_value
-
-        class_ = ""
-        if "class" in kwargs:
-            class_ = f"class=\"{kwargs['class']}\""
-
-        return Markup(
-            f"<a data-turbo='false' {class_} href='{self._path_to_edit(**kwargs)}'>{value}</a>"
-        )

@@ -1,34 +1,11 @@
 /*Flashes*/
 
-div.flash {
-    z-index: 10000;
-    position: absolute;
+div.flash-panel {
     cursor: pointer;
+    z-index: 10000;
 }
 
-div.flash ul li{
-    list-style-type: none;
-    text-align: center; 
-    color: #101010;
-}
-
-div.flash.alert-error {
-    color: white;
-    background-color: var(--error);
-}
-
-div.flash .alert-success {
-    color: var(--success);
-}
-
-div.flash .alert-info {
-    color: var(--info);
-}
-
-div.flash .alert-warning {
-    color: var(--warning);
-}
-
-div.flash .alert-debug {
-    color: var(--debug);
+div.flash {
+    opacity: 0.8;
+    text-align: center;
 }

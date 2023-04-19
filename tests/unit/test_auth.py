@@ -13,7 +13,7 @@
 
 # login user
 def test_login(app, db, client):
-    response = _login(client, "admin@sk.cz", "pass123")
+    response = _login(client, "admin@skautskakucharka.cz", "navarit")
     assert b"v\xc3\xadtej!" in response.data
 
 

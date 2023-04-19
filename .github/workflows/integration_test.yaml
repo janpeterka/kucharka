@@ -1,10 +1,10 @@
-name: Unit tests
+name: Integration tests
 
 on: [push]
 
 env:
   APP_STATE: "testing"
-  TEST_DB_STRING: "sqlite://"
+  TEST_DB_STRING: "sqlite:///database.db"
   SECRET_KEY: "randomsecretkey"
   FLASK_APP: "kucharka"
 
@@ -38,7 +38,6 @@ jobs:
         pipenv install --dev
         pipenv run playwright install
 
-    - name: Test with pytest
+    - name: Test with playwright
       run: |
-        pipenv run pytest -c pyproject.toml -m "not integration"
-  
+        pipenv run pytest -c pyproject.toml -m "integration"

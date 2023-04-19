@@ -8,12 +8,12 @@ from app import db, BaseModel
 from app.helpers.base_mixin import BaseMixin
 from app.helpers.general import list_without_duplicated
 
-from app.presenters import ItemPresenter
+from app.presenters import RecipePresenter
 
 from app.models.mixins.recipes.recipe_ingredients import RecipeIngredientMixin
 
 
-class Recipe(BaseModel, BaseMixin, RecipeIngredientMixin, ItemPresenter):
+class Recipe(BaseModel, BaseMixin, RecipeIngredientMixin, RecipePresenter):
     __tablename__ = "recipes"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

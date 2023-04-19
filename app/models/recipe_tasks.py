@@ -2,10 +2,10 @@ from app import db, BaseModel
 
 from app.helpers.base_mixin import BaseMixin
 
-from app.presenters import ItemPresenter
+from app.presenters import RecipeTaskPresenter
 
 
-class RecipeTask(BaseModel, BaseMixin, ItemPresenter):
+class RecipeTask(BaseModel, BaseMixin, RecipeTaskPresenter):
     __tablename__ = "recipe_tasks"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

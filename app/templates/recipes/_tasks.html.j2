@@ -2,9 +2,7 @@
 
 <turbo-frame id="new-recipe-task">
     <h3> úkoly
-    {% if recipe.can_current_user_edit %}
-        <a href="{{ url_for('RecipeTaskView:new', recipe_id=recipe.id) }}" class="d-print-none"> {{ icon("add") }} </a>
-    {% endif %}
+    {{ action_badge("new", RecipeTask, path=url_for("RecipeTaskView:new", recipe_id=recipe.id), class="d-print-none") if recipe.can_current_user_edit }}
     </h3>
 </turbo-frame>
 

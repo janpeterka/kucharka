@@ -1,3 +1,5 @@
+from unidecode import unidecode
+
 from flask import flash, request, redirect, url_for
 from flask_classful import route
 from flask_security import login_required, current_user, permissions_required
@@ -17,20 +19,25 @@ class IngredientView(HelperFlaskView):
     @login_required
     def before_request(self, name, id=None, *args, **kwargs):
         self.ingredient = Ingredient.load(id)
-        if self.ingredient:
-            self.validate_show(self.ingredient)
-
-    def before_new(self):
-        self.form = create_form(IngredientForm)
-
-    def before_edit(self, id):
-        self.form = create_form(IngredientForm, obj=self.ingredient)
-
-        self.recipes = Recipe.load_by_ingredient_and_user(self.ingredient, current_user)
-        self.all_recipes = Recipe.load_by_ingredient(self.ingredient)
 
     def before_show(self, id):
         self.validate_show(self.ingredient)
+
+    def before_edit(self, id):
+        self.validate_edit(self.ingredient)
+
+    def index(self):
+        self.ingredients = current_user.personal_ingredients
+        self.ingredients.sort(key=lambda x: unidecode(x.name.lower()))
+
+        return self.template()
+
+    def new(self):
+        self.form = create_form(IngredientForm)
+
+        return self.template()
+
+    def show(self, id):
         self.from_new = request.args.get("from_new", False)
 
         self.recipes = Recipe.load_by_ingredient_and_user(self.ingredient, current_user)
@@ -42,22 +49,14 @@ class IngredientView(HelperFlaskView):
             if m not in self.ingredient.used_measurements
         ]
 
-    def before_index(self):
-        from unidecode import unidecode
-
-        self.ingredients = current_user.personal_ingredients
-        self.ingredients.sort(key=lambda x: unidecode(x.name.lower()))
-
-    def new(self):
-        return self.template()
-
-    def show(self, id):
-        return self.template()
-
-    def index(self):
         return self.template()
 
     def edit(self, id):
+        self.form = create_form(IngredientForm, obj=self.ingredient)
+
+        self.recipes = Recipe.load_by_ingredient_and_user(self.ingredient, current_user)
+        self.all_recipes = Recipe.load_by_ingredient(self.ingredient)
+
         return self.template()
 
     def post(self):

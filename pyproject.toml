@@ -1,0 +1,22 @@
+[tool.flake8]
+exclude = "migrations"
+ignore = ["D203","E501","W503","C901"]
+max_line_length = 88
+max-complexity = 10
+
+[tool.black]
+exclude = "migrations"
+
+[tool.bandit]
+exclude_dirs = ["tests", "migrations"]
+
+[tool.pytest]
+base_url = "http://localhost:5001"
+addopts = "--live-server-port=5001"
+
+[tool.pytest.ini_options]
+base_url = "http://localhost:5001"
+addopts = "--live-server-port=5001"
+markers = [
+  "integration: slow, integration tests (deselect with '-m \"not integration\"')",
+  ]

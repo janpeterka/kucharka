@@ -73,21 +73,21 @@ def db_create_roles(_db):
 
     users = [
         security.datastore.create_user(
-            id=1, username="user", email="user@sk.cz", password="pass123"
+            id=1, username="user", email="user@skautskakucharka.cz", password="navarit"
         ),
         security.datastore.create_user(
             id=2,
             username="application_manager",
-            email="appmanager@sk.cz",
+            email="appmanager@skautskakucharka.cz",
             roles=["application_manager"],
-            password="pass123",
+            password="navarit",
         ),
         security.datastore.create_user(
             id=3,
             username="admin",
-            email="admin@sk.cz",
+            email="admin@skautskakucharka.cz",
             roles=["admin"],
-            password="pass123",
+            password="navarit",
         ),
     ]
 

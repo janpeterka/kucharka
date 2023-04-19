@@ -19,16 +19,19 @@ def db_fill():
 
     users = [
         security.datastore.create_user(
-            username="user", email="user@sk.cz", password="pass123"
+            username="user", email="user@skautskakucharka.cz", password="navarit"
         ),
         security.datastore.create_user(
             username="application_manager",
-            email="appmanager@sk.cz",
+            email="appmanager@skautskakucharka.cz",
             roles=["application_manager"],
-            password="pass123",
+            password="navarit",
         ),
         security.datastore.create_user(
-            username="admin", email="admin@sk.cz", roles=["admin"], password="pass123"
+            username="admin",
+            email="admin@skautskakucharka.cz",
+            roles=["admin"],
+            password="navarit",
         ),
     ]
 

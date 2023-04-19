@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from flask_babel import Babel
+
 from turbo_flask import Turbo
 from flask_security import Security, SQLAlchemyUserDatastore
 from flask_mail import Mail
@@ -31,7 +31,6 @@ from app.models.roles import Role  # noqa: E402
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 
 migrate = Migrate()
-babel = Babel()
 mail = Mail()
 security = Security()
 dropzone = Dropzone()

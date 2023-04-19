@@ -29,6 +29,25 @@ class Config(object):
         "Žádost o reset hesla do Skautské kuchařky"  # nosec
     )
     SECURITY_SEND_PASSWORD_RESET_NOTICE_EMAIL = False
+    SECURITY_MSG_INVALID_EMAIL_ADDRESS = ("neplatná e-mailová adresa", "error")
+    SECURITY_MSG_EMAIL_NOT_PROVIDED = ("zadej e-mailovou adresu", "error")
+    SECURITY_MSG_RETYPE_PASSWORD_MISMATCH = ("hesla se neshodují", "error")
+    SECURITY_MSG_PASSWORD_INVALID_LENGTH = (
+        "heslo je příliš krátké, musí mít alespoň 8 znaků",
+        "error",
+    )
+    SECURITY_MSG_EMAIL_ALREADY_ASSOCIATED = (
+        ("%(email)s už je použit, chceš se přihlásit?"),
+        "error",
+    )
+
+    SECURITY_MSG_INVALID_PASSWORD = ("špatné heslo", "error")
+    SECURITY_MSG_USER_DOES_NOT_EXIST = ("uživatel neexistuje", "error")
+    SECURITY_MSG_LOGIN = ("nejdřív se přihlas", "warning")
+    SECURITY_MSG_PASSWORD_RESET_REQUEST = (
+        "poslali jsme ti instrukce k nastavení nového hesla na %(email)s",
+        "success",
+    )
     # SECURITY_EMAIL_SUBJECT_PASSWORD_NOTICE = "Vaše heslo do Skautské kuchařky bylo resetováno."
 
     # TURBO_WEBSOCKET_ROUTE = None

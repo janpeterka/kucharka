@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "f0224b0208f02445d9710c7a5030758f7a436a2739780570ce618594472cfb9d"
+            "sha256": "fd67dee4ae4ac9959ef17ce66159d319dd13867cb7c91a501243520739afece9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -318,8 +318,9 @@
             "version": "==2.2.3"
         },
         "flask-classful": {
+            "editable": true,
             "git": "https://github.com/janpeterka/flask-classful.git",
-            "ref": "521173d86af9e20be5e9986344f5740b0497ecdd"
+            "ref": "ea025fc1d5a6d318d094383144f084986d6040db"
         },
         "flask-dance": {
             "hashes": [

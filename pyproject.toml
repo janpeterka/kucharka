@@ -1,7 +1,7 @@
 [tool.flake8]
+exclude = "migrations"
 ignore = ["D203","E501","W503","C901"]
 max_line_length = 88
-exclude = "migrations"
 max-complexity = 10
 
 [tool.black]
@@ -19,6 +19,4 @@ base_url = "http://localhost:5001"
 addopts = "--live-server-port=5001"
 markers = [
   "integration: slow, integration tests (deselect with '-m \"not integration\"')",
-  "recurring_event: tests about recurring events",
-  "accounting: tests of accounting module",
   ]

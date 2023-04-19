@@ -31,7 +31,7 @@ describe('try unlogged things',() => {
       cy.get('input#password').type('kucharky')
       cy.get('input#password_confirm').type('kucharky')
       cy.get('input#submit').click()
-      cy.get('body').should('contain', 'already associated')
+      cy.get('body').should('contain', 'e-mail už je použit, chceš se přihlásit?')
   })
 
   it('can login', () => {

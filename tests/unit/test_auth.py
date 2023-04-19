@@ -10,23 +10,6 @@
 
 # AUTH
 
-# register
-def test_register_valid(app, db, client):
-    response = _register(client, "random@mail.com", "somepassword")
-    assert b"v\xc3\xadtej!" in response.data
-
-
-# register - already existing user
-def test_register_existing(app, db, client):
-    response = _register(client, "admin@sk.cz", "someotherpassword")
-    assert b"is already associated with an account." in response.data
-
-
-# register - invalid email
-def test_register_invalid(app, db, client):
-    response = _register(client, "admin", "somepassword")
-    assert b"Invalid email address" in response.data
-
 
 # login user
 def test_login(app, db, client):

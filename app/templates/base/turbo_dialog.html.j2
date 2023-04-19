@@ -1,0 +1,80 @@
+## desktop version
+<dialog id="turbo-confirm" class="rounded pt-3 ps-3 pe-3 pb-10 custom-confirm box-shadow">
+  <form method="dialog">
+
+      <!--smazat událost, příspěvek, komentář..-->
+      <div class="text-center">
+        ## <i class="bi bi-trash fa-5x text-danger" id="icon"></i>
+        <i class="fa-5x" id="icon"></i>
+      </div>
+
+      <div class="mb-4 text-center">
+        <div id="content">
+          <p>jsi si jistý?</p>
+        </div>
+      </div>
+
+    <div id="confirm-buttons" class="text-center">
+      <button class="btn btn-secondary" value="cancel" id="cancel">tohle nechci</button>
+      <button class="btn btn-danger" value="confirm" id="confirm">potvrdit</button>
+    </div>
+  </form>
+</dialog>
+
+<script type="module">
+  // hide the dialog if <dialog> is not supported (e.g. in old Safari)
+  if (!(typeof HTMLDialogElement === 'function')) {
+    let dialog = document.getElementById("turbo-confirm")
+    dialog.classList.add("d-none")
+  }
+
+  // source code for setConfirmMethod: https://github.com/hotwired/turbo/blob/1ec72ac3236038af50a0010f0821e0664eeac087/src/core/index.ts
+  Turbo.setConfirmMethod((message, element, submitter) => {
+    console.log(submitter)
+    if (typeof HTMLDialogElement === 'function') {
+      let dialog = document.getElementById("turbo-confirm")
+      // set internals of dialog element:
+      // set message
+      dialog.querySelector("#content").innerHTML = message
+      // set icon class: color and bi
+      const DEFAULT_ICON_CLASSES = "fa-5x"
+      dialog.querySelector("#icon").classList = [DEFAULT_ICON_CLASSES]
+      dialog.querySelector("#icon").classList.add("text-" + submitter.dataset.infoType)
+      if (submitter.querySelector("i:first-of-type") !== null){
+        dialog.querySelector("#icon").classList.add(...submitter.querySelector("i:first-of-type").dataset.iconClass.split(" "))
+      }
+
+      if ("confirmValue" in submitter.dataset) {
+        dialog.querySelector("#confirm").innerHTML = submitter.dataset.confirmValue
+      } else if (submitter.querySelector("span:first-of-type") !== null) {
+        let value = submitter.querySelector("span:first-of-type").innerHTML
+        dialog.querySelector("#confirm").innerHTML = value
+      } else {
+        dialog.querySelector("#confirm").innerHTML = "potvrdit"
+      }
+
+      dialog.querySelector("#confirm").classList = ["btn"]
+      dialog.querySelector("#confirm").classList.add("btn-" + submitter.dataset.infoType)
+
+      if ("disabled" in submitter.dataset && submitter.dataset.disabled == "True") {
+        dialog.querySelector("#confirm").disabled = true
+        dialog.querySelector("#confirm").innerHTML = "toto nemůžeš udělat"
+      } else {
+        dialog.querySelector("#confirm").disabled = false
+        // dialog.querySelector("#confirm").innerHTML = submitter.dataset.confirmValue
+      }
+
+      dialog.showModal()
+
+      return new Promise((resolve, reject) => {
+        dialog.addEventListener("close", () => {
+          resolve(dialog.returnValue == "confirm")
+        }, { once: true })
+      })
+    } else {
+      if (confirm(message)){
+        element.submit()
+      }
+    }
+  })
+</script>

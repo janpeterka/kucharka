@@ -5,6 +5,8 @@ on: [push]
 env:
   APP_STATE: "testing"
   TEST_DB_STRING: "sqlite://"
+  SECRET_KEY: "randomsecretkey"
+  FLASK_APP: "kucharka"
 
 jobs:
   build:

@@ -7,11 +7,6 @@ from tests.helpers import playwright_login
 def test_base_pages(db, live_server, page: Page):
     playwright_login(page)
 
-    from app.models import User
-
-    print("users:")
-    print(User.load_all())
-
     page.goto("/")
     expect(page.locator("body")).to_contain_text("vítej!")
 

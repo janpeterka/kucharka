@@ -132,10 +132,7 @@ class Ingredient(BaseModel, BaseMixin, ItemPresenter):
 
     @property
     def is_lasting(self) -> bool:
-        if self.category is None:
-            return False
-        else:
-            return self.category.is_lasting
+        return False if self.category is None else self.category.is_lasting
 
     @property
     def is_used(self) -> bool:

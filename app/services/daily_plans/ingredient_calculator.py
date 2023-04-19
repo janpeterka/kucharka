@@ -1,3 +1,6 @@
+from sqlalchemy import text
+
+
 class DailyPlanIngredientCalculator:
     @staticmethod
     def load_ingredient_amounts_for_daily_recipes(daily_recipes):
@@ -32,7 +35,7 @@ class DailyPlanIngredientCalculator:
                             I.id
                     """
 
-        result = db.engine.execute(amounts_sql)
+        result = db.session.execute(text(amounts_sql))
 
         ingredients = []
 
@@ -80,7 +83,7 @@ class DailyPlanIngredientCalculator:
                             I.id
                     """
 
-        result = db.engine.execute(amounts_sql)
+        result = db.session.execute(text(amounts_sql))
 
         ingredients = []
         for row in result:

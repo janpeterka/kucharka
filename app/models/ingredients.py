@@ -217,3 +217,11 @@ class IngredientCopy(ItemPresenter):
     @property
     def _ingredient(self):
         return Ingredient.load(self.id)
+
+    @property
+    def path_to_show(self):
+        return self._ingredient.path_to_show
+
+    @property
+    def path_to_edit(self):
+        return self._ingredient.path_to_edit

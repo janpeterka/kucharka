@@ -37,7 +37,7 @@ class Config(object):
         "error",
     )
     SECURITY_MSG_EMAIL_ALREADY_ASSOCIATED = (
-        ("%(email)s už je použit, chceš se přihlásit?"),
+        "e-mail už je použit, chceš se přihlásit?",
         "error",
     )
 

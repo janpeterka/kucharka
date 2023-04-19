@@ -25,7 +25,7 @@ def test_public_requests(app, client, db):
         {"path": "/login", "code": 200},
         {"path": "/register", "code": 200},
         {"path": "/public-recipe/public", "code": 200},
-        {"path": "recepty", "code": 308},
+        {"path": "/recepty", "code": 308},
         {"path": "/dashboard/", "code": 302},
     ]
 

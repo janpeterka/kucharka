@@ -52,9 +52,7 @@ def create_app(config_name="default"):
 
     application.config.from_object(configs[config_name])
 
-    print(
-        f"DB INFO: using {application.config['INFO_USED_DB']}, connected as {application.config['SQLALCHEMY_DATABASE_URI']}"
-    )
+    print(f"DB INFO: using {application.config['INFO_USED_DB']}")
 
     # APPS
     db.init_app(application)

@@ -64,8 +64,8 @@ def _path_from_string(text):
 
 
 def _get_path(obj_or_str):
-    if type(obj_or_str) == str:
-        path = _path_from_string(obj_or_str)
-    else:
-        path = obj_or_str.path_to_show()
-    return path
+    return (
+        _path_from_string(obj_or_str)
+        if type(obj_or_str) == str
+        else obj_or_str.path_to_show()
+    )

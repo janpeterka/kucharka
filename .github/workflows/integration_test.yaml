@@ -36,6 +36,6 @@ jobs:
         pipenv install --dev
         pipenv run playwright install
 
-    - name: Test with pytest
+    - name: Test with playwright
       run: |
         pipenv run pytest -c pyproject.toml -m "integration"

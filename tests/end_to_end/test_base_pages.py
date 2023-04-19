@@ -9,6 +9,7 @@ def test_base_pages(db, live_server, page: Page):
 
     from app.models import User
 
+    print("users:")
     print(User.load_all())
 
     page.goto("/")

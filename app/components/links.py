@@ -43,11 +43,12 @@ def link_to(obj_or_str, **kwargs):
 
 def link_to_edit(obj, **kwargs):
     from app.components import icon
+    from flask import Markup
 
     path = obj.path_to_edit()
 
     if kwargs.get("value", None) is None:
-        kwargs["value"] = icon("edit")
+        kwargs["value"] = f"{obj.name} " + Markup(icon("edit"))
 
     return Link(path=path, **kwargs).render()
 

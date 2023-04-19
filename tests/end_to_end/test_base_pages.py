@@ -7,7 +7,6 @@ from tests.helpers import playwright_login
 def test_base_pages(db, live_server, page: Page):
     playwright_login(page)
 
-    page.goto("/")
     expect(page.locator("body")).to_contain_text("vítej!")
 
     # page.goto("/ingredient/")

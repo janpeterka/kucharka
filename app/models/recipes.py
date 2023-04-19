@@ -329,7 +329,7 @@ class Recipe(BaseModel, BaseMixin, RecipeIngredientMixin, ItemPresenter):
         from sqlalchemy import func, select
 
         return (
-            select([func.count(UserHasRecipeReaction.recipe_id)])
+            select(func.count(UserHasRecipeReaction.recipe_id))
             .where(UserHasRecipeReaction.recipe_id == cls.id)
             .label("reaction_count")
         )

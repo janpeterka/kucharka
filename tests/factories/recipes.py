@@ -16,3 +16,7 @@ class RecipeFactory(factory.alchemy.SQLAlchemyModelFactory):
     created_by = 1
     portion_count = 1
     is_shared = False
+
+
+class PublicRecipeFactory(RecipeFactory):
+    is_shared = True

@@ -21,7 +21,7 @@ gevent = "~=22.10.2"
 # cryptography = "*"
 unidecode = "~=1.3.6"
 turbo-flask = "~=0.8.3"
-weasyprint = "~=57.2"
+weasyprint = "~=58.1"
 icalendar =  "~=5.0.4"
 sentry-sdk = {extras = [ "sqlalchemy",]}
 flask-classful = {editable = true, ref = "werkzeug-2.2", git = "https://github.com/janpeterka/flask-classful.git"}

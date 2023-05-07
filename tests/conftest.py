@@ -6,6 +6,15 @@ from app import db as _db
 pytest_plugins = ["fixtures"]
 
 
+# @pytest.fixture(scope="session")
+# def browser_context_args(browser_context_args):
+#     return {
+#         **browser_context_args,
+#         "storage_state": "tests/helpers/auth.json",
+#         "ignore_https_errors": True,
+#     }
+
+
 @pytest.fixture(scope="session")
 def app():
     application = create_app(config_name="testing")

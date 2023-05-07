@@ -1,0 +1,1 @@
+pipenv run playwright codegen localhost:5001 --target=python-pytest

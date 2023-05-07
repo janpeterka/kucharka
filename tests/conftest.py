@@ -53,6 +53,7 @@ def db(app):
 def data(db):
     _clear_db(db)
     db_create_roles(db)
+    db_create_default_data()
     # db_create_data(db)
 
 
@@ -102,3 +103,16 @@ def db_create_roles(_db):
 
     for user in users:
         user.save()
+
+
+def db_create_default_data():
+    from app.models import IngredientCategory, Measurement
+
+    IngredientCategory(name="Maso a masné výrobky").save()
+    IngredientCategory(name="Mléčné výrobky").save()
+    IngredientCategory(name="Ovoce a zelenina").save()
+    IngredientCategory(name="Suché").save()
+    IngredientCategory(name="Koření").save()
+
+    Measurement(name="gramy").save()
+    Measurement(name="kusy").save()

@@ -20,7 +20,7 @@ window.Stimulus = Application.start()
 // window.Stimulus.debug = true
 
 import BstableController from "../controllers/bstable_controller.js"
-window.Stimulus.register('bstable', SelectBadgesController)
+window.Stimulus.register('bstable', BstableController)
 
 import ClickerController from "../controllers/clicker_controller.js"
 window.Stimulus.register('clicker', ClickerController)
@@ -59,4 +59,4 @@ import Clipboard from 'stimulus-clipboard'
 window.Stimulus.register('clipboard', Clipboard)
 
 // Turbo
-// import * as Turbo from "@hotwired/turbo"
+import * as Turbo from "@hotwired/turbo"

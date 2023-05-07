@@ -36,6 +36,8 @@
     <!-- Or for RTL support -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.2.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
 
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
+
     <!-- Scripts -->
     {# <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script> #}
     {# <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script> #}
@@ -44,6 +46,10 @@
     <!-- Font Awesome Icons -->
     {# <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous"> #}
     <script src="https://kit.fontawesome.com/4ffc18f632.js" crossorigin="anonymous"></script>
+
+    {% block turbo %}
+      {{ turbo(url=url_for('static', filename="node_modules/@hotwired/turbo/dist/turbo.es2017-umd.js")) }}
+    {% endblock turbo %}
 
     <script defer type="module" src="{{ url_for('static', filename='js/dist/app.js') }}"></script>
 
@@ -64,7 +70,7 @@
     <!-- custom fonts -->
     <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' type='text/css'>
 
-    {{ turbo() }}
+
 
 
     {% block links %}{% endblock %}

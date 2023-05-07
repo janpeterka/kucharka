@@ -19,7 +19,7 @@ Sentry.init({
   replaysOnErrorSampleRate: 1.0,
 });
 
-const memberName = document.querySelector('meta[name="sentry-member-name"]').content
-const memberId = document.querySelector('meta[name="sentry-member-id"]').content
+const userName = document.querySelector('meta[name="sentry-user-name"]').content
+const userId = document.querySelector('meta[name="sentry-user-id"]').content
 
-Sentry.setUser({ user_id: memberId, username: memberName });
+Sentry.setUser({ user_id: userId, username: userName });

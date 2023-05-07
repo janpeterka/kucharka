@@ -10,7 +10,7 @@ import 'bootstrap-table';
 // import "./pwa";
 
 // // Start Sentry to log FE errors
-// import "./sentry";
+import "./sentry";
 
 
 // Stimulus

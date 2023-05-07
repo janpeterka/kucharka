@@ -1,4 +1,6 @@
 import { Controller } from "../../node_modules/@hotwired/stimulus"
+import select2 from '../../node_modules/select2';
+window.select2 = select2();
 
 export default class extends Controller {
   static targets = ["select"]
@@ -9,7 +11,6 @@ export default class extends Controller {
         {theme: 'bootstrap-5'}
       );
     }
-
   }
 
 }

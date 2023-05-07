@@ -1,7 +1,7 @@
-Stimulus.register("toggle-details", class extends Controller {
-  static get targets() {
-    return ["buttons"]
-  }
+import { Controller } from "../../node_modules/@hotwired/stimulus"
+
+export default class extends Controller {
+  static targets = ["buttons"]
 
   connect() {
     this.buttonsTarget.innerHTML = '\
@@ -26,4 +26,5 @@ Stimulus.register("toggle-details", class extends Controller {
       detail.open = value;
     }
   }
-})
+
+}

@@ -5,7 +5,6 @@
 {% from "macros/turbo.html.j2" import button_to, icon_button_to %}
 {% from "macros/loader.html.j2" import loader %}
 {% from "macros/render_image.html.j2" import render_image %}
-{% from 'javascript/stimulus.js.html' import stimulus %}
 
 {% if not user %}
     {% set user = current_user %}
@@ -15,19 +14,8 @@
 <html lang="cs">
 <head>
 {% block head %}
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    {% if not config.APP_STATE == "development" %}
-        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    {% endif %}
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    {% block meta %}{% endblock %} 
-
-    {% if config["SENTRY_MONITORING"] %}
-        {% include "javascript/_sentry.js.html" %}
-    {% else %}
-        <script type="text/javascript">console.log("No Sentry monitoring")</script>
-    {% endif %}
+    {% include "base/_meta.html.j2" %}
+    {% block meta %}{% endblock %}
     {# <link rel="icon" href="{{ url_for('static', filename='img/icon_space.png') }}"> #}
 
     <!-- Bootstrap -->
@@ -57,6 +45,9 @@
     {# <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous"> #}
     <script src="https://kit.fontawesome.com/4ffc18f632.js" crossorigin="anonymous"></script>
 
+    <script defer type="module" src="{{ url_for('static', filename='js/dist/app.js') }}"></script>
+
+
     
     <!-- Bootstrap Social -->
     <!-- <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap-social.css') }}"> -->
@@ -80,8 +71,6 @@
     {% block style %}{% endblock %}
     {% block scripts %}{% endblock %}
 
-    {{ stimulus() }}
-    
     <title>
         {% if config.APP_STATE == "development" %} 🚧 DEV -  {% endif %}
         {% block title %}{% endblock %}

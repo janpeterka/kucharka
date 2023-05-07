@@ -1,7 +1,7 @@
-Stimulus.register("clicker", class extends Controller {
-    static get targets() {
-      return ["area"]
-    }
+import { Controller } from "../../node_modules/@hotwired/stimulus"
+
+export default class extends Controller {
+  static targets = ["area"]
 
   connect() {
     for (let i = 0, item; item = this.areaTarget.querySelectorAll(".clickable")[i]; i++) {
@@ -15,4 +15,4 @@ Stimulus.register("clicker", class extends Controller {
     first_link.click();
   }
 
-})
+}

@@ -7,10 +7,6 @@
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
 {% endblock %}
 
-{% block scripts %}
-    <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
-{% endblock %}
-
 <div class="row">
     <div class="col">
         <h1 class="font-comfortaa"> moje suroviny </h1>
@@ -23,7 +19,7 @@
 
 <hr>
 
-<table id="ingredients" class="table"
+<table id="ingredients" class="table" data-controller="bstable"
         data-filter-control="true" data-toggle="table" data-search="true" data-pagination="true" data-sort-order="desc">
 
     <thead>

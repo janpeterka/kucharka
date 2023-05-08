@@ -1,0 +1,19 @@
+[Unit]
+Description=Gunicorn instance to serve kucharka
+After=network.target
+
+[Service]
+User=kucharka
+Group=webservices
+WorkingDirectory=/home/kucharka/kucharka/
+EnvironmentFile=/home/kucharka/kucharka/.env
+ExecStartPre=/bin/bash /home/kucharka/kucharka/bin/update.sh
+ExecStart=pipenv run gunicorn --workers 3 --bind 0.0.0.0:8000 -m 007 kucharka:application
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target
+
+
+

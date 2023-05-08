@@ -1,4 +1,6 @@
-Stimulus.register("select-badges", class extends Controller {
+import { Controller } from "../../node_modules/@hotwired/stimulus"
+
+export default class extends Controller {
     static targets = ["select", "badges"]
     static classes = ["selected", "unselected"]
     static values = {
@@ -132,4 +134,5 @@ Stimulus.register("select-badges", class extends Controller {
     }
     return arr;
   }
-})
+
+}

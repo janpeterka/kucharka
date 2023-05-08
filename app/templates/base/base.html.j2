@@ -5,7 +5,6 @@
 {% from "macros/turbo.html.j2" import button_to, icon_button_to %}
 {% from "macros/loader.html.j2" import loader %}
 {% from "macros/render_image.html.j2" import render_image %}
-{% from 'javascript/stimulus.js.html' import stimulus %}
 
 {% if not user %}
     {% set user = current_user %}
@@ -15,31 +14,13 @@
 <html lang="cs">
 <head>
 {% block head %}
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    {% if not config.APP_STATE == "development" %}
-        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    {% endif %}
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    {% block meta %}{% endblock %} 
+    {% include "base/_meta.html.j2" %}
 
-    {% if config["SENTRY_MONITORING"] %}
-        {% include "javascript/_sentry.js.html" %}
-    {% else %}
-        <script type="text/javascript">console.log("No Sentry monitoring")</script>
-    {% endif %}
+    {% block meta %}{% endblock %}
     {# <link rel="icon" href="{{ url_for('static', filename='img/icon_space.png') }}"> #}
 
     <!-- Bootstrap -->
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap-5.1.3/css/bootstrap.min.css') }}">
-    <script src="{{ url_for('static', filename='bootstrap-5.1.3/js/bootstrap.bundle.min.js') }}"></script>
-
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <!-- Select 2 -->
-    {# <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" /> #}
-    {# <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script> #}
 
     <!-- Styles -->
     {# <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" /> #}
@@ -48,14 +29,18 @@
     <!-- Or for RTL support -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.2.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
 
-    <!-- Scripts -->
-    {# <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script> #}
-    {# <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script> #}
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
 
     <!-- Font Awesome Icons -->
     {# <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous"> #}
     <script src="https://kit.fontawesome.com/4ffc18f632.js" crossorigin="anonymous"></script>
+
+    {% block turbo %}
+      {{ turbo(url=url_for('static', filename="node_modules/@hotwired/turbo/dist/turbo.es2017-umd.js")) }}
+    {% endblock turbo %}
+
+    <script defer type="module" src="{{ url_for('static', filename='js/dist/app.js') }}"></script>
+
 
     
     <!-- Bootstrap Social -->
@@ -73,15 +58,13 @@
     <!-- custom fonts -->
     <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' type='text/css'>
 
-    {{ turbo() }}
+
 
 
     {% block links %}{% endblock %}
     {% block style %}{% endblock %}
     {% block scripts %}{% endblock %}
 
-    {{ stimulus() }}
-    
     <title>
         {% if config.APP_STATE == "development" %} 🚧 DEV -  {% endif %}
         {% block title %}{% endblock %}

@@ -7,8 +7,13 @@ git fetch
 git reset origin/master --hard
 git pull
 
-# install packages
+# install python packages
 pipenv install
+
+# install javacript packages
+cd /home/kucharka/kucharka/app/static
+npm ci
+npm run build
 
 # upgrade database
 pipenv run flask db upgrade

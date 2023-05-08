@@ -9,6 +9,7 @@ git pull
 
 # install python packages
 pipenv install
+pipenv run flask db upgrade
 
 # install javacript packages
 cd /home/kucharka/kucharka/app/static
@@ -16,4 +17,3 @@ npm ci
 npm run build
 
 # upgrade database
-pipenv run flask db upgrade

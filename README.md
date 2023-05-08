@@ -13,3 +13,5 @@ Formatted with:
 Checked for vulnerabilities with:  
 [![security: bandit](https://img.shields.io/badge/security-bandit-yellow.svg)](https://github.com/PyCQA/bandit)
 
+Code quality check by:
+[![CodeFactor](https://www.codefactor.io/repository/github/janpeterka/kucharka/badge)](https://www.codefactor.io/repository/github/janpeterka/kucharka)

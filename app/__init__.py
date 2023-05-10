@@ -100,12 +100,4 @@ def create_app(config_name="default"):
 
     register_all_components(application)
 
-    if application.config["APP_STATE"] in ("test", "testing"):
-        with application.app_context():
-            # from app.helpers.tests.fill_db import db_fill
-            db.create_all()
-            print("Created database")
-
-            # db_fill()
-
     return application

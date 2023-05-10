@@ -1,4 +1,5 @@
-from flask import Markup, url_for
+from flask import url_for
+from markupsafe import Markup
 from app.components.buttons import ButtonTo
 from app.components.links import Link
 

@@ -1,4 +1,5 @@
 from flask import url_for
+from markupsafe import Markup
 from app.components import BaseComponent
 
 
@@ -43,7 +44,6 @@ def link_to(obj_or_str, **kwargs):
 
 def link_to_edit(obj, **kwargs):
     from app.components import icon
-    from flask import Markup
 
     path = obj.path_to_edit()
 

@@ -1,5 +1,5 @@
 from flask import render_template as render
-from flask import Markup
+from markupsafe import Markup
 
 
 class BaseComponent:

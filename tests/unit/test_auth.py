@@ -14,6 +14,7 @@
 # login user
 def test_login(app, db, client):
     response = _login(client, "admin@navarit.cz", "navarit")
+
     assert b"v\xc3\xadtej!" in response.data
 
 

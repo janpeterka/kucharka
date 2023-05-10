@@ -19,7 +19,7 @@ def test_application(app):
     assert app.config["TESTING"] is True
 
 
-def test_public_requests(app, client, db):
+def test_public_requests(app, client):
     # getting public page responses
     pages = [
         {"path": "/login", "code": 200},

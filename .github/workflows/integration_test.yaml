@@ -4,7 +4,7 @@ on: [push]
 
 env:
   APP_STATE: "testing"
-  TEST_DB_STRING: "sqlite:///database.db"
+  TEST_DB_STRING: "sqlite:///test.db"
   SECRET_KEY: "randomsecretkey"
   FLASK_APP: "kucharka"
 
@@ -21,23 +21,13 @@ jobs:
       with:
         python-version: 3.9
 
-    # - name: cache pipenv
-    #   id: cache-pipenv
-    #   uses: actions/cache@v2
-    #   with:
-    #     path: ~/.cache/pip
-    #     key: ${{ runner.os }}-pip-${{ hashFiles('**/Pipfile') }}
-    #     restore-keys: |
-    #       ${{ runner.os }}-pip-
-
     - name: Install dependencies
-      # if: steps.cache-pipenv.outputs.cache-hit != 'true'
       run: |
         python -m pip install --upgrade pip
-        pip install pipenv
-        pipenv install --dev
-        pipenv run playwright install
+        pip install poetry
+        poetry install
+        poetry run playwright install
 
     - name: Test with playwright
       run: |
-        pipenv run pytest -c pyproject.toml -m "integration"
+        poetry run pytest -c pyproject.toml -m "integration"

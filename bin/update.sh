@@ -8,12 +8,12 @@ git reset origin/master --hard
 git pull
 
 # install python packages
-pipenv install
-pipenv run flask db upgrade
+poetry install
+# upgrade database
+poetry run flask db upgrade
 
 # install javacript packages
 cd /home/kucharka/kucharka/app/static
 npm ci
 npm run build
 
-# upgrade database

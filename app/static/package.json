@@ -1,0 +1,27 @@
+{
+  "name": "navarit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "build": "node esbuild.config.js",
+    "watch": "esbuild js/src/app.js --bundle --outfile=js/dist/app.js --watch"
+  },
+  "author": "Jan Peterka",
+  "license": "ISC",
+  "dependencies": {
+    "@hotwired/stimulus": "^3.2.1",
+    "@hotwired/turbo": "^7.3.0",
+    "@sentry/browser": "^7.51.0",
+    "@sentry/esbuild-plugin": "^0.7.2",
+    "@sentry/tracing": "^7.51.0",
+    "bootstrap": "^5.2.3",
+    "bootstrap-icons": "^1.10.5",
+    "bootstrap-table": "^1.21.4",
+    "dropzone": "^6.0.0-beta.2",
+    "esbuild": "^0.17.18",
+    "select2": "^4.1.0-rc.0",
+    "stimulus-clipboard": "^3.3.0",
+    "stimulus-sortable": "^4.1.0"
+  }
+}

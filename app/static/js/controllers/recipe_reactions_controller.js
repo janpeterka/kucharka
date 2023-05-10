@@ -1,8 +1,7 @@
-Stimulus.register("recipe-reactions", class extends Controller {
+import { Controller } from "../../node_modules/@hotwired/stimulus"
 
-    static get targets() {
-        return ["recipe"]
-    }
+export default class extends Controller {
+    static targets = ["recipe"]
 
     connect() {
     }
@@ -18,4 +17,4 @@ Stimulus.register("recipe-reactions", class extends Controller {
         event.target.classList.add('fas')
         event.target.dataset.action = "click->recipe-reactions#empty"
     }
-});
+};

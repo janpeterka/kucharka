@@ -1,7 +1,7 @@
-Stimulus.register("set-duration", class extends Controller {
-    static get targets() {
-      return ["dateFrom", "dateTo", "duration"]
-    }
+import { Controller } from "../../node_modules/@hotwired/stimulus"
+
+export default class extends Controller {
+  static targets = ["dateFrom", "dateTo", "duration"]
 
   connect() {
     this.update_duration()
@@ -35,4 +35,4 @@ Stimulus.register("set-duration", class extends Controller {
     return result;
   }
 
-})
+}

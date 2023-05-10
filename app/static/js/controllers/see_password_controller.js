@@ -1,7 +1,7 @@
-Stimulus.register("see-password", class extends Controller {
-  static get targets() {
-    return ["passwordDiv", "passwordField"]
-  }
+import { Controller } from "../../node_modules/@hotwired/stimulus"
+
+export default class extends Controller {
+  static targets = ["passwordDiv", "passwordField"]
 
   connect() {
     this._add_icon()
@@ -20,4 +20,5 @@ Stimulus.register("see-password", class extends Controller {
   turnOffVisibility() {
     this.passwordFieldTarget.setAttribute("type", "password")
   }
-})
+
+}

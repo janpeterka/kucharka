@@ -17,7 +17,7 @@ pytest_plugins = ["fixtures"]
 
 @pytest.fixture(scope="session")
 def app():
-    application = create_app(config_name="testing")
+    application = create_app(config_name="test")
 
     @application.context_processor
     def utility_processor():
@@ -33,18 +33,20 @@ def app():
 
 @pytest.fixture(scope="session")
 def db(app):
+    from sqlalchemy import text
+
     # insert default data
     with app.app_context():
-        try:
-            _db.engine.execute("drop database kucharka_tests;")
-            _db.engine.execute("create schema kucharka_tests;")
-            _db.engine.execute("use kucharka_tests;")
-            _db.engine.execute("SET FOREIGN_KEY_CHECKS = 0;")
+        if app.config["SQLALCHEMY_DATABASE_URI"].startswith("sqlite:"):
+            _db.create_all()
+        else:
+            _db.session.execute(text("drop database kucharka_test;"))
+            _db.session.execute(text("create schema kucharka_test;"))
+            _db.session.execute(text("use kucharka_test;"))
+            _db.session.execute(text("SET FOREIGN_KEY_CHECKS = 0;"))
             _db.drop_all()
             _db.create_all()
-            _db.engine.execute("SET FOREIGN_KEY_CHECKS = 1;")
-        except Exception:
-            _db.create_all()
+            _db.session.execute(text("SET FOREIGN_KEY_CHECKS = 1;"))
 
     return _db
 
@@ -82,19 +84,19 @@ def db_create_roles(_db):
 
     users = [
         security.datastore.create_user(
-            id=1, username="user", email="user@skautskakucharka.cz", password="navarit"
+            id=1, username="user", email="user@navarit.cz", password="navarit"
         ),
         security.datastore.create_user(
             id=2,
             username="application_manager",
-            email="appmanager@skautskakucharka.cz",
+            email="appmanager@navarit.cz",
             roles=["application_manager"],
             password="navarit",
         ),
         security.datastore.create_user(
             id=3,
             username="admin",
-            email="admin@skautskakucharka.cz",
+            email="admin@navarit.cz",
             roles=["admin"],
             password="navarit",
         ),

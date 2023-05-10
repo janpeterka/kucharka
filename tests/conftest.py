@@ -37,7 +37,7 @@ def db(app):
 
     # insert default data
     with app.app_context():
-        if app.config["SQLALCHEMY_DATABASE_URI"] == "sqlite://":
+        if app.config["SQLALCHEMY_DATABASE_URI"].startswith("sqlite:"):
             _db.create_all()
         else:
             _db.session.execute(text("drop database kucharka_test;"))

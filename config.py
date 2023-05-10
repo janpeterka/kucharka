@@ -99,9 +99,7 @@ class TestConfig(Config):
     SENTRY_MONITORING = False
     FLASK_DEBUG = False
 
-    SQLALCHEMY_DATABASE_URI = (
-        "mysql+pymysql://kucharka:kucharka@localhost/kucharka_test?charset=utf8mb4"
-    )
+    SQLALCHEMY_DATABASE_URI = os.environ.get("TEST_DB_STRING")
     SECRET_KEY = "justtesting"  # nosec
     SECURITY_PASSWORD_SALT = "justtesting"  # nosec
 

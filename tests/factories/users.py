@@ -12,7 +12,7 @@ class UserFactory(factory.alchemy.SQLAlchemyModelFactory):
         sqlalchemy_session = db.session
 
     id = factory.Sequence(lambda n: n)
-    email = factory.Sequence(lambda n: f"user{n}@skautskakucharka.cz")
+    email = factory.Sequence(lambda n: f"user{n}@navarit.cz")
     password = factory.LazyAttribute(lambda a: hash_password("password"))
     full_name = factory.Sequence(lambda n: f"User {n}")
     username = factory.Sequence(lambda n: f"User {n}")

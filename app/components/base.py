@@ -38,6 +38,4 @@ class BaseComponent:
             k: all_attributes[k] for k in all_attributes if not k.startswith("_")
         }
 
-        # kwargs has higher priority, therefore rewrites public attributes
-        merged_values = {**public_attributes, **self.kwargs}
-        return merged_values
+        return {**public_attributes, **self.kwargs}

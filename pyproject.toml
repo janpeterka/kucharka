@@ -28,7 +28,7 @@ authors = ["Jan Peterka <jan.peterka@hey.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.9"
 
 email-validator = "*"
 flask-classful = { git = "https://github.com/janpeterka/flask-classful.git", branch = "werkzeug-2.2" }

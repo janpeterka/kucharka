@@ -1,5 +1,5 @@
 from wtforms.widgets import html_params
-from flask import Markup
+from markupsafe import Markup
 
 
 class ExtendedSelectWidget:
@@ -17,7 +17,6 @@ class ExtendedSelectWidget:
         self.multiple = multiple
 
     def __call__(self, field, option_attr={}, **kwargs):
-
         kwargs.setdefault("id", field.id)
 
         if self.multiple:

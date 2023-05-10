@@ -1,8 +1,6 @@
 from werkzeug.datastructures import MultiDict
 from flask import session
 
-# from flask import Markup
-
 from app.forms import *  # noqa: F401, F403
 
 # from wtforms.widgets import html_params

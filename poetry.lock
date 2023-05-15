@@ -710,19 +710,19 @@ resolved_reference = "ea025fc1d5a6d318d094383144f084986d6040db"
 
 [[package]]
 name = "flask-dance"
-version = "6.2.0"
+version = "7.0.0"
 description = "Doing the OAuth dance with style using Flask, requests, and oauthlib"
 category = "main"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "Flask-Dance-6.2.0.tar.gz", hash = "sha256:3f83570f32063a534abbfebb903eb0200e13cf8d4c5552e949fadc6b295531f8"},
-    {file = "flask_dance-6.2.0-py3-none-any.whl", hash = "sha256:53a5f9d0030bef7fbf48f219a6e7769acd915f9a12f5e96ed6a99bbc1b659969"},
+    {file = "Flask-Dance-7.0.0.tar.gz", hash = "sha256:a37dec5c3a21f13966178285d5c10691cd72203dcef8a01db802fef6287e716d"},
+    {file = "flask_dance-7.0.0-py3-none-any.whl", hash = "sha256:935f5806d587eed94b53cf356ee921466bb32ba83405ed5a4e8ac8ea859620dc"},
 ]
 
 [package.dependencies]
 Flask = ">=2.0.3"
-oauthlib = "*"
+oauthlib = ">=3.2"
 requests = ">=2.0"
 requests-oauthlib = ">=1.0.0"
 urlobject = "*"

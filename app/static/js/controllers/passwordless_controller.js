@@ -56,9 +56,10 @@ export default class extends Controller {
       const response = await fetch(`https://skautskakucharka.cz/signin?token=${token}`);
       const verifiedUser = await response.json();
 
-      this.passwordlessButtonTarget.value = verifiedUser
+      this.passwordlessButtonTarget.innerHTML = verifiedUser
 
       if (verifiedUser.success === true) {
+
         // If successful, proceed!
         console.log("Successfully signed in user")
       }

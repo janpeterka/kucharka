@@ -59,6 +59,7 @@ export default class extends Controller {
       if (verifiedUser.success === true) {
         // If successful, proceed!
         console.log("Successfully signed in user")
+        this.passwordlessButtonTarget.value = verifiedUser
       }
     } catch (error) {
       console.error(error);

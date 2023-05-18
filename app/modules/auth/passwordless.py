@@ -32,7 +32,7 @@ def register_token():
 @passwordless.route("/signin", methods=["POST"])
 def verify_sign_in():
     try:
-        token = request.json.get("token")
+        token = request.args.get("token")
 
         api_secret = app.config["PASSWORDLESS_SECRET"]
         headers = {"ApiSecret": api_secret, "Content-Type": "application/json"}

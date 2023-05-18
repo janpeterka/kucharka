@@ -49,9 +49,7 @@ export default class extends Controller {
 
   async signIn() {
     try {
-      // const { token, error } = await this.client.signinWithDiscoverable();
-      // console.log(token)
-      var token = "abc"
+      const { token, error } = await this.client.signinWithDiscoverable();
 
       const response = await fetch(`/passwordless/signin?token=${token}`, {method: "POST"});
       console.log(response)

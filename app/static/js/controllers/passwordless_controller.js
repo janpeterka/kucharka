@@ -49,19 +49,20 @@ export default class extends Controller {
 
   async signIn() {
     try {
-      const { token, error } = await this.client.signinWithDiscoverable();
-      console.log(token)
+      // const { token, error } = await this.client.signinWithDiscoverable();
+      // console.log(token)
+      var token = "abc"
 
-      const response = await fetch(`https://skautskakucharka.cz/passwordless/signin?token=${token}`, {method: "POST"});
+      const response = await fetch(`http://127.0.0.1:5000/passwordless/signin?token=${token}`, {method: "POST"});
       console.log(response)
       const verifiedUser = await response.json();
-
-      this.passwordlessButtonTarget.innerHTML = verifiedUser
 
       if (verifiedUser.success === true) {
 
         // If successful, proceed!
         console.log("Successfully signed in user")
+      } else {
+        console.log("Oh no, something went wrong!")
       }
     } catch (error) {
       console.error(error);

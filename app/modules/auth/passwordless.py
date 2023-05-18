@@ -33,7 +33,8 @@ def register_token():
 @passwordless.route("/signin", methods=["POST"])
 def verify_sign_in():
     import json
-    from sentry_sdk import capture_message
+
+    # from sentry_sdk import capture_message
 
     try:
         token = request.args.get("token")
@@ -41,24 +42,27 @@ def verify_sign_in():
         api_secret = app.config["PASSWORDLESS_SECRET"]
         headers = {"ApiSecret": api_secret, "Content-Type": "application/json"}
         json = json.dumps({"token": token})
-        capture_message("This is going fine")
+
+        # print("fine!")
 
         response = requests.post(
-            "https://v4.passwordless.dev/signin/verify",
-            json=json,
+            f"{app.config['PASSWORDLESS_URL']}/signin/verify",
+            data=json,
             headers=headers,
             timeout=5,
         )
-        capture_message(f"Their response was: {response.__dict__}")
+        # capture_message(f"Their response was: {response.__dict__}")
+        # print(response.__dict__)
         body = response.json()
-        capture_message(f"This is the body: {body}")
-        capture_message(f"This is the body jsonified: {jsonify(body)}")
+        # print(body)
+        # capture_message(f"This is the body: {body}")
+        # capture_message(f"This is the body jsonified: {jsonify(body)}")
 
-        # if body.get("success"):
-        #     print("Successfully verified sign-in for user:", body)
+        if body.get("success"):
+            print("Successfully verified sign-in for user:", body)
         #     # Set a cookie/userid or perform additional logic here
-        # else:
-        #     print("Sign-in failed:", body)
+        else:
+            print("Sign-in failed:", body)
 
         return jsonify(body)
     except Exception as e:

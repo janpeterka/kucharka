@@ -53,10 +53,9 @@ export default class extends Controller {
       console.log("logging in with alias: ", alias)
 
       const { token, error } = await this.client.signinWithAlias(alias);
-      console.log(token)
-      console.log(error)
 
-      const response = await fetch(`https://skautskakucharka.cz/passwordless/signin?token=${token}`);
+      const response = await fetch(`https://skautskakucharka.cz/passwordless/signin?token=${token}`, {method: "POST"});
+      console.log(response)
       const verifiedUser = await response.json();
 
       this.passwordlessButtonTarget.innerHTML = verifiedUser

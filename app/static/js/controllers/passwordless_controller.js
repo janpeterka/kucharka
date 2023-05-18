@@ -52,13 +52,12 @@ export default class extends Controller {
       const { token, error } = await this.client.signinWithDiscoverable();
 
       const response = await fetch(`/passwordless/signin?token=${token}`, {method: "POST"});
-      console.log(response)
       const verifiedUser = await response.json();
 
       if (verifiedUser.success === true) {
 
         // If successful, proceed!
-        console.log("Successfully signed in user")
+        console.log(`Successfully signed in user ${verifiedUser}`)
       } else {
         console.log("Oh no, something went wrong!")
       }

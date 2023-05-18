@@ -54,7 +54,7 @@ def google_logged_in(blueprint, token):
             # Create a new local user account for this user
             user = User.create(
                 email=info["email"],
-                password="x",
+                # password="x",
                 full_name=full_name,
                 active=True,
                 do_hash=False,

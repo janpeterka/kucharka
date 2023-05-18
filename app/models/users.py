@@ -1,6 +1,6 @@
 from operator import attrgetter
 
-from flask_security.models.fsqla_v2 import FsUserMixin as UserMixin
+from flask_security.models.fsqla_v3 import FsUserMixin as UserMixin
 from flask_security import hash_password
 
 from app import db, BaseModel, turbo
@@ -72,7 +72,7 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin, BasePresenter):
 
     @property
     def has_password(self) -> bool:
-        return self.password != "x"
+        return self.password not in ["x", None]
 
     @property
     def all_events(self) -> list:

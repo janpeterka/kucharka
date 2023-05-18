@@ -57,7 +57,8 @@ export default class extends Controller {
       if (verifiedUser.success === true) {
 
         // If successful, proceed!
-        console.log(`Successfully signed in user ${verifiedUser}`)
+        console.log(verifiedUser)
+        console.log(`Successfully signed in user`)
       } else {
         console.log("Oh no, something went wrong!")
       }

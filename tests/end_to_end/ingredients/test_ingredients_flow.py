@@ -1,7 +1,9 @@
+import pytest
 from playwright.sync_api import Page, expect
 from tests.helpers import playwright_login
 
 
+@pytest.mark.integration
 def test_ingredient_creation(page: Page) -> None:
     playwright_login(page, "user")
 

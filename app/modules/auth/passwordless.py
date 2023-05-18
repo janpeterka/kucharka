@@ -46,11 +46,10 @@ def verify_sign_in():
         response = requests.post(url, data=json_data, headers=headers, timeout=5)
         body = response.json()
 
-        if body.get("success"):
-            login_user(User.load(body["userId"]))
-            return redirect(url_for("IndexView:index"))
-        else:
+        if not body.get("success"):
             return jsonify(body)
 
+        login_user(User.load(body["userId"]))
+        return redirect(url_for("IndexView:index"))
     except Exception as e:
         return jsonify({"error": str(e)}), 500

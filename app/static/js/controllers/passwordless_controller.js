@@ -53,7 +53,7 @@ export default class extends Controller {
 
       const { token, error } = await this.client.signinWithAlias(alias);
 
-      const response = await fetch(`https://skautskakucharka.cz/signin?token=${token}`);
+      const response = await fetch(`https://skautskakucharka.cz/passwordless/signin?token=${token}`);
       const verifiedUser = await response.json();
 
       this.passwordlessButtonTarget.innerHTML = verifiedUser

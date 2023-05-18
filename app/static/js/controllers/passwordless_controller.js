@@ -9,20 +9,20 @@ export default class extends Controller {
       apiKey: "skautskkuchaka:public:36bd9184a88e4a05a2db8af12a2f87d4"
     });
 
-    if (isBrowserSupported() === true){
-      if (await isPlatformSupported() === true){
-        console.log("Passwordless supported, cool!")
-        this.passwordTarget.classList.add("d-none");
-        this.normalButtonTarget.classList.add("d-none");
-        this.passwordlessButtonTarget.classList.remove("d-none");
-      } else {
-        console.log("Passwordless (platform) not supported, that's sad :(")
-        this.passwordlessButtonTarget.disabled = true;
-      }
-    } else {
-      console.log("Passwordless (browser) not supported, that's sad :(")
-      this.passwordlessButtonTarget.disabled = true;
-    }
+  //   if (isBrowserSupported() === true){
+  //     if (await isPlatformSupported() === true){
+  //       console.log("Passwordless supported, cool!")
+  //       this.passwordTarget.classList.add("d-none");
+  //       this.normalButtonTarget.classList.add("d-none");
+  //       this.passwordlessButtonTarget.classList.remove("d-none");
+  //     } else {
+  //       console.log("Passwordless (platform) not supported, that's sad :(")
+  //       this.passwordlessButtonTarget.disabled = true;
+  //     }
+  //   } else {
+  //     console.log("Passwordless (browser) not supported, that's sad :(")
+  //     this.passwordlessButtonTarget.disabled = true;
+  //   }
   }
 
   async registerUser(e) {

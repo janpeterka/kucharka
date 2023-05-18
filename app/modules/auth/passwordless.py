@@ -50,7 +50,7 @@ def verify_sign_in():
             timeout=5,
         )
         capture_message(f"Their response was: {response}")
-        body = response.json()
+        body = response.json
         capture_message(f"This is the body: {body}")
         capture_message(f"This is the body jsonified: {jsonify(body)}")
 

@@ -26,8 +26,16 @@
 <hr>
 <div class="testing-field">
     <div data-controller="passwordless">
-        <button data-passwordless-target="passwordlessButton" data-action="passwordless#registerUser">přidat passwordless token</button>
+        <button class="btn bg-color-secondary-action" data-passwordless-target="passwordlessButton" data-action="passwordless#registerUser">chci se přihlašovat bez hesla!</button>
     </div>
+
+    <hr>
+
+    <div data-controller="passwordless">
+        <input type="text" name="username" data-passwordless-target="username">
+        <button class="btn bg-color-primary-action color-white" data-passwordless-target="passwordlessButton" data-action="passwordless#signIn">přihlásit se bez hesla</button>
+    </div>
+    <hr>
     
     {% if user.calendar_hash %}
     <div data-controller="clipboard" class="row row-cols-lg-auto g-3 align-items-center mb-2">

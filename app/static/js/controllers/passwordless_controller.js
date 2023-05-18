@@ -4,17 +4,24 @@ import { Controller } from "../../node_modules/@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["passwordlessButton", "normalButton" ,"username", "password"];
 
-  connect() {
+  async connect() {
     this.client = new Client({
       apiKey: "skautskkuchaka:public:36bd9184a88e4a05a2db8af12a2f87d4"
     });
 
-    if (isBrowserSupported() === false || isPlatformSupported() === false){
-      console.log("Passwordless not supported")
-      this.passwordTarget.classList.remove("d-none");
-      this.normalButtonTarget.classList.remove("d-none");
+    if (isBrowserSupported() === true){
+      if (await isPlatformSupported() === true){
+        console.log("Passwordless supported, cool!")
+        this.passwordTarget.classList.add("d-none");
+        this.normalButtonTarget.classList.add("d-none");
+        this.passwordlessButtonTarget.classList.remove("d-none");
+      } else {
+        console.log("Passwordless (platform) not supported, that's sad :(")
+        this.passwordlessButtonTarget.disabled = true;
+      }
     } else {
-      console.log("Passwordless supported, cool!")
+      console.log("Passwordless (browser) not supported, that's sad :(")
+      this.passwordlessButtonTarget.disabled = true;
     }
   }
 
@@ -40,21 +47,21 @@ export default class extends Controller {
     }
   }
 
-  // async signIn() {
-  //   try {
-  //     const alias = document.getElementById("username").innerHTML;
+  async signIn() {
+    try {
+      const alias = this.usernameTarget.innerHTML;
 
-  //     const { token, error } = await this.client.signinWithAlias(alias);
+      const { token, error } = await this.client.signinWithAlias(alias);
 
-  //     const backendUrl = "https://skautskakucharka.cz"; // Your backend.
-  //     const response = await fetch(`${backendUrl}/signin?token=${token}`);
-  //     const verifiedUser = await response.json();
+      const response = await fetch(`https://skautskakucharka.cz/signin?token=${token}`);
+      const verifiedUser = await response.json();
 
-  //     if (verifiedUser.success === true) {
-  //       // If successful, proceed!
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
+      if (verifiedUser.success === true) {
+        // If successful, proceed!
+        console.log("Successfully signed in user")
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }

@@ -53,7 +53,9 @@ export default class extends Controller {
       // console.log(token)
       var token = "abc"
 
-      const response = await fetch(`http://127.0.0.1:5000/passwordless/signin?token=${token}`, {method: "POST"});
+      const url_base = "https://skautskakucharka.cz"
+
+      const response = await fetch(`${url_base}/passwordless/signin?token=${token}`, {method: "POST"});
       console.log(response)
       const verifiedUser = await response.json();
 

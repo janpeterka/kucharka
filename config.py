@@ -2,15 +2,12 @@ import os
 
 
 class Config(object):
-    # UPLOAD_FOLDER = "/temporary"
-    # ALLOWED_EXTENSIONS = set(["png", "jpg", "jpeg", "gif"])
-
     SECRET_KEY = os.environ.get("SECRET_KEY")
+
+    PREFERRED_URL_SCHEME = "https"
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = os.environ.get("DB_STRING")
-    # SQLALCHEMY_ENGINE_OPTIONS = {'pool_size': 5}
-    # SQLALCHEMY_POOL_SIZE = 5
 
     APP_STATE = os.environ.get("APP_STATE")  # production, development, debug, shutdown
 
@@ -96,8 +93,6 @@ class DevConfig(LocalProdConfig):
 
 
 class TestConfig(Config):
-    APP_STATE = "testing"
-
     TESTING = True
     WTF_CSRF_ENABLED = False
     SENTRY_MONITORING = False

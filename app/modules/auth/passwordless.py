@@ -40,7 +40,7 @@ def verify_sign_in():
         headers = {"ApiSecret": api_secret, "Content-Type": "application/json"}
         response = requests.post(
             "https://v4.passwordless.dev/signin/verify",
-            json=json.dump({"token": token}),
+            json=json.dumps({"token": token}),
             headers=headers,
         )
         body = response.json()

@@ -1,5 +1,5 @@
 from playwright.sync_api import Page, expect
-from app.helpers import playwright_login
+from tests.helpers import playwright_login
 
 
 def test_ingredient_creation(page: Page) -> None:

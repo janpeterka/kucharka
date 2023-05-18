@@ -32,11 +32,7 @@ def google_logged_in(blueprint, token):
     user_id = info["id"]
     first_name = info.get("given_name", None)
     last_name = info.get("family_name", None)
-    if first_name and last_name:
-        full_name = f"{first_name} {last_name}"
-    else:
-        full_name = None
-
+    full_name = f"{first_name} {last_name}" if first_name and last_name else None
     # Find this OAuth token in the database, or create it
     try:
         oauth = OAuth.query.filter_by(
@@ -54,7 +50,7 @@ def google_logged_in(blueprint, token):
             # Create a new local user account for this user
             user = User.create(
                 email=info["email"],
-                password="x",
+                # password="x",
                 full_name=full_name,
                 active=True,
                 do_hash=False,
@@ -87,4 +83,4 @@ def _generate_password():
     import string
 
     alphabet = string.ascii_letters + string.digits
-    return "".join(secrets.choice(alphabet) for i in range(80))
+    return "".join(secrets.choice(alphabet) for _ in range(80))

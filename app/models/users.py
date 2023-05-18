@@ -149,10 +149,7 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin, BasePresenter):
     def get_user_id():
         from flask_security import current_user
 
-        if not current_user.is_authenticated:
-            return None
-
-        return current_user.id
+        return None if not current_user.is_authenticated else current_user.id
 
     # ROLES
     # @property

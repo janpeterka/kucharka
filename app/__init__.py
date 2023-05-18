@@ -95,6 +95,10 @@ def create_app(config_name="default"):
 
     application.register_blueprint(google_oauth_bp, url_prefix="/oauth/")
 
+    from app.modules.auth.passwordless import passwordless
+
+    application.register_blueprint(passwordless, url_prefix="/passwordless/")
+
     # COMPONENTS
     from app.components import register_all_components
 

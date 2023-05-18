@@ -12,6 +12,7 @@
   "dependencies": {
     "@hotwired/stimulus": "^3.2.1",
     "@hotwired/turbo": "^7.3.0",
+    "@passwordlessdev/passwordless-client": "^1.1.0",
     "@sentry/browser": "^7.51.0",
     "@sentry/esbuild-plugin": "^0.7.2",
     "@sentry/tracing": "^7.51.0",

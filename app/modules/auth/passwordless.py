@@ -1,7 +1,8 @@
 import requests
-from flask import jsonify, request, Blueprint
+import json
+from flask import jsonify, request, Blueprint, redirect, url_for
 from flask import current_app as app
-from flask_security import current_user
+from flask_security import current_user, login_user
 
 passwordless = Blueprint("passwordless", __name__)
 
@@ -32,38 +33,23 @@ def register_token():
 
 @passwordless.route("/signin", methods=["POST"])
 def verify_sign_in():
-    import json
-
-    # from sentry_sdk import capture_message
+    from app.models import User
 
     try:
         token = request.args.get("token")
 
+        url = f"{app.config['PASSWORDLESS_URL']}/signin/verify"
         api_secret = app.config["PASSWORDLESS_SECRET"]
         headers = {"ApiSecret": api_secret, "Content-Type": "application/json"}
-        json = json.dumps({"token": token})
+        json_data = json.dumps({"token": token})
 
-        # print("fine!")
-
-        response = requests.post(
-            f"{app.config['PASSWORDLESS_URL']}/signin/verify",
-            data=json,
-            headers=headers,
-            timeout=5,
-        )
-        # capture_message(f"Their response was: {response.__dict__}")
-        # print(response.__dict__)
+        response = requests.post(url, data=json_data, headers=headers, timeout=5)
         body = response.json()
-        # print(body)
-        # capture_message(f"This is the body: {body}")
-        # capture_message(f"This is the body jsonified: {jsonify(body)}")
 
-        if body.get("success"):
-            print("Successfully verified sign-in for user:", body)
-        #     # Set a cookie/userid or perform additional logic here
-        else:
-            print("Sign-in failed:", body)
+        if not body.get("success"):
+            return jsonify(body)
 
-        return jsonify(body)
+        login_user(User.load(body["userId"]))
+        return redirect(url_for("IndexView:index"))
     except Exception as e:
         return jsonify({"error": str(e)}), 500

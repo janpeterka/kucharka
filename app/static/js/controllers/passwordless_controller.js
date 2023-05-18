@@ -1,4 +1,4 @@
-import { Client, isPlatformSupported, isBrowserSupported } from '../../node_modules/@passwordlessdev/passwordless-client';
+import { Client, isPlatformSupported, isBrowserSupported, isAutofillSupported } from '../../node_modules/@passwordlessdev/passwordless-client';
 import { Controller } from "../../node_modules/@hotwired/stimulus"
 
 export default class extends Controller {
@@ -9,23 +9,13 @@ export default class extends Controller {
       apiKey: "skautskkuchaka:public:36bd9184a88e4a05a2db8af12a2f87d4"
     });
 
-    // if (isBrowserSupported() === true){
-    //   if (await isPlatformSupported() === true){
-    //     console.log("Passwordless supported, cool!")
-    //     this.passwordTarget.classList.add("d-none");
-    //     this.normalButtonTarget.classList.add("d-none");
-    //     this.passwordlessButtonTarget.classList.remove("d-none");
-    //   } else {
-    //     console.log("Passwordless (platform) not supported, that's sad :(")
-    //     this.passwordlessButtonTarget.disabled = true;
-    //   }
-    // } else {
-    //   console.log("Passwordless (browser) not supported, that's sad :(")
-    //   this.passwordlessButtonTarget.disabled = true;
+    // if (await isPlatformSupported() === false){
+      // this.element.classList.add("d-none");
     // }
+
   }
 
-  async registerUser(e) {
+  async linkToken(e) {
     // do this after you get token on BE
     e.preventDefault();
 
@@ -47,20 +37,28 @@ export default class extends Controller {
     }
   }
 
-  async signIn() {
+  async signIn(e) {
+    e.preventDefault();
+
     try {
-      const { token, error } = await this.client.signinWithDiscoverable();
+      // const { token, error } = await this.client.signinWithDiscoverable();
+
+      let token = "debug"
 
       const response = await fetch(`/passwordless/signin?token=${token}`, {method: "POST"});
-      const verifiedUser = await response.json();
-
-      if (verifiedUser.success === true) {
-
-        // If successful, proceed!
-        console.log(verifiedUser)
-        console.log(`Successfully signed in user`)
+      if (response.redirected){
+        window.location.href = response.url;
       } else {
-        console.log("Oh no, something went wrong!")
+        const verifiedUser = await response.json();
+
+        if (verifiedUser.success === true) {
+
+          // If successful, proceed!
+          console.log(verifiedUser)
+          console.log(`Successfully signed in user`)
+        } else {
+          console.log("Oh no, something went wrong!")
+        }
       }
     } catch (error) {
       console.error(error);

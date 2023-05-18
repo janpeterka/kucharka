@@ -37,6 +37,9 @@ window.Stimulus.register('refresh', RefreshController)
 import SeePasswordController from "../controllers/see_password_controller.js"
 window.Stimulus.register('see-password', SeePasswordController)
 
+import PasswordlessController from "../controllers/passwordless_controller.js"
+window.Stimulus.register('passwordless', PasswordlessController)
+
 import RecipeReactionsController from "../controllers/recipe_reactions_controller.js"
 window.Stimulus.register('recipe-reactions', RecipeReactionsController)
 

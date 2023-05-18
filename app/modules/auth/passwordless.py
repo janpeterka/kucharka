@@ -48,9 +48,12 @@ def verify_sign_in():
             print("Sign-in failed:", body)
 
         from app.models import User
-        from flask_security import login_user
 
-        login_user(User.load(body["userId"]))
+        # from flask_security import login_user
+        from flask import flash
+
+        # login_user(User.load(body["userId"]))
+        flash(f"Successfully logged in {User.load(body['userId'])}", "success")
 
         return jsonify(body)
     except Exception as e:

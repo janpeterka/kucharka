@@ -16,6 +16,7 @@ def register_user():
 
     user = User.load_by(email=email)
     if user is not None:
+        flash("Uživatel s tímto emailem již existuje", "warning")
         return redirect(url_for("SupportView:passwordless"))
 
     user = security.datastore.create_user(username=email, email=email)

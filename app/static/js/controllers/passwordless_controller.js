@@ -15,6 +15,33 @@ export default class extends Controller {
 
   }
 
+  async registerUser(e){
+    e.preventDefault();
+    try {
+      const registerToken = await fetch(`/passwordless/register-user?username=${this.usernameTarget.value}`, {method: "POST"}).then(r => r.json());
+
+      if (registerToken.error) {
+        console.log("Error registering user from BE")
+        window.location.reload();
+      } else {
+        const { token, error } = await this.client.register(registerToken.token);
+
+        if (token) {
+          console.log("Successfully registered user")
+          window.location.href = "/"
+          // Successfully registered!
+        } else {
+          console.log("Error registering user")
+          console.error(error);
+        }
+      }
+
+    } catch (error) {
+      console.log("Error in flow")
+      console.error(error);
+    }
+  }
+
   async linkToken(e) {
     // do this after you get token on BE
     e.preventDefault();
@@ -30,6 +57,7 @@ export default class extends Controller {
       } else {
         console.log("Error registering user")
         console.error(error);
+        window.location.reload();
       }
     } catch (error) {
       console.log("Error in flow")
@@ -58,6 +86,7 @@ export default class extends Controller {
           console.log(`Successfully signed in user`)
         } else {
           console.log("Oh no, something went wrong!")
+          window.location.reload();
         }
       }
     } catch (error) {

@@ -16,3 +16,7 @@ class SupportView(FlaskView):
     @route("facebook")
     def facebook_redirect(self):
         return redirect("https://www.facebook.com/navarit.skaut")
+
+    @route("passwordless")
+    def passwordless(self):
+        return template("support/passwordless.html.j2")

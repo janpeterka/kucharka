@@ -42,6 +42,7 @@ def register_user():
 
     if response.ok:
         token = response.json().get("token")
+        login_user(user)
         return jsonify({"token": token}), 200
     else:
         flash("ajaj, něco se nepovedlo", "error")

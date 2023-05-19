@@ -59,6 +59,10 @@ export default class extends Controller {
   async signIn(e) {
     e.preventDefault();
 
+    if (await isPlatformSupported() === false) {
+      return;
+    }
+
     try {
       const { token, error } = await this.client.signinWithDiscoverable();
 

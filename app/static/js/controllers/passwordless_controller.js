@@ -64,7 +64,7 @@ export default class extends Controller {
     }
 
     try {
-      const { token, error } = await this.client.signinWithDiscoverable();
+      const { token, error } = await this.client.signinWithAutofill();
 
       const response = await fetch(`/passwordless/signin?token=${token}`, { method: "POST" });
       if (response.redirected) {

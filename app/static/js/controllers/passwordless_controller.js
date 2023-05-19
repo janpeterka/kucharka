@@ -13,13 +13,12 @@ export default class extends Controller {
     this.client = new Client({
       apiKey: "skautskkuchaka:public:36bd9184a88e4a05a2db8af12a2f87d4"
     });
+  }
 
+  async debugTargetConnected() {
     this.isPlatformSupportedValue = await isPlatformSupported();
     this.isBrowserSupportedValue = isBrowserSupported();
     this.isAutofillSupportedValue = await isAutofillSupported();
-  }
-
-  debugTargetConnected() {
     this.debugTarget.innerHTML = `plaftorm: ${this.isPlatformSupportedValue}, browser: ${this.isBrowserSupportedValue}, autofill: ${this.isAutofillSupportedValue}`
   }
 

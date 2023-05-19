@@ -39,7 +39,7 @@ export default class extends Controller {
         return;
       }
 
-      const { token, error } = await this.client.register(registerToken.token);
+      const { token, error } = await this.client.register(response.token);
 
       if (token) {
         console.log("Successfully registered user")

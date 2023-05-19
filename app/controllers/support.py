@@ -16,16 +16,3 @@ class SupportView(FlaskView):
     @route("facebook")
     def facebook_redirect(self):
         return redirect("https://www.facebook.com/navarit.skaut")
-
-    def flashing(self):
-        from flask import get_flashed_messages, render_template, jsonify
-
-        flashes = []
-        for category, message in get_flashed_messages(with_categories=True):
-            flashes.append(
-                render_template(
-                    "base/_flash.html.j2", category=category, message=message
-                )
-            )
-
-        return jsonify(flashes)

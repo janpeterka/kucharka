@@ -30,7 +30,7 @@ def register_user():
     capture_message(f"Registering user {user.id} {user.email}", level="info")
 
     response = requests.post(
-        f"{app.config['PASSWORDLESS_URL']}/register/user",
+        f"{app.config['PASSWORDLESS_URL']}/register/token",
         data=json.dumps(payload),
         headers=headers,
         timeout=5,

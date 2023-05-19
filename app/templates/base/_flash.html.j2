@@ -2,6 +2,6 @@
 {% if category == "error" %} {% set category = "danger" %} {% endif %}
 <div class='flash d-block alert alert-{{ category }} animate-fadeout position-relative' role="alert"
      data-controller="visibility" data-visibility-target="element"
-     data-action="click->visibility#remove animationend->visibility#remove">
+     data-action="click->visibility#hide animationend->visibility#hide">
    {{ message }}
 </div>

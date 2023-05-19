@@ -22,11 +22,13 @@ export default class extends Controller {
 
       if (registerToken.error) {
         console.log("Error registering user from BE")
+        window.location.reload();
       } else {
         const { token, error } = await this.client.register(registerToken.token);
 
         if (token) {
           console.log("Successfully registered user")
+          window.location.href = "/"
           // Successfully registered!
         } else {
           console.log("Error registering user")
@@ -55,6 +57,7 @@ export default class extends Controller {
       } else {
         console.log("Error registering user")
         console.error(error);
+        window.location.reload();
       }
     } catch (error) {
       console.log("Error in flow")
@@ -83,6 +86,7 @@ export default class extends Controller {
           console.log(`Successfully signed in user`)
         } else {
           console.log("Oh no, something went wrong!")
+          window.location.reload();
         }
       }
     } catch (error) {

@@ -1,6 +1,6 @@
 import requests
 import json
-from flask import jsonify, request, Blueprint, redirect, url_for
+from flask import jsonify, request, Blueprint, redirect, url_for, flash
 from flask import current_app as app
 from flask_security import current_user, login_user
 from app import security
@@ -36,6 +36,7 @@ def register_user():
         token = response.json().get("token")
         return jsonify({"token": token}), 200
     else:
+        flash("ajaj, něco se nepovedlo", "error")
         return jsonify({"error": "not ok"}), 404
 
 
@@ -79,6 +80,7 @@ def verify_sign_in():
         body = response.json()
 
         if not body.get("success"):
+            flash("ajaj, něco se nepovedlo", "error")
             return jsonify(body)
 
         login_user(User.load(body["userId"]))

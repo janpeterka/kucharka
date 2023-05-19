@@ -2,7 +2,7 @@ import { Client, isPlatformSupported, isBrowserSupported, isAutofillSupported } 
 import { Controller } from "../../node_modules/@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["passwordlessButton", "normalButton" ,"username", "password", "debug"];
+  static targets = ["passwordlessButton", "normalButton", "username", "password", "debug"];
   static values = {
     isPlatformSupported: Boolean,
     isBrowserSupported: Boolean,
@@ -22,50 +22,34 @@ export default class extends Controller {
     this.debugTarget.innerHTML = `plaftorm: ${this.isPlatformSupportedValue}, browser: ${this.isBrowserSupportedValue}, autofill: ${this.isAutofillSupportedValue}`
   }
 
-  async registerUser(e){
+  async registerUser(e) {
     e.preventDefault();
-    try {
-      const registerToken = await fetch(`/passwordless/register-user?username=${this.usernameTarget.value}`, {method: "POST"}).then(r => r.json());
 
-      if (registerToken.error) {
+    try {
+      const response = await fetch(`/passwordless/register-user?username=${this.usernameTarget.value}`, { method: "POST" }).then(r => r.json());
+      //
+
+      if (response.redirected) {
+        // this happens when user is already registered
+        window.location.href = response.url;
+        return;
+      } else if (response.error) {
         console.log("Error registering user from BE")
         window.location.reload();
-      } else {
-        const { token, error } = await this.client.register(registerToken.token);
-
-        if (token) {
-          console.log("Successfully registered user")
-          window.location.href = "/"
-          // Successfully registered!
-        } else {
-          console.log("Error registering user")
-          console.error(error);
-        }
+        return;
       }
-
-    } catch (error) {
-      console.log("Error in flow")
-      console.error(error);
-    }
-  }
-
-  async linkToken(e) {
-    // do this after you get token on BE
-    e.preventDefault();
-
-    try {
-      const registerToken = await fetch("/passwordless/register-token").then(r => r.json());
 
       const { token, error } = await this.client.register(registerToken.token);
 
       if (token) {
         console.log("Successfully registered user")
-        // Successfully registered!
+        window.location.href = "/"
+          // Successfully registered!
       } else {
         console.log("Error registering user")
         console.error(error);
-        window.location.reload();
       }
+
     } catch (error) {
       console.log("Error in flow")
       console.error(error);
@@ -78,8 +62,8 @@ export default class extends Controller {
     try {
       const { token, error } = await this.client.signinWithDiscoverable();
 
-      const response = await fetch(`/passwordless/signin?token=${token}`, {method: "POST"});
-      if (response.redirected){
+      const response = await fetch(`/passwordless/signin?token=${token}`, { method: "POST" });
+      if (response.redirected) {
         window.location.href = response.url;
       } else {
         const verifiedUser = await response.json();
@@ -98,4 +82,28 @@ export default class extends Controller {
       console.error(error);
     }
   }
+
+  async linkToken(e) {
+    // do this after you get token on BE
+    e.preventDefault();
+
+    try {
+      const registerToken = await fetch("/passwordless/register-token").then(r => r.json());
+
+      const { token, error } = await this.client.register(registerToken.token);
+
+      if (token) {
+        console.log("Successfully registered user")
+          // Successfully registered!
+      } else {
+        console.log("Error linking token")
+        console.error(error);
+        window.location.reload();
+      }
+    } catch (error) {
+      console.log("Error in flow")
+      console.error(error);
+    }
+  }
+
 }

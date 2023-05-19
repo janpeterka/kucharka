@@ -14,9 +14,12 @@ def register_user():
 
     email = request.args.get("username")
 
-    if (user := User.load_by(email=email)) is None:
-        user = security.datastore.create_user(username=email, email=email)
-        user.save()
+    user = User.load_by(email=email)
+    if user is not None:
+        return redirect(url_for("SupportView:passwordless"))
+
+    user = security.datastore.create_user(username=email, email=email)
+    user.save()
 
     headers = {
         "ApiSecret": app.config["PASSWORDLESS_SECRET"],

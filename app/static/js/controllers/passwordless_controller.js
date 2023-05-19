@@ -59,7 +59,7 @@ export default class extends Controller {
   async signIn(e) {
     e.preventDefault();
 
-    if (await isPlatformSupported() === false) {
+    if (await isPlatformSupported() === false || await isAutofillSupported() === false) {
       return;
     }
 

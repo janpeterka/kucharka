@@ -3,8 +3,40 @@ import json
 from flask import jsonify, request, Blueprint, redirect, url_for
 from flask import current_app as app
 from flask_security import current_user, login_user
+from app import security
 
 passwordless = Blueprint("passwordless", __name__)
+
+
+@passwordless.route("register-user", methods=["POST"])
+def register_user():
+    from app.models import User
+
+    email = request.args.get("username")
+
+    if (user := User.load_by(email=email)) is None:
+        user = security.datastore.create_user(username=email, email=email)
+        user.save()
+
+    headers = {
+        "ApiSecret": app.config["PASSWORDLESS_SECRET"],
+        "Content-Type": "application/json",
+    }
+
+    payload = {"userId": user.id, "username": user.email}
+
+    response = requests.post(
+        f"{app.config['PASSWORDLESS_URL']}/register/user",
+        data=payload,
+        headers=headers,
+        timeout=5,
+    )
+
+    if response.ok:
+        token = response.json().get("token")
+        return jsonify({"token": token}), 200
+    else:
+        return jsonify({"error": "not ok"}), 404
 
 
 @passwordless.route("register-token")
@@ -21,7 +53,7 @@ def register_token():
 
     response = requests.post(
         f"{app.config['PASSWORDLESS_URL']}/register/token",
-        json=payload,
+        data=payload,
         headers=headers,
         timeout=5,
     )

@@ -25,11 +25,19 @@ def register_user():
 
     payload = {"userId": user.id, "username": user.email}
 
+    from sentry_sdk import capture_message
+
+    capture_message(f"Registering user {user.id} {user.email}", level="info")
+
     response = requests.post(
         f"{app.config['PASSWORDLESS_URL']}/register/user",
-        data=payload,
+        data=json.dumps(payload),
         headers=headers,
         timeout=5,
+    )
+
+    capture_message(
+        f"response from passwordless is {response} ({response.__dict__})", level="info"
     )
 
     if response.ok:

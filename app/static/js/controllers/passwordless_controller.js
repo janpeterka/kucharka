@@ -2,17 +2,25 @@ import { Client, isPlatformSupported, isBrowserSupported, isAutofillSupported } 
 import { Controller } from "../../node_modules/@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["passwordlessButton", "normalButton" ,"username", "password"];
+  static targets = ["passwordlessButton", "normalButton" ,"username", "password", "debug"];
+  static values = {
+    isPlatformSupported: Boolean,
+    isBrowserSupported: Boolean,
+    isAutofillSupported: Boolean
+  }
 
   async connect() {
     this.client = new Client({
       apiKey: "skautskkuchaka:public:36bd9184a88e4a05a2db8af12a2f87d4"
     });
 
-    // if (await isPlatformSupported() === false){
-      // this.element.classList.add("d-none");
-    // }
+    this.isPlatformSupportedValue = await isPlatformSupported();
+    this.isBrowserSupportedValue = isBrowserSupported();
+    this.isAutofillSupportedValue = await isAutofillSupported();
+  }
 
+  debugTargetConnected() {
+    this.debugTarget.innerHTML = `plaftorm: ${this.isPlatformSupportedValue}, browser: ${this.isBrowserSupportedValue}, autofill: ${this.isAutofillSupportedValue}`
   }
 
   async registerUser(e){
@@ -69,9 +77,7 @@ export default class extends Controller {
     e.preventDefault();
 
     try {
-      // const { token, error } = await this.client.signinWithDiscoverable();
-
-      let token = "debug"
+      const { token, error } = await this.client.signinWithDiscoverable();
 
       const response = await fetch(`/passwordless/signin?token=${token}`, {method: "POST"});
       if (response.redirected){

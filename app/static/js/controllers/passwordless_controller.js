@@ -3,11 +3,6 @@ import { Controller } from "../../node_modules/@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["passwordlessButton", "normalButton", "username", "password", "debug"];
-  static values = {
-    isPlatformSupported: Boolean,
-    isBrowserSupported: Boolean,
-    isAutofillSupported: Boolean
-  }
 
   async connect() {
     this.client = new Client({
@@ -16,10 +11,7 @@ export default class extends Controller {
   }
 
   async debugTargetConnected() {
-    this.isPlatformSupportedValue = await isPlatformSupported();
-    this.isBrowserSupportedValue = isBrowserSupported();
-    this.isAutofillSupportedValue = await isAutofillSupported();
-    this.debugTarget.innerHTML = `plaftorm: ${this.isPlatformSupportedValue}, browser: ${this.isBrowserSupportedValue}, autofill: ${this.isAutofillSupportedValue}`
+    this.debugTarget.innerHTML = `plaftorm: ${await isPlatformSupported()}, browser: ${isBrowserSupported()}, autofill: ${await isAutofillSupported()}`
   }
 
   async registerUser(e) {
@@ -27,8 +19,6 @@ export default class extends Controller {
 
     try {
       let response = await fetch(`/passwordless/register-user?username=${this.usernameTarget.value}`, { method: "POST" });
-      console.log(response)
-      console.log(response.redirected)
 
       if (response.redirected) {
         // this happens when user is already registered
@@ -62,11 +52,15 @@ export default class extends Controller {
   async signIn(e) {
     if (await isPlatformSupported() === false || await isAutofillSupported() === false) {
       console.log("not supported")
+      alert("not supported");
       return;
     }
 
     try {
-      const { token, error } = await this.client.signinWithAutofill();
+      const client = new Client({
+        apiKey: "skautskkuchaka:public:36bd9184a88e4a05a2db8af12a2f87d4"
+      });
+      const { token, error } = await client.signinWithAutofill();
 
       const response = await fetch(`/passwordless/signin?token=${token}`, { method: "POST" });
       if (response.redirected) {

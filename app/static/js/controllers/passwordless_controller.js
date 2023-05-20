@@ -56,12 +56,12 @@ export default class extends Controller {
     // }
 
     try {
-      const client = new Client({
-        apiKey: "skautskkuchaka:public:36bd9184a88e4a05a2db8af12a2f87d4"
-      });
-      const promise = client.signinWithDiscoverable();
+      const promise = this.client.signinWithAutofill();
 
       const { token, error } = await promise
+      if (!token) {
+        return;
+      }
 
       const response = await fetch(`/passwordless/signin?token=${token}`, { method: "POST" });
       if (response.redirected) {

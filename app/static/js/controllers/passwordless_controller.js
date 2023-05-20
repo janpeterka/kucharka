@@ -63,6 +63,7 @@ export default class extends Controller {
     e.preventDefault();
 
     if (await isPlatformSupported() === false || await isAutofillSupported() === false) {
+      console.log("not supported")
       return;
     }
 

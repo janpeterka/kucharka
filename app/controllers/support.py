@@ -1,4 +1,4 @@
-from flask import redirect
+from flask import redirect, url_for
 from flask import render_template as template
 
 from flask_classful import FlaskView, route
@@ -24,3 +24,7 @@ class SupportView(FlaskView):
     @route("register")
     def passwordless_register(self):
         return template("support/passwordless_register.html.j2")
+
+    @route("passwordless")
+    def passwordless(self):
+        return redirect(url_for("SupportView:passwordless_register"))

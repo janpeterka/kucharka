@@ -26,8 +26,9 @@ export default class extends Controller {
     e.preventDefault();
 
     try {
-      const response = await fetch(`/passwordless/register-user?username=${this.usernameTarget.value}`, { method: "POST" }).then(r => r.json());
-      //
+      let response = await fetch(`/passwordless/register-user?username=${this.usernameTarget.value}`, { method: "POST" });
+      console.log(response)
+      console.log(response.redirected)
 
       if (response.redirected) {
         // this happens when user is already registered
@@ -38,6 +39,8 @@ export default class extends Controller {
         window.location.reload();
         return;
       }
+
+      response = await response.json();
 
       const { token, error } = await this.client.register(response.token);
 

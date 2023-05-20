@@ -52,7 +52,6 @@ export default class extends Controller {
   async signIn(e) {
     if (await isPlatformSupported() === false || await isAutofillSupported() === false) {
       console.log("not supported")
-      alert("not supported");
       return;
     }
 
@@ -60,7 +59,9 @@ export default class extends Controller {
       const client = new Client({
         apiKey: "skautskkuchaka:public:36bd9184a88e4a05a2db8af12a2f87d4"
       });
-      const { token, error } = await client.signinWithAutofill();
+      const promise = client.signinWithAutofill();
+
+      const { token, error } = await promise
 
       const response = await fetch(`/passwordless/signin?token=${token}`, { method: "POST" });
       if (response.redirected) {

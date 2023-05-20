@@ -50,16 +50,16 @@ export default class extends Controller {
   }
 
   async signIn(e) {
-    if (await isPlatformSupported() === false || await isAutofillSupported() === false) {
-      console.log("not supported")
-      return;
-    }
+    // if (await isPlatformSupported() === false || await isAutofillSupported() === false) {
+    //   console.log("not supported")
+    //   return;
+    // }
 
     try {
       const client = new Client({
         apiKey: "skautskkuchaka:public:36bd9184a88e4a05a2db8af12a2f87d4"
       });
-      const promise = client.signinWithAutofill();
+      const promise = client.signinWithDiscoverable();
 
       const { token, error } = await promise
 

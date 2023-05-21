@@ -49,7 +49,7 @@ export default class extends Controller {
     }
   }
 
-  async signinWithAutofill(e) {
+  async signInWithAutofill(e) {
     if (await isPlatformSupported() === false || await isAutofillSupported() === false) {
       console.log("not supported")
       return;

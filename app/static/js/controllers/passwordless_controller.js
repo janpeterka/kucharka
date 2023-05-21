@@ -49,14 +49,44 @@ export default class extends Controller {
     }
   }
 
-  async signIn(e) {
-    // if (await isPlatformSupported() === false || await isAutofillSupported() === false) {
-    //   console.log("not supported")
-    //   return;
-    // }
+  async signinWithAutofill(e) {
+    if (await isPlatformSupported() === false || await isAutofillSupported() === false) {
+      console.log("not supported")
+      return;
+    }
 
     try {
       const promise = this.client.signinWithAutofill();
+
+      const { token, error } = await promise
+      if (!token) {
+        return;
+      }
+
+      const response = await fetch(`/passwordless/signin?token=${token}`, { method: "POST" });
+      if (response.redirected) {
+        window.location.href = response.url;
+      } else {
+        const verifiedUser = await response.json();
+
+        if (verifiedUser.success === true) {
+
+          // If successful, proceed!
+          console.log(verifiedUser)
+          console.log(`Successfully signed in user`)
+        } else {
+          console.log("Oh no, something went wrong!")
+          window.location.reload();
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async signIn(e) {
+    try {
+      const promise = this.client.signinWithDiscovery();
 
       const { token, error } = await promise
       if (!token) {

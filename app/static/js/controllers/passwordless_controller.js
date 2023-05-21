@@ -60,6 +60,7 @@ export default class extends Controller {
 
       const { token, error } = await promise
       if (!token) {
+        console.log("no token")
         return;
       }
 

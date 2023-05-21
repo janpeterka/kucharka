@@ -87,7 +87,7 @@ export default class extends Controller {
 
   async signIn(e) {
     try {
-      const promise = this.client.signinWithDiscovery();
+      const promise = this.client.signinWithDiscoverable();
 
       const { token, error } = await promise
       if (!token) {

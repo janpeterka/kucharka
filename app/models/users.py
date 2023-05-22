@@ -43,10 +43,10 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin, BasePresenter):
     )
 
     @staticmethod
-    def create(email, password, do_hash=True, **kwargs):
+    def create(email, password=None, do_hash=True, **kwargs):
         from app import user_datastore
 
-        if do_hash:
+        if password and do_hash:
             password = hash_password(password)
 
         return user_datastore.create_user(email=email, password=password, **kwargs)

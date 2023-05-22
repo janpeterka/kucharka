@@ -10,7 +10,7 @@
         <turbo-frame id="all-recipes">
 	    <ul>
 	        {% for recipe in all_recipes %}
-	            <li>{{ link_to(recipe) }}
+	            <li>{{ link_to(recipe, data={"turbo-frame": "_top"}) }}
                     {% if not recipe.is_current_user_author %} ({{ recipe.author.name }}) {% elif recipe.is_shared %} {{ icon("shared") }} {% endif %}
                 </li>
 	        {% endfor %}

@@ -2,7 +2,7 @@
 <ul>
 {% for recipe in recipes %}
     <li>
-        {{ link_to(recipe) }}
+        {{ link_to(recipe, data={"turbo-frame": "_top"}) }}
         {% if recipe.is_shared %} {{ icon("shared") }} {% endif %}
     </li>
 {% endfor %}

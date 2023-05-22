@@ -23,6 +23,7 @@
     "esbuild": "^0.17.18",
     "select2": "^4.1.0-rc.0",
     "stimulus-clipboard": "^3.3.0",
-    "stimulus-sortable": "^4.1.0"
+    "stimulus-sortable": "^4.1.0",
+    "trumbowyg": "^2.27.3"
   }
 }

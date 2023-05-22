@@ -1,11 +1,6 @@
 {% extends "base/base.html.j2" %}
 {% block title %} recept {% endblock %}
 
-{% block links %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.25.1/trumbowyg.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.25.1/ui/trumbowyg.min.css" rel="stylesheet">
-{% endblock %}
-
 {% block content %}
 
 {{ link_to(recipe, class="btn bg-color-secondary-action color-white ms-2 mb-3", value="zavřít úpravy") }}

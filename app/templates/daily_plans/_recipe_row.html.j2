@@ -6,7 +6,7 @@
 
     <td>
         {% if not daily_recipe.is_shopping %}
-            {{ link_to(daily_recipe.recipe, portion_count=daily_recipe.portion_count) }}
+            {{ link_to(daily_recipe.recipe, portion_count=daily_recipe.portion_count, data={"turbo-frame": "_top"}) }}
         {% else %}
             {{ daily_recipe.recipe.name }}
         {% endif %}

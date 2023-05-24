@@ -6,26 +6,43 @@
 <div class="text-center">
 	<h1 class="text-uppercase font-comfortaa"> veřejné suroviny </h1>
 
-	<table id="public_ingredients" class="table">
-		<thead>
-			<th style="width: 30%"> surovina </th>
-		    <th style="width: 20%"> míra </th>
-		    <th style="width: 20%"> kategorie </th>
-			<th> Vytvořil*a </th>
-		    <th>  </th>
-		</thead>
-		<tbody>
-	    {% for ingredient in public_ingredients %}
-			{% set editing = (edit_id and ingredient.id == edit_id | int) %}
 
-			{% include "ingredients/public/_ingredient.html.j2" %}
+	<turbo-frame id="ingredients">
 
-	    	{% if editing %}
-	    		{% include "ingredients/public/_edit.html.j2"%}
-	    	{% endif %}
-		{% endfor %}
-		</tbody>
-	</table>
+		<table id="public-ingredients" class="table">
+			<thead>
+				<th style="width: 30%"> surovina </th>
+			    <th style="width: 20%"> míra </th>
+			    <th style="width: 20%"> kategorie </th>
+				<th> Vytvořil*a </th>
+			    <th>  </th>
+			</thead>
+			<tbody>
+				<tr>
+					<td colspan="5">
+						<turbo-frame id="public-ingredient-form">
+							<a href="{{ url_for('PublicIngredientView:new') }}" class="btn bg-color-secondary-action color-white"> {{ icon("add") }} veřejnou surovinu
+       			 </a>
+						</turbo-frame>
+					</td>
+				</tr>
+
+		    {% for ingredient in public_ingredients %}
+					{% include "ingredients/public/_ingredient.html.j2" %}
+				{% endfor %}
+
+				<tr>
+					<td colspan="5">
+						<turbo-frame id="public-ingredient-form">
+							<a href="{{ url_for('PublicIngredientView:new') }}" class="btn bg-color-secondary-action color-white"> {{ icon("add") }} veřejnou surovinu
+       			 </a>
+						</turbo-frame>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+	</turbo-frame>
 </div>
 
 {% endblock %}

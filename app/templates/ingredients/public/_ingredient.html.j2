@@ -1,17 +1,23 @@
 {% from "macros/turbo.html.j2" import button_to %}
 
-<tr id="public-ingredient-{{ ingredient.id }}">
+<tr id="public-ingredient-{{ ingredient.id }}"
+    class="color-transition"
+    data-controller="{{ 'class-animation' if highlighted_id == ingredient.id }}" data-class-animation-added-class="pulse-bg-success">
  
-  <td> {{ link_to(ingredient) }} </td>
-  <td> {{ ingredient.measurement.name }} </td>
-  <td> {{ ingredient.category.name }} </td>
-  <td> {{ ingredient.author.name }} </td>
-  <td>
-    {% if current_user.has_permission("manage-application") %}
-      {% if editing %} {% set form_class="visibility-hidden"%} {% endif %}
+  # set form = IngredientForm(obj=ingredient)
 
-      {{ button_to(url_for('PublicIngredientView:show_edit', id=ingredient.id), form_class=form_class, value="upravit", class="btn bg-color-secondary-action color-white float-end") }}
-    {% endif %}
+  <td> {{ link_to(ingredient) }} </td>
+  <td>
+    <form method="POST" action="{{ url_for('PublicIngredientView:update', id=ingredient.id) }}" data-controller="form">
+      {{ render_field(form.measurement, has_label=False, data_action="focusout->form#submit") }}
+    </form>
   </td>
+  <td>
+    <form method="POST" action="{{ url_for('PublicIngredientView:update', id=ingredient.id) }}" data-controller="form">
+      {{ render_field(form.category, has_label=False, data_action="focusout->form#submit") }}
+    </form>
+  </td>
+  <td> {{ ingredient.author.name }} </td>
+  <td>  </td>
 
 </tr>

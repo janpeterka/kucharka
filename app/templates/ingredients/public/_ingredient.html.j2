@@ -1,7 +1,8 @@
 {% from "macros/turbo.html.j2" import button_to %}
 
 <tr id="public-ingredient-{{ ingredient.id }}"
-    data-controller="{{ 'class-animation' if highlighted_id == ingredient.id }}" data-class-animation-added-class="bg-success">
+    class="color-transition"
+    data-controller="{{ 'class-animation' if highlighted_id == ingredient.id }}" data-class-animation-added-class="pulse-bg-success">
  
   # set form = IngredientForm(obj=ingredient)
 

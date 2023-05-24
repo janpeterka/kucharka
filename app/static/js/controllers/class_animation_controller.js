@@ -6,11 +6,9 @@ export default class extends Controller {
 
     connect() {
         this.element.classList.add(this.addedClass)
-        this.element.classList.add("color-transition")
 
         setTimeout(() => {
             this.element.classList.remove(this.addedClass)
-            this.element.classList.remove("color-transition")
         }, this.timeoutValue)
     }
 }

@@ -48,14 +48,6 @@
   to { max-height: 0; }
 }*/
 
-.color-transition {
-  transition: background-color 0.5s;
-}
-
-.color-transition.remove {
-  background-color: initial;
-}
-
 
 .animate-row-in {
   animation: fade-in 0.25s ease-out,

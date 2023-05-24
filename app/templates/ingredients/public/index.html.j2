@@ -6,26 +6,24 @@
 <div class="text-center">
 	<h1 class="text-uppercase font-comfortaa"> veřejné suroviny </h1>
 
-	<table id="public_ingredients" class="table">
-		<thead>
-			<th style="width: 30%"> surovina </th>
-		    <th style="width: 20%"> míra </th>
-		    <th style="width: 20%"> kategorie </th>
-			<th> Vytvořil*a </th>
-		    <th>  </th>
-		</thead>
-		<tbody>
-	    {% for ingredient in public_ingredients %}
-			{% set editing = (edit_id and ingredient.id == edit_id | int) %}
+	<turbo-frame id="ingredients">
 
-			{% include "ingredients/public/_ingredient.html.j2" %}
+		<table id="public-ingredients" class="table">
+			<thead>
+				<th style="width: 30%"> surovina </th>
+			    <th style="width: 20%"> míra </th>
+			    <th style="width: 20%"> kategorie </th>
+				<th> Vytvořil*a </th>
+			    <th>  </th>
+			</thead>
+			<tbody>
+		    {% for ingredient in public_ingredients %}
+					{% include "ingredients/public/_ingredient.html.j2" %}
+				{% endfor %}
+			</tbody>
+		</table>
 
-	    	{% if editing %}
-	    		{% include "ingredients/public/_edit.html.j2"%}
-	    	{% endif %}
-		{% endfor %}
-		</tbody>
-	</table>
+	</turbo-frame>
 </div>
 
 {% endblock %}

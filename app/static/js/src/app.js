@@ -17,7 +17,7 @@ import "./sentry";
 import { Application } from "@hotwired/stimulus"
 
 window.Stimulus = Application.start()
-// window.Stimulus.debug = true
+  // window.Stimulus.debug = true
 
 import BstableController from "../controllers/bstable_controller.js"
 window.Stimulus.register('bstable', BstableController)
@@ -60,6 +60,12 @@ window.Stimulus.register('sortable', Sortable)
 
 import Clipboard from 'stimulus-clipboard'
 window.Stimulus.register('clipboard', Clipboard)
+
+import FormController from "../controllers/form_controller.js"
+window.Stimulus.register('form', FormController)
+
+import ClassAnimationController from "../controllers/class_animation_controller.js"
+window.Stimulus.register('class-animation', ClassAnimationController)
 
 // Turbo
 import * as Turbo from "@hotwired/turbo"

@@ -5,7 +5,7 @@
 
 <turbo-frame id="public-ingredient-form">
 
-    <form action="{{ url_for('PublicIngredientView:post') }}" method="post" accept-charset="UTF-8" data-turbo-frame="ingredients">
+    <form action="{{ url_for('PublicIngredientView:post') }}" method="post" accept-charset="UTF-8" data-turbo-frame="_top">
         {{ form.hidden_tag() }}
 
         <div class="row">

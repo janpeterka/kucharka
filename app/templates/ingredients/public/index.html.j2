@@ -8,9 +8,6 @@
 
 
 	<turbo-frame id="ingredients">
-		<turbo-frame id="public-ingredient-form">
-			{{ link_to("PublicIngredientView:new", value="přidat veřejnou surovinu") }}
-		</turbo-frame>
 
 		<table id="public-ingredients" class="table">
 			<thead>
@@ -21,9 +18,27 @@
 			    <th>  </th>
 			</thead>
 			<tbody>
+				<tr>
+					<td colspan="5">
+						<turbo-frame id="public-ingredient-form">
+							<a href="{{ url_for('PublicIngredientView:new') }}" class="btn bg-color-secondary-action color-white"> {{ icon("add") }} veřejnou surovinu
+       			 </a>
+						</turbo-frame>
+					</td>
+				</tr>
+
 		    {% for ingredient in public_ingredients %}
 					{% include "ingredients/public/_ingredient.html.j2" %}
 				{% endfor %}
+
+				<tr>
+					<td colspan="5">
+						<turbo-frame id="public-ingredient-form">
+							<a href="{{ url_for('PublicIngredientView:new') }}" class="btn bg-color-secondary-action color-white"> {{ icon("add") }} veřejnou surovinu
+       			 </a>
+						</turbo-frame>
+					</td>
+				</tr>
 			</tbody>
 		</table>
 

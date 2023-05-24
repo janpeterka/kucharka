@@ -1,7 +1,7 @@
-from flask import request, redirect, url_for
+from flask import request, redirect, url_for, flash
 
 from flask_classful import route
-from flask_security import login_required, permissions_required
+from flask_security import login_required, permissions_required, current_user
 
 from app.helpers.helper_flask_view import HelperFlaskView
 
@@ -38,7 +38,10 @@ class PublicIngredientView(HelperFlaskView):
         ingredient = Ingredient()
         form.populate_obj(ingredient)
         ingredient.is_public = True
+        ingredient.author = current_user
         ingredient.save()
+
+        flash("surovina přidána", "success")
 
         return redirect(url_for("PublicIngredientView:index"))
 

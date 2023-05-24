@@ -6,7 +6,11 @@
 <div class="text-center">
 	<h1 class="text-uppercase font-comfortaa"> veřejné suroviny </h1>
 
+
 	<turbo-frame id="ingredients">
+		<turbo-frame id="public-ingredient-form">
+			{{ link_to("PublicIngredientView:new", value="přidat veřejnou surovinu") }}
+		</turbo-frame>
 
 		<table id="public-ingredients" class="table">
 			<thead>

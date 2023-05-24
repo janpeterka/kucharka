@@ -1,0 +1,23 @@
+{% extends "base/base.html.j2" %}
+{% block title %} nová veřejná surovina {% endblock %}
+
+{% block content %}
+
+<turbo-frame id="public-ingredient-form">
+
+    <form action="{{ url_for('PublicIngredientView:post') }}" method="post" accept-charset="UTF-8" data-turbo-frame="ingredients">
+        {{ form.hidden_tag() }}
+
+        <div class="row">
+            <div class="col-md-3 col-sm-12"> {{ render_floating_field(form.name) }} </div>
+            <div class="col-md-3 col-sm-12"> {{ render_floating_field(form.measurement) }} </div>
+            <div class="col-md-3 col-sm-12"> {{ render_floating_field(form.category) }} </div>
+            <div class="col-md-3 col-sm-12"> {{ render_field(form.submit, class="mt-2") }} </div>
+        </div>
+
+    </form>
+
+</turbo-frame>
+
+{% endblock %}
+

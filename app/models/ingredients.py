@@ -50,6 +50,7 @@ class Ingredient(BaseModel, BaseMixin, ItemPresenter):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         super().set_defaults()
+        self.author = current_user
 
     def set_additional_info(self, recipe):
         self.amount = self.load_amount_by_recipe(recipe)

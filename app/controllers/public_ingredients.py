@@ -5,9 +5,8 @@ from flask_security import login_required, permissions_required
 
 from app.helpers.helper_flask_view import HelperFlaskView
 
-from app.models.ingredients import Ingredient
-from app.models.ingredient_categories import IngredientCategory
-from app.models.measurements import Measurement
+from app.models import Ingredient
+from app.forms import IngredientForm
 
 
 class PublicIngredientView(HelperFlaskView):
@@ -15,16 +14,33 @@ class PublicIngredientView(HelperFlaskView):
     template_folder = "ingredients/public"
 
     def before_request(self, name, id=None, *args, **kwargs):
-        self.ingredient = Ingredient.load(id)
-
-        self.measurements = Measurement.load_all()
-        self.categories = IngredientCategory.load_all()
-        self.public_ingredients = Ingredient.load_all_public()
+        if id:
+            self.ingredient = Ingredient.load(id)
 
     def index(self, highlighted_id=None):
+        self.public_ingredients = Ingredient.load_all_public()
         self.highlighted_id = int(request.args.get("highlighted_id", -1))
 
         return self.template()
+
+    def new(self):
+        self.form = IngredientForm()
+
+        return self.template()
+
+    @route("post", methods=["POST"])
+    def post(self):
+        form = IngredientForm(request.form)
+
+        if not form.validate_on_submit():
+            return self.template("new"), 422
+
+        ingredient = Ingredient()
+        form.populate_obj(ingredient)
+        ingredient.is_public = True
+        ingredient.save()
+
+        return redirect(url_for("PublicIngredientView:index"))
 
     @route("update/<id>", methods=["POST"])
     def update(self, id):

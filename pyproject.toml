@@ -53,7 +53,7 @@ cryptography = "^40.0.2"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"
-coverage = "^7.2.5"
+coverage = "^7.2.6"
 factory-boy = "^3.2.1"
 flake8 = "^6.0.0"
 flake8-pyproject = "^1.2.3"

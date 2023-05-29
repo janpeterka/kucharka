@@ -1150,14 +1150,14 @@ lxml = ["lxml"]
 
 [[package]]
 name = "icalendar"
-version = "5.0.5"
+version = "5.0.6"
 description = "iCalendar parser/generator"
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "icalendar-5.0.5-py3-none-any.whl", hash = "sha256:022c3fa7421fe274889007c12582510ab2e4ba0ac612b73dc35982c644356540"},
-    {file = "icalendar-5.0.5.tar.gz", hash = "sha256:ee76771d4eccebae3683beeb9c24c24feb2f8cceade72b92e4437f0144f81584"},
+    {file = "icalendar-5.0.6-py3-none-any.whl", hash = "sha256:c5b5350c762a6027c6b1efed853b21a0e35a13a015bd092daadd28dfad95f595"},
+    {file = "icalendar-5.0.6.tar.gz", hash = "sha256:418eaf128d6cac7e9a8455cda89c49d5c959df5d6337e987093a3ea8d0be058b"},
 ]
 
 [package.dependencies]
@@ -2420,4 +2420,4 @@ test = ["pytest"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "dcb011431047589f570e63e207e18075a60386f8c9ac822a26abed00a40feb0c"
+content-hash = "6eaf27d1be131153cc63195a5d6cb91ad46bd9fbdbeb4950d11ca17da9051698"

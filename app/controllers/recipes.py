@@ -3,7 +3,7 @@ from unidecode import unidecode
 from flask import request, redirect, url_for, flash
 from flask import current_app as application
 from flask_classful import route
-from flask_security import login_required, permissions_required, current_user
+from flask_security import login_required, current_user
 from flask_weasyprint import render_pdf, HTML
 
 from app.modules.files import PhotoForm
@@ -42,13 +42,25 @@ class RecipeView(HelperFlaskView):
         return self.template()
 
     @login_required
-    @permissions_required("manage-application")
-    def all(self):
-        self.recipes = Recipe.load_all()
+    def new(self):
+        self.form = create_form(RecipeForm)
 
         return self.template()
 
-    # @login_required
+    @login_required
+    def post(self):
+        form = RecipeForm(request.form)
+
+        if not form.validate_on_submit():
+            save_form_to_session(request.form)
+            return redirect(url_for("RecipeView:new"))
+
+        recipe = Recipe(author=current_user)
+        recipe.fill(form)
+        recipe.save()
+
+        return redirect(url_for("RecipeView:edit", id=recipe.id))
+
     def show(self, id):
         self.recipe.portion_count = get_portion_count(self.recipe, request)
         self.photo_form = PhotoForm()
@@ -58,28 +70,6 @@ class RecipeView(HelperFlaskView):
             return self.template("show", public=True)
 
         return self.template()
-
-    def show_pdf(self, id):
-        self.recipe.portion_count = get_portion_count(self.recipe, request)
-
-        return self.template(template_name="show", print=True)
-
-    def pdf(self, id):
-        self.recipe.portion_count = get_portion_count(self.recipe, request)
-
-        return render_pdf(HTML(string=self.template(template_name="show", print=True)))
-
-    def pdf_download(self, id):
-        return render_pdf(
-            HTML(string=self.template(template_name="show", print=True)),
-            download_filename=f"{self.recipe.slugified_name}.pdf",
-        )
-
-    @route("show_with_portion_count/<id>/", methods=["POST"])
-    def show_with_portion_count(self, id):
-        portion_count = request.form["portion_count"]
-
-        return redirect(url_for("RecipeView:show", id=id, portion_count=portion_count))
 
     @login_required
     def edit(self, id, **kwargs):
@@ -98,12 +88,6 @@ class RecipeView(HelperFlaskView):
             self.recipe.unused_public_ingredients,
             key=lambda x: unidecode(x.name.lower()),
         )
-
-        return self.template()
-
-    @login_required
-    def new(self):
-        self.form = create_form(RecipeForm)
 
         return self.template()
 
@@ -128,19 +112,27 @@ class RecipeView(HelperFlaskView):
             except Exception:
                 return redirect(url_for("RecipeView:index"))
 
-    @login_required
-    def post(self):
-        form = RecipeForm(request.form)
+    def show_pdf(self, id):
+        self.recipe.portion_count = get_portion_count(self.recipe, request)
 
-        if not form.validate_on_submit():
-            save_form_to_session(request.form)
-            return redirect(url_for("RecipeView:new"))
+        return self.template(template_name="show", print=True)
 
-        recipe = Recipe(author=current_user)
-        recipe.fill(form)
-        recipe.save()
+    def pdf(self, id):
+        self.recipe.portion_count = get_portion_count(self.recipe, request)
 
-        return redirect(url_for("RecipeView:edit", id=recipe.id))
+        return render_pdf(HTML(string=self.template(template_name="show", print=True)))
+
+    def pdf_download(self, id):
+        return render_pdf(
+            HTML(string=self.template(template_name="show", print=True)),
+            download_filename=f"{self.recipe.slugified_name}.pdf",
+        )
+
+    @route("show_with_portion_count/<id>/", methods=["POST"])
+    def show_with_portion_count(self, id):
+        portion_count = request.form["portion_count"]
+
+        return redirect(url_for("RecipeView:show", id=id, portion_count=portion_count))
 
     @login_required
     def duplicate(self, id):

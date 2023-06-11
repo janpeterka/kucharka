@@ -3,7 +3,6 @@ from flask import request, redirect, url_for
 from flask_classful import route
 from flask_security import login_required
 
-
 from app import turbo
 
 from app.helpers.form import save_form_to_session

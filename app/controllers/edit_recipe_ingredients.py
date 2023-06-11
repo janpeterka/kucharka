@@ -10,12 +10,13 @@ from app import turbo
 from app.helpers.helper_flask_view import HelperFlaskView
 from app.helpers.admin_view_mixin import AdminViewMixin
 
-from app.models.ingredients import Ingredient
-from app.models.recipes import Recipe
+from app.models import Ingredient, Recipe
+from app.forms import RecipeIngredientForm
 
 
 class EditRecipeIngredientView(HelperFlaskView, AdminViewMixin):
     decorators = [login_required]
+
     template_folder = "recipes/edit/ingredient"
     attribute_name = "ingredient"
     instance_name = "ingredient"
@@ -39,22 +40,18 @@ class EditRecipeIngredientView(HelperFlaskView, AdminViewMixin):
 
     @route("update/<recipe_id>/<ingredient_id>", methods=["POST"])
     def update(self, recipe_id, ingredient_id):
-        self.ingredient = Ingredient.load(ingredient_id)
+        ingredient = Ingredient.load(ingredient_id)
+        form = RecipeIngredientForm(request.form, obj=ingredient)
 
-        is_measured = "is-measured" in request.form
-
-        amount = request.form["amount"]
-        if not amount:
+        if not (amount := form.amount.data):
             amount = 0
         amount_for_portion = float(amount) / float(self.recipe.portion_count)
 
-        comment = request.form["comment"]
+        self.recipe.change_ingredient_amount(ingredient, amount_for_portion)
+        self.recipe.change_ingredient_comment(ingredient, form.comment.data)
+        self.recipe.change_ingredient_measured(ingredient, form.is_measured.data)
 
-        self.recipe.change_ingredient_amount(self.ingredient, amount_for_portion)
-        self.recipe.change_ingredient_comment(self.ingredient, comment)
-        self.recipe.change_ingredient_measured(self.ingredient, is_measured)
-
-        return super().update()
+        return redirect(url_for("RecipeView:edit", id=self.recipe.id))
 
     @route("delete/<recipe_id>/<ingredient_id>", methods=["POST"])
     def delete(self, recipe_id, ingredient_id):

@@ -2,7 +2,7 @@
 
 <div id="recipe-info">
     <form action="{{ url_for('EditRecipeView:post', recipe_id=recipe.id) }}" method="post" accept-charset="utf-8" class="mt-2">
-        {{ form.csrf_token }}
+        {{ form.hidden_tag() }}
 
         <div class="row mb-2">
             <div class="mb-2 mb-md-0 col-12 col-md-4">

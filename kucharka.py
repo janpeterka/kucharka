@@ -16,7 +16,7 @@ def context_processors():
         inflect,
     )
     from app.models import all_dict as models
-    from app.forms import IngredientForm
+    from app.forms import IngredientForm, RecipeIngredientForm
 
     return dict(
         human_format_date=human_format_date,
@@ -24,6 +24,7 @@ def context_processors():
         inflect=inflect,
         **models,
         IngredientForm=IngredientForm,
+        RecipeIngredientForm=RecipeIngredientForm,
     )
 
 

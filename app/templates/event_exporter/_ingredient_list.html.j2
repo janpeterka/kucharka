@@ -9,7 +9,9 @@
             			<div class="col font-weight-bold">
                             {{ link_to(ingredient) }}
                         </div>
-                            {% if ingredient.measurement.thousand_fold and ingredient.amount % 1000 != ingredient.amount %}
+                            {% if not ingredient.amount %}
+                                <div></div>
+                            {% elif ingredient.measurement.thousand_fold and ingredient.amount % 1000 != ingredient.amount %}
                                 <div class="col font-weight-bold"> {{ formatted_amount(ingredient.amount/1000) }} </div>
                                 <div class="col font-weight-bold"> {{ ingredient.measurement.thousand_fold }} </div>
                             {% else %}

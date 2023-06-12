@@ -1,34 +1,43 @@
 {% from "macros/turbo.html.j2" import button_to %}
+{% from "macros/render_field.html.j2" import render_field, render_floating_field %}
 
 {% if ingredient.amount %}
     {% set amount = (ingredient.amount * recipe.portion_count) | round(1) %}
 {% endif %}
 
+# set form = RecipeIngredientForm(obj=ingredient)
+# set changed = highlighted_ingredient_id == ingredient.id
+
 <tr id="ingredient-{{ingredient.id}}">
 
-    <td class="align-middle"> {{ link_to(ingredient) }} </td>
+    <td class="align-middle"> {{ link_to(ingredient, data={"turbo-frame": "_top"}) }} </td>
     
-    <td> 
-        {% if not ingredient.is_measured %}
-            <span class="fst-italic font-weight-light"> - </span>
-    	{% elif ingredient.amount %}
-        	{{ amount }}
-            <span class="fst-italic font-weight-light">
-                ({{ formatted_amount(ingredient.amount) }} {{ ingredient.measurement.name }} na porci)
-            </span>
-        {% endif %}
+    <td >
+        <form action="{{ url_for('EditRecipeIngredientView:update', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" method="post" data-controller="form" data-action="change->form#submit keydown.enter->form#submit">
+            {{ render_floating_field(form.amount, value=amount) }}
+        </form>
+        # if ingredient.amount
+        <span class="fst-italic font-weight-light"
+              >
+            ({{ formatted_amount(ingredient.amount) }} {{ ingredient.measurement.name }} na porci)
+        </span>
+        # endif
     </td>
 
-    <td class="align-middle">
-        <span class="fst-italic font-weight-light"> {{ ingredient.comment | default("", true) }} </span>
+    <td class="align-top">
+        <form action="{{ url_for('EditRecipeIngredientView:update', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" method="post" data-controller="form" data-action="change->form#submit keydown.enter->form#submit">
+         {{ render_floating_field(form.comment) }}
+        </form>
     </td>
 
-    <td class="text-end me-3">
-        {% if not editing %}
-            <a href="{{url_for('RecipeView:edit', id=recipe.id, editing_id=ingredient.id)}}" class="btn color-white bg-color-secondary-action"> upravit </a>
-        {% else %}
-            <a href="{{url_for('RecipeView:edit', id=recipe.id)}}" class="btn color-white bg-color-secondary-action"> zrušit </a>
+    <td>
+        <span class="text-success ms-3 d-none" data-controller="{{ 'class-change' if changed }}" data-class-change-removed-class="d-none">{{ icon("check") }} upraveno</span>
     </td>
-        {% endif %}
+
+    <td>
+        {{ button_to(url_for('EditRecipeIngredientView:delete',
+            recipe_id=recipe.id, ingredient_id=ingredient.id),
+            class="btn color-white bg-color-secondary-action float-start", value=icon("remove") ~ " odebrat", confirmation="opravdu chceš odebrat surovinu z receptu?") }}
+
     </td>
 </tr>

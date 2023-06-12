@@ -13,7 +13,7 @@
     <div>
         <span class="float-end">
         {% for label in recipe.labels %}
-            {{ icon(label.icon_name)}}
+            {{ icon(label.icon_name) }}
         {% endfor %}
         </span>
     </div>
@@ -28,7 +28,9 @@
     </tr>
 
     {% for ingredient in recipe.ingredients: %}
-        {% set ingredient_amount = ingredient.amount * recipe.portion_count %}
+        {% if ingredient.is_measured %}
+            {% set ingredient_amount = ingredient.amount * recipe.portion_count %}
+        {% endif %}
         <tr>
             <td>
                 {{ link_to(ingredient) }}

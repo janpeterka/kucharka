@@ -10,12 +10,13 @@ from app import turbo
 from app.helpers.helper_flask_view import HelperFlaskView
 from app.helpers.admin_view_mixin import AdminViewMixin
 
-from app.models.ingredients import Ingredient
-from app.models.recipes import Recipe
+from app.models import Ingredient, Recipe
+from app.forms import RecipeIngredientForm
 
 
 class EditRecipeIngredientView(HelperFlaskView, AdminViewMixin):
     decorators = [login_required]
+
     template_folder = "recipes/edit/ingredient"
     attribute_name = "ingredient"
     instance_name = "ingredient"
@@ -29,7 +30,6 @@ class EditRecipeIngredientView(HelperFlaskView, AdminViewMixin):
     @route("add_ingredient/<recipe_id>", methods=["POST"])
     def add_ingredient(self, recipe_id):
         self.ingredient = Ingredient.load(request.form["ingredient_option"])
-        self.ingredient.is_measured = True
 
         self.recipe.add_ingredient(self.ingredient)
 
@@ -39,22 +39,23 @@ class EditRecipeIngredientView(HelperFlaskView, AdminViewMixin):
 
     @route("update/<recipe_id>/<ingredient_id>", methods=["POST"])
     def update(self, recipe_id, ingredient_id):
-        self.ingredient = Ingredient.load(ingredient_id)
+        ingredient = Ingredient.load(ingredient_id)
+        form = RecipeIngredientForm(request.form, obj=ingredient)
 
-        is_measured = "is-measured" in request.form
+        if "amount" in request.form:
+            amount_for_portion = float(form.amount.data) / float(self.recipe.portion_count)  # fmt: skip
+            self.recipe.change_ingredient_amount(ingredient, amount_for_portion)
 
-        amount = request.form["amount"]
-        if not amount:
-            amount = 0
-        amount_for_portion = float(amount) / float(self.recipe.portion_count)
+        if "comment" in request.form:
+            self.recipe.change_ingredient_comment(ingredient, form.comment.data)
 
-        comment = request.form["comment"]
-
-        self.recipe.change_ingredient_amount(self.ingredient, amount_for_portion)
-        self.recipe.change_ingredient_comment(self.ingredient, comment)
-        self.recipe.change_ingredient_measured(self.ingredient, is_measured)
-
-        return super().update()
+        return redirect(
+            url_for(
+                "RecipeView:edit",
+                id=self.recipe.id,
+                highlighted_ingredient_id=ingredient.id,
+            )
+        )
 
     @route("delete/<recipe_id>/<ingredient_id>", methods=["POST"])
     def delete(self, recipe_id, ingredient_id):

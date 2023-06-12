@@ -5,7 +5,7 @@
     <hr>
 
     <div class="col-7">
-        <form method="post" action="{{ url_for('FastAddIngredientView:post', recipe_id=recipe.id) }}" class="row row-cols-lg-auto g-3 align-items-center" accept-charset="UTF-8">
+        <form method="post" action="{{ url_for('FastAddIngredientView:post', recipe_id=recipe.id) }}" class="row row-cols-lg-auto g-3 align-items-center" accept-charset="UTF-8" data-turbo-frame="recipe-{{recipe.id}}-ingredients">
             {{ form.csrf_token }}
             <div class="col-12">{{ render_floating_field(form.name) }}</div>
             <div class="col-12">{{ render_floating_field(form.measurement) }}</div>

@@ -86,7 +86,6 @@ class ShoppingListConstructor:
         recipe_ingredient_amounts = {}
 
         for ingredient in shopping.shopping_list:
-
             recipe_ingredient_amounts[ingredient.id] = {
                 "name": ingredient.name,
                 "recipes": {},
@@ -98,7 +97,6 @@ class ShoppingListConstructor:
             ]
 
             for event_recipe in ingredient.event_recipes:
-
                 event_recipe.daily_plan_daily_recipes = [
                     dr
                     for dr in event_recipe.daily_plan_recipes
@@ -107,7 +105,7 @@ class ShoppingListConstructor:
 
                 amount = sum(
                     (
-                        ingredient.load_amount_by_recipe(event_recipe)
+                        ingredient.amount_by_recipe_or_zero(event_recipe)
                         * float(dr.portion_count)
                     )
                     for dr in event_recipe.daily_plan_daily_recipes

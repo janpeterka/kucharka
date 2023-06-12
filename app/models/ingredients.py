@@ -105,6 +105,12 @@ class Ingredient(BaseModel, BaseMixin, ItemPresenter):
         ).first()
         return rhi.amount
 
+    def amount_by_recipe_or_zero(self, recipe) -> float:
+        if amount := self.load_amount_by_recipe(recipe):
+            return amount
+        else:
+            return 0
+
     def load_comment_by_recipe(self, recipe):
         from app.models import RecipeHasIngredient
 
@@ -201,6 +207,12 @@ class IngredientCopy(ItemPresenter):
             recipe_id=recipe.id, ingredient_id=self.id
         ).first()
         return rhi.amount
+
+    def amount_by_recipe_or_zero(self, recipe) -> float:
+        if amount := self.load_amount_by_recipe(recipe):
+            return amount
+        else:
+            return 0
 
     def load_comment_by_recipe(self, recipe):
         from app.models import RecipeHasIngredient

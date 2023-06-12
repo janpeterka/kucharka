@@ -30,7 +30,7 @@ icon_fa_classes = {
     "add": "fas fa-plus",
     "edit": "fas fa-pencil-alt",
     "delete": "fas fa-trash",
-    "remove": "×",
+    "remove": "fas fa-times",
     "duplicate": "far fa-clone",
     "archive": "fas fa-archive",
     "archived": "fas fa-archive",
@@ -59,6 +59,7 @@ icon_fa_classes = {
     "seedling": "fas fa-seedling",
     "up": "fas fa-sort-up",
     "down": "fas fa-sort-down",
+    "check": "fa fa-check",
     # brands
     "github": "fab fa-github",
     "facebook": "fab fa-facebook-square",

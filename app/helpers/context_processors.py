@@ -25,6 +25,9 @@ def human_format_date(date, with_weekday=True, with_relative=True):
 def formatted_amount(amount):
     import math
 
+    if amount is None:
+        return None
+
     if amount == 0:
         return 0
 

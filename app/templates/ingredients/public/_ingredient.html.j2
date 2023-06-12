@@ -2,7 +2,8 @@
 
 <tr id="public-ingredient-{{ ingredient.id }}"
     class="color-transition"
-    data-controller="{{ 'class-animation' if highlighted_id == ingredient.id }}" data-class-animation-added-class="pulse-bg-success">
+    data-controller="{{ 'class-change' if highlighted_id == ingredient.id }}" data-class-change-added-class="pulse-bg-success"
+    data-class-change-target="element">
  
   # set form = IngredientForm(obj=ingredient)
 

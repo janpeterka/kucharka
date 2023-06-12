@@ -64,11 +64,11 @@ window.Stimulus.register('clipboard', Clipboard)
 import FormController from "../controllers/form_controller.js"
 window.Stimulus.register('form', FormController)
 
-import ClassAnimationController from "../controllers/class_animation_controller.js"
-window.Stimulus.register('class-animation', ClassAnimationController)
-
 import DropzoneController from "../controllers/dropzone_controller.js"
 window.Stimulus.register('dropzone', DropzoneController)
+
+import ClassChangeController from "../controllers/class_change_controller.js"
+window.Stimulus.register('class-change', ClassChangeController)
 
 // Turbo
 import * as Turbo from "@hotwired/turbo"

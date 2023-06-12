@@ -1,6 +1,5 @@
 {% from "macros/render_field.html.j2" import render_field, render_floating_field %}
 
-<div id="event-info">
 <form method="POST" action="{{ url_for('EventView:update', id=event.id) }}">
     {{ form.csrf_token }}
     <div class="ms-2 me-2">
@@ -77,4 +76,3 @@
     </div>
 
 </form>
-</div>

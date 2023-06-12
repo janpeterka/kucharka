@@ -39,9 +39,9 @@ def test_event_management(live_server, recipes, page):
     page.get_by_placeholder("základní, u jednotlivých jídel je možné změnit").fill("12")
     page.get_by_placeholder("přidat akci").click()
 
-    expect(page).to_contain_text("Testovací akce")
-    expect(page).to_contain_text("od 03.09.2023")
-    expect(page).to_contain_text("upravit")
+    expect(page.locator("body")).to_contain_text("Testovací akce")
+    expect(page.locator("body")).to_contain_text("od 03.09.2023")
+    expect(page.locator("body")).to_contain_text("upravit")
 
     # TODO: generate
 

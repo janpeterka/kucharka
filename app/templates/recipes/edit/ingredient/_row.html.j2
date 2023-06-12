@@ -1,4 +1,5 @@
 {% from "macros/turbo.html.j2" import button_to %}
+{% from "macros/render_field.html.j2" import render_field, render_floating_field %}
 
 {% if ingredient.amount %}
     {% set amount = (ingredient.amount * recipe.portion_count) | round(1) %}
@@ -30,10 +31,13 @@
     </td>
 
     <td>
+        <span class="text-success ms-3 d-none" data-controller="{{ 'class-change' if changed }}" data-class-change-removed-class="d-none">{{ icon("check") }} upraveno</span>
+    </td>
+
+    <td>
         {{ button_to(url_for('EditRecipeIngredientView:delete',
             recipe_id=recipe.id, ingredient_id=ingredient.id),
-            class="btn color-white bg-color-secondary-action float-start", value=icon("remove") ~ " smazat", confirmation="opravdu chceš smazat surovinu z receptu?") }}
+            class="btn color-white bg-color-secondary-action float-start", value=icon("remove") ~ " odebrat", confirmation="opravdu chceš odebrat surovinu z receptu?") }}
 
-        <span class="text-success ms-3 d-none" data-controller="{{ 'class-change' if changed }}" data-class-change-removed-class="d-none">{{ icon("check") }} upraveno</span>
     </td>
 </tr>

@@ -39,17 +39,8 @@ class FastAddIngredientView(HelperFlaskView):
                             template_name="recipes/edit/ingredient/_row.html.j2",
                             ingredient=ingredient,
                             recipe=recipe,
-                            editing=True,
                         ),
                         target="ingredients",
-                    ),
-                    turbo.after(
-                        self.template(
-                            template_name="recipes/edit/ingredient/_edit.html.j2",
-                            ingredient=ingredient,
-                            recipe=recipe,
-                        ),
-                        target=f"ingredient-{ingredient.id}",
                     ),
                 ]
                 + EditRecipeIngredientView().update_usable_ingredients(recipe)

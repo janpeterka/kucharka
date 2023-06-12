@@ -17,7 +17,7 @@
                     ({{ task.recipe.name }} za {{ task.days_before_cooking }} {{ inflect("den", task.days_before_cooking) }})
                 </td>
             {% else %}
-                <td> {{ link_to_edit(task, value=icon("edit")) }} </td>
+                <td> {{ link_to_edit(task, value=icon("edit"), data={"turbo-frame": "_top"}) }} </td>
                 <td> {{ button_to(url_for('DailyPlanTaskView:delete',id=task.id), icon=True, value=icon("remove"), form_class="me-2", style="font-size:2rem; color:red;", confirmation="opravdu chcete smazat úkol?") }} </td>
             {% endif %}
         </tr>

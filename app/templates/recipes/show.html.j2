@@ -1,15 +1,6 @@
 {% extends "base/base.html.j2" %}
 {% block title %} {{ recipe.name }} {% endblock %}
 
-{% block scripts %}
-    {{ dropzone.load_js() }}
-{% endblock %}
-
-{% block style %}
-    {{ dropzone.style('border: 1px dashed #0087F7; margin: 2rem; border-radius: 1rem;') }}
-    {{ dropzone.load_css() }}
-{% endblock %}
-
 {% block content %}
 
 {% if recipe.main_image %}
@@ -45,12 +36,11 @@
     </div>
 </div>
 
-<hr>
-
 <div class="d-print-none">
+    {% include("recipes/_images.html.j2") %}
+
     <div>
         {% include("recipes/_interactions.html.j2") %} 
-        {% include("recipes/_images.html.j2") %} 
     </div>
 </div>
 

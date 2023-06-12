@@ -12,3 +12,10 @@
 .dashboard-badge {
 	border-radius: 1rem;
 }
+
+
+.dropzone {
+  border-radius: 0.5rem;
+  border: 1px solid #ced4da !important;
+}
+

@@ -67,5 +67,8 @@ window.Stimulus.register('form', FormController)
 import ClassAnimationController from "../controllers/class_animation_controller.js"
 window.Stimulus.register('class-animation', ClassAnimationController)
 
+import DropzoneController from "../controllers/dropzone_controller.js"
+window.Stimulus.register('dropzone', DropzoneController)
+
 // Turbo
 import * as Turbo from "@hotwired/turbo"

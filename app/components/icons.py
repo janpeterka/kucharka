@@ -30,7 +30,7 @@ icon_fa_classes = {
     "add": "fas fa-plus",
     "edit": "fas fa-pencil-alt",
     "delete": "fas fa-trash",
-    "remove": "×",
+    "remove": "fas fa-times",
     "duplicate": "far fa-clone",
     "archive": "fas fa-archive",
     "archived": "fas fa-archive",

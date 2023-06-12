@@ -10,14 +10,8 @@
     </thead>
     <tbody id="ingredients">
     {% for ingredient in recipe.ingredients: %}
-        {% if editing_id == ingredient.id %}
-            {% with editing=True %}
-                {% include "recipes/edit/ingredient/_row.html.j2" %}
-            {% endwith %}
-            {% include "recipes/edit/ingredient/_edit.html.j2" %}
-        {% else %}
-            {% include "recipes/edit/ingredient/_row.html.j2" %}
-        {% endif %}
+        {% include "recipes/edit/ingredient/_row.html.j2" %}
+        ## {% include "recipes/edit/ingredient/_edit.html.j2" %}
     {% endfor %}
     </tbody>
 </table>

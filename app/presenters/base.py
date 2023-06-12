@@ -1,4 +1,5 @@
-from flask import url_for, escape
+from flask import url_for
+from markupsafe import escape
 
 
 class BasePresenter:

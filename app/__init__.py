@@ -5,7 +5,6 @@ from flask_migrate import Migrate
 from turbo_flask import Turbo
 from flask_security import Security, SQLAlchemyUserDatastore
 from flask_mail import Mail
-from flask_dropzone import Dropzone
 from flask_sqlalchemy.model import DefaultMeta  # noqa: E402
 from sqlalchemy import MetaData
 
@@ -33,7 +32,6 @@ user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 migrate = Migrate()
 mail = Mail()
 security = Security()
-dropzone = Dropzone()
 
 
 def create_app(config_name="default"):
@@ -60,7 +58,6 @@ def create_app(config_name="default"):
     security.init_app(application, user_datastore)
     turbo.init_app(application)
     mail.init_app(application)
-    dropzone.init_app(application)
 
     if application.config["SENTRY_MONITORING"]:
         import sentry_sdk

@@ -65,8 +65,6 @@ class Config(object):
     PASSWORDLESS_KEY = "skautskkuchaka:public:36bd9184a88e4a05a2db8af12a2f87d4"
     PASSWORDLESS_SECRET = os.getenv("PASSWORDLESS_SECRET")
 
-    DROPZONE_MAX_FILE_SIZE = 20
-
     SENTRY_MONITORING = True
     INFO_USED_DB = "production db"
 

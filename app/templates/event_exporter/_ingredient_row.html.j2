@@ -2,7 +2,10 @@
     <td>
         {{ link_or_name(ingredient) }}
     </td>
-    {% if ingredient.measurement.thousand_fold and ingredient.amount % 1000 != ingredient.amount %}
+    {% if not ingredient.amount %}
+        <td></td>
+        <td></td>
+    {% elif ingredient.measurement.thousand_fold and ingredient.amount % 1000 != ingredient.amount %}
         <td> {{ formatted_amount(ingredient.amount/1000) }} </td>
         <td> {{ ingredient.measurement.thousand_fold }} </td>
     {% else %}

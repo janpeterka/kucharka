@@ -8,7 +8,9 @@
     </thead>
 
     {% for ingredient in recipe.ingredients: %}
-        {% set ingredient_amount = ingredient.amount * recipe.portion_count %}
+        {% if ingredient.amount %}
+            {% set ingredient_amount = ingredient.amount * recipe.portion_count %}
+        {% endif %}
 
         <tr>
             {% if current_user.is_authenticated %}

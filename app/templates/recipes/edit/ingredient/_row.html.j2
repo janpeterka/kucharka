@@ -5,20 +5,22 @@
 {% endif %}
 
 # set form = RecipeIngredientForm(obj=ingredient)
+# set changed = highlighted_ingredient_id == ingredient.id
 
-<tr id="ingredient-{{ingredient.id}}"
-    class="color-transition"
-    data-controller="{{ 'revealer' if highlighted_ingredient_id == ingredient.id }}" data-revealer->
+<tr id="ingredient-{{ingredient.id}}">
 
-    <td class="align-middle"> {{ link_to(ingredient) }} </td>
+    <td class="align-middle"> {{ link_to(ingredient, data={"turbo-frame": "_top"}) }} </td>
     
     <td >
         <form action="{{ url_for('EditRecipeIngredientView:update', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" method="post" data-controller="form" data-action="change->form#submit keydown.enter->form#submit">
             {{ render_floating_field(form.amount, value=amount) }}
         </form>
-        <span class="fst-italic font-weight-light">
+        # if ingredient.amount
+        <span class="fst-italic font-weight-light"
+              >
             ({{ formatted_amount(ingredient.amount) }} {{ ingredient.measurement.name }} na porci)
         </span>
+        # endif
     </td>
 
     <td class="align-top">
@@ -30,6 +32,8 @@
     <td>
         {{ button_to(url_for('EditRecipeIngredientView:delete',
             recipe_id=recipe.id, ingredient_id=ingredient.id),
-            class="btn color-white bg-color-secondary-action", value=icon("remove") ~ " smazat", confirmation="opravdu chceš smazat surovinu z receptu?") }}
+            class="btn color-white bg-color-secondary-action float-start", value=icon("remove") ~ " smazat", confirmation="opravdu chceš smazat surovinu z receptu?") }}
+
+        <span class="text-success ms-3 d-none" data-controller="{{ 'class-change' if changed }}" data-class-change-removed-class="d-none">{{ icon("check") }} upraveno</span>
     </td>
 </tr>

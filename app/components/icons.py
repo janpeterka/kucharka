@@ -59,6 +59,7 @@ icon_fa_classes = {
     "seedling": "fas fa-seedling",
     "up": "fas fa-sort-up",
     "down": "fas fa-sort-down",
+    "check": "fa fa-check",
     # brands
     "github": "fab fa-github",
     "facebook": "fab fa-facebook-square",

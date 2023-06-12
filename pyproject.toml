@@ -33,7 +33,6 @@ python = "^3.9"
 email-validator = "*"
 flask-classful = { git = "https://github.com/janpeterka/flask-classful.git", branch = "werkzeug-2.2" }
 flask-dance = "*"
-flask-dropzone = "*"
 flask-mail = "^0.9.1"
 flask-migrate = "^4.0.4"
 flask-security-too = "^5.2.0"

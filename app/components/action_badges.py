@@ -66,7 +66,7 @@ def action_badge(  # noqa: C901
 
     kwargs[
         "class"
-    ] = f"btn bg-color-{button_type} color-white ps-2 pe-2 p-1 me-2 mb-2 mb-md-0 {kwargs.pop('class','')}"
+    ] = f"btn bg-color-{button_type} color-white ps-2 pe-2 p-1 me-2 mb-2 mb-md-0 d-print-none {kwargs.pop('class','')}"
 
     if method in ["POST"]:
         return pill_button_to(path, value, confirmation=confirmation, **kwargs)

@@ -106,10 +106,7 @@ class Ingredient(BaseModel, BaseMixin, ItemPresenter):
         return rhi.amount
 
     def amount_by_recipe_or_zero(self, recipe) -> float:
-        if amount := self.load_amount_by_recipe(recipe):
-            return amount
-        else:
-            return 0
+        return amount if (amount := self.load_amount_by_recipe(recipe)) else 0
 
     def load_comment_by_recipe(self, recipe):
         from app.models import RecipeHasIngredient
@@ -138,10 +135,7 @@ class Ingredient(BaseModel, BaseMixin, ItemPresenter):
 
     @property
     def is_lasting(self) -> bool:
-        if self.category is None:
-            return False
-        else:
-            return self.category.is_lasting
+        return False if self.category is None else self.category.is_lasting
 
     @property
     def is_used(self) -> bool:
@@ -209,10 +203,7 @@ class IngredientCopy(ItemPresenter):
         return rhi.amount
 
     def amount_by_recipe_or_zero(self, recipe) -> float:
-        if amount := self.load_amount_by_recipe(recipe):
-            return amount
-        else:
-            return 0
+        return amount if (amount := self.load_amount_by_recipe(recipe)) else 0
 
     def load_comment_by_recipe(self, recipe):
         from app.models import RecipeHasIngredient

@@ -4,10 +4,7 @@ from markupsafe import escape
 
 class BasePresenter:
     def __str__(self):
-        if hasattr(self, "name"):
-            return self.name
-        else:
-            return self.__str__
+        return self.name if hasattr(self, "name") else self.__str__
 
     @property
     def url(self) -> str:

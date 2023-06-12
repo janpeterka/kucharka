@@ -75,6 +75,9 @@ class RecipeView(HelperFlaskView):
     def edit(self, id, **kwargs):
         self.editing_id = int(request.args.get("editing_id", 0))
         self.show_fast_add = request.args.get("show_fast_add", False)
+        self.highlighted_ingredient_id = int(
+            request.args.get("highlighted_ingredient_id", 0)
+        )
         self.ingredient_form = IngredientForm()
 
         self.form = create_form(RecipeForm, obj=self.recipe)

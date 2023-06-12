@@ -30,7 +30,6 @@ class EditRecipeIngredientView(HelperFlaskView, AdminViewMixin):
     @route("add_ingredient/<recipe_id>", methods=["POST"])
     def add_ingredient(self, recipe_id):
         self.ingredient = Ingredient.load(request.form["ingredient_option"])
-        self.ingredient.is_measured = True
 
         self.recipe.add_ingredient(self.ingredient)
 
@@ -43,15 +42,20 @@ class EditRecipeIngredientView(HelperFlaskView, AdminViewMixin):
         ingredient = Ingredient.load(ingredient_id)
         form = RecipeIngredientForm(request.form, obj=ingredient)
 
-        if not (amount := form.amount.data):
-            amount = 0
-        amount_for_portion = float(amount) / float(self.recipe.portion_count)
+        if "amount" in request.form:
+            amount_for_portion = float(form.amount.data) / float(self.recipe.portion_count)  # fmt: skip
+            self.recipe.change_ingredient_amount(ingredient, amount_for_portion)
 
-        self.recipe.change_ingredient_amount(ingredient, amount_for_portion)
-        self.recipe.change_ingredient_comment(ingredient, form.comment.data)
-        self.recipe.change_ingredient_measured(ingredient, form.is_measured.data)
+        if "comment" in request.form:
+            self.recipe.change_ingredient_comment(ingredient, form.comment.data)
 
-        return redirect(url_for("RecipeView:edit", id=self.recipe.id))
+        return redirect(
+            url_for(
+                "RecipeView:edit",
+                id=self.recipe.id,
+                highlighted_ingredient_id=ingredient.id,
+            )
+        )
 
     @route("delete/<recipe_id>/<ingredient_id>", methods=["POST"])
     def delete(self, recipe_id, ingredient_id):

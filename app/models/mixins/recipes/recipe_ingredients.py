@@ -30,17 +30,6 @@ class RecipeIngredientMixin:
         ingredient.comment = comment
         ingredient.refresh()
 
-    def change_ingredient_measured(self, ingredient, is_measured):
-        rhi = RecipeHasIngredient.load_by_recipe_and_ingredient(self, ingredient)
-        if is_measured != rhi.is_measured:
-            rhi.is_measured = is_measured
-            if not rhi.is_measured and rhi.amount:
-                rhi.amount = 0
-            rhi.save()
-
-        ingredient.is_measured = is_measured
-        ingredient.refresh()
-
     def remove_ingredient(self, ingredient):
         rhi = RecipeHasIngredient.load_by_recipe_and_ingredient(self, ingredient)
         if not rhi:

@@ -15,7 +15,6 @@ class RecipeHasIngredient(BaseModel, BaseMixin, BasePresenter):
     )
     amount = db.Column(db.Float)
     comment = db.Column(db.String(255))
-    _is_measured = db.Column(db.Boolean, default=True)
 
     ingredient = db.relationship("Ingredient", back_populates="ingredient_recipes")
     recipe = db.relationship("Recipe", back_populates="recipe_ingredients")

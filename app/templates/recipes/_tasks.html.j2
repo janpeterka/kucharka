@@ -1,28 +1,31 @@
 <turbo-frame id="recipe-{{recipe.id}}-tasks">
 
-<turbo-frame id="new-recipe-task">
-    <h3> úkoly
-    {{ action_badge("new", RecipeTask, path=url_for("RecipeTaskView:new", recipe_id=recipe.id)) if recipe.can_current_user_edit }}
-    </h3>
-</turbo-frame>
+    <turbo-frame id="new-recipe-task">
+        <h3>
+            úkoly
+            {{ action_badge("new", RecipeTask, path=url_for("RecipeTaskView:new", recipe_id=recipe.id)) if recipe.can_current_user_edit }}
+        </h3>
+    </turbo-frame>
 
-{% if recipe.tasks %}
-    <table class="table">
-        <thead>
-            <th> název </th>
-            <th> popis </th>
-            <th> dnů před vařením </th>
-        </thead>
-    {% for task in recipe.tasks %}
-        <tr>
-            <td> {{ task.name }} </td>
-            <td> {{ task.description }} </td>
-            <td> {{ task.days_before_cooking }} </td>
-            <td> {{ link_to_edit(task, value=icon("edit")) }} </td>
-            <td> {{ button_to(url_for('RecipeTaskView:delete',id=task.id), icon=True, value=icon("remove"), form_class="me-2", style="font-size:2rem; color:red;", confirmation="opravdu chcete smazat úkol?") }} </td>
-        </tr>
-    {% endfor %}
-    </table>
-{% else %}
-    <div class="alert alert-secondary text-center"> recept nemá úkoly </div>
-{% endif %}
+    {% if recipe.tasks %}
+        <table class="table">
+            <thead>
+                <th> název </th>
+                <th> popis </th>
+                <th> dnů před vařením </th>
+            </thead>
+        {% for task in recipe.tasks %}
+            <tr>
+                <td> {{ task.name }} </td>
+                <td> {{ task.description }} </td>
+                <td> {{ task.days_before_cooking }} </td>
+                <td> {{ link_to_edit(task, value=icon("edit"), data={"turbo": "false"}) }} </td>
+                <td> {{ button_to(url_for('RecipeTaskView:delete',id=task.id), icon=True, value="&times", form_class="me-2 text-end", style="font-size:2rem; color:red;", confirmation="opravdu chcete smazat úkol?") }} </td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        <div class="alert alert-secondary text-center"> recept nemá úkoly </div>
+    {% endif %}
+
+</turbo-frame>

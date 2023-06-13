@@ -6,9 +6,7 @@
     {% set category_name="bez kategorie" %}    
 {% endif %}
 
-<div class="mt-2">
-    <span class="fst-italic"> {{ category_name }} </span>
-</div>
+<span class="fst-italic"> {{ category_name }} </span>
 
 {% if recipe.is_shared and not recipe.is_current_user_author and recipe.author.name %}
     {% set author_note = "(vytvořil*a " + recipe.author.name + ")" %}
@@ -20,43 +18,31 @@
     {% set author_note = None %}
 {% endif %}
 
-{% if author_note != None %}
+{% if author_note %}
+    <span class="float-end fst-italic font-weight-light"> {{ author_note }} </span>
+{% endif %}
 
-<hr>
 
-<div class="mt-2">
-    <span class="fst-italic font-weight-light"> {{ author_note }} </span>
+
+<div>
+    {% if recipe.labels %}
+        {% for label in recipe.labels %}
+            {{ render_label(label) }}
+        {% endfor %}
+    {% endif %}
+
+    ## ## {% if current_user.is_authenticated and recipe.is_shared and not recipe.is_current_user_author %}
+    <turbo-frame class="float-end" id="recipe-{{recipe.id}}-reaction">
+        <form method="post" action="{{ url_for('PublicRecipeView:toggle_reaction', recipe_id=recipe.id, refresh=True) }}">
+            <button type="submit" class="invisible-button pt-3">
+                {% if recipe.has_reaction %}
+                    <span> odebrat z oblíbených {{ icon("heart_full", action="click->recipe-reactions#empty", cursor_class="cursor-clickable") }} </span>
+                {% else %}
+                    <span> přidat do oblíbených {{ icon("heart_empty", action="click->recipe-reactions#fill", cursor_class="cursor-clickable") }} </span>
+                {% endif %}
+            </button>
+        </form>
+    </turbo-frame>
+    ## {% endif %}
 </div>
-
-{% endif %}
-
-{% if current_user.is_authenticated and recipe.is_shared and not recipe.is_current_user_author %}
-
-<hr>
-
-<turbo-frame id="recipe-{{recipe.id}}-reaction">
-<form method="post" action="{{ url_for('PublicRecipeView:toggle_reaction', recipe_id=recipe.id, refresh=True) }}">
-    <button type="submit" class="invisible-button">
-        {% if recipe.has_reaction %}
-            <span> {{ icon("heart_full", action="click->recipe-reactions#empty", cursor_class="cursor-clickable") }} </span>
-        {% else %}
-            <span> {{ icon("heart_empty", action="click->recipe-reactions#fill", cursor_class="cursor-clickable") }} </span>
-        {% endif %}
-    </button>
-</form>
-</turbo-frame>
-{% endif %}
-
-
-{% if recipe.labels %}
-
-<hr>
-
-{% for label in recipe.labels %}
-    {{ render_label(label, size=7) }}
-{% endfor %}
-
-{% endif %}
-
-<hr>
 

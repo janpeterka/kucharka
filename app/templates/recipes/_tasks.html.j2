@@ -18,8 +18,8 @@
             <td> {{ task.name }} </td>
             <td> {{ task.description }} </td>
             <td> {{ task.days_before_cooking }} </td>
-            <td> {{ link_to_edit(task, value=icon("edit")) }} </td>
-            <td> {{ button_to(url_for('RecipeTaskView:delete',id=task.id), icon=True, value=icon("remove"), form_class="me-2", style="font-size:2rem; color:red;", confirmation="opravdu chcete smazat úkol?") }} </td>
+            <td> {{ link_to_edit(task, value=icon("edit"), data={"turbo": "false"}) }} </td>
+            <td> {{ button_to(url_for('RecipeTaskView:delete',id=task.id), icon=True, value="&times", form_class="me-2 text-end", style="font-size:2rem; color:red;", confirmation="opravdu chcete smazat úkol?") }} </td>
         </tr>
     {% endfor %}
     </table>

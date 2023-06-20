@@ -32,12 +32,16 @@ class CancelLink(Link):
 
 
 # helpers
-def link_to(obj_or_str, **kwargs):
+def link_to(obj_or_str, turbo=True, **kwargs):
     path = _get_path(obj_or_str)
 
     value = kwargs.pop("value", None)
     if not value:
         value = obj_or_str.default_link_value
+
+    if turbo is False:
+        kwargs["data"] = kwargs.get("data", {})
+        kwargs["data"]["turbo-frame"] = "_top"
 
     return Link(path=path, value=value, **kwargs).render()
 

@@ -18,6 +18,7 @@ class DailyPlanView(HelperFlaskView):
         self.validate_show(self.daily_plan)
 
     def show(self, id):
+        self.highlighted_recipe_id = int(request.args.get("highlighted_recipe_id", 0))
         self.editing_id = int(request.args.get("editing_id", 0))
         self.public_recipes = Recipe.load_all_public(exclude_mine=True)
         self.daily_recipes = self.daily_plan.daily_recipes

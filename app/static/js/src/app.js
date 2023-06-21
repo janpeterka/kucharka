@@ -55,8 +55,8 @@ window.Stimulus.register('toggle-details', ToggleDetailsController)
 import VisibilityController from "../controllers/visibility_controller.js"
 window.Stimulus.register('visibility', VisibilityController)
 
-import Sortable from 'stimulus-sortable'
-window.Stimulus.register('sortable', Sortable)
+import SortableController from "../controllers/sortable_controller.js"
+window.Stimulus.register('sortable', SortableController)
 
 import Clipboard from 'stimulus-clipboard'
 window.Stimulus.register('clipboard', Clipboard)

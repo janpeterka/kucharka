@@ -5,7 +5,6 @@ from .events.shopping_list_constructor import ShoppingListConstructor
 from .tips.approver import TipApprover
 from .daily_plans.manager import DailyPlanManager
 from .daily_plans.ingredient_calculator import DailyPlanIngredientCalculator
-from .daily_recipes.manager import DailyRecipeManager
 from .recipes.ingredient_manager import RecipeIngredientManager
 from .recipes.reactions.manager import RecipeReactionManager
 
@@ -17,7 +16,6 @@ __all__ = [
     "TipApprover",
     "DailyPlanManager",
     "DailyPlanIngredientCalculator",
-    "DailyRecipeManager",
     "RecipeIngredientManager",
     "RecipeReactionManager",
 ]

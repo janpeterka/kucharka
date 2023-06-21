@@ -22,8 +22,9 @@
     "dropzone": "^6.0.0-beta.2",
     "esbuild": "^0.17.18",
     "select2": "^4.1.0-rc.0",
+    "sortablejs": "^1.15.0",
     "stimulus-clipboard": "^3.3.0",
-    "stimulus-sortable": "^4.1.0",
+    "stimulus-sortable": "^4.1.1",
     "trumbowyg": "^2.27.3"
   }
 }

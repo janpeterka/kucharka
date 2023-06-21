@@ -14,7 +14,8 @@
             <td> {{ task.description }} </td>
             {% if task.recipe %}
                 <td colspan="2">
-                    ({{ task.recipe.name }} za {{ task.days_before_cooking }} {{ inflect("den", task.days_before_cooking) }})
+                    # set days = task.days_before_cooking
+                    ({{ task.recipe.name }} za {{ days }} {{ inflect("den", days) }})
                 </td>
             {% else %}
                 <td> {{ link_to_edit(task, value=icon("edit"), data={"turbo-frame": "_top"}) }} </td>

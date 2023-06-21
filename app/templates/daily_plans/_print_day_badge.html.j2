@@ -17,22 +17,23 @@
 		<span> {{ day.weekday }} </span>
 		
 		<hr class="mt-1">
-			
-		{% for meal, daily_recipes in day.daily_recipes | rejectattr("meal_type", "none") | groupby("meal_type") %}
-			<div> <strong>{{ meal }}:</strong> </div>
-			<span> {{ daily_recipes | map(attribute="recipe") | join(", ", attribute="name") }} </span>
-		{% endfor %}
+		# set recipes = day.daily_recipes | sort(attribute="order_index")
 
-		{% if day.daily_recipes_without_meal_type %}
-			<div> <strong>ostatní</strong> </div>
-			{{ day.daily_recipes_without_meal_type | map(attribute="recipe") | join(", ", attribute="name") }}
-		{% endif %}
+		{% for daily_recipe in recipes %}
+			# if not loop.previtem or daily_recipe.meal_type != loop.previtem.meal_type
+				<div> <strong>{{ daily_recipe.meal_type | default("ostatní", True) }}</strong> </div>
+			# endif
+
+			# if daily_recipe.meal_type != "nákup"
+				<div> {{ daily_recipe.recipe.name }} </div>
+			# endif
+		{% endfor %}
 
 		{% if day.all_tasks %}
 			<hr>
-		    {% for task in day.all_tasks %}
-		        <input type="checkbox"> {{ task }} <br>
-		    {% endfor %}
+	    {% for task in day.all_tasks %}
+	        <input type="checkbox"> {{ task }} <br>
+	    {% endfor %}
 		{% endif %}
 	</div>
 </div>

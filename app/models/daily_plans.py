@@ -124,6 +124,14 @@ class DailyPlan(
     def daily_recipes_without_meal_type(self) -> list:
         return [dr for dr in self.daily_recipes if dr.meal_type is None]
 
+    def order_recipes(self):
+        elements = sorted(self.daily_recipes, key=lambda x: x.order_index)
+
+        for i, element in enumerate(elements, start=1):
+            element.order_index = i
+
+        return elements
+
     # PERMISSIONS
 
     def can_edit(self, user):

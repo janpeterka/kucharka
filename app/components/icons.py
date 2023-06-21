@@ -11,10 +11,13 @@ def icon(name, **kwargs):
     color_class = kwargs.pop("color_class", icon_color_classes.get(icon_name, ""))
     classes = f"{kwargs.pop('class', '')} {kwargs.pop('class_', '')}"
 
-    kwargs["class"] = f"{classes} {color_class} {fa_class}".strip()
+    kwargs["cursor_class"] = kwargs.pop("cursor_class", "cursor-default")
+
+    kwargs[
+        "class"
+    ] = f"{classes} {color_class} {fa_class} {kwargs['cursor_class']}".strip()
 
     kwargs["tooltip"] = kwargs.pop("tooltip", None)
-    kwargs["cursor_class"] = kwargs.pop("cursor_class", "cursor-default")
 
     return Icon(**kwargs).render()
 

@@ -1,10 +1,17 @@
 {% from "macros/turbo.html.j2" import button_to %}
 
-<tr id="daily-recipe-{{ daily_recipe.id }}"
-    {% if daily_recipe.is_shopping %} class="bg-color-ligh-grey opacity-50" {% endif %}
-    class="align-middle" style="line-height: 2.5rem;">
+# set changed = highlighted_recipe_id == daily_recipe.recipe.id
 
-    <td>
+<li id="daily-recipe-{{ daily_recipe.id }}"
+    ## {% if daily_recipe.is_shopping %} class="bg-color-ligh-grey opacity-50" {% endif %}
+    class="row" style="line-height: 2.5rem;"
+    data-sortable-update-url={{ url_for("DailyPlanRecipeView:sort", daily_recipe_id=daily_recipe.id) }}>
+
+    <span class="col-4 text-truncate">
+        <svg class="handle inline cursor-movable" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="height: 1rem;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"></path>
+        </svg>
+
         {% if not daily_recipe.is_shopping %}
             {{ link_to(daily_recipe.recipe, portion_count=daily_recipe.portion_count, turbo=False) }}
         {% else %}
@@ -13,64 +20,52 @@
 
         {% if daily_recipe.is_shopping %}
             {{ icon("shopping") }}
-        {% elif  daily_recipe.recipe.is_shared %}
-    	    {{ icon("public") }}
+        {% elif daily_recipe.recipe.is_shared and daily_recipe.recipe.author != current_user %}
+            {{ icon("public", tooltip="z veřejné databáze receptů") }}
         {% endif %}
-	</td>
+    </span>
 
-    <td>
-        {% if not daily_recipe.is_shopping %}
-        <em> {{ daily_recipe.meal_type or "" }} </em>
-        {% endif %}
-    </td>
+    {% if daily_recipe.is_shopping %}
+        <span class="col-5"> <em>do nákupu se zařadí všechny recepty pod ním</em> </span>
+    {% else %}
+        <span class="col-3">
+            {% if daily_recipe.can_current_user_edit %}
+                <form method="POST" action="{{ url_for('DailyPlanRecipeView:update', daily_recipe_id=daily_recipe.id) }}" data-controller="form" data-action="change->form#submit keydown.enter->form#submit">
+                    <select name="meal-type" id="meal-type" class="form-control">
+                        <option disabled {% if not daily_recipe.meal_type %}selected{% endif %} value>  </option>
+                        {% for option in ["snídaně", "dopolední svačina", "oběd", "odpolední svačina", "večeře", "programové", "jiné"] %}
+                            <option name='{{ option }}' value='{{ option }}' {% if daily_recipe.meal_type==option %}selected{% endif %}> {{ option }} </option>
+                        {% endfor %}
+                    </select>
+                </form>
+            {% else %}
+                <em> {{ daily_recipe.meal_type or "" }} </em>
+            {% endif %}
+        </span>
 
-    <td>
-        {% if not daily_recipe.is_shopping %}
-            <em> {{ daily_recipe.portion_count }} </em>
-        {% endif %}
-    </td>
+        <span class="col-2">
+            {% if daily_recipe.can_current_user_edit %}
+                <form method="POST" action="{{ url_for('DailyPlanRecipeView:update', daily_recipe_id=daily_recipe.id) }}" data-controller="form" data-action="change->form#submit keydown.enter->form#submit">
+                    <input type="number" step="0.1" class="form-control" name="portion-count" value="{{ daily_recipe.portion_count}}" placeholder="počet porcí" required>
+                </form>
+            {% else %}
+                <em> {{ daily_recipe.portion_count }} </em>
+            {% endif %}
+        </span>
+    {% endif %}
 
-    <td>
+    <span class="col">
         {% if daily_plan.can_current_user_edit %}
-        {{ button_to(url_for('DailyPlanRecipeView:sort_up', daily_recipe_id=daily_recipe.id), class="icon float-start", value='<i class="fas fa-sort-up"></i>') }}
-        {{ button_to(url_for('DailyPlanRecipeView:sort_down', daily_recipe_id=daily_recipe.id), class="icon float-end", value='<i class="fas fa-sort-down"></i>') }}
+            # if daily_recipe.is_shopping
+                # set confirm_message = "opravdu chceš smazat nákup?"
+            # else
+                # set confirm_message = "opravdu chceš smazat " ~ daily_recipe.recipe.name ~ " z jídelníčku?"
+            # endif
+            {{ button_to(url_for('DailyPlanRecipeView:remove_daily_recipe', daily_recipe_id=daily_recipe.id), icon=True, value=icon("remove", cursor_class="cursor-clickable"), class="fs-5 text-danger align-top mt-0 pt-0", form_class="me-2 float-start", confirmation=confirm_message) }}
         {% endif %}
-    </td>
 
-    <td>
-        {% if daily_plan.can_current_user_edit %}
-            <div class="row ps-4">
-                {% if daily_recipe.is_shopping %}
-                    <div class="col-8"></div>
-                    <div class="col-2 pe-2 me-2">
-                        {{ button_to(url_for('DailyPlanRecipeView:remove_daily_recipe', daily_recipe_id=daily_recipe.id), icon=True, value="&times", form_class="me-2 text-end", style="font-size:2rem; color:red;")}}
-                    </div>
-                {% else %}
-                    {% if not editing %}
-                    <div class="col-8">
-                    <a class="btn color-white bg-color-secondary-action w-100" href="{{ url_for('DailyPlanView:show', id=daily_recipe.daily_plan.id, editing_id=daily_recipe.id) }}">
-                        upravit
-                    </a>
-                    </div>
+        <span class="float-start text-success d-none" data-controller="{{ 'class-change' if changed }}" data-class-change-removed-class="d-none">{{ icon("check") }} upraveno</span>
 
-                    <div class="col-2 pe-2 me-2">
-                        {{ button_to(url_for('DailyPlanRecipeView:remove_daily_recipe', daily_recipe_id=daily_recipe.id), icon=True, value="&times", form_class="me-2", style="font-size:2rem; color:red;", confirmation="opravdu chcete smazat recept z jídelníčku?") }}
-                    </div>
-                    {% else %}
-                    <div class="col-8">
-                        <a class="w-100 me-3 btn color-white bg-color-secondary-action" href="{{ url_for('DailyPlanView:show', id=daily_recipe.daily_plan.id) }}" target="daily-plan-{{daily_recipe.daily_plan.id}}-recipes">
-                            zrušit
-                        </a>
-                    </div>
-                    <div class="col-2">
-                        <div class="col-2 pe-2 me-2">
-                        {{ button_to(url_for('DailyPlanRecipeView:remove_daily_recipe', daily_recipe_id=daily_recipe.id), icon=True, value="&times", form_class="me-2", style="font-size:2rem; color:red;", confirmation="opravdu chcete smazat recept z jídelníčku?") }}
-                        </div>
-                    </div>
-                    {% endif %}
-                {% endif %}
-            </div>
-        {% endif %}
-    </td>
+    </span>
 
-</tr>
+</li>

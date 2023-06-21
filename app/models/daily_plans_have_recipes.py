@@ -68,3 +68,6 @@ class DailyPlanRecipe(BaseModel, BaseMixin, BasePresenter):
     @property
     def is_last_recipe(self) -> bool:
         return self == self.daily_plan.last_recipe
+
+    def can_edit(self, user) -> bool:
+        return self.daily_plan.event.can_edit(user)

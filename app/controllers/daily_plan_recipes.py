@@ -117,23 +117,19 @@ class DailyPlanRecipeView(HelperFlaskView):
 def update_order_index(elements, moved_element, new_position, from_other_list=False):
     current_position = moved_element.order_index
 
-    if from_other_list:
-        for element in elements:
+    for element in elements:
+        if from_other_list:
             if element != moved_element and element.order_index >= new_position:
                 element.order_index += 1
 
-    elif not from_other_list and new_position < current_position:  # move up
-        # Shift elements down to accommodate the moved element
-        for element in elements:
+        elif new_position < current_position:  # move up
             if (
                 element != moved_element
                 and element.order_index < current_position
                 and element.order_index >= new_position
             ):
                 element.order_index += 1
-    elif not from_other_list and new_position > current_position:  # move down
-        # Shift elements up to accommodate the moved element
-        for element in elements:
+        elif new_position > current_position:  # move down
             if (
                 element != moved_element
                 and element.order_index > current_position

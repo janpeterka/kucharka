@@ -22,8 +22,9 @@ def app():
     @application.context_processor
     def utility_processor():
         from app.helpers.context_processors import context_processors
+        from app.models import models_dictionary as models
 
-        return dict(**context_processors)
+        return dict(**context_processors, **models)
 
     return application
 

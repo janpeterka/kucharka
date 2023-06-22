@@ -11,7 +11,7 @@ cli.register(application)
 @application.context_processor
 def context_processors():
     from app.helpers.context_processors import context_processors
-    from app.models import all_dict as models
+    from app.models import models_dictionary as models
     from app.forms import IngredientForm, RecipeIngredientForm
 
     return dict(

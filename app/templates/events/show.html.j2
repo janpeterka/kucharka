@@ -11,8 +11,6 @@
     </div>
 </turbo-frame>
 
-<hr>
-
 <div class="row ms-0" data-controller="clicker" data-clicker-target="area">
     {% for week in timetable.all_relevant_days_split_by_weeks %}
         <div class="row">
@@ -23,7 +21,6 @@
     {% endfor %}
 </div>
 
-<hr>
 
 {% if event.can_current_user_edit %}
     {% include "events/_more_options.html.j2" %}
@@ -33,7 +30,7 @@
     <turbo-frame id="event-warnings" src="{{ url_for('EventView:warnings', id=event.id) }}"></turbo-frame>
 {% endif %}
 
-{% if event.can_current_user_edit and (event.is_shared or event.shared_with)%}
+{% if event.can_current_user_edit and (event.is_shared or event.shared_with) %}
     {% include "events/_sharing.html.j2" %}
 {% endif %}
 

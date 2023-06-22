@@ -12,35 +12,41 @@
 	{% set class = "clickable" %}
 {% endif %}
 
+# set daily_plan = day
+
 <div
 	{% if day.is_active %} data-action="click->clicker#activateLink" {% endif %}
 	class="col-12 col-md p-2 mb-2 mb-md-3 ms-2 me-2 bg-color-{{ color }} rounded text-center text-nobreak {{ class }} lh-2 text-truncate user-select-none">
-	<div> {{ link_to(day) }} </div>
+
+	<div><h2>{{ link_to(day, class="fs-5") }}</h2></div>
 
 	{% if day.is_active %}
 		
-		<hr class="mt-1">
-
 		<ul class="ps-0 ms-0" data-controller="sortable"
 			data-sortable-group-value="daily-plan-recipes"
 			data-sortable-list-id="{{day.id}}">
-		{% for daily_recipe in day.daily_recipes %}
-			<li class="text-truncate"
-					data-sortable-update-url="{{ url_for("DailyPlanRecipeView:sort", daily_recipe_id=daily_recipe.id)}}"
-					data-sortable-move-url={{ url_for("DailyPlanRecipeView:change_daily_plan", daily_recipe_id=daily_recipe.id)}}
-					>
 
-				{% if not daily_recipe.recipe.is_shopping %}
-					{{ link_to(daily_recipe.recipe, portion_count=daily_recipe.portion_count, style="user-select: none") }}
-				{% else %}
-					<span class="color-grey"> nákup </span>
-				{% endif %}
-			</li>
-		{% else %}
-			<span class="text-wrap"><em>zatím tu nejsou žádné recepty. rozklikni si den, nebo je sem přetáhni z jiného dne</em></span>
-		{% endfor %}
+			{% for daily_recipe in day.daily_recipes %}
+				<li class="text-truncate"
+						data-sortable-update-url="{{ url_for("DailyPlanRecipeView:sort", daily_recipe_id=daily_recipe.id)}}"
+						data-sortable-move-url={{ url_for("DailyPlanRecipeView:change_daily_plan", daily_recipe_id=daily_recipe.id)}}
+						>
+
+					{% if not daily_recipe.recipe.is_shopping %}
+						{{ link_to(daily_recipe.recipe, portion_count=daily_recipe.portion_count, style="user-select: none") }}
+					{% else %}
+						<span class="color-grey"> nákup </span>
+					{% endif %}
+				</li>
+			{% else %}
+				<span class="text-wrap"><em>zatím tu nejsou žádné recepty. přidej nějaký, nebo je přesuň z jiného dne</em></span>
+			{% endfor %}
 
 		</ul>
+
+		<button type="button" class="btn bg-color-primary-action text-white" data-bs-toggle="modal" data-bs-target="#add-recipe-to-{{day.id}}-modal" data-controller="custom-events">
+		  přidat recept {{ icon("add") }}
+		</button>
 	
 	{% endif %}
 
@@ -52,3 +58,7 @@
 	{% endif %}
 
 </div>
+
+{% with modal_id="add-recipe-to-"~day.id~"-modal" %}
+	{% include "daily_plans/_add_recipe_modal.html.j2" %}
+{% endwith %}

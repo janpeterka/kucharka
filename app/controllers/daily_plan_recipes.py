@@ -36,7 +36,7 @@ class DailyPlanRecipeView(HelperFlaskView):
 
         self.daily_recipe = DailyPlanManager(self.daily_plan).add_recipe(self.recipe)
 
-        return redirect(url_for("DailyPlanView:show", id=self.daily_plan.id))
+        return redirect(request.referrer)
 
     @route("daily_plans/add_shopping/<daily_plan_id>", methods=["POST"])
     def add_shopping(self, daily_plan_id):

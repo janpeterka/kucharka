@@ -1,0 +1,29 @@
+<div class="modal fade" id="{{ modal_id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">přidat recept</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <span class="col-6 mt-2">
+          <form class="form" action="{{ url_for('DailyPlanRecipeView:add_recipe', daily_plan_id=daily_plan.id) }}" method="post">
+              <div class="row">
+                  <div class="col-8">
+                      <select name="recipe_id" id="recipe_select" class="form-control">
+                          {% include "daily_plans/_add_recipe_form_options.html.j2" %}
+                      </select>
+                  </div>
+                  <div class="col">
+                      <input type="submit" class="form-control btn bg-color-primary-action color-white" value="přidat recept">
+                  </div>
+              </div>
+          </form>
+        </span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">zrušit</button>
+      </div>
+    </div>
+  </div>
+</div>

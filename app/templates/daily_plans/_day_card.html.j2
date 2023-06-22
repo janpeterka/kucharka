@@ -39,13 +39,13 @@
 					{% endif %}
 				</li>
 			{% else %}
-				<span class="text-wrap"><em>zatím tu nejsou žádné recepty. přidej nějaký, nebo je přesuň z jiného dne</em></span>
+				<span class="text-wrap"><em>zatím tu nejsou žádné recepty. nějaký přidej, nebo je přesuň z jiného dne</em></span>
 			{% endfor %}
 
 		</ul>
 
 		<button type="button" class="btn bg-color-primary-action text-white" data-bs-toggle="modal" data-bs-target="#add-recipe-to-{{day.id}}-modal" data-controller="custom-events">
-		  přidat recept {{ icon("add") }}
+		  víc jídla! {{ icon("add") }}
 		</button>
 	
 	{% endif %}

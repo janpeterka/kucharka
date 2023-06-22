@@ -21,12 +21,9 @@ def app():
 
     @application.context_processor
     def utility_processor():
-        from app.helpers.context_processors import human_format_date, formatted_amount
+        from app.helpers.context_processors import context_processors
 
-        return dict(
-            human_format_date=human_format_date,
-            formatted_amount=formatted_amount,
-        )
+        return dict(**context_processors)
 
     return application
 

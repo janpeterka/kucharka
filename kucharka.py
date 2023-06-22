@@ -10,18 +10,12 @@ cli.register(application)
 
 @application.context_processor
 def context_processors():
-    from app.helpers.context_processors import (
-        human_format_date,
-        formatted_amount,
-        inflect,
-    )
+    from app.helpers.context_processors import context_processors
     from app.models import all_dict as models
     from app.forms import IngredientForm, RecipeIngredientForm
 
     return dict(
-        human_format_date=human_format_date,
-        formatted_amount=formatted_amount,
-        inflect=inflect,
+        **context_processors,
         **models,
         IngredientForm=IngredientForm,
         RecipeIngredientForm=RecipeIngredientForm,

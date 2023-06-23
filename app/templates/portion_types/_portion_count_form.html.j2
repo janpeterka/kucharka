@@ -11,10 +11,10 @@
 
 {{ event_portion_type_count }} {{ inflect("člověk", event_portion_type_count )}}
 
-{% if event.people_count_without_portion_type >= 1 %}
+{% if event.count_addable_to_portion_type >= 1 %}
 	<a href="{{ url_for('EventPortionTypeView:add_portions', event_id=event.id, portion_type_id=portion_type.id, count=1) }}"> +1 </a>
 {% endif %}
 
-{% if event.people_count_without_portion_type >= 5 %}
+{% if event.count_addable_to_portion_type >= 5 %}
 	<a href="{{ url_for('EventPortionTypeView:add_portions', event_id=event.id, portion_type_id=portion_type.id, count=5) }}"> +5 </a>
 {% endif %}

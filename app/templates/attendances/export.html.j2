@@ -4,39 +4,62 @@
 {% block content %}
   <h1> strávníci na {{ link_to(event) }}</h1>
 
-
   <div>{{ event.people_without_attendee_count}} strávníků se základní porcí</div>
 
-  # set portion_types = current_user.portion_types + [PortionType.default]
+  <table class="table">
+    <thead>
+      <tr>
+        <th>jméno</th>
+        <th>poznámky</th>
+        <th>omezení</th>
+      </tr>
+    </thead>
 
-  {% for portion_type in portion_types if (portion_type.is_default and event.people_without_attendee_count > 0) or (event.event_portion_type(portion_type) and event.event_portion_type(portion_type).count > 0) %}
-    {% set event_portion_type = event.event_portion_type(portion_type) %}
-    
-    <div>
-    <h3> {{ portion_type.name }} ({{ (portion_type.size * 100) | int }}%) -
-        {{ event_portion_type.count }} {{ inflect("člověk", event_portion_type.count  )}}
-    </h3>
-    </div>
+    <tbody>
 
-    {% for attendee in event.attendees_with_portion_type(portion_type) %}
-      <div class="row">
-        <div class="col-3">
-          <strong> {{ attendee.name }} </strong>
-        </div>
+    # set portion_types = [PortionType.default] + current_user.portion_types
 
-        <div class="col-3">
-          {{ attendee.note | default("", True) }}
-        </div>
+    {% for portion_type in portion_types %}
+      {% set event_portion_type = event.event_portion_type(portion_type) %}
 
-        <div class="col-5">
-          {% for label in attendee.labels %}
-            {{ render_label(label) }}
-          {% endfor %}
-        </div>
+      # if portion_type.id is none
+        # set count = event.people_count_without_portion_type
+        # set attendees = event.attendees_without_portion_type
+      # else
+        # set count = event.event_portion_type(portion_type).count
+        # set attendees = event.attendees_with_portion_type(portion_type)
+      # endif
 
-      </div>
+      <tr class="fs-4">
+        <td>
+          <strong> {{ portion_type.name }} </strong>
+        </td>
+        <td colspan="2">
+          {{ count }} {{ inflect("strávník", count) }}
+        </td>
+      </tr>
+
+      {% for attendee in attendees %}
+        <tr>
+          <td>
+            <strong> {{ attendee.name }} </strong>
+          </td>
+
+          <td>
+            {{ attendee.note | default("", True) }}
+          </td>
+
+          <td>
+            {% for label in attendee.labels %}
+              {{ render_label(label) }}
+            {% endfor %}
+          </td>
+
+        </tr>
+      {% endfor %}
+
     {% endfor %}
+    </tbody>
 
-  {% endfor %}
-
+  </table>
 {% endblock %}

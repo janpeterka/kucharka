@@ -19,16 +19,18 @@
       action="{{ action }}"
       {% if form_style %} style="{{ form_style }}" {% endif %}
       {% if form_class %} class="{{ form_class }}" {% endif %}
-      {% if data %} data-turbo-frame="{{ data }}" {% endif %}
       {% if confirmation %} onsubmit='return confirm("{{ confirmation }}");' {% endif %}
-      {% if target %} target="{{ target }}" {% endif %}
-          
->
+      {% if target %} target="{{ target }}" {% endif %}>
 
   <button type="submit"
           class="{% if icon %} icon {% endif %} {{ class_ }}"
           {% if style_ %} style="{{ style_ }}" {% endif %}
-          {% if disabled %} disabled {% endif %}>
+          {% if disabled %} disabled {% endif %}
+          {% if data %}
+              {% for key, value in data.items() %}
+                  data-{{ key }}="{{value}}"
+              {% endfor %}
+          {% endif %}>
       
       {% if value %} {{ value | safe }} {% endif %}
   

@@ -18,6 +18,7 @@ class PortionType(BaseModel, BaseMixin):
     @classproperty
     def default(cls):
         default_portion_type = empty_object()
+        default_portion_type.name = "základní"
         default_portion_type.size = 1
         default_portion_type.id = None
 

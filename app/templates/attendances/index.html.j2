@@ -10,7 +10,7 @@
     # set count =  event.people_count_without_portion_type
     <h2 class="fs-4"> základní - velikost porce 100% ({{ count }} {{inflect("strávník", count)}})</h2>
 
-    <ul data-controller="sortable" data-sortable-group-value="event-portion-type"
+    <ul data-controller="sortable-not-yet" data-sortable-group-value="event-portion-type"
       data-sortable-list-id=-1 class="no-list">
       {% for attendee in event.attendees_with_portion_type(None) %}
         {% include "attendances/_row.html.j2" %}
@@ -39,7 +39,7 @@
         </div>
       </div>
 
-      <ul data-controller="sortable" data-sortable-group-value="event-portion-type"
+      <ul data-controller="sortable-not-yet" data-sortable-group-value="event-portion-type"
       data-sortable-list-id="{{event_portion_type.id}}" class="no-list">
       {% for attendee in event.attendees_with_portion_type(portion_type) %}
         {% include "attendances/_row.html.j2" %}

@@ -1,7 +1,7 @@
 # set changed = changed_attendee_id == attendee.id
 # set form = AttendeeForm(obj=attendee)
-<turbo-frame id="attendee-{{attendee.id}}">
-  <li class="mb-2">
+<li class="mb-2">
+  <turbo-frame id="attendee-{{attendee.id}}">
 
     <div class="row">
       <div class="col-2">
@@ -37,5 +37,5 @@
 
     </div>
 
-  </li>
-</turbo-frame>
+  </turbo-frame>
+</li>

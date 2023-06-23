@@ -8,7 +8,7 @@ from app.helpers.general import list_without_duplicated
 
 from app.presenters import EventPresenter
 from app.models import DailyPlan
-from app.models.concerns import Attendable, Collaborative
+from app.models.concerns.events import Attendable, Collaborative
 
 
 class Event(BaseModel, BaseMixin, Attendable, Collaborative, EventPresenter):
@@ -74,19 +74,6 @@ class Event(BaseModel, BaseMixin, Attendable, Collaborative, EventPresenter):
     def share_all_used_recipes(self):
         for recipe in self.recipes:
             recipe.share()
-
-    @property
-    def relative_portion_count(self):
-        relative_portion_count = 0
-
-        # count portions of attendees with their portion size
-        for attendee in self.attendees:
-            relative_portion_count += getattr(attendee.portion_type, "size", 1)
-
-        # add remaining count
-        relative_portion_count += self.people_count - len(self.attendees)
-
-        return relative_portion_count
 
     @property
     def is_active(self) -> bool:

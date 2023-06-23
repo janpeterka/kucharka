@@ -47,3 +47,16 @@ class Attendable:
     @property
     def people_without_attendee_count(self):
         return self.people_count - len(self.attendees)
+
+    @property
+    def relative_portion_count(self):
+        relative_portion_count = 0
+
+        # count portions of attendees with their portion size
+        for attendee in self.attendees:
+            relative_portion_count += getattr(attendee.portion_type, "size", 1)
+
+        # add remaining count
+        relative_portion_count += self.people_count - len(self.attendees)
+
+        return relative_portion_count

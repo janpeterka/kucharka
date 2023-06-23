@@ -1,5 +1,4 @@
-from .events.attendable import Attendable
-from .events.collaborative import Collaborative
+from .loggable import Loggable
 
 
-__all__ = ["Attendable", "Collaborative"]
+__all__ = ["Loggable"]

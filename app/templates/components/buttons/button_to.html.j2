@@ -2,7 +2,6 @@
       action="{{ path }}"
       {% if form_style %} style="{{ form_style }}" {% endif %}
       {% if form_class %} class="{{ form_class }}" {% endif %}
-      {% if data %} data-turbo-frame="{{ data }}" {% endif %}
       {% if confirmation %} data-turbo-confirm="{{ confirmation }}" {% endif %}
 >
 
@@ -14,7 +13,6 @@
               {% for key, value in data.items() %}
                   data-{{ key }}="{{value}}"
               {% endfor %}
-                  
           {% endif %}
   >
       

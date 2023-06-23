@@ -5,11 +5,14 @@ from flask_security import current_user
 from app import db, BaseModel
 from app.helpers.base_mixin import BaseMixin
 from app.helpers.general import list_without_duplicated
+
 from app.presenters import EventPresenter
 from app.models import DailyPlan
+from app.models.concerns.events import Attendable, Collaborative
+from app.models.concerns import Loggable
 
 
-class Event(BaseModel, BaseMixin, EventPresenter):
+class Event(BaseModel, BaseMixin, Loggable, Attendable, Collaborative, EventPresenter):
     __tablename__ = "events"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -25,24 +28,7 @@ class Event(BaseModel, BaseMixin, EventPresenter):
     # event is personal, but shared publicly. can change or disappear
     is_shared = db.Column(db.Boolean, default=False)
 
-    created_by = db.Column(db.ForeignKey(("users.id")), nullable=False, index=True)
-    author = db.relationship("User", uselist=False, back_populates="events")
-
-    # collaborators = db.relationship(
-    #     "User",
-    #     secondary="users_have_event_roles",
-    #     primaryjoin="and_(Event.id == UserHasEventRole.event_id, UserHasEventRole.role =='collaborator')",
-    #     viewonly=True,
-    # )
-
-    shared_with = db.relationship(
-        "User",
-        secondary="users_have_event_roles",
-        primaryjoin="Event.id == UserHasEventRole.event_id",
-        viewonly=True,
-    )
-
-    user_roles = db.relationship("UserHasEventRole", cascade="all, delete")
+    # author = db.relationship("User", uselist=False, back_populates="events")
 
     daily_plans = db.relationship(
         "DailyPlan",
@@ -50,17 +36,6 @@ class Event(BaseModel, BaseMixin, EventPresenter):
         order_by=DailyPlan.date,
         cascade="all, delete",
     )
-
-    attendees = db.relationship(
-        "Attendee", primaryjoin="Attendee.event_id == Event.id", back_populates="event"
-    )
-
-    event_portion_types = db.relationship("EventPortionType", back_populates="event")
-
-    def event_portion_type(self, portion_type):
-        from app.models import EventPortionType
-
-        return EventPortionType.load_by_event_and_portion_type(self, portion_type)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -99,19 +74,6 @@ class Event(BaseModel, BaseMixin, EventPresenter):
     def share_all_used_recipes(self):
         for recipe in self.recipes:
             recipe.share()
-
-    @property
-    def relative_portion_count(self):
-        relative_portion_count = 0
-
-        # count portions of attendees with their portion size
-        for attendee in self.attendees:
-            relative_portion_count += getattr(attendee.portion_type, "size", 1)
-
-        # add remaining count
-        relative_portion_count += self.people_count - len(self.attendees)
-
-        return relative_portion_count
 
     @property
     def is_active(self) -> bool:
@@ -189,31 +151,6 @@ class Event(BaseModel, BaseMixin, EventPresenter):
 
         return split_recipes
 
-    def attendees_with_portion_type(self, portion_type):
-        return [a for a in self.attendees if a.portion_type == portion_type]
-
-    @property
-    def attendees_without_portion_type(self):
-        return [a for a in self.attendees if not a.portion_type]
-
-    @property
-    def people_count_without_portion_type(self):
-        return self.people_count - self.people_with_any_portion_type_count
-
-    @property
-    def count_addable_to_portion_type(self):
-        return self.people_count_without_portion_type - len(
-            self.attendees_without_portion_type
-        )
-
-    @property
-    def people_with_any_portion_type_count(self):
-        return sum([t.count for t in self.event_portion_types])
-
-    @property
-    def people_without_attendee_count(self):
-        return self.people_count - len(self.attendees)
-
     @property
     def zero_amount_ingredient_recipes(self) -> list:
         return [r for r in self.active_recipes if r.has_zero_amount_ingredient]
@@ -241,37 +178,6 @@ class Event(BaseModel, BaseMixin, EventPresenter):
     @property
     def ends_at(self):
         return self.date_to
-
-    def user_role(self, user):
-        roles = [user_role for user_role in self.user_roles if user_role.user == user]
-        if not roles:
-            return None
-        elif len(roles) == 1:
-            return roles[0].role
-        else:
-            raise Warning("User has multiple roles on this event")
-
-    @property
-    def connected_users(self) -> list:
-        users = self.shared_with
-        users.append(self.author)
-
-        return users
-
-    @property
-    def other_user_ids(self) -> list:
-        user_ids = [user.id for user in self.shared_with]
-        user_ids.append(self.author.id)
-        user_ids.remove(current_user.id)
-
-        if len(user_ids) == 1:
-            user_ids = user_ids[0]
-
-        return user_ids
-
-    @property
-    def current_user_role(self):
-        return self.user_role(current_user)
 
     # PERMISSIONS
     def can_view(self, user) -> bool:

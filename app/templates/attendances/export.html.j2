@@ -30,7 +30,9 @@
         # set attendees = event.attendees_with_portion_type(portion_type)
       # endif
 
-      <tr class="fs-4">
+      # if count and count > 0
+
+       <tr class="fs-4">
         <td>
           <strong> {{ portion_type.name }} </strong>
         </td>
@@ -45,9 +47,7 @@
             <strong> {{ attendee.name }} </strong>
           </td>
 
-          <td>
-            {{ attendee.note | default("", True) }}
-          </td>
+          <td> {{ attendee.note | default("", True) }} </td>
 
           <td>
             {% for label in attendee.labels %}
@@ -58,6 +58,7 @@
         </tr>
       {% endfor %}
 
+      # endif
     {% endfor %}
     </tbody>
 

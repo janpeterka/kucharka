@@ -40,10 +40,11 @@ def formatted_amount(amount):
         # if number is in ones, return with one decimal
         formatted_amount = round(amount, 1)
         # if first decimal is zero
-        if int(formatted_amount) == formatted_amount:
-            return int(formatted_amount)
-        else:
-            return formatted_amount
+        return (
+            int(formatted_amount)
+            if int(formatted_amount) == formatted_amount
+            else formatted_amount
+        )
     elif digits in (2, 3):
         # if number is in tens or hundereds, return without decimals
         return round(amount)

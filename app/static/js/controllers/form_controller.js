@@ -7,7 +7,7 @@ export default class extends Controller {
     this.debounceTimeout = false;
 
     if (this.autoSubmitValue) {
-      this.element.dataset.action += "change->form#submit keydown.enter->form#submit"
+      this.element.dataset.action = this.element.getAttribute("data-action") || "" + " change->form#submit keydown.enter->form#submit"
     }
   }
 

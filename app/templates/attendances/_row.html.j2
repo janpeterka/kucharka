@@ -5,14 +5,14 @@
 
     <div class="row">
       <div class="col-2">
-        <form action="{{ url_for("AttendeeView:update", id=attendee.id) }}" class="align-items-center" method="POST" data-controller="form" data-form-autosubmit-value="true">
+        <form action="{{ url_for("AttendeeView:update", id=attendee.id) }}" class="align-items-center" method="POST" data-controller="form" data-form-auto-submit-value="true">
           {{ form.hidden_tag() }}
           {{ render_floating_field(form.name) }}
         </form>
       </div>
 
       <div class="col-2">
-        <form action="{{ url_for("AttendeeView:update", id=attendee.id) }}" class="align-items-center" method="POST" data-controller="form" data-form-autosubmit-value="true">
+        <form action="{{ url_for("AttendeeView:update", id=attendee.id) }}" class="align-items-center" method="POST" data-controller="form" data-form-auto-submit-value="true">
           {{ form.hidden_tag() }}
           {{ render_floating_field(form.note) }}
         </form>

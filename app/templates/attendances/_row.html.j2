@@ -1,0 +1,39 @@
+# set changed = changed_attendee_id == attendee.id
+# set form = AttendeeForm(obj=attendee)
+
+<li class="mb-2">
+
+  <div class="row">
+    <div class="col-2">
+      <form action="{{ url_for("AttendeeView:update", id=attendee.id) }}" class="align-items-center" method="POST" data-controller="form" data-action="change->form#submit keydown.enter->form#submit">
+        {{ form.hidden_tag() }}
+        {{ render_floating_field(form.name) }}
+      </form>
+    </div>
+
+    <div class="col-3">
+      <form action="{{ url_for("AttendeeView:update", id=attendee.id) }}" class="align-items-center" method="POST" data-controller="form" data-action="change->form#submit keydown.enter->form#submit">
+        {{ form.hidden_tag() }}
+        {{ render_floating_field(form.note) }}
+      </form>
+    </div>
+
+    <div class="col-5" data-controller="select-badges"
+         data-select-badges-type-value="multiple"
+         data-select-badges-selected-class="bg-color-highlight"
+         data-select-badges-unselected-class="bg-color-light-grey">
+      <form action="{{ url_for("AttendeeView:update", id=attendee.id) }}" class="align-items-center" method="POST" data-controller="form" data-action="badge-value-changed->form#submit">
+       {{ form.labels(data_select_badges_target="select", option_attr=form.labels.option_attr) }}
+      <span data-select-badges-target="badges" class="text-overflow-break"></span>
+      </form>
+    </div>
+
+    <div class="col-2 pt-2">
+      {{ button_to(url_for("AttendeeView:delete", id=attendee.id), class="btn bg-color-secondary-action color-white", value="odebrat " ~ icon('delete'), form_class="ms-2") }}
+
+      <span class="text-success d-none" data-controller="{{ 'class-change' if changed }}" data-class-change-removed-class="d-none">{{ icon("check") }} upraveno</span>
+    </div>
+
+  </div>
+
+</li>

@@ -4,7 +4,7 @@ from flask_security import login_required
 from app.helpers.helper_flask_view import HelperFlaskView
 from app.helpers.form import create_form
 
-from app.models import Event, Attendee
+from app.models import Event
 from app.forms import AttendeeForm
 
 
@@ -15,14 +15,9 @@ class AttendanceView(HelperFlaskView):
         self.event = Event.load(event_id)
         self.validate_show(self.event)
 
-    def before_index(self, event_id):
-        self.edit_id = int(request.args.get("edit_id", 0))
-
     def index(self, event_id):
+        self.changed_attendee_id = int(request.args.get("changed_attendee_id", -1))
         self.form = create_form(AttendeeForm)
-
-        if self.edit_id > 0:
-            self.edit_form = AttendeeForm(obj=Attendee.load(self.edit_id))
 
         return self.template()
 

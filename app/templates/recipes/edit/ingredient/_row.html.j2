@@ -13,7 +13,7 @@
     <td class="align-middle"> {{ link_to(ingredient, data={"turbo-frame": "_top"}) }} </td>
     
     <td >
-        <form action="{{ url_for('EditRecipeIngredientView:update', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" method="post" data-controller="form" data-action="change->form#submit keydown.enter->form#submit">
+        <form action="{{ url_for('EditRecipeIngredientView:update', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" method="post" data-controller="form" data-form-autosubmit-value="true">
             {{ render_floating_field(form.amount, value=amount) }}
         </form>
         # if ingredient.amount
@@ -25,7 +25,7 @@
     </td>
 
     <td class="align-top">
-        <form action="{{ url_for('EditRecipeIngredientView:update', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" method="post" data-controller="form" data-action="change->form#submit keydown.enter->form#submit">
+        <form action="{{ url_for('EditRecipeIngredientView:update', recipe_id=recipe.id, ingredient_id=ingredient.id) }}" method="post" data-controller="form" data-form-autosubmit-value="true">
          {{ render_floating_field(form.comment) }}
         </form>
     </td>

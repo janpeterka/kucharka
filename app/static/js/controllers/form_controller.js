@@ -1,6 +1,15 @@
 import { Controller } from "../../node_modules/@hotwired/stimulus"
 
 export default class extends Controller {
+  static values = { autoSubmit: { type: Boolean, default: false } }
+
+  connect() {
+    this.debounceTimeout = false;
+
+    if (this.autoSubmitValue) {
+      this.element.dataset.action += "change->form#submit keydown.enter->form#submit"
+    }
+  }
 
   reset() {
     this.element.reset()

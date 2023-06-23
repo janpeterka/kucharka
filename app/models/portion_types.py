@@ -1,6 +1,7 @@
 from app import db, BaseModel
 
 from app.helpers.base_mixin import BaseMixin
+from app.helpers.general import classproperty, empty_object
 
 
 class PortionType(BaseModel, BaseMixin):
@@ -13,3 +14,16 @@ class PortionType(BaseModel, BaseMixin):
     created_by = db.Column(db.ForeignKey(("users.id")), nullable=False, index=True)
 
     author = db.relationship("User", uselist=False, back_populates="portion_types")
+
+    @classproperty
+    def default(cls):
+        default_portion_type = empty_object()
+        default_portion_type.name = "základní"
+        default_portion_type.size = 1
+        default_portion_type.id = None
+
+        return default_portion_type
+
+    @property
+    def is_default(self):
+        return self.id is None

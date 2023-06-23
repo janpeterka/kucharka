@@ -22,7 +22,6 @@ export default class extends Controller {
   }
 
   removeBriefly() {
-    console.log("remove")
     this.element.classList.remove(this.removedClass)
     setTimeout(() => {
       this.element.classList.add(this.removedClass)

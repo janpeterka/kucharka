@@ -3,10 +3,10 @@ class classproperty(property):
         return self.fget(owner_cls)
 
 
-def empty_object():
+def empty_object(**kwargs):
     import types
 
-    return types.SimpleNamespace()
+    return types.SimpleNamespace(**kwargs)
 
 
 def list_without_duplicated(array) -> list:

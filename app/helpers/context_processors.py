@@ -56,6 +56,7 @@ def inflect(word, value):
         "den": {0: "dní", 1: "den", 2: "dny", 5: "dní"},
         "člověk": {0: "lidí", 1: "člověk", 2: "lidi", 5: "lidí"},
         "porce": {0: "porcí", 1: "porce", 5: "porcí"},
+        "strávník": {0: "strávníků", 1: "strávník", 2: "strávníci", 5: "strávníků"},
     }
 
     if word not in dictionary:

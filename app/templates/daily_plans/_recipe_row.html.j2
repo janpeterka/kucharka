@@ -30,7 +30,7 @@
     {% else %}
         <span class="col-3">
             {% if daily_recipe.can_current_user_edit %}
-                <form method="POST" action="{{ url_for('DailyPlanRecipeView:update', daily_recipe_id=daily_recipe.id) }}" data-controller="form" data-action="change->form#submit keydown.enter->form#submit">
+                <form method="POST" action="{{ url_for('DailyPlanRecipeView:update', daily_recipe_id=daily_recipe.id) }}" data-controller="form" data-form-autosubmit-value="true">
                     <select name="meal-type" id="meal-type" class="form-control">
                         <option disabled {% if not daily_recipe.meal_type %}selected{% endif %} value>  </option>
                         {% for option in ["snídaně", "dopolední svačina", "oběd", "odpolední svačina", "večeře", "programové", "jiné"] %}
@@ -45,7 +45,7 @@
 
         <span class="col-2">
             {% if daily_recipe.can_current_user_edit %}
-                <form method="POST" action="{{ url_for('DailyPlanRecipeView:update', daily_recipe_id=daily_recipe.id) }}" data-controller="form" data-action="change->form#submit keydown.enter->form#submit">
+                <form method="POST" action="{{ url_for('DailyPlanRecipeView:update', daily_recipe_id=daily_recipe.id) }}" data-controller="form" data-form-autosubmit-value="true">
                     <input type="number" step="0.1" class="form-control" name="portion-count" value="{{ daily_recipe.portion_count}}" placeholder="počet porcí" required>
                 </form>
             {% else %}

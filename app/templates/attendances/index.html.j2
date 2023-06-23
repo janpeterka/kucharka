@@ -2,92 +2,58 @@
 {% block title %} strávníci {% endblock %}
 
 {% block content %}
-  <h1 class="text-center font-comfortaa"> strávníci ({{event.people_count}}) na {{ link_to(event) }} </h1>
+  <h1 class="text-center font-comfortaa"> strávníci na {{ link_to(event) }} </h1>
 
-  {{ event.people_count_without_portion_type }} strávníků se základní porcí, a kromě toho:
+  <div class="text-center"> počítáme v základu s <strong>{{event.people_count}}</strong> strávníky, souhrn pro tisk <a href="{{ url_for('AttendanceView:export', event_id=event.id) }}" data-turbo="false"> tady </a></div>
+
+  <div class="alert alert-secondary">
+    # set count =  event.people_count_without_portion_type
+    <h2 class="fs-4"> základní - velikost porce 100% ({{ count }} {{inflect("strávník", count)}})</h2>
+
+    <ul data-controller="sortable-not-yet" data-sortable-group-value="event-portion-type"
+      data-sortable-list-id=-1 class="no-list">
+      {% for attendee in event.attendees_with_portion_type(None) %}
+        {% include "attendances/_row.html.j2" %}
+      {% endfor %}
+
+      {% if (event.people_count_without_portion_type - event.attendees_with_portion_type(None) | length > 0) %}
+        {% include "attendances/_new_form.html.j2" %}
+      {% endif %}
+    </ul>
+  </div>
 
   {% for portion_type in current_user.portion_types %}
     {% set event_portion_type = event.event_portion_type(portion_type) %}
     {% set event_portion_type_count = event_portion_type.count | default(0, True) %}
     
-    <details class="colored">
-      <summary>
-        {{ portion_type.name }} ({{ (portion_type.size * 100) | int }}%)
-        <span class="float-end">
-          {% include "portion_types/_portion_count_form.html.j2" %}      
-        </span>
-      </summary>
+    <div class="alert alert-secondary">
+      <div class="row">
+        <div class="col-6">
+          <h2 class="fs-4 float-start">{{ portion_type.name }} - velikost porce {{portion_type.size * 100 | int}}% ({{event_portion_type_count}} {{inflect("strávník", event_portion_type_count)}}) </h2>
+        </div>
+        <div class="col-6">
+          <div class="float-end me-5">
+            {% include "portion_types/_portion_count_form.html.j2" %}
+          </div>
+        </div>
+      </div>
 
-      <turbo-frame id="portion-type-{{portion_type.id}}">
-      <div>
-      
-      <table class="table">
-        <thead>
-          <th>strávník</th>
-        </thead>
+      <ul data-controller="sortable-not-yet" data-sortable-group-value="event-portion-type"
+      data-sortable-list-id="{{event_portion_type.id}}" class="no-list">
+      {% for attendee in event.attendees_with_portion_type(portion_type) %}
+        {% include "attendances/_row.html.j2" %}
+      {% endfor %}
+      </ul>
 
-        <tbody>
-        {% for attendee in event.attendees_with_portion_type(portion_type) %}
-          <tr> <td>
-            {% if edit_id == attendee.id %}
-              <form action="{{ url_for("AttendeeView:update", id=attendee.id) }}" class="row row-cols-lg-auto g-3 align-items-center" method="POST">
-                {% with form=edit_form %}
-                  {% include "attendances/_form_fields.html.j2" %}
-                {% endwith %}
-                <div class="col-2">
-                    {{ render_field(edit_form.update) }}
-                    <a href="{{ url_for("AttendanceView:index", event_id=event.id) }}", class="ms-2"> zrušit </a>
-                </div>
-              </form>
-            {% else %}
-            <div class="row">
-              <div class="col-3">
-                <strong> {{ attendee.name }} </strong>
-              </div>
-
-              <div class="col-2">
-                {{ attendee.note | default("", True) }}
-              </div>
-
-              <div class="col-3">
-                {% for label in attendee.labels %}
-                  {{ render_label(label) }}
-                {% endfor %}
-              </div>
-
-              <div class="col-3">
-                <a href="{{ url_for("AttendanceView:index", event_id=event.id, edit_id=attendee.id) }}"> upravit </a>
-                {{ icon_button_to(url_for("AttendeeView:delete", id=attendee.id), icon=True, value=icon('remove', style="font-size:2rem; color:red;"), form_class="ms-2") }}
-              </div>
-
-            </div>
-            {% endif %}
-
-            </td> </tr>
-        {% endfor %}
-        </tbody>
-      </table>
       {% if (event_portion_type_count - event.attendees_with_portion_type(portion_type) | length > 0) %}
-        <strong>přidat dalšího strávníka</strong>
-        <turbo-frame target="portion-type-{{portion_type.id}}">
-          {% include "attendances/_new_form.html.j2" %}
-        </turbo-frame>
+        {% include "attendances/_new_form.html.j2" %}
       {% endif %}
     </div>
-    </turbo-frame>
-
-    </details>
   {% endfor %}
-  
-  <hr>
-  
-  <div class="row">
-    <div class="col">
-      souhrn pro tisk <a href="{{ url_for('AttendanceView:export', event_id=event.id) }}" data-turbo="false"> tady </a>
-    </div>
-    <div class="col">
+
+
+  <div class="alert alert-secondary">
       <turbo-frame id="new-portion-type-form" src="{{ url_for('PortionTypeView:new') }}" target="_top"></turbo-frame>
-    </div>
   </div>
 
 

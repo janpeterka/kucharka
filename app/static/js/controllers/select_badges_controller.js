@@ -1,22 +1,22 @@
 import { Controller } from "../../node_modules/@hotwired/stimulus"
 
 export default class extends Controller {
-    static targets = ["select", "badges"]
-    static classes = ["selected", "unselected"]
-    static values = {
-      type: { type: String, default: 'single' }
-    }
+  static targets = ["select", "badges"]
+  static classes = ["selected", "unselected"]
+  static values = {
+    type: { type: String, default: 'single' }
+  }
 
-  connect(){
+  connect() {
     this.add_badges();
     this.hide_select();
   }
 
-  hide_select(){
+  hide_select() {
     this.selectTarget.style.display = "none";
   }
 
-  add_badges(){
+  add_badges() {
     for (let i = 0, option; option = this.selectTarget.options[i]; i++) {
       // this prevents adding None - empty option from allow_blank
       if (option.value != "__None" && option.value != "0") {
@@ -25,14 +25,14 @@ export default class extends Controller {
     }
   }
 
-  add_badge(option){
+  add_badge(option) {
     if (this.element.querySelector(`#badge-${option.value}`)) {
       return;
     }
 
     var badge = document.createElement("span")
     badge.className = "select-badge lh-3 ms-1 me-1 p-2 cursor-clickable rounded-pill text-nobreak"
-    
+
     if (option.dataset.color == "None" || option.dataset.color == null || option.dataset.color.length === 0) {
       badge.dataset.color = this.selectedClass.replace("bg-color-", "")
     } else {
@@ -57,7 +57,7 @@ export default class extends Controller {
     this.badgesTarget.appendChild(badge)
   }
 
-  toggle(event){
+  toggle(event) {
     var value = event.params.value
     var badge = this.element.querySelector(`#badge-${value}`)
     if (badge.dataset.selected == "true") {
@@ -65,10 +65,15 @@ export default class extends Controller {
     } else {
       this.select_value(value);
     }
+
+    console.log("toggled")
+    const custom_event = new CustomEvent("badge-value-changed")
+    this.selectTarget.parentNode.dispatchEvent(custom_event)
   }
 
+  // private
 
-  unselect_value(value){
+  unselect_value(value) {
     var badge = this.element.querySelector(`#badge-${value}`)
 
     if (this.typeValue == "single") {
@@ -80,46 +85,46 @@ export default class extends Controller {
     }
   }
 
-  select_value(value){
+  select_value(value) {
     var badge = this.element.querySelector(`#badge-${value}`)
 
     if (this.typeValue == "single") {
-        this.unselect_all_badges()
-        this.selectTarget.value = value;
-        this.select_badge(badge)
+      this.unselect_all_badges()
+      this.selectTarget.value = value;
+      this.select_badge(badge)
     } else {
-        this.add_option(value)
-        this.select_badge(badge)
+      this.add_option(value)
+      this.select_badge(badge)
     }
   }
 
-  add_option(value){
+  add_option(value) {
     var current_values = $(this.selectTarget).val()
     current_values.push(value.toString())
-    
+
     $(this.selectTarget).val(current_values)
   }
 
-  remove_option(value){
+  remove_option(value) {
     var current_values = $(this.selectTarget).val()
     current_values = this._removeItem(current_values, value.toString())
 
     $(this.selectTarget).val(current_values)
   }
 
-  select_badge(badge){
+  select_badge(badge) {
     badge.dataset.selected = true
     badge.classList.remove(this.unselectedClass)
     badge.classList.add(badge.dataset.colorClass)
   }
 
-  unselect_badge(badge){
+  unselect_badge(badge) {
     badge.dataset.selected = false
     badge.classList.add(this.unselectedClass)
     badge.classList.remove(badge.dataset.colorClass)
   }
 
-  unselect_all_badges(){
+  unselect_all_badges() {
     var badges = this.badgesTarget.querySelectorAll(".select-badge")
 
     for (let i = 0, badge; badge = badges[i]; i++) {

@@ -28,6 +28,8 @@ class AttendeeView(HelperFlaskView):
 
     def post(self, event_id, portion_type_id):
         form = AttendeeForm(request.form)
+        if portion_type_id == "0":
+            portion_type_id = None
         attendee = Attendee(event_id=event_id, portion_type_id=portion_type_id)
         attendee.fill(form)
         attendee.save()
@@ -42,11 +44,15 @@ class AttendeeView(HelperFlaskView):
 
     @route("update/<id>", methods=["POST"])
     def update(self, id):
-        form = AttendeeForm(request.form)
+        form = AttendeeForm(request.form, obj=self.attendee)
 
         self.attendee.fill(form)
         self.attendee.edit()
 
         return redirect(
-            url_for("AttendanceView:index", event_id=self.attendee.event.id)
+            url_for(
+                "AttendanceView:index",
+                event_id=self.attendee.event.id,
+                changed_attendee_id=self.attendee.id,
+            )
         )

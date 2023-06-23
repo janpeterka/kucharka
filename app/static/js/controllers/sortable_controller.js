@@ -8,11 +8,6 @@ export default class extends Sortable {
     this.onAdd = this.onAdd.bind(this)
   }
 
-  connect() {
-    super.connect()
-    console.log("SortableController connected")
-  }
-
   get options() {
     let options = super.options
     options["group"] = this.element.dataset.sortableGroupValue

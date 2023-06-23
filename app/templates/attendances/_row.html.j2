@@ -1,0 +1,41 @@
+# set changed = changed_attendee_id == attendee.id
+# set form = AttendeeForm(obj=attendee)
+<li class="mb-2">
+  <turbo-frame id="attendee-{{attendee.id}}">
+
+    <div class="row">
+      <div class="col-2">
+        <form action="{{ url_for("AttendeeView:update", id=attendee.id) }}" class="align-items-center" method="POST" data-controller="form" data-form-autosubmit-value="true">
+          {{ form.hidden_tag() }}
+          {{ render_floating_field(form.name) }}
+        </form>
+      </div>
+
+      <div class="col-2">
+        <form action="{{ url_for("AttendeeView:update", id=attendee.id) }}" class="align-items-center" method="POST" data-controller="form" data-form-autosubmit-value="true">
+          {{ form.hidden_tag() }}
+          {{ render_floating_field(form.note) }}
+        </form>
+      </div>
+
+      <div class="col-5" data-controller="select-badges"
+           data-select-badges-type-value="multiple"
+           data-select-badges-selected-class="bg-color-highlight"
+           data-select-badges-unselected-class="bg-color-light-grey">
+        <form action="{{ url_for("AttendeeView:update", id=attendee.id) }}" class="align-items-center" method="POST" data-controller="form" data-action="badge-value-changed->form#submit">
+         {{ form.labels(data_select_badges_target="select", option_attr=form.labels.option_attr) }}
+        <span data-select-badges-target="badges" class="text-overflow-break"></span>
+        </form>
+      </div>
+
+      <div class="col-2">
+        <span class="text-success d-none float-start mt-2" data-controller="{{ 'class-change' if changed }}" data-class-change-removed-class="d-none">{{ icon("check") }} upraveno</span>
+        <span class="float-end ms-2">
+          {{ button_to(url_for("AttendeeView:delete", id=attendee.id), class="color-red mt-2 fs-4", icon=True, value=icon('remove'), confirmation="opravdu chceš smazat strávníka z akce?", data={"turbo-frame": "_top"}) }}
+        </span>
+      </div>
+
+    </div>
+
+  </turbo-frame>
+</li>

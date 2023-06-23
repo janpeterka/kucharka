@@ -31,7 +31,7 @@
       <div class="col-2">
         <span class="text-success d-none float-start mt-2" data-controller="{{ 'class-change' if changed }}" data-class-change-removed-class="d-none">{{ icon("check") }} upraveno</span>
         <span class="float-end ms-2">
-          {{ button_to(url_for("AttendeeView:delete", id=attendee.id), class="color-red", icon=True, value=icon('remove'), confirmation="opravdu chceš smazat strávníka z akce?", data={"turbo-frame": "_top"}) }}
+          {{ button_to(url_for("AttendeeView:delete", id=attendee.id), class="color-red mt-2", icon=True, value=icon('remove'), confirmation="opravdu chceš smazat strávníka z akce?", data={"turbo-frame": "_top"}) }}
         </span>
       </div>
 

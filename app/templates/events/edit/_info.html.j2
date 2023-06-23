@@ -1,15 +1,13 @@
 {% from "macros/render_field.html.j2" import render_field, render_floating_field %}
 
-<form method="POST" action="{{ url_for('EventView:update', id=event.id) }}">
-    {{ form.csrf_token }}
-    <div class="ms-2 me-2">
+<form method="POST" action="{{ url_for('EventView:update', id=event.id) }}" class="mb-4" data-turbo-frame="_top">
+    {{ form.hidden_tag() }}
+
+    <div class="ms-3 me-3 mb-2">
         {{ render_floating_field(form.name) }}
     </div>
 
-    <hr>
-
     <div class="row ms-2 me-2" data-controller="set-duration">
-
         <div class="col-12 col-sm">
             <div class="row">
                     <div class="col mb-0 mt-0 me-1 p-1">
@@ -34,7 +32,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <div class="row ms-2 me-2">
@@ -54,7 +51,7 @@
                             {% set value =value~"  " %}
                         {% endif %}
                         <input type="text" name="shared" class="form-control font-fa"  value="{{value}}" disabled>
-                        <label for="shared">Další informace</label>
+                        <label for="shared">další informace</label>
                       </div>
                     {% endif %}
                 </div>
@@ -63,13 +60,12 @@
 
         <div class="col mt-2">
             <div class="row">
-                
-            <div class="col">
-                {{ render_field(form.submit, value="uložit změny", class="w-100 bg-color-primary-action color-white mt-0 pt-3 pb-3") }}
-            </div>
-            <div class="col">
-                <a href="{{ url_for('EventView:show', id=event.id) }}" class="btn bg-color-secondary-action color-white w-100 mt-0 pt-3 pb-3"> zrušit změny </a>
-            </div>
+                <div class="col">
+                    <a href="{{ url_for('EventView:show', id=event.id) }}" class="btn bg-color-secondary-action color-white w-100 mt-0 pt-3 pb-3"> zrušit změny </a>
+                </div>
+                <div class="col">
+                    {{ render_field(form.submit, value="uložit změny", class="w-100 bg-color-primary-action color-white mt-0 pt-3 pb-3") }}
+                </div>
             </div>
         </div>
 

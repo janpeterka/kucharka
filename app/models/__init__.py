@@ -64,7 +64,7 @@ __all__ = [
     "EventDay",
 ]
 
-all_dict = {
+models_dictionary = {
     "Attendee": Attendee,
     "Conversion": Conversion,
     "DailyPlan": DailyPlan,

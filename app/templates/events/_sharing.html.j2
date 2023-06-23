@@ -2,18 +2,17 @@
     <summary > sdílení </summary>
     <div>
         {% for event_role in event.user_roles %}
-        <div class="col-12 row mb-2">
-            <div class="col-3 pt-2">
-            {{ event_role.user.email }} {{ icon(event_role.role) }}
+            <div class="col-12 row mb-2">
+                <div class="col-3 pt-2">
+                {{ event_role.user.email }} {{ icon(event_role.role) }}
+                </div>
+                <div class="col-2">
+                    {% if event.can_current_user_share %}
+                    {{ button_to(url_for('ShareEventView:remove_sharing', event_id=event.id, user_id=event_role.user.id),
+                    class="btn", style="color:white; background-color: #A66A6A", value="odebrat práva" ~ icon('delete')) }}
+                    {% endif %}
+                </div>
             </div>
-            <div class="col-2">
-                {% if event.can_current_user_share %}    
-                {{ button_to(url_for('ShareEventView:remove_sharing', event_id=event.id, user_id=event_role.user.id),
-                class="btn", style="color:white; background-color: #A66A6A", value="odebrat práva" ~ icon('delete')) }}
-                {% endif %}
-            </div>
-        </div>
-        <hr>
         {% endfor %}
 
         {% if event.is_shared %}

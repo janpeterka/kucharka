@@ -73,3 +73,10 @@ def inflect(word, value):
         raise AttributeError(
             f"Don't know how to inflect {word} with value {value}, teach me!"
         )
+
+
+context_processors = {
+    "human_format_date": human_format_date,
+    "formatted_amount": formatted_amount,
+    "inflect": inflect,
+}

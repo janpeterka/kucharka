@@ -70,5 +70,8 @@ window.Stimulus.register('dropzone', DropzoneController)
 import ClassChangeController from "../controllers/class_change_controller.js"
 window.Stimulus.register('class-change', ClassChangeController)
 
+import CustomEventsController from "../controllers/custom_events_controller.js"
+window.Stimulus.register('custom-events', CustomEventsController)
+
 // Turbo
 import * as Turbo from "@hotwired/turbo"

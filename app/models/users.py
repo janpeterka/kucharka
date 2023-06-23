@@ -27,7 +27,7 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin, BasePresenter):
 
     recipes = db.relationship("Recipe", order_by="Recipe.name", back_populates="author")  # type: ignore
 
-    events = db.relationship("Event", back_populates="author")  # type: ignore
+    events = db.relationship("Event", primaryjoin="Event.created_by == User.id", back_populates="author")  # type: ignore
 
     role_events = db.relationship(
         "Event",

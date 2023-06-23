@@ -9,9 +9,10 @@ from app.helpers.general import list_without_duplicated
 from app.presenters import EventPresenter
 from app.models import DailyPlan
 from app.models.concerns.events import Attendable, Collaborative
+from app.models.concerns import Loggable
 
 
-class Event(BaseModel, BaseMixin, Attendable, Collaborative, EventPresenter):
+class Event(BaseModel, BaseMixin, Loggable, Attendable, Collaborative, EventPresenter):
     __tablename__ = "events"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -27,8 +28,7 @@ class Event(BaseModel, BaseMixin, Attendable, Collaborative, EventPresenter):
     # event is personal, but shared publicly. can change or disappear
     is_shared = db.Column(db.Boolean, default=False)
 
-    created_by = db.Column(db.ForeignKey(("users.id")), nullable=False, index=True)
-    author = db.relationship("User", uselist=False, back_populates="events")
+    # author = db.relationship("User", uselist=False, back_populates="events")
 
     daily_plans = db.relationship(
         "DailyPlan",

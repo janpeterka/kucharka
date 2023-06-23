@@ -27,10 +27,17 @@
     {% set event_portion_type_count = event_portion_type.count | default(0, True) %}
     
     <div class="alert alert-secondary">
-      <h2 class="fs-4">{{ portion_type.name }} - velikost porce {{portion_type.size * 100 | int}}% ({{event_portion_type_count}} {{inflect("strávník", event_portion_type_count)}}) </h2>
-      ## <div class="float-end">
-      ##     {% include "portion_types/_portion_count_form.html.j2" %}
-      ## </div>
+      <div class="row">
+        <div class="col-6">
+          <h2 class="fs-4 float-start">{{ portion_type.name }} - velikost porce {{portion_type.size * 100 | int}}% ({{event_portion_type_count}} {{inflect("strávník", event_portion_type_count)}}) </h2>
+        </div>
+        <div class="col-6">
+          <div class="float-end me-5">
+
+            {% include "portion_types/_portion_count_form.html.j2" %}
+          </div>
+        </div>
+      </div>
 
       <ul data-controller="sortable" data-sortable-group-value="event-portion-type"
       data-sortable-list-id="{{event_portion_type.id}}" class="no-list">
@@ -46,10 +53,8 @@
   {% endfor %}
 
 
-  <div class="row">
-    <div class="col">
+  <div class="alert alert-secondary">
       <turbo-frame id="new-portion-type-form" src="{{ url_for('PortionTypeView:new') }}" target="_top"></turbo-frame>
-    </div>
   </div>
 
 

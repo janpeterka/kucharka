@@ -7,7 +7,9 @@
 
   <div>{{ event.people_without_attendee_count}} strávníků se základní porcí</div>
 
-  {% for portion_type in current_user.portion_types if event.event_portion_type(portion_type).count > 0 %}
+  # set portion_types = current_user.portion_types + [PortionType.default]
+
+  {% for portion_type in portion_types if (portion_type.is_default and event.people_without_attendee_count > 0) or (event.event_portion_type(portion_type) and event.event_portion_type(portion_type).count > 0) %}
     {% set event_portion_type = event.event_portion_type(portion_type) %}
     
     <div>
@@ -16,25 +18,25 @@
     </h3>
     </div>
 
-  {% for attendee in event.attendees_with_portion_type(portion_type) %}
-    <div class="row">
-      <div class="col-3">
-        <strong> {{ attendee.name }} </strong>
+    {% for attendee in event.attendees_with_portion_type(portion_type) %}
+      <div class="row">
+        <div class="col-3">
+          <strong> {{ attendee.name }} </strong>
+        </div>
+
+        <div class="col-3">
+          {{ attendee.note | default("", True) }}
+        </div>
+
+        <div class="col-5">
+          {% for label in attendee.labels %}
+            {{ render_label(label) }}
+          {% endfor %}
+        </div>
+
       </div>
+    {% endfor %}
 
-      <div class="col-3">
-        {{ attendee.note | default("", True) }}
-      </div>
-
-      <div class="col-3">
-        {% for label in attendee.labels %}
-          {{ render_label(label) }}
-        {% endfor %}
-      </div>
-
-    </div>      
-  {% endfor %}  
-
-  {% endfor %}  
+  {% endfor %}
 
 {% endblock %}

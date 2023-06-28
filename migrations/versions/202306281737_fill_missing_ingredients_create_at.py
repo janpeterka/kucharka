@@ -1,4 +1,4 @@
-"""MaFill missing ingredients.create_at
+"""Fill missing ingredients.create_at
 
 Revision ID: a334a3a614a7
 Revises: 93034edd5318
@@ -18,10 +18,11 @@ depends_on = None
 
 def upgrade():
     from app.models import Ingredient
+    import datetime
 
     for i in Ingredient.load_all():
         if not i.created_at:
-            i.created_at = i.last_updated_at
+            i.created_at = datetime.datetime(2000, 1, 1)
             i.edit()
 
 

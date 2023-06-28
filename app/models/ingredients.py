@@ -5,16 +5,14 @@ from flask_security import current_user
 from app import db, BaseModel
 from app.helpers.base_mixin import BaseMixin
 from app.presenters import ItemPresenter
+from app.models.concerns import Loggable
 
 
-class Ingredient(BaseModel, BaseMixin, ItemPresenter):
+class Ingredient(BaseModel, BaseMixin, Loggable, ItemPresenter):
     __tablename__ = "ingredients"
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
-
-    created_by = db.Column(db.ForeignKey("users.id"), nullable=False, index=True)
-    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     last_updated_at = db.Column(db.DateTime, onupdate=db.func.current_timestamp())
 
     description = db.Column(db.Text)
@@ -41,7 +39,6 @@ class Ingredient(BaseModel, BaseMixin, ItemPresenter):
         order_by="Recipe.name",
     )
 
-    author = db.relationship("User", uselist=False, backref="ingredients")
     measurement = db.relationship("Measurement", uselist=False, backref="ingredients")
     category = db.relationship(
         "IngredientCategory", uselist=False, backref="ingredients"

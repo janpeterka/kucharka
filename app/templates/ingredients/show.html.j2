@@ -81,6 +81,12 @@
         {% if ingredient.can_current_user_edit %}
             {% include "ingredients/_edit_or_delete.html.j2"%}
 
+            {% if from_new %}
+            <div class="row">
+                <a href="{{ url_for('IngredientView:new') }}"><button class="btn bg-color-primary-action color-white mt-3 ms-0"> přidat další surovinu </button></a>
+            </div>
+            {% endif %}
+
             {% if current_user.has_permission("manage-application") %}
             <div class="mt-4 admin-field">
                 {% if ingredient.is_public %} {% set value="Vyřadit z veřejných" %} {% else %} {% set value="zařadit mezi veřejné" %} {% endif %}

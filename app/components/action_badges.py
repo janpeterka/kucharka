@@ -14,59 +14,83 @@ class PillLink(Link):
 
 def action_badge(  # noqa: C901
     action=None,
-    obj=None,
+    obj_or_class=None,
     path=None,
     icon=None,
     value=None,
     confirmation=None,
-    method="GET",
+    method=None,
     url=None,
-    button_type="outline-primary",
+    button_type=None,
+    disabled=False,
     **kwargs,
 ):
     from app.components import icon as render_icon
 
-    # if not klass and obj:
-    #     klass = obj.__class__
-    #     while klass.__name__ not in VALUES and klass.__bases__:
-    #         klass = klass.__bases__[0]
+    import inspect
 
-    #     klass = klass.__name__
-    # else:
-    #     klass = None
+    if inspect.isclass(obj_or_class):
+        klass = obj_or_class
+        obj = None
+    else:
+        klass = obj_or_class.__class__
+        obj = obj_or_class
 
     if icon:
         icon_name = icon
     else:
         icon_name = None
 
-    if obj and action:
-        if hasattr(obj, "link_info") and action in obj.link_info:
-            method = obj.link_info[action].get("method", method)
-            value_text = obj.link_info[action].get("value", value)
-            confirmation = obj.link_info[action].get("confirmation", confirmation)
-            url = obj.link_info[action].get("url", url)
-            button_type = obj.link_info[action].get("button_type", button_type)
-            if not path:
-                path = obj.link_info[action].get("path", None)
+    value_text = value
+
+    if klass and action:
+        if hasattr(klass, "link_info") and action in klass.link_info:
+            if not method:
+                method = klass.link_info[action].get("method", "GET")
+            if not value_text:
+                value_text = klass.link_info[action].get("value")
+            confirmation_button_text = klass.link_info[action].get(
+                "confirm-value", value_text
+            )
+            if not confirmation:
+                confirmation = klass.link_info[action].get("confirmation", None)
+            if not url:
+                url = klass.link_info[action].get("url", None)
+            if not button_type:
+                button_type = klass.link_info[action].get(
+                    "button_type", "secondary-action"
+                )
             if not icon_name:
-                icon_name = obj.link_info[action].get("icon", action)
+                icon_name = klass.link_info[action].get("icon", action)
         else:
             raise ValueError("Cannot decide on how to create action_badge.")
     else:
-        value_text = value
+        value = value
+        if not button_type:
+            button_type = "secondary-action"
+        confirmation_button_text = value_text
 
     icon = Markup(render_icon(icon_name))
-    value = Markup(f"{icon} {value_text}")
+    value = Markup(f'{icon} <span class="ms-1">{value_text}</span>')
+
     if not path:
-        if url:
+        if url and obj:
             path = url_for(url, id=obj.id)
+        elif url:
+            path = url_for(url)
         else:
             path = obj.path_to(action)
 
     kwargs[
         "class"
     ] = f"btn bg-color-{button_type} color-white ps-2 pe-2 p-1 me-2 mb-2 mb-md-0 d-print-none {kwargs.pop('class','')}"
+
+    if "data" not in kwargs:
+        kwargs["data"] = {}
+
+    kwargs["data"]["info-type"] = button_type.split("-")[1]
+    kwargs["data"]["confirm-value"] = confirmation_button_text
+    kwargs["data"]["disabled"] = disabled
 
     if method in ["POST"]:
         return pill_button_to(path, value, confirmation=confirmation, **kwargs)

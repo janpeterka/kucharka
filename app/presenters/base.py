@@ -1,6 +1,8 @@
 from flask import url_for
 from markupsafe import escape
 
+from app.helpers.general import classproperty
+
 
 class BasePresenter:
     def __str__(self):
@@ -34,7 +36,6 @@ class BasePresenter:
             return self.path_to_show(**kwargs)
         elif action == "edit":
             return self.path_to_edit(**kwargs)
-
         else:
             return url_for(f"{self._view_name}:{action}", id=self.id, **kwargs)
 
@@ -46,3 +47,24 @@ class BasePresenter:
 
     def path_to_update(self, **kwargs):
         return url_for(f"{self._view_name}:update", id=self.id, **kwargs)
+
+    # action_badges
+    @classproperty
+    def link_info(self):
+        from .common.links import DEFAULT_LINK_INFO
+
+        if not hasattr(self, "LINK_INFO"):
+            return DEFAULT_LINK_INFO
+
+        NEW_LINK_INFO = {}
+
+        # merge values from presenter and defaults
+        for key, values in self.LINK_INFO.items():
+            NEW_LINK_INFO[key] = {**DEFAULT_LINK_INFO.get(key, {}), **values}
+
+        # add values from defaults that are not in presenter
+        for key, values in DEFAULT_LINK_INFO.items():
+            if key not in self.LINK_INFO:
+                NEW_LINK_INFO[key] = values
+
+        return NEW_LINK_INFO

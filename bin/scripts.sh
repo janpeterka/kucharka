@@ -99,9 +99,10 @@ function kucharka() {
   fi
 
   if [[ "$RESET_LOCAL_DB" -eq "1" ]]; then
-    cd bin;
-    . reset-local-db.sh kucharka sudo;
-    cd ..;
+    (
+      cd bin;
+      . reset-local-db.sh kucharka sudo;
+    )
     poetry run flask dev reset-passwords
   fi
 
@@ -110,13 +111,16 @@ function kucharka() {
   fi
 
   if [[ "$INSTALL_NPM" -eq "1" ]]; then
-    cd app/static
-    npm ci
-    cd ../..
+    (
+      cd app/static
+      npm ci
+    )
   fi
 
   if [[ "$NPM_WATCH" -eq "1" ]]; then
-    cd app/static
-    npm run watch
+    (
+      cd app/static
+      npm run watch
+    )
   fi
 }

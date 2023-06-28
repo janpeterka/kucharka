@@ -42,7 +42,7 @@ class Ingredient(BaseModel, BaseMixin, ItemPresenter):
         order_by="Recipe.name",
     )
 
-    author = db.relationship("User", uselist=False, backref="ingredients")
+    author = db.relationship("User", uselist=False, back_populates="ingredients")
     measurement = db.relationship("Measurement", uselist=False, backref="ingredients")
     category = db.relationship(
         "IngredientCategory", uselist=False, backref="ingredients"

@@ -79,6 +79,11 @@ class BaseMixin(object):
 
     def edit(self, **kw):
         try:
+            if hasattr(self, "updated_by"):
+                if current_user and current_user.is_authenticated:
+                    self.updated_by = current_user.id
+                # else is when we edit from the shell/scripts
+
             db.session.commit()
             return True
         except Exception as e:
@@ -91,8 +96,7 @@ class BaseMixin(object):
         try:
             db.session.add(self)
             db.session.commit()
-            if hasattr(self, "id"):
-                return self.id is not None
+            return True
         except DatabaseError as e:
             db.session.rollback()
             application.logger.error(f"Save error: {e}")

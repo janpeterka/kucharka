@@ -3,11 +3,10 @@ from tests.helpers import with_authenticated_user
 
 
 @pytest.fixture
-def ingredients(db):
-    from app.models import User
+def ingredients(app, db):
     from tests.factories import IngredientFactory
 
-    IngredientFactory(id=1, created_by=User.load(1).id).save(),
+    IngredientFactory().save()
 
 
 def test_application(app):
@@ -55,7 +54,8 @@ def test_requests_logged_in(app, ingredients, client):
     ]
 
     for page in pages:
-        assert client.get(page["path"]) == page["code"], f"path: {page['path']}"
+        response = client.get(page["path"])
+        assert response == page["code"], f"path: {page['path']}"
 
 
 def test_requests_admin_logged_in(app, db, client):
@@ -67,7 +67,8 @@ def test_requests_admin_logged_in(app, db, client):
     ]
 
     for page in pages:
-        assert client.get(page["path"]) == page["code"], f"path: {page['path']}"
+        response = client.get(page["path"])
+        assert response == page["code"], f"path: {page['path']}"
 
 
 def test_requests_app_manager_logged_in(app, db, client):

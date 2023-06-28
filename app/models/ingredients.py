@@ -5,9 +5,10 @@ from flask_security import current_user
 from app import db, BaseModel
 from app.helpers.base_mixin import BaseMixin
 from app.presenters import ItemPresenter
+from app.models.concerns import Loggable
 
 
-class Ingredient(BaseModel, BaseMixin, ItemPresenter):
+class Ingredient(BaseModel, BaseMixin, Loggable, ItemPresenter):
     __tablename__ = "ingredients"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -42,7 +43,6 @@ class Ingredient(BaseModel, BaseMixin, ItemPresenter):
         order_by="Recipe.name",
     )
 
-    author = db.relationship("User", uselist=False, back_populates="ingredients")
     measurement = db.relationship("Measurement", uselist=False, backref="ingredients")
     category = db.relationship(
         "IngredientCategory", uselist=False, backref="ingredients"

@@ -14,8 +14,9 @@ class Ingredient(BaseModel, BaseMixin, ItemPresenter):
     name = db.Column(db.String(255), nullable=False)
 
     created_by = db.Column(db.ForeignKey("users.id"), nullable=False, index=True)
-    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
-    last_updated_at = db.Column(db.DateTime, onupdate=db.func.current_timestamp())
+    created_at = db.Column(
+        db.DateTime, default=db.func.current_timestamp(), nullable=False
+    )
 
     description = db.Column(db.Text)
     measurement_id = db.Column(db.ForeignKey("measurements.id"))

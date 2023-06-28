@@ -13,9 +13,14 @@ def register(application):  # noqa: C901
             print("ERROR: You cannot do this!")
             return
 
-        for user in User.load_all():
+        user_count = len(User.load_all())
+        print(f"INFO: will change password for {user_count} users..")
+
+        for i, user in enumerate(User.load_all()):
             user.set_password(application.config["DEV_PASSWORD"])
             user.updated_by = 1
             user.edit()
+            if i % int(user_count / 10) == 0:
+                print(f"PROGRESS: changed password for {i} users..")
 
         print("INFO: Password set")

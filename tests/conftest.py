@@ -35,6 +35,17 @@ def db(app):
 
     # insert default data
     with app.app_context():
+        if app.config["SQLALCHEMY_DATABASE_URI"].startswith("sqlite:"):
+            # sqlite is used in GitHub actions
+            _db.create_all()
+        else:
+            _db.session.execute(text("drop database kucharka_test;"))
+            _db.session.execute(text("create schema kucharka_test;"))
+            _db.session.execute(text("use kucharka_test;"))
+            _db.session.execute(text("SET FOREIGN_KEY_CHECKS = 0;"))
+            _db.drop_all()
+            _db.create_all()
+            _db.session.execute(text("SET FOREIGN_KEY_CHECKS = 1;"))
         _db.session.execute(text("drop database kucharka_test;"))
         _db.session.execute(text("create schema kucharka_test;"))
         _db.session.execute(text("use kucharka_test;"))

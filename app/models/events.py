@@ -37,10 +37,6 @@ class Event(BaseModel, BaseMixin, Loggable, Attendable, Collaborative, EventPres
         cascade="all, delete",
     )
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        super().set_defaults()
-
     def duplicate(self):
         event = Event()
 

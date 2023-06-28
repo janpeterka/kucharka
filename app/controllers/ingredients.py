@@ -66,7 +66,7 @@ class IngredientView(HelperFlaskView):
             save_form_to_session(request.form)
             return redirect(url_for("IngredientView:new"))
 
-        ingredient = Ingredient(author=current_user)
+        ingredient = Ingredient()
         form.populate_obj(ingredient)
         ingredient.save()
 

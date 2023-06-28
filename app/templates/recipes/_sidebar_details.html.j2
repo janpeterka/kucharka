@@ -32,7 +32,7 @@
     {% endif %}
 
     ## ## {% if current_user.is_authenticated and recipe.is_shared and not recipe.is_current_user_author %}
-    <turbo-frame class="float-end" id="recipe-{{recipe.id}}-reaction">
+    <turbo-frame class="float-end d-print-none" id="recipe-{{recipe.id}}-reaction">
         <form method="post" action="{{ url_for('PublicRecipeView:toggle_reaction', recipe_id=recipe.id, refresh=True) }}">
             <button type="submit" class="invisible-button pt-3">
                 {% if recipe.has_reaction %}

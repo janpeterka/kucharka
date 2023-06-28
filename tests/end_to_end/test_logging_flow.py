@@ -4,7 +4,7 @@ from tests.helpers import playwright_login
 
 
 @pytest.mark.integration
-def test_logging_in(db, live_server, page: Page):
+def test_logging_in(live_server, page: Page):
     page.goto("dashboard")
 
     expect(page.locator("body")).to_contain_text("přihlášení")

@@ -36,6 +36,7 @@ def db(app):
     # insert default data
     with app.app_context():
         if app.config["SQLALCHEMY_DATABASE_URI"].startswith("sqlite:"):
+            # sqlite is used in GitHub actions
             _db.create_all()
         else:
             _db.session.execute(text("drop database kucharka_test;"))
@@ -108,11 +109,11 @@ def db_create_roles(_db):
 def db_create_default_data():
     from app.models import IngredientCategory, Measurement
 
-    IngredientCategory(name="Maso a masné výrobky").save()
-    IngredientCategory(name="Mléčné výrobky").save()
-    IngredientCategory(name="Ovoce a zelenina").save()
-    IngredientCategory(name="Suché").save()
-    IngredientCategory(name="Koření").save()
+    IngredientCategory(id=1, name="Maso a masné výrobky").save()
+    IngredientCategory(id=2, name="Mléčné výrobky").save()
+    IngredientCategory(id=3, name="Ovoce a zelenina").save()
+    IngredientCategory(id=4, name="Suché").save()
+    IngredientCategory(id=5, name="Koření").save()
 
-    Measurement(name="gramy").save()
-    Measurement(name="kusy").save()
+    Measurement(id=1, name="gramy").save()
+    Measurement(id=2, name="kusy").save()

@@ -4,7 +4,7 @@ from tests.helpers import playwright_login
 
 
 @pytest.mark.integration
-def test_base_pages(db, live_server, page: Page):
+def test_base_pages(live_server, page: Page):
     playwright_login(page)
 
     expect(page.locator("body")).to_contain_text("vítej!")

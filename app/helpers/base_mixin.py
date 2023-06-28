@@ -97,7 +97,6 @@ class BaseMixin(object):
             db.session.add(self)
             db.session.commit()
             return True
-
         except DatabaseError as e:
             db.session.rollback()
             application.logger.error(f"Save error: {e}")

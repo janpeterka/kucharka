@@ -5,7 +5,8 @@ Revises: 93034edd5318
 Create Date: 2023-06-28 17:37:33.258555
 
 """
-# from alembic import op
+from alembic import op
+
 # import sqlalchemy as sa
 # from sqlalchemy.dialects import mysql
 
@@ -17,13 +18,13 @@ depends_on = None
 
 
 def upgrade():
-    from app.models import Ingredient
-    import datetime
-
-    for i in Ingredient.load_all():
-        if not i.created_at:
-            i.created_at = datetime.datetime(2000, 1, 1)
-            i.edit()
+    op.execute(
+        """
+        UPDATE ingredients
+            SET created_at = '2000-01-01 00:00:00'
+            WHERE created_at IS NULL;
+        """
+    )
 
 
 def downgrade():

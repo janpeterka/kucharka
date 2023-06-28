@@ -82,8 +82,7 @@ class BaseMixin(object):
             if hasattr(self, "updated_by"):
                 if current_user and current_user.is_authenticated:
                     self.updated_by = current_user.id
-                else:
-                    raise AttributeError('No "updated_by" for edit')
+                # else is when we edit from the shell/scripts
 
             db.session.commit()
             return True

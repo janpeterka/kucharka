@@ -44,10 +44,6 @@ class Ingredient(BaseModel, BaseMixin, Loggable, ItemPresenter):
         "IngredientCategory", uselist=False, backref="ingredients"
     )
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        super().set_defaults()
-
     def set_additional_info(self, recipe):
         self.amount = self.load_amount_by_recipe(recipe)
         self.comment = self.load_comment_by_recipe(recipe)

@@ -49,7 +49,10 @@ def downgrade():
             batch_op.f("fk_ingredients_updated_by_users"), type_="foreignkey"
         )
         batch_op.alter_column(
-            "created_at", existing_type=mysql.DATETIME(), nullable=True
+            "created_at",
+            existing_type=mysql.DATETIME(),
+            nullable=True,
+            server_default=sa.func.current_timestamp(),
         )
         batch_op.drop_column("updated_by")
         batch_op.drop_column("updated_at")

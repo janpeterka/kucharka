@@ -24,7 +24,10 @@ def upgrade():
         )
         batch_op.add_column(sa.Column("updated_by", sa.Integer(), nullable=True))
         batch_op.alter_column(
-            "created_at", existing_type=mysql.DATETIME(), nullable=False
+            "created_at",
+            existing_type=mysql.DATETIME(),
+            nullable=False,
+            server_default=sa.func.current_timestamp(),
         )
         batch_op.create_foreign_key(
             batch_op.f("fk_ingredients_updated_by_users"),

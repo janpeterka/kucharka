@@ -25,7 +25,7 @@ def recipes(db, app):
 
 
 @pytest.mark.integration
-def test_event_management(live_server, recipes, page):
+def test_event_management(recipes, live_server, page):
     playwright_login(page)
 
     page.goto("dashboard")

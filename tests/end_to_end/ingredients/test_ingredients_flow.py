@@ -4,7 +4,7 @@ from tests.helpers import playwright_login
 
 
 @pytest.mark.integration
-def test_ingredient_creation(page: Page) -> None:
+def test_ingredient_creation(db, live_server, page: Page) -> None:
     playwright_login(page, "user")
 
     page.get_by_role("link", name="suroviny").click()

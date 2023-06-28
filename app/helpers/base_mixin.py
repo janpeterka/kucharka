@@ -141,10 +141,10 @@ class BaseMixin(object):
     # PROPERTIES
 
     def is_author(self, user) -> bool:
-        if not hasattr(self, "author"):
+        if hasattr(self, "author"):
+            return self.author == user  # type: ignore
+        else:
             return False
-
-        return self.author == user  # type: ignore
 
     @property
     def is_current_user_author(self) -> bool:
@@ -152,10 +152,10 @@ class BaseMixin(object):
 
     @hybrid_property
     def is_public(self) -> bool:
-        if not hasattr(self, "is_shared"):
+        if hasattr(self, "is_shared"):
+            return self.is_shared  # type: ignore
+        else:
             return False
-
-        return self.is_shared  # type: ignore
 
     # PERMISSIONS
     def can_view(self, user) -> bool:

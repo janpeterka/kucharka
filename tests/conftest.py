@@ -35,16 +35,13 @@ def db(app):
 
     # insert default data
     with app.app_context():
-        if app.config["SQLALCHEMY_DATABASE_URI"].startswith("sqlite:"):
-            _db.create_all()
-        else:
-            _db.session.execute(text("drop database kucharka_test;"))
-            _db.session.execute(text("create schema kucharka_test;"))
-            _db.session.execute(text("use kucharka_test;"))
-            _db.session.execute(text("SET FOREIGN_KEY_CHECKS = 0;"))
-            _db.drop_all()
-            _db.create_all()
-            _db.session.execute(text("SET FOREIGN_KEY_CHECKS = 1;"))
+        _db.session.execute(text("drop database kucharka_test;"))
+        _db.session.execute(text("create schema kucharka_test;"))
+        _db.session.execute(text("use kucharka_test;"))
+        _db.session.execute(text("SET FOREIGN_KEY_CHECKS = 0;"))
+        _db.drop_all()
+        _db.create_all()
+        _db.session.execute(text("SET FOREIGN_KEY_CHECKS = 1;"))
 
     return _db
 
@@ -108,11 +105,11 @@ def db_create_roles(_db):
 def db_create_default_data():
     from app.models import IngredientCategory, Measurement
 
-    IngredientCategory(name="Maso a masné výrobky").save()
-    IngredientCategory(name="Mléčné výrobky").save()
-    IngredientCategory(name="Ovoce a zelenina").save()
-    IngredientCategory(name="Suché").save()
-    IngredientCategory(name="Koření").save()
+    IngredientCategory(id=1, name="Maso a masné výrobky").save()
+    IngredientCategory(id=2, name="Mléčné výrobky").save()
+    IngredientCategory(id=3, name="Ovoce a zelenina").save()
+    IngredientCategory(id=4, name="Suché").save()
+    IngredientCategory(id=5, name="Koření").save()
 
-    Measurement(name="gramy").save()
-    Measurement(name="kusy").save()
+    Measurement(id=1, name="gramy").save()
+    Measurement(id=2, name="kusy").save()

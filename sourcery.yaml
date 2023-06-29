@@ -1,0 +1,5 @@
+rule_settings:
+  enable: [default]
+  disable:
+    - assign-if-exp
+    - for-append-to-extend

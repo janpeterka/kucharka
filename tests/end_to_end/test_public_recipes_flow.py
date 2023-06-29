@@ -10,7 +10,7 @@ def public_recipes(db):
 
 
 @pytest.mark.integration
-def test_seeing_recipe_from_public_recipe(public_recipes, live_server, page: Page):
+def test_seeing_recipe_from_public_recipe(live_server, page: Page, public_recipes):
     playwright_login(page)
     page.goto("dashboard")
 

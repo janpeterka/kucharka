@@ -8,7 +8,7 @@ def test_ingredient_creation(live_server, page: Page):
     playwright_login(page, "user")
 
     page.get_by_role("link", name="suroviny").click()
-    page.get_by_role("link", name="surovinu").click()
+    page.get_by_role("link", name="přidat surovinu").click()
 
     # Create ingredient
     page.get_by_placeholder("název suroviny").click()

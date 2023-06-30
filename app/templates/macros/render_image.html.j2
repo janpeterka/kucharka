@@ -26,7 +26,7 @@
     {% endif %}
     
     {% if with_pin and not image.is_main and image.recipe.can_current_user_edit %}
-		{{ button_to(url_for('EditRecipeView:set_main_image', recipe_id=image.recipe.id, image_id=image.id), class="image-icon pin-icon", value="<abbr style='cursor: pointer' title='Nastavit jako hlavní'>📌</abbr>") }}
+		{{ button_to(url_for('RecipePhotoView:set_main_image', recipe_id=image.recipe.id, image_id=image.id), class="image-icon pin-icon", value="<abbr style='cursor: pointer' title='Nastavit jako hlavní'>📌</abbr>") }}
     {% endif %}
 
 		<img style="{{ style }}" class="{{ class }} img-fluid" src="{{ url }}" alt="{{ image.full_name }}"/>	

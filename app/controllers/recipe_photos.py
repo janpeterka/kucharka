@@ -8,7 +8,7 @@ from app.helpers.helper_flask_view import HelperFlaskView
 from app.models import Recipe, RecipeImageFile
 
 
-class EditRecipeView(HelperFlaskView):
+class RecipePhotoView(HelperFlaskView):
     decorators = [login_required]
     template_folder = "recipes/edit"
 

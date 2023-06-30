@@ -15,5 +15,3 @@ jobs:
           python-version: '3.9'
 
       - uses: sourcery-ai/action@v1
-        with:
-          config: sourcery.yaml

@@ -21,14 +21,6 @@
         </form>
     </div>
     {% endif %}
-    
-    {% if current_user.is_authenticated and not recipe.is_current_user_author %}
-    <div class="col-12 col-md-6 mt-2">
-        <a class="btn bg-color-secondary-action color-white" href="{{ url_for('RecipeView:duplicate', id=recipe.id) }}">
-            zkopírovat do mých receptů {{ icon("duplicate") }}
-        </a>
-    </div>
-    {% endif %}
 </div>
 
 <details class="colored">

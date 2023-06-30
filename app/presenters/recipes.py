@@ -6,5 +6,13 @@ class RecipePresenter(ItemPresenter):
         "new": {
             "name": "recept",
             "value": "přidat recept",
-        }
+        },
+        "edit": {
+            "value": "upravit recept",
+        },
+        "duplicate": {
+            "name": "recept",
+            "value": "zkopírovat do mých receptů",
+            "icon": "duplicate",
+        },
     }

@@ -121,15 +121,12 @@ def search_box(suggestions=None, suggestion_attributes=["name"]):
     suggestion_texts = []
     if suggestions:
         for obj in suggestions:
-            for attr in suggestion_attributes:
-                if hasattr(obj, attr):
-                    suggestion_texts.append(getattr(obj, attr))
-
-    if suggestion_texts:
-        suggestion = random.choice(suggestion_texts)  # nosec
-    else:
-        suggestion = None
-
+            suggestion_texts.extend(
+                getattr(obj, attr)
+                for attr in suggestion_attributes
+                if hasattr(obj, attr)
+            )
+    suggestion = random.choice(suggestion_texts) if suggestion_texts else None
     return Markup(
         render_template("components/tables/search_box.html.j2", suggestion=suggestion)
     )

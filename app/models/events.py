@@ -137,10 +137,9 @@ class Event(BaseModel, BaseMixin, Loggable, Attendable, Collaborative, EventPres
         split_recipes = []
 
         shopping_indexes = [0]
-        for i, recipe in enumerate(daily_recipes):
-            if recipe.is_shopping:
-                shopping_indexes.append(i)
-
+        shopping_indexes.extend(
+            i for i, recipe in enumerate(daily_recipes) if recipe.is_shopping
+        )
         shopping_indexes.append(len(daily_recipes))
 
         for i in range(len(shopping_indexes) - 1):

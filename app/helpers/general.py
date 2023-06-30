@@ -17,6 +17,19 @@ def list_without_duplicated(array) -> list:
     return list(dict.fromkeys(array))
 
 
+def listify(obj_or_list) -> list:
+    from sqlalchemy.ext.associationproxy import _AssociationList
+
+    # check if it is instance list or subclass of list (e.g. SQLAlchemy InstrumentedList)
+
+    if type(obj_or_list) in [list, _AssociationList] or issubclass(
+        type(obj_or_list), list
+    ):
+        return obj_or_list
+    else:
+        return [obj_or_list]
+
+
 def flatten(array) -> list:
     return [item for sublist in array for item in sublist]
 

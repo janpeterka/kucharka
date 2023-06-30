@@ -3,19 +3,22 @@
 
 {% block content %}
 
-<div class="row">
+<h1 class="font-comfortaa">
+    moje recepty
+</h1>
+
+<div class="row mb-2">
     <div class="col">
-        <h1 class="font-comfortaa"> moje recepty </h1>
+        {{ action_badge("new", Recipe, class="mt-2") }}
     </div>
-    <div class="col">
-        {{ action_badge("new", Recipe, url='RecipeView:new', class="float-end mt-2") }}
+    <div class="col-6 col-md-3">
+        {{ search_box(recipes + RecipeCategory.load_all() + Label.load_all()) }}
     </div>
 </div>
 
-<hr>
 
-<table id="table" class="table" data-controller="bstable"
-        data-filter-control="true" data-toggle="table" data-search="true" data-pagination="true" data-sort-order="desc">
+<table id="table" class="table table-hover" data-controller="bstable"
+        data-filter-control="true" data-toggle="table" data-search-selector="#search_box" data-pagination="true" data-sort-order="desc" data-classes="table-borderless" data-page-size=25>
 
     <thead>
         <th data-field="name" data-sortable="true"> recept </th>
@@ -25,7 +28,7 @@
 
     <tbody id="recipes">
     {% for recipe in recipes: %}
-        <tr id = "recipe-{{ recipe.id }}" class="h-5">
+        <tr id = "recipe-{{ recipe.id }}" class="h-4">
             <td> {{ link_to(recipe) }} </td>
             <td> {{ recipe.category.name }} </td>
             <td>

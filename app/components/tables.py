@@ -1,7 +1,9 @@
 import random
 from flask import render_template
 from markupsafe import Markup
+
 from app.components import BaseComponent
+from app.helpers.general import listify
 
 
 class TableComponent(BaseComponent):
@@ -114,7 +116,8 @@ def table_row(obj=None, /, **kwargs):
         )
 
 
-def search_box(suggestions=None, suggestion_attributes=[]):
+def search_box(suggestions=None, suggestion_attributes=["name"]):
+    suggestion_attributes = listify(suggestion_attributes)
     suggestion_texts = []
     if suggestions:
         for obj in suggestions:

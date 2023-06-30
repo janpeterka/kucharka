@@ -38,8 +38,6 @@ class IngredientView(HelperFlaskView):
         return self.template()
 
     def show(self, id):
-        self.from_new = request.args.get("from_new", False)
-
         self.recipes = Recipe.load_by_ingredient_and_user(self.ingredient, current_user)
         self.all_recipes = Recipe.load_by_ingredient(self.ingredient)
 
@@ -70,7 +68,7 @@ class IngredientView(HelperFlaskView):
         form.populate_obj(ingredient)
         ingredient.save()
 
-        return redirect(url_for("IngredientView:show", id=ingredient.id, from_new=True))
+        return redirect(url_for("IngredientView:show", id=ingredient.id))
 
     @route("update/<id>", methods=["POST"])
     def update(self, id):

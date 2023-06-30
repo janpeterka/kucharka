@@ -80,6 +80,10 @@
 }
 
 /* Height */
+.h-4 {
+	height: 4rem;
+}
+
 .h-5 {
 	height: 5rem
 }

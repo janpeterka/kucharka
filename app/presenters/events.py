@@ -2,6 +2,8 @@ from app.presenters import ItemPresenter
 
 
 class EventPresenter(ItemPresenter):
+    LINK_INFO = {"new": {"value": "přidat akci"}}
+
     @property
     def duration_label(self) -> str:
         if self.duration == 1:

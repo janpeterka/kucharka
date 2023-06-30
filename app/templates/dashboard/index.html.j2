@@ -5,8 +5,6 @@
 
 <h1 class="mb-3 font-comfortaa text-center"> vítej! </h1>
 
-<hr>
-        
 <div class="row mb-5" data-controller="clicker" data-clicker-target="area" >
     <div class="col-12 col-md-4 text-center mb-2 mb-md-0 clickable" data-action="click->clicker#activateLink">
         <div class="container bg-color-secondary p-3 dashboard-badge" >
@@ -46,7 +44,7 @@
 
 
 <h2 class="font-comfortaa text-center"> k vyřešení </h2>
-<hr>
+
 <div class="mt-4 text-center" style="border-radius: 1.5rem;">
 
     <turbo-frame id="tasks" src="{{ url_for('DashboardView:tasks') }}" loading="lazy" target="_top">

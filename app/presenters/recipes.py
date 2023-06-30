@@ -5,6 +5,6 @@ class RecipePresenter(ItemPresenter):
     LINK_INFO = {
         "new": {
             "name": "recept",
-            "value": "recept",
+            "value": "přidat recept",
         }
     }

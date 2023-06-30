@@ -31,7 +31,7 @@ def test_event_management(live_server, page, recipes):
     page.goto("dashboard")
 
     page.get_by_role("link", name="akce").click()
-    page.get_by_role("button", name="akci").click()
+    page.get_by_role("link", name="přidat akci").click()
     page.get_by_placeholder("např. Tábor 2023").click()
     page.get_by_placeholder("např. Tábor 2023").fill("Testovací akce")
     page.get_by_placeholder("od").fill("2023-09-03")

@@ -3,20 +3,31 @@
 
 {% block content %}
 
-<div class="row">
+<h1 class="font-comfortaa"> moje akce </h1>
+
+<div class="row mb-3">
     <div class="col">
-        <h1 class="font-comfortaa"> moje akce </h1>
-    </div>
-    <div class="col">
-        <a href="{{ url_for('EventView:new') }}"><button class="btn bg-color-secondary-action color-white float-end"> {{ icon("add") }} akci </button></a>
+        {{ action_badge("new", Event) }}
     </div>
 </div>
 
+<h3>budoucí akce</h3>
 <table class="table">
-    {% for event in current_user.events %}
-        {% if event.is_active %}
-        <tr><td>{{ link_to(event) }}</td></tr>    
-        {% endif %}
+    {% for event in current_user.active_future_events %}
+        <tr>
+            <td>{{ link_to(event) }}</td>
+            <td> od <strong>{{ human_format_date(event.date_from)}}</strong> do <strong>{{ human_format_date(event.date_to)}}</strong> </td>
+        </tr>
+    {% endfor %}
+</table>
+
+<h3>skončené akce</h3>
+<table class="table">
+    {% for event in current_user.active_past_events %}
+        <tr>
+            <td>{{ link_to(event) }}</td>
+            <td> od <strong>{{ human_format_date(event.date_from)}}</strong> do <strong>{{ human_format_date(event.date_to)}}</strong> </td>
+        </tr>
     {% endfor %}
 </table>
 
@@ -26,7 +37,11 @@
     <table class="table">
         {% for event in current_user.role_events %}
             {% if event.is_active %}
-            <tr><td> {{ link_to(event) }} {{ icon(event.current_user_role) }} </td></tr>    
+            <tr>
+                <td> {{ link_to(event) }} {{ icon(event.current_user_role) }} </td>
+                <td> {{ event.date_from}} </td>
+                <td> {{ event.date_to}} </td>
+            </tr>
             {% endif %}
         {% endfor %}
     </table>

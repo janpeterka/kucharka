@@ -9,7 +9,7 @@ from flask_weasyprint import render_pdf, HTML
 from app.modules.files import PhotoForm
 
 from app.helpers.helper_flask_view import HelperFlaskView
-from app.helpers.form import save_form_to_session, create_form
+from app.helpers.form import create_form
 
 from app.models import Recipe
 
@@ -32,18 +32,27 @@ class RecipeView(HelperFlaskView):
         if current_user.is_authenticated and self.recipe:
             self.validate_show(self.recipe)
 
+    def before_show(self, id):
+        self.validate_show(self.recipe)
+
+    def before_edit(self, id):
+        self.validate_edit(self.recipe)
+
+    # def before_update(self, id):
+    #     self.validate_edit(self.event)
+
+    def before_delete(self, id):
+        self.validate_delete(self.recipe)
+
     @login_required
     def index(self):
-        self.recipes = sorted(
-            current_user.visible_recipes,
-            key=lambda x: unidecode(x.name.lower()),
-        )
+        self.recipes = sorted(current_user.visible_recipes, key=lambda x: unidecode(x.name.lower()))  # fmt: skip
 
         return self.template()
 
     @login_required
     def new(self):
-        self.form = create_form(RecipeForm)
+        self.form = RecipeForm()
 
         return self.template()
 
@@ -52,8 +61,8 @@ class RecipeView(HelperFlaskView):
         form = RecipeForm(request.form)
 
         if not form.validate_on_submit():
-            save_form_to_session(request.form)
-            return redirect(url_for("RecipeView:new"))
+            flash("chyba při ukládání receptu.", "error")
+            return self.template("new", form=form), 422
 
         recipe = Recipe(author=current_user)
         recipe.fill(form)

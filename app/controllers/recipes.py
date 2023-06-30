@@ -5,10 +5,11 @@ from flask_classful import route
 from flask_security import login_required, current_user
 from flask_weasyprint import render_pdf, HTML
 
+from app import turbo
 from app.modules.files import PhotoForm
 
 from app.helpers.helper_flask_view import HelperFlaskView
-from app.helpers.form import create_form
+from app.helpers.form import create_form, save_form_to_session
 
 from app.models import Recipe
 
@@ -37,8 +38,11 @@ class RecipeView(HelperFlaskView):
     def before_edit(self, id):
         self.validate_edit(self.recipe)
 
-    # def before_update(self, id):
-    #     self.validate_edit(self.event)
+    def before_update(self, id):
+        self.validate_edit(self.recipe)
+
+    def before_update_description(self, id):
+        self.validate_edit(self.recipe)
 
     def before_delete(self, id):
         self.validate_delete(self.recipe)
@@ -90,17 +94,66 @@ class RecipeView(HelperFlaskView):
 
         self.form = create_form(RecipeForm, obj=self.recipe)
 
-        self.personal_ingredients = sorted(
-            self.recipe.unused_personal_ingredients,
-            key=lambda x: unidecode(x.name.lower()),
-        )
-
-        self.public_ingredients = sorted(
-            self.recipe.unused_public_ingredients,
-            key=lambda x: unidecode(x.name.lower()),
-        )
+        self.personal_ingredients = sorted(self.recipe.unused_personal_ingredients, key=lambda x: unidecode(x.name.lower()))  # fmt: skip
+        self.public_ingredients = sorted(self.recipe.unused_public_ingredients, key=lambda x: unidecode(x.name.lower()))  # fmt: skip
 
         return self.template()
+
+    @route("update/<id>", methods=["POST"])
+    def update(self, id):
+        from app.services import RecipeIngredientManager
+
+        form = RecipeForm(request.form)
+
+        if not form.validate_on_submit():
+            save_form_to_session(request.form)
+            return redirect(url_for("RecipeView:edit", id=self.recipe.id))
+
+        old_portion_count = self.recipe.portion_count
+        new_portion_count = form.portion_count.data
+        RecipeIngredientManager(self.recipe).update_ingredient_amounts(
+            old_portion_count, new_portion_count
+        )
+
+        form.populate_obj(self.recipe)
+        self.recipe.edit()
+
+        self.recipe.reload()
+
+        if turbo.can_stream():
+            return turbo.stream(
+                [
+                    turbo.replace(
+                        self.template(
+                            "recipes/edit/_info.html.j2", message="upraveno", form=form
+                        ),
+                        target="recipe-info",
+                    ),
+                    turbo.replace(
+                        self.template("recipes/edit/_ingredient_table.html.j2"),
+                        target="recipe-ingredient-table",
+                    ),
+                ]
+            )
+        else:
+            return redirect(url_for("RecipeView:edit", id=self.recipe.id))
+
+    @route("update/description/<id>/", methods=["POST"])
+    def update_description(self, id):
+        self.recipe.description = request.form["description"]
+        self.recipe.edit()
+
+        if turbo.can_stream():
+            return turbo.stream(
+                turbo.replace(
+                    self.template(
+                        "recipes/edit/_description.html.j2", message="Upraveno"
+                    ),
+                    target="recipe-description",
+                )
+            )
+        else:
+            return redirect(url_for("RecipeView:edit", id=self.recipe.id))
 
     @login_required
     @route("delete/<id>/", methods=["POST"])

@@ -3,15 +3,9 @@ from flask import request, redirect, url_for
 from flask_classful import route
 from flask_security import login_required
 
-from app import turbo
-
-from app.helpers.form import save_form_to_session
 from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models import Recipe, RecipeImageFile
-
-from app.forms import RecipeForm
-from app.services import RecipeIngredientManager
 
 
 class EditRecipeView(HelperFlaskView):
@@ -22,56 +16,6 @@ class EditRecipeView(HelperFlaskView):
     def before_request(self, name, recipe_id, **kwargs):
         self.recipe = Recipe.load(recipe_id)
         self.validate_edit(self.recipe)
-
-    @route("info/<recipe_id>", methods=["POST"])
-    def post(self, recipe_id):
-        form = RecipeForm(request.form)
-
-        if not form.validate_on_submit():
-            save_form_to_session(request.form)
-            return redirect(url_for("RecipeView:edit", id=self.recipe.id))
-
-        old_portion_count = self.recipe.portion_count
-        new_portion_count = form.portion_count.data
-        RecipeIngredientManager(self.recipe).update_ingredient_amounts(
-            old_portion_count, new_portion_count
-        )
-
-        form.populate_obj(self.recipe)
-        self.recipe.edit()
-
-        self.recipe.reload()
-
-        if turbo.can_stream():
-            return turbo.stream(
-                [
-                    turbo.replace(
-                        self.template("_info", message="Upraveno", form=form),
-                        target="recipe-info",
-                    ),
-                    turbo.replace(
-                        self.template("_ingredient_table"),
-                        target="recipe-ingredient-table",
-                    ),
-                ]
-            )
-        else:
-            return redirect(url_for("RecipeView:edit", id=self.recipe.id))
-
-    @route("description/<recipe_id>/", methods=["POST"])
-    def post_description(self, recipe_id):
-        self.recipe.description = request.form["description"]
-        self.recipe.edit()
-
-        if turbo.can_stream():
-            return turbo.stream(
-                turbo.replace(
-                    self.template("_description", message="Upraveno"),
-                    target="recipe-description",
-                )
-            )
-        else:
-            return redirect(url_for("RecipeView:edit", id=self.recipe.id))
 
     @route("/upload-photo/<recipe_id>", methods=["POST"])
     def upload_photo(self, recipe_id):

@@ -1,7 +1,7 @@
 {% from "macros/render_field.html.j2" import render_field, render_floating_field %}
 
 <div id="recipe-info">
-    <form action="{{ url_for('EditRecipeView:post', recipe_id=recipe.id) }}" method="post" accept-charset="utf-8" class="mt-2">
+    <form action="{{ url_for('RecipeView:update', id=recipe.id) }}" method="post" accept-charset="utf-8" class="mt-2">
         {{ form.hidden_tag() }}
 
         <div class="row mb-2">

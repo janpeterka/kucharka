@@ -175,6 +175,10 @@ class Recipe(BaseModel, BaseMixin, RecipeIngredientMixin, RecipePresenter):
             new.add_ingredient(rhi.ingredient, amount=rhi.amount)
 
         new.save()
+
+        for task in self.tasks:
+            task.duplicate_to_recipe(new)
+
         return new
 
     def share(self):

@@ -20,3 +20,13 @@ class RecipeTask(BaseModel, BaseMixin, RecipeTaskPresenter):
         backref=db.backref("tasks", cascade="all, delete, delete-orphan"),
         uselist=False,
     )
+
+    def duplicate_to_recipe(self, recipe):
+        task = RecipeTask(
+            name=self.name,
+            description=self.description,
+            days_before_cooking=self.days_before_cooking,
+        )
+        task.recipe = recipe
+        task.save()
+        return task

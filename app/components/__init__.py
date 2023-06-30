@@ -3,6 +3,7 @@ from .links import link_to, link_to_edit
 from .icons import icon
 from .action_badges import action_badge
 from .dropzone import dropzone
+from .tables import table, search_box
 
 
 __all__ = ["icon", "BaseComponent"]
@@ -21,3 +22,7 @@ def register_all_components(application):
 
     # dropzone
     application.add_template_global(dropzone)
+
+    # tables
+    application.add_template_global(table)
+    application.add_template_global(search_box)

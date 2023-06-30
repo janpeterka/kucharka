@@ -15,3 +15,5 @@ jobs:
           python-version: '3.9'
 
       - uses: sourcery-ai/action@v1
+        with:
+          token: ${{ secrets.SOURCERY_TOKEN }}

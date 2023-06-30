@@ -78,6 +78,8 @@ def action_badge(  # noqa: C901
             path = url_for(url, id=obj.id)
         elif url:
             path = url_for(url)
+        elif obj is None:
+            path = klass.path_to_new()
         else:
             path = obj.path_to(action)
 

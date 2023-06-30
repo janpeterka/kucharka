@@ -27,6 +27,10 @@ class BasePresenter:
     def _view_name(self):
         return f"{type(self).__name__}View"
 
+    @classproperty
+    def _class_view_name(cls):
+        return f"{cls.__name__}View"
+
     @property
     def default_link_value(self):
         return escape(self.name)
@@ -47,6 +51,10 @@ class BasePresenter:
 
     def path_to_update(self, **kwargs):
         return url_for(f"{self._view_name}:update", id=self.id, **kwargs)
+
+    @classmethod
+    def path_to_new(cls, **kwargs):
+        return url_for(f"{cls._class_view_name}:new", **kwargs)
 
     # action_badges
     @classproperty

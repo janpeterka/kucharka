@@ -6,10 +6,7 @@ from app.helpers.general import classproperty
 
 class BasePresenter:
     def __str__(self):
-        if hasattr(self, "name"):
-            return self.name
-        else:
-            return self.__str__
+        return self.name if hasattr(self, "name") else self.__str__
 
     @property
     def url(self) -> str:
@@ -56,12 +53,10 @@ class BasePresenter:
         if not hasattr(self, "LINK_INFO"):
             return DEFAULT_LINK_INFO
 
-        NEW_LINK_INFO = {}
-
-        # merge values from presenter and defaults
-        for key, values in self.LINK_INFO.items():
-            NEW_LINK_INFO[key] = {**DEFAULT_LINK_INFO.get(key, {}), **values}
-
+        NEW_LINK_INFO = {
+            key: {**DEFAULT_LINK_INFO.get(key, {}), **values}
+            for key, values in self.LINK_INFO.items()
+        }
         # add values from defaults that are not in presenter
         for key, values in DEFAULT_LINK_INFO.items():
             if key not in self.LINK_INFO:

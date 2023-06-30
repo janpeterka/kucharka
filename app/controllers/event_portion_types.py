@@ -36,9 +36,7 @@ class EventPortionTypeView(HelperFlaskView):
     def substract_portions(self, event_id, portion_type_id, count):
 
         self.ept.count -= count
-        if self.ept.count < 0:
-            self.ept.count = 0
-
+        self.ept.count = max(self.ept.count, 0)
         self.ept.edit()
 
         return redirect(request.referrer)

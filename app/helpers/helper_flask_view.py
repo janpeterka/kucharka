@@ -59,7 +59,7 @@ class HelperFlaskView(FlaskView):
         }
 
         # kwargs has higher priority, therefore rewrites public attributes
-        merged_values = {**public_attributes, **kwargs}
+        merged_values = public_attributes | kwargs
 
         return template(template_name, **merged_values)
 

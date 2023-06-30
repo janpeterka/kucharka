@@ -10,14 +10,15 @@ class DayMixin:
         for daily_plan in self.event.daily_plans:
             if daily_plan.date >= self.date:
                 for daily_recipe in daily_plan.daily_recipes:
-                    for task in daily_recipe.tasks:
+                    tasks.extend(
+                        task
+                        for task in daily_recipe.tasks
                         if (
                             self.date
                             == daily_recipe.daily_plan.date
                             - datetime.timedelta(task.days_before_cooking)
-                        ):
-                            tasks.append(task)
-
+                        )
+                    )
         if hasattr(self, "tasks"):
             tasks.extend(self.tasks)
 

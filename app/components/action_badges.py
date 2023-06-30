@@ -36,34 +36,29 @@ def action_badge(  # noqa: C901
         klass = obj_or_class.__class__
         obj = obj_or_class
 
-    if icon:
-        icon_name = icon
-    else:
-        icon_name = None
-
+    icon_name = icon if icon else None
     value_text = value
 
     if klass and action:
-        if hasattr(klass, "link_info") and action in klass.link_info:
-            if not method:
-                method = klass.link_info[action].get("method", "GET")
-            if not value_text:
-                value_text = klass.link_info[action].get("value")
-            confirmation_button_text = klass.link_info[action].get(
-                "confirm-value", value_text
-            )
-            if not confirmation:
-                confirmation = klass.link_info[action].get("confirmation", None)
-            if not url:
-                url = klass.link_info[action].get("url", None)
-            if not button_type:
-                button_type = klass.link_info[action].get(
-                    "button_type", "secondary-action"
-                )
-            if not icon_name:
-                icon_name = klass.link_info[action].get("icon", action)
-        else:
+        if not hasattr(klass, "link_info") or action not in klass.link_info:
             raise ValueError("Cannot decide on how to create action_badge.")
+        if not method:
+            method = klass.link_info[action].get("method", "GET")
+        if not value_text:
+            value_text = klass.link_info[action].get("value")
+        confirmation_button_text = klass.link_info[action].get(
+            "confirm-value", value_text
+        )
+        if not confirmation:
+            confirmation = klass.link_info[action].get("confirmation", None)
+        if not url:
+            url = klass.link_info[action].get("url", None)
+        if not button_type:
+            button_type = klass.link_info[action].get(
+                "button_type", "secondary-action"
+            )
+        if not icon_name:
+            icon_name = klass.link_info[action].get("icon", action)
     else:
         value = value
         if not button_type:
@@ -132,8 +127,8 @@ def _path_from_string(text):
 
 
 def _get_path(obj_or_str):
-    if type(obj_or_str) == str:
-        path = _path_from_string(obj_or_str)
-    else:
-        path = obj_or_str.path_to_show()
-    return path
+    return (
+        _path_from_string(obj_or_str)
+        if type(obj_or_str) == str
+        else obj_or_str.path_to_show()
+    )

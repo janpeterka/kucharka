@@ -35,10 +35,10 @@ class EventTimetableConstructor:
         dates = []
         for daily_plan in self.event_daily_plans:
             for daily_recipe in daily_plan.daily_recipes:
-                for task in daily_recipe.recipe.tasks:
-                    dates.append(
-                        daily_plan.date + timedelta(days=(-task.days_before_cooking))
-                    )
+                dates.extend(
+                    daily_plan.date + timedelta(days=(-task.days_before_cooking))
+                    for task in daily_recipe.recipe.tasks
+                )
         return sorted(dates)
 
     @property
@@ -57,17 +57,15 @@ class EventTimetableConstructor:
 
     @property
     def first_shown_date(self):
-        previous_monday = self.first_agenda_date + timedelta(
+        return self.first_agenda_date + timedelta(
             days=-self.first_agenda_date.weekday()
         )
-        return previous_monday
 
     @property
     def last_shown_date(self):
-        next_sunday = self.last_agenda_date + timedelta(
+        return self.last_agenda_date + timedelta(
             days=-(self.last_agenda_date.weekday() + 1), weeks=1
         )
-        return next_sunday
 
     @property
     def all_relevant_dates(self):
@@ -90,8 +88,7 @@ class EventTimetableConstructor:
     # split to weeks
     @property
     def all_relevant_days_split_by_weeks(self):
-        lst = _chunks(self.all_relevant_days, 7)
-        return lst
+        return _chunks(self.all_relevant_days, 7)
 
     def _weeks(self, dates) -> list:
         weeks = [date.week for date in dates]

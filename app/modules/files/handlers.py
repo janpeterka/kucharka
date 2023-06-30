@@ -30,7 +30,7 @@ from flask import current_app as application
 
 
 class FileHandler(object):
-    def __new__(self, **kwargs):
+    def __new__(cls, **kwargs):
         if application.config["STORAGE_SYSTEM"] == "LOCAL":
             return LocalFileHandler(**kwargs)
         elif application.config["STORAGE_SYSTEM"] == "AWS":
@@ -213,10 +213,13 @@ class AWSFileHandler(object):
         """
         contents = []
         try:
-            for item in self.client.list_objects(Bucket=application.config["BUCKET"])[
-                "Contents"
-            ]:
-                contents.append(item)
+            contents.extend(
+                iter(
+                    self.client.list_objects(Bucket=application.config["BUCKET"])[
+                        "Contents"
+                    ]
+                )
+            )
         except Exception:
             return []
 
@@ -249,7 +252,7 @@ class AWSFileHandler(object):
 
 
 class ImageHandler(object):
-    def __new__(self, **kwargs):
+    def __new__(cls, **kwargs):
         if application.config["STORAGE_SYSTEM"] == "LOCAL":
             return LocalImageHandler(**kwargs)
         elif application.config["STORAGE_SYSTEM"] == "AWS":

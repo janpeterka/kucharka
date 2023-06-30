@@ -1,15 +1,15 @@
 from unidecode import unidecode
 
 from flask import request, redirect, url_for, flash
-from flask import current_app as application
 from flask_classful import route
 from flask_security import login_required, current_user
 from flask_weasyprint import render_pdf, HTML
 
+from app import turbo
 from app.modules.files import PhotoForm
 
 from app.helpers.helper_flask_view import HelperFlaskView
-from app.helpers.form import save_form_to_session, create_form
+from app.helpers.form import create_form, save_form_to_session
 
 from app.models import Recipe
 
@@ -32,18 +32,30 @@ class RecipeView(HelperFlaskView):
         if current_user.is_authenticated and self.recipe:
             self.validate_show(self.recipe)
 
+    def before_show(self, id):
+        self.validate_show(self.recipe)
+
+    def before_edit(self, id):
+        self.validate_edit(self.recipe)
+
+    def before_update(self, id):
+        self.validate_edit(self.recipe)
+
+    def before_update_description(self, id):
+        self.validate_edit(self.recipe)
+
+    def before_delete(self, id):
+        self.validate_delete(self.recipe)
+
     @login_required
     def index(self):
-        self.recipes = sorted(
-            current_user.visible_recipes,
-            key=lambda x: unidecode(x.name.lower()),
-        )
+        self.recipes = sorted(current_user.visible_recipes, key=lambda x: unidecode(x.name.lower()))  # fmt: skip
 
         return self.template()
 
     @login_required
     def new(self):
-        self.form = create_form(RecipeForm)
+        self.form = RecipeForm()
 
         return self.template()
 
@@ -52,8 +64,8 @@ class RecipeView(HelperFlaskView):
         form = RecipeForm(request.form)
 
         if not form.validate_on_submit():
-            save_form_to_session(request.form)
-            return redirect(url_for("RecipeView:new"))
+            flash("chyba při ukládání receptu.", "error")
+            return self.template("new", form=form), 422
 
         recipe = Recipe(author=current_user)
         recipe.fill(form)
@@ -82,17 +94,66 @@ class RecipeView(HelperFlaskView):
 
         self.form = create_form(RecipeForm, obj=self.recipe)
 
-        self.personal_ingredients = sorted(
-            self.recipe.unused_personal_ingredients,
-            key=lambda x: unidecode(x.name.lower()),
-        )
-
-        self.public_ingredients = sorted(
-            self.recipe.unused_public_ingredients,
-            key=lambda x: unidecode(x.name.lower()),
-        )
+        self.personal_ingredients = sorted(self.recipe.unused_personal_ingredients, key=lambda x: unidecode(x.name.lower()))  # fmt: skip
+        self.public_ingredients = sorted(self.recipe.unused_public_ingredients, key=lambda x: unidecode(x.name.lower()))  # fmt: skip
 
         return self.template()
+
+    @route("update/<id>", methods=["POST"])
+    def update(self, id):
+        from app.services import RecipeIngredientManager
+
+        form = RecipeForm(request.form)
+
+        if not form.validate_on_submit():
+            save_form_to_session(request.form)
+            return redirect(url_for("RecipeView:edit", id=self.recipe.id))
+
+        old_portion_count = self.recipe.portion_count
+        new_portion_count = form.portion_count.data
+        RecipeIngredientManager(self.recipe).update_ingredient_amounts(
+            old_portion_count, new_portion_count
+        )
+
+        form.populate_obj(self.recipe)
+        self.recipe.edit()
+
+        self.recipe.reload()
+
+        if turbo.can_stream():
+            return turbo.stream(
+                [
+                    turbo.replace(
+                        self.template(
+                            "recipes/edit/_info.html.j2", message="upraveno", form=form
+                        ),
+                        target="recipe-info",
+                    ),
+                    turbo.replace(
+                        self.template("recipes/edit/_ingredient_table.html.j2"),
+                        target="recipe-ingredient-table",
+                    ),
+                ]
+            )
+        else:
+            return redirect(url_for("RecipeView:edit", id=self.recipe.id))
+
+    @route("update/description/<id>/", methods=["POST"])
+    def update_description(self, id):
+        self.recipe.description = request.form["description"]
+        self.recipe.edit()
+
+        if turbo.can_stream():
+            return turbo.stream(
+                turbo.replace(
+                    self.template(
+                        "recipes/edit/_description.html.j2", message="Upraveno"
+                    ),
+                    target="recipe-description",
+                )
+            )
+        else:
+            return redirect(url_for("RecipeView:edit", id=self.recipe.id))
 
     @login_required
     @route("delete/<id>/", methods=["POST"])
@@ -103,17 +164,8 @@ class RecipeView(HelperFlaskView):
 
         self.recipe.delete()
         flash("recept byl smazán.", "success")
-        prev_path = request.form["previous"]
 
-        with application.test_client() as tc:
-            try:
-                response = tc.get(prev_path)
-                if response.status_code == 200:
-                    return redirect(prev_path)
-                else:
-                    return redirect(url_for("RecipeView:index"))
-            except Exception:
-                return redirect(url_for("RecipeView:index"))
+        return redirect(url_for("RecipeView:index"))
 
     def show_pdf(self, id):
         self.recipe.portion_count = get_portion_count(self.recipe, request)

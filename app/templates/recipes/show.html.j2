@@ -12,7 +12,11 @@
 <div id="recipe-info">
     <h2>
         {{ recipe.name }}
-        {{ link_to_edit(recipe, value="upravit "+icon("edit"), class="btn bg-color-secondary-action color-white float-end d-print-none") }}
+        # if recipe.can_current_user_edit
+            {{ action_badge("edit", recipe, class="float-end") }}
+        # elif current_user.is_authenticated and not recipe.is_current_user_author
+            {{ action_badge("duplicate", recipe, path=url_for('RecipeView:duplicate', id=recipe.id), class="float-end") }}
+        # endif
     </h2>
 </div>
 

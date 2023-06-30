@@ -87,7 +87,7 @@ def action_badge(  # noqa: C901
         else:
             path = obj.path_to(action)
 
-    DEFAULT_CLASSES = "btn ps-2 pe-2 p-1 me-2 mb-2 mb-md-0 d-print-none"
+    DEFAULT_CLASSES = "btn me-2 mb-2 mb-md-0 d-print-none"
 
     classes = (
         f"{DEFAULT_CLASSES} bg-color-{button_type} color-white {kwargs.pop('class','')}"

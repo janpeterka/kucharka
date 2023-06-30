@@ -15,4 +15,8 @@ class RecipePresenter(ItemPresenter):
             "value": "zkopírovat do mých receptů",
             "icon": "duplicate",
         },
+        "delete": {
+            "value": "smazat recept",
+            "confirmation": "opravdu chceš smazat tento recept?",
+        },
     }

@@ -1,7 +1,6 @@
 from unidecode import unidecode
 
 from flask import request, redirect, url_for, flash
-from flask import current_app as application
 from flask_classful import route
 from flask_security import login_required, current_user
 from flask_weasyprint import render_pdf, HTML
@@ -112,17 +111,8 @@ class RecipeView(HelperFlaskView):
 
         self.recipe.delete()
         flash("recept byl smazán.", "success")
-        prev_path = request.form["previous"]
 
-        with application.test_client() as tc:
-            try:
-                response = tc.get(prev_path)
-                if response.status_code == 200:
-                    return redirect(prev_path)
-                else:
-                    return redirect(url_for("RecipeView:index"))
-            except Exception:
-                return redirect(url_for("RecipeView:index"))
+        return redirect(url_for("RecipeView:index"))
 
     def show_pdf(self, id):
         self.recipe.portion_count = get_portion_count(self.recipe, request)

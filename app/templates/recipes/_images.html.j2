@@ -5,15 +5,18 @@
 <turbo-frame id="images">
     <div class="p-2">
         <div class="row">
+            {% if editable %}
+                <div class="col-12 col-sm-6 col-md-3 pb-2">
+                 {{ dropzone(action=url_for('RecipePhotoView:upload_photo', recipe_id=recipe.id), default_message="přetáhni fotku nebo klikni pro přidání.") }}
+                </div>
+            {% endif %}
+
             {% for image in recipe.images %}
             <div class="col-12 col-sm-6 col-md-3 pb-2">
-                {{ render_image(image, with_delete=editable, with_pin=editable, style="border-radius:0.4rem; width") }}
+                {{ recipe_gallery_image(image, with_delete=editable, with_pin=editable, style="border-radius:0.4rem;") }}
             </div>
             {% endfor %}
         </div>
 
-    {% if editable %}
-        {{ dropzone(action=url_for('RecipePhotoView:upload_photo', recipe_id=recipe.id), default_message="přetáhni fotku nebo klikni pro přidání.") }}
-    {% endif %}
     </div>
 </turbo-frame>

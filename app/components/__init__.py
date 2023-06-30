@@ -4,7 +4,7 @@ from .icons import icon
 from .action_badges import action_badge
 from .dropzone import dropzone
 from .tables import table, search_box
-
+from .images import recipe_gallery_image
 
 __all__ = ["icon", "BaseComponent"]
 
@@ -26,3 +26,6 @@ def register_all_components(application):
     # tables
     application.add_template_global(table)
     application.add_template_global(search_box)
+
+    # images
+    application.add_template_global(recipe_gallery_image)

@@ -8,28 +8,28 @@
 <div class="row">
     <div class="col-md-8 col-sm-12 mb-4">
         <div class="mb-2">
-            <div>
-                <h2> {{ ingredient.name }} </h2>
-                <p> {{ ingredient.description if ingredient.description }} </p>
-            </div>
+            <h2>
+                {{ ingredient.name }}
+                {{ action_badge("edit", ingredient, class="float-end") }}
+            </h2>
 
-            <div>   
-                <span class="fst-italic"> Míra: {{ ingredient.measurement.name }} </span>
+            <p> {{ ingredient.description if ingredient.description }} </p>
+
+            <div>
+                <span class="fst-italic"> měřeno na: {{ ingredient.measurement.name }} </span>
                 {% if ingredient.is_public %}
                     {% if ingredient.source == "nutridatabaze" %}
                         <span class="fst-italic font-weight-light float-end">Veřejná surovina (zdroj: <abbr title='Na základě dat z NutriDatabaze.cz, verze 7.16, ÚZEI, Praha, www.nutridatabaze.cz/.'> nutridatabaze.cz </abbr>)</span>
                     {% else %}
-                        <span class="fst-italic font-weight-light float-end"> {{ ingredient.author.full_name }} </span>
+                        <span class="fst-italic font-weight-light float-end"> přidal*a: {{ ingredient.author.full_name }} </span>
                     {% endif %}
                 {% endif %}
             </div>
             
             <div>
-                <span class="fst-italic"> kategorie: {{ ingredient.category.name }} </span>
+                <span class="fst-italic"> v kategorii: {{ ingredient.category.name }} </span>
             </div>
         </div>
-
-        <hr>
 
         <details class="mb-3 mt-2">
         <summary> nutriční hodnoty </summary>
@@ -50,58 +50,26 @@
         </details>
 
         {% if ingredient.alternative_measurements %}
-        
             <details class="mb-3 mt-2">
             <summary> konverze mezi druhy měření </summary>
+            <ul>
+
             {% for conversion in ingredient.alternative_measurements %}
                 <li>{{ conversion.amount_from }} {{ conversion.ingredient.measurement.name }} → {{ conversion.amount_to }} {{ conversion.to_measurement.name }}</li>
             {% endfor %}
-
-            {% if current_user.has_permission("manage-application") %}
-            <div class="admin-field mt-3">
-                <h4> přidat alternativní měření </h4>
-                {% include ('conversions/_add.html.j2') %}
-            </div>
-            {% endif %}
+            </ul>
             </details>
-        
-        {% else %}
-            {% if current_user.has_permission("manage-application") %}
-            <details class="mb-3 mt-2 admin-field">
-            <summary> konverze mezi druhy měření </summary>
-
-            <div class="mt-3">
-                <h4> přidat alternativní měření </h4>
-                {% include ('conversions/_add.html.j2') %}
-            </div>
-            </details>    
-            {% endif %}
         {% endif %}
 
-        {% if ingredient.can_current_user_edit %}
-            <div>
-                <a class="btn bg-color-secondary-action color-white me-3 d-inline-flex" href="{{ url_for('IngredientView:edit', id=ingredient.id) }}"> upravit {{ icon("edit", class="ps-1 mt-1") }}</a>
-                <form class="d-inline form" action="{{ url_for('IngredientView:delete', id=ingredient.id) }}" onsubmit="return confirm('opravdu chcete smazat surovinu?');" method="post" accept-charset="utf-8">
-                    {% if ingredient.is_used == False %}
-                        <button type="submit" class="btn bg-color-secondary-action color-white"> smazat {{ icon("delete") }}</button>
-                    {% else %}
-                        <button type="submit" class="btn bg-color-secondary-action color-white" disabled> nelze smazat {{ icon("delete") }}</button>
-                    {% endif %}
-                </form>
-            </div>
+        {{ action_badge("delete", ingredient, disabled=ingredient.is_used, disabled_value="nelze smazat, když je v receptu") if ingredient.can_current_user_delete }}
 
-            {% if current_user.has_permission("manage-application") %}
-            <div class="mt-4 admin-field">
-                {% if ingredient.is_public %} {% set value="Vyřadit z veřejných" %} {% else %} {% set value="zařadit mezi veřejné" %} {% endif %}
-                
-                {{ button_to(url_for('IngredientView:toggle_public', id=ingredient.id), class="btn bg-color-secondary-action color-white", value=value) }}
-            </div>
-            {% endif %}
-
-        {% endif %}
+    {% if current_user.has_permission("manage-application") %}
+        {% include "ingredients/show/_admin.html.j2" %}
+    {% endif %}
     </div>
 
     {% include ('recipes/_recipe_list.html.j2') %}
+
 </div>
 
 {% endblock %}

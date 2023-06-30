@@ -116,7 +116,6 @@ def table_row(obj=None, /, **kwargs):
 
 def search_box(suggestions=None, suggestion_attributes=[]):
     suggestion_texts = []
-    print(suggestions)
     if suggestions:
         for obj in suggestions:
             for attr in suggestion_attributes:

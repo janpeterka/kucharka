@@ -23,6 +23,7 @@ def action_badge(  # noqa: C901
     url=None,
     button_type=None,
     disabled=False,
+    disabled_value=None,
     **kwargs,
 ):
     from app.components import icon as render_icon
@@ -70,6 +71,9 @@ def action_badge(  # noqa: C901
             button_type = "secondary-action"
         confirmation_button_text = value_text
 
+    if disabled and disabled_value:
+        value_text = disabled_value
+
     icon = Markup(render_icon(icon_name))
     value = Markup(f'{icon} <span class="ms-1">{value_text}</span>')
 
@@ -83,9 +87,12 @@ def action_badge(  # noqa: C901
         else:
             path = obj.path_to(action)
 
-    kwargs[
-        "class"
-    ] = f"btn bg-color-{button_type} color-white ps-2 pe-2 p-1 me-2 mb-2 mb-md-0 d-print-none {kwargs.pop('class','')}"
+    DEFAULT_CLASSES = "btn ps-2 pe-2 p-1 me-2 mb-2 mb-md-0 d-print-none"
+
+    classes = (
+        f"{DEFAULT_CLASSES} bg-color-{button_type} color-white {kwargs.pop('class','')}"
+    )
+    kwargs["class"] = classes
 
     if "data" not in kwargs:
         kwargs["data"] = {}
@@ -95,7 +102,9 @@ def action_badge(  # noqa: C901
     kwargs["data"]["disabled"] = disabled
 
     if method in ["POST"]:
-        return pill_button_to(path, value, confirmation=confirmation, **kwargs)
+        return pill_button_to(
+            path, value, confirmation=confirmation, disabled=disabled, **kwargs
+        )
     else:
         return pill_link_to(path, value, **kwargs)
 

@@ -7,9 +7,10 @@ class IngredientPresenter(ItemPresenter):
             "value": "přidat surovinu",
         },
         "edit": {
-            "value": "surovinu",
+            "value": "upravit",
         },
         "delete": {
-            "value": "surovinu",
+            "value": "smazat surovinu",
+            "confirmation": "určitě chceš smazat surovinu? už to nepůjde vrátit!",
         },
     }

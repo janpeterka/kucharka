@@ -1,0 +1,14 @@
+{% from "macros/turbo.html.j2" import button_to %}
+
+<div class="{{ outer_class }}">
+    <img style="{{ style }}" class="{{ class }} img-fluid" src="{{ src }}" alt="{{ alt }}"/>
+    <div class="mt-1">
+      {% if with_delete and image.recipe.can_current_user_edit %}
+        {{ button_to(url_for('FileView:delete', id=image.id), value="smazat", style="opacity: 0.76", confirmation="opravdu chceš smazat fotku?", form_class="float-start", class="btn bg-color-secondary-action color-white", data={"turbo-frame": "_top"}) }}
+      {% endif %}
+
+      {% if with_pin and not image.is_main and image.recipe.can_current_user_edit %}
+        {{ button_to(url_for('RecipePhotoView:set_main_image', recipe_id=image.recipe.id, image_id=image.id), value="nastavit jako hlavní", form_class="float-end", class="btn bg-color-secondary-action color-white", data={"turbo-frame": "_top"}) }}
+      {% endif %}
+    </div>
+</div>

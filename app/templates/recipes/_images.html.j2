@@ -7,7 +7,7 @@
         <div class="row">
             {% for image in recipe.images %}
             <div class="col-12 col-sm-6 col-md-3 pb-2">
-                {{ render_image(image, with_delete=editable, with_pin=editable, style="border-radius:0.4rem; width") }}
+                {{ recipe_gallery_image(image, with_delete=editable, with_pin=editable, style="border-radius:0.4rem;") }}
             </div>
             {% endfor %}
         </div>

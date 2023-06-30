@@ -80,6 +80,10 @@ class Event(BaseModel, BaseMixin, Loggable, Attendable, Collaborative, EventPres
         return self.date_to >= datetime.date.today()
 
     @property
+    def in_past(self) -> bool:
+        return self.date_to < datetime.date.today()
+
+    @property
     def duration(self) -> int:
         return (self.date_to - self.date_from).days + 1
 

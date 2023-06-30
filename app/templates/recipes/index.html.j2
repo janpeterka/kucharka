@@ -3,13 +3,11 @@
 
 {% block content %}
 
-<h1 class="font-comfortaa">
-    moje recepty
-</h1>
+<h1 class="font-comfortaa"> moje recepty </h1>
 
 <div class="row mb-2">
     <div class="col">
-        {{ action_badge("new", Recipe, class="mt-2") }}
+        {{ action_badge("new", Recipe) }}
     </div>
     <div class="col-6 col-md-3">
         {{ search_box(recipes + RecipeCategory.load_all() + Label.load_all()) }}

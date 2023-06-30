@@ -91,6 +91,10 @@ class User(BaseModel, BaseMixin, UserMixin, CalendarUserMixin, BasePresenter):
         return [e for e in self.active_events if e.in_future]
 
     @property
+    def active_past_events(self) -> list:
+        return [e for e in self.active_events if e.in_past]
+
+    @property
     def all_active_future_events(self) -> list:
         return [e for e in self.all_active_events if e.in_future]
 

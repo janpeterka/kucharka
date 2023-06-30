@@ -5,14 +5,25 @@
 
 <h1 class="font-comfortaa"> moje akce </h1>
 
-<div class="row mb-2">
+<div class="row mb-3">
     <div class="col">
         {{ action_badge("new", Event) }}
     </div>
 </div>
 
+<h3>budoucí akce</h3>
 <table class="table">
-    {% for event in current_user.active_events %}
+    {% for event in current_user.active_future_events %}
+        <tr>
+            <td>{{ link_to(event) }}</td>
+            <td> od <strong>{{ human_format_date(event.date_from)}}</strong> do <strong>{{ human_format_date(event.date_to)}}</strong> </td>
+        </tr>
+    {% endfor %}
+</table>
+
+<h3>skončené akce</h3>
+<table class="table">
+    {% for event in current_user.active_past_events %}
         <tr>
             <td>{{ link_to(event) }}</td>
             <td> od <strong>{{ human_format_date(event.date_from)}}</strong> do <strong>{{ human_format_date(event.date_to)}}</strong> </td>

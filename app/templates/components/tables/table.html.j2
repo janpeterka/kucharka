@@ -1,0 +1,8 @@
+<table
+  {% for key, value in table_kwargs.items() %}
+    {{ key }}="{{ value }}"
+  {% endfor %}
+>
+  {{ table_header(column_names) }}
+  {{ table_body(objects, attribute_names) }}
+</table>

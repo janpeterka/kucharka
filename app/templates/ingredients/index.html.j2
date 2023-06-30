@@ -3,24 +3,25 @@
 
 {% block content %}
 
-{% block style %}
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
-{% endblock %}
+<h1 class="font-comfortaa"> moje suroviny </h1>
 
-<div class="row">
+<div class="row mb-2">
     <div class="col">
-        <h1 class="font-comfortaa"> moje suroviny </h1>
+        {{ action_badge("new", Ingredient) }}
+        ## <a href="{{ url_for('IngredientView:new') }}" class="btn bg-color-secondary-action color-white"> {{ icon("add") }} surovinu </a>
     </div>
-    <div class="col">
-        <a href="{{ url_for('IngredientView:new') }}" class="btn bg-color-secondary-action color-white float-end"> {{ icon("add") }} surovinu
-        </a>
+    <div class="col-6 col-md-3">
+        {{ search_box(ingredients + IngredientCategory.load_all(), ["name"]) }}
     </div>
 </div>
 
-<hr>
 
-<table id="ingredients" class="table" data-controller="bstable"
-        data-filter-control="true" data-toggle="table" data-search="true" data-pagination="true" data-sort-order="desc">
+<table id="ingredients" class="table table-hover"
+        data-controller="bstable"
+        data-filter-control="true"
+        data-classes="table-borderless"
+        data-search="true" data-search-selector="#search_box"
+        data-pagination="true" data-page-size=25 data-sort-order="desc">
 
     <thead>
         <th data-field="name" data-sortable="true"> název </th>
@@ -29,13 +30,13 @@
     </thead>
     
     <tbody>
-    {% for ingredient in ingredients: %}
+        {% for ingredient in ingredients: %}
         <tr>
             <td> {{ link_to(ingredient) }} </td>
             <td> {{ ingredient.category.name }} </td>
             <td> {{ ingredient.measurement.name }} </td>
         </tr>
-    {% endfor %}
+        {% endfor %}
     </tbody>
 
 </table>

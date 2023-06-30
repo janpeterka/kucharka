@@ -4,11 +4,11 @@ from flask_security import current_user
 
 from app import db, BaseModel
 from app.helpers.base_mixin import BaseMixin
-from app.presenters import ItemPresenter
+from app.presenters import IngredientPresenter
 from app.models.concerns import Loggable
 
 
-class Ingredient(BaseModel, BaseMixin, Loggable, ItemPresenter):
+class Ingredient(BaseModel, BaseMixin, Loggable, IngredientPresenter):
     __tablename__ = "ingredients"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -188,7 +188,7 @@ class Ingredient(BaseModel, BaseMixin, Loggable, ItemPresenter):
         return self.can_add(current_user)
 
 
-class IngredientCopy(ItemPresenter):
+class IngredientCopy(IngredientPresenter):
     def __init__(self, ingredient):
         self.id = ingredient.id
         self.name = ingredient.name

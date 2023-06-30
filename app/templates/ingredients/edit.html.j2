@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-md-8 col-sm-12" style="margin-bottom:2rem">
         <form action="{{ url_for('IngredientView:update', id=ingredient.id) }}" class="form-group" method="post" accept-charset="utf-8">
-            {{ form.csrf_token }}
+            {{ form.hidden_tag() }}
 
             {{ render_floating_field(form.name) }}
             <div class="row mt-2">
@@ -17,15 +17,13 @@
 
             {{ render_floating_field(form.description, class="mt-2") }}
 
-            <details class="mt-2 mb-3" {% if form.errors %} open {% endif %}>
-            <summary> nutriční hodnoty </summary>
-            <div class="row">
+            <h4 class="mt-2"> nutriční hodnoty </h4>
+            <div class="row mb-3">
                 <div class="col-12 col-sm-6 col-lg-3 mb-1 mb-md-0"> {{ render_floating_field(form.calorie) }} </div>
                 <div class="col-12 col-sm-6 col-lg-3 mb-1 mb-md-0"> {{ render_floating_field(form.protein) }} </div>
                 <div class="col-12 col-sm-6 col-lg-3 mb-1 mb-md-0"> {{ render_floating_field(form.fat) }} </div>
                 <div class="col-12 col-sm-6 col-lg-3"> {{ render_floating_field(form.sugar) }} </div>
             </div>
-            </details>
             
             <button type="submit" class="btn bg-color-primary-action color-white me-3">
                 uložit změnu {{ icon("edit") }}

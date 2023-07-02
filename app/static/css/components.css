@@ -19,3 +19,8 @@
   border: 1px solid #ced4da !important;
 }
 
+
+.select-badge {
+	min-width: 4rem;
+	text-align: center;
+}

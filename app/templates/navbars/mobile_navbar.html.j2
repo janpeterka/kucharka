@@ -1,0 +1,71 @@
+<nav class="navbar mobile-navbar fixed-bottom d-lg-none pt-0 pb-0"  data-turbo-permanent>
+  <div class="container navbar-dark bg-color-primary color-white mt-0 pt-1 pb-0">
+
+    <ul class="navbar-nav navbar-icon-grid">
+      <li class="nav-item">
+        <a href="{{ url_for('DashboardView:index') }}" class="nav-link">
+          <div class="navbar-icon">
+              {{ icon("nav-home") }}
+              <p>domů</p>
+          </div>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="{{ url_for('IngredientView:index') }}" class="nav-link">
+          <div class="navbar-icon">
+            {{ icon("seedling") }}
+            <p>suroviny</p>
+          </div>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="{{ url_for('RecipeView:index') }}" class="nav-link">
+          <div class="navbar-icon">
+            {{ icon("food") }}
+            <p>recepty</p>
+          </div>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="{{ url_for('EventView:index') }}" class="nav-link">
+          <div class="navbar-icon">
+            {{ icon("daily") }}
+            <p>události</p>
+          </div>
+        </a>
+      </li>
+
+      ## grid menu
+      <li class="nav-item" data-bs-toggle="collapse" data-bs-target="#extendedNavbar"
+           aria-controls="extendedNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <a>
+          <div class="navbar-icon">
+            {{icon("more")}}
+            <p>další</p>
+          </div>
+        </a>
+      </li>
+
+    </ul>
+
+    <div class="collapse navbar-collapse mobile-navbar navbar-icon-grid" id="extendedNavbar">
+      <a href="{{ url_for('PublicRecipeView:index') }}">
+        <div class="navbar-icon nav-link">
+          {{ icon("nav-public-recipes") }}
+          <p>databáze receptů</p>
+        </div>
+      </a>
+
+      <a href="{{ url_for('UserView:show', id=current_user.id) }}">
+        <div class="navbar-icon nav-link">
+          {{ icon("nav-profile") }}
+          <p>můj profil</p>
+        </div>
+      </a>
+    </div>
+
+  </div>
+</nav>

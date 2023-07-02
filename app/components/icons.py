@@ -67,6 +67,10 @@ icon_fa_classes = {
     "github": "fab fa-github",
     "facebook": "fab fa-facebook-square",
     "pdf": "fas fa-file-pdf",
+    # navbar
+    "nav-home": "fas fa-home",
+    "nav-public-recipes": "fas fa-book-open",
+    "nav-profile": "fa fa-user",
 }
 
 default_tooltips = {

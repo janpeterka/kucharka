@@ -2,7 +2,7 @@
   <summary> pokročilé filtrování </summary>
   <div>
 
-  <form action="{{ url_for('PublicRecipeView:index') }}" method="get" accept-charset="UTF-8">
+    <form action="{{ url_for('PublicRecipeView:index') }}" method="get" accept-charset="UTF-8">
 
       <div class="row" data-controller="select-badges"
         data-select-badges-selected-class="bg-color-highlight"
@@ -10,7 +10,7 @@
         <h4>{{ form.category.label(class_="me-1 col-sm-2 col-form-label") }}</h4>
         <div class="col-sm-9">
           {{ render_field(form.category, has_label=False, data_select_badges_target="select") }}
-          <div data-select-badges-target="badges" class="text-overflow-break"></div>
+          <div data-select-badges-target="badges" class="d-flex flex-wrap"></div>
         </div>
       </div>
 
@@ -24,11 +24,11 @@
             <h4>{{ form.dietary_labels.label(class_="col-form-label") }}</h4>
             <div class="col-sm-9">
               {{ render_field(form.dietary_labels, has_label=False, data_select_badges_target="select") }}
-              <div data-select-badges-target="badges" class="text-overflow-break"></div>
+              <div data-select-badges-target="badges" class="d-flex flex-wrap"></div>
             </div>
           </div>
         </div>
-        
+
         <div class="col-12 col-md-6">
           <div class="row mt-2" data-controller="select-badges"
             data-select-badges-type-value="multiple"
@@ -37,7 +37,7 @@
             <h4>{{ form.difficulty_labels.label(class_="col-form-label") }}</h4>
             <div class="col-sm-9">
               {{ render_field(form.difficulty_labels, has_label=False, data_select_badges_target="select") }}
-              <div data-select-badges-target="badges" class="text-overflow-break"></div>
+              <div data-select-badges-target="badges" class="d-flex flex-wrap"></div>
             </div>
           </div>
         </div>
@@ -59,13 +59,11 @@
             <h4>pouze moje oblíbené?</h4>
             <div class="col-sm-9">
               {{ render_field(form.favorite, has_label=False, data_select_badges_target="select") }}
-              <div data-select-badges-target="badges" class="text-overflow-break"></div>
+              <div data-select-badges-target="badges" class="d-flex"></div>
             </div>
           </div>
         </div>
       </div>
-
-      <hr>
 
       <div class="row mt-2">
         <div data-controller="select-badges"
@@ -73,15 +71,14 @@
             data-select-badges-unselected-class="bg-color-light-grey">
           <h4>seřadit podle</h4>
           {{ render_field(form.sort_by, has_label=False, data_select_badges_target="select") }}
-          <div data-select-badges-target="badges" class="text-overflow-break"></div>
+          <div data-select-badges-target="badges" class="d-flex flex-wrap"></div>
         </div>
       </div>
-    
 
-    <div class="text-end mt-2">
-      {{ form.submit(class_='btn bg-color-primary-action color-white ms-3') }}
-    </div>
+      <div class="text-end mt-2">
+        {{ form.submit(class_='btn bg-color-primary-action color-white ms-3') }}
+      </div>
 
-  </form>
+    </form>
   </div>
 </details>

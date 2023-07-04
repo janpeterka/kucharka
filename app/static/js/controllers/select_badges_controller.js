@@ -31,7 +31,7 @@ export default class extends Controller {
     }
 
     var badge = document.createElement("div")
-    badge.className = "select-badge lh-2 mb-1 ms-1 me-1 p-2 pt-1 pb-1 cursor-clickable rounded-pill"
+    badge.className = "select-badge lh-2 mb-2 ms-1 me-1 p-2 pt-1 pb-1 cursor-clickable rounded-pill user-select-none"
 
     if (option.dataset.color == "None" || option.dataset.color == null || option.dataset.color.length === 0) {
       badge.dataset.color = this.selectedClass.replace("bg-color-", "")

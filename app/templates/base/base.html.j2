@@ -76,6 +76,7 @@
     {% block navbar %}            
         {% if current_user.is_authenticated %}
             {% include('navbars/navbar.html.j2') %}
+            {% include('navbars/mobile_navbar.html.j2') %}
         {% else %}
             {% include('navbars/login.html.j2') %}
         {% endif %}

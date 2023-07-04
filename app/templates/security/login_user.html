@@ -5,7 +5,7 @@
 <form action="{{ url_for_security('login') }}" class="form-control" method="POST" name="login_user_form" data-turbo="false">
   {{ login_user_form.hidden_tag() }}
   {% if config.FF_GOOGLE_OAUTH %}
-  <div class="text-center mt-2"> 
+  <div class="text-center mt-2 mb-2">
     <a class="no-decoration" href="{{ url_for('google.login') }}">
       <button type="button" class="btn btn-social btn-google loginBtn--google loginBtn">
           <span class="fab fa-google"></span> přihlásit se pomocí Google
@@ -13,15 +13,14 @@
     </a>
   </div>
 
-  <hr>
   <div class="smaller text-center color-grey mb-1"> nebo </div>
   {% endif %}
 
   <div class="row mb-1">
-    <div class="col-6">
+    <div class="col-12 col-md-6 mb-2">
       {{ render_floating_field(login_user_form.email, label="přihlašovací e-mail", placeholder="", with_errors=True) }}
     </div>
-    <div class="col-6">
+    <div class="col-12 col-md-6">
       {{ render_floating_field(login_user_form.password, label="heslo", placeholder="") }}
     </div>
   </div>

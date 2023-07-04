@@ -2,17 +2,17 @@
   margin-bottom: 0;
   padding-bottom: 0;
 }
-.navbar.mobile-navbar .container {
-/*  border-radius: 0.2rem 0.2rem 0 0;*/
-}
 
+/*.navbar.mobile-navbar .container {
+  border-radius: 0.2rem 0.2rem 0 0;
+}
+*/
 .nav-link {
   transition: 0.15s border-radius ease-in-out, 0.15s color ease-in-out, 0.15s background-color ease-in-out, 0.15s border-color ease-in-out;
 }
 
-
-/*.nav-link:hover {
-  background-color: #d9d9d9;
+.nav-link:hover {
+  background-color: var(--secondary-action);
   border-radius: 0.5rem;
 }
 
@@ -28,39 +28,35 @@
   background-color: #d9d9d9;
   border-radius: 0.5rem
 }
-*/
+
 
 /* Adjust the CSS for the dropdown menu */
-.mobile-navbar.navbar-collapse {
+.extended-navbar.navbar-collapse {
   position: absolute;
   bottom: 100%; /* Position the dropdown above the navbar */
   left: 0;
   right: 0;
-  background-color: var(--primary)
+  background-color: var(--primary);
+  padding-top: 0.7rem;
 /*  text-align: right;*/
-}
-
-/* Override the default dropdown menu styling */
-.dropdown-menu {
-  margin-top: -1px; /* Adjust the margin to separate the dropdown from the navbar */
 }
 
 .mobile-navbar .nav-item {
   padding-top: 0.5rem;
-  margin-top: 0;
+  margin-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
-
+/*
 .mobile-navbar .nav-item a {
   padding-top: 0;
   padding-bottom: 0.2rem;
   display: block;
-}
+}*/
 
 .navbar-icon-grid {
 /*  margin-top: 0.5rem;*/
   margin-bottom: 0;
-  padding-top: 1rem;
+  padding-top: 0;
   display: grid;
   grid-template-columns: repeat(5, 1fr); /* Adjust the number of columns here */
   justify-content: center;
@@ -75,7 +71,7 @@
   align-items: center;
   color: white;
   cursor: pointer;
-  padding-bottom: 0.2rem;
+/*  padding-bottom: 0.2rem;*/
   margin-bottom: 1rem;
   padding-top: 1rem;
   border-radius: 0.5rem;

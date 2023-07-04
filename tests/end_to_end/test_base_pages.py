@@ -10,19 +10,19 @@ def test_base_pages(live_server, page: Page):
     expect(page.locator("body")).to_contain_text("vítej!")
 
     # page.goto("/ingredient/")
-    page.locator('a:has-text("suroviny")').click()
+    page.locator('a.nav-link.active:has-text("suroviny")').click()
     expect(page.locator("body")).to_contain_text("moje suroviny")
 
     # page.goto("/recipe/")
-    page.locator('a:has-text("recepty")').click()
+    page.locator('a.nav-link.active:has-text("recepty")').click()
     expect(page.locator("body")).to_contain_text("moje recepty")
 
     # page.goto("/event/")
-    page.locator('a:has-text("akce")').click()
+    page.locator('a.nav-link.active:has-text("akce")').click()
     expect(page.locator("body")).to_contain_text("moje akce")
 
-    page.locator('a:has-text("databáze receptů")').click()
+    page.locator('a.nav-link.active:has-text("databáze receptů")').click()
     expect(page.locator("body")).to_contain_text("pokročilé filtrování")
 
-    page.locator('a:has-text("tipy a triky")').click()
+    page.locator('a.nav-link.active:has-text("tipy a triky")').click()
     expect(page.locator("body")).to_contain_text("tipy a návody")

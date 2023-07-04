@@ -65,6 +65,20 @@
           <p>můj profil</p>
         </div>
       </a>
+
+      <a href="{{ url_for('TipView:index') }}">
+        <div class="navbar-icon nav-link">
+          {{ icon("info-circle") }}
+          <p>tipy a triky</p>
+        </div>
+      </a>
+
+      <a href="{{ url_for_security('logout') }}">
+        <div class="navbar-icon nav-link">
+          {{ icon("nav-logout") }}
+          <p>odhlásit se</p>
+        </div>
+      </a>
     </div>
 
   </div>

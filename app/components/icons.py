@@ -71,6 +71,7 @@ icon_fa_classes = {
     "nav-home": "fas fa-home",
     "nav-public-recipes": "fas fa-book-open",
     "nav-profile": "fa fa-user",
+    "nav-logout": "fas fa-sign-out-alt",
 }
 
 default_tooltips = {

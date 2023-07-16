@@ -53,41 +53,41 @@
 
     <div class="collapse navbar-collapse extended-navbar" id="extendedNavbar">
       <ul class="navbar-nav navbar-icon-grid">
-      <li class="nav-item">
-        <a href="{{ url_for('PublicRecipeView:index') }}">
-          <div class="navbar-icon">
-            {{ icon("nav-public-recipes") }}
-            <p>databáze receptů</p>
-          </div>
-        </a>
-      </li>
+        <li class="nav-item">
+          <a href="{{ url_for('PublicRecipeView:index') }}" class="nav-link">
+            <div class="navbar-icon">
+              {{ icon("nav-public-recipes") }}
+              <p>databáze receptů</p>
+            </div>
+          </a>
+        </li>
 
-      <li class="nav-item">
-      <a href="{{ url_for('UserView:show', id=current_user.id) }}">
-        <div class="navbar-icon">
-          {{ icon("nav-profile") }}
-          <p>můj profil</p>
-        </div>
-      </a>
-      </li>
+        <li class="nav-item">
+          <a href="{{ url_for('UserView:show', id=current_user.id) }}" class="nav-link">
+            <div class="navbar-icon">
+              {{ icon("nav-profile") }}
+              <p>můj profil</p>
+            </div>
+          </a>
+        </li>
 
-      <li class="nav-item">
-      <a href="{{ url_for('TipView:index') }}">
-        <div class="navbar-icon">
-          {{ icon("info-circle") }}
-          <p>tipy a triky</p>
-        </div>
-      </a>
-      </li>
+        <li class="nav-item">
+          <a href="{{ url_for('TipView:index') }}" class="nav-link">
+            <div class="navbar-icon">
+              {{ icon("info-circle") }}
+              <p>tipy a triky</p>
+            </div>
+          </a>
+        </li>
 
-      <li class="nav-item">
-      <a href="{{ url_for_security('logout') }}">
-        <div class="navbar-icon">
-          {{ icon("nav-logout") }}
-          <p>odhlásit se</p>
-        </div>
-      </a>
-      </li>
+        <li class="nav-item">
+          <a href="{{ url_for_security('logout') }}" class="nav-link">
+            <div class="navbar-icon">
+              {{ icon("nav-logout") }}
+              <p>odhlásit se</p>
+            </div>
+          </a>
+        </li>
       </ul>
     </div>
 

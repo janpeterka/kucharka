@@ -38,6 +38,7 @@
   right: 0;
   background-color: var(--primary);
   padding-top: 0.7rem;
+  list-style: none;
 /*  text-align: right;*/
 }
 

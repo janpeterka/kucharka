@@ -1,0 +1,30 @@
+{% extends "base/base.html.j2" %}
+{% block title %} zkopírovat akce {% endblock %}
+
+{% block content %}
+
+<h1> zkopírovat akci {{link_to(event)}} </h1>
+
+<form method="post" action="{{ url_for('EventDuplicationView:post', id=event.id) }}" accept-charset="UTF-8">
+    {{ form.hidden_tag() }}
+
+    {{ render_floating_field(form.name, class="mb-2") }}
+
+    <div class="row mb-2">
+        <div class="col-md-6 col-sm-12">
+            <div class="row">
+                <div class="col-md-6 col-sm-12">{{ render_floating_field(form.date_from) }}</div>
+                ## <div class="col-md-6 col-sm-12 mt-2 mt-md-0">{{ render_floating_field(form.date_to, disabled=True) }}</div>
+            </div>
+            
+        </div>
+        <div class="col-md-6 col-sm-12 mt-2 mt-md-0"> 
+            {{ render_floating_field(form.people_count, class="mb-2") }}
+        </div>
+    </div>
+    
+    {{ render_field(form.submit, value="zkopírovat akci") }}
+</form>
+
+{% endblock %}
+

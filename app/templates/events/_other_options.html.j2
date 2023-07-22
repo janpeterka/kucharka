@@ -1,11 +1,11 @@
-<details class="colored mb-2">
+<details class="colored mb-2" open>
 <summary> další akce </summary>
 <div>
 	<div class="row mb-2">
 		<div class="row">
 			<div class="col-12 col-sm-3">
-				{{ button_to(url_for('EventView:duplicate', id=event.id),
-			                 class="btn bg-color-secondary-action color-white w-100", value="zkopírovat " + icon('duplicate')) }}
+				{{ action_badge("duplicate", event, path=url_for("EventDuplicationView:new", id=event.id), class="w-100") }}
+
 			</div>
 			<div class="col-12 col-sm-3">
 			</div>

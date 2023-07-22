@@ -2,7 +2,10 @@ from app.presenters import ItemPresenter
 
 
 class EventPresenter(ItemPresenter):
-    LINK_INFO = {"new": {"value": "přidat akci"}}
+    LINK_INFO = {
+        "new": {"value": "přidat akci"},
+        "duplicate": {"value": "kopírovat akci", "icon": "duplicate"},
+    }
 
     @property
     def duration_label(self) -> str:

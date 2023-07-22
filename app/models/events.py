@@ -37,23 +37,24 @@ class Event(BaseModel, BaseMixin, Loggable, Attendable, Collaborative, EventPres
         cascade="all, delete",
     )
 
-    def duplicate(self):
+    def duplicate(self, **kwargs):
         event = Event()
 
-        event.name = f"{self.name} (kopie)"
-        event.date_from = self.date_from
-        event.date_to = self.date_to
+        event.name = kwargs.get("name", f"{self.name} (kopie)")
+        event.date_from = kwargs.get("date_from", self.date_from)
 
-        event.people_count = self.people_count
+        start_date_offset = (event.date_from - self.date_from).days
+        event.date_to = self.date_to + timedelta(days=start_date_offset)
+
+        event.people_count = kwargs.get("people_count", self.people_count)
 
         event.daily_plans = []
 
         event.save()
 
         for old_plan in self.daily_plans:
-            plan = old_plan.duplicate()
-            plan.event_id = event.id
-            plan.edit()
+            offset_date = old_plan.date + timedelta(days=start_date_offset)
+            old_plan.duplicate(date=offset_date, event=event)
 
         return event
 

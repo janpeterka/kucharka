@@ -8,10 +8,10 @@ from .event_exporter import EventExporterView
 from .exports.event_cookbook_exporter import EventCookbookExporterView
 from .exports.event_timetable_exporter import EventTimetableExporterView
 
-
 from .events.events import EventView
 from .events.share_events import ShareEventView
 from .events.published_events import PublishedEventView
+from .events.event_duplications import EventDuplicationView
 from .event_portion_types import EventPortionTypeView
 
 from .errors import ErrorView
@@ -53,6 +53,7 @@ __all__ = [
     "EventView",
     "EventCookbookExporterView",
     "EventTimetableExporterView",
+    "EventDuplicationView",
     "EventPortionTypeView",
     "ShareEventView",
     "PublishedEventView",
@@ -100,6 +101,7 @@ def register_all_controllers(application):
     EventExporterView.register(application, base_class=HelperFlaskView)
     EventCookbookExporterView.register(application, base_class=HelperFlaskView)
     EventTimetableExporterView.register(application, base_class=HelperFlaskView)
+    EventDuplicationView.register(application, base_class=HelperFlaskView)
 
     ErrorView.register(application)
     SupportView.register(application)

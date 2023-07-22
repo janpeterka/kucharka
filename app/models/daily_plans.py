@@ -61,9 +61,10 @@ class DailyPlan(
         else:
             return None
 
-    def duplicate(self):
+    def duplicate(self, event, **kwargs):
         daily_plan = DailyPlan()
-        daily_plan.date = self.date
+        daily_plan.date = kwargs.get("date", self.date)
+        daily_plan.event_id = event.id
 
         daily_plan.save()
 

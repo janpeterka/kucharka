@@ -108,7 +108,10 @@ class EventView(HelperFlaskView):
 
     @route("events/delete/<id>", methods=["POST"])
     def delete(self, id):
-        self.event.delete()
+        if self.event.delete():
+            flash("událost smazána", "success")
+        else:
+            flash("událost nebyla smazána", "error")
 
         return redirect(url_for("EventView:index"))
 

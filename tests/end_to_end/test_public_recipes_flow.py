@@ -15,7 +15,7 @@ def test_seeing_recipe_from_public_recipe(live_server, page: Page, public_recipe
     page.goto("dashboard")
 
     # Go to index
-    page.locator('a.nav-link:has-text("databáze receptů")').click()
+    page.locator('a.nav-link.active:has-text("databáze receptů")').click()
 
     expect(page).to_have_url("/public-recipe/")
     expect(page.locator("body")).to_contain_text("Veřejný recept")

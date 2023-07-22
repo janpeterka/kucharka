@@ -24,7 +24,7 @@
            data-select-badges-unselected-class="bg-color-light-grey">
         <form action="{{ url_for("AttendeeView:update", id=attendee.id) }}" class="align-items-center" method="POST" data-controller="form" data-action="badge-value-changed->form#submit">
          {{ form.labels(data_select_badges_target="select", option_attr=form.labels.option_attr) }}
-        <span data-select-badges-target="badges" class="text-overflow-break"></span>
+        <span data-select-badges-target="badges" class="d-flex flex-wrap"></span>
         </form>
       </div>
 

@@ -9,6 +9,7 @@ class Attendable:
             "Attendee",
             primaryjoin="Attendee.event_id == Event.id",
             back_populates="event",
+            cascade="all, delete, delete-orphan",
         )
 
     @declared_attr

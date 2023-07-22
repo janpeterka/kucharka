@@ -42,7 +42,7 @@ gunicorn = "^20.1.0"
 icalendar =  "^5.0.7"
 pymysql = "^1.1.0"
 python-dotenv = "^1.0.0"
-sentry-sdk = {extras = ["sqlalchemy"], version = "^1.28.0"}
+sentry-sdk = {extras = ["sqlalchemy"], version = "^1.28.1"}
 turbo-flask = "^0.8.4"
 unidecode = "^1.3.6"
 weasyprint = "^57.2"

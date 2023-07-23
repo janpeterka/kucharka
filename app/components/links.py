@@ -1,6 +1,6 @@
 from flask import url_for
 from markupsafe import Markup
-from app.components import BaseComponent
+from app.packages.template_components import BaseComponent
 
 
 # core
@@ -20,15 +20,6 @@ class ButtonLink(Link):
         self.kwargs["class"] = (
             self.kwargs.get("class", "") + f" btn btn-{kwargs.get('button_type')}"
         )
-
-
-class CancelLink(Link):
-    folder = "links"
-    file = "link"
-
-    def __init__(self, path, value, **kwargs):
-        super(CancelLink, self).__init__(path, value, **kwargs)
-        self.kwargs["class"] = self.kwargs.get("class", "ms-1")
 
 
 # helpers

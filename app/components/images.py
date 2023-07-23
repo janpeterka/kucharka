@@ -1,4 +1,4 @@
-from app.components import BaseComponent
+from app.packages.template_components import BaseComponent
 
 
 class Image(BaseComponent):

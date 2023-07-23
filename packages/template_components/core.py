@@ -20,7 +20,7 @@ class BaseComponent:
 
     def __init__(self, **kwargs):
         self.kwargs = kwargs
-        self.kwargs["data"] = self.kwargs.pop("data", {})
+
         class_list = self.kwargs.pop("class", "").split(" ") + self.DEFAULT_CLASSES
         self.kwargs["class"] = " ".join(class_list)
 

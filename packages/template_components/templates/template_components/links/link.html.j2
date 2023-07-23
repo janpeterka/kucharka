@@ -1,5 +1,3 @@
-<a href="{{ path }}"
-   {% if class %} class="{{ class }}"{% endif %}
-   {% for key, value in kwargs.get("data").items() %} data-{{ key }}={{value}} {% endfor %}>
+<a href="{{ path }}" {{ render_class(class) }} {{ render_data(kwargs.get("data", {})) }}>
    {{ value }}
 </a>

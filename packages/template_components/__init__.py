@@ -1,5 +1,6 @@
 from .template_components import TemplateComponents
 from .core import BaseComponent
-from .links import Link
+from .components.links import Link
+from .components.icons import BaseIcon
 
-__all__ = ["TemplateComponents", "BaseComponent", "Link"]
+__all__ = ["TemplateComponents", "BaseComponent", "Link", "BaseIcon"]

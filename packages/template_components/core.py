@@ -1,5 +1,6 @@
 from flask import render_template
 from markupsafe import Markup
+import os
 
 
 class BaseComponent:
@@ -20,9 +21,17 @@ class BaseComponent:
     def __init__(self, **kwargs):
         self.kwargs = kwargs
         self.kwargs["data"] = self.kwargs.pop("data", {})
+        class_list = self.kwargs.pop("class", "").split(" ") + self.DEFAULT_CLASSES
+        self.kwargs["class"] = " ".join(class_list)
 
     def render(self, remove_newlines=True):
         html = render_template(self._template, **self._attributes)
+        html = BaseComponent.clean_markup(html)
+
+        return Markup(html)
+
+    @staticmethod
+    def clean_markup(html, remove_newlines=True):
         if remove_newlines:
             html = html.replace("\n", "")
         while "  " in html:
@@ -33,15 +42,15 @@ class BaseComponent:
         html = html.replace(' "', '"')
         html = html.strip()
 
-        return Markup(html)
+        return html
 
     @property
     def _template(self):
         folder = getattr(self, "folder", f"{self.__class__.__name__.lower()}s")
         file = getattr(self, "file", f"{self.__class__.__name__.lower()}")
+        filename = f"{file}.html.j2"
 
-        # WIP: how to select default templates from package, not from project templates?
-        return f"components/{folder}/{file}.html.j2"
+        return os.path.join("template_components", folder, filename)
 
     @property
     def _attributes(self):

@@ -7,6 +7,7 @@ from flask_security import Security, SQLAlchemyUserDatastore
 from flask_mail import Mail
 from flask_sqlalchemy.model import DefaultMeta  # noqa: E402
 from sqlalchemy import MetaData
+from packages.template_components import TemplateComponents
 
 convention = {
     "ix": "ix_%(column_0_label)s",
@@ -32,6 +33,7 @@ user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 migrate = Migrate()
 mail = Mail()
 security = Security()
+template_components = TemplateComponents()
 
 
 def create_app(config_name="default"):
@@ -58,6 +60,7 @@ def create_app(config_name="default"):
     security.init_app(application, user_datastore)
     turbo.init_app(application)
     mail.init_app(application)
+    template_components.init_app(application)
 
     if application.config["SENTRY_MONITORING"]:
         import sentry_sdk

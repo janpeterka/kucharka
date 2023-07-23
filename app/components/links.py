@@ -1,25 +1,6 @@
 from flask import url_for
 from markupsafe import Markup
-from app.packages.template_components import BaseComponent
-
-
-# core
-class Link(BaseComponent):
-    def __init__(self, path, value, **kwargs):
-        super(Link, self).__init__(**kwargs)
-        self.path = path
-        self.value = value
-
-
-class ButtonLink(Link):
-    folder = "links"
-    file = "link"
-
-    def __init__(self, path, value, **kwargs):
-        super(ButtonLink, self).__init__(path, value, **kwargs)
-        self.kwargs["class"] = (
-            self.kwargs.get("class", "") + f" btn btn-{kwargs.get('button_type')}"
-        )
+from kucharka.packages.template_components import Link
 
 
 # helpers

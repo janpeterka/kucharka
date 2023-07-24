@@ -1,7 +1,7 @@
 from .. import BaseComponent
 
 
-class BaseIcon(BaseComponent):
+class Icon(BaseComponent):
     DEFAULT_CURSOR_CLASS = "cursor-default"
     ICON_CLASS_ALIASES = {}
     ICON_ALIAS_COLORS = {}
@@ -18,21 +18,31 @@ class BaseIcon(BaseComponent):
         color_class=None,
         **kwargs,
     ):
-        self.kwargs = kwargs
+        super().__init__(**kwargs)
         self.kwargs["tooltip"] = tooltip
+
+        icon_class_aliases = self.kwargs.pop(
+            "icon_class_aliases", self.ICON_CLASS_ALIASES
+        )
+        icon_alias_colors = self.kwargs.pop("icon_alias_colors", self.ICON_ALIAS_COLORS)
+
+        if "ICON_ALIAS_COLORS" in self.kwargs:
+            self.ICON_ALIAS_COLORS = self.kwargs.pop("ICON_ALIAS_COLORS")
 
         if cursor_class is None:
             cursor_class = self.DEFAULT_CURSOR_CLASS
 
         if icon_class is None and icon_alias:
-            icon_class = self.ICON_CLASS_ALIASES.get(icon_alias, "")
+            icon_class = icon_class_aliases.get(icon_alias, "")
 
         if color_class is None and icon_alias:
-            color_class = self.ICON_ALIAS_COLORS.get(icon_alias)
+            color_class = icon_alias_colors.get(icon_alias, "")
 
-        classes = kwargs.pop("class", "")
+        classes = self.kwargs.pop("class")
 
-        kwargs["class"] = f"{classes} {color_class} {icon_class} {cursor_class}".strip()
+        self.kwargs[
+            "class"
+        ] = f"{classes} {color_class} {icon_class} {cursor_class}".strip()
 
     # @classmethod
     # def helpers(cls):

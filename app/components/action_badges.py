@@ -1,15 +1,8 @@
 from flask import url_for
 from markupsafe import Markup
 from app.components.buttons import ButtonTo
-from app.components.links import Link
-
-
-class PillLink(Link):
-    folder = "links"
-    file = "link"
-
-    def __init__(self, path, value, **kwargs):
-        super(PillLink, self).__init__(path, value, **kwargs)
+from app.components.icons import Icon
+from packages.template_components.components.links import Link
 
 
 def action_badge(  # noqa: C901
@@ -26,8 +19,6 @@ def action_badge(  # noqa: C901
     disabled_value=None,
     **kwargs,
 ):
-    from app.components import icon as render_icon
-
     import inspect
 
     if inspect.isclass(obj_or_class):
@@ -74,7 +65,7 @@ def action_badge(  # noqa: C901
     if disabled and disabled_value:
         value_text = disabled_value
 
-    icon = Markup(render_icon(icon_name))
+    icon = Markup(Icon.helper(icon_name))
     value = Markup(f'{icon} <span class="ms-1">{value_text}</span>')
 
     if not path:
@@ -116,18 +107,18 @@ def pill_button_to(path, value, **kwargs):
 
 
 def pill_link_to(path, value=None, **kwargs):
-    return PillLink(path=path, value=value, **kwargs).render()
+    return Link(path=path, value=value, **kwargs).render()
 
 
 def pill_link_to_edit(obj_or_str, button_type="primary", **kwargs):
-    from app.components import icon
+    from app.components.icons import Icon
 
     path = _get_path(obj_or_str)
 
     if kwargs.get("value", None) is None:
-        kwargs["value"] = icon("edit")
+        kwargs["value"] = Icon.helper("edit")
 
-    return PillLink(
+    return Link(
         path=path, value=kwargs.pop("value"), button_type=button_type, **kwargs
     ).render()
 

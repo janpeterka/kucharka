@@ -1,7 +1,7 @@
 from .. import BaseComponent
 
 
-class Icon(BaseComponent):
+class BaseIcon(BaseComponent):
     DEFAULT_CURSOR_CLASS = "cursor-default"
     ICON_CLASS_ALIASES = {}
     ICON_ALIAS_COLORS = {}

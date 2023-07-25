@@ -1,4 +1,4 @@
 from .links import Link
-from .icons import Icon
+from .icons import BaseIcon
 
-__all__ = ["Link", "Icon"]
+__all__ = ["Link", "BaseIcon"]

@@ -1,4 +1,4 @@
-from kucharka.packages.template_components.components import Icon as BaseIcon
+from kucharka.packages.template_components.components import BaseIcon
 
 
 class Icon(BaseIcon):

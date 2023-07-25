@@ -19,12 +19,12 @@ def link_to(obj_or_str, turbo=True, **kwargs):
 
 
 def link_to_edit(obj, **kwargs):
-    from app.components import icon
+    from app.components.icons import Icon
 
     path = obj.path_to_edit()
 
     if kwargs.get("value", None) is None:
-        kwargs["value"] = f"{obj.name} " + Markup(icon("edit"))
+        kwargs["value"] = f"{obj.name} " + Markup(Icon.helper("edit"))
 
     return Link(path=path, **kwargs).render()
 

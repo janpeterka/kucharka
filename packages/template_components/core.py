@@ -15,10 +15,19 @@ class ComponentHelperMeta(type):
         setattr(cls, "helper", helper_method)
 
         @classmethod
-        def register_helper_method(cls, application):
-            application.add_template_global(
-                cls.helper, name=camelcase_to_snakecase(cls.__name__)
-            )
+        def register_helper_method(cls, application, name: str = None):
+            """creates `register_helper` method on class, which registers helper method on application
+
+            [description]
+            :param application: [description]
+            :type application: Flask
+            :param name: name of helper, called from jinja template, defaults to None
+            :type name: str, optional
+            """
+            if name is None:
+                name = camelcase_to_snakecase(cls.__name__)
+
+            application.add_template_global(cls.helper, name=name)
 
         setattr(cls, "register_helper", register_helper_method)
 
@@ -44,14 +53,14 @@ class BaseComponent(metaclass=ComponentHelperMeta):
         class_list = self.kwargs.pop("class", "").split(" ") + self.DEFAULT_CLASSES
         self.kwargs["class"] = " ".join(class_list)
 
-    def render(self, remove_newlines=True):
+    def render(self, remove_newlines: bool = True) -> Markup:
         html = render_template(self._template, **self._attributes)
         html = BaseComponent.clean_markup(html)
 
         return Markup(html)
 
     @staticmethod
-    def clean_markup(html, remove_newlines=True):
+    def clean_markup(html: str, remove_newlines: bool = True) -> str:
         if remove_newlines:
             html = html.replace("\n", "")
         while "  " in html:
@@ -65,7 +74,7 @@ class BaseComponent(metaclass=ComponentHelperMeta):
         return html
 
     @property
-    def _template(self):
+    def _template(self) -> str:
         folder = getattr(self, "folder", f"{self.__class__.__name__.lower()}s")
         file = getattr(self, "file", f"{self.__class__.__name__.lower()}")
         filename = f"{file}.html.j2"
@@ -73,7 +82,7 @@ class BaseComponent(metaclass=ComponentHelperMeta):
         return os.path.join("template_components", folder, filename)
 
     @property
-    def _attributes(self):
+    def _attributes(self) -> dict:
         # All public variables of the view are passed to template
         class_attributes = self.__class__.__dict__
         view_attributes = self.__dict__
@@ -105,6 +114,3 @@ def register_helpers(
         application.add_template_global(
             klass.helper, name=camelcase_to_snakecase(klassname)
         )
-
-    # Return a dictionary of class names and class objects
-    return {class_name: class_obj for class_name, class_obj in classes}

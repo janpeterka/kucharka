@@ -1,4 +1,4 @@
-def camelcase_to_snakecase(text):
+def camelcase_to_snakecase(text: str) -> str:
     import re
 
     s1 = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", text)

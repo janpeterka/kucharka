@@ -38,8 +38,6 @@ class BaseIcon(BaseComponent):
         if color_class is None and icon_alias:
             color_class = icon_alias_colors.get(icon_alias, "")
 
-        classes = self.kwargs.pop("class")
-
-        self.kwargs[
-            "class"
-        ] = f"{classes} {color_class} {icon_class} {cursor_class}".strip()
+        self.css_classes.append(color_class)
+        self.css_classes.append(icon_class)
+        self.css_classes.append(cursor_class)

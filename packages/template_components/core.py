@@ -2,6 +2,7 @@ from flask import render_template
 from markupsafe import Markup
 import os
 from .utils import camelcase_to_snakecase
+from .css import CSSClasses
 
 
 class ComponentHelperMeta(type):
@@ -40,9 +41,9 @@ class BaseComponent(metaclass=ComponentHelperMeta):
     :param DEFAULT_CLASSES: list of css classes to be added to the component
     :type DEFAULT_CLASSES: list
     :param folder: folder to look for template in, defaults to component class name in lowercase
-    :type folder: str
+    :type folder: str (optional)
     :param file: template file name to render, defaults to component class name in lowercase
-    :type file: str
+    :type file: str (optional)
     """
 
     DEFAULT_CLASSES = []
@@ -51,7 +52,7 @@ class BaseComponent(metaclass=ComponentHelperMeta):
         self.kwargs = kwargs
 
         class_list = self.kwargs.pop("class", "").split(" ") + self.DEFAULT_CLASSES
-        self.kwargs["class"] = " ".join(class_list)
+        self.css_classes = CSSClasses(class_list)
 
     def render(self, remove_newlines: bool = True) -> Markup:
         html = render_template(self._template, **self._attributes)

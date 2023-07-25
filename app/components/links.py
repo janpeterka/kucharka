@@ -1,6 +1,6 @@
 from flask import url_for
 from markupsafe import Markup
-from kucharka.packages.template_components import Link
+from kucharka.packages.template_components.components import Link
 
 
 # helpers

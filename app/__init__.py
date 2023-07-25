@@ -101,7 +101,9 @@ def create_app(config_name="default"):
 
     # COMPONENTS
     from app.components import register_all_components
+    from kucharka.packages.template_components import register_helpers
 
+    register_helpers(application)
     register_all_components(application)
 
     return application

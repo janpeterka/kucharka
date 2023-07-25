@@ -1,9 +1,29 @@
 from flask import render_template
 from markupsafe import Markup
 import os
+from .utils import camelcase_to_snakecase
 
 
-class BaseComponent:
+class ComponentHelperMeta(type):
+    def __init__(cls, name, bases, dct):
+        super().__init__(name, bases, dct)
+
+        @classmethod
+        def helper_method(cls, *args, **kwargs):
+            return cls(*args, **kwargs).render()
+
+        setattr(cls, "helper", helper_method)
+
+        @classmethod
+        def register_helper_method(cls, application):
+            application.add_template_global(
+                cls.helper, name=camelcase_to_snakecase(cls.__name__)
+            )
+
+        setattr(cls, "register_helper", register_helper_method)
+
+
+class BaseComponent(metaclass=ComponentHelperMeta):
     """Base class for all TemplateComponents.
 
     provides `render` method, which renders template with attributes passed to it.
@@ -65,3 +85,26 @@ class BaseComponent:
         # kwargs has higher priority, therefore rewrites public attributes
         merged_values = {**public_attributes, **self.kwargs}
         return merged_values
+
+
+def register_helpers(
+    application,
+    package_name="kucharka.packages.template_components.components",
+):
+    import importlib
+    import inspect
+
+    # Import the package dynamically
+    package = importlib.import_module(package_name)
+
+    # Get all classes defined in the package
+    classes = inspect.getmembers(package, inspect.isclass)
+
+    for klassname, klass in classes:
+        klass.register_helper(application)
+        application.add_template_global(
+            klass.helper, name=camelcase_to_snakecase(klassname)
+        )
+
+    # Return a dictionary of class names and class objects
+    return {class_name: class_obj for class_name, class_obj in classes}

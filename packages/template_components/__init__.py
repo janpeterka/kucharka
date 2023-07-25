@@ -1,6 +1,4 @@
 from .template_components import TemplateComponents
-from .core import BaseComponent
-from .components.links import Link
-from .components.icons import Icon
+from .core import BaseComponent, register_helpers
 
-__all__ = ["TemplateComponents", "BaseComponent", "Link", "Icon"]
+__all__ = ["TemplateComponents", "BaseComponent", "register_helpers"]

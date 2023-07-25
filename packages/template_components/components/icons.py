@@ -11,7 +11,7 @@ class Icon(BaseComponent):
     def __init__(
         self,
         icon_alias=None,
-        *,
+        *args,
         icon_class=None,
         tooltip=None,
         cursor_class=None,
@@ -43,10 +43,3 @@ class Icon(BaseComponent):
         self.kwargs[
             "class"
         ] = f"{classes} {color_class} {icon_class} {cursor_class}".strip()
-
-    # @classmethod
-    # def helpers(cls):
-    #     def icon(alias, **kwargs):
-    #         return cls(alias, **kwargs).render()
-
-    #     return {"icon": icon}

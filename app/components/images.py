@@ -1,16 +1,18 @@
-from kucharka.packages.template_components import BaseComponent
+from kucharka.packages.template_components.components import ImageWithObject
 
 
-class Image(BaseComponent):
+class Image(ImageWithObject):
     def __init__(self, image, **kwargs):
-        super(Image, self).__init__(**kwargs)
-        if kwargs.get("thumbnail", False):
-            self.src = image.thumbnail_url
-        else:
-            self.src = image.url
+        super().__init__(**kwargs)
 
         self.alt = image.full_name
-        self.image = image
+
+
+class RecipeGalleryImage(Image):
+    def __init__(self, image, editable=False, outer_class=None, **kwargs):
+        super().__init__(**kwargs)
+
+        self.alt = image.full_name
 
 
 def recipe_gallery_image(image, editable=False, outer_class=None, **kwargs):

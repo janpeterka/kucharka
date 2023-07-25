@@ -131,5 +131,7 @@ def search_box(suggestions=None, suggestion_attributes=["name"]):
         suggestion = None
 
     return Markup(
-        render_template("components/tables/search_box.html.j2", suggestion=suggestion)
+        render_template(
+            "template_components/tables/search_box.html.j2", suggestion=suggestion
+        )
     )

@@ -53,10 +53,6 @@ class Icon(BaseIcon):
     }
 
 
-def icon(name, **kwargs):
-    return Icon(name, **kwargs).render()
-
-
 # default_tooltips = {
 #     "shared": "zveřejněno",
 #     "public": "z veřejných",

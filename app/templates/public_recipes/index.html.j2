@@ -1,17 +1,12 @@
 {% extends "base/base.html.j2" %}
 {% block title %} databáze receptů {% endblock %}
 
-{% block meta %}
-  <meta name="turbo-visit-control" content="reload">
-{% endblock %}
-
 {% block content %}
 
 <h1 class="font-comfortaa"> databáze sdílených receptů </h1>
 
+{% include "public_recipes/_simple_filter.html.j2" %}
 {% include "public_recipes/_filter.html.j2" %}
-
-<hr>
 
 <turbo-frame id="recipes">
   <div class="row">

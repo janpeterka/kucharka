@@ -9,19 +9,20 @@ class Image(ImageWithObject):
 
 
 class RecipeGalleryImage(Image):
-    def __init__(self, image, editable=False, outer_class=None, **kwargs):
-        super().__init__(**kwargs)
+    DEFAULT_CLASSES = ["img-fluid"]
 
-        self.alt = image.full_name
+    def __init__(self, image, editable=False, outer_class=None, center=False, **kwargs):
+        super().__init__(**kwargs)
+        if outer_class:
+            self.outer_class = outer_class
+        else:
+            self.outer_class = ""
+
+        self.outer_class += " pos-r"
+
+        if center:
+            self.outer_class += " t-y--50"
 
 
 def recipe_gallery_image(image, editable=False, outer_class=None, **kwargs):
-    if outer_class is None:
-        outer_class = "pos-r"
-    else:
-        outer_class += " pos-r"
-
-    if kwargs.pop("center", False):
-        outer_class += " t-y--50"
-
     return Image(image, outer_class=outer_class, **kwargs).render()

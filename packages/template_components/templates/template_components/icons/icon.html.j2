@@ -1,0 +1,12 @@
+{% if tooltip %}
+    <abbr title="{{ tooltip }}" style="text-decoration: none">
+{% endif %}
+
+<i {{ render_class(css_classes) }} {{ render_data(data) }}
+   {% if style %}style="{{ style }}"{% endif %}>
+   {{ value if value }}
+</i>
+
+{% if tooltip %}
+    </abbr>
+{% endif %}

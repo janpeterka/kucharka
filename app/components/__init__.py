@@ -1,12 +1,14 @@
-from .base import BaseComponent
 from .links import link_to, link_to_edit
-from .icons import icon
+
+# from .icons import icon
 from .action_badges import action_badge
 from .dropzone import dropzone
 from .tables import table, search_box
 from .images import recipe_gallery_image
 
-__all__ = ["icon", "BaseComponent"]
+# __all__ = ["icon"]
+
+# from kucharka.packages.template_components.components import *
 
 
 def register_all_components(application):
@@ -15,7 +17,11 @@ def register_all_components(application):
     application.add_template_global(link_to_edit)
 
     # icons
-    application.add_template_global(icon)
+    from .icons import Icon
+
+    Icon.register_helper(application)
+
+    # application.add_template_global(icon, name="icon")
 
     # action badges
     application.add_template_global(action_badge)

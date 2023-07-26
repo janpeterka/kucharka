@@ -1,34 +1,6 @@
 from flask import url_for
 from markupsafe import Markup
-from app.components import BaseComponent
-
-
-# core
-class Link(BaseComponent):
-    def __init__(self, path, value, **kwargs):
-        super(Link, self).__init__(**kwargs)
-        self.path = path
-        self.value = value
-
-
-class ButtonLink(Link):
-    folder = "links"
-    file = "link"
-
-    def __init__(self, path, value, **kwargs):
-        super(ButtonLink, self).__init__(path, value, **kwargs)
-        self.kwargs["class"] = (
-            self.kwargs.get("class", "") + f" btn btn-{kwargs.get('button_type')}"
-        )
-
-
-class CancelLink(Link):
-    folder = "links"
-    file = "link"
-
-    def __init__(self, path, value, **kwargs):
-        super(CancelLink, self).__init__(path, value, **kwargs)
-        self.kwargs["class"] = self.kwargs.get("class", "ms-1")
+from kucharka.packages.template_components.components import Link
 
 
 # helpers
@@ -47,12 +19,12 @@ def link_to(obj_or_str, turbo=True, **kwargs):
 
 
 def link_to_edit(obj, **kwargs):
-    from app.components import icon
+    from app.components.icons import Icon
 
     path = obj.path_to_edit()
 
     if kwargs.get("value", None) is None:
-        kwargs["value"] = f"{obj.name} " + Markup(icon("edit"))
+        kwargs["value"] = f"{obj.name} " + Markup(Icon.helper("edit"))
 
     return Link(path=path, **kwargs).render()
 

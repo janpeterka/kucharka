@@ -1,4 +1,4 @@
-from app.components import BaseComponent
+from kucharka.packages.template_components import BaseComponent
 
 
 class ButtonTo(BaseComponent):

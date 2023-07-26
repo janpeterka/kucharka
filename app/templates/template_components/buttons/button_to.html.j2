@@ -6,7 +6,7 @@
 >
 
   <button type="submit"
-          class="{{ class }}"
+          {{ render_class(css_classes) }}
           {% if style %} style="{{ style }}" {% endif %}
           {% if disabled %} disabled {% endif %}
           {% if data %}

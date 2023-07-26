@@ -1,8 +1,8 @@
 import random
 from flask import render_template
 from markupsafe import Markup
+from kucharka.packages.template_components import BaseComponent
 
-from app.components import BaseComponent
 from app.helpers.general import listify
 
 
@@ -131,5 +131,7 @@ def search_box(suggestions=None, suggestion_attributes=["name"]):
         suggestion = None
 
     return Markup(
-        render_template("components/tables/search_box.html.j2", suggestion=suggestion)
+        render_template(
+            "template_components/tables/search_box.html.j2", suggestion=suggestion
+        )
     )

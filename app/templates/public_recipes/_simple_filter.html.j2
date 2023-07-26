@@ -1,0 +1,11 @@
+<div>
+  <form action="{{ url_for('PublicRecipeView:index') }}" method="get" accept-charset="UTF-8">
+    <div class="row mb-4">
+        <div class="col-8 col-md-10">
+          {{ render_floating_field(form.name, label="název receptu") }}
+        </div>
+        <div class="col-4 col-md-2">
+          {{ form.submit(class_='btn bg-color-primary-action color-white p-3') }}
+        </div>
+  </form>
+</div>

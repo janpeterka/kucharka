@@ -1,25 +1,29 @@
-from app.components import BaseComponent
+from kucharka.packages.template_components.components import ImageWithObject
 
 
-class Image(BaseComponent):
+class Image(ImageWithObject):
     def __init__(self, image, **kwargs):
-        super(Image, self).__init__(**kwargs)
-        if kwargs.get("thumbnail", False):
-            self.src = image.thumbnail_url
-        else:
-            self.src = image.url
+        super().__init__(image=image, **kwargs)
 
         self.alt = image.full_name
-        self.image = image
+
+
+class RecipeGalleryImage(Image):
+    DEFAULT_CLASSES = ["img-fluid"]
+
+    def __init__(self, image, editable=False, outer_class=None, center=False, **kwargs):
+        super().__init__(image=image, **kwargs)
+
+        if outer_class:
+            self.outer_class = outer_class
+        else:
+            self.outer_class = ""
+
+        self.outer_class += " pos-r"
+
+        if center:
+            self.outer_class += " t-y--50"
 
 
 def recipe_gallery_image(image, editable=False, outer_class=None, **kwargs):
-    if outer_class is None:
-        outer_class = "pos-r"
-    else:
-        outer_class += " pos-r"
-
-    if kwargs.pop("center", False):
-        outer_class += " t-y--50"
-
-    return Image(image, outer_class=outer_class, **kwargs).render()
+    return RecipeGalleryImage(image, outer_class=outer_class, **kwargs).render()

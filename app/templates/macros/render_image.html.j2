@@ -29,7 +29,7 @@
 		{{ button_to(url_for('RecipePhotoView:set_main_image', recipe_id=image.recipe.id, image_id=image.id), class="image-icon pin-icon", value="<abbr style='cursor: pointer' title='Nastavit jako hlavní'>📌</abbr>") }}
     {% endif %}
 
-		<img style="{{ style }}" class="{{ class }} img-fluid" src="{{ url }}" alt="{{ image.full_name }}"/>	
+		<img style="{{ style }}" class="{{css_classes}} img-fluid" src="{{ url }}" alt="{{ image.full_name }}"/>
 	</div>
 
 {% endmacro %}

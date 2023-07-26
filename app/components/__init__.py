@@ -8,8 +8,6 @@ from .images import recipe_gallery_image
 
 # __all__ = ["icon"]
 
-# from kucharka.packages.template_components.components import *
-
 
 def register_all_components(application):
     # links

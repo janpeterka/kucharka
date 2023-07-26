@@ -7,7 +7,7 @@ from flask_security import Security, SQLAlchemyUserDatastore
 from flask_mail import Mail
 from flask_sqlalchemy.model import DefaultMeta  # noqa: E402
 from sqlalchemy import MetaData
-from packages.template_components import TemplateComponents
+from flask_template_components import TemplateComponents
 
 convention = {
     "ix": "ix_%(column_0_label)s",
@@ -101,7 +101,7 @@ def create_app(config_name="default"):
 
     # COMPONENTS
     from app.components import register_all_components
-    from kucharka.packages.template_components import register_helpers
+    from flask_template_components import register_helpers
 
     register_helpers(application)
     register_all_components(application)

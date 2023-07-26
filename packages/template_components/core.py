@@ -40,9 +40,9 @@ class BaseComponent(metaclass=ComponentHelperMeta):
 
     :param DEFAULT_CLASSES: list of css classes to be added to the component
     :type DEFAULT_CLASSES: list
-    :param folder: folder to look for template in, defaults to component class name in lowercase
+    :param folder: folder to look for template in, defaults to file name in snake_case
     :type folder: str (optional)
-    :param file: template file name to render, defaults to component class name in lowercase
+    :param file: template file name to render, defaults to component class name in snake_case
     :type file: str (optional)
     """
 
@@ -75,9 +75,23 @@ class BaseComponent(metaclass=ComponentHelperMeta):
         return html
 
     @property
+    def default_folder_name(self) -> str:
+        if getattr(self, "folder", None) is not None:
+            return self.folder
+        else:
+            return self._get_filename()
+
+    @property
+    def default_file_name(self) -> str:
+        if getattr(self, "file", None) is not None:
+            return self.file
+        else:
+            return camelcase_to_snakecase(self.__class__.__name__)
+
+    @property
     def _template(self) -> str:
-        folder = getattr(self, "folder", f"{self.__class__.__name__.lower()}s")
-        file = getattr(self, "file", f"{self.__class__.__name__.lower()}")
+        folder = self.default_folder_name
+        file = self.default_file_name
         filename = f"{file}.html.j2"
 
         return os.path.join("template_components", folder, filename)
@@ -95,6 +109,20 @@ class BaseComponent(metaclass=ComponentHelperMeta):
         # kwargs has higher priority, therefore rewrites public attributes
         merged_values = {**public_attributes, **self.kwargs}
         return merged_values
+
+    def _get_filename(self):
+        import inspect
+
+        # Get the current class
+        cls = type(self)
+
+        # Retrieve the filename where the class is defined
+        filename = inspect.getfile(cls)
+
+        # Get only the filename without directories and extensions
+        filename = os.path.splitext(os.path.basename(filename))[0]
+
+        return filename
 
 
 def register_helpers(

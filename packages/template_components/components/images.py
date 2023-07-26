@@ -27,9 +27,9 @@ class ImageWithObject(Image):
             self.src = src
         elif thumbnail is not None and hasattr("image", "thumbnail_url"):
             self.src = image.thumbnail_url
-        elif hasattr("image", "src"):
+        elif hasattr(image, "src"):
             self.src = image.src
-        elif hasattr("image", "url"):
+        elif hasattr(image, "url"):
             self.src = image.url
 
         if alt is not None:

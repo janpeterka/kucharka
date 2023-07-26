@@ -1,4 +1,4 @@
-from kucharka.packages.template_components.components import ImageWithObject
+from flask_template_components.components import ImageWithObject
 
 
 class Image(ImageWithObject):

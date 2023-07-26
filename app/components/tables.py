@@ -1,7 +1,7 @@
 import random
 from flask import render_template
 from markupsafe import Markup
-from kucharka.packages.template_components import BaseComponent
+from flask_template_components import BaseComponent
 
 from app.helpers.general import listify
 

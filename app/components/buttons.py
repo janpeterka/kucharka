@@ -1,4 +1,4 @@
-from kucharka.packages.template_components import BaseComponent
+from flask_template_components import BaseComponent
 
 
 class ButtonTo(BaseComponent):

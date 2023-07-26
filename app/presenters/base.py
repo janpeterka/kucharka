@@ -1,6 +1,6 @@
 from app.helpers.general import classproperty
 
-from packages.template_components.mixins import ClassfulLinkableMixin
+from flask_template_components.mixins import ClassfulLinkableMixin
 
 
 class BasePresenter(ClassfulLinkableMixin):

@@ -2,7 +2,7 @@ from flask import url_for
 from markupsafe import Markup
 from app.components.buttons import ButtonTo
 from app.components.icons import Icon
-from packages.template_components.components.links import Link
+from flask_template_components.components.links import Link
 
 
 def action_badge(  # noqa: C901

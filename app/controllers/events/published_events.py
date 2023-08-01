@@ -5,8 +5,6 @@ from app.helpers.helper_flask_view import HelperFlaskView
 
 from app.models.events import Event
 
-from app.services import EventTimetableConstructor
-
 
 class PublishedEventView(HelperFlaskView):
     template_folder = "events"
@@ -23,6 +21,4 @@ class PublishedEventView(HelperFlaskView):
             return redirect(url_for("EventView:show", id=event_id))
 
     def show(self, hash_value):
-        self.timetable = EventTimetableConstructor(self.event)
-
         return self.template()

@@ -99,6 +99,12 @@ class Event(BaseModel, BaseMixin, Loggable, Attendable, Collaborative, EventPres
         return any(dp.date == date for dp in self.daily_plans)
 
     @property
+    def timetable(self):
+        from app.services import EventTimetableConstructor
+
+        return EventTimetableConstructor(self)
+
+    @property
     def active_daily_plans(self) -> list:
         return [
             dp for dp in self.daily_plans if (self.date_from <= dp.date <= self.date_to)

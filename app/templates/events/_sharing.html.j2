@@ -18,7 +18,8 @@
         {% if event.is_shared %}
         <div class="col-12 row mb-2" data-controller="clipboard">
             <div class="col-3 pt-2">
-                <a href="{{ event.public_url }}" data-clipboard-target="source"> odkaz pro veřejné sdílení </a>
+                <a href="{{ event.public_url }}"> odkaz pro veřejné sdílení </a>
+                <span class="d-none" data-clipboard-target="source">{{ event.public_url }}</span>
             </div>
 
             <div class="col-2">

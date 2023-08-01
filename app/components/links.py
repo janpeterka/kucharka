@@ -24,7 +24,7 @@ def link_to_edit(obj, **kwargs):
     path = obj.path_to_edit()
 
     if kwargs.get("value", None) is None:
-        kwargs["value"] = f"{obj.name} " + Markup(Icon.helper("edit"))
+        kwargs["value"] = f"{obj.name} " + Markup(Icon("edit").render())
 
     return Link(path=path, **kwargs).render()
 

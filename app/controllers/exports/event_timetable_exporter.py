@@ -1,10 +1,7 @@
 from flask_security import login_required
 from flask_weasyprint import render_pdf, HTML
-
 from app.helpers.helper_flask_view import HelperFlaskView
-
 from app.models import Event
-from app.services import EventTimetableConstructor
 
 
 class EventTimetableExporterView(HelperFlaskView):
@@ -32,6 +29,4 @@ class EventTimetableExporterView(HelperFlaskView):
         )
 
     def _recipe_list(self):
-        self.timetable = EventTimetableConstructor(self.event)
-
         return self.template(template_name="recipe_list")

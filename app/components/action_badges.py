@@ -65,7 +65,7 @@ def action_badge(  # noqa: C901
     if disabled and disabled_value:
         value_text = disabled_value
 
-    icon = Markup(Icon.helper(icon_name))
+    icon = Markup(Icon(icon_name).render())
     value = Markup(f'{icon} <span class="ms-1">{value_text}</span>')
 
     if not path:
@@ -116,7 +116,7 @@ def pill_link_to_edit(obj_or_str, button_type="primary", **kwargs):
     path = _get_path(obj_or_str)
 
     if kwargs.get("value", None) is None:
-        kwargs["value"] = Icon.helper("edit")
+        kwargs["value"] = Icon("edit").render()
 
     return Link(
         path=path, value=kwargs.pop("value"), button_type=button_type, **kwargs

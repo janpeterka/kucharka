@@ -17,7 +17,7 @@
     {% for week in event.timetable.all_relevant_days_split_by_weeks %}
         <div class="row">
         {% for day in week %}
-            {% include("daily_plans/_day_card.html.j2") %}
+            {{ day_card(day) }}
         {% endfor %}
         </div>
     {% endfor %}

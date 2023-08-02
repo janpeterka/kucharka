@@ -5,6 +5,7 @@ from .action_badges import action_badge
 from .dropzone import dropzone
 from .tables import table, search_box
 from .images import recipe_gallery_image
+from .day_cards import day_card
 
 # __all__ = ["icon"]
 
@@ -33,3 +34,6 @@ def register_all_components(application):
 
     # images
     application.add_template_global(recipe_gallery_image)
+
+    # cards
+    application.add_template_global(day_card)

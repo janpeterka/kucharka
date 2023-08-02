@@ -24,6 +24,10 @@ class DayMixin:
         return tasks
 
     @property
+    def has_tasks(self) -> bool:
+        return len(self.all_tasks) > 0
+
+    @property
     def tasks_from_this_day(self) -> list:
         tasks = self.tasks
 

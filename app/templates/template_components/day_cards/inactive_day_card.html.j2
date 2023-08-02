@@ -1,0 +1,14 @@
+<div class="bg-color-{{ color }} {{ css_classes }}">
+
+  <div><h2>{{ link_to(day, class="fs-5") }}</h2></div>
+
+  {% if day.has_tasks %}
+    <hr>
+    <h3 class="fs-5">úkoly</h3>
+  {% endif %}
+
+  {% for task in day.all_tasks %}
+    {{ task }} <br>
+  {% endfor %}
+
+</div>

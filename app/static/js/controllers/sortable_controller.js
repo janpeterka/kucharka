@@ -29,6 +29,8 @@ export default class extends Sortable {
     data.append("daily_plan_id", listId)
 
     return await patch(moveUrl, { body: data, responseKind: this.responseKindValue })
+      // reload page
+      .then(response => window.location.reload())
   }
 
 }

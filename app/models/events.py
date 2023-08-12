@@ -159,10 +159,6 @@ class Event(BaseModel, BaseMixin, Loggable, Attendable, Collaborative, EventPres
         return split_recipes
 
     @property
-    def zero_amount_ingredient_recipes(self) -> list:
-        return [r for r in self.active_recipes if r.has_zero_amount_ingredient]
-
-    @property
     def no_measurement_ingredient_recipes(self) -> list:
         return [r for r in self.active_recipes if r.has_no_measurement_ingredient]
 

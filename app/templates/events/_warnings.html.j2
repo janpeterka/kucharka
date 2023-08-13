@@ -15,13 +15,13 @@
 
 		{% if event.no_measurement_ingredient_recipes %}
 			{% for recipe in event.no_measurement_ingredient_recipes %}
-				<li> {{ link_to(recipe, turbo=False) }} má surovinu bez metrik ({{ link_to(recipe.no_measurement_ingredients[0]) }}) </li>
+				<li> {{ link_to(recipe, turbo=False) }} má surovinu bez metrik ({{ link_to(recipe.no_measurement_ingredients[0], turbo=False) }}) </li>
 			{% endfor %}
 		{% endif %}
 
 		{% if event.no_category_ingredient_recipes %}
 			{% for recipe in event.no_category_ingredient_recipes %}
-				<li> {{ link_to(recipe, turbo=False) }} má surovinu bez kategorie ({{ link_to(recipe.no_category_ingredients[0]) }}) </li>
+				<li> {{ link_to(recipe, turbo=False) }} má surovinu bez kategorie ({{ link_to(recipe.no_category_ingredients[0], turbo=False) }}) </li>
 			{% endfor %}
 		{% endif %}
 

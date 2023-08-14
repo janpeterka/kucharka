@@ -59,7 +59,7 @@ flask-template-components = "^0.1.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.7.0"
-coverage = "^7.2.7"
+coverage = "^7.3.0"
 factory-boy = "^3.3.0"
 flake8 = "^6.1.0"
 flake8-pyproject = "^1.2.3"

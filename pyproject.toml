@@ -40,7 +40,7 @@ email-validator = "*"
 flask-classful = { git = "https://github.com/janpeterka/flask-classful.git", branch = "werkzeug-2.2" }
 flask-dance = "*"
 flask-mail = "^0.9.1"
-flask-migrate = "^4.0.4"
+flask-migrate = "^4.0.5"
 flask-security-too = "^5.2.0"
 flask-weasyprint = "*"
 gevent = "^23.9.0"

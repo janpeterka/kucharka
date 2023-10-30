@@ -1800,13 +1800,13 @@ docs = ["Sphinx", "sphinx-rtd-theme"]
 
 [[package]]
 name = "pytest-playwright"
-version = "0.4.2"
+version = "0.4.3"
 description = "A pytest wrapper with fixtures for Playwright to automate web browsers"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pytest-playwright-0.4.2.tar.gz", hash = "sha256:9e9622e5507f8d27a3c7fd07aadcf43122f0086b69d1b3e6728995c8dbc0e44f"},
-    {file = "pytest_playwright-0.4.2-py3-none-any.whl", hash = "sha256:68dd0069e2dbf8e6024c6237d51d0277626687d94ba0dd387cea2a94ae4005b9"},
+    {file = "pytest-playwright-0.4.3.tar.gz", hash = "sha256:699e2c47fbb1e6a57895454693eba278cf55d04d44c15017709b00e1de1d9ccd"},
+    {file = "pytest_playwright-0.4.3-py3-none-any.whl", hash = "sha256:c9ff6e7ebfd967b562f5c3d67f1ae6b45a061d6ea51ad304fdd95aca9db20774"},
 ]
 
 [package.dependencies]
@@ -2514,4 +2514,4 @@ test = ["pytest"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "0344627f811192daa9f7e49dd0e93b4e5c09987460537bbfbbafcc430488c5c1"
+content-hash = "d5248578a0ce5643ce996594d55a2e1db03313f1f58b8a4a6250956eab9b0338"

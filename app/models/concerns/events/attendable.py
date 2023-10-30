@@ -52,12 +52,14 @@ class Attendable:
     @property
     def relative_portion_count(self):
         relative_portion_count = 0
+        attendees_accounted_for_count = 0
 
-        # count portions of attendees with their portion size
-        for attendee in self.attendees:
-            relative_portion_count += getattr(attendee.portion_type, "size", 1)
+        for event_portion_type in self.event_portion_types:
+            relative_portion_count += (
+                event_portion_type.count * event_portion_type.portion_type.size
+            )
+            attendees_accounted_for_count += event_portion_type.count
 
-        # add remaining count
-        relative_portion_count += self.people_count - len(self.attendees)
+        relative_portion_count += self.people_count - attendees_accounted_for_count
 
         return relative_portion_count

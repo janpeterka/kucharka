@@ -65,7 +65,7 @@ flake8 = "^6.1.0"
 flake8-pyproject = "^1.2.3"
 mypy = "*"
 pytest-flask = "^1.2.0"
-pytest-playwright = "^0.4.2"
+pytest-playwright = "^0.4.3"
 
 
 [build-system]

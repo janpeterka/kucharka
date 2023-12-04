@@ -86,7 +86,7 @@ class DailyPlanRecipeView(HelperFlaskView):
         # this fills the gap created by removing recipe from old plan
         self.daily_plan.order_recipes()
 
-        daily_recipes = update_order_index(
+        daily_recipes = update_position(
             new_daily_plan.daily_recipes,
             self.daily_recipe,
             position,
@@ -102,7 +102,7 @@ class DailyPlanRecipeView(HelperFlaskView):
     def sort(self, daily_recipe_id):
         position = int(request.form["position"])
 
-        daily_recipes = update_order_index(
+        daily_recipes = update_position(
             self.daily_plan.daily_recipes, self.daily_recipe, position
         )
 
@@ -114,33 +114,33 @@ class DailyPlanRecipeView(HelperFlaskView):
         return "Recipe position changed", 200
 
 
-def update_order_index(elements, moved_element, new_position, from_other_list=False):
-    current_position = moved_element.order_index
+def update_position(elements, moved_element, new_position, from_other_list=False):
+    current_position = moved_element.position
 
     if from_other_list:
         for element in elements:
-            if element != moved_element and element.order_index >= new_position:
-                element.order_index += 1
+            if element != moved_element and element.position >= new_position:
+                element.position += 1
 
     elif not from_other_list and new_position < current_position:  # move up
         # Shift elements down to accommodate the moved element
         for element in elements:
             if (
                 element != moved_element
-                and element.order_index < current_position
-                and element.order_index >= new_position
+                and element.position < current_position
+                and element.position >= new_position
             ):
-                element.order_index += 1
+                element.position += 1
     elif not from_other_list and new_position > current_position:  # move down
         # Shift elements up to accommodate the moved element
         for element in elements:
             if (
                 element != moved_element
-                and element.order_index > current_position
-                and element.order_index <= new_position
+                and element.position > current_position
+                and element.position <= new_position
             ):
-                element.order_index -= 1
+                element.position -= 1
 
-    moved_element.order_index = new_position
+    moved_element.position = new_position
 
     return elements

@@ -22,7 +22,7 @@ class DailyPlanView(HelperFlaskView):
         self.editing_id = int(request.args.get("editing_id", 0))
         self.public_recipes = Recipe.load_all_public(exclude_mine=True)
         self.daily_recipes = self.daily_plan.daily_recipes
-        self.daily_recipes.sort(key=lambda x: x.order_index)
+        self.daily_recipes.sort(key=lambda x: x.position)
 
         return self.template()
 

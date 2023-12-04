@@ -31,14 +31,14 @@ class DailyPlan(
         "DailyPlanRecipe",
         back_populates="daily_plan",
         cascade="all, delete",
-        order_by=DailyPlanRecipe.order_index,
+        order_by=DailyPlanRecipe.position,
     )
 
     recipes = db.relationship(
         "Recipe",
         secondary="daily_plans_have_recipes",
         viewonly=True,
-        order_by=DailyPlanRecipe.order_index,
+        order_by=DailyPlanRecipe.position,
     )
 
     event = db.relationship("Event", back_populates="daily_plans")
@@ -126,10 +126,10 @@ class DailyPlan(
         return [dr for dr in self.daily_recipes if dr.meal_type is None]
 
     def order_recipes(self):
-        elements = sorted(self.daily_recipes, key=lambda x: x.order_index)
+        elements = sorted(self.daily_recipes, key=lambda x: x.position)
 
         for i, element in enumerate(elements, start=1):
-            element.order_index = i
+            element.position = i
 
         return elements
 

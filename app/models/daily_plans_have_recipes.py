@@ -16,7 +16,7 @@ class DailyPlanRecipe(BaseModel, BaseMixin, BasePresenter):
         db.ForeignKey("daily_plans.id"), nullable=False, index=True
     )
 
-    order_index = db.Column(db.Integer)
+    position = db.Column(db.Integer)
     created_at = db.Column(
         db.DateTime, nullable=True, default=db.func.current_timestamp()
     )
@@ -49,7 +49,7 @@ class DailyPlanRecipe(BaseModel, BaseMixin, BasePresenter):
         daily_recipe = DailyPlanRecipe()
         daily_recipe.recipe_id = self.recipe_id
         daily_recipe.daily_plan_id = self.daily_plan_id
-        daily_recipe.order_index = self.order_index
+        daily_recipe.position = self.position
         daily_recipe.portion_count = self.portion_count
         daily_recipe.meal_type = self.meal_type
 

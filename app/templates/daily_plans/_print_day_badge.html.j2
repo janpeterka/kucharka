@@ -17,7 +17,7 @@
 		<span> {{ day.weekday }} </span>
 		
 		<hr class="mt-1">
-		# set recipes = day.daily_recipes | sort(attribute="order_index")
+		# set recipes = day.daily_recipes | sort(attribute="position")
 
 		{% for daily_recipe in recipes %}
 			# if not loop.previtem or daily_recipe.meal_type != loop.previtem.meal_type

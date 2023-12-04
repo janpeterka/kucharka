@@ -5,12 +5,12 @@ class DailyPlanManager:
     def add_recipe(self, recipe):
         from app.models import DailyPlanRecipe
 
-        order_index = len(self.daily_plan.daily_recipes) + 1
+        position = len(self.daily_plan.daily_recipes) + 1
 
         daily_recipe = DailyPlanRecipe(
             recipe_id=recipe.id,
             daily_plan_id=self.daily_plan.id,
-            order_index=order_index,
+            position=position,
             portion_count=self.daily_plan.event.relative_portion_count,
         )
 
@@ -32,6 +32,6 @@ class DailyPlanManager:
 
     def reorder_recipes(self):
         for i, recipe in enumerate(self.daily_plan.daily_recipes):
-            recipe.order_index = i + 1
+            recipe.position = i + 1
 
         self.daily_plan.save()

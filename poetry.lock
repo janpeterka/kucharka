@@ -769,17 +769,17 @@ Flask = "*"
 
 [[package]]
 name = "flask-security-too"
-version = "5.3.1"
+version = "5.3.3"
 description = "Quickly add security features to your Flask application."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "Flask-Security-Too-5.3.1.tar.gz", hash = "sha256:1dafe00c611ce3811e7fe1686ecd7750938806a1ec3c5a278185f31958895d3c"},
-    {file = "Flask_Security_Too-5.3.1-py3-none-any.whl", hash = "sha256:159ed080dce4a717c2852eac50443221f50b391f5af6f03c82febc3740d572d1"},
+    {file = "Flask-Security-Too-5.3.3.tar.gz", hash = "sha256:c1ed93aae536f2a3ff8abe1e13aec9d0d95fb7ff082fcc3b372df2a5213970d9"},
+    {file = "Flask_Security_Too-5.3.3-py3-none-any.whl", hash = "sha256:8036d8a7b49ab8083b673c2e6ff0cbf3c7c55ec05ffda8f2003e1a074b49c13d"},
 ]
 
 [package.dependencies]
-email-validator = ">=1.1.1"
+email-validator = ">=2.0.0"
 Flask = ">=2.3.2"
 Flask-Login = ">=0.6.2"
 Flask-Principal = ">=0.4.0"
@@ -2514,4 +2514,4 @@ test = ["pytest"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "24fa1636371e26ccedd3d1dad92caddf8bc58b2b48cbaf95550357b333d23bc9"
+content-hash = "91882f56749793b5640d0af8b947af1023adf794947b18b835845968880994dd"

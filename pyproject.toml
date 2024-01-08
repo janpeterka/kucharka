@@ -41,7 +41,7 @@ flask-classful = { git = "https://github.com/janpeterka/flask-classful.git", bra
 flask-dance = "*"
 flask-mail = "^0.9.1"
 flask-migrate = "^4.0.5"
-flask-security-too = "^5.2.0"
+flask-security-too = "^5.3.3"
 flask-weasyprint = "*"
 gevent = "^23.9.0"
 gunicorn = "^21.2.0"
